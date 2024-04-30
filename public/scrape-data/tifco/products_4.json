@@ -1,0 +1,4078 @@
+{
+  "products": [
+    {
+      "title": "DBC Industrial Chemical, GlassKleen Plus",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/5697/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9447",
+        "size": "GlassKleen Plus",
+        "description": "DBC Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-28\n\n"
+      },
+      "category": "Glass",
+      "sku": "9447"
+    },
+    {
+      "title": "DBC Industrial Chemical, Glass-Kleen",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/4612/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9455",
+        "size": "Glass-Kleen",
+        "description": "DBC Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-28\n\n"
+      },
+      "category": "Glass",
+      "sku": "9455"
+    },
+    {
+      "title": "PK Industrial Chemical, Glass-Kleen",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/4612/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9900",
+        "size": "Glass-Kleen",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-28\n\n"
+      },
+      "category": "Glass",
+      "sku": "9900"
+    },
+    {
+      "title": "PK Industrial Chemical, GlassKleen Plus",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/5697/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9914",
+        "size": "GlassKleen Plus",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-28\n\n"
+      },
+      "category": "Glass",
+      "sku": "9914"
+    },
+    {
+      "title": "CS Industrial Chemical, Anti-Graffiti",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/5348/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8171",
+        "size": "Anti-Graffiti",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-18\n\n"
+      },
+      "category": "Graffiti Remover",
+      "sku": "8171"
+    },
+    {
+      "title": "Industrial Chemical, Anti-Graffiti",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/5348/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8404",
+        "size": "Anti-Graffiti",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-18\n\n"
+      },
+      "category": "Graffiti Remover",
+      "sku": "8404"
+    },
+    {
+      "title": "PK Industrial Chemical, Anti-Graffiti",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/5348/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9918",
+        "size": "Anti-Graffiti",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-18\n\n"
+      },
+      "category": "Graffiti Remover",
+      "sku": "9918"
+    },
+    {
+      "title": "CS Industrial Chemical, Mr. Blister",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/32292/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7608",
+        "size": "Mr. Blister",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-18\n\n"
+      },
+      "category": "Paint/Gasket Remover",
+      "sku": "7608"
+    },
+    {
+      "title": "Industrial Chemical, Mr. Blister",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/32292/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8026",
+        "size": "Mr. Blister",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-18\n\n"
+      },
+      "category": "Paint/Gasket Remover",
+      "sku": "8026"
+    },
+    {
+      "title": "PK Industrial Chemical, Mr. Blister",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/32292/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9908",
+        "size": "Mr. Blister",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-18\n\n"
+      },
+      "category": "Paint/Gasket Remover",
+      "sku": "9908"
+    },
+    {
+      "title": "CS Industrial Chemical, (12)Metal Sheen",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16632/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7604",
+        "size": "(12)Metal Sheen",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-28\n\n"
+      },
+      "category": "Stainless Steel",
+      "sku": "7604"
+    },
+    {
+      "title": "Industrial Chemical, Metal Sheen",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16632/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8023",
+        "size": "Metal Sheen",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-28\n\n"
+      },
+      "category": "Stainless Steel",
+      "sku": "8023"
+    },
+    {
+      "title": "PK Industrial Chemical, Metal Sheen",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16632/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9904",
+        "size": "Metal Sheen",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-28\n\n"
+      },
+      "category": "Stainless Steel",
+      "sku": "9904"
+    },
+    {
+      "title": "CS Industrial Chemical, Anti-Spatter",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/12254/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7942",
+        "size": "Anti-Spatter",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-32\n\n"
+      },
+      "category": "Protective",
+      "sku": "7942"
+    },
+    {
+      "title": "Industrial Chemical, Anti-Spatter",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/12254/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7943",
+        "size": "Anti-Spatter",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-32\n\n"
+      },
+      "category": "Protective",
+      "sku": "7943"
+    },
+    {
+      "title": "Industrial Chemical, CorrosionMaster",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/1642/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8033",
+        "size": "CorrosionMaster",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-26\n\n"
+      },
+      "category": "Protective",
+      "sku": "8033"
+    },
+    {
+      "title": "CS Maxx Kote Acrylic Lacquer, Gloss Clear",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/8566/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8189",
+        "size": "Gloss Clear",
+        "description": "CS Maxx Kote Acrylic Lacquer",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-2\n\n"
+      },
+      "category": "Protective",
+      "sku": "8189"
+    },
+    {
+      "title": "Maxx Kote Acrylic Lacquer, Gloss Clear",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/8566/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8301",
+        "size": "Gloss Clear",
+        "description": "Maxx Kote Acrylic Lacquer",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-2\n\n"
+      },
+      "category": "Protective",
+      "sku": "8301"
+    },
+    {
+      "title": "Industrial Chemical, Repel",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/18969/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8438",
+        "size": "Repel",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-24\n\n"
+      },
+      "category": "Protective",
+      "sku": "8438"
+    },
+    {
+      "title": "PK Industrial Chemical, Repel",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/18969/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9862",
+        "size": "Repel",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-24\n\n"
+      },
+      "category": "Protective",
+      "sku": "9862"
+    },
+    {
+      "title": "PK Industrial Chemical, CorrosionMaster",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/1642/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9909",
+        "size": "CorrosionMaster",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-26\n\n"
+      },
+      "category": "Protective",
+      "sku": "9909"
+    },
+    {
+      "title": "PK Maxx Kote Acrylic Lacquer, Gloss Clear",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/8566/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9949",
+        "size": "Gloss Clear",
+        "description": "PK Maxx Kote Acrylic Lacquer",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-2\n\n"
+      },
+      "category": "Protective",
+      "sku": "9949"
+    },
+    {
+      "title": "CS Industrial Chemical, Restore",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/4591/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7615",
+        "size": "Restore",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-25\n\n"
+      },
+      "category": "Rubber Restore",
+      "sku": "7615"
+    },
+    {
+      "title": "Industrial Chemical, Restore",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/4591/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8032",
+        "size": "Restore",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-25\n\n"
+      },
+      "category": "Rubber Restore",
+      "sku": "8032"
+    },
+    {
+      "title": "PK Industrial Chemical, Restore",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/4591/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9930",
+        "size": "Restore",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-25\n\n"
+      },
+      "category": "Rubber Restore",
+      "sku": "9930"
+    },
+    {
+      "title": "CS Industrial Chemical, Renew",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/5415/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8182",
+        "size": "Renew",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-23\n\n"
+      },
+      "category": "Rust Converter",
+      "sku": "8182"
+    },
+    {
+      "title": "Industrial Chemical, Renew",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/5415/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8400",
+        "size": "Renew",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-23\n\n"
+      },
+      "category": "Rust Converter",
+      "sku": "8400"
+    },
+    {
+      "title": "PK Industrial Chemical, Renew",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/5415/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9891",
+        "size": "Renew",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-23\n\n"
+      },
+      "category": "Rust Converter",
+      "sku": "9891"
+    },
+    {
+      "title": "Body Undercoat, (12) 20oz Spray",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/6574/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7714",
+        "size": "(12) 20oz Spray",
+        "description": "Body Undercoat",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-31\n\n"
+      },
+      "category": "Undercoating",
+      "sku": "7714"
+    },
+    {
+      "title": "Body Undercoat, (1) 20oz Spray",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/6574/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7715",
+        "size": "(1) 20oz Spray",
+        "description": "Body Undercoat",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-31\n\n"
+      },
+      "category": "Undercoating",
+      "sku": "7715"
+    },
+    {
+      "title": "CS Maxx Kote Spray Coating, Black Gravel Gd",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/17509/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7782",
+        "size": "Black Gravel Gd",
+        "description": "CS Maxx Kote Spray Coating",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-23\n\n"
+      },
+      "category": "Undercoating",
+      "sku": "7782"
+    },
+    {
+      "title": "PK Maxx Kote Spray Coating, Black Gravel Gd",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/17509/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7783",
+        "size": "Black Gravel Gd",
+        "description": "PK Maxx Kote Spray Coating",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-23\n\n"
+      },
+      "category": "Undercoating",
+      "sku": "7783"
+    },
+    {
+      "title": "CS Industrial Chemical, Black FlexiSeal",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/9025/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8188",
+        "size": "Black FlexiSeal",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-26\n\n"
+      },
+      "category": "Undercoating",
+      "sku": "8188"
+    },
+    {
+      "title": "CS Industrial Chemical, Clear FlexiSeal",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/35414/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8239",
+        "size": "Clear FlexiSeal",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    WN-34\n\n"
+      },
+      "category": "Undercoating",
+      "sku": "8239"
+    },
+    {
+      "title": "Maxx Kote Spray Coating, Black Gravel Gd",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/17509/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8302",
+        "size": "Black Gravel Gd",
+        "description": "Maxx Kote Spray Coating",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-23\n\n"
+      },
+      "category": "Undercoating",
+      "sku": "8302"
+    },
+    {
+      "title": "Industrial Chemical, Black FlexiSeal",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/9025/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8401",
+        "size": "Black FlexiSeal",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-26\n\n"
+      },
+      "category": "Undercoating",
+      "sku": "8401"
+    },
+    {
+      "title": "Industrial Chemical, Clear FlexiSeal",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/35414/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8441",
+        "size": "Clear FlexiSeal",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    WN-34\n\n"
+      },
+      "category": "Undercoating",
+      "sku": "8441"
+    },
+    {
+      "title": "DBC Industrial Chemical, Black FlexiSeal",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/9025/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9418",
+        "size": "Black FlexiSeal",
+        "description": "DBC Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-26\n\n"
+      },
+      "category": "Undercoating",
+      "sku": "9418"
+    },
+    {
+      "title": "PK Industrial Chemical, Clear FlexiSeal",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/35414/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9863",
+        "size": "Clear FlexiSeal",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    WN-34\n\n"
+      },
+      "category": "Undercoating",
+      "sku": "9863"
+    },
+    {
+      "title": "PK Industrial Chemical, Black FlexiSeal",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/9025/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9928",
+        "size": "Black FlexiSeal",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-26\n\n"
+      },
+      "category": "Undercoating",
+      "sku": "9928"
+    },
+    {
+      "title": "CS Industrial Chemical, (12) Sting",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16718/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7607",
+        "size": "(12) Sting",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-33\n\n"
+      },
+      "category": "Insecticide",
+      "sku": "7607"
+    },
+    {
+      "title": "CS Industrial Chemical, Eradicator",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/10208/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7620",
+        "size": "Eradicator",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-33\n\n"
+      },
+      "category": "Insecticide",
+      "sku": "7620"
+    },
+    {
+      "title": "PK Insect Repellent, 7 oz Aerosol",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/24346/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8169",
+        "size": "7 oz Aerosol",
+        "description": "PK Insect Repellent",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-33\n\n"
+      },
+      "category": "Insecticide",
+      "sku": "8169"
+    },
+    {
+      "title": "CS Industrial Chemical, Bug Ban Plus",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/2132/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8170",
+        "size": "Bug Ban Plus",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-33\n\n"
+      },
+      "category": "Insecticide",
+      "sku": "8170"
+    },
+    {
+      "title": "Industrial Chemical, Sting",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16718/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8435",
+        "size": "Sting",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-33\n\n"
+      },
+      "category": "Insecticide",
+      "sku": "8435"
+    },
+    {
+      "title": "DBC Industrial Chemical, Sting",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16718/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9458",
+        "size": "Sting",
+        "description": "DBC Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-33\n\n"
+      },
+      "category": "Insecticide",
+      "sku": "9458"
+    },
+    {
+      "title": "PK Industrial Chemical, Sting",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16718/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9907",
+        "size": "Sting",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-33\n\n"
+      },
+      "category": "Insecticide",
+      "sku": "9907"
+    },
+    {
+      "title": "PK Industrial Chemical, Eradicator",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/10208/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9913",
+        "size": "Eradicator",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-33\n\n"
+      },
+      "category": "Insecticide",
+      "sku": "9913"
+    },
+    {
+      "title": "PK Industrial Chemical, Bug Ban Plus",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/2132/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9917",
+        "size": "Bug Ban Plus",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-33\n\n"
+      },
+      "category": "Insecticide",
+      "sku": "9917"
+    },
+    {
+      "title": "CS Industrial Chemical, Vanilla Whiff",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/10484/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7610",
+        "size": "Vanilla Whiff",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-29\n\n"
+      },
+      "category": "Air Freshener",
+      "sku": "7610"
+    },
+    {
+      "title": "CS Industrial Chemical, Odor Neutralize",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16788/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7611",
+        "size": "Odor Neutralize",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-29\n\n"
+      },
+      "category": "Air Freshener",
+      "sku": "7611"
+    },
+    {
+      "title": "CS Industrial Chemical, Whiff Surface",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/4777/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7628",
+        "size": "Whiff Surface",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-29\n\n"
+      },
+      "category": "Air Freshener",
+      "sku": "7628"
+    },
+    {
+      "title": "Metered Deoderizer Assortment, 7 Cans",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/15696/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7638",
+        "size": "7 Cans",
+        "description": "Metered Deoderizer Assortment",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-29\n\n"
+      },
+      "category": "Air Freshener",
+      "sku": "7638"
+    },
+    {
+      "title": "CS Metered Deoderizer, Lemon",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/6379/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7640",
+        "size": "Lemon",
+        "description": "CS Metered Deoderizer",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-29\n\n"
+      },
+      "category": "Air Freshener",
+      "sku": "7640"
+    },
+    {
+      "title": "CS Metered Deoderizer, Spring Rain",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/13708/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7642",
+        "size": "Spring Rain",
+        "description": "CS Metered Deoderizer",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-29\n\n"
+      },
+      "category": "Air Freshener",
+      "sku": "7642"
+    },
+    {
+      "title": "CS Metered Deoderizer, Vanilla",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/6311/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7643",
+        "size": "Vanilla",
+        "description": "CS Metered Deoderizer",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-29\n\n"
+      },
+      "category": "Air Freshener",
+      "sku": "7643"
+    },
+    {
+      "title": "CS Metered Deoderizer, Cinnamon",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/6767/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7644",
+        "size": "Cinnamon",
+        "description": "CS Metered Deoderizer",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-29\n\n"
+      },
+      "category": "Air Freshener",
+      "sku": "7644"
+    },
+    {
+      "title": "CS Metered Deodorizer, Ocean Breeze",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/10121/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7645",
+        "size": "Ocean Breeze",
+        "description": "CS Metered Deodorizer",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-29\n\n"
+      },
+      "category": "Air Freshener",
+      "sku": "7645"
+    },
+    {
+      "title": "CS Metered Deodorizer, Linen Fresh",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/14758/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7646",
+        "size": "Linen Fresh",
+        "description": "CS Metered Deodorizer",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-29\n\n"
+      },
+      "category": "Air Freshener",
+      "sku": "7646"
+    },
+    {
+      "title": "CS Metered Deodorizer, Mulberry",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/11532/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7647",
+        "size": "Mulberry",
+        "description": "CS Metered Deodorizer",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-29\n\n"
+      },
+      "category": "Air Freshener",
+      "sku": "7647"
+    },
+    {
+      "title": "Industrial Chemical, Odor Neutralize",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16788/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8029",
+        "size": "Odor Neutralize",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-29\n\n"
+      },
+      "category": "Air Freshener",
+      "sku": "8029"
+    },
+    {
+      "title": "Industrial Chemical, Whiff Surface",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/4777/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8042",
+        "size": "Whiff Surface",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-29\n\n"
+      },
+      "category": "Air Freshener",
+      "sku": "8042"
+    },
+    {
+      "title": "PK Industrial Chemical, Vanilla Whiff",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/10484/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9910",
+        "size": "Vanilla Whiff",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-29\n\n"
+      },
+      "category": "Air Freshener",
+      "sku": "9910"
+    },
+    {
+      "title": "PK Industrial Chemical, Odor Neutralize",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16788/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9911",
+        "size": "Odor Neutralize",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-29\n\n"
+      },
+      "category": "Air Freshener",
+      "sku": "9911"
+    },
+    {
+      "title": "PK Industrial Chemical, Whiff Surface",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/4777/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9955",
+        "size": "Whiff Surface",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-29\n\n"
+      },
+      "category": "Air Freshener",
+      "sku": "9955"
+    },
+    {
+      "title": "CS Industrial Chemical, Spot Shot",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/14685/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7626",
+        "size": "Spot Shot",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-28\n\n"
+      },
+      "category": "Carpet Cleaner",
+      "sku": "7626"
+    },
+    {
+      "title": "Industrial Chemical, Spot Shot",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/14685/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8039",
+        "size": "Spot Shot",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-28\n\n"
+      },
+      "category": "Carpet Cleaner",
+      "sku": "8039"
+    },
+    {
+      "title": "PK Industrial Chemical, Spot Shot",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/14685/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9946",
+        "size": "Spot Shot",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-28\n\n"
+      },
+      "category": "Carpet Cleaner",
+      "sku": "9946"
+    },
+    {
+      "title": "CS Industrial Chemical, Whisk Away",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/7626/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7630",
+        "size": "Whisk Away",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-29\n\n"
+      },
+      "category": "Computer Cleaner",
+      "sku": "7630"
+    },
+    {
+      "title": "CS Industrial Chemical, Dust B Gone",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/35667/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7631",
+        "size": "Dust B Gone",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed"
+      },
+      "category": "Computer Cleaner",
+      "sku": "7631"
+    },
+    {
+      "title": "Industrial Chemical, Whisk Away",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/7626/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8043",
+        "size": "Whisk Away",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-29\n\n"
+      },
+      "category": "Computer Cleaner",
+      "sku": "8043"
+    },
+    {
+      "title": "PK Industrial Chemical, Whisk Away",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/7626/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9950",
+        "size": "Whisk Away",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-29\n\n"
+      },
+      "category": "Computer Cleaner",
+      "sku": "9950"
+    },
+    {
+      "title": "CS Industrial Chemical, (12) Germaway",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/17092/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7601",
+        "size": "(12) Germaway",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-27\n\n"
+      },
+      "category": "Disinfectant",
+      "sku": "7601"
+    },
+    {
+      "title": "CS Aerosol Disinfectant, Fresh Scent",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/26132/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7937",
+        "size": "Fresh Scent",
+        "description": "CS Aerosol Disinfectant",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-27\n\n"
+      },
+      "category": "Disinfectant",
+      "sku": "7937"
+    },
+    {
+      "title": "CS Industrial Chemical, Disinfectant",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/1040/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7938",
+        "size": "Disinfectant",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-27\n\n"
+      },
+      "category": "Disinfectant",
+      "sku": "7938"
+    },
+    {
+      "title": "PK Industrial Chemical, Phenomenal",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/1040/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7939",
+        "size": "Phenomenal",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-27\n\n"
+      },
+      "category": "Disinfectant",
+      "sku": "7939"
+    },
+    {
+      "title": "PK Industrial Chemical, Germaway",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/17092/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9901",
+        "size": "Germaway",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-27\n\n"
+      },
+      "category": "Disinfectant",
+      "sku": "9901"
+    },
+    {
+      "title": "CS Industrial Chemical, Disinfectant",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/29984/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "95373",
+        "size": "Disinfectant",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-27\n\n"
+      },
+      "category": "Disinfectant",
+      "sku": "95373"
+    },
+    {
+      "title": "CS Foaming Disinfectant, 20 oz. Aerosol",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/26383/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "95379",
+        "size": "20 oz. Aerosol",
+        "description": "CS Foaming Disinfectant",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-27\n\n"
+      },
+      "category": "Disinfectant",
+      "sku": "95379"
+    },
+    {
+      "title": "CS Industrial Chemical, Zyme-Away Foam",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/23873/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7616",
+        "size": "Zyme-Away Foam",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-6\n\n"
+      },
+      "category": "Drain Cleaner",
+      "sku": "7616"
+    },
+    {
+      "title": "Industrial Chemical, Zyme-Away Foam",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/23873/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8028",
+        "size": "Zyme-Away Foam",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-6\n\n"
+      },
+      "category": "Drain Cleaner",
+      "sku": "8028"
+    },
+    {
+      "title": "PK Industrial Chemical, Zyme-Away Foam",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/23873/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9951",
+        "size": "Zyme-Away Foam",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-6\n\n"
+      },
+      "category": "Drain Cleaner",
+      "sku": "9951"
+    },
+    {
+      "title": "CS Industrial Chemical, Dust Mop Treat",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/6759/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7936",
+        "size": "Dust Mop Treat",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-28\n\n"
+      },
+      "category": "Dust Mop Treatment",
+      "sku": "7936"
+    },
+    {
+      "title": "PK Industrial Chemical, Dust Mop Treat",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/6759/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7944",
+        "size": "Dust Mop Treat",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-28\n\n"
+      },
+      "category": "Dust Mop Treatment",
+      "sku": "7944"
+    },
+    {
+      "title": "CS Industrial Chemical, (12) LPS #1",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/1327/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8551",
+        "size": "(12) LPS #1",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-30\n\n"
+      },
+      "category": "LPS",
+      "sku": "8551"
+    },
+    {
+      "title": "PK Industrial Chemical, (6) LPS #1",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/1327/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8552",
+        "size": "(6) LPS #1",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-30\n\n"
+      },
+      "category": "LPS",
+      "sku": "8552"
+    },
+    {
+      "title": "CS Industrial Chemical, (12) LPS #2",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/10335/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8555",
+        "size": "(12) LPS #2",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-30\n\n"
+      },
+      "category": "LPS",
+      "sku": "8555"
+    },
+    {
+      "title": "PK Industrial Chemical, (6) LPS #2",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/10335/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8556",
+        "size": "(6) LPS #2",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-30\n\n"
+      },
+      "category": "LPS",
+      "sku": "8556"
+    },
+    {
+      "title": "PK Industrial Chemical, (6) LPS #3",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/13182/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8561",
+        "size": "(6) LPS #3",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed"
+      },
+      "category": "LPS",
+      "sku": "8561"
+    },
+    {
+      "title": "CS Industrial Chemical, Food Grade Oil",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/2968/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8562",
+        "size": "Food Grade Oil",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-30\n\n"
+      },
+      "category": "LPS",
+      "sku": "8562"
+    },
+    {
+      "title": "PK Industrial Chemical, Food Grade Oil",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/2968/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8563",
+        "size": "Food Grade Oil",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-30\n\n"
+      },
+      "category": "LPS",
+      "sku": "8563"
+    },
+    {
+      "title": "CS Industrial Chemical, Kleen-Kut",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/582/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8248",
+        "size": "Kleen-Kut",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-15\n\n"
+      },
+      "category": "Cutting Oil",
+      "sku": "8248"
+    },
+    {
+      "title": "CS Industrial Chemical, Kool Foam",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/7760/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8249",
+        "size": "Kool Foam",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-15\n\n"
+      },
+      "category": "Cutting Oil",
+      "sku": "8249"
+    },
+    {
+      "title": "Industrial Chemical, Kleen-Kut",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/582/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8425",
+        "size": "Kleen-Kut",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-15\n\n"
+      },
+      "category": "Cutting Oil",
+      "sku": "8425"
+    },
+    {
+      "title": "Industrial Chemical, Kool Foam",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/7760/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8426",
+        "size": "Kool Foam",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-15\n\n"
+      },
+      "category": "Cutting Oil",
+      "sku": "8426"
+    },
+    {
+      "title": "PK Industrial Chemical, Kool Foam",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/7760/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9889",
+        "size": "Kool Foam",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-15\n\n"
+      },
+      "category": "Cutting Oil",
+      "sku": "9889"
+    },
+    {
+      "title": "PK Industrial Chemical, Kleen-Kut",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/582/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9937",
+        "size": "Kleen-Kut",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-15\n\n"
+      },
+      "category": "Cutting Oil",
+      "sku": "9937"
+    },
+    {
+      "title": "CS Industrial Chemical, (12) Sani-Lube",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/7318/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7606",
+        "size": "(12) Sani-Lube",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-14\n\n"
+      },
+      "category": "Food Grade",
+      "sku": "7606"
+    },
+    {
+      "title": "Industrial Chemical, Sani-Lube",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/7318/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8025",
+        "size": "Sani-Lube",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-14\n\n"
+      },
+      "category": "Food Grade",
+      "sku": "8025"
+    },
+    {
+      "title": "CS Industrial Chemical, No-Stick",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/14084/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8241",
+        "size": "No-Stick",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-13\n\n"
+      },
+      "category": "Food Grade",
+      "sku": "8241"
+    },
+    {
+      "title": "CS EnviroPure Chemical, FoodGrade Lube",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/1690/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8251",
+        "size": "FoodGrade Lube",
+        "description": "CS EnviroPure Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-7\n\n"
+      },
+      "category": "Food Grade",
+      "sku": "8251"
+    },
+    {
+      "title": "CS EnviroPure Chemical, Food Chain-16oz",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/31115/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8259",
+        "size": "Food Chain-16oz",
+        "description": "CS EnviroPure Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-7\n\n"
+      },
+      "category": "Food Grade",
+      "sku": "8259"
+    },
+    {
+      "title": "PK EnviroPure Chemical, FoodGrade Lube",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/1690/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8261",
+        "size": "FoodGrade Lube",
+        "description": "PK EnviroPure Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-7\n\n"
+      },
+      "category": "Food Grade",
+      "sku": "8261"
+    },
+    {
+      "title": "PK EnviroPure Chemical, Food Chain-16oz",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/31115/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8269",
+        "size": "Food Chain-16oz",
+        "description": "PK EnviroPure Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-7\n\n"
+      },
+      "category": "Food Grade",
+      "sku": "8269"
+    },
+    {
+      "title": "EnviroPure Chemical, FoodGrade Lube",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/1690/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8271",
+        "size": "FoodGrade Lube",
+        "description": "EnviroPure Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-7\n\n"
+      },
+      "category": "Food Grade",
+      "sku": "8271"
+    },
+    {
+      "title": "EnviroPure Chemical, Food Chain-16oz",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/31115/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8279",
+        "size": "Food Chain-16oz",
+        "description": "EnviroPure Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-7\n\n"
+      },
+      "category": "Food Grade",
+      "sku": "8279"
+    },
+    {
+      "title": "Industrial Chemical, No-Stick",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/14084/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8419",
+        "size": "No-Stick",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-13\n\n"
+      },
+      "category": "Food Grade",
+      "sku": "8419"
+    },
+    {
+      "title": "DBC Industrial Chemical, No-Stick",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/14084/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9456",
+        "size": "No-Stick",
+        "description": "DBC Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-13\n\n"
+      },
+      "category": "Food Grade",
+      "sku": "9456"
+    },
+    {
+      "title": "PK Industrial Chemical, Sani-Lube",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/7318/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9906",
+        "size": "Sani-Lube",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-14\n\n"
+      },
+      "category": "Food Grade",
+      "sku": "9906"
+    },
+    {
+      "title": "PK Industrial Chemical, No-Stick",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/14084/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9932",
+        "size": "No-Stick",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-13\n\n"
+      },
+      "category": "Food Grade",
+      "sku": "9932"
+    },
+    {
+      "title": "CS Dry Graphite Lubricant, (12) 16 oz",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/12757/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7927",
+        "size": "(12) 16 oz",
+        "description": "CS Dry Graphite Lubricant",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-11\n\n"
+      },
+      "category": "Greaseless",
+      "sku": "7927"
+    },
+    {
+      "title": "PK Dry Graphite Lubricant, (6) 16 oz",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/12757/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7928",
+        "size": "(6) 16 oz",
+        "description": "PK Dry Graphite Lubricant",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-11\n\n"
+      },
+      "category": "Greaseless",
+      "sku": "7928"
+    },
+    {
+      "title": "Dry Graphite Lubricant, Indv 16 oz",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/12757/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7929",
+        "size": "Indv 16 oz",
+        "description": "Dry Graphite Lubricant",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-11\n\n"
+      },
+      "category": "Greaseless",
+      "sku": "7929"
+    },
+    {
+      "title": "Industrial Chemical, MicroKoteCopper",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/2972/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8427",
+        "size": "MicroKoteCopper",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-24\n\n"
+      },
+      "category": "Greaseless",
+      "sku": "8427"
+    },
+    {
+      "title": "Industrial Chemical, MicroKote",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16278/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8428",
+        "size": "MicroKote",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-24\n\n"
+      },
+      "category": "Greaseless",
+      "sku": "8428"
+    },
+    {
+      "title": "CS Industrial Chemical, MicroKoteCopper",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/2972/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9527",
+        "size": "MicroKoteCopper",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-24\n\n"
+      },
+      "category": "Greaseless",
+      "sku": "9527"
+    },
+    {
+      "title": "CS Industrial Chemical, MicroKote",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16278/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9530",
+        "size": "MicroKote",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-24\n\n"
+      },
+      "category": "Greaseless",
+      "sku": "9530"
+    },
+    {
+      "title": "PK Industrial Chemical, MicroKoteCopper",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/2972/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9879",
+        "size": "MicroKoteCopper",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-24\n\n"
+      },
+      "category": "Greaseless",
+      "sku": "9879"
+    },
+    {
+      "title": "PK Industrial Chemical, MicroKote",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16278/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9938",
+        "size": "MicroKote",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-24\n\n"
+      },
+      "category": "Greaseless",
+      "sku": "9938"
+    },
+    {
+      "title": "CS ZenaLube, Chain and Cable",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/30708/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7810",
+        "size": "Chain and Cable",
+        "description": "CS ZenaLube",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-11\n\n"
+      },
+      "category": "High Temp/Pressure",
+      "sku": "7810"
+    },
+    {
+      "title": "PK ZenaLube, Chain & Cable",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/32690/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7811",
+        "size": "Chain & Cable",
+        "description": "PK ZenaLube",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-11\n\n"
+      },
+      "category": "High Temp/Pressure",
+      "sku": "7811"
+    },
+    {
+      "title": "CS Industrial Chemical, Lubrilink",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/8957/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8175",
+        "size": "Lubrilink",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-11\n\n"
+      },
+      "category": "High Temp/Pressure",
+      "sku": "8175"
+    },
+    {
+      "title": "CS Industrial Chemical, Sticky",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/7108/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8246",
+        "size": "Sticky",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-14\n\n"
+      },
+      "category": "High Temp/Pressure",
+      "sku": "8246"
+    },
+    {
+      "title": "Industrial Chemical, Lubrilink",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/8957/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8408",
+        "size": "Lubrilink",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-11\n\n"
+      },
+      "category": "High Temp/Pressure",
+      "sku": "8408"
+    },
+    {
+      "title": "Industrial Chemical, Sticky",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/7108/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8423",
+        "size": "Sticky",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-14\n\n"
+      },
+      "category": "High Temp/Pressure",
+      "sku": "8423"
+    },
+    {
+      "title": "DBC Industrial Chemical, Lubrilink",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/8957/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9487",
+        "size": "Lubrilink",
+        "description": "DBC Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-11\n\n"
+      },
+      "category": "High Temp/Pressure",
+      "sku": "9487"
+    },
+    {
+      "title": "PK Industrial Chemical, Lubrilink",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/8957/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9922",
+        "size": "Lubrilink",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-11\n\n"
+      },
+      "category": "High Temp/Pressure",
+      "sku": "9922"
+    },
+    {
+      "title": "PK Industrial Chemical, Sticky",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/7108/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9936",
+        "size": "Sticky",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-14\n\n"
+      },
+      "category": "High Temp/Pressure",
+      "sku": "9936"
+    },
+    {
+      "title": "CS Industrial Chemical, Air Tool Cleanr",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/32402/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7878",
+        "size": "Air Tool Cleanr",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    M-15\n\n"
+      },
+      "category": "Multi-Purpose",
+      "sku": "7878"
+    },
+    {
+      "title": "CS Industrial Chemical, (12) GarDr Lube",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/25698/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7881",
+        "size": "(12) GarDr Lube",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    D-87\n\n"
+      },
+      "category": "Multi-Purpose",
+      "sku": "7881"
+    },
+    {
+      "title": "PK Industrial Chemical, Air Tool Cleanr",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/32402/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7887",
+        "size": "Air Tool Cleanr",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    M-15\n\n"
+      },
+      "category": "Multi-Purpose",
+      "sku": "7887"
+    },
+    {
+      "title": "Industrial Chemical, Air Tool Cleanr",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/32402/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7888",
+        "size": "Air Tool Cleanr",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    M-15\n\n"
+      },
+      "category": "Multi-Purpose",
+      "sku": "7888"
+    },
+    {
+      "title": "Industrial Chemical, Shot-O-Grease",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/173/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8433",
+        "size": "Shot-O-Grease",
+        "description": "Industrial Chemical",
+        "state_restrictions": "Restricted from sale in the following states:\n            CA\n",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-12\n\n"
+      },
+      "category": "Multi-Purpose",
+      "sku": "8433"
+    },
+    {
+      "title": "Industrial Chemical, Crystal Lube",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/3540/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8434",
+        "size": "Crystal Lube",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-12\n\n"
+      },
+      "category": "Multi-Purpose",
+      "sku": "8434"
+    },
+    {
+      "title": "DBC Industrial Chemical, Crystal Lube",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/3540/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9446",
+        "size": "Crystal Lube",
+        "description": "DBC Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-12\n\n"
+      },
+      "category": "Multi-Purpose",
+      "sku": "9446"
+    },
+    {
+      "title": "CS Industrial Chemical, Shot-O-Grease",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/173/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9630",
+        "size": "Shot-O-Grease",
+        "description": "CS Industrial Chemical",
+        "state_restrictions": "Restricted from sale in the following states:\n            CA,\n                UT\n",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-12\n\n"
+      },
+      "category": "Multi-Purpose",
+      "sku": "9630"
+    },
+    {
+      "title": "CS Industrial Chemical, Crystal Lube",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/3540/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9631",
+        "size": "Crystal Lube",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-12\n\n"
+      },
+      "category": "Multi-Purpose",
+      "sku": "9631"
+    },
+    {
+      "title": "PK Industrial Chemical, Shot-O-Grease",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/173/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9944",
+        "size": "Shot-O-Grease",
+        "description": "PK Industrial Chemical",
+        "state_restrictions": "Restricted from sale in the following states:\n            CA,\n                UT\n",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-12\n\n"
+      },
+      "category": "Multi-Purpose",
+      "sku": "9944"
+    },
+    {
+      "title": "PK Industrial Chemical, Crystal Lube",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/3540/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9945",
+        "size": "Crystal Lube",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-12\n\n"
+      },
+      "category": "Multi-Purpose",
+      "sku": "9945"
+    },
+    {
+      "title": "CS Industrial Chemical, Xtra-Slick",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16338/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8187",
+        "size": "Xtra-Slick",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-13\n\n"
+      },
+      "category": "w/PTFE",
+      "sku": "8187"
+    },
+    {
+      "title": "CS Industrial Chemical, Invader",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/21502/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8240",
+        "size": "Invader",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    WN-32\n\n"
+      },
+      "category": "w/PTFE",
+      "sku": "8240"
+    },
+    {
+      "title": "CS Industrial Chemical, White Slide",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/13982/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8244",
+        "size": "White Slide",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-12\n\n"
+      },
+      "category": "w/PTFE",
+      "sku": "8244"
+    },
+    {
+      "title": "Industrial Chemical, Xtra-Slick",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16338/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8416",
+        "size": "Xtra-Slick",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-13\n\n"
+      },
+      "category": "w/PTFE",
+      "sku": "8416"
+    },
+    {
+      "title": "Industrial Chemical, White Slide",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/13982/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8421",
+        "size": "White Slide",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-12\n\n"
+      },
+      "category": "w/PTFE",
+      "sku": "8421"
+    },
+    {
+      "title": "Industrial Chemical, Invader",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/21502/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8439",
+        "size": "Invader",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    WN-32\n\n"
+      },
+      "category": "w/PTFE",
+      "sku": "8439"
+    },
+    {
+      "title": "PK Industrial Chemical, Invader",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/21502/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9859",
+        "size": "Invader",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    WN-32\n\n"
+      },
+      "category": "w/PTFE",
+      "sku": "9859"
+    },
+    {
+      "title": "PK Industrial Chemical, Xtra-Slick",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16338/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9887",
+        "size": "Xtra-Slick",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-13\n\n"
+      },
+      "category": "w/PTFE",
+      "sku": "9887"
+    },
+    {
+      "title": "PK Industrial Chemical, White Slide",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/13982/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9934",
+        "size": "White Slide",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-12\n\n"
+      },
+      "category": "w/PTFE",
+      "sku": "9934"
+    },
+    {
+      "title": "Striping Paint Machine, Traffic",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/5809/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8050",
+        "size": "Traffic",
+        "description": "Striping Paint Machine",
+        "catalog_page": "\n\n    \n\n\n    H-4\n\n"
+      },
+      "category": "Accessories",
+      "sku": "8050"
+    },
+    {
+      "title": "Maxx Kote Paint Accessory, Marking Wand",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/13427/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8051",
+        "size": "Marking Wand",
+        "description": "Maxx Kote Paint Accessory",
+        "catalog_page": "\n\n    \n\n\n    H-3\n\n"
+      },
+      "category": "Accessories",
+      "sku": "8051"
+    },
+    {
+      "title": "Maxx Kote Paint Accessory, Striping Wand",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16117/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8052",
+        "size": "Striping Wand",
+        "description": "Maxx Kote Paint Accessory",
+        "catalog_page": "\n\n    \n\n\n    H-4\n\n"
+      },
+      "category": "Accessories",
+      "sku": "8052"
+    },
+    {
+      "title": "Maxx Kote Paint Accessory, Marking Pistol",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/3526/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8053",
+        "size": "Marking Pistol",
+        "description": "Maxx Kote Paint Accessory",
+        "catalog_page": "\n\n    \n\n\n    H-3\n\n"
+      },
+      "category": "Accessories",
+      "sku": "8053"
+    },
+    {
+      "title": "MaxxKote Paint Accessory, Striping Wand",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16117/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8054",
+        "size": "Striping Wand",
+        "description": "MaxxKote Paint Accessory",
+        "catalog_page": "\n\n    \n\n\n    H-4\n\n"
+      },
+      "category": "Accessories",
+      "sku": "8054"
+    },
+    {
+      "title": "Maxx Kote Accessory, Trigger Handle",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/14772/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8097",
+        "size": "Trigger Handle",
+        "description": "Maxx Kote Accessory",
+        "catalog_page": "\n\n    \n\n\n    H-5\n\n"
+      },
+      "category": "Accessories",
+      "sku": "8097"
+    },
+    {
+      "title": "Maxx Kote Accessory, Hi-Vol Nozzle",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/129/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8098",
+        "size": "Hi-Vol Nozzle",
+        "description": "Maxx Kote Accessory",
+        "catalog_page": "\n\n    \n\n\n    H-5\n\n"
+      },
+      "category": "Accessories",
+      "sku": "8098"
+    },
+    {
+      "title": "Maxx Kote Accessory, FanSpray Nozzle",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/3883/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8099",
+        "size": "FanSpray Nozzle",
+        "description": "Maxx Kote Accessory",
+        "catalog_page": "\n\n    \n\n\n    H-5\n\n"
+      },
+      "category": "Accessories",
+      "sku": "8099"
+    },
+    {
+      "title": "Traffic Marking Stencil, No Parking",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/353/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "45945",
+        "size": "No Parking",
+        "description": "Traffic Marking Stencil",
+        "catalog_page": "\n\n    \n\n\n    H-4\n\n"
+      },
+      "category": "Accessories",
+      "sku": "45945"
+    },
+    {
+      "title": "Traffic Marking Stencil, Visitor",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/14443/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "45947",
+        "size": "Visitor",
+        "description": "Traffic Marking Stencil",
+        "catalog_page": "\n\n    \n\n\n    H-4\n\n"
+      },
+      "category": "Accessories",
+      "sku": "45947"
+    },
+    {
+      "title": "Traffic Marking Stencil, Handicap Symbol",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/21484/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "45948",
+        "size": "Handicap Symbol",
+        "description": "Traffic Marking Stencil",
+        "catalog_page": "\n\n    \n\n\n    H-4\n\n"
+      },
+      "category": "Accessories",
+      "sku": "45948"
+    },
+    {
+      "title": "Traffic Marking Stencil, 12 Pc Number",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/7001/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "45950",
+        "size": "12 Pc Number",
+        "description": "Traffic Marking Stencil",
+        "catalog_page": "\n\n    \n\n\n    H-4\n\n"
+      },
+      "category": "Accessories",
+      "sku": "45950"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Omaha Orange",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/6195/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8110",
+        "size": "Omaha Orange",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8110"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Cummins Beige",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16974/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8112",
+        "size": "Cummins Beige",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8112"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, NewEquip Yellow",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/1702/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8114",
+        "size": "NewEquip Yellow",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8114"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Schlumberger Bl",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/12623/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8115",
+        "size": "Schlumberger Bl",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-2\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8115"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Sunbelt Green",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/13870/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8116",
+        "size": "Sunbelt Green",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8116"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Sch Bus Yellow",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/5712/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8117",
+        "size": "Sch Bus Yellow",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-2\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8117"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Ford Blue",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/11132/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8118",
+        "size": "Ford Blue",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-2\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8118"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Farm Imp Yellow",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/8823/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8122",
+        "size": "Farm Imp Yellow",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8122"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Farm Imp Green",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/7725/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8123",
+        "size": "Farm Imp Green",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8123"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, IHC Red",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/11912/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8124",
+        "size": "IHC Red",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8124"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Dark SierraGray",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/14871/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8126",
+        "size": "Dark SierraGray",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-2\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8126"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Komatsu Yellow",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/12907/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8127",
+        "size": "Komatsu Yellow",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8127"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Tifco Blue",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16270/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8128",
+        "size": "Tifco Blue",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-2\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8128"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Genie Blue",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/14053/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8130",
+        "size": "Genie Blue",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8130"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, JLG Orange",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/2638/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8131",
+        "size": "JLG Orange",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8131"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Waste Mgt Green",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/8311/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8132",
+        "size": "Waste Mgt Green",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-2\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8132"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Case Power Tan",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/12957/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8134",
+        "size": "Case Power Tan",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8134"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Kubota Orange",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/14412/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8135",
+        "size": "Kubota Orange",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8135"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Genie Gray",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/13550/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8136",
+        "size": "Genie Gray",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8136"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Chevy Orange",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/10592/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8137",
+        "size": "Chevy Orange",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-2\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8137"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, JLG Cream",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/9237/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8138",
+        "size": "JLG Cream",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8138"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Volvo Yellow",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/1197/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8155",
+        "size": "Volvo Yellow",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8155"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Volvo Gray",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/5938/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8156",
+        "size": "Volvo Gray",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8156"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Equip(BC) White",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/4065/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8157",
+        "size": "Equip(BC) White",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8157"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Equip(BC) Gray",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/9315/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8158",
+        "size": "Equip(BC) Gray",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8158"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, JCB Yellow",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/17553/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8159",
+        "size": "JCB Yellow",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8159"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Ind. Yellow",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/15379/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8160",
+        "size": "Ind. Yellow",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8160"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Doosan Beige",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/3660/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8161",
+        "size": "Doosan Beige",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8161"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Skyjack Orange",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/3191/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8191",
+        "size": "Skyjack Orange",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8191"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Hyundai Yellow",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16858/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8192",
+        "size": "Hyundai Yellow",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8192"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Hyundai Gray",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/9102/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8193",
+        "size": "Hyundai Gray",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8193"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, New Crown Beige",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/8961/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8196",
+        "size": "New Crown Beige",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8196"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Crown Gray",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/8092/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8198",
+        "size": "Crown Gray",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8198"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Toyota Gray",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/13475/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8199",
+        "size": "Toyota Gray",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8199"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Toyota Orange",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/9603/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8200",
+        "size": "Toyota Orange",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8200"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Yale Gold",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/17983/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8201",
+        "size": "Yale Gold",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8201"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Hyster Yellow",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/6137/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8202",
+        "size": "Hyster Yellow",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8202"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, HB Yellow",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/4147/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8204",
+        "size": "HB Yellow",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-2\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8204"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, HB Blue",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/2605/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8205",
+        "size": "HB Blue",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-2\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8205"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Compress Green",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/11206/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8206",
+        "size": "Compress Green",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed"
+      },
+      "category": "Equipment Colors",
+      "sku": "8206"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Toolbox Orange",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/5725/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8207",
+        "size": "Toolbox Orange",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-2\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8207"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Equipment Blue",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/10787/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8209",
+        "size": "Equipment Blue",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8209"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Alpine Green",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/10301/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8211",
+        "size": "Alpine Green",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8211"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, BC Orange",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/13846/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8212",
+        "size": "BC Orange",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8212"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Freightline Red",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/9103/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8213",
+        "size": "Freightline Red",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8213"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Toro Red",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/19037/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8214",
+        "size": "Toro Red",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8214"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, DW Orange",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/21245/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8215",
+        "size": "DW Orange",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8215"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Komatsu Ind Yel",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/18335/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8216",
+        "size": "Komatsu Ind Yel",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8216"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Genie Dark Blue",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/20260/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8218",
+        "size": "Genie Dark Blue",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8218"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Dk Equip Blue",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/23442/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8219",
+        "size": "Dk Equip Blue",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8219"
+    },
+    {
+      "title": "CS Maxx Kote Spray Paint, Sunbelt Beige",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/24847/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8220",
+        "size": "Sunbelt Beige",
+        "description": "CS Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8220"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Case Power Tan",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/12957/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8309",
+        "size": "Case Power Tan",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8309"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Chevy Orange",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/10592/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8311",
+        "size": "Chevy Orange",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-2\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8311"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Cummins Beige",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16974/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8312",
+        "size": "Cummins Beige",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8312"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Dark SierraGray",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/14871/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8314",
+        "size": "Dark SierraGray",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-2\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8314"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Doosan Beige",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/3660/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8315",
+        "size": "Doosan Beige",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8315"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Farm Imp Green",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/7725/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8316",
+        "size": "Farm Imp Green",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8316"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Farm Imp Yellow",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/8823/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8317",
+        "size": "Farm Imp Yellow",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8317"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Ford Blue",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/11132/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8320",
+        "size": "Ford Blue",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-2\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8320"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Genie Blue",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/14053/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8321",
+        "size": "Genie Blue",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8321"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Genie Gray",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/13550/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8322",
+        "size": "Genie Gray",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8322"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, IHC Red",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/11912/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8329",
+        "size": "IHC Red",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8329"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Ind. Yellow",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/15379/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8330",
+        "size": "Ind. Yellow",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8330"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, JCB Yellow",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/17553/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8331",
+        "size": "JCB Yellow",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8331"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, JLG Cream",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/9237/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8332",
+        "size": "JLG Cream",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8332"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, JLG Orange",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/2638/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8333",
+        "size": "JLG Orange",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8333"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Komatsu Yellow",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/12907/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8334",
+        "size": "Komatsu Yellow",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8334"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Kubota Orange",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/14412/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8335",
+        "size": "Kubota Orange",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8335"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Equip(BC) Gray",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/9315/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8336",
+        "size": "Equip(BC) Gray",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8336"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Equip(BC) White",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/4065/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8337",
+        "size": "Equip(BC) White",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8337"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, NewEquip Yellow",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/1702/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8339",
+        "size": "NewEquip Yellow",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8339"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Omaha Orange",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/6195/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8340",
+        "size": "Omaha Orange",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8340"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Sch Bus Yellow",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/5712/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8347",
+        "size": "Sch Bus Yellow",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-2\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8347"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Schlumberger Bl",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/12623/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8348",
+        "size": "Schlumberger Bl",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-2\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8348"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Skyjack Orange",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/3191/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8350",
+        "size": "Skyjack Orange",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8350"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Sunbelt Green",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/13870/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8351",
+        "size": "Sunbelt Green",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8351"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Tifco Blue",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16270/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8352",
+        "size": "Tifco Blue",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-2\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8352"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Volvo Gray",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/5938/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8353",
+        "size": "Volvo Gray",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8353"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Volvo Yellow",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/1197/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8354",
+        "size": "Volvo Yellow",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8354"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Waste Mgt Green",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/8311/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8355",
+        "size": "Waste Mgt Green",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-2\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8355"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Hyundai Yellow",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16858/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8356",
+        "size": "Hyundai Yellow",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8356"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Hyundai Gray",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/9102/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8357",
+        "size": "Hyundai Gray",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8357"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, New Crown Beige",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/8961/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8359",
+        "size": "New Crown Beige",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8359"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Crown Gray",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/8092/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8361",
+        "size": "Crown Gray",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8361"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Toyota Gray",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/13475/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8362",
+        "size": "Toyota Gray",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8362"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Toyota Orange",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/9603/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8363",
+        "size": "Toyota Orange",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8363"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Yale Gold",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/17983/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8364",
+        "size": "Yale Gold",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8364"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Hyster Yellow",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/6137/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8365",
+        "size": "Hyster Yellow",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8365"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, HB Yellow",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/4147/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8367",
+        "size": "HB Yellow",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-2\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8367"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, HB Blue",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/2605/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8368",
+        "size": "HB Blue",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-2\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8368"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Compress Green",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/11206/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8369",
+        "size": "Compress Green",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed"
+      },
+      "category": "Equipment Colors",
+      "sku": "8369"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Toolbox Orange",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/5725/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8370",
+        "size": "Toolbox Orange",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-2\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8370"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Equipment Blue",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/10787/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8372",
+        "size": "Equipment Blue",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8372"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Alpine Green",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/10301/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8374",
+        "size": "Alpine Green",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8374"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, BC Orange",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/13846/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8375",
+        "size": "BC Orange",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8375"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Freightline Red",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/9103/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8376",
+        "size": "Freightline Red",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8376"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Toro Red",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/19037/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8377",
+        "size": "Toro Red",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8377"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, DW Orange",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/21245/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8378",
+        "size": "DW Orange",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8378"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Komatsu Ind Yel",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/18335/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8379",
+        "size": "Komatsu Ind Yel",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8379"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, Genie Dark Blue",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/20260/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8381",
+        "size": "Genie Dark Blue",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8381"
+    },
+    {
+      "title": "Maxx Kote Spray Paint, DK Equip Blue",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/23442/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8382",
+        "size": "DK Equip Blue",
+        "description": "Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8382"
+    },
+    {
+      "title": "IND Maxx Kote Spray Paint, Sunbelt Beige",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/24847/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8383",
+        "size": "Sunbelt Beige",
+        "description": "IND Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "8383"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, Volvo Yellow",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/1197/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9820",
+        "size": "Volvo Yellow",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9820"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, Volvo Gray",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/5938/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9821",
+        "size": "Volvo Gray",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9821"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, Equip(BC) White",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/4065/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9822",
+        "size": "Equip(BC) White",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9822"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, Equip(BC) Gray",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/9315/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9823",
+        "size": "Equip(BC) Gray",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9823"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, JCB Yellow",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/17553/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9824",
+        "size": "JCB Yellow",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9824"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, JD Ind. Yellow",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/15379/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9825",
+        "size": "JD Ind. Yellow",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9825"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, Doosan Beige",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/3660/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9826",
+        "size": "Doosan Beige",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9826"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, Skyjack Orange",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/3191/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9828",
+        "size": "Skyjack Orange",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9828"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, Hyundai Yellow",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16858/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9829",
+        "size": "Hyundai Yellow",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9829"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, Hyundai Gray",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/9102/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9830",
+        "size": "Hyundai Gray",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9830"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, New Crown Beige",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/8961/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9832",
+        "size": "New Crown Beige",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9832"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, Crown Gray",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/8092/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9834",
+        "size": "Crown Gray",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9834"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, Toyota Gray",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/13475/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9835",
+        "size": "Toyota Gray",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9835"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, Toyota Orange",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/9603/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9836",
+        "size": "Toyota Orange",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9836"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, Yale Gold",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/17983/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9837",
+        "size": "Yale Gold",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9837"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, Hyster Yellow",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/6137/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9838",
+        "size": "Hyster Yellow",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9838"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, HB Yellow",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/4147/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9840",
+        "size": "HB Yellow",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-2\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9840"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, HB Blue",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/2605/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9841",
+        "size": "HB Blue",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-2\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9841"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, Compress Green",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/11206/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9842",
+        "size": "Compress Green",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed"
+      },
+      "category": "Equipment Colors",
+      "sku": "9842"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, Toolbox Orange",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/5725/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9843",
+        "size": "Toolbox Orange",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-2\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9843"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, Equipment Blue",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/10787/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9845",
+        "size": "Equipment Blue",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9845"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, Alpine Green",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/10301/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9847",
+        "size": "Alpine Green",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9847"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, BC Orange",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/13846/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9848",
+        "size": "BC Orange",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9848"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, Freightline Red",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/9103/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9849",
+        "size": "Freightline Red",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9849"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, Toro Red",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/19037/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9850",
+        "size": "Toro Red",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9850"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, DW Orange",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/21245/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9851",
+        "size": "DW Orange",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9851"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, Komatsu Ind Yel",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/18335/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9852",
+        "size": "Komatsu Ind Yel",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9852"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, Genie Dark Blue",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/20260/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9854",
+        "size": "Genie Dark Blue",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9854"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, Dk Equip Blue",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/23442/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9855",
+        "size": "Dk Equip Blue",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9855"
+    },
+    {
+      "title": "PK Maxx Kote Spray Paint, Sunbelt Beige",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/24847/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9856",
+        "size": "Sunbelt Beige",
+        "description": "PK Maxx Kote Spray Paint",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-1\n\n"
+      },
+      "category": "Equipment Colors",
+      "sku": "9856"
+    }
+  ]
+}

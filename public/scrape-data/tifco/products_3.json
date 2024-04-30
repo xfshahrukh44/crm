@@ -1,0 +1,325 @@
+{
+  "products": [
+    {
+      "title": "DBC Industrial Chemical, GlassKleen Plus",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/5697/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9447",
+        "size": "GlassKleen Plus",
+        "description": "DBC Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-28\n\n"
+      },
+      "category": "Glass",
+      "sku": "9447"
+    },
+    {
+      "title": "DBC Industrial Chemical, Glass-Kleen",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/4612/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9455",
+        "size": "Glass-Kleen",
+        "description": "DBC Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-28\n\n"
+      },
+      "category": "Glass",
+      "sku": "9455"
+    },
+    {
+      "title": "PK Industrial Chemical, Glass-Kleen",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/4612/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9900",
+        "size": "Glass-Kleen",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-28\n\n"
+      },
+      "category": "Glass",
+      "sku": "9900"
+    },
+    {
+      "title": "PK Industrial Chemical, GlassKleen Plus",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/5697/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9914",
+        "size": "GlassKleen Plus",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-28\n\n"
+      },
+      "category": "Glass",
+      "sku": "9914"
+    },
+    {
+      "title": "CS Industrial Chemical, Anti-Graffiti",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/5348/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8171",
+        "size": "Anti-Graffiti",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-18\n\n"
+      },
+      "category": "Graffiti Remover",
+      "sku": "8171"
+    },
+    {
+      "title": "Industrial Chemical, Anti-Graffiti",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/5348/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8404",
+        "size": "Anti-Graffiti",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-18\n\n"
+      },
+      "category": "Graffiti Remover",
+      "sku": "8404"
+    },
+    {
+      "title": "PK Industrial Chemical, Anti-Graffiti",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/5348/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9918",
+        "size": "Anti-Graffiti",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-18\n\n"
+      },
+      "category": "Graffiti Remover",
+      "sku": "9918"
+    },
+    {
+      "title": "CS Industrial Chemical, Mr. Blister",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/32292/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7608",
+        "size": "Mr. Blister",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-18\n\n"
+      },
+      "category": "Paint/Gasket Remover",
+      "sku": "7608"
+    },
+    {
+      "title": "Industrial Chemical, Mr. Blister",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/32292/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8026",
+        "size": "Mr. Blister",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-18\n\n"
+      },
+      "category": "Paint/Gasket Remover",
+      "sku": "8026"
+    },
+    {
+      "title": "PK Industrial Chemical, Mr. Blister",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/32292/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9908",
+        "size": "Mr. Blister",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-18\n\n"
+      },
+      "category": "Paint/Gasket Remover",
+      "sku": "9908"
+    },
+    {
+      "title": "CS Industrial Chemical, (12)Metal Sheen",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16632/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7604",
+        "size": "(12)Metal Sheen",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-28\n\n"
+      },
+      "category": "Stainless Steel",
+      "sku": "7604"
+    },
+    {
+      "title": "Industrial Chemical, Metal Sheen",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16632/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "8023",
+        "size": "Metal Sheen",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-28\n\n"
+      },
+      "category": "Stainless Steel",
+      "sku": "8023"
+    },
+    {
+      "title": "PK Industrial Chemical, Metal Sheen",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/16632/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "9904",
+        "size": "Metal Sheen",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-28\n\n"
+      },
+      "category": "Stainless Steel",
+      "sku": "9904"
+    },
+    {
+      "title": "PK Industrial Chemical, Liquid Asphalt",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/35386/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7773",
+        "size": "Liquid Asphalt",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    WN-36\n\n"
+      },
+      "category": "Pavement",
+      "sku": "7773"
+    },
+    {
+      "title": "CS Industrial Chemical, Concrete Coat",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/35387/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7776",
+        "size": "Concrete Coat",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    WN-36\n\n"
+      },
+      "category": "Pavement",
+      "sku": "7776"
+    },
+    {
+      "title": "PK Industrial Chemical, Concrete Coat",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/35387/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7777",
+        "size": "Concrete Coat",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    WN-36\n\n"
+      },
+      "category": "Pavement",
+      "sku": "7777"
+    },
+    {
+      "title": "CS Industrial Chemical, Asphalt Sealer",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/35388/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7778",
+        "size": "Asphalt Sealer",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    WN-36\n\n"
+      },
+      "category": "Pavement",
+      "sku": "7778"
+    },
+    {
+      "title": "PK Industrial Chemical, Asphalt Sealer",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/35388/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7779",
+        "size": "Asphalt Sealer",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    WN-36\n\n"
+      },
+      "category": "Pavement",
+      "sku": "7779"
+    },
+    {
+      "title": "CS Industrial Chemical, CorrosionMaster",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/1642/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7617",
+        "size": "CorrosionMaster",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-26\n\n"
+      },
+      "category": "Protective",
+      "sku": "7617"
+    },
+    {
+      "title": "CS Industrial Chemical, Repel",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/18969/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7622",
+        "size": "Repel",
+        "description": "CS Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-24\n\n"
+      },
+      "category": "Protective",
+      "sku": "7622"
+    },
+    {
+      "title": "CS Industrial Chemical, Blue Layout Dye",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/8271/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7924",
+        "size": "Blue Layout Dye",
+        "description": "CS Industrial Chemical",
+        "catalog_page": "\n\n    \n\n\n    H-32\n\n"
+      },
+      "category": "Protective",
+      "sku": "7924"
+    },
+    {
+      "title": "PK Industrial Chemical, Blue Layout Dye",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/8271/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7925",
+        "size": "Blue Layout Dye",
+        "description": "PK Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-32\n\n"
+      },
+      "category": "Protective",
+      "sku": "7925"
+    },
+    {
+      "title": "Industrial Chemical, Blue Layout Dye",
+      "feature_image": "https://api.tifco.com/Catalog/productPhotoByIdX/8271/0/2/496/425",
+      "price": 10,
+      "attributes": {
+        "part_number": "7926",
+        "size": "Blue Layout Dye",
+        "description": "Industrial Chemical",
+        "shipping_restrictions": "Next Day or 2nd Day Air not allowed",
+        "catalog_page": "\n\n    \n\n\n    H-32\n\n"
+      },
+      "category": "Protective",
+      "sku": "7926"
+    }
+  ]
+}

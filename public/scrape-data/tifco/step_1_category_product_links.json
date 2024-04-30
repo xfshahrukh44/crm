@@ -1,0 +1,1121 @@
+{
+  "categories": [
+    {
+      "name": "Aerosol",
+      "image": "https://api.tifco.com/Catalog/productPhotoByIdX/6628/0/0/180/180",
+      "categories": [
+        {
+          "name": "3M",
+          "image": "https://api.tifco.com/Catalog/productPhotoByIdX/3492/0/0/180/180",
+          "categories": [
+            {
+              "name": "Adhesive",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/13998/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7912",
+                "https://www.tifco.com/products/7917",
+                "https://www.tifco.com/products/7918",
+                "https://www.tifco.com/products/7930",
+                "https://www.tifco.com/products/7931"
+              ]
+            },
+            {
+              "name": "Adhesive Remover",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/3492/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7906",
+                "https://www.tifco.com/products/7908",
+                "https://www.tifco.com/products/7913",
+                "https://www.tifco.com/products/7919"
+              ]
+            },
+            {
+              "name": "Brake Cleaner",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/10183/0/0/180/180",
+              "categories": [],
+              "products": []
+            },
+            {
+              "name": "Lubricant",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/7343/0/0/180/180",
+              "categories": [],
+              "products": []
+            }
+          ],
+          "products": []
+        },
+        {
+          "name": "Accessory",
+          "image": "https://api.tifco.com/Catalog/productPhotoByIdX/9700/0/0/180/180",
+          "categories": [],
+          "products": [
+            "https://www.tifco.com/products/7769",
+            "https://www.tifco.com/products/8151",
+            "https://www.tifco.com/products/11292"
+          ]
+        },
+        {
+          "name": "Adhesive",
+          "image": "https://api.tifco.com/Catalog/productPhotoByIdX/14166/0/0/180/180",
+          "categories": [
+            {
+              "name": "Expanding Foam",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/9941/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/9390"
+              ]
+            },
+            {
+              "name": "Multi-Purpose",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/4647/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7613",
+                "https://www.tifco.com/products/8030",
+                "https://www.tifco.com/products/8174",
+                "https://www.tifco.com/products/8407",
+                "https://www.tifco.com/products/9921",
+                "https://www.tifco.com/products/9953"
+              ]
+            },
+            {
+              "name": "PVC Weld",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/14649/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/9306"
+              ]
+            }
+          ],
+          "products": []
+        },
+        {
+          "name": "Auto A/C",
+          "image": "https://api.tifco.com/Catalog/productPhotoByIdX/11098/0/0/180/180",
+          "categories": [
+            {
+              "name": "A/C Cleaner",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/12614/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7988",
+                "https://www.tifco.com/products/7989"
+              ]
+            },
+            {
+              "name": "A/C Leak Stop",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/11098/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7980",
+                "https://www.tifco.com/products/7993"
+              ]
+            },
+            {
+              "name": "Ordor Control",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/7745/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/8004",
+                "https://www.tifco.com/products/8005",
+                "https://www.tifco.com/products/8017",
+                "https://www.tifco.com/products/8018"
+              ]
+            },
+            {
+              "name": "Refrigerant",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/14705/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7994"
+              ]
+            }
+          ],
+          "products": []
+        },
+        {
+          "name": "Automotive",
+          "image": "https://api.tifco.com/Catalog/productPhotoByIdX/5743/0/0/180/180",
+          "categories": [
+            {
+              "name": "Engine Starting Fluid",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/5743/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/9130"
+              ]
+            },
+            {
+              "name": "Tire Products",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/23815/0/0/180/180",
+              "categories": [],
+              "products": []
+            }
+          ],
+          "products": []
+        },
+        {
+          "name": "Cleaner",
+          "image": "https://api.tifco.com/Catalog/productPhotoByIdX/7126/0/0/180/180",
+          "categories": [
+            {
+              "name": "A/C",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/12765/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7618",
+                "https://www.tifco.com/products/8034",
+                "https://www.tifco.com/products/9459",
+                "https://www.tifco.com/products/9958"
+              ]
+            },
+            {
+              "name": "Brake & Parts",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/11458/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7808",
+                "https://www.tifco.com/products/7900",
+                "https://www.tifco.com/products/7901",
+                "https://www.tifco.com/products/8176",
+                "https://www.tifco.com/products/8177",
+                "https://www.tifco.com/products/8183",
+                "https://www.tifco.com/products/8195",
+                "https://www.tifco.com/products/8409",
+                "https://www.tifco.com/products/8410",
+                "https://www.tifco.com/products/8414",
+                "https://www.tifco.com/products/8418",
+                "https://www.tifco.com/products/9131",
+                "https://www.tifco.com/products/9452",
+                "https://www.tifco.com/products/9454",
+                "https://www.tifco.com/products/9475",
+                "https://www.tifco.com/products/9884",
+                "https://www.tifco.com/products/9885",
+                "https://www.tifco.com/products/9923",
+                "https://www.tifco.com/products/9924",
+                "https://www.tifco.com/products/9929"
+              ]
+            },
+            {
+              "name": "Choke & Carburetor",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/7541/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/8185",
+                "https://www.tifco.com/products/8415",
+                "https://www.tifco.com/products/9927"
+              ]
+            },
+            {
+              "name": "Degreaser",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/7126/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/8173",
+                "https://www.tifco.com/products/8180",
+                "https://www.tifco.com/products/8254",
+                "https://www.tifco.com/products/8257",
+                "https://www.tifco.com/products/8258",
+                "https://www.tifco.com/products/8264",
+                "https://www.tifco.com/products/8267",
+                "https://www.tifco.com/products/8268",
+                "https://www.tifco.com/products/8274",
+                "https://www.tifco.com/products/8277",
+                "https://www.tifco.com/products/8278",
+                "https://www.tifco.com/products/8406",
+                "https://www.tifco.com/products/8413",
+                "https://www.tifco.com/products/9920",
+                "https://www.tifco.com/products/9926"
+              ]
+            },
+            {
+              "name": "Electronics",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/10434/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7624",
+                "https://www.tifco.com/products/7625",
+                "https://www.tifco.com/products/8037",
+                "https://www.tifco.com/products/8038",
+                "https://www.tifco.com/products/9915",
+                "https://www.tifco.com/products/9931"
+              ]
+            },
+            {
+              "name": "Glass",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/5697/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7600",
+                "https://www.tifco.com/products/7609",
+                "https://www.tifco.com/products/8020",
+                "https://www.tifco.com/products/8027",
+                "https://www.tifco.com/products/8250",
+                "https://www.tifco.com/products/8260",
+                "https://www.tifco.com/products/8270",
+                "https://www.tifco.com/products/9447",
+                "https://www.tifco.com/products/9455",
+                "https://www.tifco.com/products/9900",
+                "https://www.tifco.com/products/9914"
+              ]
+            },
+            {
+              "name": "Graffiti Remover",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/2254/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/8171",
+                "https://www.tifco.com/products/8404",
+                "https://www.tifco.com/products/9918"
+              ]
+            },
+            {
+              "name": "Paint/Gasket Remover",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/2507/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7608",
+                "https://www.tifco.com/products/8026",
+                "https://www.tifco.com/products/9908"
+              ]
+            },
+            {
+              "name": "Stainless Steel",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/16632/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7604",
+                "https://www.tifco.com/products/8023",
+                "https://www.tifco.com/products/9904"
+              ]
+            }
+          ],
+          "products": []
+        },
+        {
+          "name": "Coating",
+          "image": "https://api.tifco.com/Catalog/productPhotoByIdX/16257/0/0/180/180",
+          "categories": [
+            {
+              "name": "Automotive",
+              "image": "https://www.tifco.com/img/logo_white_bg.jpg",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7603",
+                "https://www.tifco.com/products/7817",
+                "https://www.tifco.com/products/7820",
+                "https://www.tifco.com/products/7821",
+                "https://www.tifco.com/products/8022",
+                "https://www.tifco.com/products/9903"
+              ]
+            },
+            {
+              "name": "Battery",
+              "image": "https://www.tifco.com/img/logo_white_bg.jpg",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7614",
+                "https://www.tifco.com/products/7812",
+                "https://www.tifco.com/products/7813",
+                "https://www.tifco.com/products/7818",
+                "https://www.tifco.com/products/7819",
+                "https://www.tifco.com/products/8031",
+                "https://www.tifco.com/products/8242",
+                "https://www.tifco.com/products/8420",
+                "https://www.tifco.com/products/9933",
+                "https://www.tifco.com/products/9954"
+              ]
+            },
+            {
+              "name": "Belt Dressing",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/14389/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/8247",
+                "https://www.tifco.com/products/8424",
+                "https://www.tifco.com/products/9877"
+              ]
+            },
+            {
+              "name": "De-Icer",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/12446/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7605",
+                "https://www.tifco.com/products/8024",
+                "https://www.tifco.com/products/9480",
+                "https://www.tifco.com/products/9905"
+              ]
+            },
+            {
+              "name": "Non-Slip",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/16257/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7602",
+                "https://www.tifco.com/products/8021",
+                "https://www.tifco.com/products/9902"
+              ]
+            },
+            {
+              "name": "Pavement",
+              "image": "https://www.tifco.com/img/logo_white_bg.jpg",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7772",
+                "https://www.tifco.com/products/7773",
+                "https://www.tifco.com/products/7776",
+                "https://www.tifco.com/products/7777",
+                "https://www.tifco.com/products/7778",
+                "https://www.tifco.com/products/7779"
+              ]
+            },
+            {
+              "name": "Protective",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/15578/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7617",
+                "https://www.tifco.com/products/7622",
+                "https://www.tifco.com/products/7924",
+                "https://www.tifco.com/products/7925",
+                "https://www.tifco.com/products/7926",
+                "https://www.tifco.com/products/7942",
+                "https://www.tifco.com/products/7943",
+                "https://www.tifco.com/products/8033",
+                "https://www.tifco.com/products/8189",
+                "https://www.tifco.com/products/8301",
+                "https://www.tifco.com/products/8438",
+                "https://www.tifco.com/products/9862",
+                "https://www.tifco.com/products/9909",
+                "https://www.tifco.com/products/9949"
+              ]
+            },
+            {
+              "name": "Rubber Restore",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/4591/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7615",
+                "https://www.tifco.com/products/8032",
+                "https://www.tifco.com/products/9930"
+              ]
+            },
+            {
+              "name": "Rust Converter",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/1642/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/8182",
+                "https://www.tifco.com/products/8400",
+                "https://www.tifco.com/products/9891"
+              ]
+            },
+            {
+              "name": "Undercoating",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/9025/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7714",
+                "https://www.tifco.com/products/7715",
+                "https://www.tifco.com/products/7782",
+                "https://www.tifco.com/products/7783",
+                "https://www.tifco.com/products/8188",
+                "https://www.tifco.com/products/8239",
+                "https://www.tifco.com/products/8302",
+                "https://www.tifco.com/products/8401",
+                "https://www.tifco.com/products/8441",
+                "https://www.tifco.com/products/9418",
+                "https://www.tifco.com/products/9863",
+                "https://www.tifco.com/products/9928"
+              ]
+            }
+          ],
+          "products": []
+        },
+        {
+          "name": "Insecticide",
+          "image": "https://api.tifco.com/Catalog/productPhotoByIdX/16718/0/0/180/180",
+          "categories": [],
+          "products": [
+            "https://www.tifco.com/products/7607",
+            "https://www.tifco.com/products/7620",
+            "https://www.tifco.com/products/8169",
+            "https://www.tifco.com/products/8170",
+            "https://www.tifco.com/products/8435",
+            "https://www.tifco.com/products/9458",
+            "https://www.tifco.com/products/9907",
+            "https://www.tifco.com/products/9913",
+            "https://www.tifco.com/products/9917"
+          ]
+        },
+        {
+          "name": "Janitorial",
+          "image": "https://api.tifco.com/Catalog/productPhotoByIdX/14685/0/0/180/180",
+          "categories": [
+            {
+              "name": "Air Freshener",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/16788/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7610",
+                "https://www.tifco.com/products/7611",
+                "https://www.tifco.com/products/7628",
+                "https://www.tifco.com/products/7638",
+                "https://www.tifco.com/products/7640",
+                "https://www.tifco.com/products/7642",
+                "https://www.tifco.com/products/7643",
+                "https://www.tifco.com/products/7644",
+                "https://www.tifco.com/products/7645",
+                "https://www.tifco.com/products/7646",
+                "https://www.tifco.com/products/7647",
+                "https://www.tifco.com/products/8029",
+                "https://www.tifco.com/products/8042",
+                "https://www.tifco.com/products/9910",
+                "https://www.tifco.com/products/9911",
+                "https://www.tifco.com/products/9955"
+              ]
+            },
+            {
+              "name": "Carpet Cleaner",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/14685/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7626",
+                "https://www.tifco.com/products/8039",
+                "https://www.tifco.com/products/9946"
+              ]
+            },
+            {
+              "name": "Computer Cleaner",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/7626/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7630",
+                "https://www.tifco.com/products/7631",
+                "https://www.tifco.com/products/8043",
+                "https://www.tifco.com/products/9950"
+              ]
+            },
+            {
+              "name": "Disinfectant",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/17092/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7601",
+                "https://www.tifco.com/products/7937",
+                "https://www.tifco.com/products/7938",
+                "https://www.tifco.com/products/7939",
+                "https://www.tifco.com/products/9901",
+                "https://www.tifco.com/products/95373",
+                "https://www.tifco.com/products/95379"
+              ]
+            },
+            {
+              "name": "Drain Cleaner",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/23873/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7616",
+                "https://www.tifco.com/products/8028",
+                "https://www.tifco.com/products/9951"
+              ]
+            },
+            {
+              "name": "Dust Mop Treatment",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/6759/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7936",
+                "https://www.tifco.com/products/7944"
+              ]
+            }
+          ],
+          "products": []
+        },
+        {
+          "name": "LPS",
+          "image": "https://api.tifco.com/Catalog/productPhotoByIdX/10335/0/0/180/180",
+          "categories": [],
+          "products": [
+            "https://www.tifco.com/products/8551",
+            "https://www.tifco.com/products/8552",
+            "https://www.tifco.com/products/8555",
+            "https://www.tifco.com/products/8556",
+            "https://www.tifco.com/products/8561",
+            "https://www.tifco.com/products/8562",
+            "https://www.tifco.com/products/8563"
+          ]
+        },
+        {
+          "name": "Lubricant",
+          "image": "https://api.tifco.com/Catalog/productPhotoByIdX/8957/0/0/180/180",
+          "categories": [
+            {
+              "name": "Cutting Oil",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/582/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/8248",
+                "https://www.tifco.com/products/8249",
+                "https://www.tifco.com/products/8425",
+                "https://www.tifco.com/products/8426",
+                "https://www.tifco.com/products/9889",
+                "https://www.tifco.com/products/9937"
+              ]
+            },
+            {
+              "name": "Food Grade",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/7318/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7606",
+                "https://www.tifco.com/products/8025",
+                "https://www.tifco.com/products/8241",
+                "https://www.tifco.com/products/8251",
+                "https://www.tifco.com/products/8259",
+                "https://www.tifco.com/products/8261",
+                "https://www.tifco.com/products/8269",
+                "https://www.tifco.com/products/8271",
+                "https://www.tifco.com/products/8279",
+                "https://www.tifco.com/products/8419",
+                "https://www.tifco.com/products/9456",
+                "https://www.tifco.com/products/9906",
+                "https://www.tifco.com/products/9932"
+              ]
+            },
+            {
+              "name": "Greaseless",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/2658/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7927",
+                "https://www.tifco.com/products/7928",
+                "https://www.tifco.com/products/7929",
+                "https://www.tifco.com/products/8427",
+                "https://www.tifco.com/products/8428",
+                "https://www.tifco.com/products/9527",
+                "https://www.tifco.com/products/9530",
+                "https://www.tifco.com/products/9879",
+                "https://www.tifco.com/products/9938"
+              ]
+            },
+            {
+              "name": "High Temp/Pressure",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/8957/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7810",
+                "https://www.tifco.com/products/7811",
+                "https://www.tifco.com/products/8175",
+                "https://www.tifco.com/products/8246",
+                "https://www.tifco.com/products/8408",
+                "https://www.tifco.com/products/8423",
+                "https://www.tifco.com/products/9487",
+                "https://www.tifco.com/products/9922",
+                "https://www.tifco.com/products/9936"
+              ]
+            },
+            {
+              "name": "Multi-Purpose",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/3540/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7878",
+                "https://www.tifco.com/products/7881",
+                "https://www.tifco.com/products/7887",
+                "https://www.tifco.com/products/7888",
+                "https://www.tifco.com/products/8433",
+                "https://www.tifco.com/products/8434",
+                "https://www.tifco.com/products/9446",
+                "https://www.tifco.com/products/9630",
+                "https://www.tifco.com/products/9631",
+                "https://www.tifco.com/products/9944",
+                "https://www.tifco.com/products/9945"
+              ]
+            },
+            {
+              "name": "w/PTFE",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/13982/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/8187",
+                "https://www.tifco.com/products/8240",
+                "https://www.tifco.com/products/8244",
+                "https://www.tifco.com/products/8416",
+                "https://www.tifco.com/products/8421",
+                "https://www.tifco.com/products/8439",
+                "https://www.tifco.com/products/9859",
+                "https://www.tifco.com/products/9887",
+                "https://www.tifco.com/products/9934"
+              ]
+            }
+          ],
+          "products": []
+        },
+        {
+          "name": "Paint",
+          "image": "https://api.tifco.com/Catalog/productPhotoByIdX/16270/0/0/180/180",
+          "categories": [
+            {
+              "name": "Accessories",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/14772/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/8050",
+                "https://www.tifco.com/products/8051",
+                "https://www.tifco.com/products/8052",
+                "https://www.tifco.com/products/8053",
+                "https://www.tifco.com/products/8054",
+                "https://www.tifco.com/products/8097",
+                "https://www.tifco.com/products/8098",
+                "https://www.tifco.com/products/8099",
+                "https://www.tifco.com/products/45945",
+                "https://www.tifco.com/products/45947",
+                "https://www.tifco.com/products/45948",
+                "https://www.tifco.com/products/45950"
+              ]
+            },
+            {
+              "name": "Equipment Colors",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/16270/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/8110",
+                "https://www.tifco.com/products/8112",
+                "https://www.tifco.com/products/8114",
+                "https://www.tifco.com/products/8115",
+                "https://www.tifco.com/products/8116",
+                "https://www.tifco.com/products/8117",
+                "https://www.tifco.com/products/8118",
+                "https://www.tifco.com/products/8122",
+                "https://www.tifco.com/products/8123",
+                "https://www.tifco.com/products/8124",
+                "https://www.tifco.com/products/8126",
+                "https://www.tifco.com/products/8127",
+                "https://www.tifco.com/products/8128",
+                "https://www.tifco.com/products/8130",
+                "https://www.tifco.com/products/8131",
+                "https://www.tifco.com/products/8132",
+                "https://www.tifco.com/products/8134",
+                "https://www.tifco.com/products/8135",
+                "https://www.tifco.com/products/8136",
+                "https://www.tifco.com/products/8137",
+                "https://www.tifco.com/products/8138",
+                "https://www.tifco.com/products/8155",
+                "https://www.tifco.com/products/8156",
+                "https://www.tifco.com/products/8157",
+                "https://www.tifco.com/products/8158",
+                "https://www.tifco.com/products/8159",
+                "https://www.tifco.com/products/8160",
+                "https://www.tifco.com/products/8161",
+                "https://www.tifco.com/products/8191",
+                "https://www.tifco.com/products/8192",
+                "https://www.tifco.com/products/8193",
+                "https://www.tifco.com/products/8196",
+                "https://www.tifco.com/products/8198",
+                "https://www.tifco.com/products/8199",
+                "https://www.tifco.com/products/8200",
+                "https://www.tifco.com/products/8201",
+                "https://www.tifco.com/products/8202",
+                "https://www.tifco.com/products/8204",
+                "https://www.tifco.com/products/8205",
+                "https://www.tifco.com/products/8206",
+                "https://www.tifco.com/products/8207",
+                "https://www.tifco.com/products/8209",
+                "https://www.tifco.com/products/8211",
+                "https://www.tifco.com/products/8212",
+                "https://www.tifco.com/products/8213",
+                "https://www.tifco.com/products/8214",
+                "https://www.tifco.com/products/8215",
+                "https://www.tifco.com/products/8216",
+                "https://www.tifco.com/products/8218",
+                "https://www.tifco.com/products/8219",
+                "https://www.tifco.com/products/8220",
+                "https://www.tifco.com/products/8309",
+                "https://www.tifco.com/products/8311",
+                "https://www.tifco.com/products/8312",
+                "https://www.tifco.com/products/8314",
+                "https://www.tifco.com/products/8315",
+                "https://www.tifco.com/products/8316",
+                "https://www.tifco.com/products/8317",
+                "https://www.tifco.com/products/8320",
+                "https://www.tifco.com/products/8321",
+                "https://www.tifco.com/products/8322",
+                "https://www.tifco.com/products/8329",
+                "https://www.tifco.com/products/8330",
+                "https://www.tifco.com/products/8331",
+                "https://www.tifco.com/products/8332",
+                "https://www.tifco.com/products/8333",
+                "https://www.tifco.com/products/8334",
+                "https://www.tifco.com/products/8335",
+                "https://www.tifco.com/products/8336",
+                "https://www.tifco.com/products/8337",
+                "https://www.tifco.com/products/8339",
+                "https://www.tifco.com/products/8340",
+                "https://www.tifco.com/products/8347",
+                "https://www.tifco.com/products/8348",
+                "https://www.tifco.com/products/8350",
+                "https://www.tifco.com/products/8351",
+                "https://www.tifco.com/products/8352",
+                "https://www.tifco.com/products/8353",
+                "https://www.tifco.com/products/8354",
+                "https://www.tifco.com/products/8355",
+                "https://www.tifco.com/products/8356",
+                "https://www.tifco.com/products/8357",
+                "https://www.tifco.com/products/8359",
+                "https://www.tifco.com/products/8361",
+                "https://www.tifco.com/products/8362",
+                "https://www.tifco.com/products/8363",
+                "https://www.tifco.com/products/8364",
+                "https://www.tifco.com/products/8365",
+                "https://www.tifco.com/products/8367",
+                "https://www.tifco.com/products/8368",
+                "https://www.tifco.com/products/8369",
+                "https://www.tifco.com/products/8370",
+                "https://www.tifco.com/products/8372",
+                "https://www.tifco.com/products/8374",
+                "https://www.tifco.com/products/8375",
+                "https://www.tifco.com/products/8376",
+                "https://www.tifco.com/products/8377",
+                "https://www.tifco.com/products/8378",
+                "https://www.tifco.com/products/8379",
+                "https://www.tifco.com/products/8381",
+                "https://www.tifco.com/products/8382",
+                "https://www.tifco.com/products/8383",
+                "https://www.tifco.com/products/9820",
+                "https://www.tifco.com/products/9821",
+                "https://www.tifco.com/products/9822",
+                "https://www.tifco.com/products/9823",
+                "https://www.tifco.com/products/9824",
+                "https://www.tifco.com/products/9825",
+                "https://www.tifco.com/products/9826",
+                "https://www.tifco.com/products/9828",
+                "https://www.tifco.com/products/9829",
+                "https://www.tifco.com/products/9830",
+                "https://www.tifco.com/products/9832",
+                "https://www.tifco.com/products/9834",
+                "https://www.tifco.com/products/9835",
+                "https://www.tifco.com/products/9836",
+                "https://www.tifco.com/products/9837",
+                "https://www.tifco.com/products/9838",
+                "https://www.tifco.com/products/9840",
+                "https://www.tifco.com/products/9841",
+                "https://www.tifco.com/products/9842",
+                "https://www.tifco.com/products/9843",
+                "https://www.tifco.com/products/9845",
+                "https://www.tifco.com/products/9847",
+                "https://www.tifco.com/products/9848",
+                "https://www.tifco.com/products/9849",
+                "https://www.tifco.com/products/9850",
+                "https://www.tifco.com/products/9851",
+                "https://www.tifco.com/products/9852",
+                "https://www.tifco.com/products/9854",
+                "https://www.tifco.com/products/9855",
+                "https://www.tifco.com/products/9856",
+                "https://www.tifco.com/products/9957",
+                "https://www.tifco.com/products/9959",
+                "https://www.tifco.com/products/9972",
+                "https://www.tifco.com/products/9974",
+                "https://www.tifco.com/products/9975",
+                "https://www.tifco.com/products/9976",
+                "https://www.tifco.com/products/9977",
+                "https://www.tifco.com/products/9978",
+                "https://www.tifco.com/products/9980",
+                "https://www.tifco.com/products/9981",
+                "https://www.tifco.com/products/9984",
+                "https://www.tifco.com/products/9988",
+                "https://www.tifco.com/products/9989",
+                "https://www.tifco.com/products/9990",
+                "https://www.tifco.com/products/9991",
+                "https://www.tifco.com/products/9992",
+                "https://www.tifco.com/products/9993",
+                "https://www.tifco.com/products/9994",
+                "https://www.tifco.com/products/9995",
+                "https://www.tifco.com/products/9998",
+                "https://www.tifco.com/products/9999"
+              ]
+            },
+            {
+              "name": "Industrial",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/1452/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/8217",
+                "https://www.tifco.com/products/8275",
+                "https://www.tifco.com/products/8310",
+                "https://www.tifco.com/products/8380",
+                "https://www.tifco.com/products/8402",
+                "https://www.tifco.com/products/8440",
+                "https://www.tifco.com/products/9600",
+                "https://www.tifco.com/products/9601",
+                "https://www.tifco.com/products/9853",
+                "https://www.tifco.com/products/9940",
+                "https://www.tifco.com/products/9942",
+                "https://www.tifco.com/products/9987"
+              ]
+            },
+            {
+              "name": "Marking",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/8607/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/8070",
+                "https://www.tifco.com/products/8072",
+                "https://www.tifco.com/products/8073",
+                "https://www.tifco.com/products/8074",
+                "https://www.tifco.com/products/8075",
+                "https://www.tifco.com/products/8076",
+                "https://www.tifco.com/products/8077",
+                "https://www.tifco.com/products/8078",
+                "https://www.tifco.com/products/8079",
+                "https://www.tifco.com/products/8080",
+                "https://www.tifco.com/products/8082",
+                "https://www.tifco.com/products/8083",
+                "https://www.tifco.com/products/8084",
+                "https://www.tifco.com/products/8085",
+                "https://www.tifco.com/products/8086",
+                "https://www.tifco.com/products/8087",
+                "https://www.tifco.com/products/8088",
+                "https://www.tifco.com/products/8089",
+                "https://www.tifco.com/products/8091",
+                "https://www.tifco.com/products/8092",
+                "https://www.tifco.com/products/8093",
+                "https://www.tifco.com/products/8094",
+                "https://www.tifco.com/products/8095",
+                "https://www.tifco.com/products/8096"
+              ]
+            },
+            {
+              "name": "OSHA Colors",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/8232/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/8104",
+                "https://www.tifco.com/products/8106",
+                "https://www.tifco.com/products/8108",
+                "https://www.tifco.com/products/8119",
+                "https://www.tifco.com/products/8190",
+                "https://www.tifco.com/products/8342",
+                "https://www.tifco.com/products/8343",
+                "https://www.tifco.com/products/8344",
+                "https://www.tifco.com/products/8345",
+                "https://www.tifco.com/products/8346",
+                "https://www.tifco.com/products/9827",
+                "https://www.tifco.com/products/9964",
+                "https://www.tifco.com/products/9966",
+                "https://www.tifco.com/products/9968",
+                "https://www.tifco.com/products/9996"
+              ]
+            },
+            {
+              "name": "Primers",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/3075/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7780",
+                "https://www.tifco.com/products/7781",
+                "https://www.tifco.com/products/8102",
+                "https://www.tifco.com/products/8103",
+                "https://www.tifco.com/products/8303",
+                "https://www.tifco.com/products/8305",
+                "https://www.tifco.com/products/8341",
+                "https://www.tifco.com/products/9962",
+                "https://www.tifco.com/products/9963"
+              ]
+            },
+            {
+              "name": "Standard Colors",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/10293/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/8100",
+                "https://www.tifco.com/products/8101",
+                "https://www.tifco.com/products/8105",
+                "https://www.tifco.com/products/8107",
+                "https://www.tifco.com/products/8109",
+                "https://www.tifco.com/products/8113",
+                "https://www.tifco.com/products/8120",
+                "https://www.tifco.com/products/8121",
+                "https://www.tifco.com/products/8129",
+                "https://www.tifco.com/products/8139",
+                "https://www.tifco.com/products/8153",
+                "https://www.tifco.com/products/8154",
+                "https://www.tifco.com/products/8304",
+                "https://www.tifco.com/products/8306",
+                "https://www.tifco.com/products/8307",
+                "https://www.tifco.com/products/8313",
+                "https://www.tifco.com/products/8318",
+                "https://www.tifco.com/products/8319",
+                "https://www.tifco.com/products/8323",
+                "https://www.tifco.com/products/8325",
+                "https://www.tifco.com/products/8326",
+                "https://www.tifco.com/products/8327",
+                "https://www.tifco.com/products/8338",
+                "https://www.tifco.com/products/8349",
+                "https://www.tifco.com/products/9948",
+                "https://www.tifco.com/products/9960",
+                "https://www.tifco.com/products/9961",
+                "https://www.tifco.com/products/9965",
+                "https://www.tifco.com/products/9967",
+                "https://www.tifco.com/products/9969",
+                "https://www.tifco.com/products/9970",
+                "https://www.tifco.com/products/9973",
+                "https://www.tifco.com/products/9983",
+                "https://www.tifco.com/products/9985",
+                "https://www.tifco.com/products/9986",
+                "https://www.tifco.com/products/9997"
+              ]
+            },
+            {
+              "name": "Striping",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/2011/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/8055",
+                "https://www.tifco.com/products/8056",
+                "https://www.tifco.com/products/8057",
+                "https://www.tifco.com/products/8058",
+                "https://www.tifco.com/products/8059",
+                "https://www.tifco.com/products/8060",
+                "https://www.tifco.com/products/8062",
+                "https://www.tifco.com/products/8064",
+                "https://www.tifco.com/products/8065",
+                "https://www.tifco.com/products/8066",
+                "https://www.tifco.com/products/8067",
+                "https://www.tifco.com/products/8068",
+                "https://www.tifco.com/products/8069"
+              ]
+            }
+          ],
+          "products": []
+        },
+        {
+          "name": "Penetrant",
+          "image": "https://api.tifco.com/Catalog/productPhotoByIdX/25/0/0/180/180",
+          "categories": [
+            {
+              "name": "Enviro Friendly",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/16342/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/8252",
+                "https://www.tifco.com/products/8262",
+                "https://www.tifco.com/products/8272"
+              ]
+            },
+            {
+              "name": "Flammable",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/17779/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7619",
+                "https://www.tifco.com/products/7621",
+                "https://www.tifco.com/products/7633",
+                "https://www.tifco.com/products/8035",
+                "https://www.tifco.com/products/8036",
+                "https://www.tifco.com/products/8044",
+                "https://www.tifco.com/products/8152",
+                "https://www.tifco.com/products/8186",
+                "https://www.tifco.com/products/8403",
+                "https://www.tifco.com/products/8417",
+                "https://www.tifco.com/products/8429",
+                "https://www.tifco.com/products/9450",
+                "https://www.tifco.com/products/9485",
+                "https://www.tifco.com/products/9590",
+                "https://www.tifco.com/products/9861",
+                "https://www.tifco.com/products/9882",
+                "https://www.tifco.com/products/9883",
+                "https://www.tifco.com/products/9893",
+                "https://www.tifco.com/products/9899",
+                "https://www.tifco.com/products/9916",
+                "https://www.tifco.com/products/9941"
+              ]
+            },
+            {
+              "name": "National Brand",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/5776/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7889",
+                "https://www.tifco.com/products/7922",
+                "https://www.tifco.com/products/7923"
+              ]
+            },
+            {
+              "name": "Non-Flammable",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/2049/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/8172",
+                "https://www.tifco.com/products/8181",
+                "https://www.tifco.com/products/8405",
+                "https://www.tifco.com/products/9912",
+                "https://www.tifco.com/products/9919"
+              ]
+            }
+          ],
+          "products": []
+        },
+        {
+          "name": "Permatex",
+          "image": "https://api.tifco.com/Catalog/productPhotoByIdX/3204/0/0/180/180",
+          "categories": [],
+          "products": [
+            "https://www.tifco.com/products/9147",
+            "https://www.tifco.com/products/9187"
+          ]
+        },
+        {
+          "name": "Solvent",
+          "image": "https://api.tifco.com/Catalog/productPhotoByIdX/6628/0/0/180/180",
+          "categories": [
+            {
+              "name": "Flammable",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/6628/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/7794",
+                "https://www.tifco.com/products/7795",
+                "https://www.tifco.com/products/7796",
+                "https://www.tifco.com/products/8178",
+                "https://www.tifco.com/products/8411",
+                "https://www.tifco.com/products/9417",
+                "https://www.tifco.com/products/9925"
+              ]
+            },
+            {
+              "name": "Non-Flammable",
+              "image": "https://api.tifco.com/Catalog/productPhotoByIdX/10728/0/0/180/180",
+              "categories": [],
+              "products": [
+                "https://www.tifco.com/products/8430",
+                "https://www.tifco.com/products/8432",
+                "https://www.tifco.com/products/9610",
+                "https://www.tifco.com/products/9612",
+                "https://www.tifco.com/products/9895",
+                "https://www.tifco.com/products/9943"
+              ]
+            }
+          ],
+          "products": []
+        },
+        {
+          "name": "WD-40",
+          "image": "https://api.tifco.com/Catalog/productPhotoByIdX/3468/0/0/180/180",
+          "categories": [],
+          "products": [
+            "https://www.tifco.com/products/7882",
+            "https://www.tifco.com/products/7884",
+            "https://www.tifco.com/products/7885",
+            "https://www.tifco.com/products/7886"
+          ]
+        }
+      ],
+      "products": []
+    }
+  ]
+}
