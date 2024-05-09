@@ -570,7 +570,10 @@ class TaskController extends Controller
     }
 
     public function managerTaskShow($id){
-        $task = Task::where('id', $id)->whereIn('brand_id', Auth()->user()->brand_list())->first();
+        if (!$task = Task::where('id', $id)->whereIn('brand_id', Auth()->user()->brand_list())->first()) {
+            return redirect()->back();
+        }
+
         if(in_array($task->brand_id, Auth()->user()->brand_list())){
             $messages = Message::where('sender_id', $task->projects->client->id)->orWhere('user_id', $task->projects->client->id)->orderBy('id', 'desc')->get();
             return view('manager.task.show', compact('task', 'messages'));

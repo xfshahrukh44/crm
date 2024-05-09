@@ -1,4 +1,4 @@
-@extends('layouts.app-admin')
+@extends($layout)
 @section('title', 'Brand detail')
 @push('styles')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -74,15 +74,20 @@
                         <div class="row text-center">
                             <div class="col-md-6 offset-md-3">
                                 <h6>
-                                    <b>BUH(s)</b>
+                                    <b>Sales</b>
                                 </h6>
                             </div>
                         </div>
                         <div class="row text-center">
-                            <div class="col-md-6 offset-md-3">
-                                @foreach($buhs as $buh)
-                                    <h6>{{$buh->name . ' ' . $buh->last_name}}</h6>
-                                @endforeach
+                            <div class="col-12">
+                                <div class="row">
+                                    @foreach($buhs as $buh)
+                                        <a href="mailto:{{$buh->email}}">
+                                            <h6>{{$buh->name . ' ' . $buh->last_name}}</h6>
+                                        </a>
+                                        <h6>{!! ($loop->last ? '.' : ",&nbsp;&nbsp;") !!}</h6>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -90,15 +95,20 @@
                         <div class="row text-center">
                             <div class="col-md-6 offset-md-3">
                                 <h6>
-                                    <b>Agents</b>
+                                    <b>Project managers</b>
                                 </h6>
                             </div>
                         </div>
                         <div class="row text-center">
-                            <div class="col-md-6 offset-md-3">
-                                @foreach($agents as $agent)
-                                    <h6>{{$agent->name . ' ' . $agent->last_name}}</h6>
-                                @endforeach
+                            <div class="col-12">
+                                <div class="row">
+                                    @foreach($agents as $agent)
+                                        <a href="mailto:{{$agent->email}}">
+                                            <h6>{{$agent->name . ' ' . $agent->last_name}}</h6>
+                                        </a>
+                                        <h6>{!! ($loop->last ? '.' : ",&nbsp;&nbsp;") !!}</h6>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -106,52 +116,78 @@
             </div>
         </div>
 
-{{--            <form action="{{route('brands.detail', $brand->id)}}" method="GET">--}}
-        <div class="row mb-4">
-            <div class="col-lg-12 col-md-12">
-                <h2 class="ml-3">Clients</h2>
-            </div>
-{{--                <div class="col-lg-11 col-md-11">--}}
-{{--                    <input type="text" class="form-control" placeholder="Search client" name="client_name" value="" id="input_client_name">--}}
-{{--                </div>--}}
-{{--                <div class="col-lg-1 col-md-1">--}}
-{{--                    <button type="submit" class="btn btn-primary btn-block">Search</button>--}}
-{{--                </div>--}}
+        <div class="breadcrumb">
+            <h1 class="mr-2">Clients</h1>
         </div>
-{{--            </form>--}}
-        <!-- CARD ICON-->
-        <div class="row client_wrapper">
-            @foreach($clients as $client)
-                <div class="col-lg-2 col-md-6 col-sm-6">
-
-                    <a target="_blank" href="{{route('clients.detail', $client->id)}}">
-                        <div class="card card-icon mb-4">
-                            <div class="card-body text-center">
-{{--                                <img src="{{asset($client->logo)}}" alt="">--}}
-                                <p class="text-muted mt-2 mb-2">{{$client->name . ' ' . $client->last_name}}</p>
-                                <small class="text-muted mt-2 mb-2">Invoices: {{count($client->invoices)}} | Projects: {{count($client->projects)}}</small>
-{{--                                <p class="text-primary text-24 line-height-1 m-0">{{$brand->name}}</p>--}}
+        <div class="separator-breadcrumb border-top"></div>
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card text-left">
+                    <div class="card-body">
+                        <form action="{{ route('brands.detail', $brand->id) }}" method="GET">
+                            <div class="row">
+                                <div class="col-md-12 form-group mb-3">
+                                    <label for="package">Search client</label>
+                                    <input type="text" class="form-control" id="client_name" name="client_name" value="{{ Request::get('client_name') }}" placeholder="Client information">
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="text-right">
+                                        <button class="btn btn-primary">Search Result</button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </a>
-
+                        </form>
+                    </div>
                 </div>
-            @endforeach
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card text-left">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3 count-card-title">Clients list <span> Total: {{ $clients->total() }} </span></h4>
+                        <div class="table-responsive">
+                            <table class="display table table-striped table-bordered" style="width:100%" id="display">
+                                <thead>
+                                <tr>
+{{--                                    <th>ID</th>--}}
+                                    <th>Client</th>
+                                    <th>Invoices</th>
+                                    <th>Projects</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($clients as $client)
+                                    <tr>
+{{--                                        <td><span class="btn btn-primary btn-sm">#{{ $client->id }}</span></td>--}}
+                                        <td>
+                                            <a target="_blank" href="{{route('clients.detail', $client->id)}}">
+                                                <span class="btn btn-primary btn-sm">{{$client->name . ' ' . $client->last_name}}</span>
+                                            </a>
+                                        </td>
+                                        <td>{{count($client->invoices)}}</td>
+                                        <td>{{count($client->projects)}}</td>
+                                    </tr>
+                                @endforeach
+
+                                </tbody>
+                                <tfoot>
+                                <tr>
+{{--                                    <th>ID</th>--}}
+                                    <th>Client</th>
+                                    <th>Invoices</th>
+                                    <th>Projects</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+{{--                            <div class="ajax-loading"><img src="{{ asset('newglobal/images/loader.gif') }}" /></div>--}}
+                            {{ $clients->links() }}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-{{--    <div class="col-lg-12 col-md-12">--}}
-{{--        <div class="row">--}}
-{{--            <div class="col-lg-12 col-md-12">--}}
-{{--                <div class="card card-chart-bottom o-hidden mb-4">--}}
-{{--                    <div class="card-body">--}}
-{{--                        <div class="text-muted">123, 456 Sales</div>--}}
-{{--                        <p class="mb-4 text-primary text-24">$123,456</p>--}}
-{{--                    </div>--}}
-{{--                    <div id="echartBar" style="height: 400px;"></div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
 </div>
 @endsection
 @push('scripts')

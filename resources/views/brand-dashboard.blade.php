@@ -1,4 +1,4 @@
-@extends('layouts.app-admin')
+@extends($layout)
 @section('title', 'Brands dashboard')
 @push('styles')
     <style>
