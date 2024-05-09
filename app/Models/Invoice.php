@@ -55,7 +55,9 @@ class Invoice extends Model
         }
     }
 
-    public function services($id){
+    public function services($id = null){
+        $id = !is_null($id) ? $id : $this->service;
+
         return Service::where('id', $id)->first();
     }
 

@@ -21,4 +21,14 @@ class Brand extends Model
         return $this->hasMany(Service::class);
     }
 
+    public function projects ()
+    {
+        return $this->hasMany(Project::class, 'brand_id');
+    }
+
+    public function clients ()
+    {
+        return $this->hasMany(Client::class, 'brand_id');
+    }
+
 }

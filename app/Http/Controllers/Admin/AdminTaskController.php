@@ -55,7 +55,10 @@ class AdminTaskController extends Controller
         if($request->status != ''){
             $data = $data->where('status', $request->status);
         }
-
+        //when project_id
+        $data->when($request->has('project_id'), function ($q) use ($request) {
+            return $q->where('project_id', $request->get('project_id'));
+        });
         $data = $data->paginate(20);
         $brands = DB::table('brands')->select('id', 'name')->get();
         $categorys = DB::table('create_categories')->select('id', 'name')->get();
@@ -115,6 +118,10 @@ class AdminTaskController extends Controller
         }
 
 
+        //when project_id
+        $data->when($request->has('project_id'), function ($q) use ($request) {
+            return $q->where('project_id', $request->get('project_id'));
+        });
         $data = $data->paginate(10);
         // $data = $data->get();
         

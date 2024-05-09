@@ -590,8 +590,7 @@ class AdminClientController extends Controller
             $brand_id = $bookprinting_form->invoice->brand;
             $description = $bookprinting_form->information;
         } 
-        
-        
+
         $project = new Project();
         $project->name = $name;
         $project->description = $description;

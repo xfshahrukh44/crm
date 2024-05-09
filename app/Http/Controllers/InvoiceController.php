@@ -86,6 +86,10 @@ class InvoiceController extends Controller
                         $q->where('id', $brand);
                     });
         }
+        //when client_id
+        $data->when($request->has('client_id'), function ($q) use ($request) {
+            return $q->where('client_id', $request->get('client_id'));
+        });
         $data = $data->paginate(10);
         $display = '';
         if ($request->ajax()) {
@@ -1009,6 +1013,10 @@ class InvoiceController extends Controller
         if($request->status != 0){
             $data = $data->where('payment_status', $request->status);
         }
+        //when client_id
+        $data->when($request->has('client_id'), function ($q) use ($request) {
+            return $q->where('client_id', $request->get('client_id'));
+        });
         $data = $data->paginate(10);
         return view('manager.invoice.index', compact('data'));
     }    

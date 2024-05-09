@@ -517,6 +517,7 @@ class SupportController extends Controller
                     ->join('users', 'users.id', '=', 'messages.client_id')
                     ->join('clients', 'users.client_id', '=', 'clients.id')
                     ->where('messages.role_id', 3)
+//                    ->whereIn('clients.brand_id', Brand::all()->pluck('id'))
                     ->whereIn('clients.brand_id', Auth()->user()->brand_list())
                     ->groupBy('messages.client_id')
                     ->orderBy('max_id', 'desc')

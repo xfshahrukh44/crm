@@ -24,25 +24,26 @@
                             <div class="tab-pane active show">
                                 <div class="ul-widget1">
                                     <div class="ul-widget4__item ul-widget4__users p-0">
-                                        <div class="ul-widget4__img">
-                                            @if($message->user->image == null)
-                                            <img src="{{ asset('newglobal/images/no-user-img.jpg') }}" alt="{{ $message->user->name }}" />
-                                            @else
-                                            <img src="{{ asset($message->user->image) }}" alt="{{ $message->user->name }}" />
-                                            @endif
-                                        </div>
-                                        <div class="ul-widget2__info ul-widget4__users-info">
-                                            <a class="ul-widget2__title" href="#">{{ $message->user->name }} {{ $message->user->last_name }}</a>
-                                            <span class="ul-widget2__username" href="#">{!! strip_tags($message->user->lastmessage->message) !!}</span>
-                                        </div>
                                         <div class="ul-widget4__actions text-center">
                                             <a href="{{ route('manager.message.show', ['id' => $message->user->id, 'name' => preg_replace('/[^A-Za-z0-9\-]/', '', strtolower(str_replace(' ', '-', $message->user->name . '-' . $message->user->last_name))) ]) }}" class="btn btn-outline-success m-1">Message Details</a>
                                             <a href="{{ route('manager.client.details', ['id' => $message->user->id, 'name' => preg_replace('/[^A-Za-z0-9\-]/', '', strtolower(str_replace(' ', '-', $message->user->name . '-' . $message->user->last_name))) ]) }}" class="btn btn-primary">Client Details</a>
                                             <br>
                                             <span class="badge badge-info">{{ $message->user->client->brand->name }}</span>
+                                            <span class="badge badge-primary">{{ \Carbon\Carbon::parse($message->created_at)->format('d M Y h:i A') }}</span>
+                                        </div>
+                                        <div class="ul-widget2__info ul-widget4__users-info">
+                                            <a class="ul-widget2__title text-right" href="#">{{ $message->user->name }} {{ $message->user->last_name }}</a>
+                                            <span class="ul-widget2__username text-right" href="#">{!! strip_tags($message->user->lastmessage->message) !!}</span>
+                                        </div>
+                                        <div class="ul-widget4__img">
+                                            @if($message->user->image == null)
+                                                <img src="{{ asset('newglobal/images/no-user-img.jpg') }}" alt="{{ $message->user->name }}" />
+                                            @else
+                                                <img src="{{ asset($message->user->image) }}" alt="{{ $message->user->name }}" />
+                                            @endif
                                         </div>
                                     </div>
-                                    <div class="view-task-list-button">
+                                    <div class="view-task-list-button float-right">
                                         @if(count($message->user->projects) != 0)
                                         <div class="ul-widget4__actions">
                                         @foreach($message->user->projects as $project)

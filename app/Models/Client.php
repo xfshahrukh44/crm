@@ -32,12 +32,20 @@ class Client extends Model
         return $this->hasMany(Invoice::class);
     }
 
+    public function invoices(){
+        return $this->hasMany(Invoice::class);
+    }
+
     public function invoice_paid(){
         return $this->hasMany(Invoice::class)->where('payment_status', 2)->sum('amount');
     }
 
     public function invoice_unpaid(){
         return $this->hasMany(Invoice::class)->where('payment_status', 1)->sum('amount');
+    }
+
+    public function projects(){
+        return $this->hasMany(Project::class, 'client_id');
     }
 
 }

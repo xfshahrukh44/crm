@@ -32,10 +32,13 @@
                                             <img id="userDropdown" src="{{ asset($message['image']) }}" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
                                             @endif
                                         </div>
-                                        <div class="ul-widget2__info ul-widget4__users-info">
+                                        <div class="ul-widget2__info ul-widget4_qsers-info">
                                             <a class="ul-widget2__title" href="#">{{$message['f_name']}} {{$message['l_name']}}</a>
                                             <span class="ul-widget2__username" href="#">{!! strip_tags($message['message']) !!}</span>
                                         </div>
+{{--                                        <div class="ul-widget4__actions text-center">--}}
+{{--                                            <span class="badge badge-primary">{{ \Carbon\Carbon::parse($message['created_at'])->format('d M Y h:i A') }}</span>--}}
+{{--                                        </div>--}}
                                         @if($message['task_id'] != 0)
                                         <div class="ul-widget4__actions text-right">
                                             <a href="{{ route('support.task.show', $message['task_id']) }}" class="btn btn-outline-success m-1">View Details</a>

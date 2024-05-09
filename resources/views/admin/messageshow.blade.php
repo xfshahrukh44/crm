@@ -58,21 +58,26 @@
                             <div class="tab-pane active show">
                                 <div class="ul-widget1">
                                     <div class="ul-widget4__item ul-widget4__users">
-                                        <div class="ul-widget4__img">
-                                            <img id="userDropdown" src="{{ asset('newglobal/images/no-user-img.jpg') }}" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
-                                        </div>
-                                        <div class="ul-widget2__info ul-widget4__users-info">
-                                            <a class="ul-widget2__title" href="#">{{ $value->name }} {{ $value->last_name }} - <span>{{ $value->email }}</span> <span class="badge badge-primary">{{ Request('message')}}</span> <span class="badge badge-warning">{{ $value->client->brand->name }}</span></a>
+                                        <div class="ul-widget2__info ul-widget4__users-info text-right">
+                                            <a class="ul-widget2__title" href="#">
+                                                <span class="badge badge-primary">{{ \Carbon\Carbon::parse($value->created_at)->format('d M Y h:i A') }}</span>
+                                                <span class="badge badge-warning">{{ $value->client->brand->name }}</span>
+                                                <span class="badge badge-primary">{{ Request('message')}}</span>
+                                                {{ $value->name }} {{ $value->last_name }} - <span>{{ $value->email }}</span>
+                                            </a>
                                             <span class="ul-widget2__username" href="#">
                                                 @if($value->lastmessage != null )
-                                                {!! strip_tags($value->lastmessage->message) !!}
+                                                    {!! strip_tags($value->lastmessage->message) !!}
                                                 @endif
                                             </span>
+                                        </div>
+                                        <div class="ul-widget4__img">
+                                            <img id="userDropdown" src="{{ asset('newglobal/images/no-user-img.jpg') }}" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
                                         </div>
                                     </div>
                                     <div class="view-task-list-button">
                                         @foreach($value->projects as $key => $projects)
-                                        <ul>
+                                        <ul class="float-right">
                                         <li class="project"><a href="javascript:;" class="btn btn-info m-1">{{ $projects->name }}</a></li>
                                         <li><span><i class="i-Bell text-muted header-icon i-Right"></i></span></li>
                                         @foreach($projects->tasks as $task_key => $task)
