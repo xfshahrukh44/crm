@@ -61,7 +61,8 @@ class BrandController extends Controller
                 return $q->where(function ($q) use ($request) {
                     return $q->where('name', 'LIKE', '%'.$request->get('client_name').'%')
                         ->orWhere('last_name', 'LIKE', '%'.$request->get('client_name').'%')
-                        ->orWhere('email', 'LIKE', '%'.$request->get('client_name').'%');
+                        ->orWhere('email', 'LIKE', '%'.$request->get('client_name').'%')
+                        ->orWhere('contact', 'LIKE', '%'.$request->get('client_name').'%');
                 });
             })
 //            ->orderBy('name', 'ASC')->get();

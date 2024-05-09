@@ -35,22 +35,26 @@
                         <h2>{{$client->name . ' ' . $client->last_name}}</h2>
                     </div>
                 </div>
-                <div class="row text-center">
-                    <div class="col-md-6 offset-md-3">
-                        <h4>
-                            <i class="fas fa-phone"></i>
-                            <a href="tel:{{$client->contact}}">{{$client->contact}}</a>
-                        </h4>
+                @if($client->contact)
+                    <div class="row text-center">
+                        <div class="col-md-6 offset-md-3">
+                            <h4>
+                                <i class="fas fa-phone"></i>
+                                <a href="tel:{{$client->contact}}">{{$client->contact}}</a>
+                            </h4>
+                        </div>
                     </div>
-                </div>
-                <div class="row text-center">
-                    <div class="col-md-6 offset-md-3">
-                        <h4>
-                            <i class="fas fa-envelope"></i>
-                            <a href="mailto:{{$client->email}}">{{$client->email}}</a>
-                        </h4>
+                @endif
+                @if($client->email)
+                    <div class="row text-center">
+                        <div class="col-md-6 offset-md-3">
+                            <h4>
+                                <i class="fas fa-envelope"></i>
+                                <a href="mailto:{{$client->email}}">{{$client->email}}</a>
+                            </h4>
+                        </div>
                     </div>
-                </div>
+                @endif
             </div>
         </div>
 
