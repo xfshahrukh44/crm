@@ -88,8 +88,14 @@
                         <div class="card card-icon mb-4">
                             <div class="card-body text-center">
                                 @php
-                                    $active_tasks = \App\Models\Task::where('project_id', $project->id)->where('status', '!=', 3)->get();
-                                    $department_count = count(array_unique(\App\Models\Task::where('project_id', $project->id)->where('status', '!=', 3)->get()->pluck('category_id')->toArray())) ?? 0;
+                                    if (Auth::user()->is_employee == 2) {
+                                        $active_tasks = \App\Models\Task::where('project_id', $project->id)->where('status', '!=', 3)->get();
+                                        $department_count = count(array_unique(\App\Models\Task::where('project_id', $project->id)->where('status', '!=', 3)->get()->pluck('category_id')->toArray())) ?? 0;
+                                    } else {
+                                        $active_tasks = \App\Models\Task::where('project_id', $project->id)->where('status', '!=', 3)
+                                            ->whereIn('brand_id', \Illuminate\Support\Facades\Auth::user()->brand_list())->get();
+                                        $department_count = count(array_unique(\App\Models\Task::where('project_id', $project->id)->where('status', '!=', 3)->whereIn('brand_id', \Illuminate\Support\Facades\Auth::user()->brand_list())->get()->pluck('category_id')->toArray())) ?? 0;
+                                    }
                                 @endphp
 
                                 <p class="text-muted mt-2 mb-2">{{$project->name}}</p>
