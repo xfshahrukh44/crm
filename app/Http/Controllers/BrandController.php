@@ -37,11 +37,28 @@ class BrandController extends Controller
             return redirect()->route('login');
         }
 
-        $brands = Brand::whereHas('projects', function ($q) {
-            return $q->whereHas('tasks', function ($q) {
-                return $q->orderBy('created_at', 'DESC');
-            })->orderBy('created_at', 'DESC');
-        })->get();
+        $brands = Brand::
+//        whereHas('projects', function ($q) {
+//            return $q->whereHas('tasks', function ($q) {
+//                return $q->orderBy('created_at', 'DESC');
+//            })->orderBy('created_at', 'DESC');
+//        })
+        when(Auth::user()->is_employee == 6, function ($q) {
+            return $q->whereIn('brand_id', Auth::user()->brand_list());
+        })
+        ->when($request->has('brand_name'), function ($q) use ($request) {
+            return $q->where(function ($q) use ($request) {
+                return $q->where('name', 'LIKE', '%'.$request->get('brand_name').'%')
+                    ->orWhere('url', 'LIKE', '%'.$request->get('brand_name').'%')
+                    ->orWhere('phone', 'LIKE', '%'.$request->get('brand_name').'%')
+                    ->orWhere('phone_tel', 'LIKE', '%'.$request->get('brand_name').'%')
+                    ->orWhere('email', 'LIKE', '%'.$request->get('brand_name').'%')
+                    ->orWhere('address', 'LIKE', '%'.$request->get('brand_name').'%')
+                    ->orWhere('address_link', 'LIKE', '%'.$request->get('brand_name').'%');
+            });
+        })
+        ->orderBy('created_at', 'DESC')
+        ->paginate(30);
 
 
         return view('brand-dashboard', compact('brands'))->with(['layout' => $this->layout]);
@@ -65,7 +82,6 @@ class BrandController extends Controller
                         ->orWhere('contact', 'LIKE', '%'.$request->get('client_name').'%');
                 });
             })
-//            ->orderBy('name', 'ASC')->get();
             ->paginate(25);
 
         $brand_user_ids = DB::table('brand_users')->where('brand_id', $id)->pluck('user_id')->toArray();

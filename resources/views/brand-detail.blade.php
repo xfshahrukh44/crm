@@ -181,7 +181,7 @@
                                 </tfoot>
                             </table>
 {{--                            <div class="ajax-loading"><img src="{{ asset('newglobal/images/loader.gif') }}" /></div>--}}
-                            {{ $clients->links() }}
+                            {{ $clients->links('pagination::bootstrap-4') }}
                         </div>
                     </div>
                 </div>
