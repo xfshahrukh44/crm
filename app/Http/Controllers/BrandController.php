@@ -44,7 +44,7 @@ class BrandController extends Controller
 //            })->orderBy('created_at', 'DESC');
 //        })
         when(Auth::user()->is_employee == 6, function ($q) {
-            return $q->whereIn('brand_id', Auth::user()->brand_list());
+            return $q->whereIn('id', Auth::user()->brand_list());
         })
         ->when($request->has('brand_name'), function ($q) use ($request) {
             return $q->where(function ($q) use ($request) {

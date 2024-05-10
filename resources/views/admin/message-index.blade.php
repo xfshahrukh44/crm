@@ -1,4 +1,4 @@
-@extends('layouts.app-support')
+@extends('layouts.app-admin')
 @push('styles')
 <link rel="stylesheet" type="text/css" href="{{ asset('newglobal/css/image-uploader.min.css') }}">
 <style>
@@ -20,7 +20,7 @@
         </ul>
     </div>
     <div class="col-md-6 text-right">
-        <!-- <a href="{{ route('manager.message') }}" class="btn btn-primary">Back</a> -->
+        <a href="{{ route('manager.message') }}" class="btn btn-primary">Back</a>
     </div>
 </div>
 
@@ -28,7 +28,7 @@
 <section class="widgets-content">
     <!-- begin::users-->
     <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 text-left">
         <button class="btn btn-primary ml-auto" id="write-message">Write A Message</button>
     </div>
 </div>
@@ -37,7 +37,7 @@
     <div class="row">
         <div class="col-md-12 message-box-wrapper">
         @foreach($messages as $message)
-            <div class="card mb-3 {{ $message->role_id == Auth()->user()->is_employee ? 'left-card' : 'right-card' }}">
+            <div class="card mb-3 {{ ($message->role_id == Auth()->user()->is_employee) || ($message->role_id == 4) ? 'left-card' : 'right-card' }}">
                 <div class="card-body">
                     <div class="card-content collapse show">
                         <div class="ul-widget__body mt-0">
@@ -49,7 +49,7 @@
                                                 <span class="t-font-bolder">{{ $message->user->name }} {{ $message->user->last_name }}</span>
                                             </a>
                                         </div>
-                                        @if($message->user_id == Auth()->user()->id)
+                                        @if($message->role_id != 3)
                                         <button class="btn-sm btn btn-primary" onclick="editMessage({{$message->id}})">Edit Message</button>
                                         @endif
                                     </div>
@@ -99,7 +99,7 @@
 </section>
 <div class="left-message-box-wrapper">
     <div class="left-message-box">
-        <form class="form" action="{{ route('support.message.send') }}" enctype="multipart/form-data" method="post" id="message-post">
+        <form class="form" action="{{ route('manager.message.send') }}" enctype="multipart/form-data" method="post">
             @csrf
             <input type="hidden" name="client_id" value="{{ $user->id }}">
             <div class="form-body">
@@ -136,7 +136,7 @@
                 <h5 class="modal-title" id="exampleModalCenterTitle-2">Edit Message</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
-            <form action="{{ route('support.message.update') }}" method="post">
+            <form action="{{ route('manager.message.update') }}" method="post">
                 @csrf
                 <input type="hidden" name="message_id" id="message_id">
                 <div class="modal-body">
@@ -162,7 +162,7 @@
     CKEDITOR.replace('editmessage');
     CKEDITOR.replace('message');
     function editMessage(message_id){
-        var url = "{{ route('support.message.edit', ":message_id") }}";
+        var url = "{{ route('manager.message.edit', ":message_id") }}";
         url = url.replace(':message_id', message_id);
         $.ajax({
             type:'GET',
@@ -233,9 +233,5 @@ function Clicked_h_btnAddFileUploadControl() {
         document.getElementById("h_ItemAttachments").innerHTML = txt;
         }
     }
-
-    $('#message-post').submit(function(){
-        $(this).find('.btn-primary').hide();
-    })
 </script>
 @endpush

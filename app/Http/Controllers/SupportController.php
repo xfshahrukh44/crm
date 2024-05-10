@@ -691,6 +691,14 @@ class SupportController extends Controller
         $data = $data->orderBy('id', 'desc')->paginate(20);
         return view('admin.messageshow', compact('message_array', 'brands', 'filter', 'data'));
     }
+
+
+    public function getMessageByAdminClientId($id, $name){
+        $user = User::find($id);
+        $messages = Message::where('client_id', $id)->orderBy('id', 'desc')->get();
+        return view('admin.message-index', compact('messages', 'user'));
+    }
+
     
 
 }

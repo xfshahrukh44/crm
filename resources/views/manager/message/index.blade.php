@@ -28,7 +28,7 @@
 <section class="widgets-content">
     <!-- begin::users-->
     <div class="row">
-    <div class="col-md-12 text-right">
+    <div class="col-md-12">
         <button class="btn btn-primary ml-auto" id="write-message">Write A Message</button>
     </div>
 </div>
@@ -56,7 +56,7 @@
                                     <div class="ul-widget3-body">
                                         {!! nl2br($message->message) !!}
                                         <span class="ul-widget3-status text-success t-font-bolder">
-                                            {{ date('d M, y', strtotime($message->created_at)) }}
+                                            {{ \Carbon\Carbon::parse($message->created_at)->format('d M Y h:i A') }}
                                         </span>
                                     </div>
                                     <div class="file-wrapper">
