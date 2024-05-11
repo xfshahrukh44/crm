@@ -404,6 +404,28 @@ class AdminClientController extends Controller
         $project = Project::find($request->id);
         $project->user_id = $request->agent_id;
         $project->save();
+
+        //mail_notification
+        $user = User::find($request->agent_id);
+        $html = '<p>'.'Project `'.$project->name.'` has been reassigned.'.'</p><br />';
+        $html .= '<strong>Reassigned by:</strong> <span>'.Auth::user()->name.' ('.Auth::user()->email.') '.'</span><br />';
+        $html .= '<strong>Reassigned to:</strong> <span>'.$user->name.' ('.$user->email.') '.'</span><br />';
+        $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
+
+//        mail_notification('', [$user->email], 'CRM | Project assignment', $html, true);
+        mail_notification(
+            '',
+            [$user->email],
+            'Project assignment',
+            view('mail.crm-mail-template')->with([
+                'subject' => 'Project assignment',
+                'brand_name' => $project->brand->name,
+                'brand_logo' => asset($project->brand->logo),
+                'additional_html' => $html
+            ]),
+            true
+        );
+
         return redirect()->back()->with('success', $project->name . ' Reassigned Successfully');
     }
     
@@ -610,6 +632,27 @@ class AdminClientController extends Controller
         ];
         $user = User::find($agent_id);
         $user->notify(new AssignProjectNotification($assignData));
+
+//        dd('here');
+        //mail_notification
+        $html = '<p>'.'New project `'.$project->name.'`'.'</p><br />';
+        $html .= '<strong>Assigned by:</strong> <span>'.Auth::user()->name.' ('.Auth::user()->email.')'.'</span><br />';
+        $html .= '<strong>Assigned to:</strong> <span>'.$user->name.' ('.$user->email.')'.'</span><br />';
+        $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
+//        mail_notification('', [$user->email], 'CRM | New project', $html, true);
+        mail_notification(
+            '',
+            [$user->email],
+            'New project',
+            view('mail.crm-mail-template')->with([
+                'subject' => 'New project',
+                'brand_name' => $project->brand->name,
+                'brand_logo' => asset($project->brand->logo),
+                'additional_html' => $html
+            ]),
+            true
+        );
+
         return redirect()->back()->with('success', $user->name . ' ' . $user->last_name . ' Assigned Successfully');
     }
     

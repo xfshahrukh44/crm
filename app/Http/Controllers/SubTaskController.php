@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Project;
 use App\Models\SubTask;
 use App\Models\Task;
 use App\Models\User;
@@ -10,7 +11,8 @@ use Illuminate\Http\Request;
 use App\Notifications\TaskNotification;
 use App\Notifications\SubTaskNotification;
 use Auth;
-use App\Models\ProductionMemberAssign; 
+use App\Models\ProductionMemberAssign;
+use Illuminate\Support\Facades\DB;
 
 class SubTaskController extends Controller
 {
@@ -130,6 +132,7 @@ class SubTaskController extends Controller
         ]);
 
         $subtask = SubTask::Find($request->sub_task);
+//        dd($request->all());
 
         foreach($request->members as $key => $value){
             if($value['assign_sub_task_user_id'] != ''){
@@ -151,6 +154,28 @@ class SubTaskController extends Controller
                 ];
                 $user = User::find($value['assign_sub_task_user_id']);
                 $user->notify(new TaskNotification($assignData));
+
+                //mail_notification
+                $project = Project::find($subtask->task->project_id);
+                $assigned_to_user = User::find($value['assign_sub_task_user_id']);
+                $html = '<p>'. 'New task on project `'.$project->name.'`: ' . $value['comment'] .'</p><br />';
+                $html .= '<strong>Assigned by:</strong> <span>'.Auth::user()->name.' ('.Auth::user()->email.') '.'</span><br />';
+                $html .= '<strong>Assigned to:</strong> <span>'. $assigned_to_user->name.' ('.$assigned_to_user->email.') ' .'</span><br />';
+                $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
+                $html .= '<br /><strong>Description</strong> <span>' . $subtask->task->description;
+
+                mail_notification(
+                    '',
+                    [$assigned_to_user->email],
+                    'New Task',
+                    view('mail.crm-mail-template')->with([
+                        'subject' => 'New Task',
+                        'brand_name' => $project->brand->name,
+                        'brand_logo' => asset($project->brand->logo),
+                        'additional_html' => $html
+                    ]),
+                    true
+                );
             }
         }
         return redirect()->back()->with('success', 'Sub Task Assigned');
@@ -188,6 +213,29 @@ class SubTaskController extends Controller
         ];
         $user = User::find($task->assigned_by);
         $user->notify(new SubTaskNotification($assignData));
+
+        //mail_notification
+        $project = Project::find($task->task->project_id);
+        $departments_leads_ids = array_unique(DB::table('category_users')->where('category_id', $task->task->category_id)->pluck('user_id')->toArray());
+        $departments_leads_emails = User::where('is_employee', 1)->whereIn('id', $departments_leads_ids)->pluck('email')->toArray();
+        $html = '<p>'. (Auth::user()->name.' ('.Auth::user()->email.') ') .' has updated task on project `'.$project->name.'`: ' . $task->comments .'</p><br />';
+        $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
+        $html .= '<strong>Task status:</strong> <span>'.get_task_status_text($task->task->status).'</span><br />';
+        $html .= '<br /><strong>Description</strong> <span>' . $task->task->description;
+
+        mail_notification(
+            '',
+            $departments_leads_emails,
+            'Task updated',
+            view('mail.crm-mail-template')->with([
+                'subject' => 'Task updated',
+                'brand_name' => $project->brand->name,
+                'brand_logo' => asset($project->brand->logo),
+                'additional_html' => $html
+            ]),
+            true
+        );
+
         return response()->json(['status' => true, 'message' => 'Status Updated Successfully']);
 
     }

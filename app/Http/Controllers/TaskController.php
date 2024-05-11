@@ -12,10 +12,10 @@ use App\Models\TaskMemberList;
 use App\Models\ProductionMemberAssign;
 use Illuminate\Http\Request;
 use App\Notifications\TaskNotification;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Notification;
 use Carbon\Carbon;
-use DB;
 use Auth;
 use App\Models\SubTask;
 use File;
@@ -229,6 +229,32 @@ class TaskController extends Controller
         $data = ClientFile::whereIn('id', $files_array)->get();
         $role = '';
         $uploaded_by = Auth()->user()->name . ' ' . Auth()->user()->last_name;
+
+
+        //mail_notification
+        $task = Task::find($id);
+        $project = Project::find($task->project_id);
+        $departments_leads_ids = array_unique(DB::table('category_users')->where('category_id', $task->category_id)->pluck('user_id')->toArray());
+        $departments_leads_emails = User::where('is_employee', 1)->whereIn('id', $departments_leads_ids)->pluck('email')->toArray();
+        $html = '<p>'. Auth::user()->name.' ('.Auth::user()->email.') '.' has uploaded files on task on project `'.$project->name.'`' .'</p><br />';
+        $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
+        $html .= '<strong>Task status:</strong> <span>'.get_task_status_text($task->status).'</span><br />';
+        $html .= '<br /><strong>Description</strong> <span>' . $task->description;
+
+//        mail_notification('', [$user->email], 'CRM | Project assignment', $html, true);
+        mail_notification(
+            '',
+            $departments_leads_emails,
+            'New Task',
+            view('mail.crm-mail-template')->with([
+                'subject' => 'New Task',
+                'brand_name' => $project->brand->name,
+                'brand_logo' => asset($project->brand->logo),
+                'additional_html' => $html
+            ]),
+            true
+        );
+
         return response()->json(['uploaded' => 'success', 'files' => $data, 'uploaded_by' => $uploaded_by]);
     }
 
@@ -270,6 +296,32 @@ class TaskController extends Controller
         $data = ClientFile::whereIn('id', $files_array)->get();
         $role = '';
         $uploaded_by = Auth()->user()->name . ' ' . Auth()->user()->last_name;
+
+
+        //mail_notification
+        $task = Task::find($id);
+        $project = Project::find($task->project_id);
+        $departments_leads_ids = array_unique(DB::table('category_users')->where('category_id', $task->category_id)->pluck('user_id')->toArray());
+        $departments_leads_emails = User::where('is_employee', 1)->whereIn('id', $departments_leads_ids)->pluck('email')->toArray();
+        $html = '<p>'. Auth::user()->name.' ('.Auth::user()->email.') '.' has uploaded files on task on project `'.$project->name.'`' .'</p><br />';
+        $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
+        $html .= '<strong>Task status:</strong> <span>'.get_task_status_text($task->status).'</span><br />';
+        $html .= '<br /><strong>Description</strong> <span>' . $task->description;
+
+//        mail_notification('', [$user->email], 'CRM | Project assignment', $html, true);
+        mail_notification(
+            '',
+            $departments_leads_emails,
+            'New Task',
+            view('mail.crm-mail-template')->with([
+                'subject' => 'New Task',
+                'brand_name' => $project->brand->name,
+                'brand_logo' => asset($project->brand->logo),
+                'additional_html' => $html
+            ]),
+            true
+        );
+
         return response()->json(['uploaded' => 'success', 'files' => $data, 'uploaded_by' => $uploaded_by]);
     }
 
@@ -327,6 +379,30 @@ class TaskController extends Controller
             'details' => '',
         ];
         $user->notify(new TaskNotification($assignData));
+
+        //mail_notification
+        $project = Project::find($task->project_id);
+        $sales_head_emails = User::where('is_employee', 6)->whereIn('id', array_unique(DB::table('brand_users')->where('brand_id', $project->brand_id)->pluck('user_id')->toArray()))->pluck('email')->toArray();
+        $customer_support_user = User::find($project->user_id);
+        $sales_head_emails []= $customer_support_user->email;
+        $html = '<p>'. (Auth::user()->name.' ('.Auth::user()->email.') ') .' has updated task on project `'.$project->name.'`' .'</p><br />';
+        $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
+        $html .= '<strong>Task status:</strong> <span>'.get_task_status_text($task->status).'</span><br />';
+        $html .= '<br /><strong>Description</strong> <span>' . $task->description;
+
+        mail_notification(
+            '',
+            $sales_head_emails,
+            'Task updated',
+            view('mail.crm-mail-template')->with([
+                'subject' => 'Task updated',
+                'brand_name' => $project->brand->name,
+                'brand_logo' => asset($project->brand->logo),
+                'additional_html' => $html
+            ]),
+            true
+        );
+
         return response()->json(['status' => true, 'message' => 'Status Updated Successfully']);
     }
 
@@ -402,6 +478,33 @@ class TaskController extends Controller
         // Production For 1
         // Admin For 2
         $this->sendTaskNotification($task->id, 1);
+
+        //mail_notification
+        $project = Project::find($request->project);
+        $departments_leads_ids = array_unique(DB::table('category_users')->whereIn('category_id', $request->category)->pluck('user_id')->toArray());
+        $departments_leads_emails = User::where('is_employee', 1)->whereIn('id', $departments_leads_ids)->pluck('email')->toArray();
+        $departments_leads_names = User::where('is_employee', 1)->whereIn('id', $departments_leads_ids)->pluck('name')->toArray();
+        $html = '<p>'. 'New task on project `'.$project->name.'`' .'</p><br />';
+        $html .= '<strong>Assigned by:</strong> <span>'.Auth::user()->name.' ('.Auth::user()->email.') '.'</span><br />';
+        $html .= '<strong>Assigned to:</strong> <span>'. implode(', ', $departments_leads_names) . '.' .'</span><br />';
+        $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
+        $html .= '<strong>Task status:</strong> <span>'.get_task_status_text($task->status).'</span><br />';
+        $html .= '<br /><strong>Description</strong> <span>' . $task->description;
+
+//        mail_notification('', [$user->email], 'CRM | Project assignment', $html, true);
+        mail_notification(
+            '',
+            $departments_leads_emails,
+            'New Task',
+            view('mail.crm-mail-template')->with([
+                'subject' => 'New Task',
+                'brand_name' => $project->brand->name,
+                'brand_logo' => asset($project->brand->logo),
+                'additional_html' => $html
+            ]),
+            true
+        );
+
         return redirect()->back()->with('success', 'Task created Successfully.');
     }
 
@@ -659,6 +762,39 @@ class TaskController extends Controller
         foreach($admins as $admin){
             $admin->notify(new TaskNotification($adminTaskData));
         }
+
+        //mail_notification
+        $task = Task::find($request->input('task_id'));
+        $project = Project::find($task->project_id);
+
+        $departments_leads_ids = array_unique(DB::table('category_users')->whereIn('category_id', $task->category_id)->pluck('user_id')->toArray());
+        $departments_leads_emails = User::where('is_employee', 1)->whereIn('id', $departments_leads_ids)->pluck('email')->toArray();
+        $departments_leads_names = User::where('is_employee', 1)->whereIn('id', $departments_leads_ids)->pluck('name')->toArray();
+        $sales_head_emails = User::where('is_employee', 6)->whereIn('id', array_unique(DB::table('brand_users')->where('brand_id', $project->brand_id)->pluck('user_id')->toArray()))->pluck('email')->toArray();
+        $customer_support_user = User::find($project->user_id);
+        $sales_head_emails []= $customer_support_user->email;
+
+        $html = '<p>'. 'New task on project `'.$project->name.'`' .'</p><br />';
+        $html .= '<strong>Assigned by:</strong> <span>'.Auth::user()->name.' ('.Auth::user()->email.') '.'</span><br />';
+        $html .= '<strong>Assigned to:</strong> <span>'. implode(', ', $departments_leads_names) . '.' .'</span><br />';
+        $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
+        $html .= '<strong>Task status:</strong> <span>'.get_task_status_text($task->status).'</span><br />';
+        $html .= '<br /><strong>Description</strong> <span>' . $task->description;
+
+//        mail_notification('', [$user->email], 'CRM | Project assignment', $html, true);
+        mail_notification(
+            '',
+            array_merge($departments_leads_emails, $sales_head_emails),
+            'New Task',
+            view('mail.crm-mail-template')->with([
+                'subject' => 'New Task',
+                'brand_name' => $project->brand->name,
+                'brand_logo' => asset($project->brand->logo),
+                'additional_html' => $html
+            ]),
+            true
+        );
+
         return response()->json(['success' => 'Sub Task created Successfully.', 'data' => $data, 'user_name' => auth()->user()->name, 'duedate' => $duedate, 'created_at' => $data->created_at->diffForHumans()]);
     }
 
@@ -698,6 +834,39 @@ class TaskController extends Controller
         foreach($admins as $admin){
             $admin->notify(new TaskNotification($adminTaskData));
         }
+
+        //mail_notification
+        $task = Task::find($request->input('task_id'));
+        $project = Project::find($task->project_id);
+
+        $departments_leads_ids = array_unique(DB::table('category_users')->whereIn('category_id', $task->category_id)->pluck('user_id')->toArray());
+        $departments_leads_emails = User::where('is_employee', 1)->whereIn('id', $departments_leads_ids)->pluck('email')->toArray();
+        $departments_leads_names = User::where('is_employee', 1)->whereIn('id', $departments_leads_ids)->pluck('name')->toArray();
+        $sales_head_emails = User::where('is_employee', 6)->whereIn('id', array_unique(DB::table('brand_users')->where('brand_id', $project->brand_id)->pluck('user_id')->toArray()))->pluck('email')->toArray();
+        $customer_support_user = User::find($project->user_id);
+        $sales_head_emails []= $customer_support_user->email;
+
+        $html = '<p>'. 'New task on project `'.$project->name.'`' .'</p><br />';
+        $html .= '<strong>Assigned by:</strong> <span>'.Auth::user()->name.' ('.Auth::user()->email.') '.'</span><br />';
+        $html .= '<strong>Assigned to:</strong> <span>'. implode(', ', $departments_leads_names) . '.' .'</span><br />';
+        $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
+        $html .= '<strong>Task status:</strong> <span>'.get_task_status_text($task->status).'</span><br />';
+        $html .= '<br /><strong>Description</strong> <span>' . $task->description;
+
+//        mail_notification('', [$user->email], 'CRM | Project assignment', $html, true);
+        mail_notification(
+            '',
+            array_merge($departments_leads_emails, $sales_head_emails),
+            'New Task',
+            view('mail.crm-mail-template')->with([
+                'subject' => 'New Task',
+                'brand_name' => $project->brand->name,
+                'brand_logo' => asset($project->brand->logo),
+                'additional_html' => $html
+            ]),
+            true
+        );
+
         return response()->json(['success' => 'Sub Task created Successfully.', 'data' => $data, 'user_name' => auth()->user()->name . ' ' . auth()->user()->last_name , 'duedate' => $duedate, 'created_at' => $data->created_at->diffForHumans()]);
     }
 

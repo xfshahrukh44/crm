@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
+use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\Service;
+use Illuminate\Support\Facades\DB;
 use Response;
 use App\Models\User;
 use App\Models\Message;
@@ -109,6 +112,31 @@ class ClientChatController extends Controller
         foreach($adminusers as $adminuser){
             Notification::send($adminuser, new MessageNotification($messageData));
         }
+
+        //mail_notification
+        $client = Client::find(Auth::user()->id);
+        $brand = Brand::find($client->brand_id);
+
+        $sales_head_emails = User::where('is_employee', 6)->whereIn('id', array_unique(DB::table('brand_users')->where('brand_id', $brand->id)->pluck('user_id')->toArray()))->pluck('email')->toArray();
+
+        $html = '<p>'. (Auth::user()->name.' ('.Auth::user()->email.') ') . ' has sent a new message' .'</p><br />';
+        $html .= $request->message .'<br />';
+        $html .= '<strong>Client:</strong> <span>'.Auth::user()->name.'</span><br />';
+
+//        mail_notification('', [$user->email], 'CRM | Project assignment', $html, true);
+        mail_notification(
+            '',
+            $sales_head_emails,
+            'New Message',
+            view('mail.crm-mail-template')->with([
+                'subject' => 'New Message',
+                'brand_name' => $brand->name,
+                'brand_logo' => asset($brand->logo),
+                'additional_html' => $html
+            ]),
+            true
+        );
+
         return redirect()->back()->with('success', 'Message Send Successfully.');
     }
 

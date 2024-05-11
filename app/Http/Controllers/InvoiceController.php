@@ -908,6 +908,24 @@ class InvoiceController extends Controller
             ];
             \Mail::to($_getInvoiceData->email)->send(new \App\Mail\InoviceMail($details));
         }
+
+        //mail_notification
+        $services = implode(", ", Service::whereIn('id', $request->service)->pluck('name')->toArray());
+        $html = '<p>'.'Sales agent '. Auth::user()->name .' has created a new invoice'.'</p><br />';
+        $html .= '<strong>Client:</strong> <span>'.$request->name.'</span><br />';
+        $html .= '<strong>Service(s):</strong> <span>'.strval($services).'</span><br />';
+        mail_notification(
+            '',
+            ['test-crm@mailinator.com'],
+            'New invoice created',
+            view('mail.crm-mail-template')->with([
+                'subject' => 'New invoice created',
+                'brand_name' => $_getBrand->name,
+                'brand_logo' => asset($_getBrand->logo),
+                'additional_html' => $html
+            ])
+        );
+
 		return redirect()->route('manager.link',($invoice->id));
     }
 
@@ -1226,6 +1244,25 @@ class InvoiceController extends Controller
         $invoice->payment_status = 2;
         $invoice->invoice_date = Carbon::today()->toDateTimeString();
         $invoice->save();
+
+        //mail_notification
+        $_getBrand = Brand::find($invoice->brand);
+        $html = '<p>'.'Sales agent '. Auth::user()->name .' has marked invoice # '.$invoice->invoice_number.' as PAID'.'</p><br />';
+        $html .= '<strong>Client:</strong> <span>'.$invoice->client->name.'</span><br />';
+        $html .= '<strong>Service(s):</strong> <span>'.strval($invoice->services()->name).'</span><br />';
+//        mail_notification('', ['test-crm@mailinator.com'], 'Invoice payment', $html);
+        mail_notification(
+            '',
+            ['test-crm@mailinator.com'],
+            'Invoice payment',
+            view('mail.crm-mail-template')->with([
+                'subject' => 'Invoice payment',
+                'brand_name' => $_getBrand->name,
+                'brand_logo' => asset($_getBrand->logo),
+                'additional_html' => $html
+            ])
+        );
+
         return redirect()->back()->with('success','Invoice# ' . $invoice->invoice_number . ' Mark as Paid.');
     }
 
