@@ -166,7 +166,7 @@
                                             </a>
                                         </td>
                                         <td>{{count($client->invoices)}}</td>
-                                        <td>{{count($client->projects)}}</td>
+                                        <td>{{count($client->_projects)}}</td>
                                     </tr>
                                 @endforeach
 
