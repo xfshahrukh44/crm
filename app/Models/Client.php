@@ -49,7 +49,7 @@ class Client extends Model
     }
 
     public function _projects(){
-        return $this->hasMany(Project::class, 'user_id');
+        return $this->hasMany(Project::class, 'client_id', 'user_id');
     }
 
 }
