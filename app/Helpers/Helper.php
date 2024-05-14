@@ -27,6 +27,10 @@ function mail_notification ($from, $to, $subject, $html, $for_admin = false) {
 }
 
 function get_task_status_text ($num = 0) {
+    if (!$num) {
+        $num = 0;
+    }
+
     $arr = [
         0 => 'Open',
         1 => 'Re Open',

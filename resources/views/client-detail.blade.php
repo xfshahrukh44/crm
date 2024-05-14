@@ -76,7 +76,8 @@
 
         <div class="row mb-4">
             <div class="col-lg-12 col-md-12">
-                <h2 class="ml-3">Projects ({{count($client->projects)}})</h2>
+{{--                <h2 class="ml-3">Projects ({{count($client->projects)}})</h2>--}}
+                <h2 class="ml-3">Services ({{count($client->projects)}})</h2>
             </div>
         </div>
         <!-- CARD ICON-->

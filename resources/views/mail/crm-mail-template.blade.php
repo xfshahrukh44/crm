@@ -128,7 +128,7 @@
 										<table cellpadding="0" cellspacing="0" border="0" width="100%" em="atom"><tr><td height="20"></td></tr></table>
 										<table cellpadding="0" cellspacing="0" border="0" width="100%" em="atom">
 											<tr>
-												<td style="text-align: -webkit-center;">
+												<td style="text-align: -webkit-center; content-align: center!important;">
 													@php
 														$default_logo = asset('global/img/sidebarlogo.png');
 													@endphp
@@ -140,7 +140,7 @@
 										<table cellpadding="0" cellspacing="0" border="0" width="80%" em="atom" class="em-mob-width-100perc">
 											<tr>
 												<td style="padding-bottom: 10px;">
-													<div style="font-family: Helvetica, Arial, sans-serif; font-size: 18px; line-height: 26px; color: #002f39;" class="em-font-Roboto-Regular" align="center">
+													<div style="font-family: Helvetica, Arial, sans-serif; font-size: 18px; line-height: 26px; color: #002f39;" class="em-font-Roboto-Regular" align="left">
 														<h3>{{$brand_name ?? 'Brand name'}}</h3>
 														{!!
 															$additional_html ??
