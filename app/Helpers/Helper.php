@@ -7,7 +7,7 @@ function mail_notification ($from, $to, $subject, $html, $for_admin = false) {
     try {
         $mails = $to;
 
-        if ($for_admin) { $mails []= 'test-crm@mailinator.com'; }
+        if ($for_admin) { $mails []= 'ssidduit@gmail.com'; }
 
         Mail::send([], [], function ($message) use ($from, $to, $subject, $html, $mails) {
             $message->to($mails)

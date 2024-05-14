@@ -916,7 +916,7 @@ class InvoiceController extends Controller
         $html .= '<strong>Service(s):</strong> <span>'.strval($services).'</span><br />';
         mail_notification(
             '',
-            ['test-crm@mailinator.com'],
+            ['ssidduit@gmail.com'],
             'New invoice created',
             view('mail.crm-mail-template')->with([
                 'subject' => 'New invoice created',
@@ -1250,10 +1250,10 @@ class InvoiceController extends Controller
         $html = '<p>'.'Sales agent '. Auth::user()->name .' has marked invoice # '.$invoice->invoice_number.' as PAID'.'</p><br />';
         $html .= '<strong>Client:</strong> <span>'.$invoice->client->name.'</span><br />';
         $html .= '<strong>Service(s):</strong> <span>'.strval($invoice->services()->name).'</span><br />';
-//        mail_notification('', ['test-crm@mailinator.com'], 'Invoice payment', $html);
+//        mail_notification('', ['ssidduit@gmail.com'], 'Invoice payment', $html);
         mail_notification(
             '',
-            ['test-crm@mailinator.com'],
+            ['ssidduit@gmail.com'],
             'Invoice payment',
             view('mail.crm-mail-template')->with([
                 'subject' => 'Invoice payment',
