@@ -158,6 +158,10 @@
                                 </thead>
                                 <tbody>
                                 @foreach($clients as $client)
+                                    @php
+                                          $client_user = \App\Models\User::where('client_id', $client->id)->first();
+                                          $project_count = $client_user ? count($client_user->projects) : 0;
+                                    @endphp
                                     <tr>
 {{--                                        <td><span class="btn btn-primary btn-sm">#{{ $client->id }}</span></td>--}}
                                         <td>
@@ -166,7 +170,7 @@
                                             </a>
                                         </td>
                                         <td>{{count($client->invoices)}}</td>
-                                        <td>{{count($client->_projects)}}</td>
+                                        <td>{{$project_count}}</td>
                                     </tr>
                                 @endforeach
 

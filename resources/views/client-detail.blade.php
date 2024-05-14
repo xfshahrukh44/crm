@@ -68,7 +68,24 @@
                         $route = \Illuminate\Support\Facades\Auth::user()->is_employee == 2 ? 'admin.invoice' : 'manager.invoice';
                     @endphp
                     <div class="col-lg-12 col-md-12">
-                        <a target="_blank" href="{{route($route, ['client_id' => $client->id])}}" class="btn btn-primary ml-3">View Invoices</a>
+                        <a target="_blank" href="{{route($route, ['client_id' => $client->id])}}" class="btn btn-primary ml-3">View invoices</a>
+                    </div>
+                @endif
+            </div>
+        @endif
+
+        @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6]))
+            <div class="row mb-4">
+                <div class="col-lg-12 col-md-12">
+                    <h2 class="ml-3">Brief pending ({{$brief_pending_count}})</h2>
+                </div>
+                @if ($brief_pending_count > 0)
+                    @php
+                        $client_user = \App\Models\User::where('client_id', $client->id)->first();
+                        $route = \Illuminate\Support\Facades\Auth::user()->is_employee == 2 ? 'admin.brief.pending' : 'manager.brief.pending';
+                    @endphp
+                    <div class="col-lg-12 col-md-12">
+                        <a target="_blank" href="{{route($route, ['user_id' => $client_user->id])}}" class="btn btn-primary ml-3">View brief pending</a>
                     </div>
                 @endif
             </div>
@@ -76,8 +93,12 @@
 
         <div class="row mb-4">
             <div class="col-lg-12 col-md-12">
-{{--                <h2 class="ml-3">Projects ({{count($client->_projects)}})</h2>--}}
-                <h2 class="ml-3">Services ({{count($client->_projects)}})</h2>
+{{--                <h2 class="ml-3">Projects ({{count($client->_projects())}})</h2>--}}
+                @php
+                    $client_user = \App\Models\User::where('client_id', $client->id)->first();
+                    $project_count = $client_user ? count($client_user->projects) : 0;
+                @endphp
+                <h2 class="ml-3">Services ({{$project_count}})</h2>
             </div>
         </div>
         <!-- CARD ICON-->

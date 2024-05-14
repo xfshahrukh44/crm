@@ -2,12 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AuthorWebsite;
+use App\Models\BookCover;
+use App\Models\BookFormatting;
+use App\Models\Bookprinting;
+use App\Models\BookWriting;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Client;
+use App\Models\ContentWritingForm;
+use App\Models\Isbnform;
+use App\Models\LogoForm;
 use App\Models\Project;
+use App\Models\Proofreading;
+use App\Models\SeoForm;
+use App\Models\SmmForm;
 use App\Models\Task;
 use App\Models\User;
+use App\Models\WebForm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -99,10 +111,88 @@ class BrandController extends Controller
         }
 
         $client= Client::find($id);
+        $client_user = \App\Models\User::where('client_id', $client->id)->first();
 
-        $projects = Project::where('client_id', $id)->get();
+//        $projects = Project::where('client_id', $id)->get();
+        $projects = $client_user ? $client_user->projects : [];
 
-        return view('client-detail', compact('client', 'projects'))->with(['layout' => $this->layout]);
+        $brief_pending_count = 0;
+
+        if ($client_user) {
+            $brief_pending_count = count(LogoForm::where('logo_name', '')->when(Auth::user()->is_employee != 2, function ($q) {
+                return $q->whereHas('invoice', function ($q) {
+                    return $q->where('brand', Auth::user()->brand_list());
+                });
+            })->where('user_id', $client_user->id)->groupBy('user_id')->get());
+
+            $brief_pending_count += count(WebForm::where('business_name', null)->when(Auth::user()->is_employee != 2, function ($q) {
+                return $q->whereHas('invoice', function ($q) {
+                    return $q->where('brand', Auth::user()->brand_list());
+                });
+            })->where('user_id', $client_user->id)->groupBy('user_id')->get());
+
+            $brief_pending_count += count(SmmForm::where('business_name', null)->when(Auth::user()->is_employee != 2, function ($q) {
+                return $q->whereHas('invoice', function ($q) {
+                    return $q->where('brand', Auth::user()->brand_list());
+                });
+            })->where('user_id', $client_user->id)->groupBy('user_id')->get());
+
+            $brief_pending_count += count(ContentWritingForm::where('company_name', null)->when(Auth::user()->is_employee != 2, function ($q) {
+                return $q->whereHas('invoice', function ($q) {
+                    return $q->where('brand', Auth::user()->brand_list());
+                });
+            })->where('user_id', $client_user->id)->groupBy('user_id')->get());
+
+            $brief_pending_count += count(SeoForm::where('company_name', null)->when(Auth::user()->is_employee != 2, function ($q) {
+                return $q->whereHas('invoice', function ($q) {
+                    return $q->where('brand', Auth::user()->brand_list());
+                });
+            })->where('user_id', $client_user->id)->groupBy('user_id')->get());
+
+            $brief_pending_count += count(BookFormatting::where('book_title', null)->when(Auth::user()->is_employee != 2, function ($q) {
+                return $q->whereHas('invoice', function ($q) {
+                    return $q->where('brand', Auth::user()->brand_list());
+                });
+            })->where('user_id', $client_user->id)->groupBy('user_id')->get());
+
+            $brief_pending_count += count(AuthorWebsite::where('author_name', null)->when(Auth::user()->is_employee != 2, function ($q) {
+                return $q->whereHas('invoice', function ($q) {
+                    return $q->where('brand', Auth::user()->brand_list());
+                });
+            })->where('user_id', $client_user->id)->groupBy('user_id')->get());
+
+            $brief_pending_count += count(BookWriting::where('book_title', null)->when(Auth::user()->is_employee != 2, function ($q) {
+                return $q->whereHas('invoice', function ($q) {
+                    return $q->where('brand', Auth::user()->brand_list());
+                });
+            })->where('user_id', $client_user->id)->groupBy('user_id')->get());
+
+            $brief_pending_count += count(Proofreading::where('description', null)->when(Auth::user()->is_employee != 2, function ($q) {
+                return $q->whereHas('invoice', function ($q) {
+                    return $q->where('brand', Auth::user()->brand_list());
+                });
+            })->where('user_id', $client_user->id)->groupBy('user_id')->get());
+
+            $brief_pending_count += count(BookCover::where('title', null)->when(Auth::user()->is_employee != 2, function ($q) {
+                return $q->whereHas('invoice', function ($q) {
+                    return $q->where('brand', Auth::user()->brand_list());
+                });
+            })->where('user_id', $client_user->id)->groupBy('user_id')->get());
+
+            $brief_pending_count += count(Isbnform::where('pi_fullname', null)->when(Auth::user()->is_employee != 2, function ($q) {
+                return $q->whereHas('invoice', function ($q) {
+                    return $q->where('brand', Auth::user()->brand_list());
+                });
+            })->where('user_id', $client_user->id)->groupBy('user_id')->get());
+
+            $brief_pending_count += count(Bookprinting::where('title', null)->when(Auth::user()->is_employee != 2, function ($q) {
+                return $q->whereHas('invoice', function ($q) {
+                    return $q->where('brand', Auth::user()->brand_list());
+                });
+            })->where('user_id', $client_user->id)->groupBy('user_id')->get());
+        }
+
+        return view('client-detail', compact('client', 'projects', 'brief_pending_count'))->with(['layout' => $this->layout]);
     }
 
     public function projects_detail (Request $request, $id)

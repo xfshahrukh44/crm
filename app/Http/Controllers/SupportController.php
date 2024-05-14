@@ -512,6 +512,32 @@ class SupportController extends Controller
         foreach($adminusers as $adminuser){
             Notification::send($adminuser, new MessageNotification($messageData));
         }
+
+        //mail_notification
+        $project = Project::find($task->project_id);
+        $client = Client::find($project->client_id);
+        $brand = Brand::find($client->brand_id);
+
+        $html = '<p>'. 'Hello ' . $client->name . ',' .'</p>';
+        $html .= '<p>'. 'You have received a new message from your Project Manager, ('.Auth::user()->name.'), on our CRM platform. Please log in to your account to read the message and respond.' .'</p>';
+        $html .= '<p>'. 'Access your messages here: ' . route('client.fetch.messages') .'</p>';
+        $html .= '<p>'. 'Thank you for your prompt attention to this matter.' .'</p>';
+        $html .= '<p>'. 'Best Regards,' .'</p>';
+        $html .= '<p>'. $brand->name .'.</p>';
+
+        mail_notification(
+            '',
+            [$client->email],
+            'New Message from Your Project Manager on ('.$brand->name.') CRM',
+            view('mail.crm-mail-template')->with([
+                'subject' => 'New Message from Your Project Manager on ('.$brand->name.') CRM',
+                'brand_name' => $brand->name,
+                'brand_logo' => asset($brand->logo),
+                'additional_html' => $html
+            ]),
+//            true
+        );
+
         return redirect()->back()->with('success', 'Message Send Successfully.')->with('data', 'message');;
     }
 
