@@ -588,6 +588,7 @@ class TaskController extends Controller
         }
 
 
+
         if($request->brand != ''){
             $brand_id = [$request->brand];
         }
@@ -609,6 +610,11 @@ class TaskController extends Controller
 
         $data = $data->whereHas('projects', function ($query) {
             return $query->where('user_id', '=', Auth()->user()->id);
+        });
+
+        //when project_id
+        $data->when($request->has('project_id'), function ($q) use ($request) {
+            return $q->where('project_id', $request->get('project_id'));
         });
 
         $data = $data->whereNotIn('id', $task_array)->orderBy('id', 'desc')->paginate(20);

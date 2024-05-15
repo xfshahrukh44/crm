@@ -31,7 +31,7 @@ class BrandController extends Controller
 
     public function construct()
     {
-        if (!Auth::check() || !in_array(Auth::user()->is_employee, [2, 6])) {
+        if (!Auth::check() || !in_array(Auth::user()->is_employee, [2, 6, 4])) {
             return false;
         }
 
@@ -39,6 +39,8 @@ class BrandController extends Controller
             $this->layout = 'layouts.app-admin';
         } else if (Auth::user()->is_employee == 6) {
             $this->layout = 'layouts.app-manager';
+        } else if (Auth::user()->is_employee == 4) {
+            $this->layout = 'layouts.app-support';
         }
 
         return true;
@@ -56,7 +58,7 @@ class BrandController extends Controller
 //                return $q->orderBy('created_at', 'DESC');
 //            })->orderBy('created_at', 'DESC');
 //        })
-        when(Auth::user()->is_employee == 6, function ($q) {
+        when((Auth::user()->is_employee == 6 || Auth::user()->is_employee == 4), function ($q) {
             return $q->whereIn('id', Auth::user()->brand_list());
         })
         ->when($request->has('brand_name'), function ($q) use ($request) {

@@ -185,6 +185,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('support/message/{id}/{name}/show', [SupportController::class, 'getMessageBySupportClientId'])->name('support.message.show.id');
         Route::get('/support/message/edit/{id}', [SupportController::class, 'editMessageBySupportClientId'])->name('support.message.edit');
         Route::post('/support/message/update', [SupportController::class, 'updateSupportMessage'])->name('support.message.update');
+
+
+        Route::get('/support/pending/projects', [SupportController::class, 'getPendingProjectManager'])->name('support.pending.project');
+        Route::get('/support/pending/projects/{id}/{form}', [SupportController::class, 'getPendingProjectbyIdManager'])->name('support.pending.project.details');
+        Route::post('/support/assign/support/', [SupportController::class, 'assignSupportManager'])->name('support.assign.support');
+        Route::post('/support/reassign/support/', [SupportController::class, 'reassignSupportManager'])->name('support.reassign.support');
+        Route::get('/support/client/agent/{brand_id?}', [SupportController::class, 'getAgentManager'])->name('support.client.agent');
     });
 });
 

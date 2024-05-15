@@ -110,6 +110,11 @@ class User extends Authenticatable
         return $this->hasMany(Project::class, 'user_id', 'id')->where('seen', 0)->count();
     }
 
+    public function projects_count_for_support_head()
+    {
+        return Project::whereIn('brand_id', $this->brand_list())->count();
+    }
+
     public function client(){
         return $this->hasOne(Client::class, 'id', 'client_id');
     }

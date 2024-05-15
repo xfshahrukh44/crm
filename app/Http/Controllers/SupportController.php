@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\NoForm;
 use App\Models\Project;
 use App\Models\LogoForm;
 use App\Models\WebForm;
@@ -22,6 +23,7 @@ use App\Models\SubTask;
 use App\Models\SubtasKDueDate;
 use App\Models\User;
 use App\Models\Message;
+use App\Notifications\AssignProjectNotification;
 use Illuminate\Http\Request;
 use App\Notifications\MessageNotification;
 use Illuminate\Support\Str;
@@ -50,7 +52,11 @@ class SupportController extends Controller
 
     public function projects(Request $request){
         $data = new Project;
-        $data = $data->where('user_id', Auth()->user()->id);
+        if (!Auth::user()->is_support_head) {
+            $data = $data->where('user_id', Auth()->user()->id);
+        } else {
+            $data = $data->whereIn('brand_id', Auth()->user()->brand_list());
+        }
         $data = $data->orderBy('id', 'desc');
         if($request->project != ''){
             $data = $data->where('name', 'LIKE', "%$request->project%");
@@ -744,13 +750,379 @@ class SupportController extends Controller
         return view('admin.messageshow', compact('message_array', 'brands', 'filter', 'data'));
     }
 
-
     public function getMessageByAdminClientId($id, $name){
         $user = User::find($id);
         $messages = Message::where('client_id', $id)->orderBy('id', 'desc')->get();
         return view('admin.message-index', compact('messages', 'user'));
     }
 
-    
+    public function getPendingProjectManager(Request $request){
+        $logo_form = LogoForm::with('project')->doesntHave('project')->whereHas('invoice', function ($query) {
+            return $query->whereIn('brand', Auth::user()->brand_list());
+        })->orderBy('id', 'desc')
+            ->when($request->has('user_id'), function ($q) use ($request) {
+                return $q->where('user_id', $request->get('user_id'));
+            })->get();
+        $web_form = WebForm::with('project')->doesntHave('project')->whereHas('invoice', function ($query) {
+            return $query->whereIn('brand', Auth::user()->brand_list());
+        })->orderBy('id', 'desc')
+            ->when($request->has('user_id'), function ($q) use ($request) {
+                return $q->where('user_id', $request->get('user_id'));
+            })->get();
+        $smm_form = SmmForm::with('project')->doesntHave('project')->whereHas('invoice', function ($query) {
+            return $query->whereIn('brand', Auth::user()->brand_list());
+        })->orderBy('id', 'desc')
+            ->when($request->has('user_id'), function ($q) use ($request) {
+                return $q->where('user_id', $request->get('user_id'));
+            })->get();
+        $content_writing_form = ContentWritingForm::with('project')->doesntHave('project')->whereHas('invoice', function ($query) {
+            return $query->whereIn('brand', Auth::user()->brand_list());
+        })->orderBy('id', 'desc')
+            ->when($request->has('user_id'), function ($q) use ($request) {
+                return $q->where('user_id', $request->get('user_id'));
+            })->get();
+        $seo_form = SeoForm::with('project')->doesntHave('project')->whereHas('invoice', function ($query) {
+            return $query->whereIn('brand', Auth::user()->brand_list());
+        })->orderBy('id', 'desc')
+            ->when($request->has('user_id'), function ($q) use ($request) {
+                return $q->where('user_id', $request->get('user_id'));
+            })->get();
+        $book_formatting_form = BookFormatting::with('project')->doesntHave('project')->whereHas('invoice', function ($query) {
+            return $query->whereIn('brand', Auth::user()->brand_list());
+        })->orderBy('id', 'desc')
+            ->when($request->has('user_id'), function ($q) use ($request) {
+                return $q->where('user_id', $request->get('user_id'));
+            })->get();
+        $book_writing_form = BookWriting::with('project')->doesntHave('project')->whereHas('invoice', function ($query) {
+            return $query->whereIn('brand', Auth::user()->brand_list());
+        })->orderBy('id', 'desc')
+            ->when($request->has('user_id'), function ($q) use ($request) {
+                return $q->where('user_id', $request->get('user_id'));
+            })->get();
+
+        $author_website_form = AuthorWebsite::with('project')->doesntHave('project')->whereHas('invoice', function ($query) {
+            return $query->whereIn('brand', Auth::user()->brand_list());
+        })->orderBy('id', 'desc')
+            ->when($request->has('user_id'), function ($q) use ($request) {
+                return $q->where('user_id', $request->get('user_id'));
+            })->get();
+
+        $proofreading_form = Proofreading::with('project')->doesntHave('project')->whereHas('invoice', function ($query) {
+            return $query->whereIn('brand', Auth::user()->brand_list());
+        })->orderBy('id', 'desc')
+            ->when($request->has('user_id'), function ($q) use ($request) {
+                return $q->where('user_id', $request->get('user_id'));
+            })->get();
+
+        $bookcover_form = BookCover::with('project')->doesntHave('project')->whereHas('invoice', function ($query) {
+            return $query->whereIn('brand', Auth::user()->brand_list());
+        })->orderBy('id', 'desc')
+            ->when($request->has('user_id'), function ($q) use ($request) {
+                return $q->where('user_id', $request->get('user_id'));
+            })->get();
+
+
+        $isbn_form = Isbnform::with('project')->doesntHave('project')->whereHas('invoice', function ($query) {
+            return $query->whereIn('brand', Auth::user()->brand_list());
+        })->orderBy('id', 'desc')
+            ->when($request->has('user_id'), function ($q) use ($request) {
+                return $q->where('user_id', $request->get('user_id'));
+            })->get();
+
+        $bookprinting_form = Bookprinting::with('project')->doesntHave('project')->whereHas('invoice', function ($query) {
+            return $query->whereIn('brand', Auth::user()->brand_list());
+        })->orderBy('id', 'desc')
+            ->when($request->has('user_id'), function ($q) use ($request) {
+                return $q->where('user_id', $request->get('user_id'));
+            })->get();
+
+        $no_form = NoForm::with('project')->doesntHave('project')->whereHas('invoice', function ($query) {
+            return $query->whereIn('brand', Auth::user()->brand_list());
+        })->orderBy('id', 'desc')
+            ->when($request->has('user_id'), function ($q) use ($request) {
+                return $q->where('user_id', $request->get('user_id'));
+            })->get();
+
+        return view('support.brief.fill', compact('logo_form', 'web_form', 'smm_form', 'content_writing_form', 'seo_form', 'book_formatting_form', 'book_writing_form', 'author_website_form', 'no_form', 'proofreading_form', 'bookcover_form', 'isbn_form', 'bookprinting_form'));
+    }
+
+    public function  getPendingProjectbyIdManager($id, $form){
+        if($form == 1){
+            $logo_form = LogoForm::find($id);
+            return view('support.brief.logoform', compact('logo_form'));
+        }elseif($form == 2){
+            $web_form = WebForm::find($id);
+            return view('support.brief.webform', compact('web_form'));
+        }elseif($form == 3){
+            $smm_form = SmmForm::find($id);
+            return view('support.brief.smmform', compact('smm_form'));
+        }elseif($form == 4){
+            $content_form = ContentWritingForm::find($id);
+            return view('support.brief.contentform', compact('content_form'));
+        }elseif($form == 5){
+            $seo_form = SeoForm::find($id);
+            return view('support.brief.seoform', compact('seo_form'));
+        }elseif($form == 6){
+            $book_formatting_form = BookFormatting::find($id);
+            return view('support.brief.bookformattingform', compact('book_formatting_form'));
+        }elseif($form == 7){
+            $data = BookWriting::find($id);
+            return view('support.brief.bookwritingform', compact('data'));
+        }elseif($form == 8){
+            $data = AuthorWebsite::find($id);
+            return view('support.brief.authorwebsiteform', compact('data'));
+        }elseif($form == 9){
+            $data = Proofreading::find($id);
+            return view('support.brief.proofreadingform', compact('data'));
+        }elseif($form == 10){
+            $data = BookCover::find($id);
+            return view('support.brief.bookcoverform', compact('data'));
+        }elseif($form == 11){
+            $data = Isbnform::find($id);
+            return view('support.brief.isbnform', compact('data'));
+        }elseif($form == 12){
+            $data = Bookprinting::find($id);
+            return view('support.brief.bookprintingform', compact('data'));
+        }
+
+
+    }
+
+    public function assignSupportManager(Request $request){
+
+        // dd($request->all());
+
+        $form_id  = $request->id;
+        $agent_id  = $request->agent_id;
+        $form_checker  = $request->form;
+        $name = '';
+        $client_id = 0;
+        $brand_id = 0;
+        $description = '';
+        if($form_checker == 0){
+            $no_form = NoForm::find($form_id);
+            if($no_form->name != null){
+                $name = $no_form->name . ' - OTHER';
+            }else{
+                $name = $no_form->name . ' - OTHER';
+            }
+            $client_id = $no_form->user->id;
+            $brand_id = $no_form->invoice->brand;
+            $description = $no_form->business;
+
+        }elseif($form_checker == 1){
+            // Logo form
+            $logo_form = LogoForm::find($form_id);
+            if($logo_form->logo_name != null){
+                $name = $logo_form->logo_name . ' - LOGO';
+            }else{
+                $name = $logo_form->user->name . ' - LOGO';
+            }
+            $client_id = $logo_form->user->id;
+            $brand_id = $logo_form->invoice->brand;
+            $description = $logo_form->business;
+        }elseif($form_checker == 2){
+            // Web form
+            $web_form = WebForm::find($form_id);
+            if($web_form->business_name != null){
+                $name = $web_form->business_name . ' - WEBSITE';
+            }else{
+                $name = $web_form->user->name . ' - WEBSITE';
+            }
+            $client_id = $web_form->user->id;
+            $brand_id = $web_form->invoice->brand;
+            $description = $web_form->about_companys;
+        }elseif($form_checker == 3){
+            // Social Media Marketing Form
+            $smm_form = SmmForm::find($form_id);
+            if($smm_form->business_name != null){
+                $name = $smm_form->business_name . ' - SMM';
+            }else{
+                $name = $smm_form->user->name . ' - SMM';
+            }
+            $client_id = $smm_form->user->id;
+            $brand_id = $smm_form->invoice->brand;
+            $description = $smm_form->business_category;
+        }elseif($form_checker == 4){
+            // Content Writing Form
+            $content_form = ContentWritingForm::find($form_id);
+            if($content_form->company_name != null){
+                $name = $content_form->company_name . ' - CONTENT WRITING';
+            }else{
+                $name = $content_form->user->name . ' - CONTENT WRITING';
+            }
+            $client_id = $content_form->user->id;
+            $brand_id = $content_form->invoice->brand;
+            $description = $content_form->company_details;
+        }elseif($form_checker == 5){
+            // Search Engine Optimization Form
+            $seo_form = SeoForm::find($form_id);
+            if($seo_form->company_name != null){
+                $name = $seo_form->company_name . ' - SEO';
+            }else{
+                $name = $seo_form->user->name . ' - SEO';
+            }
+            $client_id = $seo_form->user->id;
+            $brand_id = $seo_form->invoice->brand;
+            $description = $seo_form->top_goals;
+        }elseif($form_checker == 6){
+            // Book Formatting & Publishing Form
+            $book_formatting_form = BookFormatting::find($form_id);
+            if($book_formatting_form->book_title != null){
+                $name = $book_formatting_form->book_title . ' - Book Formatting & Publishing';
+            }else{
+                $name = $book_formatting_form->user->name . ' - Book Formatting & Publishing';
+            }
+            $client_id = $book_formatting_form->user->id;
+            $brand_id = $book_formatting_form->invoice->brand;
+            $description = $book_formatting_form->additional_instructions;
+        }elseif($form_checker == 7){
+            // Book Writing Form
+            $book_writing_form = BookWriting::find($form_id);
+            if($book_writing_form->book_title != null){
+                $name = $book_writing_form->book_title . ' - Book Writing';
+            }else{
+                $name = $book_writing_form->user->name . ' - Book Writing';
+            }
+            $client_id = $book_writing_form->user->id;
+            $brand_id = $book_writing_form->invoice->brand;
+            $description = $book_writing_form->brief_summary;
+        }elseif($form_checker == 8){
+            // Author Website Form
+            $author_website_form = AuthorWebsite::find($form_id);
+            if($author_website_form->author_name != null){
+                $name = $author_website_form->author_name . ' - Author Website';
+            }else{
+                $name = $author_website_form->user->name . ' - Author Website';
+            }
+            $client_id = $author_website_form->user->id;
+            $brand_id = $author_website_form->invoice->brand;
+            $description = $author_website_form->brief_overview;
+        }elseif($form_checker == 9){
+            // Editing & Proofreading Form
+            $proofreading_form = Proofreading::find($form_id);
+            if($proofreading_form->author_name != null){
+                $name = $proofreading_form->description . ' - Editing & Proofreading';
+            }else{
+                $name = $proofreading_form->user->name . ' - Editing & Proofreading';
+            }
+            $client_id = $proofreading_form->user->id;
+            $brand_id = $proofreading_form->invoice->brand;
+            $description = $proofreading_form->guide;
+        }elseif($form_checker == 10){
+            // Cover Design Form
+            $bookcover_form = BookCover::find($form_id);
+            if($bookcover_form->author_name != null){
+                $name = $bookcover_form->title . ' - Cover Design';
+            }else{
+                $name = $bookcover_form->user->name . ' - Cover Design';
+            }
+            $client_id = $bookcover_form->user->id;
+            $brand_id = $bookcover_form->invoice->brand;
+            $description = $bookcover_form->information;
+        }
+        elseif($form_checker == 11){
+            // Cover Design Form
+            $isbn_form = Isbnform::find($form_id);
+            if($isbn_form->author_name != null){
+                $name = $isbn_form->title . ' - ISBN Form';
+            }else{
+                $name = $isbn_form->user->name . ' - ISBN Form';
+            }
+            $client_id = $isbn_form->user->id;
+            $brand_id = $isbn_form->invoice->brand;
+            $description = $isbn_form->information;
+        }
+        elseif($form_checker == 12){
+            // Cover Design Form
+            $bookprinting_form = Bookprinting::find($form_id);
+            if($bookprinting_form->author_name != null){
+                $name = $bookprinting_form->title . ' - Book Printing Form';
+            }else{
+                $name = $bookprinting_form->user->name . ' - Book Printing Form';
+            }
+            $client_id = $bookprinting_form->user->id;
+            $brand_id = $bookprinting_form->invoice->brand;
+            $description = $bookprinting_form->information;
+        }
+
+        $project = new Project();
+        $project->name = $name;
+        $project->description = $description;
+        $project->status = 1;
+        $project->user_id = $agent_id;
+        $project->client_id = $client_id;
+        $project->brand_id = $brand_id;
+        $project->form_id = $form_id;
+        $project->form_checker = $form_checker;
+        $project->save();
+        $assignData = [
+            'id' => Auth()->user()->id,
+            'project_id' => $project->id,
+            'name' => Auth()->user()->name . ' ' . Auth()->user()->last_name,
+            'text' => $project->name . ' has assign. ('.Auth()->user()->name.')',
+            'url' => '',
+        ];
+        $user = User::find($agent_id);
+        $user->notify(new AssignProjectNotification($assignData));
+
+//        dd('here');
+        //mail_notification
+        $html = '<p>'.'New project `'.$project->name.'`'.'</p><br />';
+        $html .= '<strong>Assigned by:</strong> <span>'.Auth::user()->name.' ('.Auth::user()->email.')'.'</span><br />';
+        $html .= '<strong>Assigned to:</strong> <span>'.$user->name.' ('.$user->email.')'.'</span><br />';
+        $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
+//        mail_notification('', [$user->email], 'CRM | New project', $html, true);
+        mail_notification(
+            '',
+            [$user->email],
+            'New project',
+            view('mail.crm-mail-template')->with([
+                'subject' => 'New project',
+                'brand_name' => $project->brand->name,
+                'brand_logo' => asset($project->brand->logo),
+                'additional_html' => $html
+            ]),
+            true
+        );
+
+        return redirect()->back()->with('success', $user->name . ' ' . $user->last_name . ' Assigned Successfully');
+    }
+
+    public function reassignSupportManager(Request $request){
+        $project = Project::find($request->id);
+        $project->user_id = $request->agent_id;
+        $project->save();
+
+        //mail_notification
+        $user = User::find($request->agent_id);
+        $html = '<p>'.'Project `'.$project->name.'` has been reassigned.'.'</p><br />';
+        $html .= '<strong>Reassigned by:</strong> <span>'.Auth::user()->name.' ('.Auth::user()->email.') '.'</span><br />';
+        $html .= '<strong>Reassigned to:</strong> <span>'.$user->name.' ('.$user->email.') '.'</span><br />';
+        $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
+
+//        mail_notification('', [$user->email], 'CRM | Project assignment', $html, true);
+        mail_notification(
+            '',
+            [$user->email],
+            'Project assignment',
+            view('mail.crm-mail-template')->with([
+                'subject' => 'Project assignment',
+                'brand_name' => $project->brand->name,
+                'brand_logo' => asset($project->brand->logo),
+                'additional_html' => $html
+            ]),
+            true
+        );
+
+        return redirect()->back()->with('success', $project->name . ' Reassigned Successfully');
+    }
+
+    public function getAgentManager($brand_id = null){
+        $user = User::select('id', 'name', 'last_name')->where('is_employee', 4)->whereHas('brands', function ($query) use ($brand_id) {
+            return $query->where('brand_id', $brand_id);
+        })->get();
+        return response()->json(['success' => true , 'data' => $user]);
+    }
 
 }

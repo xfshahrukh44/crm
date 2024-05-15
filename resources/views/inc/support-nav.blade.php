@@ -127,6 +127,13 @@
                 </a>
                 <div class="triangle"></div>
             </li>
+            <li class="nav-item {{ (request()->routeIs('brands.dashboard'))? 'active' : '' }}">
+                <a class="nav-item-hold" href="{{ route('brands.dashboard') }}">
+                    <i class="nav-icon i-Medal-2"></i>
+                    <span class="nav-text">Brands</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
             <li class="nav-item {{ request()->routeIs('support.message.get.by.support') ? 'active' : '' }}">
                 <a class="nav-item-hold" href="{{ route('support.message.get.by.support') }}">
                     <i class="nav-icon i-Speach-Bubble-3"></i>
@@ -134,11 +141,24 @@
                 </a>
                 <div class="triangle"></div>
             </li>
+            @if(\Illuminate\Support\Facades\Auth::user()->is_support_head)
+                <li class="nav-item {{ (request()->routeIs('support.pending.project')) || (request()->routeIs('support.pending.project.details') ) ? 'active' : '' }}">
+                    <a class="nav-item-hold" href="{{ route('support.pending.project') }}">
+                        <i class="nav-icon i-Folder-Loading"></i>
+                        <span class="nav-text">Pending Projects</span>
+                    </a>
+                    <div class="triangle"></div>
+                </li>
+            @endif
             <li class="nav-item {{ ( request()->routeIs('support.project') || request()->routeIs('support.form') || request()->routeIs('create.task.by.project.id')) ? 'active' : '' }}">
                 <a class="nav-item-hold" href="{{ route('support.project') }}">
                     <i class="nav-icon i-Suitcase"></i>
                     <span class="nav-text">Projects</span>
-                    <span class="counter">{{ Auth()->user()->projects_count() }}</span>
+                    @if(\Illuminate\Support\Facades\Auth::user()->is_support_head)
+                        <span class="counter">{{ Auth()->user()->projects_count_for_support_head() }}</span>
+                    @else
+                        <span class="counter">{{ Auth()->user()->projects_count() }}</span>
+                    @endif
                 </a>
                 <div class="triangle"></div>
             </li>
