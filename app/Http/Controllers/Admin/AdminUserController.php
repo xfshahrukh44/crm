@@ -86,7 +86,9 @@ class AdminUserController extends Controller
         $user->contact = $request->input('contact');
         $user->status = $request->input('status');
         $user->password = Hash::make($request->input('password'));
-        $user->is_employee = $request->input('is_employee');
+//        $user->is_employee = $request->input('is_employee');
+        $user->is_employee = ($request->input('is_employee') == 8) ? 4 : $request->input('is_employee');
+        $user->is_support_head = ($request->input('is_employee') == 8) ? true : false;
         $user->save();
         if(($request->input('is_employee') == 0) || ($request->input('is_employee') == 4) || ($request->input('is_employee') == 6)){
             $brand = $request->input('brand');

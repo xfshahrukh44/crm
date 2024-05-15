@@ -205,6 +205,13 @@
                 </a>
                 <div class="triangle"></div>
             </li>
+            <li class="nav-item {{ ( request()->routeIs('manager.user.sales') ) || ( request()->routeIs('manager.user.sales.edit') ) || ( request()->routeIs('manager.user.sales.create') )  ? 'active' : '' }}">
+                <a class="nav-item-hold" href="{{ route('manager.user.sales') }}">
+                    <i class="nav-icon i-Administrator"></i>
+                    <span class="nav-text">Sale Agent</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
             <li class="nav-item {{ (request()->routeIs('manager.task.index') ) || (request()->routeIs('manager.task.show') ) || (request()->routeIs('manager.task.edit') ) ? 'active' : '' }}">
                 <a class="nav-item-hold" href="{{ route('manager.task.index') }}">
                     <i class="nav-icon i-Receipt-4"></i>

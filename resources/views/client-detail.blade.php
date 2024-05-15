@@ -91,6 +91,23 @@
             </div>
         @endif
 
+        @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6]))
+            <div class="row mb-4">
+                <div class="col-lg-12 col-md-12">
+                    <h2 class="ml-3">Pending Projects ({{$pending_project_count}})</h2>
+                </div>
+                @if ($pending_project_count > 0)
+                    @php
+                        $client_user = \App\Models\User::where('client_id', $client->id)->first();
+                        $route = \Illuminate\Support\Facades\Auth::user()->is_employee == 2 ? 'admin.pending.project' : 'manager.pending.project';
+                    @endphp
+                    <div class="col-lg-12 col-md-12">
+                        <a target="_blank" href="{{route($route, ['user_id' => $client_user->id])}}" class="btn btn-primary ml-3">View pending projects</a>
+                    </div>
+                @endif
+            </div>
+        @endif
+
         <div class="row mb-4">
             <div class="col-lg-12 col-md-12">
 {{--                <h2 class="ml-3">Projects ({{count($client->_projects())}})</h2>--}}

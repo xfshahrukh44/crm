@@ -25,14 +25,6 @@
 </div>
 
 <div class="separator-breadcrumb border-top"></div>
-<section class="widgets-content">
-    <!-- begin::users-->
-    <div class="row">
-    <div class="col-md-12">
-        <button class="btn btn-primary ml-auto" id="write-message">Write A Message</button>
-    </div>
-</div>
-</section>
 <section id="basic-form-layouts">
     <div class="row">
         <div class="col-md-12 message-box-wrapper">
@@ -94,6 +86,46 @@
                 </div>
             </div>
             @endforeach
+        </div>
+    </div>
+</section>
+<section class="widgets-content">
+    <!-- begin::users-->
+    <div class="row">
+{{--        <div class="col-md-6"></div>--}}
+        <div class="col-md-12">
+{{--            <button class="btn btn-primary ml-auto" id="write-message">Write A Message</button>--}}
+            <div class="">
+                <div class="">
+                    <form class="form" action="{{ route('manager.message.send') }}" enctype="multipart/form-data" method="post">
+                        @csrf
+                        <input type="hidden" name="client_id" value="{{ $user->id }}">
+                        <div class="form-body">
+                            <div class="form-group mb-0">
+{{--                                <h1>Write A Message <span id="close-message-left"><i class="nav-icon i-Close-Window"></i></span></h1>--}}
+                                <textarea id="message" rows="8" class="form-control border-primary" name="message" required placeholder="Write a Message">{{old('message')}}</textarea>
+                                <div class="input-field">
+                                    <div class="input-images" style="padding-top: .5rem;"></div>
+                                </div>
+                                <!-- <table>
+                                    <tr>
+                                        <td colspan="3" style="vertical-align:middle; text-align:left;">
+                                            <div id="h_ItemAttachments"></div>
+                                            <input type="button" id="h_btnAddFileUploadControl" value="Add Attachment" onclick="Clicked_h_btnAddFileUploadControl()" class="btn btn-info btn_Standard" />
+                                            <div id="h_ItemAttachmentControls"></div>
+                                        </td>
+                                    </tr>
+                                </table> -->
+                                <div class="form-actions pb-0">
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="la la-check-square-o"></i> Send Message
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -178,6 +210,7 @@
         });
     }
      $(document).ready(function(){
+        $("html, body").animate({ scrollTop: document.body.scrollHeight }, "slow");
         $('#write-message').click(function(){
             $('.left-message-box-wrapper').addClass('fixed-option');
         });

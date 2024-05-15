@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Manager\ManagerUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ClientChatController;
@@ -308,6 +309,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('manager/{form_id}/projects/{check}/form/{id}', [SupportController::class, 'getFormManager'])->name('manager.form');
         Route::post('manager/mark/notification', [HomeController::class, 'markNotification'])->name('mark.notification');
         Route::get('manager/notification', [HomeController::class, 'managerNotification'])->name('manager.notification');
+
+        Route::get('manager/user/sales', [ManagerUserController::class, 'getUserSale'])->name('manager.user.sales');
+        Route::post('manager/user/sales', [ManagerUserController::class, 'storeUserSale'])->name('manager.user.sales.store');
+        Route::get('manager/user/create', [ManagerUserController::class, 'createUserSale'])->name('manager.user.sales.create');
+        Route::get('manager/user/sale/edit/{id}', [ManagerUserController::class, 'editUserSale'])->name('manager.user.sales.edit');
+        Route::post('manager/user/sale/update/{id}', [ManagerUserController::class, 'updateUserSale'])->name('manager.user.sales.update');
     });
 });
 

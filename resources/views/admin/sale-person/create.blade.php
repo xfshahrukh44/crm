@@ -63,6 +63,7 @@
                                 <option value="4">Customer Support</option>
                                 <option value="0">Sale Agent</option>
                                 <option value="6">Sales Manager</option>
+                                <option value="8">Support Head</option>
                             </select>
                         </div>
                         <div class="col-md-12">

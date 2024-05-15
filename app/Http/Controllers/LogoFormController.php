@@ -303,73 +303,145 @@ class LogoFormController extends Controller
     }
 
 
-    public function getPendingProject(){
-        $logo_form = LogoForm::where('logo_name', '!=' , '')->with('project')->doesntHave('project')->get();
-        $web_form = WebForm::where('business_name', '!=' , '')->with('project')->doesntHave('project')->get();
-        $smm_form = SmmForm::where('business_name', '!=' , '')->with('project')->doesntHave('project')->get();
-        $content_writing_form = ContentWritingForm::where('company_name', '!=' , '')->with('project')->doesntHave('project')->get();
-        $seo_form = SeoForm::where('company_name', '!=' , '')->with('project')->doesntHave('project')->get();
-        $book_formatting_form = BookFormatting::where('book_title', '!=' , '')->with('project')->doesntHave('project')->get();
-        $book_writing_form = BookWriting::where('book_title', '!=' , '')->with('project')->doesntHave('project')->get();
-        $author_website_form = AuthorWebsite::where('author_name', '!=' , '')->with('project')->doesntHave('project')->get();
-        $proofreading_form = Proofreading::where('description', '!=' , '')->with('project')->doesntHave('project')->get();
-        $bookcover_form = BookCover::where('title', '!=' , '')->with('project')->doesntHave('project')->get();
-        $no_form = NoForm::where('name', '!=' , '')->with('project')->doesntHave('project')->get();
+    public function getPendingProject(Request $request){
+        $logo_form = LogoForm::where('logo_name', '!=' , '')->with('project')->doesntHave('project')
+            ->when($request->has('user_id'), function ($q) use ($request) {
+                return $q->where('user_id', $request->get('user_id'));
+            })->get();
+        $web_form = WebForm::where('business_name', '!=' , '')->with('project')->doesntHave('project')
+            ->when($request->has('user_id'), function ($q) use ($request) {
+                return $q->where('user_id', $request->get('user_id'));
+            })->get();
+        $smm_form = SmmForm::where('business_name', '!=' , '')->with('project')->doesntHave('project')
+            ->when($request->has('user_id'), function ($q) use ($request) {
+                return $q->where('user_id', $request->get('user_id'));
+            })->get();
+        $content_writing_form = ContentWritingForm::where('company_name', '!=' , '')->with('project')->doesntHave('project')
+            ->when($request->has('user_id'), function ($q) use ($request) {
+                return $q->where('user_id', $request->get('user_id'));
+            })->get();
+        $seo_form = SeoForm::where('company_name', '!=' , '')->with('project')->doesntHave('project')
+            ->when($request->has('user_id'), function ($q) use ($request) {
+                return $q->where('user_id', $request->get('user_id'));
+            })->get();
+        $book_formatting_form = BookFormatting::where('book_title', '!=' , '')->with('project')->doesntHave('project')
+            ->when($request->has('user_id'), function ($q) use ($request) {
+                return $q->where('user_id', $request->get('user_id'));
+            })->get();
+        $book_writing_form = BookWriting::where('book_title', '!=' , '')->with('project')->doesntHave('project')
+            ->when($request->has('user_id'), function ($q) use ($request) {
+                return $q->where('user_id', $request->get('user_id'));
+            })->get();
+        $author_website_form = AuthorWebsite::where('author_name', '!=' , '')->with('project')->doesntHave('project')
+            ->when($request->has('user_id'), function ($q) use ($request) {
+                return $q->where('user_id', $request->get('user_id'));
+            })->get();
+        $proofreading_form = Proofreading::where('description', '!=' , '')->with('project')->doesntHave('project')
+            ->when($request->has('user_id'), function ($q) use ($request) {
+                return $q->where('user_id', $request->get('user_id'));
+            })->get();
+        $bookcover_form = BookCover::where('title', '!=' , '')->with('project')->doesntHave('project')
+            ->when($request->has('user_id'), function ($q) use ($request) {
+                return $q->where('user_id', $request->get('user_id'));
+            })->get();
+        $no_form = NoForm::where('name', '!=' , '')->with('project')->doesntHave('project')
+            ->when($request->has('user_id'), function ($q) use ($request) {
+                return $q->where('user_id', $request->get('user_id'));
+            })->get();
         return view('admin.brief.fill', compact('logo_form', 'web_form', 'smm_form', 'content_writing_form', 'seo_form', 'book_formatting_form', 'book_writing_form', 'author_website_form', 'proofreading_form', 'bookcover_form', 'no_form'));
     }
 
-    public function getPendingProjectManager(){
+    public function getPendingProjectManager(Request $request){
         $logo_form = LogoForm::with('project')->doesntHave('project')->whereHas('invoice', function ($query) {
                         return $query->whereIn('brand', Auth::user()->brand_list());
-                    })->orderBy('id', 'desc')->get();
+                    })->orderBy('id', 'desc')
+        ->when($request->has('user_id'), function ($q) use ($request) {
+            return $q->where('user_id', $request->get('user_id'));
+        })->get();
         $web_form = WebForm::with('project')->doesntHave('project')->whereHas('invoice', function ($query) {
                         return $query->whereIn('brand', Auth::user()->brand_list());
-                    })->orderBy('id', 'desc')->get();
+                    })->orderBy('id', 'desc')
+        ->when($request->has('user_id'), function ($q) use ($request) {
+            return $q->where('user_id', $request->get('user_id'));
+        })->get();
         $smm_form = SmmForm::with('project')->doesntHave('project')->whereHas('invoice', function ($query) {
                         return $query->whereIn('brand', Auth::user()->brand_list());
-                    })->orderBy('id', 'desc')->get();
+                    })->orderBy('id', 'desc')
+        ->when($request->has('user_id'), function ($q) use ($request) {
+            return $q->where('user_id', $request->get('user_id'));
+        })->get();
         $content_writing_form = ContentWritingForm::with('project')->doesntHave('project')->whereHas('invoice', function ($query) {
                                     return $query->whereIn('brand', Auth::user()->brand_list());
-                                })->orderBy('id', 'desc')->get();
+                                })->orderBy('id', 'desc')
+        ->when($request->has('user_id'), function ($q) use ($request) {
+            return $q->where('user_id', $request->get('user_id'));
+        })->get();
         $seo_form = SeoForm::with('project')->doesntHave('project')->whereHas('invoice', function ($query) {
                         return $query->whereIn('brand', Auth::user()->brand_list());
-                    })->orderBy('id', 'desc')->get();
+                    })->orderBy('id', 'desc')
+        ->when($request->has('user_id'), function ($q) use ($request) {
+            return $q->where('user_id', $request->get('user_id'));
+        })->get();
         $book_formatting_form = BookFormatting::with('project')->doesntHave('project')->whereHas('invoice', function ($query) {
                                     return $query->whereIn('brand', Auth::user()->brand_list());
-                                })->orderBy('id', 'desc')->get();
+                                })->orderBy('id', 'desc')
+        ->when($request->has('user_id'), function ($q) use ($request) {
+            return $q->where('user_id', $request->get('user_id'));
+        })->get();
         $book_writing_form = BookWriting::with('project')->doesntHave('project')->whereHas('invoice', function ($query) {
             return $query->whereIn('brand', Auth::user()->brand_list());
-        })->orderBy('id', 'desc')->get();
+        })->orderBy('id', 'desc')
+        ->when($request->has('user_id'), function ($q) use ($request) {
+            return $q->where('user_id', $request->get('user_id'));
+        })->get();
 
         $author_website_form = AuthorWebsite::with('project')->doesntHave('project')->whereHas('invoice', function ($query) {
             return $query->whereIn('brand', Auth::user()->brand_list());
-        })->orderBy('id', 'desc')->get();
+        })->orderBy('id', 'desc')
+        ->when($request->has('user_id'), function ($q) use ($request) {
+            return $q->where('user_id', $request->get('user_id'));
+        })->get();
 
         $proofreading_form = Proofreading::with('project')->doesntHave('project')->whereHas('invoice', function ($query) {
             return $query->whereIn('brand', Auth::user()->brand_list());
-        })->orderBy('id', 'desc')->get();
+        })->orderBy('id', 'desc')
+        ->when($request->has('user_id'), function ($q) use ($request) {
+            return $q->where('user_id', $request->get('user_id'));
+        })->get();
 
         $bookcover_form = BookCover::with('project')->doesntHave('project')->whereHas('invoice', function ($query) {
             return $query->whereIn('brand', Auth::user()->brand_list());
-        })->orderBy('id', 'desc')->get();
+        })->orderBy('id', 'desc')
+        ->when($request->has('user_id'), function ($q) use ($request) {
+            return $q->where('user_id', $request->get('user_id'));
+        })->get();
         
          
         $isbn_form = Isbnform::with('project')->doesntHave('project')->whereHas('invoice', function ($query) {
             return $query->whereIn('brand', Auth::user()->brand_list());
-        })->orderBy('id', 'desc')->get();
+        })->orderBy('id', 'desc')
+        ->when($request->has('user_id'), function ($q) use ($request) {
+            return $q->where('user_id', $request->get('user_id'));
+        })->get();
         
         $bookprinting_form = Bookprinting::with('project')->doesntHave('project')->whereHas('invoice', function ($query) {
             return $query->whereIn('brand', Auth::user()->brand_list());
-        })->orderBy('id', 'desc')->get();
+        })->orderBy('id', 'desc')
+        ->when($request->has('user_id'), function ($q) use ($request) {
+            return $q->where('user_id', $request->get('user_id'));
+        })->get();
         
         $no_form = NoForm::with('project')->doesntHave('project')->whereHas('invoice', function ($query) {
                         return $query->whereIn('brand', Auth::user()->brand_list());
-                    })->orderBy('id', 'desc')->get();
+                    })->orderBy('id', 'desc')
+        ->when($request->has('user_id'), function ($q) use ($request) {
+            return $q->where('user_id', $request->get('user_id'));
+        })->get();
         
         return view('manager.brief.fill', compact('logo_form', 'web_form', 'smm_form', 'content_writing_form', 'seo_form', 'book_formatting_form', 'book_writing_form', 'author_website_form', 'no_form', 'proofreading_form', 'bookcover_form', 'isbn_form', 'bookprinting_form'));
     }
 
-    public function getPendingProjectbyIdManager($id, $form){
+    public function  getPendingProjectbyIdManager($id, $form){
         if($form == 1){
             $logo_form = LogoForm::find($id);
             return view('manager.brief.logoform', compact('logo_form'));

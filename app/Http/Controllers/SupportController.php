@@ -405,28 +405,29 @@ class SupportController extends Controller
         }
 
         //mail_notification
-        $client = Client::find($request->client_id);
-        $brand = Brand::find($client->brand_id);
+        if ($client = Client::find($request->client_id)) {
+            if ($brand = Brand::find($client->brand_id)) {
+                $html = '<p>'. 'Hello ' . $client->name . ',' .'</p>';
+                $html .= '<p>'. 'You have received a new message from your Project Manager, ('.Auth::user()->name.'), on our CRM platform. Please log in to your account to read the message and respond.' .'</p>';
+                $html .= '<p>'. 'Access your messages here: ' . route('client.fetch.messages') .'</p>';
+                $html .= '<p>'. 'Thank you for your prompt attention to this matter.' .'</p>';
+                $html .= '<p>'. 'Best Regards,' .'</p>';
+                $html .= '<p>'. $brand->name .'.</p>';
 
-        $html = '<p>'. 'Hello ' . $client->name . ',' .'</p>';
-        $html .= '<p>'. 'You have received a new message from your Project Manager, ('.Auth::user()->name.'), on our CRM platform. Please log in to your account to read the message and respond.' .'</p>';
-        $html .= '<p>'. 'Access your messages here: ' . route('client.fetch.messages') .'</p>';
-        $html .= '<p>'. 'Thank you for your prompt attention to this matter.' .'</p>';
-        $html .= '<p>'. 'Best Regards,' .'</p>';
-        $html .= '<p>'. $brand->name .'.</p>';
-
-        mail_notification(
-            '',
-            [$client->email],
-            'New Message from Your Project Manager on ('.$brand->name.') CRM',
-            view('mail.crm-mail-template')->with([
-                'subject' => 'New Message from Your Project Manager on ('.$brand->name.') CRM',
-                'brand_name' => $brand->name,
-                'brand_logo' => asset($brand->logo),
-                'additional_html' => $html
-            ]),
-//            true
-        );
+                mail_notification(
+                    '',
+                    [$client->email],
+                    'New Message from Your Project Manager on ('.$brand->name.') CRM',
+                    view('mail.crm-mail-template')->with([
+                        'subject' => 'New Message from Your Project Manager on ('.$brand->name.') CRM',
+                        'brand_name' => $brand->name,
+                        'brand_logo' => asset($brand->logo),
+                        'additional_html' => $html
+                    ]),
+                //            true
+                );
+            }
+        }
 
         return redirect()->back()->with('success', 'Message Send Successfully.')->with('data', 'message');;
     }
@@ -641,7 +642,7 @@ class SupportController extends Controller
 
     public function getMessageByManagerClientId($id, $name){
         $user = User::find($id);
-        $messages = Message::where('client_id', $id)->orderBy('id', 'desc')->get();
+        $messages = Message::where('client_id', $id)->orderBy('id', 'asc')->get();
         return view('manager.message.index', compact('messages', 'user'));
     }
 
@@ -664,7 +665,7 @@ class SupportController extends Controller
                 $message_array[$data->client->id]['task_id'] = $task_id;
             }
         }
-        
+
         return view('support.messageshow', compact('message_array'));
     }
 

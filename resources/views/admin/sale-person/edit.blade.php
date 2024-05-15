@@ -54,9 +54,10 @@
                         <div class="col-md-6 form-group mb-3">
                             <label for="role">Role <span>*</span></label>
                             <select name="is_employee" id="role" class="form-control">
-                                <option value="4" {{ $data->is_employee == 4 ? 'selected' : '' }}>Customer Support</option>
+                                <option value="4" {{ ($data->is_employee == 4 && $data->is_support_head == false) ? 'selected' : '' }}>Customer Support</option>
                                 <option value="0" {{ $data->is_employee == 0 ? 'selected' : '' }}>Sale Agent</option>
                                 <option value="6" {{ $data->is_employee == 6 ? 'selected' : '' }}>Sales Manager</option>
+                                <option value="8" {{ ($data->is_employee == 4 && $data->is_support_head == true) ? 'selected' : '' }}>Support Head</option>
                             </select>
                         </div>
                         

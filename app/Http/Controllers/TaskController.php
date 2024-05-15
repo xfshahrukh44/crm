@@ -715,9 +715,11 @@ class TaskController extends Controller
                 $Notification->markAsRead();
             }   
         }
-        $task = Task::where('id', $id)->whereIn('brand_id', Auth()->user()->brand_list())->whereHas('projects', function ($query) {
+        if (!$task = Task::where('id', $id)->whereIn('brand_id', Auth()->user()->brand_list())->whereHas('projects', function ($query) {
                     return $query->where('user_id', '=', Auth()->user()->id);
-                })->first();
+                })->first()) {
+            return redirect()->back();
+        }
         $messages = Message::where('sender_id', $task->projects->client->id)->orWhere('user_id', $task->projects->client->id)->orderBy('id', 'desc')->get();
 
         $notification_task = Auth()->user()->notifications->where('type', 'App\Notifications\TaskNotification')->all();

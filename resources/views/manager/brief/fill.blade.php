@@ -47,6 +47,7 @@
                                     <th>User Name</th>
                                     <th>Agent Name</th>
                                     <th>Brand</th>
+                                    <th>Contact</th>
                                     <th>Amount</th>
                                     <th>Account</th>
                                 </tr>
@@ -66,6 +67,7 @@
                                     @endif
                                     <td>{{ $datas->invoice->sale->name }} {{ $datas->invoice->sale->last_name }}<br>{{ $datas->invoice->sale->email }}</td>
                                     <td><button class="btn btn-sm btn-primary">{{ $datas->invoice->brands->name }}</button></td>
+                                    <td>{!! ($datas->user && $datas->user->client && $datas->user->client->contact) ? '<a href="tel:'.$datas->user->client->contact.'">'.$datas->user->client->contact.'</a>' : '' !!}</td>
                                     <td>{{ $datas->invoice->currency_show->sign }} {{ $datas->invoice->amount }}</td>
                                     <td>
                                         <a href="javascript:;" class="btn btn-primary btn-icon btn-sm" onclick="assignAgent({{$datas->id}}, 1, {{ $datas->invoice->brands->id }})">
@@ -81,18 +83,6 @@
                                 @endforeach
                                 
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Invoice#</th>
-                                    <th>Logo Name</th>
-                                    <th>User Name</th>
-                                    <th>Agent Name</th>
-                                    <th>Brand</th>
-                                    <th>Amount</th>
-                                    <th>Account</th>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -108,6 +98,7 @@
                                     <th>User Name</th>
                                     <th>Agent Name</th>
                                     <th>Brand</th>
+                                    <th>Contact</th>
                                     <th>Amount</th>
                                     <th>Action</th>
                                 </tr>
@@ -127,6 +118,7 @@
                                     @endif
                                     <td>{{ $datas->invoice->sale->name }} {{ $datas->invoice->sale->last_name }}<br>{{ $datas->invoice->sale->email }}</td>
                                     <td><button class="btn btn-sm btn-primary">{{ $datas->invoice->brands->name }}</button></td>
+                                    <td>{!! ($datas->user && $datas->user->client && $datas->user->client->contact) ? '<a href="tel:'.$datas->user->client->contact.'">'.$datas->user->client->contact.'</a>' : '' !!}</td>
                                     <td>{{ $datas->invoice->currency_show->sign }} {{ $datas->invoice->amount }}</td>
                                     <td>
                                         <a href="javascript:;" class="btn btn-primary btn-icon btn-sm" onclick="assignAgent({{$datas->id}}, 2, {{ $datas->invoice->brands->id }})">
@@ -142,18 +134,6 @@
                                 @endforeach
                                 
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Invoice#</th>
-                                    <th>Logo Name</th>
-                                    <th>User Name</th>
-                                    <th>Agent Name</th>
-                                    <th>Brand</th>
-                                    <th>Amount</th>
-                                    <th>Action</th>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -169,6 +149,7 @@
                                     <th>User Name</th>
                                     <th>Agent Name</th>
                                     <th>Brand</th>
+                                    <th>Contact</th>
                                     <th>Amount</th>
                                     <th>Action</th>
                                 </tr>
@@ -188,6 +169,7 @@
                                     @endif
                                     <td>{{ $datas->invoice->sale->name }} {{ $datas->invoice->sale->last_name }}<br>{{ $datas->invoice->sale->email }}</td>
                                     <td><button class="btn btn-sm btn-primary">{{ $datas->invoice->brands->name }}</button></td>
+                                    <td>{!! ($datas->user && $datas->user->client && $datas->user->client->contact) ? '<a href="tel:'.$datas->user->client->contact.'">'.$datas->user->client->contact.'</a>' : '' !!}</td>
                                     <td>{{ $datas->invoice->currency_show->sign }} {{ $datas->invoice->amount }}</td>
                                     <td>
                                         <a href="javascript:;" class="btn btn-primary btn-icon btn-sm" onclick="assignAgent({{$datas->id}}, 3, {{ $datas->invoice->brands->id }})">
@@ -203,18 +185,6 @@
                                 @endforeach
                                 
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Invoice#</th>
-                                    <th>Logo Name</th>
-                                    <th>User Name</th>
-                                    <th>Agent Name</th>
-                                    <th>Brand</th>
-                                    <th>Amount</th>
-                                    <th>Action</th>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -230,6 +200,7 @@
                                     <th>User Name</th>
                                     <th>Agent Name</th>
                                     <th>Brand</th>
+                                    <th>Contact</th>
                                     <th>Amount</th>
                                     <th>Action</th>
                                 </tr>
@@ -249,6 +220,7 @@
                                     @endif
                                     <td>{{ $datas->invoice->sale->name }} {{ $datas->invoice->sale->last_name }}<br>{{ $datas->invoice->sale->email }}</td>
                                     <td><button class="btn btn-sm btn-primary">{{ $datas->invoice->brands->name }}</button></td>
+                                    <td>{!! ($datas->user && $datas->user->client && $datas->user->client->contact) ? '<a href="tel:'.$datas->user->client->contact.'">'.$datas->user->client->contact.'</a>' : '' !!}</td>
                                     <td>{{ $datas->invoice->currency_show->sign }} {{ $datas->invoice->amount }}</td>
                                     <td>
                                         <a href="javascript:;" class="btn btn-primary btn-icon btn-sm" onclick="assignAgent({{$datas->id}}, 4, {{ $datas->invoice->brands->id }})">
@@ -264,18 +236,6 @@
                                 @endforeach
                                 
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Invoice#</th>
-                                    <th>Logo Name</th>
-                                    <th>User Name</th>
-                                    <th>Agent Name</th>
-                                    <th>Brand</th>
-                                    <th>Amount</th>
-                                    <th>Action</th>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -291,6 +251,7 @@
                                     <th>User Name</th>
                                     <th>Agent Name</th>
                                     <th>Brand</th>
+                                    <th>Contact</th>
                                     <th>Amount</th>
                                     <th>Action</th>
                                 </tr>
@@ -310,6 +271,7 @@
                                     @endif
                                     <td>{{ $datas->invoice->sale->name }} {{ $datas->invoice->sale->last_name }}<br>{{ $datas->invoice->sale->email }}</td>
                                     <td><button class="btn btn-sm btn-primary">{{ $datas->invoice->brands->name }}</button></td>
+                                    <td>{!! ($datas->user && $datas->user->client && $datas->user->client->contact) ? '<a href="tel:'.$datas->user->client->contact.'">'.$datas->user->client->contact.'</a>' : '' !!}</td>
                                     <td>{{ $datas->invoice->currency_show->sign }} {{ $datas->invoice->amount }}</td>
                                     <td>
                                         <a href="javascript:;" class="btn btn-primary btn-icon btn-sm" onclick="assignAgent({{$datas->id}}, 5, {{ $datas->invoice->brands->id }})">
@@ -325,18 +287,6 @@
                                 @endforeach
                                 
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Invoice#</th>
-                                    <th>Company Name</th>
-                                    <th>User Name</th>
-                                    <th>Agent Name</th>
-                                    <th>Brand</th>
-                                    <th>Amount</th>
-                                    <th>Action</th>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -352,6 +302,7 @@
                                     <th>User Name</th>
                                     <th>Agent Name</th>
                                     <th>Brand</th>
+                                    <th>Contact</th>
                                     <th>Amount</th>
                                     <th>Action</th>
                                 </tr>
@@ -371,6 +322,7 @@
                                     @endif
                                     <td>{{ $datas->invoice->sale->name }} {{ $datas->invoice->sale->last_name }}<br>{{ $datas->invoice->sale->email }}</td>
                                     <td><button class="btn btn-sm btn-primary">{{ $datas->invoice->brands->name }}</button></td>
+                                    <td>{!! ($datas->user && $datas->user->client && $datas->user->client->contact) ? '<a href="tel:'.$datas->user->client->contact.'">'.$datas->user->client->contact.'</a>' : '' !!}</td>
                                     <td>{{ $datas->invoice->currency_show->sign }} {{ $datas->invoice->amount }}</td>
                                     <td>
                                         <a href="javascript:;" class="btn btn-primary btn-icon btn-sm" onclick="assignAgent({{$datas->id}}, 6, {{ $datas->invoice->brands->id }})">
@@ -386,18 +338,6 @@
                                 @endforeach
                                 
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Invoice#</th>
-                                    <th>Company Name</th>
-                                    <th>User Name</th>
-                                    <th>Agent Name</th>
-                                    <th>Brand</th>
-                                    <th>Amount</th>
-                                    <th>Action</th>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -413,6 +353,7 @@
                                     <th>User Name</th>
                                     <th>Agent Name</th>
                                     <th>Brand</th>
+                                    <th>Contact</th>
                                     <th>Amount</th>
                                     <th>Action</th>
                                 </tr>
@@ -432,6 +373,7 @@
                                     @endif
                                     <td>{{ $datas->invoice->sale->name }} {{ $datas->invoice->sale->last_name }}<br>{{ $datas->invoice->sale->email }}</td>
                                     <td><button class="btn btn-sm btn-primary">{{ $datas->invoice->brands->name }}</button></td>
+                                    <td>{!! ($datas->user && $datas->user->client && $datas->user->client->contact) ? '<a href="tel:'.$datas->user->client->contact.'">'.$datas->user->client->contact.'</a>' : '' !!}</td>
                                     <td>{{ $datas->invoice->currency_show->sign }} {{ $datas->invoice->amount }}</td>
                                     <td>
                                         <a href="javascript:;" class="btn btn-primary btn-icon btn-sm" onclick="assignAgent({{$datas->id}}, 7, {{ $datas->invoice->brands->id }})">
@@ -447,18 +389,6 @@
                                 @endforeach
                                 
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Invoice#</th>
-                                    <th>Company Name</th>
-                                    <th>User Name</th>
-                                    <th>Agent Name</th>
-                                    <th>Brand</th>
-                                    <th>Amount</th>
-                                    <th>Action</th>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -474,6 +404,7 @@
                                     <th>User Name</th>
                                     <th>Agent Name</th>
                                     <th>Brand</th>
+                                    <th>Contact</th>
                                     <th>Amount</th>
                                     <th>Action</th>
                                 </tr>
@@ -493,6 +424,7 @@
                                     @endif
                                     <td>{{ $datas->invoice->sale->name }} {{ $datas->invoice->sale->last_name }}<br>{{ $datas->invoice->sale->email }}</td>
                                     <td><button class="btn btn-sm btn-primary">{{ $datas->invoice->brands->name }}</button></td>
+                                    <td>{!! ($datas->user && $datas->user->client && $datas->user->client->contact) ? '<a href="tel:'.$datas->user->client->contact.'">'.$datas->user->client->contact.'</a>' : '' !!}</td>
                                     <td>{{ $datas->invoice->currency_show->sign }} {{ $datas->invoice->amount }}</td>
                                     <td>
                                         <a href="javascript:;" class="btn btn-primary btn-icon btn-sm" onclick="assignAgent({{$datas->id}}, 8, {{ $datas->invoice->brands->id }})">
@@ -506,20 +438,8 @@
                                     </td>
                                 </tr>
                                 @endforeach
-                                
+
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Invoice#</th>
-                                    <th>Author Name</th>
-                                    <th>User Name</th>
-                                    <th>Agent Name</th>
-                                    <th>Brand</th>
-                                    <th>Amount</th>
-                                    <th>Action</th>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -535,6 +455,7 @@
                                     <th>User Name</th>
                                     <th>Agent Name</th>
                                     <th>Brand</th>
+                                    <th>Contact</th>
                                     <th>Amount</th>
                                     <th>Action</th>
                                 </tr>
@@ -554,6 +475,7 @@
                                     @endif
                                     <td>{{ $datas->invoice->sale->name }} {{ $datas->invoice->sale->last_name }}<br>{{ $datas->invoice->sale->email }}</td>
                                     <td><button class="btn btn-sm btn-primary">{{ $datas->invoice->brands->name }}</button></td>
+                                    <td>{!! ($datas->user && $datas->user->client && $datas->user->client->contact) ? '<a href="tel:'.$datas->user->client->contact.'">'.$datas->user->client->contact.'</a>' : '' !!}</td>
                                     <td>{{ $datas->invoice->currency_show->sign }} {{ $datas->invoice->amount }}</td>
                                     <td>
                                         <a href="javascript:;" class="btn btn-primary btn-icon btn-sm" onclick="assignAgent({{$datas->id}}, 9, {{ $datas->invoice->brands->id }})">
@@ -569,18 +491,6 @@
                                 @endforeach
                                 
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Invoice#</th>
-                                    <th>Description</th>
-                                    <th>User Name</th>
-                                    <th>Agent Name</th>
-                                    <th>Brand</th>
-                                    <th>Amount</th>
-                                    <th>Action</th>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -596,6 +506,7 @@
                                     <th>User Name</th>
                                     <th>Agent Name</th>
                                     <th>Brand</th>
+                                    <th>Contact</th>
                                     <th>Amount</th>
                                     <th>Action</th>
                                 </tr>
@@ -615,6 +526,7 @@
                                     @endif
                                     <td>{{ $datas->invoice->sale->name }} {{ $datas->invoice->sale->last_name }}<br>{{ $datas->invoice->sale->email }}</td>
                                     <td><button class="btn btn-sm btn-primary">{{ $datas->invoice->brands->name }}</button></td>
+                                    <td>{!! ($datas->user && $datas->user->client && $datas->user->client->contact) ? '<a href="tel:'.$datas->user->client->contact.'">'.$datas->user->client->contact.'</a>' : '' !!}</td>
                                     <td>{{ $datas->invoice->currency_show->sign }} {{ $datas->invoice->amount }}</td>
                                     <td>
                                         <a href="javascript:;" class="btn btn-primary btn-icon btn-sm" onclick="assignAgent({{$datas->id}}, 10, {{ $datas->invoice->brands->id }})">
@@ -630,18 +542,6 @@
                                 @endforeach
                                 
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Invoice#</th>
-                                    <th>Description</th>
-                                    <th>User Name</th>
-                                    <th>Agent Name</th>
-                                    <th>Brand</th>
-                                    <th>Amount</th>
-                                    <th>Action</th>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -658,6 +558,7 @@
                                     <th>User Name</th>
                                     <th>Agent Name</th>
                                     <th>Brand</th>
+                                    <th>Contact</th>
                                     <th>Amount</th>
                                     <th>Action</th>
                                 </tr>
@@ -677,6 +578,7 @@
                                     @endif
                                     <td>{{ $datas->invoice->sale->name }} {{ $datas->invoice->sale->last_name }}<br>{{ $datas->invoice->sale->email }}</td>
                                     <td><button class="btn btn-sm btn-primary">{{ $datas->invoice->brands->name }}</button></td>
+                                    <td>{!! ($datas->user && $datas->user->client && $datas->user->client->contact) ? '<a href="tel:'.$datas->user->client->contact.'">'.$datas->user->client->contact.'</a>' : '' !!}</td>
                                     <td>{{ $datas->invoice->currency_show->sign }} {{ $datas->invoice->amount }}</td>
                                     <td>
                                         <a href="javascript:;" class="btn btn-primary btn-icon btn-sm" onclick="assignAgent({{$datas->id}}, 11, {{ $datas->invoice->brands->id }})">
@@ -692,18 +594,6 @@
                                 @endforeach
                                 
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Invoice#</th>
-                                    <th>Description</th>
-                                    <th>User Name</th>
-                                    <th>Agent Name</th>
-                                    <th>Brand</th>
-                                    <th>Amount</th>
-                                    <th>Action</th>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -720,6 +610,7 @@
                                     <th>User Name</th>
                                     <th>Agent Name</th>
                                     <th>Brand</th>
+                                    <th>Contact</th>
                                     <th>Amount</th>
                                     <th>Action</th>
                                 </tr>
@@ -739,6 +630,7 @@
                                     @endif
                                     <td>{{ $datas->invoice->sale->name }} {{ $datas->invoice->sale->last_name }}<br>{{ $datas->invoice->sale->email }}</td>
                                     <td><button class="btn btn-sm btn-primary">{{ $datas->invoice->brands->name }}</button></td>
+                                    <td>{!! ($datas->user && $datas->user->client && $datas->user->client->contact) ? '<a href="tel:'.$datas->user->client->contact.'">'.$datas->user->client->contact.'</a>' : '' !!}</td>
                                     <td>{{ $datas->invoice->currency_show->sign }} {{ $datas->invoice->amount }}</td>
                                     <td>
                                         <a href="javascript:;" class="btn btn-primary btn-icon btn-sm" onclick="assignAgent({{$datas->id}}, 12, {{ $datas->invoice->brands->id }})">
@@ -754,18 +646,6 @@
                                 @endforeach
                                 
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Invoice#</th>
-                                    <th>Description</th>
-                                    <th>User Name</th>
-                                    <th>Agent Name</th>
-                                    <th>Brand</th>
-                                    <th>Amount</th>
-                                    <th>Action</th>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -782,6 +662,7 @@
                                     <th>User Name</th>
                                     <th>Agent Name</th>
                                     <th>Brand</th>
+                                    <th>Contact</th>
                                     <th>Amount</th>
                                     <th>Account</th>
                                 </tr>
@@ -801,6 +682,7 @@
                                     @endif
                                     <td>{{ $datas->invoice->sale->name }} {{ $datas->invoice->sale->last_name }}<br>{{ $datas->invoice->sale->email }}</td>
                                     <td><button class="btn btn-sm btn-primary">{{ $datas->invoice->brands->name }}</button></td>
+                                    <td>{!! ($datas->user && $datas->user->client && $datas->user->client->contact) ? '<a href="tel:'.$datas->user->client->contact.'">'.$datas->user->client->contact.'</a>' : '' !!}</td>
                                     <td>{{ $datas->invoice->currency_show->sign }} {{ $datas->invoice->amount }}</td>
                                     <td>
                                         <a href="javascript:;" class="btn btn-primary btn-icon btn-sm" onclick="assignAgent({{$datas->id}}, 0, {{ $datas->invoice->brands->id }})">
@@ -816,18 +698,6 @@
                                 @endforeach
                                 
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Invoice#</th>
-                                    <th>Logo Name</th>
-                                    <th>User Name</th>
-                                    <th>Agent Name</th>
-                                    <th>Brand</th>
-                                    <th>Amount</th>
-                                    <th>Account</th>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>
