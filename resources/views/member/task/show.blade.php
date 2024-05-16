@@ -259,6 +259,17 @@
 <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 <script>
     $(document).ready(function(){
+        $('.btn_download_all_files').on('click', function () {
+            $('.anchor_test').each(async (i, item) => {
+                // alert();
+                let url = $(item).prop('href');
+                await fetch(url).then(r => alert(r.blob())).catch(e => console.log(e));
+                // let file_name = (Math.random().toString(36).substring(2,22)) + '.' + (url.substring(this.href.lastIndexOf('.') + 1));
+                // downloadURI($(item).prop('href'), file_name);
+                window.open($(item).prop('href'));
+            });
+        });
+
         if($('#zero_configuration_table').length != 0){
             $('#zero_configuration_table').DataTable({
                 order: [[0, "desc"]],
