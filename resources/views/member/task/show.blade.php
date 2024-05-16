@@ -127,7 +127,7 @@
             <div class="card">
                 <div class="card-body pl-0 pr-0">
                     <h4 class="card-title mb-3" style="margin: 0 1.25em;">Files</h4>
-                    <button type="button" class="btn-primary btn-sm btn_download_all_files">Download all files</button>
+                    <button type="button" class="btn-primary btn-sm btn_download_all_files ml-4 mb-4">Download all files</button>
                     <div class="separator-breadcrumb border-top mb-3"></div>
                     <div class="">
                         <table class="display table table-striped table-bordered" id="zero_configuration_table" style="width:100%">
@@ -247,7 +247,7 @@
                 </div>
                 @endforeach
             </div>
-            
+
         </div>
     </div>
 </section>
@@ -260,13 +260,8 @@
 <script>
     $(document).ready(function(){
         $('.btn_download_all_files').on('click', function () {
-            $('.anchor_test').each(async (i, item) => {
-                // alert();
-                let url = $(item).prop('href');
-                await fetch(url).then(r => alert(r.blob())).catch(e => console.log(e));
-                // let file_name = (Math.random().toString(36).substring(2,22)) + '.' + (url.substring(this.href.lastIndexOf('.') + 1));
-                // downloadURI($(item).prop('href'), file_name);
-                window.open($(item).prop('href'));
+            $('.anchor_test').each((i, item) => {
+                item.click();
             });
         });
 
@@ -291,7 +286,7 @@
                 data: $(this).serialize(),
                 success: function(response) {
                     if(response.success == true){
-                        toastr.success(response.data, 'Success', {timeOut: 5000})   
+                        toastr.success(response.data, 'Success', {timeOut: 5000})
                     }else{
                         toastr.error('Please Contact your Administrator', 'Error Occured', {timeOut: 5000})
                     }
@@ -308,7 +303,7 @@
                 $.ajax({
                     type: "POST",
                     url: action,
-                    data: { description:description, duedate:duedate, production_member_assigns_id:production_member_assigns_id}, 
+                    data: { description:description, duedate:duedate, production_member_assigns_id:production_member_assigns_id},
                     success: function(response) {
                         console.log(response);
                         var duedate = '';
@@ -391,7 +386,7 @@
                                                 <button class="btn btn-info dropdown-toggle btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="la la-eye"></i></button>\
                                                 <div class="dropdown-menu arrow">\
                                                     <a class="dropdown-item" href="/files/'+response.files[i].path+'" target="_blank"> View</a>\
-                                                    <a class="dropdown-item" href="/files/'+response.files[i].path+'" download> Download</a>\
+                                                    <a class="dropdown-item anchor_test" href="/files/'+response.files[i].path+'" download> Download</a>\
                                                     <a class="dropdown-item" href="#" onclick="deleteFile('+response.files[i].id+')"> Delete</a>\
                                                 </div>\
                                             </div>\

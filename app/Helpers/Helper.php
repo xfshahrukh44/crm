@@ -9,15 +9,15 @@ function mail_notification ($from, $to, $subject, $html, $for_admin = false) {
 
         if ($for_admin) { $mails []= 'ssidduit@gmail.com'; }
 
-        Mail::send([], [], function ($message) use ($from, $to, $subject, $html, $mails) {
-            $message->to($mails)
-            ->subject($subject)
-            ->setBody($html, 'text/html');
-        });
+//        Mail::send([], [], function ($message) use ($from, $to, $subject, $html, $mails) {
+//            $message->to($mails)
+//            ->subject($subject)
+//            ->setBody($html, 'text/html');
+//        });
 
-//        foreach ($mails as $mail) {
-//            mail($mail, $subject, $html, "Content-Type: text/html; charset=UTF-8");
-//        }
+        foreach ($mails as $mail) {
+            mail($mail, $subject, $html, "Content-Type: text/html; charset=UTF-8");
+        }
 
         return (boolean)count(Mail::failures());
     } catch (\Exception $e) {

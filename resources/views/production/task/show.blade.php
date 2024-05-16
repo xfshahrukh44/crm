@@ -133,6 +133,7 @@
             <div class="card">
                 <div class="card-body pl-0 pr-0">
                     <h4 class="card-title mb-3" style="margin: 0 1.25em;">Files</h4>
+                    <button type="button" class="btn-primary btn-sm btn_download_all_files ml-4 mb-4">Download all files</button>
                     <div class="separator-breadcrumb border-top mb-3"></div>
                     <div class="">
                         <table class="display table table-striped table-bordered files" id="zero_configuration_table" style="width:100%">
@@ -178,7 +179,7 @@
                                             <button class="btn btn-info dropdown-toggle btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="i-Edit"></i></button>
                                             <div class="dropdown-menu arrow">
                                                 <a class="dropdown-item" href="{{asset('files/'.$client_files->path)}}" target="_blank"> View</a>
-                                                <a class="dropdown-item" href="{{asset('files/'.$client_files->path)}}" download> Download</a>
+                                                <a class="dropdown-item anchor_test" href="{{asset('files/'.$client_files->path)}}" download> Download</a>
                                                 <a class="dropdown-item" href="javascript:;" onclick="deleteFile({{$client_files->id}})"> Delete</a>
                                             </div>
                                         </div>
@@ -428,6 +429,12 @@
         });
     }
     $(document).ready(function(){
+        $('.btn_download_all_files').on('click', function () {
+            $('.anchor_test').each((i, item) => {
+                item.click();
+            });
+        });
+
         if($('#zero_configuration_table').length != 0){
             $('#zero_configuration_table').DataTable({
                 order: [[0, "desc"]],
@@ -558,7 +565,7 @@
                                                 <button class="btn btn-info dropdown-toggle btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="i-Edit"></i></button>\
                                                 <div class="dropdown-menu arrow">\
                                                     <a class="dropdown-item" href="/files/'+response.files[i].path+'" target="_blank"> View</a>\
-                                                    <a class="dropdown-item" href="/files/'+response.files[i].path+'" download> Download</a>\
+                                                    <a class="dropdown-item anchor_test" href="/files/'+response.files[i].path+'" download> Download</a>\
                                                     <a class="dropdown-item" href="#" onclick="deleteFile('+response.files[i].id+')"> Delete</a>\
                                                 </div>\
                                             </div>\
