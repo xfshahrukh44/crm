@@ -235,6 +235,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/production/profile/edit', [HomeController::class, 'productionProfile'])->name('production.profile');
         Route::get('/production/task/{id}/{notify?}', [TaskController::class, 'productionShow'])->name('production.task.show');
         Route::get('/production/subtask/{id}/{notify?}', [TaskController::class, 'productionSubtaskShow'])->name('production.subtask.show');
+        Route::post('/production/subtask/edit/{id}', [TaskController::class, 'productionSubtaskUpdate'])->name('production.subtask.update');
         Route::post('/production/subtask', [SubTaskController::class, 'producionSubtask'])->name('production.subtask.store');
         Route::get('/production/subtask', [SubTaskController::class, 'producionSubtaskAssigned'])->name('production.subtask.assigned');
         Route::post('/production/files/{id}', [TaskController::class, 'insertFiles'])->name('insert.files');

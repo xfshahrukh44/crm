@@ -290,7 +290,7 @@
                                         <hr>
                                         <div class="assign-wrapper">
                                         @foreach($sub_tasks->assign_members as $assign_members)
-                                            <a href="{{ route('production.subtask.show', $assign_members->id) }}">
+{{--                                            <a href="{{ route('production.subtask.show', $assign_members->id) }}">--}}
                                                 <div class="card mb-4">
                                                     <div class="card-body">
                                                         <div class="d-flex align-items-center border-bottom-dotted-dim">
@@ -301,15 +301,27 @@
                                                         @endif
                                                             <div class="flex-grow-1">
                                                                 <h6 class="m-0">{{ $assign_members->assigned_to_user->name }} {{ $assign_members->assigned_to_user->last_name }}</h6>
-                                                                <p class="m-0 text-small text-muted"> {{ $assign_members->comments }} </p>
+                                                                <form action="{{route('production.subtask.update', $assign_members->id)}}" method="POST">
+                                                                    @csrf
+                                                                    <p class="m-0 text-small text-muted p_comment_editable" contenteditable="false" type="submit"> {{ $assign_members->comments }} </p>
+                                                                    <input class="hidden_input_comments" type="hidden" name="comments">
+                                                                </form>
+                                                            </div>
+                                                            <div>
+                                                                @if(\Illuminate\Support\Facades\Auth::user()->is_employee == 1)
+                                                                    <button class='btn btn-info btn-sm mr-2 btn_edit_subtask'>Edit</button>
+                                                                @endif
                                                             </div>
                                                             <div>
                                                                 {!! $assign_members->get_status() !!}
                                                             </div>
+                                                            <div>
+                                                                <a href="{{ route('production.subtask.show', $assign_members->id) }}" class='btn btn-primary btn-sm ml-2'>Detail</a>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </a>
+{{--                                            </a>--}}
                                             @endforeach
                                             <form class="repeater assign-sub-task-form mb-4" action="{{ route('production.subtask.assign') }}" method="post">
                                                 @csrf
@@ -435,6 +447,21 @@
             $('.anchor_test').each((i, item) => {
                 item.click();
             });
+        });
+
+        $('.btn_edit_subtask').on('click', function () {
+            console.log($(this).parent().parent().find('.p_comment_editable'));
+            let comment_para = $(this).parent().parent().find('.p_comment_editable');
+            comment_para.prop('contenteditable', !(comment_para.prop('contenteditable') == 'true'));
+            comment_para.focus();
+        });
+
+        $('.p_comment_editable').on('keyup', function (e) {
+            $(this).parent().find('.hidden_input_comments').val($(this).text());
+
+            if(e.which == 13) {
+                $(this).parent().parent().find('form').submit();
+            }
         });
 
         if($('#zero_configuration_table').length != 0){

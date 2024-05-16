@@ -125,6 +125,22 @@ class TaskController extends Controller
         // }
     }
 
+    public function productionSubtaskUpdate(Request $request, $id){
+        if (Auth::user()->is_employee != 1) {
+            return redirect()->back()->with('error', 'Not allowed for this user type.');
+        }
+
+        $request->validate([
+            'comments' => 'required'
+        ]);
+
+        $subtask = ProductionMemberAssign::find($id);
+        $subtask->comments = $request->get('comments');
+        $subtask->save();
+
+        return redirect()->back()->with('success', 'Subtask comment updated Successfully.');
+    }
+
     public function productionShow($id, $notify = null){
         if($notify != null){
             $Notification = Auth::user()->Notifications->find($notify);
