@@ -187,7 +187,9 @@
                             <div class="card">
                                 <div class="card-body pl-0 pr-0">
                                     <h4 class="card-title mb-3" style="margin: 0 1.25em;">Files</h4>
-                                    <button type="button" class="btn-primary btn-sm btn_download_all_files ml-4 mb-4">Download all files</button>
+                                    @if(count($task->client_files_support))
+                                        <button type="button" class="btn-primary btn-sm btn_download_all_files ml-4 mb-4">Download all files</button>
+                                    @endif
                                     <div class="separator-breadcrumb border-top mb-3"></div>
                                     <div class="table-responsive">
                                         <table class="display table table-striped table-bordered files" id="zero_configuration_table" style="width:100%">
