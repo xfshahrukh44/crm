@@ -277,7 +277,8 @@ class TaskController extends Controller
 
     public function deleteFiles(Request $request){
         $file = ClientFile::find($request->id);
-        if($file->user_id == Auth::user()->id){
+//        if($file->user_id == Auth::user()->id){
+        if($file->user_id == Auth::user()->id || Auth::user()->is_employee == 1){
             File::delete(public_path().'/files/'.$file->path);
             $file->delete();
             return response()->json(['success' => true, 'data' => 'File Deleted Succesfully']);
