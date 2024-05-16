@@ -1041,7 +1041,7 @@ class InvoiceController extends Controller
 
     public function getInvoiceByUserId (Request $request){
         $data = new Invoice;
-        $data = $data->where('sales_agent_id', Auth()->user()->id);
+//        $data = $data->where('sales_agent_id', Auth()->user()->id);
         $data = $data->orderBy('id', 'desc');
         $perPage = 10;
         if($request->package != ''){
@@ -1057,6 +1057,11 @@ class InvoiceController extends Controller
         if($request->status != 0){
             $data = $data->where('payment_status', $request->status);
         }
+
+        //when client_id
+        $data->when($request->has('client_id'), function ($q) use ($request) {
+            return $q->where('client_id', $request->get('client_id'));
+        });
         $data = $data->paginate(10);
         return view('sale.invoice.index', compact('data'));
     }

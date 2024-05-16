@@ -31,7 +31,7 @@ class BrandController extends Controller
 
     public function construct()
     {
-        if (!Auth::check() || !in_array(Auth::user()->is_employee, [2, 6, 4])) {
+        if (!Auth::check() || !in_array(Auth::user()->is_employee, [2, 6, 4, 0])) {
             return false;
         }
 
@@ -39,6 +39,8 @@ class BrandController extends Controller
             $this->layout = 'layouts.app-admin';
         } else if (Auth::user()->is_employee == 6) {
             $this->layout = 'layouts.app-manager';
+        } else if (Auth::user()->is_employee == 0) {
+            $this->layout = 'layouts.app-sale';
         } else if (Auth::user()->is_employee == 4) {
             $this->layout = 'layouts.app-support';
         }
@@ -58,7 +60,7 @@ class BrandController extends Controller
 //                return $q->orderBy('created_at', 'DESC');
 //            })->orderBy('created_at', 'DESC');
 //        })
-        when((Auth::user()->is_employee == 6 || Auth::user()->is_employee == 4), function ($q) {
+        when((Auth::user()->is_employee == 6 || Auth::user()->is_employee == 4 || Auth::user()->is_employee == 0), function ($q) {
             return $q->whereIn('id', Auth::user()->brand_list());
         })
         ->when($request->has('brand_name'), function ($q) use ($request) {
@@ -102,9 +104,11 @@ class BrandController extends Controller
         $brand_user_ids = DB::table('brand_users')->where('brand_id', $id)->pluck('user_id')->toArray();
 
         $buhs = User::whereIn('id', $brand_user_ids)->where('is_employee', 6)->get();
-        $agents = User::whereIn('id', $brand_user_ids)->where('is_employee', 4)->get();
+        $support_heads = User::whereIn('id', $brand_user_ids)->where('is_employee', 4)->where('is_support_head', 1)->get();
+        $customer_supports = User::whereIn('id', $brand_user_ids)->where('is_employee', 4)->where('is_support_head', 0)->get();
+        $agents = User::whereIn('id', $brand_user_ids)->where('is_employee', 0)->get();
 
-        return view('brand-detail', compact('brand', 'clients', 'buhs', 'agents'))->with(['layout' => $this->layout]);
+        return view('brand-detail', compact('brand', 'clients', 'buhs', 'support_heads', 'customer_supports', 'agents'))->with(['layout' => $this->layout]);
     }
 
     public function clients_detail (Request $request, $id)

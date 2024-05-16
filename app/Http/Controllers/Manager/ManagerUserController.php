@@ -52,7 +52,10 @@ class ManagerUserController extends Controller
     }
 
     public function getUserSale(){
-    	$user = User::whereIn('is_employee', [0, 4, 6])->get();
+//    	$user = User::whereIn('is_employee', [0, 4])->get();
+    	$user = User::whereIn('is_employee', [0, 4])->whereHas('brands', function ($q) {
+    	    return $q->whereIn('id', Auth::user()->brand_list());
+        })->get();
 		return view('manager.sale-person.index', compact('user'));
     }
 

@@ -58,14 +58,20 @@
             </div>
         </div>
 
-        @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6]))
+        @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]))
             <div class="row mb-4">
                 <div class="col-lg-12 col-md-12">
                     <h2 class="ml-3">Invoices ({{count($client->invoices)}})</h2>
                 </div>
                 @if (count($client->invoices))
                     @php
-                        $route = \Illuminate\Support\Facades\Auth::user()->is_employee == 2 ? 'admin.invoice' : 'manager.invoice';
+                        if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
+                            $route = 'admin.invoice';
+                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
+                            $route = 'manager.invoice';
+                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {
+                            $route = 'sale.invoice';
+                        }
                     @endphp
                     <div class="col-lg-12 col-md-12">
                         <a target="_blank" href="{{route($route, ['client_id' => $client->id])}}" class="btn btn-primary ml-3">View invoices</a>
@@ -74,7 +80,7 @@
             </div>
         @endif
 
-        @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6]))
+        @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]))
             <div class="row mb-4">
                 <div class="col-lg-12 col-md-12">
                     <h2 class="ml-3">Brief pending ({{$brief_pending_count}})</h2>
@@ -82,7 +88,13 @@
                 @if ($brief_pending_count > 0)
                     @php
                         $client_user = \App\Models\User::where('client_id', $client->id)->first();
-                        $route = \Illuminate\Support\Facades\Auth::user()->is_employee == 2 ? 'admin.brief.pending' : 'manager.brief.pending';
+                        if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
+                            $route = 'admin.brief.pending';
+                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
+                            $route = 'manager.brief.pending';
+                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {
+                            $route = 'sale.brief.pending';
+                        }
                     @endphp
                     <div class="col-lg-12 col-md-12">
                         <a target="_blank" href="{{route($route, ['user_id' => $client_user->id])}}" class="btn btn-primary ml-3">View brief pending</a>
@@ -114,18 +126,20 @@
             </div>
         @endif
 
-        <div class="row mb-4">
-            <div class="col-lg-12 col-md-12">
-{{--                <h2 class="ml-3">Projects ({{count($client->_projects())}})</h2>--}}
-                @php
-                    $client_user = \App\Models\User::where('client_id', $client->id)->first();
-                    $project_count = $client_user ? count($client_user->projects) : 0;
-                @endphp
-                <h2 class="ml-3">Services ({{$project_count}})</h2>
+
+        @if(\Illuminate\Support\Facades\Auth::user()->is_employee != 0)
+            <div class="row mb-4">
+                <div class="col-lg-12 col-md-12">
+    {{--                <h2 class="ml-3">Projects ({{count($client->_projects())}})</h2>--}}
+                    @php
+                        $client_user = \App\Models\User::where('client_id', $client->id)->first();
+                        $project_count = $client_user ? count($client_user->projects) : 0;
+                    @endphp
+                    <h2 class="ml-3">Services ({{$project_count}})</h2>
+                </div>
             </div>
-        </div>
-        <!-- CARD ICON-->
-        <div class="row client_wrapper">
+            <!-- CARD ICON-->
+            <div class="row client_wrapper">
             @foreach($projects as $project)
                 <div class="col-lg-2 col-md-6 col-sm-6">
 
@@ -155,6 +169,7 @@
                 </div>
             @endforeach
         </div>
+        @endif
     </div>
 
 </div>

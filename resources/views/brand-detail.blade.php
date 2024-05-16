@@ -68,13 +68,13 @@
         </div>
 
         <div class="row my-4">
-            <div class="col-md-6 offset-md-3">
+            <div class="col-md-12">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <div class="row text-center">
-                            <div class="col-md-6 offset-md-3">
+                            <div class="col-md-12">
                                 <h6>
-                                    <b>Sales</b>
+                                    <b>Buhs</b>
                                 </h6>
                             </div>
                         </div>
@@ -91,11 +91,53 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <div class="row text-center">
-                            <div class="col-md-6 offset-md-3">
+                            <div class="col-md-12">
                                 <h6>
-                                    <b>Project managers</b>
+                                    <b>Support heads</b>
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="row text-center">
+                            <div class="col-12">
+                                <div class="row">
+                                    @foreach($support_heads as $support_head)
+                                        <a href="mailto:{{$support_head->email}}">
+                                            <h6>{{$support_head->name . ' ' . $support_head->last_name}}</h6>
+                                        </a>
+                                        <h6>{!! ($loop->last ? '.' : ",&nbsp;&nbsp;") !!}</h6>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="row text-center">
+                            <div class="col-md-12">
+                                <h6>
+                                    <b>Customer support</b>
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="row text-center">
+                            <div class="col-12">
+                                <div class="row">
+                                    @foreach($customer_supports as $customer_support)
+                                        <a href="mailto:{{$customer_support->email}}">
+                                            <h6>{{$customer_support->name . ' ' . $customer_support->last_name}}</h6>
+                                        </a>
+                                        <h6>{!! ($loop->last ? '.' : ",&nbsp;&nbsp;") !!}</h6>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="row text-center">
+                            <div class="col-md-12">
+                                <h6>
+                                    <b>Agents</b>
                                 </h6>
                             </div>
                         </div>
