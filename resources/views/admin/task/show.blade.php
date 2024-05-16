@@ -77,6 +77,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title mb-3">Files</h4>
+                                    <button type="button" class="btn-primary btn-sm btn_download_all_files">Download all files</button>
                                     <div class="separator-breadcrumb border-top mb-3"></div>
                                     <div class="table-responsive">
                                         <table class="display table table-striped table-bordered" id="zero_configuration_table" style="width:100%">
@@ -359,6 +360,45 @@
 <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 <script>
     $(document).ready(function(){
+        // function downloadURI(uri, name) {
+        //     var link = document.createElement("a");
+        //     link.download = name;
+        //     link.href = uri;
+        //     document.body.appendChild(link);
+        //     link.click();
+        //     // document.body.removeChild(link);
+        //     // delete link;
+        // }
+
+        const saveData = (function () {
+            var a = document.createElement("a");
+            document.body.appendChild(a);
+            a.style = "display: none";
+            return function (data, fileName) {
+                var json = JSON.stringify(data),
+                    blob = new Blob([json], {type: "octet/stream"}),
+                    url = window.URL.createObjectURL(blob);
+                a.href = url;
+                a.download = fileName;
+                a.click();
+                window.URL.revokeObjectURL(url);
+            };
+        }());
+
+
+
+        $('.btn_download_all_files').on('click', function () {
+            alert();
+            $('.anchor_test').each(async (i, item) => {
+                // alert();
+                let url = $(item).prop('href');
+                // await fetch(url).then(r => alert(r.blob())).catch(e => console.log(e));
+                // let file_name = (Math.random().toString(36).substring(2,22)) + '.' + (url.substring(this.href.lastIndexOf('.') + 1));
+                // downloadURI($(item).prop('href'), file_name);
+                window.open($(item).prop('href'));
+            });
+        });
+
         $('.input-images').imageUploader();
         $('#write-message').click(function(){
             $('.left-message-box-wrapper').addClass('fixed-option');
