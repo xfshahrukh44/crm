@@ -21,42 +21,52 @@
             </div>
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="card card-icon mb-4">
-                    <div class="card-body text-center"><i class="i-Data-Upload"></i>
-                        <p class="text-muted mt-2 mb-2">Open</p>
-                        <p class="text-primary text-24 line-height-1 m-0">{{ $open_task }}</p>
-                    </div>
+                    <a href="{{route('production.home')}}">
+                        <div class="card-body text-center"><i class="i-Data-Upload"></i>
+                            <p class="text-muted mt-2 mb-2">Open</p>
+                            <p class="text-primary text-24 line-height-1 m-0">{{ $open_task }}</p>
+                        </div>
+                    </a>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="card card-icon mb-4">
-                    <div class="card-body text-center"><i class="i-Data-Backup"></i>
-                        <p class="text-muted mt-2 mb-2">Revision</p>
-                        <p class="text-primary text-24 line-height-1 m-0">{{ $reopen_task }}</p>
-                    </div>
+                    <a href="{{route('production.home', ['status' => [1], 'category' => 0])}}">
+                        <div class="card-body text-center"><i class="i-Data-Backup"></i>
+                            <p class="text-muted mt-2 mb-2">Revision</p>
+                            <p class="text-primary text-24 line-height-1 m-0">{{ $reopen_task }}</p>
+                        </div>
+                    </a>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="card card-icon mb-4">
-                    <div class="card-body text-center"><i class="i-Data-Upload"></i>
-                        <p class="text-muted mt-2 mb-2">In Progress</p>
-                        <p class="text-primary text-24 line-height-1 m-0">{{ $in_progress_task }}</p>
-                    </div>
+                    <a href="{{route('production.home', ['status' => [4], 'category' => 0])}}">
+                        <div class="card-body text-center"><i class="i-Data-Upload"></i>
+                            <p class="text-muted mt-2 mb-2">In Progress</p>
+                            <p class="text-primary text-24 line-height-1 m-0">{{ $in_progress_task }}</p>
+                        </div>
+                    </a>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="card card-icon mb-4">
-                    <div class="card-body text-center"><i class="i-Data-Yes"></i>
-                        <p class="text-muted mt-2 mb-2">Completed</p>
-                        <p class="text-primary text-24 line-height-1 m-0">{{ $completed_task }}</p>
-                    </div>
+                    <a href="{{route('production.home', ['status' => [3], 'category' => 0])}}">
+                        <div class="card-body text-center"><i class="i-Data-Yes"></i>
+                            <p class="text-muted mt-2 mb-2">Completed</p>
+                            <p class="text-primary text-24 line-height-1 m-0">{{ $completed_task }}</p>
+                        </div>
+                    </a>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="card card-icon mb-4">
-                    <div class="card-body text-center"><i class="i-Data-Block"></i>
-                        <p class="text-muted mt-2 mb-2">Hold</p>
-                        <p class="text-primary text-24 line-height-1 m-0">{{ $hold_task }}</p>
-                    </div>
+                    <a href="{{route('production.home', ['status' => [2], 'category' => 0])}}">
+                        <div class="card-body text-center"><i class="i-Data-Block"></i>
+                            <p class="text-muted mt-2 mb-2">Hold</p>
+                            <p class="text-primary text-24 line-height-1 m-0">{{ $hold_task }}</p>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
