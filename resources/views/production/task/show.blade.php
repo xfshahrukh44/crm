@@ -313,10 +313,10 @@
                                                                 @endif
                                                             </div>
                                                             <div>
-                                                                {!! $assign_members->get_status() !!}
+                                                                <a href="{{ route('production.subtask.show', $assign_members->id) }}" class='btn btn-primary btn-sm mr-2'>Detail</a>
                                                             </div>
                                                             <div>
-                                                                <a href="{{ route('production.subtask.show', $assign_members->id) }}" class='btn btn-primary btn-sm ml-2'>Detail</a>
+                                                                {!! $assign_members->get_status() !!}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -452,14 +452,17 @@
         $('.btn_edit_subtask').on('click', function () {
             console.log($(this).parent().parent().find('.p_comment_editable'));
             let comment_para = $(this).parent().parent().find('.p_comment_editable');
-            comment_para.prop('contenteditable', !(comment_para.prop('contenteditable') == 'true'));
+            // comment_para.prop('contenteditable', !(comment_para.prop('contenteditable') == 'true'));
+            comment_para.prop('contenteditable', true);
+            $(this).hide();
             comment_para.focus();
         });
 
         $('.p_comment_editable').on('keyup', function (e) {
             $(this).parent().find('.hidden_input_comments').val($(this).text());
 
-            if(e.which == 13) {
+            if(e.which == 13 && $(this).text() != '') {
+                $(this).text($(this).text().replaceAll('\n', ''));
                 $(this).parent().parent().find('form').submit();
             }
         });
