@@ -30,16 +30,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach(auth()->user()->notifications()->orderBy('created_at','desc')->paginate(30) as $notification)
+{{--                            @foreach(auth()->user()->notifications()->orderBy('created_at','desc')->paginate(30) as $notification)--}}
+                            @php
+                                $notifications = sale_manager_notifications(\Illuminate\Support\Facades\Request::get('brand_id'));
+                            @endphp
+                            @foreach($notifications as $notification)
                             <tr>
                                 <td>
                                 @if($notification->type == 'App\Notifications\LeadNotification')
                                     <a href="{{ route('admin.client.shownotification', ['client' => $notification->data['id'], 'id' => $notification->id] ) }}">{{ $notification->data['text'] }}</a></td>
                                 @else
-                                    <a href="">{{ $notification->data['text'] }}</a>
+                                    <a href="">{{ json_decode($notification->data)->text ?? 'NA' }}</a>
                                 @endif
                                 </td>
-                                <td>{{ $notification->created_at->diffForHumans() }}</td>
+                                <td>{{ $notification->created_at ? \Carbon\Carbon::parse($notification->created_at)->diffForHumans() : 'NA' }}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -50,7 +54,8 @@
                             </tr>
                         </tfoot>
                     </table>
-                    {{auth()->user()->notifications()->paginate(20)->links('pagination::bootstrap-4')}}
+{{--                    {{auth()->user()->notifications()->paginate(20)->links('pagination::bootstrap-4')}}--}}
+                    {{$notifications->appends($_GET)->links('pagination::bootstrap-4')}}
                 </div>
             </div>
         </div>
@@ -60,4 +65,19 @@
 @endsection
 
 @push('scripts')
+    <script>
+        $(document).ready(function () {
+            $('#select_brand_id').on('change', function () {
+                let val = $(this).val();
+                // if (val == '') {
+                //     return false;
+                // }
+
+                let route = '{{route('manager.notification', ['brand_id' => 'temp'])}}';
+                route = route.replaceAll('temp', val);
+
+                window.location.href = route;
+            });
+        });
+    </script>
 @endpush

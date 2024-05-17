@@ -72,7 +72,7 @@ class HomeController extends Controller
                 $task = $task->whereIn('category_id', $category_id);
             }else{
                 $task = $task->where('category_id', $request->category);
-            } 
+            }
         }else{
             $task = $task->whereIn('category_id', $category_id);
         }
@@ -93,7 +93,7 @@ class HomeController extends Controller
         return view('production.projects.index', compact('task'));
     }
 
-    public function managerNotification(){
+    public function managerNotification(Request $request){
         return view('manager.notification');
     }
 

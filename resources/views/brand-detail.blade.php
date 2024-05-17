@@ -40,6 +40,23 @@
                         <h2>{{$brand->name}}</h2>
                     </div>
                 </div>
+                @if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6)
+                    <div class="row text-center">
+                        <div class="col-md-6 offset-md-3">
+                            <h4>
+                                @php
+                                    if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
+                                        $route = 'manager.notification';
+                                    }
+                                @endphp
+                                <a target="_blank" href="{{route($route, ['brand_id' => $brand->id])}}" class="text-danger">
+                                    <i class="fas fa-bell"></i>
+                                    <span style="color: black !important;">Brand notifications</span>
+                                </a>
+                            </h4>
+                        </div>
+                    </div>
+                @endif
                 <div class="row text-center">
                     <div class="col-md-6 offset-md-3">
                         <h4>

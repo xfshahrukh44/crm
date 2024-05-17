@@ -49,9 +49,11 @@
             <!--</a>-->
             &nbsp;&nbsp;&nbsp;&nbsp;
             <label style="margin-bottom: 0px !important;font-weight: bold;font-size: 17px;margin-right: 10px;"> Brands </label>
-            <select class="form-control" style="width: 40%;">
+            <select class="form-control" style="width: 40%;" id="select_brand_id">
+                <option value="">Select brand</option>
                 @foreach(Auth::user()->brands as $brands)
-                <option> {{ implode('', array_map(function($v) { return $v[0]; }, explode(' ', $brands->name))) }} </option>
+{{--                    <option> {{ implode('', array_map(function($v) { return $v[0]; }, explode(' ', $brands->name))) }} </option>--}}
+                    <option value="{{$brands->id}}" {!! $brands->id == \Illuminate\Support\Facades\Request::get('brand_id') ? 'selected' : '' !!}>{{$brands->name}}</option>
                 @endforeach
             </select>
         

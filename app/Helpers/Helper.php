@@ -1,5 +1,12 @@
 <?php
 
+use App\Models\Client;
+use App\Models\Invoice;
+use App\Models\Project;
+use App\Models\Task;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
@@ -42,4 +49,110 @@ function get_task_status_text ($num = 0) {
     ];
 
     return ucfirst($arr[$num]) ?? 'Open';
+}
+
+function sale_manager_notifications ($brand_id = null)
+{
+    if (!Auth::check() || Auth::user()->is_employee != 6) {
+        return [];
+    }
+
+    $notification_ids = [];
+    $notifications = DB::table('notifications')->where('notifiable_id', Auth::id())->get();
+    foreach ($notifications as $notification) {
+        if ($notification->type == 'App\Notifications\LeadNotification') {
+            $notification_data = json_decode($notification->data);
+            if (!$notification_data->email) {
+                continue;
+            }
+
+            if (
+                !$client = Client::where('email', $notification_data->email)->when($brand_id, function ($q) use ($brand_id) {
+                    return $q->where('brand_id', $brand_id);
+                })->first()
+            ) {
+                continue;
+            }
+
+            $notification_ids []= $notification->id;
+        }
+
+        else if ($notification->type == 'App\Notifications\TaskNotification') {
+            $notification_data = json_decode($notification->data);
+            if (!$notification_data->task_id) {
+                continue;
+            }
+
+            if (
+                !$task = Task::where('id', $notification_data->task_id)->when($brand_id, function ($q) use ($brand_id) {
+                    return $q->where('brand_id', $brand_id);
+                })->first()
+            ) {
+                continue;
+            }
+
+            $notification_ids []= $notification->id;
+        }
+
+        else if ($notification->type == 'App\Notifications\PaymentNotification') {
+            $notification_data = json_decode($notification->data);
+            if (!$notification_data->id) {
+                continue;
+            }
+
+            if (
+                !$invoice = Invoice::where('id', $notification_data->id)->when($brand_id, function ($q) use ($brand_id) {
+                    return $q->where('brand_id', $brand_id);
+                })->first()
+            ) {
+                continue;
+            }
+
+            $notification_ids []= $notification->id;
+        }
+
+        else if ($notification->type == 'App\Notifications\MessageNotification') {
+            $notification_data = json_decode($notification->data);
+            if (!$notification_data->id) {
+                continue;
+            }
+
+            if (
+                !$client = User::where('id', $notification_data->id)
+                    ->whereHas('client', function ($q) use ($brand_id) {
+                        return $q->when($brand_id, function ($q) use ($brand_id) {
+                            return $q->where('brand_id', $brand_id);
+                        });
+                    })->first()
+            ) {
+                continue;
+            }
+
+            $notification_ids []= $notification->id;
+        }
+
+        else if ($notification->type == 'App\Notifications\AssignProjectNotification') {
+            $notification_data = json_decode($notification->data);
+            if (!$notification_data->project_id) {
+                continue;
+            }
+
+            if (
+                !$client = Project::where('id', $notification_data->project_id)->when($brand_id, function ($q) use ($brand_id) {
+                    return $q->where('brand_id', $brand_id);
+                })->first()
+            ) {
+                continue;
+            }
+
+            $notification_ids []= $notification->id;
+        }
+
+        else { continue; }
+    }
+
+    return DB::table('notifications')
+        ->whereIn('id', $notification_ids)
+        ->orderBy('created_at','desc')
+        ->paginate(30);
 }
