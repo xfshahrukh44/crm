@@ -126,9 +126,9 @@ class AdminUserController extends Controller
                 'brand' => 'required',
             ]);
         }else{
-            $request->validate([
-                'category' => 'required',
-            ]);
+//            $request->validate([
+//                'category' => 'required',
+//            ]);
         }
 
         $user = User::find($id);
