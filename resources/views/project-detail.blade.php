@@ -93,7 +93,13 @@
                         </thead>
                         <tbody>
                         @php
-                            $show_route = \Illuminate\Support\Facades\Auth::user()->is_employee == 2 ? 'admin.task.show' : 'manager.task.show';
+                            if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
+                                $show_route = 'admin.task.show';
+                            } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
+                                $show_route = 'manager.task.show';
+                            } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4 && \Illuminate\Support\Facades\Auth::user()->is_support_head) {
+                                $show_route = 'support.task.show';
+                            }
                         @endphp
                         @foreach($category_with_active_tasks['tasks'] as $task)
                             <tr>
