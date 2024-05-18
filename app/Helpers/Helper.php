@@ -5,6 +5,7 @@ use App\Models\Invoice;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -102,7 +103,7 @@ function sale_manager_notifications ($brand_id = null)
 
             if (
                 !$invoice = Invoice::where('id', $notification_data->id)->when($brand_id, function ($q) use ($brand_id) {
-                    return $q->where('brand_id', $brand_id);
+                    return $q->where('brand', $brand_id);
                 })->first()
             ) {
                 continue;
@@ -155,4 +156,62 @@ function sale_manager_notifications ($brand_id = null)
         ->whereIn('id', $notification_ids)
         ->orderBy('created_at','desc')
         ->paginate(30);
+}
+
+function get_leads_by_brand ($brand_id, $start_date = null, $end_date = null) {
+    $leads = [];
+    foreach (
+        DB::table('notifications')
+            ->where('type', 'App\Notifications\LeadNotification')
+//            ->where('notifiable_id', Auth::id())
+            ->when(!is_null($start_date) && $start_date != "", function ($q) use ($start_date) {
+                return $q->where('created_at', '>=', Carbon::parse($start_date));
+            })
+            ->when(!is_null($end_date) && $end_date != "", function ($q) use ($end_date) {
+                return $q->where('created_at', '<=', Carbon::parse($end_date));
+            })
+            ->orderBy('created_at','desc')
+            ->get() as $notification
+    ) {
+        $notification_data = json_decode($notification->data);
+        if (!$notification_data->id) {
+            continue;
+        }
+
+//        if (
+//            !$client = Client::where('id', $notification_data->id)->where('brand_id', $brand_id)->first()
+//        ) {
+//            continue;
+//        }
+
+        $leads []= $notification_data;
+    }
+
+    return $leads;
+}
+
+function get_leads_count_by_brand ($brand_id) {
+    $count = 0;
+    foreach (
+        DB::table('notifications')
+            ->where('type', 'App\Notifications\LeadNotification')
+            ->where('notifiable_id', Auth::id())
+            ->orderBy('created_at','desc')
+            ->get() as $notification
+    ) {
+        $notification_data = json_decode($notification->data);
+        if (!$notification_data->id) {
+            continue;
+        }
+
+        if (
+            !$client = Client::where('id', $notification_data->id)->where('brand_id', $brand_id)->first()
+        ) {
+            continue;
+        }
+
+        $count += 1;
+    }
+
+    return $count;
 }
