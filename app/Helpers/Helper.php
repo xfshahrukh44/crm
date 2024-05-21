@@ -1,10 +1,23 @@
 <?php
 
+use App\Models\AuthorWebsite;
+use App\Models\BookCover;
+use App\Models\BookFormatting;
+use App\Models\Bookprinting;
+use App\Models\BookWriting;
 use App\Models\Client;
+use App\Models\ContentWritingForm;
 use App\Models\Invoice;
+use App\Models\Isbnform;
+use App\Models\LogoForm;
+use App\Models\NoForm;
 use App\Models\Project;
+use App\Models\Proofreading;
+use App\Models\SeoForm;
+use App\Models\SmmForm;
 use App\Models\Task;
 use App\Models\User;
+use App\Models\WebForm;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -222,4 +235,255 @@ function no_pending_tasks_left ($project_id) {
     }
 
     return ($project->tasks()->count() == 0) || array_unique($project->tasks()->pluck('status')->toArray()) === [3];
+}
+
+function get_brief_client_user_ids () {
+    $client_user_ids = [];
+
+    $res = LogoForm::where('logo_name', '')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = WebForm::where('business_name', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = SmmForm::where('business_name', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = ContentWritingForm::where('company_name', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = SeoForm::where('company_name', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = BookFormatting::where('book_title', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = AuthorWebsite::where('author_name', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = BookWriting::where('book_title', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = NoForm::whereHas('invoice', function ($query) {
+        return $query->where('brand', Auth::user()->brand_list());
+    })->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = Proofreading::where('description', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = BookCover::where('title', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = Isbnform::where('pi_fullname', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = Bookprinting::where('title', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    return array_unique($client_user_ids);
+}
+
+function get_briefs_pending ($client_user_id) {
+    $briefs_pending_array = [];
+
+    if ((LogoForm::where('logo_name', '')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })
+        ->where('user_id', $client_user_id)->count()) > 0) {
+        $briefs_pending_array []= 'Logo brief';
+    }
+
+    if ((WebForm::where('business_name', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })
+        ->where('user_id', $client_user_id)->count()) > 0) {
+        $briefs_pending_array []= 'Website brief';
+    }
+
+    if ((SmmForm::where('business_name', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })
+        ->where('user_id', $client_user_id)->count()) > 0) {
+        $briefs_pending_array []= 'SMM brief';
+    }
+
+    if ((ContentWritingForm::where('company_name', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })
+        ->where('user_id', $client_user_id)->count()) > 0) {
+        $briefs_pending_array []= 'Content writing brief';
+    }
+
+    if ((SeoForm::where('company_name', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })
+        ->where('user_id', $client_user_id)->count()) > 0) {
+        $briefs_pending_array []= 'SEO brief';
+    }
+
+    if ((BookFormatting::where('book_title', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })
+        ->where('user_id', $client_user_id)->count()) > 0) {
+        $briefs_pending_array []= 'Book formatting and publishing';
+    }
+
+    if ((AuthorWebsite::where('author_name', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })
+        ->where('user_id', $client_user_id)->count()) > 0) {
+        $briefs_pending_array []= 'Author website';
+    }
+
+    if ((BookWriting::where('book_title', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })
+        ->where('user_id', $client_user_id)->count()) > 0) {
+        $briefs_pending_array []= 'Book writing';
+    }
+
+    if ((NoForm::whereHas('invoice', function ($query) {
+        return $query->where('brand', Auth::user()->brand_list());
+    })->where('user_id', $client_user_id)->count()) > 0) {
+        $briefs_pending_array []= 'No Brief';
+    }
+
+    if ((Proofreading::where('description', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })
+        ->where('user_id', $client_user_id)->count()) > 0) {
+        $briefs_pending_array []= 'Editing & Proof reading';
+    }
+
+    if ((BookCover::where('title', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })
+        ->where('user_id', $client_user_id)->count()) > 0) {
+        $briefs_pending_array []= 'Cover design';
+    }
+
+    if ((Isbnform::where('pi_fullname', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })
+        ->where('user_id', $client_user_id)->count()) > 0) {
+        $briefs_pending_array []= 'ISBN form';
+    }
+
+    if ((Bookprinting::where('title', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })
+        ->where('user_id', $client_user_id)->count()) > 0) {
+        $briefs_pending_array []= 'Book printing';
+    }
+
+    return $briefs_pending_array;
 }

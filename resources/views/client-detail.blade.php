@@ -81,27 +81,34 @@
             </div>
         @endif
 
-        @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]))
+        @php
+            $briefs_pendings = get_briefs_pending($client->user->id);
+        @endphp
+        @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]) && count($briefs_pendings))
             <div class="row mb-4">
                 <div class="col-lg-12 col-md-12">
-                    <h2 class="ml-3">Brief pending ({{$brief_pending_count}})</h2>
+                    <h2 class="ml-3">Briefs pending ({{count($briefs_pendings)}})</h2>
                 </div>
-                @if ($brief_pending_count > 0)
-                    @php
-                        $client_user = \App\Models\User::where('client_id', $client->id)->first();
-                        if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
-                            $route = 'admin.brief.pending';
-                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
-                            $route = 'manager.brief.pending';
-                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {
-                            $route = 'sale.brief.pending';
-                        }
-                    @endphp
-                    <div class="col-lg-12 col-md-12">
+{{--                @php--}}
+{{--                    $client_user = \App\Models\User::where('client_id', $client->id)->first();--}}
+{{--                    if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {--}}
+{{--                        $route = 'admin.brief.pending';--}}
+{{--                    } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {--}}
+{{--                        $route = 'manager.brief.pending';--}}
+{{--                    } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {--}}
+{{--                        $route = 'sale.brief.pending';--}}
+{{--                    }--}}
+{{--                @endphp--}}
+{{--                <div class="col-lg-12 col-md-12" hidden>--}}
 {{--                        <a target="_blank" href="{{route($route, ['user_id' => $client_user->id])}}" class="btn btn-primary ml-3">View brief pending</a>--}}
-                        <a href="{{route($route, ['user_id' => $client_user->id])}}" class="btn btn-primary ml-3">View brief pending</a>
+{{--                    <a href="{{route($route, ['user_id' => $client_user->id])}}" class="btn btn-primary ml-3">View brief pending</a>--}}
+{{--                </div>--}}
+
+                @foreach($briefs_pendings as $brief_pending)
+                    <div>
+                        <a href="javascript:void(0);" class="btn btn-primary ml-3">{{$brief_pending}}</a>
                     </div>
-                @endif
+                @endforeach
             </div>
         @endif
 
@@ -118,6 +125,8 @@
                         } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
                             $route = 'manager.pending.project';
                         } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4 && \Illuminate\Support\Facades\Auth::user()->is_support_head) {
+                            $route = 'support.pending.project';
+                        } else {
                             $route = 'support.pending.project';
                         }
                     @endphp

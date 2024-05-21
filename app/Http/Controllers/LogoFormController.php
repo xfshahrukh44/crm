@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\LogoForm;
+use App\Models\User;
 use App\Models\WebForm;
 use App\Models\SmmForm;
 use App\Models\ContentWritingForm;
@@ -148,51 +150,56 @@ class LogoFormController extends Controller
     
 
     public function getBriefPending(Request $request){
-        $logo_form = LogoForm::where('logo_name', '')->groupBy('user_id')
-            ->when($request->has('user_id'), function ($q) use ($request) {
-                return $q->where('user_id', $request->get('user_id'));
-            })->get();
-        $web_form = WebForm::where('business_name', null)->groupBy('user_id')
-            ->when($request->has('user_id'), function ($q) use ($request) {
-                return $q->where('user_id', $request->get('user_id'));
-            })->get();
-        $smm_form = SmmForm::where('business_name', null)->groupBy('user_id')
-            ->when($request->has('user_id'), function ($q) use ($request) {
-                return $q->where('user_id', $request->get('user_id'));
-            })->get();
-        $content_writing_form = ContentWritingForm::where('company_name', null)
-            ->when($request->has('user_id'), function ($q) use ($request) {
-                return $q->where('user_id', $request->get('user_id'));
-            })->get();
-        $seo_form = SeoForm::where('company_name', null)->groupBy('user_id')
-            ->when($request->has('user_id'), function ($q) use ($request) {
-                return $q->where('user_id', $request->get('user_id'));
-            })->get();
-        $book_formatting_form = BookFormatting::where('book_title', null)->groupBy('user_id')
-            ->when($request->has('user_id'), function ($q) use ($request) {
-                return $q->where('user_id', $request->get('user_id'));
-            })->get();
-        $author_website_form = AuthorWebsite::where('author_name', null)->groupBy('user_id')
-            ->when($request->has('user_id'), function ($q) use ($request) {
-                return $q->where('user_id', $request->get('user_id'));
-            })->get();
-        $book_writing_form = BookWriting::where('book_title', null)->groupBy('user_id')
-            ->when($request->has('user_id'), function ($q) use ($request) {
-                return $q->where('user_id', $request->get('user_id'));
-            })->get();
-        $no_form = NoForm::where('name', null)->groupBy('user_id')
-            ->when($request->has('user_id'), function ($q) use ($request) {
-                return $q->where('user_id', $request->get('user_id'));
-            })->get();
-        $proofreading_form = Proofreading::where('description', null)->groupBy('user_id')
-            ->when($request->has('user_id'), function ($q) use ($request) {
-                return $q->where('user_id', $request->get('user_id'));
-            })->get();
-        $bookcover_form = BookCover::where('title', null)->groupBy('user_id')
-            ->when($request->has('user_id'), function ($q) use ($request) {
-                return $q->where('user_id', $request->get('user_id'));
-            })->get();
-        return view('admin.brief.pending', compact('logo_form', 'web_form', 'smm_form', 'content_writing_form', 'seo_form', 'book_formatting_form', 'book_writing_form', 'author_website_form', 'proofreading_form', 'bookcover_form', 'no_form'));
+//        $logo_form = LogoForm::where('logo_name', '')->groupBy('user_id')
+//            ->when($request->has('user_id'), function ($q) use ($request) {
+//                return $q->where('user_id', $request->get('user_id'));
+//            })->get();
+//        $web_form = WebForm::where('business_name', null)->groupBy('user_id')
+//            ->when($request->has('user_id'), function ($q) use ($request) {
+//                return $q->where('user_id', $request->get('user_id'));
+//            })->get();
+//        $smm_form = SmmForm::where('business_name', null)->groupBy('user_id')
+//            ->when($request->has('user_id'), function ($q) use ($request) {
+//                return $q->where('user_id', $request->get('user_id'));
+//            })->get();
+//        $content_writing_form = ContentWritingForm::where('company_name', null)
+//            ->when($request->has('user_id'), function ($q) use ($request) {
+//                return $q->where('user_id', $request->get('user_id'));
+//            })->get();
+//        $seo_form = SeoForm::where('company_name', null)->groupBy('user_id')
+//            ->when($request->has('user_id'), function ($q) use ($request) {
+//                return $q->where('user_id', $request->get('user_id'));
+//            })->get();
+//        $book_formatting_form = BookFormatting::where('book_title', null)->groupBy('user_id')
+//            ->when($request->has('user_id'), function ($q) use ($request) {
+//                return $q->where('user_id', $request->get('user_id'));
+//            })->get();
+//        $author_website_form = AuthorWebsite::where('author_name', null)->groupBy('user_id')
+//            ->when($request->has('user_id'), function ($q) use ($request) {
+//                return $q->where('user_id', $request->get('user_id'));
+//            })->get();
+//        $book_writing_form = BookWriting::where('book_title', null)->groupBy('user_id')
+//            ->when($request->has('user_id'), function ($q) use ($request) {
+//                return $q->where('user_id', $request->get('user_id'));
+//            })->get();
+//        $no_form = NoForm::where('name', null)->groupBy('user_id')
+//            ->when($request->has('user_id'), function ($q) use ($request) {
+//                return $q->where('user_id', $request->get('user_id'));
+//            })->get();
+//        $proofreading_form = Proofreading::where('description', null)->groupBy('user_id')
+//            ->when($request->has('user_id'), function ($q) use ($request) {
+//                return $q->where('user_id', $request->get('user_id'));
+//            })->get();
+//        $bookcover_form = BookCover::where('title', null)->groupBy('user_id')
+//            ->when($request->has('user_id'), function ($q) use ($request) {
+//                return $q->where('user_id', $request->get('user_id'));
+//            })->get();
+
+        //change
+        $client_users_with_brief_pendings = User::whereIn('id', get_brief_client_user_ids())->get();
+
+//        return view('admin.brief.pending', compact('client_users_with_brief_pendings', 'logo_form', 'web_form', 'smm_form', 'content_writing_form', 'seo_form', 'book_formatting_form', 'book_writing_form', 'author_website_form', 'proofreading_form', 'bookcover_form', 'no_form'));
+        return view('admin.brief.pending', compact('client_users_with_brief_pendings'));
     }
 
     public function getBriefPendingById(Request $request){
@@ -221,105 +228,112 @@ class LogoFormController extends Controller
             ->when($request->has('user_id'), function ($q) use ($request) {
                 return $q->where('user_id', $request->get('user_id'));
             })->get();
-        return view('sale.brief.pending', compact('logo_form', 'web_form', 'smm_form', 'content_writing_form', 'seo_form'));
+
+        //change
+        $client_users_with_brief_pendings = User::whereIn('id', get_brief_client_user_ids())->get();
+
+//        return view('sale.brief.pending', compact('client_users_with_brief_pendings', 'logo_form', 'web_form', 'smm_form', 'content_writing_form', 'seo_form'));
+        return view('sale.brief.pending', compact('client_users_with_brief_pendings'));
     }
     
     public function getBriefPendingByIdManager(Request $request){
+//        $logo_form = LogoForm::where('logo_name', '')->whereHas('invoice', function ($query) {
+//                        return $query->where('brand', Auth::user()->brand_list());
+//                    })->groupBy('user_id')
+//        ->when($request->has('user_id'), function ($q) use ($request) {
+//            return $q->where('user_id', $request->get('user_id'));
+//        })->get();
+//        $web_form = WebForm::where('business_name', null)->whereHas('invoice', function ($query) {
+//                        return $query->where('brand', Auth::user()->brand_list());
+//                    })->groupBy('user_id')
+//        ->when($request->has('user_id'), function ($q) use ($request) {
+//            return $q->where('user_id', $request->get('user_id'));
+//        })->get();
+//        $smm_form = SmmForm::where('business_name', null)->whereHas('invoice', function ($query) {
+//                        return $query->where('brand', Auth::user()->brand_list());
+//                    })->groupBy('user_id')
+//        ->when($request->has('user_id'), function ($q) use ($request) {
+//            return $q->where('user_id', $request->get('user_id'));
+//        })->get();
+//
+//        $content_writing_form = ContentWritingForm::where('company_name', null)->whereHas('invoice', function ($query) {
+//                                    return $query->where('brand', Auth::user()->brand_list());
+//                                })->groupBy('user_id')
+//        ->when($request->has('user_id'), function ($q) use ($request) {
+//            return $q->where('user_id', $request->get('user_id'));
+//        })->get();
+//
+//        $seo_form = SeoForm::where('company_name', null)->whereHas('invoice', function ($query) {
+//                        return $query->where('brand', Auth::user()->brand_list());
+//                    })->groupBy('user_id')
+//        ->when($request->has('user_id'), function ($q) use ($request) {
+//            return $q->where('user_id', $request->get('user_id'));
+//        })->get();
+//
+//        $book_formatting_form = BookFormatting::where('book_title', null)->whereHas('invoice', function ($query) {
+//                        return $query->where('brand', Auth::user()->brand_list());
+//                    })->groupBy('user_id')
+//        ->when($request->has('user_id'), function ($q) use ($request) {
+//            return $q->where('user_id', $request->get('user_id'));
+//        })->get();
+//
+//        $author_website_form = AuthorWebsite::where('author_name', null)->whereHas('invoice', function ($query) {
+//                                    return $query->where('brand', Auth::user()->brand_list());
+//                                })->groupBy('user_id')
+//        ->when($request->has('user_id'), function ($q) use ($request) {
+//            return $q->where('user_id', $request->get('user_id'));
+//        })->get();
+//
+//        $book_writing_form = BookWriting::where('book_title', null)->whereHas('invoice', function ($query) {
+//            return $query->where('brand', Auth::user()->brand_list());
+//        })->groupBy('user_id')
+//        ->when($request->has('user_id'), function ($q) use ($request) {
+//            return $q->where('user_id', $request->get('user_id'));
+//        })->get();
+//
+//        $no_form = NoForm::whereHas('invoice', function ($query) {
+//                    return $query->where('brand', Auth::user()->brand_list());
+//                })->groupBy('user_id')
+//        ->when($request->has('user_id'), function ($q) use ($request) {
+//            return $q->where('user_id', $request->get('user_id'));
+//        })->get();
+//
+//        $proofreading_form = Proofreading::where('description', null)->whereHas('invoice', function ($query) {
+//            return $query->where('brand', Auth::user()->brand_list());
+//        })->groupBy('user_id')
+//        ->when($request->has('user_id'), function ($q) use ($request) {
+//            return $q->where('user_id', $request->get('user_id'));
+//        })->get();
+//
+//        $bookcover_form = BookCover::where('title', null)->whereHas('invoice', function ($query) {
+//            return $query->where('brand', Auth::user()->brand_list());
+//        })->groupBy('user_id')
+//        ->when($request->has('user_id'), function ($q) use ($request) {
+//            return $q->where('user_id', $request->get('user_id'));
+//        })->get();
+//
+//
+//        $isbn_form = Isbnform::where('pi_fullname', null)->whereHas('invoice', function ($query) {
+//            return $query->where('brand', Auth::user()->brand_list());
+//        })->groupBy('user_id')
+//        ->when($request->has('user_id'), function ($q) use ($request) {
+//            return $q->where('user_id', $request->get('user_id'));
+//        })->get();
+//
+//
+//
+//        $bookprinting_form = Bookprinting::where('title', null)->whereHas('invoice', function ($query) {
+//            return $query->where('brand', Auth::user()->brand_list());
+//        })->groupBy('user_id')
+//        ->when($request->has('user_id'), function ($q) use ($request) {
+//            return $q->where('user_id', $request->get('user_id'));
+//        })->get();
 
-        $logo_form = LogoForm::where('logo_name', '')->whereHas('invoice', function ($query) {
-                        return $query->where('brand', Auth::user()->brand_list());
-                    })->groupBy('user_id')
-        ->when($request->has('user_id'), function ($q) use ($request) {
-            return $q->where('user_id', $request->get('user_id'));
-        })->get();
-        $web_form = WebForm::where('business_name', null)->whereHas('invoice', function ($query) {
-                        return $query->where('brand', Auth::user()->brand_list());
-                    })->groupBy('user_id')
-        ->when($request->has('user_id'), function ($q) use ($request) {
-            return $q->where('user_id', $request->get('user_id'));
-        })->get();
-        $smm_form = SmmForm::where('business_name', null)->whereHas('invoice', function ($query) {
-                        return $query->where('brand', Auth::user()->brand_list());
-                    })->groupBy('user_id')
-        ->when($request->has('user_id'), function ($q) use ($request) {
-            return $q->where('user_id', $request->get('user_id'));
-        })->get();
-
-        $content_writing_form = ContentWritingForm::where('company_name', null)->whereHas('invoice', function ($query) {
-                                    return $query->where('brand', Auth::user()->brand_list());
-                                })->groupBy('user_id')
-        ->when($request->has('user_id'), function ($q) use ($request) {
-            return $q->where('user_id', $request->get('user_id'));
-        })->get();
-
-        $seo_form = SeoForm::where('company_name', null)->whereHas('invoice', function ($query) {
-                        return $query->where('brand', Auth::user()->brand_list());
-                    })->groupBy('user_id')
-        ->when($request->has('user_id'), function ($q) use ($request) {
-            return $q->where('user_id', $request->get('user_id'));
-        })->get();
+        //change
+        $client_users_with_brief_pendings = User::whereIn('id', get_brief_client_user_ids())->get();
         
-        $book_formatting_form = BookFormatting::where('book_title', null)->whereHas('invoice', function ($query) {
-                        return $query->where('brand', Auth::user()->brand_list());
-                    })->groupBy('user_id')
-        ->when($request->has('user_id'), function ($q) use ($request) {
-            return $q->where('user_id', $request->get('user_id'));
-        })->get();
-
-        $author_website_form = AuthorWebsite::where('author_name', null)->whereHas('invoice', function ($query) {
-                                    return $query->where('brand', Auth::user()->brand_list());
-                                })->groupBy('user_id')
-        ->when($request->has('user_id'), function ($q) use ($request) {
-            return $q->where('user_id', $request->get('user_id'));
-        })->get();
-        
-        $book_writing_form = BookWriting::where('book_title', null)->whereHas('invoice', function ($query) {
-            return $query->where('brand', Auth::user()->brand_list());
-        })->groupBy('user_id')
-        ->when($request->has('user_id'), function ($q) use ($request) {
-            return $q->where('user_id', $request->get('user_id'));
-        })->get();
-        
-        $no_form = NoForm::whereHas('invoice', function ($query) {
-                    return $query->where('brand', Auth::user()->brand_list());
-                })->groupBy('user_id')
-        ->when($request->has('user_id'), function ($q) use ($request) {
-            return $q->where('user_id', $request->get('user_id'));
-        })->get();
-
-        $proofreading_form = Proofreading::where('description', null)->whereHas('invoice', function ($query) {
-            return $query->where('brand', Auth::user()->brand_list());
-        })->groupBy('user_id')
-        ->when($request->has('user_id'), function ($q) use ($request) {
-            return $q->where('user_id', $request->get('user_id'));
-        })->get();
-
-        $bookcover_form = BookCover::where('title', null)->whereHas('invoice', function ($query) {
-            return $query->where('brand', Auth::user()->brand_list());
-        })->groupBy('user_id')
-        ->when($request->has('user_id'), function ($q) use ($request) {
-            return $q->where('user_id', $request->get('user_id'));
-        })->get();
-        
-      
-        $isbn_form = Isbnform::where('pi_fullname', null)->whereHas('invoice', function ($query) {
-            return $query->where('brand', Auth::user()->brand_list());
-        })->groupBy('user_id')
-        ->when($request->has('user_id'), function ($q) use ($request) {
-            return $q->where('user_id', $request->get('user_id'));
-        })->get();
-
-        
-        
-        $bookprinting_form = Bookprinting::where('title', null)->whereHas('invoice', function ($query) {
-            return $query->where('brand', Auth::user()->brand_list());
-        })->groupBy('user_id')
-        ->when($request->has('user_id'), function ($q) use ($request) {
-            return $q->where('user_id', $request->get('user_id'));
-        })->get();
-        
-        
-        return view('manager.brief.pending', compact('logo_form', 'web_form', 'smm_form', 'content_writing_form', 'seo_form', 'book_formatting_form', 'book_writing_form', 'author_website_form', 'no_form', 'proofreading_form', 'bookcover_form', 'isbn_form', 'bookprinting_form'));
+//        return view('manager.brief.pending', compact('client_users_with_brief_pendings', 'logo_form', 'web_form', 'smm_form', 'content_writing_form', 'seo_form', 'book_formatting_form', 'book_writing_form', 'author_website_form', 'no_form', 'proofreading_form', 'bookcover_form', 'isbn_form', 'bookprinting_form'));
+        return view('manager.brief.pending', compact('client_users_with_brief_pendings'));
     }
 
 

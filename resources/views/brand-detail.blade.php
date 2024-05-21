@@ -40,23 +40,6 @@
                         <h2>{{$brand->name}}</h2>
                     </div>
                 </div>
-                @if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6)
-                    <div class="row text-center">
-                        <div class="col-md-6 offset-md-3">
-                            <h4>
-                                @php
-                                    if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
-                                        $route = 'manager.notification';
-                                    }
-                                @endphp
-                                <a target="_blank" href="{{route($route, ['brand_id' => $brand->id])}}" class="text-danger">
-                                    <i class="fas fa-bell"></i>
-                                    <span style="color: black !important;">Brand notifications</span>
-                                </a>
-                            </h4>
-                        </div>
-                    </div>
-                @endif
                 <div class="row text-center">
                     <div class="col-md-6 offset-md-3">
                         <h4>
@@ -81,6 +64,23 @@
                         </h4>
                     </div>
                 </div>
+                @if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6)
+                    <div class="row text-center">
+                        <div class="col-md-6 offset-md-3">
+                            <h4>
+                                @php
+                                    if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
+                                        $route = 'manager.notification';
+                                    }
+                                @endphp
+                                <a target="_blank" href="{{route($route, ['brand_id' => $brand->id])}}" class="text-danger">
+                                    <i class="fas fa-bell"></i>
+                                    <span style="color: black !important;">Brand notifications</span>
+                                </a>
+                            </h4>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
 
@@ -101,6 +101,27 @@
                                     @foreach($buhs as $buh)
                                         <a href="mailto:{{$buh->email}}">
                                             <h6>{{$buh->name . ' ' . $buh->last_name}}</h6>
+                                        </a>
+                                        <h6>{!! ($loop->last ? '.' : ",&nbsp;&nbsp;") !!}</h6>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="row text-center">
+                            <div class="col-md-12">
+                                <h6>
+                                    <b>Agents</b>
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="row text-center">
+                            <div class="col-12">
+                                <div class="row">
+                                    @foreach($agents as $agent)
+                                        <a href="mailto:{{$agent->email}}">
+                                            <h6>{{$agent->name . ' ' . $agent->last_name}}</h6>
                                         </a>
                                         <h6>{!! ($loop->last ? '.' : ",&nbsp;&nbsp;") !!}</h6>
                                     @endforeach
@@ -143,27 +164,6 @@
                                     @foreach($customer_supports as $customer_support)
                                         <a href="mailto:{{$customer_support->email}}">
                                             <h6>{{$customer_support->name . ' ' . $customer_support->last_name}}</h6>
-                                        </a>
-                                        <h6>{!! ($loop->last ? '.' : ",&nbsp;&nbsp;") !!}</h6>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="row text-center">
-                            <div class="col-md-12">
-                                <h6>
-                                    <b>Agents</b>
-                                </h6>
-                            </div>
-                        </div>
-                        <div class="row text-center">
-                            <div class="col-12">
-                                <div class="row">
-                                    @foreach($agents as $agent)
-                                        <a href="mailto:{{$agent->email}}">
-                                            <h6>{{$agent->name . ' ' . $agent->last_name}}</h6>
                                         </a>
                                         <h6>{!! ($loop->last ? '.' : ",&nbsp;&nbsp;") !!}</h6>
                                     @endforeach
@@ -265,39 +265,7 @@
     {{--}--}}
 
     $(document).ready(function() {
-        function render_clients () {
-            let clients = {!! $clients !!};
 
-            let clients_to_render = clients;
-            let client_name = $('#input_client_name').val();
-            if (client_name != '') {
-                clients_to_render.filter((item) => {
-                    return ((item.name && item.name.includes(client_name)) || (item.last_name && item.last_name.includes(client_name)));
-                });
-            }
-
-            $('.client_wrapper').html();
-            for (const client of clients_to_render) {
-                $('.client_wrapper').append(`<div class="col-lg-2 col-md-6 col-sm-6">
-                                                <a href="#">
-                                                    <div class="card card-icon mb-4">
-                                                        <div class="card-body text-center">
-                                                            <p class="text-muted mt-2 mb-2">` + client.name + ` ` + client.last_name +`</p>
-                                                            <small class="text-muted mt-2 mb-2">Invoices: ` + client.invoices.length + ` | Projects: ` + client.projects.length + `</small>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>`);
-
-            }
-        }
-
-
-        $('#input_client_name').on('keyup', function () {
-            render_clients();
-        });
-        console.log(clients);
-        alert(clients);
     });
 </script>
 @endpush
