@@ -68,7 +68,8 @@
                 }
             @endphp
             <div class="col-lg-12 col-md-12">
-                <a target="_blank" href="{{route($task_index_route, ['project_id' => $project->id])}}" class="btn btn-primary ml-3">View all tasks</a>
+{{--                <a target="_blank" href="{{route($task_index_route, ['project_id' => $project->id])}}" class="btn btn-primary ml-3">View all tasks</a>--}}
+                <a href="{{route($task_index_route, ['project_id' => $project->id])}}" class="btn btn-primary ml-3">View all tasks</a>
             </div>
         </div>
 
@@ -104,11 +105,13 @@
                         @foreach($category_with_active_tasks['tasks'] as $task)
                             <tr>
                                 <td>{{$task->id}}</td>
-                                <td><a target="_blank" href="{{route($show_route, $task->id)}}">{!! \Illuminate\Support\Str::limit(strip_tags($task->description), 25, $end='...') !!}</a></td>
+{{--                                <td><a target="_blank" href="{{route($show_route, $task->id)}}">{!! \Illuminate\Support\Str::limit(strip_tags($task->description), 25, $end='...') !!}</a></td>--}}
+                                <td><a href="{{route($show_route, $task->id)}}">{!! \Illuminate\Support\Str::limit(strip_tags($task->description), 25, $end='...') !!}</a></td>
                                 <td>{{$task->user->name}} {{$task->user->last_name}}</td>
                                 <td>{!! $task->project_status() !!}</td>
                                 <td>
-                                    <a target="_blank" href="{{route($show_route, $task->id)}}" class="btn btn-primary btn-icon btn-sm">
+{{--                                    <a target="_blank" href="{{route($show_route, $task->id)}}" class="btn btn-primary btn-icon btn-sm">--}}
+                                    <a href="{{route($show_route, $task->id)}}" class="btn btn-primary btn-icon btn-sm">
                                         <span class="ul-btn__icon"><i class="i-Eye"></i></span>
                                     </a>
                                 </td>

@@ -74,7 +74,8 @@
                         }
                     @endphp
                     <div class="col-lg-12 col-md-12">
-                        <a target="_blank" href="{{route($route, ['client_id' => $client->id])}}" class="btn btn-primary ml-3">View invoices</a>
+{{--                        <a target="_blank" href="{{route($route, ['client_id' => $client->id])}}" class="btn btn-primary ml-3">View invoices</a>--}}
+                        <a href="{{route($route, ['client_id' => $client->id])}}" class="btn btn-primary ml-3">View invoices</a>
                     </div>
                 @endif
             </div>
@@ -97,7 +98,8 @@
                         }
                     @endphp
                     <div class="col-lg-12 col-md-12">
-                        <a target="_blank" href="{{route($route, ['user_id' => $client_user->id])}}" class="btn btn-primary ml-3">View brief pending</a>
+{{--                        <a target="_blank" href="{{route($route, ['user_id' => $client_user->id])}}" class="btn btn-primary ml-3">View brief pending</a>--}}
+                        <a href="{{route($route, ['user_id' => $client_user->id])}}" class="btn btn-primary ml-3">View brief pending</a>
                     </div>
                 @endif
             </div>
@@ -120,7 +122,8 @@
                         }
                     @endphp
                     <div class="col-lg-12 col-md-12">
-                        <a target="_blank" href="{{route($route, ['user_id' => $client_user->id])}}" class="btn btn-primary ml-3">View pending projects</a>
+{{--                        <a target="_blank" href="{{route($route, ['user_id' => $client_user->id])}}" class="btn btn-primary ml-3">View pending projects</a>--}}
+                        <a href="{{route($route, ['user_id' => $client_user->id])}}" class="btn btn-primary ml-3">View pending projects</a>
                     </div>
                 @endif
             </div>
@@ -143,7 +146,8 @@
             @foreach($projects as $project)
                 <div class="col-lg-2 col-md-6 col-sm-6">
 
-                    <a target="_blank" href="{{route('projects.detail', $project->id)}}">
+{{--                    <a target="_blank" href="{{route('projects.detail', $project->id)}}">--}}
+                    <a href="{{route('projects.detail', $project->id)}}">
                         <div class="card card-icon mb-4">
                             <div class="card-body text-center">
                                 @php
