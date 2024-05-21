@@ -215,3 +215,11 @@ function get_leads_count_by_brand ($brand_id) {
 
     return $count;
 }
+
+function no_pending_tasks_left ($project_id) {
+    if (!$project = Project::find($project_id)) {
+        return false;
+    }
+
+    return ($project->tasks()->count() == 0) || array_unique($project->tasks()->pluck('status')->toArray()) === [3];
+}

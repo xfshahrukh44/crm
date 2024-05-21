@@ -159,6 +159,10 @@
 
                                 <p class="text-muted mt-2 mb-2">{{$project->name}}</p>
 
+                                @if(no_pending_tasks_left($project->id))
+                                    <span class="badge badge-success">No pending tasks</span>
+                                @endif
+
                                 @if($department_count > 0)
                                     <small class="text-muted mt-2 mb-2">{{count($active_tasks)}} active task(s) in {{$department_count}} department(s)</small>
                                 @endif
