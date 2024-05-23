@@ -115,26 +115,24 @@
         @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 4]))
             <div class="row mb-4">
                 <div class="col-lg-12 col-md-12">
-                    <h2 class="ml-3">Pending Projects ({{$pending_project_count}})</h2>
+                    <h2 class="ml-3">Pending Projects</h2>
                 </div>
-                @if ($pending_project_count > 0)
-                    @php
-                        $client_user = \App\Models\User::where('client_id', $client->id)->first();
-                        if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
-                            $route = 'admin.pending.project';
-                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
-                            $route = 'manager.pending.project';
-                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4 && \Illuminate\Support\Facades\Auth::user()->is_support_head) {
-                            $route = 'support.pending.project';
-                        } else {
-                            $route = 'support.pending.project';
-                        }
-                    @endphp
-                    <div class="col-lg-12 col-md-12">
+                @php
+                    $client_user = \App\Models\User::where('client_id', $client->id)->first();
+                    if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
+                        $route = 'admin.pending.project';
+                    } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
+                        $route = 'manager.pending.project';
+                    } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4 && \Illuminate\Support\Facades\Auth::user()->is_support_head) {
+                        $route = 'support.pending.project';
+                    } else {
+                        $route = 'support.pending.project';
+                    }
+                @endphp
+                <div class="col-lg-12 col-md-12">
 {{--                        <a target="_blank" href="{{route($route, ['user_id' => $client_user->id])}}" class="btn btn-primary ml-3">View pending projects</a>--}}
-                        <a href="{{route($route, ['user_id' => $client_user->id])}}" class="btn btn-primary ml-3">View pending projects</a>
-                    </div>
-                @endif
+                    <a href="{{route($route, ['user_id' => $client_user->id])}}" class="btn btn-primary ml-3">View pending projects</a>
+                </div>
             </div>
         @endif
 

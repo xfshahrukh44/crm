@@ -87,7 +87,11 @@ class User extends Authenticatable
         }else if($this->is_employee == 3){
             echo "Customer";
         }else if($this->is_employee == 4){
-            echo "Customer Support";
+            if ($this->is_support_head) {
+                echo "Support Head";
+            } else {
+                echo "Customer Support";
+            }
         }else if($this->is_employee == 5){
             echo "Member";
         }else{

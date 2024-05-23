@@ -487,3 +487,301 @@ function get_briefs_pending ($client_user_id) {
 
     return $briefs_pending_array;
 }
+
+function get_project_client_user_ids () {
+    $client_user_ids = [];
+
+    $res = LogoForm::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+                return $q->whereHas('invoice', function ($query) {
+                    return $query->where('brand', Auth::user()->brand_list());
+                });
+            })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = WebForm::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+                return $q->whereHas('invoice', function ($query) {
+                    return $query->where('brand', Auth::user()->brand_list());
+                });
+            })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = SmmForm::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+                return $q->whereHas('invoice', function ($query) {
+                    return $query->where('brand', Auth::user()->brand_list());
+                });
+            })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = ContentWritingForm::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+                return $q->whereHas('invoice', function ($query) {
+                    return $query->where('brand', Auth::user()->brand_list());
+                });
+            })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = SeoForm::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+                return $q->whereHas('invoice', function ($query) {
+                    return $query->where('brand', Auth::user()->brand_list());
+                });
+            })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = BookFormatting::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+                return $q->whereHas('invoice', function ($query) {
+                    return $query->where('brand', Auth::user()->brand_list());
+                });
+            })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = BookWriting::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+                return $q->whereHas('invoice', function ($query) {
+                    return $query->where('brand', Auth::user()->brand_list());
+                });
+            })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = AuthorWebsite::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+                return $q->whereHas('invoice', function ($query) {
+                    return $query->where('brand', Auth::user()->brand_list());
+                });
+            })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = Proofreading::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+                return $q->whereHas('invoice', function ($query) {
+                    return $query->where('brand', Auth::user()->brand_list());
+                });
+            })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = BookCover::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+                return $q->whereHas('invoice', function ($query) {
+                    return $query->where('brand', Auth::user()->brand_list());
+                });
+            })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = Isbnform::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+                return $q->whereHas('invoice', function ($query) {
+                    return $query->where('brand', Auth::user()->brand_list());
+                });
+            })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = Bookprinting::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+                return $q->whereHas('invoice', function ($query) {
+                    return $query->where('brand', Auth::user()->brand_list());
+                });
+            })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = NoForm::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+                return $q->whereHas('invoice', function ($query) {
+                    return $query->where('brand', Auth::user()->brand_list());
+                });
+            })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+
+    return array_unique($client_user_ids);
+}
+
+function get_pending_projects ($client_user_id) {
+    $pending_projects = [];
+
+    foreach (LogoForm::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })->where('user_id', $client_user_id)->get() as $item) {
+        $pending_projects []= [
+            'project_type' => 'Logo brief',
+            'id' => $item->id,
+            'form_number' => 1,
+            'brand_id' => $item->invoice->brands->id,
+        ];
+    }
+
+    foreach (WebForm::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })->where('user_id', $client_user_id)->get() as $item) {
+        $pending_projects []= [
+            'project_type' => 'Website brief',
+            'id' => $item->id,
+            'form_number' => 2,
+            'brand_id' => $item->invoice->brands->id,
+        ];
+    }
+
+    foreach (SmmForm::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })->where('user_id', $client_user_id)->get() as $item) {
+        $pending_projects []= [
+            'project_type' => 'SMM brief',
+            'id' => $item->id,
+            'form_number' => 3,
+            'brand_id' => $item->invoice->brands->id,
+        ];
+    }
+
+    foreach (ContentWritingForm::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })->where('user_id', $client_user_id)->get() as $item) {
+        $pending_projects []= [
+            'project_type' => 'Content writing brief',
+            'id' => $item->id,
+            'form_number' => 4,
+            'brand_id' => $item->invoice->brands->id,
+        ];
+    }
+
+    foreach (SeoForm::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })->where('user_id', $client_user_id)->get() as $item) {
+        $pending_projects []= [
+            'project_type' => 'SEO brief',
+            'id' => $item->id,
+            'form_number' => 5,
+            'brand_id' => $item->invoice->brands->id,
+        ];
+    }
+
+    foreach (BookFormatting::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })->where('user_id', $client_user_id)->get() as $item) {
+        $pending_projects []= [
+            'project_type' => 'Book formatting and publishing',
+            'id' => $item->id,
+            'form_number' => 6,
+            'brand_id' => $item->invoice->brands->id,
+        ];
+    }
+
+    foreach (BookWriting::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })->where('user_id', $client_user_id)->get() as $item) {
+        $pending_projects []= [
+            'project_type' => 'Book writing',
+            'id' => $item->id,
+            'form_number' => 7,
+            'brand_id' => $item->invoice->brands->id,
+        ];
+    }
+
+    foreach (AuthorWebsite::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })->where('user_id', $client_user_id)->get() as $item) {
+        $pending_projects []= [
+            'project_type' => 'Author website',
+            'id' => $item->id,
+            'form_number' => 8,
+            'brand_id' => $item->invoice->brands->id,
+        ];
+    }
+
+    foreach (Proofreading::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })->where('user_id', $client_user_id)->get() as $item) {
+        $pending_projects []= [
+            'project_type' => 'Editing & Proof reading',
+            'id' => $item->id,
+            'form_number' => 9,
+            'brand_id' => $item->invoice->brands->id,
+        ];
+    }
+
+    foreach (BookCover::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })->where('user_id', $client_user_id)->get() as $item) {
+        $pending_projects []= [
+            'project_type' => 'Cover design',
+            'id' => $item->id,
+            'form_number' => 10,
+            'brand_id' => $item->invoice->brands->id,
+        ];
+    }
+
+    foreach (Isbnform::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })->where('user_id', $client_user_id)->get() as $item) {
+        $pending_projects []= [
+            'project_type' => 'ISBN form',
+            'id' => $item->id,
+            'form_number' => 11,
+            'brand_id' => $item->invoice->brands->id,
+        ];
+    }
+
+    foreach (Bookprinting::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->where('brand', Auth::user()->brand_list());
+            });
+        })->where('user_id', $client_user_id)->get() as $item) {
+        $pending_projects []= [
+            'project_type' => 'Book printing',
+            'id' => $item->id,
+            'form_number' => 12,
+            'brand_id' => $item->invoice->brands->id,
+        ];
+    }
+
+    return $pending_projects;
+}
