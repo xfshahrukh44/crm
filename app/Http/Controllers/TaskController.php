@@ -253,7 +253,7 @@ class TaskController extends Controller
         $project = Project::find($task->project_id);
         $departments_leads_ids = array_unique(DB::table('category_users')->where('category_id', $task->category_id)->pluck('user_id')->toArray());
         $departments_leads_emails = User::where('is_employee', 1)->whereIn('id', $departments_leads_ids)->pluck('email')->toArray();
-        $html = '<p>'. Auth::user()->name.' ('.Auth::user()->email.') '.' has uploaded files on task on project `'.$project->name.'`' .'</p><br />';
+        $html = '<p>'. Auth::user()->name.' has uploaded files on task on project `'.$project->name.'`' .'</p><br />';
         $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
         $html .= '<strong>Task status:</strong> <span>'.get_task_status_text($task->status).'</span><br />';
         $html .= '<br /><strong>Description</strong> <span>' . $task->description;
@@ -321,7 +321,7 @@ class TaskController extends Controller
         $project = Project::find($task->project_id);
         $departments_leads_ids = array_unique(DB::table('category_users')->where('category_id', $task->category_id)->pluck('user_id')->toArray());
         $departments_leads_emails = User::where('is_employee', 1)->whereIn('id', $departments_leads_ids)->pluck('email')->toArray();
-        $html = '<p>'. Auth::user()->name.' ('.Auth::user()->email.') '.' has uploaded files on task on project `'.$project->name.'`' .'</p><br />';
+        $html = '<p>'. Auth::user()->name.' has uploaded files on task on project `'.$project->name.'`' .'</p><br />';
         $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
         $html .= '<strong>Task status:</strong> <span>'.get_task_status_text($task->status).'</span><br />';
         $html .= '<br /><strong>Description</strong> <span>' . $task->description;
@@ -403,7 +403,7 @@ class TaskController extends Controller
         $sales_head_emails = User::where('is_employee', 6)->whereIn('id', array_unique(DB::table('brand_users')->where('brand_id', $project->brand_id)->pluck('user_id')->toArray()))->pluck('email')->toArray();
         $customer_support_user = User::find($project->user_id);
         $sales_head_emails []= $customer_support_user->email;
-        $html = '<p>'. (Auth::user()->name.' ('.Auth::user()->email.') ') .' has updated task on project `'.$project->name.'`' .'</p><br />';
+        $html = '<p>'. (Auth::user()->name) .' has updated task on project `'.$project->name.'`' .'</p><br />';
         $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
         $html .= '<strong>Task status:</strong> <span>'.get_task_status_text($task->status).'</span><br />';
         $html .= '<br /><strong>Description</strong> <span>' . $task->description;
@@ -532,7 +532,7 @@ class TaskController extends Controller
         $departments_leads_emails = User::where('is_employee', 1)->whereIn('id', $departments_leads_ids)->pluck('email')->toArray();
         $departments_leads_names = User::where('is_employee', 1)->whereIn('id', $departments_leads_ids)->pluck('name')->toArray();
         $html = '<p>'. 'New task on project `'.$project->name.'`' .'</p><br />';
-        $html .= '<strong>Assigned by:</strong> <span>'.Auth::user()->name.' ('.Auth::user()->email.') '.'</span><br />';
+        $html .= '<strong>Assigned by:</strong> <span>'.Auth::user()->name.'</span><br />';
         $html .= '<strong>Assigned to:</strong> <span>'. implode(', ', $departments_leads_names) . '.' .'</span><br />';
         $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
         $html .= '<strong>Task status:</strong> <span>'.get_task_status_text($task->status).'</span><br />';
@@ -866,7 +866,7 @@ class TaskController extends Controller
         $sales_head_emails []= $customer_support_user->email;
 
         $html = '<p>'. 'New task on project `'.$project->name.'`' .'</p><br />';
-        $html .= '<strong>Assigned by:</strong> <span>'.Auth::user()->name.' ('.Auth::user()->email.') '.'</span><br />';
+        $html .= '<strong>Assigned by:</strong> <span>'.Auth::user()->name.'</span><br />';
         $html .= '<strong>Assigned to:</strong> <span>'. implode(', ', $departments_leads_names) . '.' .'</span><br />';
         $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
         $html .= '<strong>Task status:</strong> <span>'.get_task_status_text($task->status).'</span><br />';
@@ -938,7 +938,7 @@ class TaskController extends Controller
         $sales_head_emails []= $customer_support_user->email;
 
         $html = '<p>'. 'New task on project `'.$project->name.'`' .'</p><br />';
-        $html .= '<strong>Assigned by:</strong> <span>'.Auth::user()->name.' ('.Auth::user()->email.') '.'</span><br />';
+        $html .= '<strong>Assigned by:</strong> <span>'.Auth::user()->name.'</span><br />';
         $html .= '<strong>Assigned to:</strong> <span>'. implode(', ', $departments_leads_names) . '.' .'</span><br />';
         $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
         $html .= '<strong>Task status:</strong> <span>'.get_task_status_text($task->status).'</span><br />';

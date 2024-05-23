@@ -435,7 +435,7 @@ class AdminClientController extends Controller
         //mail_notification
         $user = User::find($request->agent_id);
         $html = '<p>'.'Project `'.$project->name.'` has been reassigned.'.'</p><br />';
-        $html .= '<strong>Reassigned by:</strong> <span>'.Auth::user()->name.' ('.Auth::user()->email.') '.'</span><br />';
+        $html .= '<strong>Reassigned by:</strong> <span>'.Auth::user()->name.'</span><br />';
         $html .= '<strong>Reassigned to:</strong> <span>'.$user->name.' ('.$user->email.') '.'</span><br />';
         $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
 
@@ -663,8 +663,8 @@ class AdminClientController extends Controller
 //        dd('here');
         //mail_notification
         $html = '<p>'.'New project `'.$project->name.'`'.'</p><br />';
-        $html .= '<strong>Assigned by:</strong> <span>'.Auth::user()->name.' ('.Auth::user()->email.')'.'</span><br />';
-        $html .= '<strong>Assigned to:</strong> <span>'.$user->name.' ('.$user->email.')'.'</span><br />';
+        $html .= '<strong>Assigned by:</strong> <span>'.Auth::user()->name.'</span><br />';
+        $html .= '<strong>Assigned to:</strong> <span>'.$user->name.'</span><br />';
         $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
 //        mail_notification('', [$user->email], 'CRM | New project', $html, true);
         mail_notification(

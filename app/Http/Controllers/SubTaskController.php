@@ -159,7 +159,7 @@ class SubTaskController extends Controller
                 $project = Project::find($subtask->task->project_id);
                 $assigned_to_user = User::find($value['assign_sub_task_user_id']);
                 $html = '<p>'. 'New task on project `'.$project->name.'`: ' . $value['comment'] .'</p><br />';
-                $html .= '<strong>Assigned by:</strong> <span>'.Auth::user()->name.' ('.Auth::user()->email.') '.'</span><br />';
+                $html .= '<strong>Assigned by:</strong> <span>'.Auth::user()->name.'</span><br />';
                 $html .= '<strong>Assigned to:</strong> <span>'. $assigned_to_user->name.' ('.$assigned_to_user->email.') ' .'</span><br />';
                 $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
                 $html .= '<br /><strong>Description</strong> <span>' . $subtask->task->description;
@@ -218,7 +218,7 @@ class SubTaskController extends Controller
         $project = Project::find($task->task->project_id);
         $departments_leads_ids = array_unique(DB::table('category_users')->where('category_id', $task->task->category_id)->pluck('user_id')->toArray());
         $departments_leads_emails = User::where('is_employee', 1)->whereIn('id', $departments_leads_ids)->pluck('email')->toArray();
-        $html = '<p>'. (Auth::user()->name.' ('.Auth::user()->email.') ') .' has updated task on project `'.$project->name.'`: ' . $task->comments .'</p><br />';
+        $html = '<p>'. (Auth::user()->name) .' has updated task on project `'.$project->name.'`: ' . $task->comments .'</p><br />';
         $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
         $html .= '<strong>Task status:</strong> <span>'.get_task_status_text($task->task->status).'</span><br />';
         $html .= '<br /><strong>Description</strong> <span>' . $task->task->description;

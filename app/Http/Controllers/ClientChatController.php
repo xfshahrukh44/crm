@@ -119,7 +119,7 @@ class ClientChatController extends Controller
 
         $sales_head_emails = User::where('is_employee', 6)->whereIn('id', array_unique(DB::table('brand_users')->where('brand_id', $brand->id)->pluck('user_id')->toArray()))->pluck('email')->toArray();
 
-        $html = '<p>'. (Auth::user()->name.' ('.Auth::user()->email.') ') . ' has sent a new message' .'</p><br />';
+        $html = '<p>'. (Auth::user()->name.'') . ' has sent a new message' .'</p><br />';
         $html .= $request->message .'<br />';
         $html .= '<strong>Client:</strong> <span>'.Auth::user()->name.'</span><br />';
 
