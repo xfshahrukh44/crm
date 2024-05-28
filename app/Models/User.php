@@ -94,8 +94,17 @@ class User extends Authenticatable
             }
         }else if($this->is_employee == 5){
             echo "Member";
-        }else{
+        }else if($this->is_employee == 6){
             echo "Sales Manager";
+//            echo "Member";
+        }else if ($this->is_employee == 7){
+            if ($this->is_support_head) {
+                echo "QA Lead";
+            } else {
+                echo "QA Member";
+            }
+        } else {
+            echo "";
         }
     }
 
@@ -295,6 +304,11 @@ class User extends Authenticatable
 
     public function memberOnHold(){
         return $this->hasMany(ProductionMemberAssign::class, 'assigned_to', 'id')->where('status', 2)->count();
+    }
+
+    public function status_logs ()
+    {
+        return $this->hasMany(TaskStatusChangedLog::class);
     }
 
 }

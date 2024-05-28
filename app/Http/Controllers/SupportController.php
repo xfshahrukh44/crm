@@ -1131,4 +1131,50 @@ class SupportController extends Controller
         return response()->json(['success' => true , 'data' => $user]);
     }
 
+    public function getFormByQA($form_id, $check, $id){
+
+
+        $project = Project::find($id);
+        // if($project->user_id == Auth()->user()->id){
+        if($check == 1){
+            $logo_form = LogoForm::find($form_id);
+            return view('qa.form.logoform', compact('logo_form'));
+        }else if($check == 2){
+            $web_form = WebForm::find($form_id);
+            return view('qa.form.webform', compact('web_form'));
+        }elseif($check == 3){
+            $smm_form = SmmForm::find($form_id);
+            return view('qa.form.smmform', compact('smm_form'));
+        }elseif($check == 4){
+            $content_form = ContentWritingForm::find($form_id);
+            return view('qa.form.contentform', compact('content_form'));
+        }elseif($check == 5){
+            $seo_form = SeoForm::find($form_id);
+            return view('qa.form.seoform', compact('seo_form'));
+        }elseif($check == 6){
+            $data = BookFormatting::find($form_id);
+            return view('qa.form.bookformatting', compact('data'));
+        }elseif($check == 7){
+            $data = BookWriting::find($form_id);
+            return view('qa.form.bookwriting', compact('data'));
+        }elseif($check == 8){
+            $data = AuthorWebsite::find($form_id);
+            return view('qa.form.authorwebsite', compact('data'));
+        }elseif($check == 9){
+            $data = Proofreading::find($form_id);
+            return view('qa.form.proofreading', compact('data'));
+        }elseif($check == 10){
+            $data = BookCover::find($form_id);
+            return view('qa.form.bookcover', compact('data'));
+        }elseif($check == 11){
+            $data = Isbnform::find($form_id);
+            return view('qa.form.isbnform', compact('data'));
+        }elseif($check == 12){
+            $data = Bookprinting::find($form_id);
+            return view('qa.form.bookprinting', compact('data'));
+        }
+
+
+    }
+
 }

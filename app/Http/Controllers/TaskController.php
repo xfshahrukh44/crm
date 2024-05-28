@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Project;
 use App\Models\Task;
+use App\Models\TaskStatusChangedLog;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\ClientFile;
@@ -369,9 +370,22 @@ class TaskController extends Controller
         $value = $request->value;
         $task = Task::find($id);
         $user = $task->user;
+
+        //if task status changed create logs
+        if ($task && $task->status != $request->value) {
+            TaskStatusChangedLog::create([
+                'task_id' => $task->id,
+                'user_id' => auth()->id() ?? null,
+                'column' => 'status',
+                'old' => $task->status,
+                'new' => $request->value,
+            ]);
+        }
+
         $task->status = $value;
         $task->save();
         $status = '';
+
         if($value == 0){
             $status = 'Open';
         }else if($value == 1){
@@ -625,9 +639,11 @@ class TaskController extends Controller
             });
         }
 
-        $data = $data->whereHas('projects', function ($query) {
-            return $query->where('user_id', '=', Auth()->user()->id);
-        });
+        if (!auth()->user()->is_support_head) {
+            $data = $data->whereHas('projects', function ($query) {
+                return $query->where('user_id', '=', Auth()->user()->id);
+            });
+        }
 
         //when project_id
         $data->when($request->has('project_id'), function ($q) use ($request) {
@@ -1038,6 +1054,167 @@ class TaskController extends Controller
     public function categoryMemberListRemove(Request $request){
         TaskMemberList::where('user_id', $request->user_id)->where('task_id', $request->task_id)->delete();
         return response()->json(['success' => true]);
+    }
+
+    public function qaHome(Request $request)
+    {
+        $category_id = array();
+        foreach(Auth()->user()->category as $category){
+            array_push($category_id, $category->id);
+        }
+
+        $task = new Task;
+
+        if (auth()->user()->is_support_head) {
+            //status: sent for approval
+            $task = $task->where('status', 5);
+
+            if($request->category != null){
+                if($request->category == 0){
+                    $task = $task->whereIn('category_id', $category_id);
+                }else{
+                    $task = $task->where('category_id', $request->category);
+                }
+            }else{
+                $task = $task->whereIn('category_id', $category_id);
+            }
+
+    //        if($request->status != null){
+    //            $task = $task->whereIn('status', $request->status);
+    //        }
+    //        else {
+    //            $task = $task->where('status', 5);
+    //        }
+        } else {
+            $task = $task->where('qa_id', auth()->id());
+        }
+
+
+        $task = $task->get();
+
+        $qa_member_ids = DB::table('category_users')->whereIn('category_id', auth()->user()->category_list())->pluck('user_id');
+        $qa_members = User::where([
+            'is_employee' => 7,
+            'is_support_head' => false,
+        ])->whereIn('id', $qa_member_ids)->get();
+        return view('qa.projects.index', compact('task', 'qa_members'));
+    }
+
+    public function qaShow($id, $notify = null){
+//        if($notify != null){
+//            $Notification = Auth::user()->Notifications->find($notify);
+//            if($Notification){
+//                $Notification->markAsRead();
+//            }
+//        }
+        $task = Task::find($id);
+        $members = User::where('is_employee', 5)->where('status','1')->whereHas('category', function ($query) use ($task) {
+            return $query->where('category_id', '=', $task->category_id);
+        })->get();
+
+        // dump($members[0]->name);
+
+        return view('qa.task.show', compact('task', 'members'));
+    }
+
+    public function qaUpdateTask(Request $request, $id){
+        $value = $request->value;
+        $task = Task::find($id);
+        $user = $task->user;
+
+        //if task status changed create logs
+        if ($task->status != $request->value) {
+            TaskStatusChangedLog::create([
+                'task_id' => $task->id,
+                'column' => 'status',
+                'old' => $task->status,
+                'new' => $request->value,
+            ]);
+        }
+
+        $task->status = $value;
+        $task->save();
+        $status = '';
+
+        if($value == 0){
+            $status = 'Open';
+        }else if($value == 1){
+            $status = 'Re Open';
+        }else if($value == 2){
+            $status = 'Hold';
+        }else if($value == 3){
+            $status = 'Completed';
+        }else if($value == 4){
+            $status = 'In Progress';
+        }else if($value == 5){
+            $status = 'Sent for Approval';
+        }else if($value == 6){
+            $status = 'Incomplete Brief';
+        }
+
+        $description = $task->projects->name . " Marked as " . $status;
+        $assignData = [
+            'id' => Auth()->user()->id,
+            'task_id' => $task->id,
+            'name' => Auth()->user()->name . ' ' . Auth()->user()->last_name,
+            'text' => $description,
+            'details' => '',
+        ];
+        $user->notify(new TaskNotification($assignData));
+
+        //mail_notification
+        $project = Project::find($task->project_id);
+        $sales_head_emails = User::where('is_employee', 6)->whereIn('id', array_unique(DB::table('brand_users')->where('brand_id', $project->brand_id)->pluck('user_id')->toArray()))->pluck('email')->toArray();
+        $customer_support_user = User::find($project->user_id);
+        $sales_head_emails []= $customer_support_user->email;
+        $html = '<p>'. (Auth::user()->name) .' has updated task on project `'.$project->name.'`' .'</p><br />';
+        $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
+        $html .= '<strong>Task status:</strong> <span>'.get_task_status_text($task->status).'</span><br />';
+        $html .= '<br /><strong>Description</strong> <span>' . $task->description;
+
+        mail_notification(
+            '',
+            $sales_head_emails,
+            'Task updated',
+            view('mail.crm-mail-template')->with([
+                'subject' => 'Task updated',
+                'brand_name' => $project->brand->name,
+                'brand_logo' => asset($project->brand->logo),
+                'additional_html' => $html
+            ]),
+            true
+        );
+
+
+        //mail_notification
+        if (get_task_status_text($task->status) == 'Completed') {
+            $project = Project::find($task->project_id);
+            $customer_support_user = User::find($project->user_id);
+            $client = Client::find($project->client_id);
+            $brand = Brand::find($client->brand_id);
+
+            $html = '<p>'. 'Hello ' . $customer_support_user->name .'</p>';
+            $html .= '<p>'. 'The production team has submitted their deliverables for the task titled "('.$task->notes.' / '.$task->id.')". Please review the submitted files and proceed with the necessary actions.' .'</p>';
+            $html .= '<p>'. 'Access the task here: <a href="'.route('support.task.show', $task->id).'">'.route('support.task.show', $task->id).'</a>' .'</p>';
+            $html .= '<p>'. 'Thank you for ensuring the continued progress of our projects.' .'</p>';
+            $html .= '<p>'. 'Best Regards,' .'</p>';
+            $html .= '<p>'. $brand->name .'.</p>';
+
+            mail_notification(
+                '',
+                [$customer_support_user->email],
+                'Task Submission Alert: Review Required',
+                view('mail.crm-mail-template')->with([
+                    'subject' => 'Task Submission Alert: Review Required',
+                    'brand_name' => $brand->name,
+                    'brand_logo' => asset($brand->logo),
+                    'additional_html' => $html
+                ]),
+            //            true
+            );
+        }
+
+        return response()->json(['status' => true, 'message' => 'Status Updated Successfully']);
     }
 
 }

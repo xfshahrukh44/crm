@@ -155,4 +155,84 @@ class AdminUserController extends Controller
             return redirect()->route('admin.user.production.edit', $id)->with('success','Production Member Updated Successfully.');
         }
     }
+
+    public function getUserQA(){
+        $user = User::whereIn('is_employee', [7])->get();
+        return view('admin.qa.index', compact('user'));
+    }
+
+    public function createUserQA(){
+//        $brand = Brand::where('status', 1)->get();
+        $category = Category::where('status', 1)->get();
+        return view('admin.qa.create', compact('category'));
+    }
+
+    public function storeUserQA(Request $request){
+        $request->validate([
+            'name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|unique:users,email',
+            'status' => 'required',
+            'password' => 'required',
+//            'is_employee' => 'required',
+            'category' => 'required',
+        ]);
+
+        $user = new User();
+        $user->name = $request->input('name');
+        $user->last_name = $request->input('last_name');
+        $user->email = $request->input('email');
+        $user->contact = $request->input('contact');
+        $user->status = $request->input('status');
+        $user->password = Hash::make($request->input('password'));
+        $user->is_employee = 7;
+        $user->is_support_head = $request->input('is_support_head');
+        $user->save();
+//        $brand = $request->input('brand');
+//        $user->brands()->sync($brand);
+        $category = $request->input('category');
+        $user->category()->sync($category);
+
+        return redirect()->route('admin.user.qa.create')->with('success','QA Person Created Successfully.');
+    }
+
+    public function editUserQA($id){
+        $data = User::find($id);
+//        $brand = Brand::where('status', 1)->get();
+        $category = Category::where('status', 1)->get();
+        return view('admin.qa.edit', compact('data', 'category'));
+    }
+
+    public function updateUserQA(Request $request, $id){
+        $request->validate([
+            'name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|unique:users,email,'.$id,
+            'status' => 'required',
+//            'is_employee' => 'required',
+            'category' => 'required',
+        ]);
+
+
+        $user = User::find($id);
+        $user->name = $request->input('name');
+        $user->last_name = $request->input('last_name');
+        $user->email = $request->input('email');
+
+        if($request->input('password') != "")
+        {
+            $user->password = Hash::make($request->input('password'));
+        }
+
+        $user->contact = $request->input('contact');
+        $user->status = $request->input('status');
+        $user->is_support_head = $request->input('is_support_head');
+        $user->save();
+//        $brand = $request->input('brand');
+//        $user->brands()->sync($brand);
+        $category = $request->input('category');
+        $user->category()->sync($category);
+
+        return redirect()->route('admin.user.qa.edit', $id)->with('success','QA Person Updated Successfully.');
+    }
 }

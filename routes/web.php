@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Manager\ManagerUserController;
+use App\Http\Controllers\QAController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ClientChatController;
@@ -121,7 +122,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('user/production/create', [AdminUserController::class, 'getProductionUser'])->name('admin.user.production.create');
         Route::get('user/production', [AdminUserController::class, 'getUserProduction'])->name('admin.user.production');
         Route::post('user/status', [AdminUserController::class, 'updateStatus'])->name('update.user.status');
-        Route::post('user/sale/password', [AdminUserController::class, 'updateSalePassword'])->name('update.user.update.password');
+        Route::post('user/sale/password', [AdminUserController::class, 'updateSalePassword'])->name('update.user.update.password')->withoutMiddleware('is_admin');
+
         Route::get('user/sales', [AdminUserController::class, 'getUserSale'])->name('admin.user.sales');
         Route::post('user/sales', [AdminUserController::class, 'storeUserSale'])->name('admin.user.sales.store');
         Route::post('user/production', [AdminUserController::class, 'storeUserSale'])->name('admin.user.production.store');
@@ -130,6 +132,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('user/sale/edit/{id}', [AdminUserController::class, 'editUserSale'])->name('admin.user.sales.edit');
         Route::get('user/production/edit/{id}', [AdminUserController::class, 'editUserProduction'])->name('admin.user.production.edit');
         Route::post('user/sale/update/{id}', [AdminUserController::class, 'updateUserSale'])->name('admin.user.sales.update');
+
+        //QA
+        Route::get('user/qa', [AdminUserController::class, 'getUserQA'])->name('admin.user.qa');
+        Route::get('user/qa/create', [AdminUserController::class, 'createUserQA'])->name('admin.user.qa.create');
+        Route::post('user/qa', [AdminUserController::class, 'storeUserQA'])->name('admin.user.qa.store');
+        Route::get('user/qa/edit/{id}', [AdminUserController::class, 'editUserQA'])->name('admin.user.qa.edit');
+        Route::post('user/qa/update/{id}', [AdminUserController::class, 'updateUserQA'])->name('admin.user.qa.update');
+
         Route::resource('category', CategoryController::class);
         Route::resource('brand', BrandController::class);
         Route::resource('service', ServiceController::class);
@@ -238,11 +248,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/production/subtask/edit/{id}', [TaskController::class, 'productionSubtaskUpdate'])->name('production.subtask.update');
         Route::post('/production/subtask', [SubTaskController::class, 'producionSubtask'])->name('production.subtask.store');
         Route::get('/production/subtask', [SubTaskController::class, 'producionSubtaskAssigned'])->name('production.subtask.assigned');
-        Route::post('/production/files/{id}', [TaskController::class, 'insertFiles'])->name('insert.files');
-        Route::post('/production/file/delete', [TaskController::class, 'deleteFiles'])->name('delete.files');
+        Route::post('/production/files/{id}', [TaskController::class, 'insertFiles'])->name('insert.files')->withoutMiddleware('is_production');
+        Route::post('/production/file/delete', [TaskController::class, 'deleteFiles'])->name('delete.files')->withoutMiddleware('is_production');
         Route::post('/production/updatetask/{id}', [TaskController::class, 'updateTask'])->name('update.task');
         Route::post('/production/subtask/assign', [SubTaskController::class, 'producionSubtaskAssign'])->name('production.subtask.assign');
-        Route::post('/production/files/show/agent', [TaskController::class, 'showFilesToAgent'])->name('production.agent.file.show');
+        Route::post('/production/files/show/agent', [TaskController::class, 'showFilesToAgent'])->name('production.agent.file.show')->withoutMiddleware('is_production');
         Route::get('production/{form_id}/projects/{check}/form/{id}', [SupportController::class, 'getFormByProduction'])->name('production.form');
         Route::get('production/download/{form_id}/projects/{check}/form/{id}', [SupportController::class, 'getPdfFormByProduction'])->name('production.download.form');
         Route::patch('production/update-profile/{id}', [HomeController::class, 'updateProfileProduction'])->name('production.update.profile');
@@ -251,8 +261,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('change/duedate', [SubTaskController::class, 'productionChangeDuedate'])->name('production.change.duadate');
         Route::post('production/member/message', [SubTaskController::class, 'productionMemberSubtaskStore'])->name('production.member.subtask.store');
         Route::post('/production/member/files/{id}/{subtask_id?}', [TaskController::class, 'insertFilesMember'])->name('production.member.insert.files');
-        Route::post('production/member/category', [TaskController::class, 'categoryMemberList'])->name('category.member.list');
-        Route::post('production/member/category/add', [TaskController::class, 'categoryMemberListAdd'])->name('category.member.list.add');
+        Route::post('production/member/category', [TaskController::class, 'categoryMemberList'])->name('category.member.list')->withoutMiddleware('is_production');
+        Route::post('production/member/category/add', [TaskController::class, 'categoryMemberListAdd'])->name('category.member.list.add')->withoutMiddleware('is_production');
         Route::post('production/member/category/remove', [TaskController::class, 'categoryMemberListRemove'])->name('category.member.list.remove');
     });
 });
@@ -265,6 +275,37 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/member/subtask', [SubTaskController::class, 'memberSubtaskStore'])->name('member.subtask.store');
         Route::post('/member/subtask/update/{id}', [SubTaskController::class, 'memberSubtaskUpdate'])->name('member.update.task');
         Route::get('member/{form_id}/projects/{check}/form/{id}', [SupportController::class, 'getFormByMember'])->name('member.form');
+    });
+});
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::group(['middleware' => 'is_qa'], function(){
+        Route::get('/qa/home', [TaskController::class, 'qaHome'])->name('qa.home');
+        Route::get('/qa/task/{id}/{notify?}', [TaskController::class, 'qaShow'])->name('qa.task.show');
+        Route::post('/qa/updatetask/{id}', [TaskController::class, 'qaUpdateTask'])->name('qa.update.task');
+        Route::get('qa/{form_id}/projects/{check}/form/{id}', [SupportController::class, 'getFormByQA'])->name('qa.form');
+
+        //member create
+        Route::get('qa/user', [QAController::class, 'getUserQA'])->name('qa.user.qa');
+        Route::get('qa/user/create', [QAController::class, 'createUserQA'])->name('qa.user.qa.create');
+        Route::post('qa/user', [QAController::class, 'storeUserQA'])->name('qa.user.qa.store');
+        Route::get('qa/user/edit/{id}', [QAController::class, 'editUserQA'])->name('qa.user.qa.edit');
+        Route::post('qa/user/update/{id}', [QAController::class, 'updateUserQA'])->name('qa.user.qa.update');
+
+        //assign task to member
+        Route::post('qa/assign-task-to-member', [QAController::class, 'assignTaskToMember'])->name('qa.assign.task.to.member');
+
+//        Route::get('/qa/dashboard', [HomeController::class, 'productionDashboard'])->name('production.dashboard');
+//        Route::get('/qa/profile/edit', [HomeController::class, 'productionProfile'])->name('production.profile');
+//        Route::post('/qa/files/{id}', [TaskController::class, 'insertFiles'])->name('insert.files');
+//        Route::post('/qa/file/delete', [TaskController::class, 'deleteFiles'])->name('delete.files');
+//        Route::post('/qa/files/show/agent', [TaskController::class, 'showFilesToAgent'])->name('production.agent.file.show');
+//        Route::patch('qa/update-profile/{id}', [HomeController::class, 'updateProfileProduction'])->name('production.update.profile');
+//        Route::post('/qa/member/files/{id}/{subtask_id?}', [TaskController::class, 'insertFilesMember'])->name('production.member.insert.files');
+
+//        Route::post('production/member/category', [TaskController::class, 'categoryMemberList'])->name('category.member.list');
+//        Route::post('production/member/category/add', [TaskController::class, 'categoryMemberListAdd'])->name('category.member.list.add');
+//        Route::post('production/member/category/remove', [TaskController::class, 'categoryMemberListRemove'])->name('category.member.list.remove');
     });
 });
 

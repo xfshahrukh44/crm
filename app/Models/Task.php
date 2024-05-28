@@ -11,7 +11,7 @@ class Task extends Model
 {
     use HasFactory;
     protected $table = 'tasks';
-    protected $fillable = ['project_id', 'category_id', 'description', 'status', 'user_id', 'brand_id', 'created_at', 'duedate', 'notes'];
+    protected $fillable = ['project_id', 'category_id', 'qa_id', 'description', 'status', 'user_id', 'brand_id', 'created_at', 'duedate', 'notes'];
 
     public function projects(){
         return $this->belongsTo(Project::class, 'project_id');
@@ -19,6 +19,10 @@ class Task extends Model
 
     public function user(){
         return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function qa_agent(){
+        return $this->hasOne(User::class, 'id', 'qa_id');
     }
 
     public function brand(){
@@ -133,5 +137,10 @@ class Task extends Model
 
     public function member_list(){
         return $this->hasMany(TaskMemberList::class, 'task_id', 'id');
+    }
+
+    public function status_logs ()
+    {
+        return $this->hasMany(TaskStatusChangedLog::class);
     }
 }

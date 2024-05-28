@@ -386,7 +386,7 @@
                                                     <div class="ul-widget3-body">
                                                         <p>{!! nl2br($message->message) !!}</p>
                                                         <span class="ul-widget3-status text-success t-font-bolder">
-                                                            {{ date('d M, y', strtotime($message->created_at)) }}
+                                                            {{ $message->created_at->format('d M, y h:i a') }}
                                                         </span>
                                                     </div>
                                                     <div class="file-wrapper">

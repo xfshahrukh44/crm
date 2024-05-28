@@ -222,6 +222,13 @@
                 </a>
                 <div class="triangle"></div>
             </li>
+            <li class="nav-item {{ ( request()->routeIs('admin.user.qa') ) || ( request()->routeIs('admin.user.qa.edit') ) || ( request()->routeIs('admin.user.qa.create') )  ? 'active' : '' }}">
+                <a class="nav-item-hold" href="{{ route('admin.user.qa') }}">
+                    <i class="nav-icon i-Administrator"></i>
+                    <span class="nav-text">QA</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
         </ul>
     </div>
     <div class="sidebar-left-secondary rtl-ps-none" data-perfect-scrollbar="" data-suppress-scroll-x="true">

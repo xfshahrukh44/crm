@@ -71,48 +71,24 @@ class LoginController extends Controller
             }elseif(auth()->user()->is_employee == 4){
                 $data = $this->checkUserValid($request);
                 return redirect()->to($data);
-                // $ip_address_array = ['202.47.36.97', '202.47.32.44', '113.203.241.253', '139.190.235.87', '111.88.58.18'];
-                // $ip_address = $request->ip();
-                // Session::put('ip_address', $ip_address);
-                // Session::put('login_ip', $ip_address);
-                // if (in_array($ip_address, $ip_address_array)){
-                    
-                // }else{
-                //     $bytes = bin2hex(random_bytes(3));
-                //     DB::table('users')
-                //     ->where('id', auth()->user()->id)
-                //     ->update(['verfication_code' => $bytes, 'verfication_datetime' => date('Y-m-d H:i:s')]);
-                    
-                //     $details = [
-                //         'title' => 'Verfication Code',
-                //         'body' => 'Your one time use Verfication code for email ' . auth()->user()->email . ' is ' . $bytes
-                //     ];
-                //     $sender_emails = ['bilal.khan3587341@gmail.com', 's4s.mohsin@gmail.com'];
-                //     $newmail = Mail::send('mail', $details, function($message) use ($bytes, $sender_emails){
-                //         $message->to($sender_emails)->subject('Verfication Code');
-                //         $message->from('info@designcrm.net', config('app.name'));
-                //     });
-                //     Session::put('valid_user', true);
-                //     return redirect()->route('salemanager.verify');
-                // }
             }elseif(auth()->user()->is_employee == 5){
                 $data = $this->checkUserValid($request);
                 return redirect()->to($data);
-            }else{
+            }elseif(auth()->user()->is_employee == 6){
                 Session::put('valid_user', false);
                 $ip_address_array = ['202.47.32.22', '113.203.241.253', '206.42.123.75', '139.190.235.87', '202.47.34.48', '202.47.32.22', '39.48.194.97', '39.48.195.213', '182.184.119.166','101.188.67.134', '182.188.41.55', '::1'];
                 $ip_address = $request->ip();
                 Session::put('ip_address', $ip_address);
-                Session::put('login_ip', $ip_address);  
+                Session::put('login_ip', $ip_address);
                 if (in_array($ip_address, $ip_address_array)){
                     Session::put('valid_user', true);
                     return redirect()->route('salemanager.dashboard');
                 }else{
                     $bytes = bin2hex(random_bytes(3));
                     DB::table('users')
-                    ->where('id', auth()->user()->id)
-                    ->update(['verfication_code' => $bytes, 'verfication_datetime' => date('Y-m-d H:i:s')]);
-                    
+                        ->where('id', auth()->user()->id)
+                        ->update(['verfication_code' => $bytes, 'verfication_datetime' => date('Y-m-d H:i:s')]);
+
                     $details = [
                         'title' => 'Verfication Code',
                         'body' => 'Your one time use Verfication code for email ' . auth()->user()->email . ' is ' . $bytes
@@ -126,6 +102,12 @@ class LoginController extends Controller
                     Session::put('valid_user', false);
                     return redirect()->route('salemanager.verify');
                 }
+            }else if (auth()->user()->is_employee == 7){
+                $data = $this->checkUserValid($request);
+                return redirect()->to($data);
+            } else {
+                $data = $this->checkUserValid($request);
+                return redirect()->to($data);
             }
         }else{
             return redirect()->back()->with('error', 'Email-Address And Password Are Wrong.');
@@ -139,6 +121,9 @@ class LoginController extends Controller
         Session::put('ip_address', $ip_address);
         Session::put('login_ip', $ip_address);
         if (in_array($ip_address, $ip_address_array)){
+            if (!auth()->user()) {
+                return route('login');
+            }
             Session::put('valid_user', true);
             if(auth()->user()->is_employee == 4){
                 return route('support.home');
@@ -148,6 +133,8 @@ class LoginController extends Controller
                 return route('production.dashboard');
             }else if(auth()->user()->is_employee == 5){
                 return route('member.dashboard');
+            }else if(auth()->user()->is_employee == 7){
+                return route('qa.home');
             }
         }else{
             $bytes = bin2hex(random_bytes(3));
