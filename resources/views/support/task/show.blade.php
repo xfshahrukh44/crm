@@ -115,6 +115,29 @@
         <li>Tasks</li>
         <li>Show Task</li>
     </ul>
+    <div class="content-header-right col-md-3 col-12 pr-0">
+        <div class="btn-group float-md-right w-100">
+            <div class="task-page w-100">
+                <fieldset>
+                    <div class="input-group">
+                        <select name="update-task-value" id="update-task-value" class="form-control w-200">
+                            <option value="">Select task status</option>
+                            {{--                            <option value="0" {{($task->status == 0) ? 'selected' : ''}} disabled>Open</option>--}}
+                            <option value="0" {{($task->status == 0) ? 'selected' : ''}}>Re Open</option>
+                            {{--                            <option value="4" {{($task->status == 4) ? 'selected' : ''}}>In Progress</option>--}}
+                            {{--                            <option value="2" {{($task->status == 2) ? 'selected' : ''}}>On Hold</option>--}}
+                            {{--                            <option value="5" {{($task->status == 5) ? 'selected' : ''}}>Sent for Approval</option>--}}
+                            {{--                            <option value="6" {{($task->status == 6) ? 'selected' : ''}}>Incomplete Brief</option>--}}
+{{--                            <option value="3" {{($task->status == 3) ? 'selected' : ''}}>Completed</option>--}}
+                        </select>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button" id="update-task">Update</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
     <div class="task-page ml-auto">
         {!!$task->project_status()!!}
     </div>
@@ -853,6 +876,21 @@ function Clicked_h_btnAddFileUploadControl() {
     }
     $(".message-box-wrapper").mCustomScrollbar({
         setHeight:500,
+    });
+
+
+    $('#update-task').click(function(){
+        var value = $('#update-task-value').val();
+        $.ajax({
+            type: "POST",
+            url: "{{ route('support.update.task', $task->id) }}",
+            data: { value:value },
+            success: function(response) {
+                if(response.status){
+                    toastr.success(response.message, '', {timeOut: 5000})
+                }
+            }
+        });
     });
 </script>
 @endpush

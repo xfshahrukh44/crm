@@ -202,6 +202,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/support/assign/support/', [SupportController::class, 'assignSupportManager'])->name('support.assign.support');
         Route::post('/support/reassign/support/', [SupportController::class, 'reassignSupportManager'])->name('support.reassign.support');
         Route::get('/support/client/agent/{brand_id?}', [SupportController::class, 'getAgentManager'])->name('support.client.agent');
+
+        //update task status
+        Route::post('/support/updatetask/{id}', [TaskController::class, 'supportUpdateTask'])->name('support.update.task');
     });
 });
 
