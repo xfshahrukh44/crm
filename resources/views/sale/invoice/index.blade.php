@@ -94,6 +94,12 @@
                                 <td>
                                     <span class="btn btn-{{ App\Models\Invoice::STATUS_COLOR[$datas->payment_status] }} btn-sm">
                                         {{ App\Models\Invoice::PAYMENT_STATUS[$datas->payment_status] }}
+                                        @if($datas->payment_status == 1)
+                                            <form method="post" action="{{ route('sale.invoice.paid', $datas->id) }}">
+                                                @csrf
+                                                <button type="submit" class="mark-paid btn btn-danger p-0">Click</button>
+                                            </form>
+                                        @endif
                                     </span>
                                 </td>
                                 <td>{{ $datas->currency_show->sign }}{{ $datas->amount }}</td>

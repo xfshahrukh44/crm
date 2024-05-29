@@ -229,12 +229,15 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/client-chat/{id}', [HomeController::class, 'saleChat'])->name('sale.chat');
         Route::get('sale/messages/{id}', [HomeController::class, 'fetchMessages'])->name('sale.fetch.messages');
         Route::post('sale/messages/{id}', [HomeController::class, 'sendMessage'])->name('sale.send.messages');
+
         Route::post('invoice', [InvoiceController::class, 'saleStore'])->name('sale.invoice.create');
         Route::post('invoice/update', [InvoiceController::class, 'saleUpdate'])->name('sale.invoice.update');
         Route::any('invoice/generated/{id}', [InvoiceController::class, 'linkPageSale'])->name('sale.link');
         Route::get('invoice', [InvoiceController::class, 'getInvoiceByUserId'])->name('sale.invoice');
         Route::get('invoice/{id}', [InvoiceController::class, 'getSingleInvoice'])->name('sale.single.invoice');
         Route::get('invoice/edit/{id}', [InvoiceController::class, 'editInvoice'])->name('sale.invoice.edit');
+        Route::post('/invoice/paid/{id}', [InvoiceController::class, 'invoicePaidByIdSale'])->name('sale.invoice.paid');
+
         Route::post('client/create_auth/', [AdminClientController::class, 'createAuth'])->name('sale.client.createauth');
         Route::post('client/update_auth/', [AdminClientController::class, 'updateAuth'])->name('sale.client.updateauth');
         Route::get('brief/pending', [LogoFormController::class, 'getBriefPendingById'])->name('sale.brief.pending');
