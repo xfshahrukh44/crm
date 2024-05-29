@@ -64,20 +64,30 @@
                         </h4>
                     </div>
                 </div>
-                @if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6)
-                    <div class="row text-center">
+                @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6]))
+                    @if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6)
+                        <div class="row text-center">
+                            <div class="col-md-6 offset-md-3">
+                                <h4>
+                                    @php
+                                        if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
+                                            $route = 'manager.notification';
+                                        }
+                                    @endphp
+                                    <a target="_blank" href="{{route($route, ['brand_id' => $brand->id])}}" class="text-danger">
+                                        <i class="fas fa-bell"></i>
+                                        <span style="color: black !important;">Brand notifications</span>
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                    @endif
+                    <div class="row text-center" hidden>
                         <div class="col-md-6 offset-md-3">
-                            <h4>
-                                @php
-                                    if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
-                                        $route = 'manager.notification';
-                                    }
-                                @endphp
-                                <a target="_blank" href="{{route($route, ['brand_id' => $brand->id])}}" class="text-danger">
-                                    <i class="fas fa-bell"></i>
-                                    <span style="color: black !important;">Brand notifications</span>
-                                </a>
-                            </h4>
+                            <button class="btn btn-success" data-toggle="modal" data-target="#salesFiguresModal">
+                                <i class="fas fa-dollar"></i>
+                                Sales figures
+                            </button>
                         </div>
                     </div>
                 @endif
@@ -91,7 +101,7 @@
                         <div class="row text-center">
                             <div class="col-md-12">
                                 <h6>
-                                    <b>Buhs</b>
+                                    <b>BUHs</b>
                                 </h6>
                             </div>
                         </div>
@@ -213,6 +223,9 @@
                                     <th>Client</th>
                                     <th>Invoices</th>
                                     <th>Projects</th>
+                                    @if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4 && \Illuminate\Support\Facades\Auth::user()->is_support_head)
+                                        <th>Create login</th>
+                                    @endif
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -230,6 +243,18 @@
                                         </td>
                                         <td>{{count($client->invoices)}}</td>
                                         <td>{{$project_count}}</td>
+                                        @if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4 && \Illuminate\Support\Facades\Auth::user()->is_support_head)
+                                            <td>
+                                                <a href="javascript:;"
+                                                   class="btn btn-{{ $client->user == null ? 'primary' : 'success' }} btn-sm auth-create"
+                                                   data-id="{{ $client->id }}"
+                                                   data-auth="{{ $client->user == null ? 0 : 1 }}"
+                                                   data-password="{{ $client->user == null ? '' : $client->user->password }}"
+                                                >
+                                                    {{ $client->user == null ? 'Click Here' : 'Reset Pass' }}
+                                                </a>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
 
@@ -240,6 +265,9 @@
                                     <th>Client</th>
                                     <th>Invoices</th>
                                     <th>Projects</th>
+                                    @if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4 && \Illuminate\Support\Facades\Auth::user()->is_support_head)
+                                        <th>Create login</th>
+                                    @endif
                                 </tr>
                                 </tfoot>
                             </table>
@@ -252,9 +280,66 @@
         </div>
     </div>
 </div>
+
+{{--sales figures modal--}}
+<div class="modal fade" id="salesFiguresModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Brand sales figures</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-sm table-striped">
+                            <thead>
+                                <tr>
+                                    <th>asd</th>
+                                    <th>asd</th>
+                                    <th>asd</th>
+                                    <th>asd</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>asdsadsada</td>
+                                    <td>asdsadsada</td>
+                                    <td>asdsadsada</td>
+                                    <td>asdsadsada</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 @push('scripts')
-<script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+{{--<script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>--}}
+<script>
+    // $.ajaxSetup({
+    //     headers: {
+    //         'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+    //     }
+    // });
+    function generatePassword() {
+        var length = 16,
+            charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+            retVal = "";
+        for (var i = 0, n = charset.length; i < length; ++i) {
+            retVal += charset.charAt(Math.floor(Math.random() * n));
+        }
+        return retVal;
+    }
+</script>
 <script>
     {{--var data = {!! json_encode($data->toArray()) !!};--}}
     {{--var data_array = [];--}}
@@ -265,7 +350,98 @@
     {{--}--}}
 
     $(document).ready(function() {
+        $('.auth-create').on('click', function () {
+        var auth = $(this).data('auth');
+        var id = $(this).data('id');
+        var pass = generatePassword();
+        if(auth == 0){
+            swal({
+                title: "Enter Password",
+                input: "text",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                inputPlaceholder: "Enter Password",
+                inputValue: pass
+            }).then(function (inputValue) {
+                if (inputValue === false){
+                    return swal({
+                        title:"Field cannot be empty",
+                        text: "Password Not Inserted/Updated because it is Empty",
+                        type:"danger"
+                    })
+                }
+                if (inputValue === "") {
+                    return swal({
+                        title:"Field cannot be empty",
+                        text: "Password Not Inserted/Updated because it is Empty",
+                        type:"danger"
+                    })
+                }
+                $.ajax({
+                    type:'POST',
+                    url: "{{ route('support.client.createauth') }}",
+                    data: {id: id, pass:inputValue, "_token": "{{csrf_token()}}"},
+                    success:function(data) {
+                        if(data.success == true){
+                            swal("Auth Created", "Password is : " + inputValue, "success");
+                        }else{
+                            return swal({
+                                title:"Error",
+                                text: "There is an Error, Plase Contact Administrator",
+                                type:"danger"
+                            })
+                        }
+                    }
+                });
+            });
+        }else{
+            swal({
+                title: "Enter Password",
+                input: "text",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                inputPlaceholder: "Enter Password",
+                inputValue: pass
+            }).then(function (inputValue) {
+                if (inputValue === false){
+                    return swal({
+                        title:"Field cannot be empty",
+                        text: "Password Not Inserted/Updated because it is Empty",
+                        type:"danger"
+                    })
+                }
+                if (inputValue === "") {
+                    return swal({
+                        title:"Field cannot be empty",
+                        text: "Password Not Inserted/Updated because it is Empty",
+                        type:"danger"
+                    })
+                }
+                // $.ajaxSetup({
+                //     headers: {
+                //         'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                //     }
+                // });
 
+                $.ajax({
+                    type:'POST',
+                    url: "{{ route('support.client.updateauth') }}",
+                    data: {id: id, pass:inputValue, "_token": "{{csrf_token()}}"},
+                    success:function(data) {
+                        if(data.success == true){
+                            swal("Auth Created", "Password is : " + inputValue, "success");
+                        }else{
+                            return swal({
+                                title:"Error",
+                                text: "There is an Error, Plase Contact Administrator",
+                                type:"danger"
+                            })
+                        }
+                    }
+                });
+            });
+        }
+    });
     });
 </script>
 @endpush

@@ -205,6 +205,10 @@ Route::group(['middleware' => 'auth'], function () {
 
         //update task status
         Route::post('/support/updatetask/{id}', [TaskController::class, 'supportUpdateTask'])->name('support.update.task');
+
+        //client
+        Route::post('/support/client/create_auth/', [AdminClientController::class, 'createAuthSupport'])->name('support.client.createauth');
+        Route::post('/support/client/update_auth/', [AdminClientController::class, 'updateAuthSupport'])->name('support.client.updateauth');
     });
 });
 

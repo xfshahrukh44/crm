@@ -389,6 +389,68 @@ class AdminClientController extends Controller
         return response()->json(['success' => true , 'message' => 'Login Created']);
     }
 
+    public function createAuthSupport(Request $request){
+        $invoices = Invoice::where('client_id', $request->id)->get();
+        $pass = $request->pass;
+        $id = $request->id;
+        $client = Client::find($id);
+        $user = new User();
+        $user->name = $client->name;
+        $user->last_name = $client->last_name;
+        $user->email = $client->email;
+        $user->contact = $client->contact;
+        $user->status = 1;
+        $user->password = Hash::make($pass);
+        $user->is_employee = 3;
+        $user->client_id = $id;
+        $user->save();
+        foreach($invoices as $invoice){
+            $service_array = explode(',', $invoice->service);
+            for($i = 0; $i < count($service_array); $i++){
+                $service = Service::find($service_array[$i]);
+                if($service->form == 1){
+                    // Logo Form
+                    $logo_form = new LogoForm();
+                    $logo_form->invoice_id = $invoice->id;
+                    $logo_form->user_id = $user->id;
+                    $logo_form->agent_id = $invoice->sales_agent_id;
+                    $logo_form->save();
+                }elseif($service->form == 2){
+                    // Website Form
+                    $web_form = new WebForm();
+                    $web_form->invoice_id = $invoice->id;
+                    $web_form->user_id = $user->id;
+                    $web_form->agent_id = $invoice->sales_agent_id;
+                    $web_form->save();
+                }elseif($service->form == 3){
+                    // Smm Form
+                    $smm_form = new SmmForm();
+                    $smm_form->invoice_id = $invoice->id;
+                    $smm_form->user_id = $user->id;
+                    $smm_form->agent_id = $invoice->sales_agent_id;
+                    $smm_form->save();
+                }elseif($service->form == 4){
+                    // Content Writing Form
+                    $content_writing_form = new ContentWritingForm();
+                    $content_writing_form->invoice_id = $invoice->id;
+                    $content_writing_form->user_id = $user->id;
+                    $content_writing_form->agent_id = $invoice->sales_agent_id;
+                    $content_writing_form->save();
+                }elseif($service->form == 5){
+                    // Search Engine Optimization Form
+                    $seo_form = new SeoForm();
+                    $seo_form->invoice_id = $invoice->id;
+                    $seo_form->user_id = $user->id;
+                    $seo_form->agent_id = $invoice->sales_agent_id;
+                    $seo_form->save();
+                }
+
+
+            }
+        }
+        return response()->json(['success' => true , 'message' => 'Login Created']);
+    }
+
     public function updateAuthManager(Request $request){
         $id = $request->id;
         $pass = $request->pass;
@@ -399,6 +461,15 @@ class AdminClientController extends Controller
     }
 
     public function updateAuth(Request $request){
+        $id = $request->id;
+        $pass = $request->pass;
+        $user = User::where('client_id', $id)->first();
+        $user->password = Hash::make($pass);
+        $user->save();
+        return response()->json(['success' => true , 'message' => 'Password Reset']);
+    }
+
+    public function updateAuthSupport(Request $request){
         $id = $request->id;
         $pass = $request->pass;
         $user = User::where('client_id', $id)->first();
