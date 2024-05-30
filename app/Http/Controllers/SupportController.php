@@ -1125,9 +1125,16 @@ class SupportController extends Controller
     }
 
     public function getAgentManager($brand_id = null){
-        $user = User::select('id', 'name', 'last_name')->where('id', '!=', auth()->id())->where('is_support_head',  0)->where('is_employee', 4)->whereHas('brands', function ($query) use ($brand_id) {
-            return $query->where('brand_id', $brand_id);
-        })->get();
+        $user = User::select('id', 'name', 'last_name')
+            ->where('id', '!=', auth()->id())
+            ->where('is_support_head',  0)
+            ->where('is_employee', 4)
+            ->whereHas('brands', function ($query) use ($brand_id) {
+                return $query->where('brand_id', $brand_id);
+            })->get()->toArray();
+
+        $user []= auth()->user();
+
         return response()->json(['success' => true , 'data' => $user]);
     }
 
