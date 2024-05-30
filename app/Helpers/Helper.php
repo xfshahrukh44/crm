@@ -786,7 +786,3 @@ function get_pending_projects ($client_user_id) {
 
     return $pending_projects;
 }
-
-function get_member_tasks_ids ($member_user_id) {
-    return array_unique(ProductionMemberAssign::where('assigned_to', $member_user_id)->pluck('task_id')->toArray());
-}
