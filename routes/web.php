@@ -391,6 +391,6 @@ Route::get('temp', function () {
     dump('This week: ' . (Task::whereIn('id', get_member_tasks_ids(auth()->id()))->where('status', 3)->where('created_at', '>=', Carbon::now()->startOfWeek())->where('created_at', '<=', Carbon::now()->endOfWeek())->count()));
     dump('This month: ' . (Task::whereIn('id', get_member_tasks_ids(auth()->id()))->where('status', 3)->where('created_at', '>=', Carbon::now()->startOfMonth())->where('created_at', '<=', Carbon::now()->endOfMonth())->count()));
     dump('This year: ' . (Task::whereIn('id', get_member_tasks_ids(auth()->id()))->where('status', 3)->where('created_at', '>=', Carbon::now()->startOfYear())->where('created_at', '<=', Carbon::now()->endOfYear())->count()));
-    dump('Total tasks completed: ' . (Task::whereIn('id', get_member_tasks_ids(auth()->id()))->where('status', 3)->count()));
-    dd(\Illuminate\Support\Facades\Auth::user()->is_employee);
+    dd('Total tasks completed: ' . (Task::whereIn('id', get_member_tasks_ids(auth()->id()))->where('status', 3)->count()));
+//    dd(\Illuminate\Support\Facades\Auth::user()->is_employee);
 });
