@@ -11,6 +11,7 @@ use App\Models\Invoice;
 use App\Models\Isbnform;
 use App\Models\LogoForm;
 use App\Models\NoForm;
+use App\Models\ProductionMemberAssign;
 use App\Models\Project;
 use App\Models\Proofreading;
 use App\Models\SeoForm;
@@ -784,4 +785,8 @@ function get_pending_projects ($client_user_id) {
     }
 
     return $pending_projects;
+}
+
+function get_member_tasks_ids ($member_user_id) {
+    return array_unique(ProductionMemberAssign::where('assigned_to', $member_user_id)->pluck('task_id')->toArray());
 }

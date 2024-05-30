@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Manager\ManagerUserController;
 use App\Http\Controllers\QAController;
+use App\Models\Task;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ClientChatController;
@@ -383,5 +385,12 @@ Route::get('clients-detail/{id}', [GeneralBrandController::class, 'clients_detai
 Route::get('projects-detail/{id}', [GeneralBrandController::class, 'projects_detail'])->name('projects.detail');
 
 Route::get('temp', function () {
+//    dd(Task::whereIn('id', get_member_tasks_ids(auth()->id()))->where('status', 3)->count());
+    dump('----Tasks completed----');
+    dump('Today: ' . (Task::whereIn('id', get_member_tasks_ids(auth()->id()))->where('status', 3)->wheredate('created_at', Carbon::today())->count()));
+    dump('This week: ' . (Task::whereIn('id', get_member_tasks_ids(auth()->id()))->where('status', 3)->where('created_at', '>=', Carbon::now()->startOfWeek())->where('created_at', '<=', Carbon::now()->endOfWeek())->count()));
+    dump('This month: ' . (Task::whereIn('id', get_member_tasks_ids(auth()->id()))->where('status', 3)->where('created_at', '>=', Carbon::now()->startOfMonth())->where('created_at', '<=', Carbon::now()->endOfMonth())->count()));
+    dump('This year: ' . (Task::whereIn('id', get_member_tasks_ids(auth()->id()))->where('status', 3)->where('created_at', '>=', Carbon::now()->startOfYear())->where('created_at', '<=', Carbon::now()->endOfYear())->count()));
+    dump('Total tasks completed: ' . (Task::whereIn('id', get_member_tasks_ids(auth()->id()))->where('status', 3)->count()));
     dd(\Illuminate\Support\Facades\Auth::user()->is_employee);
 });
