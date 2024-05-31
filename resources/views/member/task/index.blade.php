@@ -99,16 +99,7 @@
                                 </td>
                                 <td>{!! $datas->get_status() !!}</td>
                                 <td>
-                                    @php
-                                    $date_now = new DateTime();
-                                    $date2 = new DateTime(date('d-m-Y', strtotime($datas->duadate)));
-                                    @endphp
                                     @dump($datas->duadate)
-{{--                                    @if ($date_now > $date2)--}}
-{{--                                    <button class="btn btn-danger btn-sm">{{ strtotime($datas->duadate) }}</button>--}}
-{{--                                    @else--}}
-{{--                                    <button class="btn btn-success btn-sm">{{ strtotime($datas->duadate) }}</button>--}}
-{{--                                    @endif--}}
                                 </td>
                                 <td>
                                     <div style="display: flex;gap:4px">
