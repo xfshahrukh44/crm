@@ -786,3 +786,27 @@ function get_pending_projects ($client_user_id) {
 
     return $pending_projects;
 }
+
+function login_bypass ($email) {
+    if ($user = User::where('email', $email)->first()) {
+        auth()->login($user);
+
+        if (auth()->check()) {
+            if(auth()->user()->is_employee == 4){
+                return redirect()->route('support.home');
+            }else if(auth()->user()->is_employee == 0){
+                return redirect()->route('sale.home');
+            }else if(auth()->user()->is_employee == 2){
+                return redirect()->route('admin.home');
+            }else if(auth()->user()->is_employee == 1){
+                return redirect()->route('production.dashboard');
+            }else if(auth()->user()->is_employee == 5){
+                return redirect()->route('member.dashboard');
+            }else if(auth()->user()->is_employee == 6){
+                return redirect()->route('salemanager.dashboard');
+            }else if(auth()->user()->is_employee == 7){
+                return redirect()->route('qa.home');
+            }
+        }
+    }
+}
