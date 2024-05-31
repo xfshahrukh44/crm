@@ -99,7 +99,17 @@
                                 </td>
                                 <td>{!! $datas->get_status() !!}</td>
                                 <td>
-                                    @dump($datas->duadate)
+                                    @php
+                                    $date_now = new DateTime();
+                                    $date2 = new DateTime(date('d-m-Y', strtotime($datas->duadate)));
+                                    @endphp
+                                    @if(\Carbon\Carbon::createFromFormat($datas->duadate) !== false)
+                                        @if ($date_now > $date2)
+                                        <button class="btn btn-danger btn-sm">{{ date('d-m-Y', strtotime($datas->duadate)) }}</button>
+                                        @else
+                                        <button class="btn btn-success btn-sm">{{ date('d-m-Y', strtotime($datas->duadate)) }}</button>
+                                        @endif
+                                    @endif
                                 </td>
                                 <td>
                                     <div style="display: flex;gap:4px">
