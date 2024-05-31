@@ -100,13 +100,12 @@
                                 <td>{!! $datas->get_status() !!}</td>
                                 <td>
                                     @php
-                                    $date_now = new DateTime();
-                                    $date2 = new DateTime(date('d-m-Y', strtotime($datas->duedate)));
+                                        $date_check = (Carbon::now() > \Carbon\Carbon::parse($datas->duadate));
                                     @endphp
-                                    @if ($date_now > $date2)
-                                    <button class="btn btn-danger btn-sm">{{ date('d-m-Y', strtotime($datas->duedate)) }}</button>
+                                    @if ($date_check)
+                                    <button class="btn btn-danger btn-sm">{{ \Carbon\Carbon::parse($datas->duadate)->format('d-m-Y') }}</button>
                                     @else
-                                    <button class="btn btn-success btn-sm">{{ date('d-m-Y', strtotime($datas->duedate)) }}</button>
+                                    <button class="btn btn-success btn-sm">{{ \Carbon\Carbon::parse($datas->duadate)->format('d-m-Y') }}</button>
                                     @endif
                                 </td>
                                 <td>
