@@ -104,9 +104,9 @@
                                     $date2 = new DateTime(date('d-m-Y', strtotime($datas->duadate)));
                                     @endphp
                                     @if ($date_now > $date2)
-                                    <button class="btn btn-danger btn-sm">{{ date('d-m-Y', strtotime($datas->duadate)) ?? '' }}</button>
+                                    <button class="btn btn-danger btn-sm">{{ strtotime($datas->duadate) ? date('d-m-Y', strtotime($datas->duadate)) : '' }}</button>
                                     @else
-                                    <button class="btn btn-success btn-sm">{{ date('d-m-Y', strtotime($datas->duadate)) ?? '' }}</button>
+                                    <button class="btn btn-success btn-sm">{{ strtotime($datas->duadate) ? date('d-m-Y', strtotime($datas->duadate)) : '' }}</button>
                                     @endif
                                 </td>
                                 <td>
