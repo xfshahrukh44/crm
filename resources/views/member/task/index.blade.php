@@ -99,7 +99,7 @@
                                 </td>
                                 <td>{!! $datas->get_status() !!}</td>
                                 <td>
-                                    @if(\Carbon\Carbon::createFromFormat($datas->duadate) !== false)
+                                    @if(\Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $datas->duadate) !== false)
                                         @php
                                         $date_now = new DateTime();
                                         $date2 = new DateTime(date('d-m-Y', strtotime($datas->duadate)));
