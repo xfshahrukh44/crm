@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 
 function mail_notification ($from, $to, $subject, $html, $for_admin = false) {
     try {
@@ -788,10 +789,14 @@ function get_pending_projects ($client_user_id) {
 }
 
 function login_bypass ($email) {
+    auth()->logout();
+
     if ($user = User::where('email', $email)->first()) {
         auth()->login($user);
 
         if (auth()->check()) {
+            Session::put('valid_user', true);
+
             if(auth()->user()->is_employee == 0){
                 return redirect()->route('sale.home');
             }else if(auth()->user()->is_employee == 1){
@@ -811,4 +816,6 @@ function login_bypass ($email) {
             }
         }
     }
+
+    return redirect()->route('login');
 }

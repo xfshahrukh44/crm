@@ -77,7 +77,7 @@
                         <select name="update-task-value" id="update-task-value" class="form-control w-200">
                             <option value="">Select task status</option>
 {{--                            <option value="0" {{($task->status == 0) ? 'selected' : ''}} disabled>Open</option>--}}
-                            <option value="0" {{($task->status == 0) ? 'selected' : ''}}>Re Open</option>
+                            <option value="1" {{($task->status == 1) ? 'selected' : ''}}>Re Open</option>
 {{--                            <option value="4" {{($task->status == 4) ? 'selected' : ''}}>In Progress</option>--}}
 {{--                            <option value="2" {{($task->status == 2) ? 'selected' : ''}}>On Hold</option>--}}
 {{--                            <option value="5" {{($task->status == 5) ? 'selected' : ''}}>Sent for Approval</option>--}}
