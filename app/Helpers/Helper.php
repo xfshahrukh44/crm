@@ -792,14 +792,16 @@ function login_bypass ($email) {
         auth()->login($user);
 
         if (auth()->check()) {
-            if(auth()->user()->is_employee == 4){
-                return redirect()->route('support.home');
-            }else if(auth()->user()->is_employee == 0){
+            if(auth()->user()->is_employee == 0){
                 return redirect()->route('sale.home');
-            }else if(auth()->user()->is_employee == 2){
-                return redirect()->route('admin.home');
             }else if(auth()->user()->is_employee == 1){
                 return redirect()->route('production.dashboard');
+            }else if(auth()->user()->is_employee == 2){
+                return redirect()->route('admin.home');
+            }else if(auth()->user()->is_employee == 3){
+                return redirect()->route('client.home');
+            }else if(auth()->user()->is_employee == 4){
+                return redirect()->route('support.home');
             }else if(auth()->user()->is_employee == 5){
                 return redirect()->route('member.dashboard');
             }else if(auth()->user()->is_employee == 6){
