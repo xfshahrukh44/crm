@@ -222,6 +222,9 @@ class ClientController extends Controller
         if(count(Auth()->user()->logoForm) != 0){
             foreach(Auth()->user()->logoForm as $logoForm){
                 $logo_form = LogoForm::whereHas('invoice')->find($logoForm->id);
+                if (!$logo_form) {
+                    continue;
+                }
                 $logo_form->option = $logo_form->logo_name;
                 $logo_form->form_type = 1;
                 $logo_form->form_name = 'Logo';
@@ -231,6 +234,9 @@ class ClientController extends Controller
         if(count(Auth()->user()->webForm) != 0){
             foreach(Auth()->user()->webForm as $webForm){
                 $web_form = WebForm::whereHas('invoice')->find($webForm->id);
+                if (!$web_form) {
+                    continue;
+                }
                 $web_form->option = $web_form->business_name;
                 $web_form->form_type = 2;
                 $web_form->form_name = 'Web';
@@ -240,6 +246,9 @@ class ClientController extends Controller
         if(count(Auth()->user()->smmForm) != 0){
             foreach(Auth()->user()->smmForm as $smmForm){
                 $smm_form = SmmForm::whereHas('invoice')->find($smmForm->id);
+                if (!$smm_form) {
+                    continue;
+                }
                 $smm_form->option = $smm_form->business_name;
                 $smm_form->form_type = 3;
                 $smm_form->form_name = 'SMM';
@@ -249,6 +258,9 @@ class ClientController extends Controller
         if(count(Auth()->user()->contentWritingForm) != 0){
             foreach(Auth()->user()->contentWritingForm as $contentWritingForm){
                 $content_form = ContentWritingForm::whereHas('invoice')->find($contentWritingForm->id);
+                if (!$content_form) {
+                    continue;
+                }
                 $content_form->option = $content_form->company_name;
                 $content_form->form_type = 4;
                 $content_form->form_name = 'Content Writing';
@@ -258,6 +270,9 @@ class ClientController extends Controller
         if(count(Auth()->user()->soeForm) != 0){
             foreach(Auth()->user()->soeForm as $soeForm){
                 $seo_form = SeoForm::whereHas('invoice')->find($soeForm->id);
+                if (!$seo_form) {
+                    continue;
+                }
                 $seo_form->option = $seo_form->company_name;
                 $seo_form->form_type = 5;
                 $seo_form->form_name = 'SEO';
@@ -267,6 +282,9 @@ class ClientController extends Controller
         if(count(Auth()->user()->bookFormattingForm) != 0){
             foreach(Auth()->user()->bookFormattingForm as $bookFormatting){
                 $bookFormattingForm = BookFormatting::whereHas('invoice')->find($bookFormatting->id);
+                if (!$bookFormattingForm) {
+                    continue;
+                }
                 $bookFormattingForm->option = $bookFormatting->book_title;
                 $bookFormattingForm->form_type = 6;
                 $bookFormattingForm->form_name = 'Book Formatting & Publishing Form';
@@ -276,6 +294,9 @@ class ClientController extends Controller
         if(count(Auth()->user()->bookWritingForm) != 0){
             foreach(Auth()->user()->bookWritingForm as $bookWriting){
                 $bookWritingForm = BookWriting::whereHas('invoice')->find($bookWriting->id);
+                if (!$bookWritingForm) {
+                    continue;
+                }
                 $bookWritingForm->option = $bookWriting->book_title;
                 $bookWritingForm->form_type = 7;
                 $bookWritingForm->form_name = 'Book Writing Form';
@@ -286,6 +307,9 @@ class ClientController extends Controller
         if(count(Auth()->user()->authorWesbiteForm) != 0){
             foreach(Auth()->user()->authorWesbiteForm as $authorWesbiteForm){
                 $authorWebsiteForm = AuthorWebsite::whereHas('invoice')->find($authorWesbiteForm->id);
+                if (!$authorWebsiteForm) {
+                    continue;
+                }
                 $authorWebsiteForm->option = $authorWesbiteForm->author_name;
                 $authorWebsiteForm->form_type = 8;
                 $authorWebsiteForm->form_name = 'Author Website Form';
@@ -296,6 +320,9 @@ class ClientController extends Controller
         if(count(Auth()->user()->proofreading) != 0){
             foreach(Auth()->user()->proofreading as $proofreading){
                 $proofreadingForm = Proofreading::whereHas('invoice')->find($proofreading->id);
+                if (!$proofreadingForm) {
+                    continue;
+                }
                 $proofreadingForm->option = $proofreading->author_name;
                 $proofreadingForm->form_type = 9;
                 $proofreadingForm->form_name = 'Editing & Proofreading Form';
@@ -306,6 +333,9 @@ class ClientController extends Controller
         if(count(Auth()->user()->bookcover) != 0){
             foreach(Auth()->user()->bookcover as $bookcover){
                 $bookcover = BookCover::whereHas('invoice')->find($bookcover->id);
+                if (!$bookcover) {
+                    continue;
+                }
                 $bookcover->option = $bookcover->author_name;
                 $bookcover->form_type = 10;
                 $bookcover->form_name = 'Book Cover Design Form';
@@ -318,6 +348,9 @@ class ClientController extends Controller
         if(count(Auth()->user()->isbnForm) != 0){
             foreach(Auth()->user()->isbnForm as $isbnform){
                 $isbnform = Isbnform::whereHas('invoice')->find($isbnform->id);
+                if (!$isbnform) {
+                    continue;
+                }
                 $isbnform->option = $isbnform->author_name;
                 $isbnform->form_type = 11;
                 $isbnform->form_name = 'ISBN Form';
@@ -329,6 +362,9 @@ class ClientController extends Controller
         if(count(Auth()->user()->bookPrintingForm) != 0){
             foreach(Auth()->user()->bookPrintingForm as $bookprinting){
                 $bookprinting = Bookprinting::whereHas('invoice')->find($bookprinting->id);
+                if (!$bookprinting) {
+                    continue;
+                }
                 $bookprinting->option = $bookprinting->author_name;
                 $bookprinting->form_type = 12;
                 $bookprinting->form_name = 'Book Printing Form';
