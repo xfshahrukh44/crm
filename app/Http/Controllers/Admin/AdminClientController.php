@@ -381,6 +381,69 @@ class AdminClientController extends Controller
                     $seo_form->user_id = $user->id;
                     $seo_form->agent_id = $invoice->sales_agent_id;
                     $seo_form->save();
+                } elseif($service->form == 6){
+                    if($invoice->createform == 1){
+                        // Book Formatting & Publishing Form
+                        $book_formatting_form = new BookFormatting();
+                        $book_formatting_form->invoice_id = $invoice->id;
+                        $book_formatting_form->user_id = $user->id;
+                        $book_formatting_form->agent_id = $invoice->sales_agent_id;
+                        $book_formatting_form->save();
+                    }
+                }elseif($service->form == 7){
+                    if($invoice->createform == 1){
+                        // Book Writing Form
+                        $book_writing_form = new BookWriting();
+                        $book_writing_form->invoice_id = $invoice->id;
+                        $book_writing_form->user_id = $user->id;
+                        $book_writing_form->agent_id = $invoice->sales_agent_id;
+                        $book_writing_form->save();
+                    }
+                }elseif($service->form == 8){
+                    if($invoice->createform == 1){
+                        // AuthorWebsite Form
+                        $author_website_form = new AuthorWebsite();
+                        $author_website_form->invoice_id = $invoice->id;
+                        $author_website_form->user_id = $user->id;
+                        $author_website_form->agent_id = $invoice->sales_agent_id;
+                        $author_website_form->save();
+                    }
+                }elseif($service->form == 9){
+                    if($invoice->createform == 1){
+                        // Proofreading Form
+                        $proofreading_form = new Proofreading();
+                        $proofreading_form->invoice_id = $invoice->id;
+                        $proofreading_form->user_id = $user->id;
+                        $proofreading_form->agent_id = $invoice->sales_agent_id;
+                        $proofreading_form->save();
+                    }
+                }elseif($service->form == 10){
+                    if($invoice->createform == 1){
+                        // BookCover Form
+                        $bookcover_form = new BookCover();
+                        $bookcover_form->invoice_id = $invoice->id;
+                        $bookcover_form->user_id = $user->id;
+                        $bookcover_form->agent_id = $invoice->sales_agent_id;
+                        $bookcover_form->save();
+                    }
+                }elseif($service->form == 11){
+                    if($invoice->createform == 1){
+                        // BookCover Form
+                        $isbn_form = new Isbnform();
+                        $isbn_form->invoice_id = $invoice->id;
+                        $isbn_form->user_id = $user->id;
+                        $isbn_form->agent_id = $invoice->sales_agent_id;
+                        $isbn_form->save();
+                    }
+                }elseif($service->form == 12){
+                    if($invoice->createform == 1){
+                        // BookCover Form
+                        $bookprinting_form = new Bookprinting();
+                        $bookprinting_form->invoice_id = $invoice->id;
+                        $bookprinting_form->user_id = $user->id;
+                        $bookprinting_form->agent_id = $invoice->sales_agent_id;
+                        $bookprinting_form->save();
+                    }
                 }
 
                 
@@ -443,6 +506,69 @@ class AdminClientController extends Controller
                     $seo_form->user_id = $user->id;
                     $seo_form->agent_id = $invoice->sales_agent_id;
                     $seo_form->save();
+                } elseif($service->form == 6){
+                    if($invoice->createform == 1){
+                        // Book Formatting & Publishing Form
+                        $book_formatting_form = new BookFormatting();
+                        $book_formatting_form->invoice_id = $invoice->id;
+                        $book_formatting_form->user_id = $user->id;
+                        $book_formatting_form->agent_id = $invoice->sales_agent_id;
+                        $book_formatting_form->save();
+                    }
+                }elseif($service->form == 7){
+                    if($invoice->createform == 1){
+                        // Book Writing Form
+                        $book_writing_form = new BookWriting();
+                        $book_writing_form->invoice_id = $invoice->id;
+                        $book_writing_form->user_id = $user->id;
+                        $book_writing_form->agent_id = $invoice->sales_agent_id;
+                        $book_writing_form->save();
+                    }
+                }elseif($service->form == 8){
+                    if($invoice->createform == 1){
+                        // AuthorWebsite Form
+                        $author_website_form = new AuthorWebsite();
+                        $author_website_form->invoice_id = $invoice->id;
+                        $author_website_form->user_id = $user->id;
+                        $author_website_form->agent_id = $invoice->sales_agent_id;
+                        $author_website_form->save();
+                    }
+                }elseif($service->form == 9){
+                    if($invoice->createform == 1){
+                        // Proofreading Form
+                        $proofreading_form = new Proofreading();
+                        $proofreading_form->invoice_id = $invoice->id;
+                        $proofreading_form->user_id = $user->id;
+                        $proofreading_form->agent_id = $invoice->sales_agent_id;
+                        $proofreading_form->save();
+                    }
+                }elseif($service->form == 10){
+                    if($invoice->createform == 1){
+                        // BookCover Form
+                        $bookcover_form = new BookCover();
+                        $bookcover_form->invoice_id = $invoice->id;
+                        $bookcover_form->user_id = $user->id;
+                        $bookcover_form->agent_id = $invoice->sales_agent_id;
+                        $bookcover_form->save();
+                    }
+                }elseif($service->form == 11){
+                    if($invoice->createform == 1){
+                        // BookCover Form
+                        $isbn_form = new Isbnform();
+                        $isbn_form->invoice_id = $invoice->id;
+                        $isbn_form->user_id = $user->id;
+                        $isbn_form->agent_id = $invoice->sales_agent_id;
+                        $isbn_form->save();
+                    }
+                }elseif($service->form == 12){
+                    if($invoice->createform == 1){
+                        // BookCover Form
+                        $bookprinting_form = new Bookprinting();
+                        $bookprinting_form->invoice_id = $invoice->id;
+                        $bookprinting_form->user_id = $user->id;
+                        $bookprinting_form->agent_id = $invoice->sales_agent_id;
+                        $bookprinting_form->save();
+                    }
                 }
 
 
