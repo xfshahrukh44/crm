@@ -82,7 +82,7 @@
                             </div>
                         </div>
                     @endif
-                    <div class="row text-center" hidden>
+                    <div class="row text-center">
                         <div class="col-md-6 offset-md-3">
                             <button class="btn btn-success" data-toggle="modal" data-target="#salesFiguresModal">
                                 <i class="fas fa-dollar"></i>
@@ -110,7 +110,7 @@
                                 <div class="row">
                                     @foreach($buhs as $buh)
                                         <a href="mailto:{{$buh->email}}">
-                                            <h6>{{$buh->name . ' ' . $buh->last_name}}</h6>
+                                            <h6 class="{!! $buh->id == auth()->id() ? 'text-success' : '' !!}">{{$buh->name . ' ' . $buh->last_name}}</h6>
                                         </a>
                                         <h6>{!! ($loop->last ? '.' : ",&nbsp;&nbsp;") !!}</h6>
                                     @endforeach
@@ -131,7 +131,7 @@
                                 <div class="row">
                                     @foreach($agents as $agent)
                                         <a href="mailto:{{$agent->email}}">
-                                            <h6>{{$agent->name . ' ' . $agent->last_name}}</h6>
+                                            <h6 class="{!! $agent->id == auth()->id()  ? 'text-success' : ''!!}">{{$agent->name . ' ' . $agent->last_name}}</h6>
                                         </a>
                                         <h6>{!! ($loop->last ? '.' : ",&nbsp;&nbsp;") !!}</h6>
                                     @endforeach
@@ -152,7 +152,7 @@
                                 <div class="row">
                                     @foreach($support_heads as $support_head)
                                         <a href="mailto:{{$support_head->email}}">
-                                            <h6>{{$support_head->name . ' ' . $support_head->last_name}}</h6>
+                                            <h6 class="{!! $support_head->id == auth()->id() ? 'text-success' : '' !!}">{{$support_head->name . ' ' . $support_head->last_name}}</h6>
                                         </a>
                                         <h6>{!! ($loop->last ? '.' : ",&nbsp;&nbsp;") !!}</h6>
                                     @endforeach
@@ -173,7 +173,7 @@
                                 <div class="row">
                                     @foreach($customer_supports as $customer_support)
                                         <a href="mailto:{{$customer_support->email}}">
-                                            <h6>{{$customer_support->name . ' ' . $customer_support->last_name}}</h6>
+                                            <h6 class="{!! $customer_support->id == auth()->id() ? 'text-success' : '' !!}">{{$customer_support->name . ' ' . $customer_support->last_name}}</h6>
                                         </a>
                                         <h6>{!! ($loop->last ? '.' : ",&nbsp;&nbsp;") !!}</h6>
                                     @endforeach
@@ -283,7 +283,7 @@
 
 {{--sales figures modal--}}
 <div class="modal fade" id="salesFiguresModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Brand sales figures</h5>
@@ -295,23 +295,120 @@
                 <div class="row">
                     <div class="col-md-12">
                         <table class="table table-sm table-striped">
+                            @php
+                                $todays_invoice_ids = \App\Models\Invoice::where([
+                                    'payment_status' => 2,
+                                    'brand' => $brand->id,
+                                ])->where('updated_at', '>=', \Carbon\Carbon::now()->startOfDay())
+                                ->where('updated_at', '<=', \Carbon\Carbon::now()->endOfDay())
+                                ->pluck('id');
+                                $todays_invoice_totals = get_invoice_totals($todays_invoice_ids);
+
+                                $this_weeks_invoice_ids = \App\Models\Invoice::where([
+                                    'payment_status' => 2,
+                                    'brand' => $brand->id,
+                                ])->where('updated_at', '>=', \Carbon\Carbon::now()->startOfWeek())
+                                ->where('updated_at', '<=', \Carbon\Carbon::now()->endOfWeek())
+                                ->pluck('id');
+                                $this_weeks_invoice_totals = get_invoice_totals($this_weeks_invoice_ids);
+
+                                $this_months_invoice_ids = \App\Models\Invoice::where([
+                                    'payment_status' => 2,
+                                    'brand' => $brand->id,
+                                ])->where('updated_at', '>=', \Carbon\Carbon::now()->startOfMonth())
+                                ->where('updated_at', '<=', \Carbon\Carbon::now()->endOfMonth())
+                                ->pluck('id');
+                                $this_months_invoice_totals = get_invoice_totals($this_months_invoice_ids);
+
+                                $this_years_invoice_ids = \App\Models\Invoice::where([
+                                    'payment_status' => 2,
+                                    'brand' => $brand->id,
+                                ])->where('updated_at', '>=', \Carbon\Carbon::now()->startOfYear())
+                                ->where('updated_at', '<=', \Carbon\Carbon::now()->endOfYear())
+                                ->pluck('id');
+                                $this_years_invoice_totals = get_invoice_totals($this_years_invoice_ids);
+                            @endphp
+                            <thead>
+                                @if(count($todays_invoice_totals))
+                                    <tr>
+                                        <th>Today</th>
+                                        @foreach($todays_invoice_totals as $symbol => $total)
+                                            <th>
+                                                <strong>{{$symbol}}</strong>
+                                                <span>{{$total}}</span>
+                                            </th>
+                                        @endforeach
+                                    </tr>
+                                @endif
+                                @if(count($this_weeks_invoice_totals))
+                                    <tr>
+                                        <th>This week</th>
+                                        @foreach($this_weeks_invoice_totals as $symbol => $total)
+                                            <th>
+                                                <strong>{{$symbol}}</strong>
+                                                <span>{{$total}}</span>
+                                            </th>
+                                        @endforeach
+                                    </tr>
+                                @endif
+                                @if(count($this_months_invoice_totals))
+                                    <tr>
+                                        <th>This month</th>
+                                        @foreach($this_months_invoice_totals as $symbol => $total)
+                                            <th>
+                                                <strong>{{$symbol}}</strong>
+                                                <span>{{$total}}</span>
+                                            </th>
+                                        @endforeach
+                                    </tr>
+                                @endif
+                                @if(count($this_years_invoice_totals))
+                                    <tr>
+                                        <th>This year</th>
+                                        @foreach($this_years_invoice_totals as $symbol => $total)
+                                            <th>
+                                                <strong>{{$symbol}}</strong>
+                                                <span>{{$total}}</span>
+                                            </th>
+                                        @endforeach
+                                    </tr>
+                                @endif
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="col-md-12">
+                        <h6>Search invoices</h6>
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label for="start_date">Start date</label>
+                                <input type="date" class="form-control" id="start_date">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="end_date">End date</label>
+                                <input type="date" class="form-control" id="end_date">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <button class="btn btn-primary btn-block mt-4" id="btn_search_invoices">Search</button>
+                            </div>
+                        </div>
+                        <table id="table_invoices" class="table table-sm table-striped" hidden>
                             <thead>
                                 <tr>
-                                    <th>asd</th>
-                                    <th>asd</th>
-                                    <th>asd</th>
-                                    <th>asd</th>
+                                    <th>ID</th>
+                                    <th>Package Name</th>
+                                    <th>User</th>
+                                    <th>Agent</th>
+                                    <th>Status</th>
+                                    <th>Amount</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>asdsadsada</td>
-                                    <td>asdsadsada</td>
-                                    <td>asdsadsada</td>
-                                    <td>asdsadsada</td>
-                                </tr>
+                            <tbody id="table_invoices_wrapper">
+
                             </tbody>
                         </table>
+                        <div id="no-items" hidden>
+                            <h6>No invoices found.</h6>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -351,97 +448,162 @@
 
     $(document).ready(function() {
         $('.auth-create').on('click', function () {
-        var auth = $(this).data('auth');
-        var id = $(this).data('id');
-        var pass = generatePassword();
-        if(auth == 0){
-            swal({
-                title: "Enter Password",
-                input: "text",
-                showCancelButton: true,
-                closeOnConfirm: false,
-                inputPlaceholder: "Enter Password",
-                inputValue: pass
-            }).then(function (inputValue) {
-                if (inputValue === false){
-                    return swal({
-                        title:"Field cannot be empty",
-                        text: "Password Not Inserted/Updated because it is Empty",
-                        type:"danger"
-                    })
-                }
-                if (inputValue === "") {
-                    return swal({
-                        title:"Field cannot be empty",
-                        text: "Password Not Inserted/Updated because it is Empty",
-                        type:"danger"
-                    })
-                }
-                $.ajax({
-                    type:'POST',
-                    url: "{{ route('support.client.createauth') }}",
-                    data: {id: id, pass:inputValue, "_token": "{{csrf_token()}}"},
-                    success:function(data) {
-                        if(data.success == true){
-                            swal("Auth Created", "Password is : " + inputValue, "success");
-                        }else{
-                            return swal({
-                                title:"Error",
-                                text: "There is an Error, Plase Contact Administrator",
-                                type:"danger"
-                            })
-                        }
+            var auth = $(this).data('auth');
+            var id = $(this).data('id');
+            var pass = generatePassword();
+            if(auth == 0){
+                swal({
+                    title: "Enter Password",
+                    input: "text",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    inputPlaceholder: "Enter Password",
+                    inputValue: pass
+                }).then(function (inputValue) {
+                    if (inputValue === false){
+                        return swal({
+                            title:"Field cannot be empty",
+                            text: "Password Not Inserted/Updated because it is Empty",
+                            type:"danger"
+                        })
                     }
+                    if (inputValue === "") {
+                        return swal({
+                            title:"Field cannot be empty",
+                            text: "Password Not Inserted/Updated because it is Empty",
+                            type:"danger"
+                        })
+                    }
+                    $.ajax({
+                        type:'POST',
+                        url: "{{ route('support.client.createauth') }}",
+                        data: {id: id, pass:inputValue, "_token": "{{csrf_token()}}"},
+                        success:function(data) {
+                            if(data.success == true){
+                                swal("Auth Created", "Password is : " + inputValue, "success");
+                            }else{
+                                return swal({
+                                    title:"Error",
+                                    text: "There is an Error, Plase Contact Administrator",
+                                    type:"danger"
+                                })
+                            }
+                        }
+                    });
                 });
-            });
-        }else{
-            swal({
-                title: "Enter Password",
-                input: "text",
-                showCancelButton: true,
-                closeOnConfirm: false,
-                inputPlaceholder: "Enter Password",
-                inputValue: pass
-            }).then(function (inputValue) {
-                if (inputValue === false){
-                    return swal({
-                        title:"Field cannot be empty",
-                        text: "Password Not Inserted/Updated because it is Empty",
-                        type:"danger"
-                    })
-                }
-                if (inputValue === "") {
-                    return swal({
-                        title:"Field cannot be empty",
-                        text: "Password Not Inserted/Updated because it is Empty",
-                        type:"danger"
-                    })
-                }
-                // $.ajaxSetup({
-                //     headers: {
-                //         'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-                //     }
-                // });
+            }else{
+                swal({
+                    title: "Enter Password",
+                    input: "text",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    inputPlaceholder: "Enter Password",
+                    inputValue: pass
+                }).then(function (inputValue) {
+                    if (inputValue === false){
+                        return swal({
+                            title:"Field cannot be empty",
+                            text: "Password Not Inserted/Updated because it is Empty",
+                            type:"danger"
+                        })
+                    }
+                    if (inputValue === "") {
+                        return swal({
+                            title:"Field cannot be empty",
+                            text: "Password Not Inserted/Updated because it is Empty",
+                            type:"danger"
+                        })
+                    }
+                    // $.ajaxSetup({
+                    //     headers: {
+                    //         'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                    //     }
+                    // });
 
-                $.ajax({
-                    type:'POST',
-                    url: "{{ route('support.client.updateauth') }}",
-                    data: {id: id, pass:inputValue, "_token": "{{csrf_token()}}"},
-                    success:function(data) {
-                        if(data.success == true){
-                            swal("Auth Created", "Password is : " + inputValue, "success");
-                        }else{
-                            return swal({
-                                title:"Error",
-                                text: "There is an Error, Plase Contact Administrator",
-                                type:"danger"
-                            })
+                    $.ajax({
+                        type:'POST',
+                        url: "{{ route('support.client.updateauth') }}",
+                        data: {id: id, pass:inputValue, "_token": "{{csrf_token()}}"},
+                        success:function(data) {
+                            if(data.success == true){
+                                swal("Auth Created", "Password is : " + inputValue, "success");
+                            }else{
+                                return swal({
+                                    title:"Error",
+                                    text: "There is an Error, Plase Contact Administrator",
+                                    type:"danger"
+                                })
+                            }
                         }
-                    }
+                    });
                 });
+            }
+        });
+
+        $('#btn_search_invoices').on('click', function () {
+            $(this).text('Please wait');
+            $(this).prop('disabled', true);
+            $('#table_invoices_wrapper').html('');
+
+            let data = {};
+            data.brand = '{{$brand->id}}';
+            if ($('#start_date').val()) {
+                data.start_date = $('#start_date').val();
+            }
+            if ($('#end_date').val()) {
+                data.end_date = $('#end_date').val();
+            }
+
+            $.ajax({
+                url: '{{route('get-invoices')}}',
+                method: 'GET',
+                data: data,
+                success: (data) => {
+                    console.log(data);
+
+                    let status_colors = [
+                        'warning',
+                        'danger',
+                        'success',
+                        'info',
+                        'danger'
+                    ];
+
+                    let payment_statuses = [
+                        'Drafted',
+                        'Unpaid',
+                        'Paid',
+                        'Partially Paid',
+                        'Cancelled',
+                    ];
+                    $('#table_invoices').prop('hidden', !(data.length > 0));
+                    $('#no-items').prop('hidden', (data.length > 0));
+
+                    let string = '';
+                    for (const item of data) {
+                        string += '<tr>';
+                            string += '<td><span class="btn btn-sm btn-dark">#'+item.invoice_number+'</span></td>';
+                            string += '<td>'+(item.package == 0 ? (item.custom_package ? item.custom_package : '') : (item.package ? item.package : ''))+'</td>';
+                            string += '<td>'+item.name+'<br>'+item.email+'</td>';
+                            string += '<td>'+item.sale.name+' '+item.sale.last_name+'</td>';
+                            string += '<td><span class="btn btn-'+status_colors[item.payment_status]+' btn-sm">'+payment_statuses[item.payment_status]+'</span></td>';
+                            string += '<td>'+item.currency_show.sign+''+item.amount+'</td>';
+                        string += '</tr>';
+                    }
+
+                    $('#table_invoices_wrapper').html(string);
+                    $(this).text('Search');
+                    $(this).prop('disabled', false);
+                },
+                error: (e) => {
+                    alert(e);
+                    $('#table_invoices').prop('hidden', true);
+                    $('#table_invoices').prop('hidden', false);
+                    $(this).text('Search');
+                    $(this).prop('disabled', false);
+                }
             });
-        }
-    });
+        });
     });
 </script>
 @endpush

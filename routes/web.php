@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\Manager\ManagerUserController;
 use App\Http\Controllers\QAController;
+use App\Models\Invoice;
 use App\Models\ProductionMemberAssign;
 use App\Models\SubTask;
 use App\Models\Task;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ClientChatController;
@@ -228,7 +230,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('/project', ProjectController::class);
         Route::resource('/client', ClientController::class);
         Route::get('/payment-link/{id}', [ClientController::class, 'paymentLink'])->name('client.generate.payment');
-        Route::resource('/task', TaskController::class);
+        Route::resource('/task', TaskController::class, ['names' => 'sale.task']);
         Route::resource('/subtask', SubTaskController::class);
         Route::post('/sale/files/{id}', [TaskController::class, 'insertFiles'])->name('insert.sale.files');
         Route::get('/service-list/{id}', [HomeController::class, 'serviceList'])->name('service.list');
@@ -385,6 +387,19 @@ Route::get('brands-dashboard', [GeneralBrandController::class, 'brands_dashboard
 Route::get('brands-detail/{id}', [GeneralBrandController::class, 'brands_detail'])->name('brands.detail');
 Route::get('clients-detail/{id}', [GeneralBrandController::class, 'clients_detail'])->name('clients.detail');
 Route::get('projects-detail/{id}', [GeneralBrandController::class, 'projects_detail'])->name('projects.detail');
+
+Route::get('get-invoices', function (Request $request) {
+    $invoices = Invoice::with('currency_show', 'sale', 'brands')->where('payment_status', 2)
+    ->when($request->has('brand'), function ($q) use ($request) {
+        return $q->where('brand', $request->get('brand'));
+    })->when($request->has('start_date'), function ($q) use ($request) {
+        return $q->where('updated_at', '>=', Carbon::parse($request->get('start_date')));
+    })->when($request->has('end_date'), function ($q) use ($request) {
+        return $q->where('updated_at', '<=', Carbon::parse($request->get('end_date')));
+    })->get();
+
+    return $invoices;
+})->name('get-invoices');
 
 Route::get('temp', function () {
 //    dump('----Tasks completed----');

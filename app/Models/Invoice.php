@@ -47,6 +47,10 @@ class Invoice extends Model
         return $this->hasOne(Currency::class, 'id', 'currency');
     }
 
+    public function _currency(){
+        return $this->hasOne(Currency::class, 'id', 'currency');
+    }
+
     public function payment_type_show(){
         if($this->payment_type == 0){
             return "One-Time Charge";
