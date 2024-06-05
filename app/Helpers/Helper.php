@@ -324,9 +324,9 @@ function get_brief_client_user_ids () {
 
     $res = NoForm::whereHas('invoice', function ($query) {
         return $query->whereIn('brand', Auth::user()->brand_list());
-    })->groupBy('user_id')->pluck('user_id')->toArray();
-    $client_user_ids
-        ->whereHas('invoice')= array_merge($res, $client_user_ids), function ($q) { return $q->whereHas('brands'); };
+    })->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+    ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
 
     $res = Proofreading::where('description', null)
         ->when(auth()->user()->is_employee != 2, function ($q) {
@@ -380,7 +380,7 @@ function get_briefs_pending ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
-            ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
         ->where('user_id', $client_user_id)->count()) > 0) {
         $briefs_pending_array []= 'Logo brief';
     }
@@ -391,7 +391,7 @@ function get_briefs_pending ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
-            ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
         ->where('user_id', $client_user_id)->count()) > 0) {
         $briefs_pending_array []= 'Website brief';
     }
@@ -402,7 +402,7 @@ function get_briefs_pending ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
-            ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
         ->where('user_id', $client_user_id)->count()) > 0) {
         $briefs_pending_array []= 'SMM brief';
     }
@@ -413,7 +413,7 @@ function get_briefs_pending ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
-            ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
         ->where('user_id', $client_user_id)->count()) > 0) {
         $briefs_pending_array []= 'Content writing brief';
     }
@@ -424,7 +424,7 @@ function get_briefs_pending ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
-            ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
         ->where('user_id', $client_user_id)->count()) > 0) {
         $briefs_pending_array []= 'SEO brief';
     }
@@ -435,7 +435,7 @@ function get_briefs_pending ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
-            ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
         ->where('user_id', $client_user_id)->count()) > 0) {
         $briefs_pending_array []= 'Book formatting and publishing';
     }
@@ -446,7 +446,7 @@ function get_briefs_pending ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
-            ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
         ->where('user_id', $client_user_id)->count()) > 0) {
         $briefs_pending_array []= 'Author website';
     }
@@ -457,16 +457,15 @@ function get_briefs_pending ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
-            ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
         ->where('user_id', $client_user_id)->count()) > 0) {
         $briefs_pending_array []= 'Book writing';
     }
 
     if ((NoForm::whereHas('invoice', function ($query) {
         return $query->whereIn('brand', Auth::user()->brand_list());
-    })->where('user_id', $client_user_id)->count()) > 0) {
-        $briefs_pendi
-        ->whereHas('invoice')ng_array []= 'No Brief', function ($q) { return $q->whereHas('brands'); };
+    })->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })->where('user_id', $client_user_id)->count()) > 0) {
+        $briefs_pending_array []= 'No Brief';
     }
 
     if ((Proofreading::where('description', null)
@@ -475,7 +474,7 @@ function get_briefs_pending ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
-            ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
         ->where('user_id', $client_user_id)->count()) > 0) {
         $briefs_pending_array []= 'Editing & Proof reading';
     }
@@ -486,7 +485,7 @@ function get_briefs_pending ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
-            ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
         ->where('user_id', $client_user_id)->count()) > 0) {
         $briefs_pending_array []= 'Cover design';
     }
@@ -497,7 +496,7 @@ function get_briefs_pending ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
-            ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
         ->where('user_id', $client_user_id)->count()) > 0) {
         $briefs_pending_array []= 'ISBN form';
     }
@@ -508,7 +507,7 @@ function get_briefs_pending ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
-            ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
         ->where('user_id', $client_user_id)->count()) > 0) {
         $briefs_pending_array []= 'Book printing';
     }
@@ -661,8 +660,9 @@ function get_pending_projects ($client_user_id) {
             return $q->whereHas('invoice', function ($query) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
-        })->where('use
-        ->whereHas('invoice')r_id', $client_user_id)->get() as $item) , function ($q) { return $q->whereHas('brands'); }{
+        })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+         ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
             'project_type' => 'Logo brief',
             'id' => $item->id,
@@ -676,8 +676,9 @@ function get_pending_projects ($client_user_id) {
             return $q->whereHas('invoice', function ($query) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
-        })->where('use
-        ->whereHas('invoice')r_id', $client_user_id)->get() as $item) , function ($q) { return $q->whereHas('brands'); }{
+        })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+         ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
             'project_type' => 'Website brief',
             'id' => $item->id,
@@ -691,8 +692,9 @@ function get_pending_projects ($client_user_id) {
             return $q->whereHas('invoice', function ($query) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
-        })->where('use
-        ->whereHas('invoice')r_id', $client_user_id)->get() as $item) , function ($q) { return $q->whereHas('brands'); }{
+        })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+         ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
             'project_type' => 'SMM brief',
             'id' => $item->id,
@@ -706,8 +708,9 @@ function get_pending_projects ($client_user_id) {
             return $q->whereHas('invoice', function ($query) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
-        })->where('use
-        ->whereHas('invoice')r_id', $client_user_id)->get() as $item) , function ($q) { return $q->whereHas('brands'); }{
+        })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+         ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
             'project_type' => 'Content writing brief',
             'id' => $item->id,
@@ -721,8 +724,9 @@ function get_pending_projects ($client_user_id) {
             return $q->whereHas('invoice', function ($query) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
-        })->where('use
-        ->whereHas('invoice')r_id', $client_user_id)->get() as $item) , function ($q) { return $q->whereHas('brands'); }{
+        })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+         ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
             'project_type' => 'SEO brief',
             'id' => $item->id,
@@ -736,8 +740,9 @@ function get_pending_projects ($client_user_id) {
             return $q->whereHas('invoice', function ($query) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
-        })->where('use
-        ->whereHas('invoice')r_id', $client_user_id)->get() as $item) , function ($q) { return $q->whereHas('brands'); }{
+        })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+         ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
             'project_type' => 'Book formatting and publishing',
             'id' => $item->id,
@@ -751,8 +756,9 @@ function get_pending_projects ($client_user_id) {
             return $q->whereHas('invoice', function ($query) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
-        })->where('use
-        ->whereHas('invoice')r_id', $client_user_id)->get() as $item) , function ($q) { return $q->whereHas('brands'); }{
+        })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+         ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
             'project_type' => 'Book writing',
             'id' => $item->id,
@@ -766,8 +772,9 @@ function get_pending_projects ($client_user_id) {
             return $q->whereHas('invoice', function ($query) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
-        })->where('use
-        ->whereHas('invoice')r_id', $client_user_id)->get() as $item) , function ($q) { return $q->whereHas('brands'); }{
+        })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+         ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
             'project_type' => 'Author website',
             'id' => $item->id,
@@ -781,8 +788,9 @@ function get_pending_projects ($client_user_id) {
             return $q->whereHas('invoice', function ($query) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
-        })->where('use
-        ->whereHas('invoice')r_id', $client_user_id)->get() as $item) , function ($q) { return $q->whereHas('brands'); }{
+        })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+         ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
             'project_type' => 'Editing & Proof reading',
             'id' => $item->id,
@@ -796,8 +804,9 @@ function get_pending_projects ($client_user_id) {
             return $q->whereHas('invoice', function ($query) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
-        })->where('use
-        ->whereHas('invoice')r_id', $client_user_id)->get() as $item) , function ($q) { return $q->whereHas('brands'); }{
+        })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+         ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
             'project_type' => 'Cover design',
             'id' => $item->id,
@@ -811,8 +820,9 @@ function get_pending_projects ($client_user_id) {
             return $q->whereHas('invoice', function ($query) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
-        })->where('use
-        ->whereHas('invoice')r_id', $client_user_id)->get() as $item) , function ($q) { return $q->whereHas('brands'); }{
+        })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+         ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
             'project_type' => 'ISBN form',
             'id' => $item->id,
@@ -826,8 +836,9 @@ function get_pending_projects ($client_user_id) {
             return $q->whereHas('invoice', function ($query) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
-        })->where('use
-        ->whereHas('invoice')r_id', $client_user_id)->get() as $item) , function ($q) { return $q->whereHas('brands'); }{
+        })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+         ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
             'project_type' => 'Book printing',
             'id' => $item->id,
