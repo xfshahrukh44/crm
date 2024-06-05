@@ -81,7 +81,8 @@
                             <option value="2" {{($task->status == 2) ? 'selected' : ''}}>On Hold</option>
                             <option value="6" {{($task->status == 6) ? 'selected' : ''}}>Incomplete Brief</option>
                             <option value="5" {{($task->status == 5) ? 'selected' : ''}}>Sent for Approval</option>
-{{--                            <option value="3" {{($task->status == 3) ? 'selected' : ''}}>Completed</option>--}}
+                            {{--testing--}}
+                            <option value="3" {{($task->status == 3) ? 'selected' : ''}}>Completed</option>
                         </select>
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="button" id="update-task">Update</button>
