@@ -100,7 +100,9 @@
                                 $show_route = 'admin.task.show';
                             } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
                                 $show_route = 'manager.task.show';
-                            } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4 && \Illuminate\Support\Facades\Auth::user()->is_support_head) {
+                            } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {
+                                $show_route = 'sale.task.show';
+                            } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4) {
                                 $show_route = 'support.task.show';
                             }
                         @endphp
