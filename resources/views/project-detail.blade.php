@@ -66,7 +66,7 @@
                     $task_index_route = 'manager.task.index';
                 } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {
                     $task_index_route = 'sale.task.index';
-                } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4 && \Illuminate\Support\Facades\Auth::user()->is_support_head) {
+                } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4) {
                     $task_index_route = 'support.task';
                 }
             @endphp
