@@ -59,6 +59,7 @@
                 <h2 class="ml-3">Active Tasks</h2>
             </div>
             @php
+                @dd(\Illuminate\Support\Facades\Auth::user()->is_employee)
                 if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
                     $task_index_route = 'admin.task.index';
                 } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
