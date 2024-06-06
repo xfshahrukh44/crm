@@ -106,7 +106,7 @@ class BrandController extends Controller
                         ->orWhere('contact', 'LIKE', '%'.$request->get('client_name').'%');
                 });
             })
-            ->paginate(25);
+            ->paginate(10);
 
         $brand_user_ids = DB::table('brand_users')->where('brand_id', $id)->pluck('user_id')->toArray();
 
