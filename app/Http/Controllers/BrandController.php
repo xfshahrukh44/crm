@@ -87,6 +87,13 @@ class BrandController extends Controller
             return redirect()->route('login');
         }
 
+        $projects = Project::where('brand_id', $id);
+        $total_projects_count = $projects->count();
+        $completed_projects_count = 0;
+        foreach ($projects->get() as $project) {
+            $completed_projects_count += no_pending_tasks_left($project->id) ? 1 : 0;
+        }
+
         $brand= Brand::with('clients')->find($id);
         $clients = Client::where('brand_id', $id)
             ->withCount('projects')->withCount('invoices')
@@ -108,7 +115,7 @@ class BrandController extends Controller
         $customer_supports = User::whereIn('id', $brand_user_ids)->where('is_employee', 4)->where('is_support_head', 0)->get();
         $agents = User::whereIn('id', $brand_user_ids)->where('is_employee', 0)->get();
 
-        return view('brand-detail', compact('brand', 'clients', 'buhs', 'support_heads', 'customer_supports', 'agents'))->with(['layout' => $this->layout]);
+        return view('brand-detail', compact('brand', 'clients', 'buhs', 'support_heads', 'customer_supports', 'agents', 'total_projects_count', 'completed_projects_count'))->with(['layout' => $this->layout]);
     }
 
     public function clients_detail (Request $request, $id)

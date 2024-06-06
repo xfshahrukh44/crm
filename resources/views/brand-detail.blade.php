@@ -38,6 +38,10 @@
                 <div class="row text-center mb-4">
                     <div class="col-md-6 offset-md-3">
                         <h2>{{$brand->name}}</h2>
+                        <p>
+                            <i class="fas fa-check-double text-success"></i>
+                            Services completed: {{$completed_projects_count}}/{{$total_projects_count}}
+                        </p>
                     </div>
                 </div>
                 <div class="row text-center">
