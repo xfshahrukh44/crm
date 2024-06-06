@@ -120,92 +120,52 @@
         </div>
 
         <div class="row my-4">
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="row text-center">
-                            <div class="col-md-12">
-                                <h6>
-                                    <b>BUHs</b>
-                                </h6>
-                            </div>
-                        </div>
-                        <div class="row text-center">
-                            <div class="col-12">
-                                <div class="row">
-                                    @foreach($buhs as $buh)
-                                        <a href="mailto:{{$buh->email}}">
-                                            <h6 class="{!! $buh->id == auth()->id() ? 'text-success' : '' !!}">{{$buh->name . ' ' . $buh->last_name}}</h6>
-                                        </a>
-                                        <h6>{!! ($loop->last ? '.' : ",&nbsp;&nbsp;") !!}</h6>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="row text-center">
-                            <div class="col-md-12">
-                                <h6>
-                                    <b>Agents</b>
-                                </h6>
-                            </div>
-                        </div>
-                        <div class="row text-center">
-                            <div class="col-12">
-                                <div class="row">
-                                    @foreach($agents as $agent)
-                                        <a href="mailto:{{$agent->email}}">
-                                            <h6 class="{!! $agent->id == auth()->id()  ? 'text-success' : ''!!}">{{$agent->name . ' ' . $agent->last_name}}</h6>
-                                        </a>
-                                        <h6>{!! ($loop->last ? '.' : ",&nbsp;&nbsp;") !!}</h6>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="row text-center">
-                            <div class="col-md-12">
-                                <h6>
-                                    <b>Support heads</b>
-                                </h6>
-                            </div>
-                        </div>
-                        <div class="row text-center">
-                            <div class="col-12">
-                                <div class="row">
-                                    @foreach($support_heads as $support_head)
-                                        <a href="mailto:{{$support_head->email}}">
-                                            <h6 class="{!! $support_head->id == auth()->id() ? 'text-success' : '' !!}">{{$support_head->name . ' ' . $support_head->last_name}}</h6>
-                                        </a>
-                                        <h6>{!! ($loop->last ? '.' : ",&nbsp;&nbsp;") !!}</h6>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="row text-center">
-                            <div class="col-md-12">
-                                <h6>
-                                    <b>Customer support</b>
-                                </h6>
-                            </div>
-                        </div>
-                        <div class="row text-center">
-                            <div class="col-12">
-                                <div class="row">
-                                    @foreach($customer_supports as $customer_support)
-                                        <a href="mailto:{{$customer_support->email}}">
-                                            <h6 class="{!! $customer_support->id == auth()->id() ? 'text-success' : '' !!}">{{$customer_support->name . ' ' . $customer_support->last_name}}</h6>
-                                        </a>
-                                        <h6>{!! ($loop->last ? '.' : ",&nbsp;&nbsp;") !!}</h6>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="col-md-6 offset-md-3 text-center" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
+                <b>Team</b>
+            </div>
+            <div class="col-md-6 offset-md-3" style="border: 1px solid #b7b7b7; border-top: 0px; background-color: #F3F3F3;">
+                <b>BUHs</b>
+                <br />
+                <div class="row m-auto">
+                    @foreach($buhs as $buh)
+                        <a href="mailto:{{$buh->email}}">
+                            <h6 class="{!! $buh->id == auth()->id() ? 'text-success' : '' !!}">{{$buh->name . ' ' . $buh->last_name}}</h6>
+                        </a>
+                        <h6>{!! ($loop->last ? '.' : ",&nbsp;&nbsp;") !!}</h6>
+                    @endforeach
+                </div>
+
+                <b>Agents</b>
+                <br />
+                <div class="row m-auto">
+                    @foreach($agents as $agent)
+                        <a href="mailto:{{$agent->email}}">
+                            <h6 class="{!! $agent->id == auth()->id()  ? 'text-success' : ''!!}">{{$agent->name . ' ' . $agent->last_name}}</h6>
+                        </a>
+                        <h6>{!! ($loop->last ? '.' : ",&nbsp;&nbsp;") !!}</h6>
+                    @endforeach
+                </div>
+
+                <b>Support heads</b>
+                <br />
+                <div class="row m-auto">
+                    @foreach($support_heads as $support_head)
+                        <a href="mailto:{{$support_head->email}}">
+                            <h6 class="{!! $support_head->id == auth()->id() ? 'text-success' : '' !!}">{{$support_head->name . ' ' . $support_head->last_name}}</h6>
+                        </a>
+                        <h6>{!! ($loop->last ? '.' : ",&nbsp;&nbsp;") !!}</h6>
+                    @endforeach
+                </div>
+
+                <b>Customer support</b>
+                <br />
+                <div class="row m-auto">
+                    @foreach($customer_supports as $customer_support)
+                        <a href="mailto:{{$customer_support->email}}">
+                            <h6 class="{!! $customer_support->id == auth()->id() ? 'text-success' : '' !!}">{{$customer_support->name . ' ' . $customer_support->last_name}}</h6>
+                        </a>
+                        <h6>{!! ($loop->last ? '.' : ",&nbsp;&nbsp;") !!}</h6>
+                    @endforeach
                 </div>
             </div>
         </div>
