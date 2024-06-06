@@ -765,7 +765,7 @@ class TaskController extends Controller
         ) {
             return redirect()->back();
         }
-        $messages = Message::where('sender_id', $task->projects->client->id)->orWhere('user_id', $task->projects->client->id)->orderBy('id', 'desc')->get();
+        $messages = Message::where('sender_id', $task->projects->client->id)->orWhere('user_id', $task->projects->client->id)->orderBy('id', 'asc')->get();
 
         $notification_task = Auth()->user()->notifications->where('type', 'App\Notifications\TaskNotification')->all();
         foreach($notification_task as $notification_tasks){
@@ -874,7 +874,8 @@ class TaskController extends Controller
         $task = Task::find($request->input('task_id'));
         $project = Project::find($task->project_id);
 
-        $departments_leads_ids = array_unique(DB::table('category_users')->whereIn('category_id', $task->category_id)->pluck('user_id')->toArray());
+//        $departments_leads_ids = array_unique(DB::table('category_users')->whereIn('category_id', $task->category_id)->pluck('user_id')->toArray());
+        $departments_leads_ids = array_unique(DB::table('category_users')->whereIn('category_id', [$task->category_id])->pluck('user_id')->toArray());
         $departments_leads_emails = User::where('is_employee', 1)->whereIn('id', $departments_leads_ids)->pluck('email')->toArray();
         $departments_leads_names = User::where('is_employee', 1)->whereIn('id', $departments_leads_ids)->pluck('name')->toArray();
         $sales_head_emails = User::where('is_employee', 6)->whereIn('id', array_unique(DB::table('brand_users')->where('brand_id', $project->brand_id)->pluck('user_id')->toArray()))->pluck('email')->toArray();

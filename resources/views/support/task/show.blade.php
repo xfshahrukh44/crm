@@ -448,7 +448,7 @@
                             </div>
                             @endforeach
                         </div>
-                        <!-- <div class="col-md-12">
+                        <div class="col-md-12">
                             <div class="card mb-4">
                                 <div class="card-body">
                                     <h4 class="card-title mb-3">Message to Client ( {{$task->projects->client->name}} {{$task->projects->client->last_name}} )</h4>
@@ -478,7 +478,7 @@
                                     </form>
                                 </div>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="notes-show" role="tabpanel" aria-labelledby="notes-show-tab">
@@ -556,6 +556,10 @@
             $('.anchor_test').each((i, item) => {
                 item.click();
             });
+        });
+
+        $('#message-show-tab').on('click', function () {
+            $("html, body").animate({ scrollTop: document.body.scrollHeight }, "slow");
         });
 
         $('#send-message').submit(function(e){
