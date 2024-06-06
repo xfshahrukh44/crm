@@ -91,6 +91,27 @@
                         </div>
                     </div>
                 @endif
+                @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]))
+                    @php
+                        $briefs_pending_route = null;
+                        if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
+                            $briefs_pending_route = 'admin.brief.pending';
+                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
+                            $briefs_pending_route = 'manager.brief.pending';
+                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {
+                            $briefs_pending_route = 'sale.brief.pending';
+                        }
+                    @endphp
+                    @if (!is_null($briefs_pending_route))
+                        <div class="row text-center mt-2">
+                            <div class="col-md-6 offset-md-3">
+                                <a class="btn btn-primary" href="{{route($briefs_pending_route, ['brand_id' => $brand->id])}}">
+                                    View briefs pending
+                                </a>
+                            </div>
+                        </div>
+                    @endif
+                @endif
             </div>
         </div>
 

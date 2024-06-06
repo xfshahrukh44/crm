@@ -196,41 +196,41 @@ class LogoFormController extends Controller
 //            })->get();
 
         //change
-        $client_users_with_brief_pendings = User::whereIn('id', get_brief_client_user_ids())->get();
+        $client_users_with_brief_pendings = User::whereIn('id', get_brief_client_user_ids($request))->get();
 
 //        return view('admin.brief.pending', compact('client_users_with_brief_pendings', 'logo_form', 'web_form', 'smm_form', 'content_writing_form', 'seo_form', 'book_formatting_form', 'book_writing_form', 'author_website_form', 'proofreading_form', 'bookcover_form', 'no_form'));
         return view('admin.brief.pending', compact('client_users_with_brief_pendings'));
     }
 
     public function getBriefPendingById(Request $request){
-//        $logo_form = LogoForm::where('logo_name', '')->where('agent_id', Auth()->user()->id)
-        $logo_form = LogoForm::where('logo_name', '')
-            ->when($request->has('user_id'), function ($q) use ($request) {
-                return $q->where('user_id', $request->get('user_id'));
-            })->get();
-//        $web_form = WebForm::where('business_name', null)->where('agent_id', Auth()->user()->id)
-        $web_form = WebForm::where('business_name', null)
-            ->when($request->has('user_id'), function ($q) use ($request) {
-                return $q->where('user_id', $request->get('user_id'));
-            })->get();
-//        $smm_form = SmmForm::where('business_name', null)->where('agent_id', Auth()->user()->id)
-        $smm_form = SmmForm::where('business_name', null)
-            ->when($request->has('user_id'), function ($q) use ($request) {
-                return $q->where('user_id', $request->get('user_id'));
-            })->get();
-//        $content_writing_form = ContentWritingForm::where('company_name', null)->where('agent_id', Auth()->user()->id)
-        $content_writing_form = ContentWritingForm::where('company_name', null)
-            ->when($request->has('user_id'), function ($q) use ($request) {
-                return $q->where('user_id', $request->get('user_id'));
-            })->get();
-//        $seo_form = SeoForm::where('company_name', null)->where('agent_id', Auth()->user()->id)
-        $seo_form = SeoForm::where('company_name', null)
-            ->when($request->has('user_id'), function ($q) use ($request) {
-                return $q->where('user_id', $request->get('user_id'));
-            })->get();
+////        $logo_form = LogoForm::where('logo_name', '')->where('agent_id', Auth()->user()->id)
+//        $logo_form = LogoForm::where('logo_name', '')
+//            ->when($request->has('user_id'), function ($q) use ($request) {
+//                return $q->where('user_id', $request->get('user_id'));
+//            })->get();
+////        $web_form = WebForm::where('business_name', null)->where('agent_id', Auth()->user()->id)
+//        $web_form = WebForm::where('business_name', null)
+//            ->when($request->has('user_id'), function ($q) use ($request) {
+//                return $q->where('user_id', $request->get('user_id'));
+//            })->get();
+////        $smm_form = SmmForm::where('business_name', null)->where('agent_id', Auth()->user()->id)
+//        $smm_form = SmmForm::where('business_name', null)
+//            ->when($request->has('user_id'), function ($q) use ($request) {
+//                return $q->where('user_id', $request->get('user_id'));
+//            })->get();
+////        $content_writing_form = ContentWritingForm::where('company_name', null)->where('agent_id', Auth()->user()->id)
+//        $content_writing_form = ContentWritingForm::where('company_name', null)
+//            ->when($request->has('user_id'), function ($q) use ($request) {
+//                return $q->where('user_id', $request->get('user_id'));
+//            })->get();
+////        $seo_form = SeoForm::where('company_name', null)->where('agent_id', Auth()->user()->id)
+//        $seo_form = SeoForm::where('company_name', null)
+//            ->when($request->has('user_id'), function ($q) use ($request) {
+//                return $q->where('user_id', $request->get('user_id'));
+//            })->get();
 
         //change
-        $client_users_with_brief_pendings = User::whereIn('id', get_brief_client_user_ids())->get();
+        $client_users_with_brief_pendings = User::whereIn('id', get_brief_client_user_ids($request))->get();
 
 //        return view('sale.brief.pending', compact('client_users_with_brief_pendings', 'logo_form', 'web_form', 'smm_form', 'content_writing_form', 'seo_form'));
         return view('sale.brief.pending', compact('client_users_with_brief_pendings'));
@@ -330,7 +330,7 @@ class LogoFormController extends Controller
 //        })->get();
 
         //change
-        $client_users_with_brief_pendings = User::whereIn('id', get_brief_client_user_ids())->get();
+        $client_users_with_brief_pendings = User::whereIn('id', get_brief_client_user_ids($request))->get();
         
 //        return view('manager.brief.pending', compact('client_users_with_brief_pendings', 'logo_form', 'web_form', 'smm_form', 'content_writing_form', 'seo_form', 'book_formatting_form', 'book_writing_form', 'author_website_form', 'no_form', 'proofreading_form', 'bookcover_form', 'isbn_form', 'bookprinting_form'));
         return view('manager.brief.pending', compact('client_users_with_brief_pendings'));

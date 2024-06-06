@@ -89,20 +89,6 @@
                 <div class="col-lg-12 col-md-12">
                     <h2 class="ml-3">Briefs pending ({{count($briefs_pendings)}})</h2>
                 </div>
-{{--                @php--}}
-{{--                    $client_user = \App\Models\User::where('client_id', $client->id)->first();--}}
-{{--                    if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {--}}
-{{--                        $route = 'admin.brief.pending';--}}
-{{--                    } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {--}}
-{{--                        $route = 'manager.brief.pending';--}}
-{{--                    } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {--}}
-{{--                        $route = 'sale.brief.pending';--}}
-{{--                    }--}}
-{{--                @endphp--}}
-{{--                <div class="col-lg-12 col-md-12" hidden>--}}
-{{--                        <a target="_blank" href="{{route($route, ['user_id' => $client_user->id])}}" class="btn btn-primary ml-3">View brief pending</a>--}}
-{{--                    <a href="{{route($route, ['user_id' => $client_user->id])}}" class="btn btn-primary ml-3">View brief pending</a>--}}
-{{--                </div>--}}
 
                 @foreach($briefs_pendings as $brief_pending)
                     <div>
