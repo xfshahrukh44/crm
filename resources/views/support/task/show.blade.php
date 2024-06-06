@@ -385,11 +385,11 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="message-show" role="tabpanel" aria-labelledby="message-show-tab">
-                    <div class="row">
-                        <div class="col-md-12 text-right">
-                            <button class="btn btn-primary ml-auto" id="write-message">Write A Message</button>
-                        </div>
-                    </div>
+{{--                    <div class="row">--}}
+{{--                        <div class="col-md-12 text-right">--}}
+{{--                            <button class="btn btn-primary ml-auto" id="write-message">Write A Message</button>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
                     <div class="row">
                         <div class="col-md-12 message-box-wrapper">
                             @foreach($messages as $message)
