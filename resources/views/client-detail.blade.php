@@ -18,6 +18,8 @@
         .card-body.text-center:hover {
             box-shadow: 0px 0px 15px 8px #00aeee1a;
         }
+        /* Mouse over link */
+        a {text-decoration: none; color: black;}   /* Mouse over link */
     </style>
 @endpush
 @section('content')
@@ -31,146 +33,154 @@
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <div class="row text-center mb-4">
-                    <div class="col-md-6 offset-md-3">
+                    <div class="col-md-8 offset-md-2">
                         <h2>{{$client->name . ' ' . $client->last_name}}</h2>
-                    </div>
-                </div>
-                @if($client->contact)
-                    <div class="row text-center">
-                        <div class="col-md-6 offset-md-3">
-                            <h4>
-                                <i class="fas fa-phone"></i>
+                        <p style="font-size: medium;">
+                            @if($client->contact)
+                                <i class="fas fa-phone text-primary"></i>
                                 <a href="tel:{{$client->contact}}">{{$client->contact}}</a>
-                            </h4>
-                        </div>
-                    </div>
-                @endif
-                @if($client->email)
-                    <div class="row text-center">
-                        <div class="col-md-6 offset-md-3">
-                            <h4>
-                                <i class="fas fa-envelope"></i>
+                            @endif
+
+                            @if($client->email)
+                                <i class="fas fa-envelope text-primary"></i>
                                 <a href="mailto:{{$client->email}}">{{$client->email}}</a>
-                            </h4>
+                            @endif
+                        </p>
+
+
+                        <div class="row">
+                            @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]) && count($client->invoices))
+                                <div class="col-6">
+                                    @php
+                                        if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
+                                            $route = 'admin.invoice';
+                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
+                                            $route = 'manager.invoice';
+                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {
+                                            $route = 'sale.invoice';
+                                        }
+                                    @endphp
+                                    <p style="font-size: medium;">
+                                        <a href="{{route($route, ['client_id' => $client->id])}}">
+                                            <i class="i-Credit-Card text-success"></i>
+                                            View invoices
+                                        </a>
+                                    </p>
+                                </div>
+                            @endif
+
+                            @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 4]))
+                                <div class="col-6">
+                                    @php
+                                        $client_user = \App\Models\User::where('client_id', $client->id)->first();
+                                        if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
+                                            $route = 'admin.pending.project';
+                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
+                                            $route = 'manager.pending.project';
+                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4 && \Illuminate\Support\Facades\Auth::user()->is_support_head) {
+                                            $route = 'support.pending.project';
+                                        } else {
+                                            $route = 'support.pending.project';
+                                        }
+                                    @endphp
+                                    <p style="font-size: medium;">
+                                        <a href="{{route($route, ['user_id' => $client_user->id])}}">
+                                            <i class="i-Folder-Loading text-primary"></i>
+                                            View pending projects
+                                        </a>
+                                    </p>
+                                </div>
+                            @endif
                         </div>
-                    </div>
-                @endif
-            </div>
-        </div>
-
-        @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]))
-            <div class="row mb-4">
-                <div class="col-lg-12 col-md-12">
-                    <h2 class="ml-3">Invoices ({{count($client->invoices)}})</h2>
-                </div>
-                @if (count($client->invoices))
-                    @php
-                        if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
-                            $route = 'admin.invoice';
-                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
-                            $route = 'manager.invoice';
-                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {
-                            $route = 'sale.invoice';
-                        }
-                    @endphp
-                    <div class="col-lg-12 col-md-12">
-{{--                        <a target="_blank" href="{{route($route, ['client_id' => $client->id])}}" class="btn btn-primary ml-3">View invoices</a>--}}
-                        <a href="{{route($route, ['client_id' => $client->id])}}" class="btn btn-primary ml-3">View invoices</a>
-                    </div>
-                @endif
-            </div>
-        @endif
-
-        @php
-            $briefs_pendings = get_briefs_pending($client->user->id);
-        @endphp
-        @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]) && count($briefs_pendings))
-            <div class="row mb-4">
-                <div class="col-lg-12 col-md-12">
-                    <h2 class="ml-3">Briefs pending ({{count($briefs_pendings)}})</h2>
-                </div>
-
-                @foreach($briefs_pendings as $brief_pending)
-                    <div>
-                        <a href="javascript:void(0);" class="btn btn-primary ml-3">{{$brief_pending}}</a>
-                    </div>
-                @endforeach
-            </div>
-        @endif
-
-        @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 4]))
-            <div class="row mb-4">
-                <div class="col-lg-12 col-md-12">
-                    <h2 class="ml-3">Pending Projects</h2>
-                </div>
-                @php
-                    $client_user = \App\Models\User::where('client_id', $client->id)->first();
-                    if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
-                        $route = 'admin.pending.project';
-                    } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
-                        $route = 'manager.pending.project';
-                    } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4 && \Illuminate\Support\Facades\Auth::user()->is_support_head) {
-                        $route = 'support.pending.project';
-                    } else {
-                        $route = 'support.pending.project';
-                    }
-                @endphp
-                <div class="col-lg-12 col-md-12">
-{{--                        <a target="_blank" href="{{route($route, ['user_id' => $client_user->id])}}" class="btn btn-primary ml-3">View pending projects</a>--}}
-                    <a href="{{route($route, ['user_id' => $client_user->id])}}" class="btn btn-primary ml-3">View pending projects</a>
-                </div>
-            </div>
-        @endif
 
 
-        @if(\Illuminate\Support\Facades\Auth::user()->is_employee != 0)
-            <div class="row mb-4">
-                <div class="col-lg-12 col-md-12">
-    {{--                <h2 class="ml-3">Projects ({{count($client->_projects())}})</h2>--}}
-                    @php
-                        $client_user = \App\Models\User::where('client_id', $client->id)->first();
-                        $project_count = $client_user ? count($client_user->projects) : 0;
-                    @endphp
-                    <h2 class="ml-3">Services ({{$project_count}})</h2>
-                </div>
-            </div>
-            <!-- CARD ICON-->
-            <div class="row client_wrapper">
-            @foreach($projects as $project)
-                <div class="col-lg-2 col-md-6 col-sm-6">
-
-{{--                    <a target="_blank" href="{{route('projects.detail', $project->id)}}">--}}
-                    <a href="{{route('projects.detail', $project->id)}}">
-                        <div class="card card-icon mb-4">
-                            <div class="card-body text-center">
-                                @php
-                                    if (Auth::user()->is_employee == 2) {
-                                        $active_tasks = \App\Models\Task::where('project_id', $project->id)->where('status', '!=', 3)->get();
-                                        $department_count = count(array_unique(\App\Models\Task::where('project_id', $project->id)->where('status', '!=', 3)->get()->pluck('category_id')->toArray())) ?? 0;
-                                    } else {
-                                        $active_tasks = \App\Models\Task::where('project_id', $project->id)->where('status', '!=', 3)
-                                            ->whereIn('brand_id', \Illuminate\Support\Facades\Auth::user()->brand_list())->get();
-                                        $department_count = count(array_unique(\App\Models\Task::where('project_id', $project->id)->where('status', '!=', 3)->whereIn('brand_id', \Illuminate\Support\Facades\Auth::user()->brand_list())->get()->pluck('category_id')->toArray())) ?? 0;
-                                    }
-                                @endphp
-
-                                <p class="text-muted mt-2 mb-2">{{$project->name}}</p>
-
-                                @if(no_pending_tasks_left($project->id))
-                                    <span class="badge badge-success">No pending tasks</span>
-                                @endif
-
-                                @if($department_count > 0)
-                                    <small class="text-muted mt-2 mb-2">{{count($active_tasks)}} active task(s) in {{$department_count}} department(s)</small>
-                                @endif
+                        @php
+                            $briefs_pendings = get_briefs_pending($client->user->id);
+                        @endphp
+                        @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]) && count($briefs_pendings))
+                            <div class="row my-4">
+                                <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
+                                    <div class="row">
+                                        <div class="col-md-3 d-flex align-items-center" style="border-right: 1px solid #b7b7b7;">
+                                            <i class="i-Folder-Close mr-2"></i>
+                                            <b>Briefs pending</b>
+                                        </div>
+                                        <div class="col-md-9 d-flex align-items-center" style="border-right: 1px solid #b7b7b7;">
+                                            <div class="row m-auto p-2" style="font-size: 15px;">
+                                                @foreach($briefs_pendings as $brief_pending)
+{{--                                                    <div class="col">--}}
+                                                        <span class="badge badge-pill badge-primary my-1">{{$brief_pending}}</span>
+                                                        &nbsp;
+{{--                                                    </div>--}}
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        @endif
 
+                        @if (\Illuminate\Support\Facades\Auth::user()->is_employee != 0)
+                            <div class="row my-4">
+                                <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
+                                    <div class="row">
+                                        <div class="col-md-3 d-flex align-items-center" style="border-right: 1px solid #b7b7b7;">
+                                            <i class="i-Suitcase mr-2"></i>
+                                            <b>Services</b>
+                                        </div>
+                                        <div class="col-md-9 px-0" style="border-right: 1px solid #b7b7b7;">
+{{--                                            <div class="row m-auto p-2" style="font-size: 15px;">--}}
+{{--                                                <div class="col-md-12">--}}
+                                                    <table class="table table-sm table-bordered mb-0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Service</th>
+                                                                <th>Status</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach($projects as $project)
+                                                                @php
+                                                                    if (Auth::user()->is_employee == 2) {
+                                                                        $active_tasks = \App\Models\Task::where('project_id', $project->id)->where('status', '!=', 3)->get();
+                                                                        $department_count = count(array_unique(\App\Models\Task::where('project_id', $project->id)->where('status', '!=', 3)->get()->pluck('category_id')->toArray())) ?? 0;
+                                                                    } else {
+                                                                        $active_tasks = \App\Models\Task::where('project_id', $project->id)->where('status', '!=', 3)
+                                                                            ->whereIn('brand_id', \Illuminate\Support\Facades\Auth::user()->brand_list())->get();
+                                                                        $department_count = count(array_unique(\App\Models\Task::where('project_id', $project->id)->where('status', '!=', 3)->whereIn('brand_id', \Illuminate\Support\Facades\Auth::user()->brand_list())->get()->pluck('category_id')->toArray())) ?? 0;
+                                                                    }
+                                                                @endphp
+                                                                <tr>
+                                                                    <td>
+                                                                        <a href="{{route('projects.detail', $project->id)}}">
+                                                                            {{$project->name}}
+                                                                        </a>
+                                                                    </td>
+                                                                    <th>
+                                                                        @if(no_pending_tasks_left($project->id))
+                                                                            <span class="badge badge-success">No pending tasks</span>
+                                                                        @endif
+
+                                                                        @if($department_count > 0)
+                                                                            <small class="text-muted mt-2 mb-2">{{count($active_tasks)}} active task(s) in {{$department_count}} department(s)</small>
+                                                                        @endif
+                                                                    </th>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                    </div>
                 </div>
-            @endforeach
+            </div>
         </div>
-        @endif
     </div>
 
 </div>

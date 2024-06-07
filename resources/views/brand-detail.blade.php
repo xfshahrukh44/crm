@@ -51,13 +51,11 @@
                             <a target="_blank" href="{{$brand->url}}">{{$brand->url}}</a>
                         </p>
 
-                        @php $count = 0; @endphp
                         <div class="row">
                             <div class="col-6"><p style="font-size: medium;">
                                 <i class="fas fa-check-double text-success"></i>
                                 Services completed: {{$completed_projects_count}}/{{$total_projects_count}}
                             </p></div>
-                            @php $count += 1; @endphp
 
                             @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6]))
                                 @if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6)
@@ -67,7 +65,6 @@
                                             Brand notifications
                                         </a>
                                     </p></div>
-                                    @php $count += 1; @endphp
                                 @endif
 
                                 <div class="col-6"><p style="font-size: medium;">
@@ -76,7 +73,6 @@
                                         View sales figures
                                     </a>
                                 </p></div>
-                                @php $count += 1; @endphp
                             @endif
 
 
@@ -91,7 +87,7 @@
                                         $briefs_pending_route = 'sale.brief.pending';
                                     }
                                 @endphp
-                                <div class="col-{{$count == 3 ? '6' : '12'}}"><p style="font-size: medium;">
+                                <div class="col-6"><p style="font-size: medium;">
                                     <a href="{{route($briefs_pending_route, ['brand_id' => $brand->id])}}">
                                         <i class="i-Folder-Close text-primary"></i>
                                         View briefs pending
@@ -211,7 +207,7 @@
                                     <tr>
 {{--                                        <td><span class="btn btn-primary btn-sm">#{{ $client->id }}</span></td>--}}
                                         <td>
-                                            <a target="_blank" href="{{route('clients.detail', $client->id)}}">
+                                            <a href="{{route('clients.detail', $client->id)}}">
                                                 <span class="btn btn-primary btn-sm">{{$client->name . ' ' . $client->last_name}}</span>
                                             </a>
                                         </td>

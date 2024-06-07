@@ -126,7 +126,7 @@ class BrandController extends Controller
 
         $client= Client::find($id);
         $client_user = \App\Models\User::where('client_id', $client->id)->first();
-        $projects = $client_user ? $client_user->projects : [];
+        $projects = $client_user ? $client_user->latest_projects : [];
 
         return view('client-detail', compact('client', 'projects'))->with(['layout' => $this->layout]);
     }

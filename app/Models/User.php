@@ -118,6 +118,11 @@ class User extends Authenticatable
         return $this->hasMany(Project::class, 'client_id', 'id');
     }
 
+    public function latest_projects()
+    {
+        return $this->hasMany(Project::class, 'client_id', 'id')->orderBy('updated_at', 'DESC');
+    }
+
     public function projects_count()
     {
         return $this->hasMany(Project::class, 'user_id', 'id')->where('seen', 0)->count();
