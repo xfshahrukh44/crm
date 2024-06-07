@@ -18,6 +18,8 @@
         .card-body.text-center:hover {
             box-shadow: 0px 0px 15px 8px #00aeee1a;
         }
+        /* Mouse over link */
+        a {text-decoration: none; color: black;}   /* Mouse over link */
     </style>
 @endpush
 @section('content')
@@ -36,92 +38,75 @@
                     </div>
                 </div>
                 <div class="row text-center mb-4">
-                    <div class="col-md-6 offset-md-3">
+                    <div class="col-md-8 offset-md-2">
                         <h2>{{$brand->name}}</h2>
-                        <p>
-                            <i class="fas fa-check-double text-success"></i>
-                            Services completed: {{$completed_projects_count}}/{{$total_projects_count}}
-                        </p>
-                    </div>
-                </div>
-                <div class="row text-center">
-                    <div class="col-md-6 offset-md-3">
-                        <h4>
-                            <i class="fas fa-phone"></i>
+                        <p style="font-size: medium;">
+                            <i class="fas fa-phone text-primary"></i>
                             <a href="tel:{{$brand->phone}}">{{$brand->phone}}</a>
-                        </h4>
-                    </div>
-                </div>
-                <div class="row text-center">
-                    <div class="col-md-6 offset-md-3">
-                        <h4>
-                            <i class="fas fa-envelope"></i>
+
+                            <i class="fas fa-envelope text-primary"></i>
                             <a href="mailto:{{$brand->email}}">{{$brand->email}}</a>
-                        </h4>
-                    </div>
-                </div>
-                <div class="row text-center">
-                    <div class="col-md-6 offset-md-3">
-                        <h4>
-                            <i class="fas fa-link"></i>
+
+                            <i class="fas fa-link text-primary"></i>
                             <a target="_blank" href="{{$brand->url}}">{{$brand->url}}</a>
-                        </h4>
+                        </p>
+
+                        <div class="row">
+                            <div class="col-6"><p style="font-size: medium;">
+                                <i class="fas fa-check-double text-success"></i>
+                                Services completed: {{$completed_projects_count}}/{{$total_projects_count}}
+                            </p></div>
+
+                            @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6]))
+                                @if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6)
+                                    <div class="col-6"><p style="font-size: medium;">
+                                        <a target="_blank" href="{{route('manager.notification', ['brand_id' => $brand->id])}}">
+                                            <i class="fas fa-bell text-danger"></i>
+                                            Brand notifications
+                                        </a>
+                                    </p></div>
+                                @endif
+
+                                <div class="col-6"><p style="font-size: medium;">
+                                    <a href="#" data-toggle="modal" data-target="#salesFiguresModal">
+                                        <i class="fas fa-dollar text-success"></i>
+                                        View sales figures
+                                    </a>
+                                </p></div>
+                            @endif
+
+
+                            @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]))
+                                @php
+                                    $briefs_pending_route = null;
+                                    if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
+                                        $briefs_pending_route = 'admin.brief.pending';
+                                    } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
+                                        $briefs_pending_route = 'manager.brief.pending';
+                                    } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {
+                                        $briefs_pending_route = 'sale.brief.pending';
+                                    }
+                                @endphp
+                                <div class="col-6"><p style="font-size: medium;">
+                                    <a href="{{route($briefs_pending_route, ['brand_id' => $brand->id])}}">
+                                        <i class="i-Folder-Close text-primary"></i>
+                                        View briefs pending
+                                    </a>
+                                </p></div>
+                            @endif
+                        </div>
+
                     </div>
                 </div>
-                @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6]))
-                    @if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6)
-                        <div class="row text-center">
-                            <div class="col-md-6 offset-md-3">
-                                <h4>
-                                    @php
-                                        if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
-                                            $route = 'manager.notification';
-                                        }
-                                    @endphp
-                                    <a target="_blank" href="{{route($route, ['brand_id' => $brand->id])}}" class="text-danger">
-                                        <i class="fas fa-bell"></i>
-                                        <span style="color: black !important;">Brand notifications</span>
-                                    </a>
-                                </h4>
-                            </div>
-                        </div>
-                    @endif
-                    <div class="row text-center">
-                        <div class="col-md-6 offset-md-3">
-                            <button class="btn btn-success" data-toggle="modal" data-target="#salesFiguresModal">
-                                <i class="fas fa-dollar"></i>
-                                Sales figures
-                            </button>
-                        </div>
-                    </div>
-                @endif
-                @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]))
-                    @php
-                        $briefs_pending_route = null;
-                        if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
-                            $briefs_pending_route = 'admin.brief.pending';
-                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
-                            $briefs_pending_route = 'manager.brief.pending';
-                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {
-                            $briefs_pending_route = 'sale.brief.pending';
-                        }
-                    @endphp
-                    @if (!is_null($briefs_pending_route))
-                        <div class="row text-center mt-2">
-                            <div class="col-md-6 offset-md-3">
-                                <a class="btn btn-primary" href="{{route($briefs_pending_route, ['brand_id' => $brand->id])}}">
-                                    View briefs pending
-                                </a>
-                            </div>
-                        </div>
-                    @endif
-                @endif
             </div>
         </div>
 
         <div class="row my-4">
             <div class="col-md-6 offset-md-3 text-center" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
-                <b>Team</b>
+                <b>
+                    <i class="fas fa-users"></i>
+                    Team
+                </b>
             </div>
             <div class="col-md-6 offset-md-3" style="border: 1px solid #b7b7b7; border-top: 0px; background-color: #F3F3F3;">
                 <b>BUHs</b>
@@ -318,7 +303,7 @@
                                     <tr>
                                         <th>Today</th>
                                         @foreach($todays_invoice_totals as $symbol => $total)
-                                            <th>
+                                            <th colspan="{{$loop->last ? '999' : ''}}">
                                                 <strong>{{$symbol}}</strong>
                                                 <span>{{$total}}</span>
                                             </th>
@@ -329,7 +314,7 @@
                                     <tr>
                                         <th>This week</th>
                                         @foreach($this_weeks_invoice_totals as $symbol => $total)
-                                            <th>
+                                            <th colspan="{{$loop->last ? '999' : ''}}">
                                                 <strong>{{$symbol}}</strong>
                                                 <span>{{$total}}</span>
                                             </th>
@@ -340,7 +325,7 @@
                                     <tr>
                                         <th>This month</th>
                                         @foreach($this_months_invoice_totals as $symbol => $total)
-                                            <th>
+                                            <th colspan="{{$loop->last ? '999' : ''}}">
                                                 <strong>{{$symbol}}</strong>
                                                 <span>{{$total}}</span>
                                             </th>
@@ -351,7 +336,7 @@
                                     <tr>
                                         <th>This year</th>
                                         @foreach($this_years_invoice_totals as $symbol => $total)
-                                            <th>
+                                            <th colspan="{{$loop->last ? '999' : ''}}">
                                                 <strong>{{$symbol}}</strong>
                                                 <span>{{$total}}</span>
                                             </th>
