@@ -144,16 +144,13 @@ class AdminUserController extends Controller
         $user->contact = $request->input('contact');
         $user->status = $request->input('status');
         $user->is_employee = $request->input('is_employee');
+        $user->is_employee = ($request->input('is_employee') == 8) ? 4 : $request->input('is_employee');
+        $user->is_support_head = ($request->input('is_employee') == 8) ? true : false;
         $user->save();
-        if(($request->input('is_employee') == 0) || ($request->input('is_employee') == 4) || ($request->input('is_employee') == 6)){
-            $brand = $request->input('brand');
-            $user->brands()->sync($brand);
-            return redirect()->route('admin.user.sales.edit', $id)->with('success','Sale Person Updated Successfully.');
-        }else{
-            $category = $request->input('category');
-            $user->category()->sync($category);
-            return redirect()->route('admin.user.production.edit', $id)->with('success','Production Member Updated Successfully.');
-        }
+
+        $brand = $request->input('brand');
+        $user->brands()->sync($brand);
+        return redirect()->route('admin.user.production.edit', $id)->with('success','Sale Person Updated Successfully.');
     }
 
     public function getUserQA(){
