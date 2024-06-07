@@ -153,7 +153,7 @@
                                                                 <tr>
                                                                     <td>
                                                                         <a href="{{route('projects.detail', $project->id)}}">
-                                                                            {{$project->name}}
+                                                                            {{str_replace($client->name, '', str_replace(' - ', '', $project->name))}}
                                                                         </a>
                                                                     </td>
                                                                     <th>
