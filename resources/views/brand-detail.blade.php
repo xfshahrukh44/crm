@@ -313,7 +313,7 @@
                                         @foreach($todays_invoice_totals as $symbol => $total)
                                             <th colspan="{{$loop->last ? '999' : ''}}">
                                                 <strong>{{$symbol}}</strong>
-                                                <span>{{number_format($total, 2)}}</span>
+                                                <span>{{number_format($total, 0)}}</span>
                                             </th>
                                         @endforeach
                                     </tr>
@@ -324,7 +324,7 @@
                                         @foreach($this_weeks_invoice_totals as $symbol => $total)
                                             <th colspan="{{$loop->last ? '999' : ''}}">
                                                 <strong>{{$symbol}}</strong>
-                                                <span>{{number_format($total, 2)}}</span>
+                                                <span>{{number_format($total, 0)}}</span>
                                             </th>
                                         @endforeach
                                     </tr>
@@ -335,7 +335,7 @@
                                         @foreach($this_months_invoice_totals as $symbol => $total)
                                             <th colspan="{{$loop->last ? '999' : ''}}">
                                                 <strong>{{$symbol}}</strong>
-                                                <span>{{number_format($total, 2)}}</span>
+                                                <span>{{number_format($total, 0)}}</span>
                                             </th>
                                         @endforeach
                                     </tr>
@@ -346,7 +346,7 @@
                                         @foreach($this_years_invoice_totals as $symbol => $total)
                                             <th colspan="{{$loop->last ? '999' : ''}}">
                                                 <strong>{{$symbol}}</strong>
-                                                <span>{{number_format($total, 2)}}</span>
+                                                <span>{{number_format($total, 0)}}</span>
                                             </th>
                                         @endforeach
                                     </tr>
