@@ -386,7 +386,7 @@ Route::group(['middleware' => 'auth'], function () {
 Route::get('brands-dashboard', [GeneralBrandController::class, 'brands_dashboard'])->name('brands.dashboard');
 Route::get('brands-detail/{id}', [GeneralBrandController::class, 'brands_detail'])->name('brands.detail');
 Route::get('clients-detail/{id}', [GeneralBrandController::class, 'clients_detail'])->name('clients.detail');
-Route::get('projects-detail/{id}', [GeneralBrandController::class, 'projects_detail'])->name('projects.detail');
+Route::get('service-detail/{id}', [GeneralBrandController::class, 'projects_detail'])->name('projects.detail');
 
 Route::get('get-invoices', function (Request $request) {
     $invoices = Invoice::with('currency_show', 'sale', 'brands')->where('payment_status', 2)
