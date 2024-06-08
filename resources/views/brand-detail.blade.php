@@ -21,8 +21,12 @@
         /* Mouse over link */
         a {text-decoration: none; color: black;}   /* Mouse over link */
 
-        invoices_wrapper::-webkit-scrollbar {
+        .invoices_wrapper::-webkit-scrollbar {
             display: none;
+        }
+        .invoices_wrapper {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
         }
     </style>
 @endpush
