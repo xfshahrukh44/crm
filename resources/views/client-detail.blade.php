@@ -120,7 +120,7 @@
                             </div>
                         @endif
 
-                        @if (\Illuminate\Support\Facades\Auth::user()->is_employee != 0)
+                        @if (\Illuminate\Support\Facades\Auth::user()->is_employee != 0 && count($projects))
                             <div class="row my-4">
                                 <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
                                     <div class="row">
