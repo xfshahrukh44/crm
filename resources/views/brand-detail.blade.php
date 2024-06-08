@@ -305,6 +305,14 @@
                                 ->where('updated_at', '<=', \Carbon\Carbon::now()->endOfYear())
                                 ->pluck('id');
                                 $this_years_invoice_totals = get_invoice_totals($this_years_invoice_ids);
+
+                                $last_years_invoice_ids = \App\Models\Invoice::where([
+                                    'payment_status' => 2,
+                                    'brand' => $brand->id,
+                                ])->where('updated_at', '>=', \Carbon\Carbon::now()->subYear(1)->startOfYear())
+                                ->where('updated_at', '<=', \Carbon\Carbon::now()->subYear(1)->endOfYear())
+                                ->pluck('id');
+                                $last_years_invoice_totals = get_invoice_totals($last_years_invoice_ids);
                             @endphp
                             <thead>
                                 @if(count($todays_invoice_totals))
@@ -344,6 +352,17 @@
                                     <tr>
                                         <th>This year</th>
                                         @foreach($this_years_invoice_totals as $symbol => $total)
+                                            <th colspan="{{$loop->last ? '999' : ''}}">
+                                                <strong>{{$symbol}}</strong>
+                                                <span>{{number_format($total, 0)}}</span>
+                                            </th>
+                                        @endforeach
+                                    </tr>
+                                @endif
+                                @if(count($last_years_invoice_totals))
+                                    <tr>
+                                        <th>Last year</th>
+                                        @foreach($last_years_invoice_totals as $symbol => $total)
                                             <th colspan="{{$loop->last ? '999' : ''}}">
                                                 <strong>{{$symbol}}</strong>
                                                 <span>{{number_format($total, 0)}}</span>
