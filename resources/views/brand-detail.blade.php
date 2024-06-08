@@ -20,6 +20,10 @@
         }
         /* Mouse over link */
         a {text-decoration: none; color: black;}   /* Mouse over link */
+
+        invoices_wrapper::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 @endpush
 @section('content')
@@ -373,7 +377,7 @@
                             </thead>
                         </table>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-12 invoices_wrapper" style="overflow-y: scroll; max-height: 500px;">
                         <h6>Search invoices</h6>
                         <div class="row">
                             <div class="form-group col-md-4">
