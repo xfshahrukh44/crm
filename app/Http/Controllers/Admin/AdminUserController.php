@@ -150,6 +150,7 @@ class AdminUserController extends Controller
 
         $brand = $request->input('brand');
         $user->brands()->sync($brand);
+        $user->category()->sync($request->get('category'));
         return redirect()->route('admin.user.production.edit', $id)->with('success','Sale Person Updated Successfully.');
     }
 

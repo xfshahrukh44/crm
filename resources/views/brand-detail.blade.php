@@ -48,7 +48,7 @@
                 <div class="row text-center mb-4">
                     <div class="col-md-8 offset-md-2">
                         <h2>{{$brand->name}}</h2>
-                        <p style="font-size: medium;">
+                        <p style="font-size: small;">
                             <i class="fas fa-phone text-primary"></i>
                             <a href="tel:{{$brand->phone}}">{{$brand->phone}}</a>
 
@@ -123,7 +123,13 @@
                     <div class="row m-auto">
                         @foreach($buhs as $buh)
                             <a href="mailto:{{$buh->email}}">
-                                <h6 class="{!! $buh->id == auth()->id() ? 'text-success' : '' !!}">{{$buh->name . ' ' . $buh->last_name}}</h6>
+                                <h6 class="{!! $buh->id == auth()->id() ? 'text-success' : '' !!}">
+                                    @if($buh->id == auth()->id())<b>@endif
+
+                                    {{$buh->name . ' ' . $buh->last_name}}
+
+                                    @if($buh->id == auth()->id())</b>@endif
+                                </h6>
                             </a>
                             <h6>{!! ($loop->last ? '.' : ",&nbsp;&nbsp;") !!}</h6>
                         @endforeach
@@ -136,7 +142,13 @@
                     <div class="row m-auto">
                         @foreach($agents as $agent)
                             <a href="mailto:{{$agent->email}}">
-                                <h6 class="{!! $agent->id == auth()->id()  ? 'text-success' : ''!!}">{{$agent->name . ' ' . $agent->last_name}}</h6>
+                                <h6 class="{!! $agent->id == auth()->id()  ? 'text-success' : ''!!}">
+                                    @if($agent->id == auth()->id())<b>@endif
+
+                                    {{$agent->name . ' ' . $agent->last_name}}
+
+                                    @if($agent->id == auth()->id())</b>@endif
+                                </h6>
                             </a>
                             <h6>{!! ($loop->last ? '.' : ",&nbsp;&nbsp;") !!}</h6>
                         @endforeach
@@ -149,7 +161,13 @@
                     <div class="row m-auto">
                         @foreach($support_heads as $support_head)
                             <a href="mailto:{{$support_head->email}}">
-                                <h6 class="{!! $support_head->id == auth()->id() ? 'text-success' : '' !!}">{{$support_head->name . ' ' . $support_head->last_name}}</h6>
+                                <h6 class="{!! $support_head->id == auth()->id() ? 'text-success' : '' !!}">
+                                    @if($support_head->id == auth()->id())<b>@endif
+
+                                    {{$support_head->name . ' ' . $support_head->last_name}}
+
+                                    @if($support_head->id == auth()->id())</b>@endif
+                                </h6>
                             </a>
                             <h6>{!! ($loop->last ? '.' : ",&nbsp;&nbsp;") !!}</h6>
                         @endforeach
@@ -162,7 +180,13 @@
                     <div class="row m-auto">
                         @foreach($customer_supports as $customer_support)
                             <a href="mailto:{{$customer_support->email}}">
-                                <h6 class="{!! $customer_support->id == auth()->id() ? 'text-success' : '' !!}">{{$customer_support->name . ' ' . $customer_support->last_name}}</h6>
+                                <h6 class="{!! $customer_support->id == auth()->id() ? 'text-success' : '' !!}">
+                                    @if($customer_support->id == auth()->id())<b>@endif
+
+                                    {{$customer_support->name . ' ' . $customer_support->last_name}}
+
+                                    @if($customer_support->id == auth()->id())</b>@endif
+                                </h6>
                             </a>
                             <h6>{!! ($loop->last ? '.' : ",&nbsp;&nbsp;") !!}</h6>
                         @endforeach
@@ -208,7 +232,8 @@
 {{--                                    <th>ID</th>--}}
                                     <th>Client</th>
                                     <th>Invoices</th>
-                                    <th>Projects</th>
+                                    <th>Services</th>
+                                    <th>Added by</th>
                                     @if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4 && \Illuminate\Support\Facades\Auth::user()->is_support_head)
                                         <th>Create login</th>
                                     @endif
@@ -229,6 +254,12 @@
                                         </td>
                                         <td>{{count($client->invoices)}}</td>
                                         <td>{{$project_count}}</td>
+                                        <td>
+                                            {{$client->added_by->name . ($client->added_by->last_name ? (' ' . $client->added_by->last_name) : '' )}}
+                                            <small class="text-success ml-2">
+                                                <b>{{\Carbon\Carbon::parse($client->created_at)->format('d M Y, h:i A')}}</b>
+                                            </small>
+                                        </td>
                                         @if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4 && \Illuminate\Support\Facades\Auth::user()->is_support_head)
                                             <td>
                                                 <a href="javascript:;"
@@ -245,17 +276,6 @@
                                 @endforeach
 
                                 </tbody>
-                                <tfoot>
-                                <tr>
-{{--                                    <th>ID</th>--}}
-                                    <th>Client</th>
-                                    <th>Invoices</th>
-                                    <th>Projects</th>
-                                    @if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4 && \Illuminate\Support\Facades\Auth::user()->is_support_head)
-                                        <th>Create login</th>
-                                    @endif
-                                </tr>
-                                </tfoot>
                             </table>
 {{--                            <div class="ajax-loading"><img src="{{ asset('newglobal/images/loader.gif') }}" /></div>--}}
                             {{ $clients->links('pagination::bootstrap-4') }}
