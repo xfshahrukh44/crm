@@ -46,7 +46,7 @@
                                 <div class="col-md-6 mb-3 mb-sm-0">
                                     <h5 class="font-weight-bold">Bill From</h5>
                                     <p class="mb-1">{{ $_getInvoiceData->sale->name }}</p>
-                                    <p class="mb-1">{{ $_getInvoiceData->sale->email }}</p>
+{{--                                    <p class="mb-1">{{ $_getInvoiceData->sale->email }}</p>--}}
                                     <p class="mb-1">{{ $_getInvoiceData->sale->contact }}</p>
                                 </div>
                                 <div class="col-md-6 text-sm-right">
