@@ -520,6 +520,9 @@ class SupportController extends Controller
             Notification::send($adminuser, new MessageNotification($messageData));
         }
 
+        //send notification to client
+        Notification::send($task->projects->client, new MessageNotification($messageData));
+
         //mail_notification
         $project = Project::find($task->project_id);
         $client = Client::find($project->client_id);

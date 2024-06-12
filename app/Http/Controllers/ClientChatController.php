@@ -113,6 +113,11 @@ class ClientChatController extends Controller
             Notification::send($adminuser, new MessageNotification($messageData));
         }
 
+        //send notification to support heads
+        foreach (User::where(['is_employee' => 4, 'is_support_head' => 1])->get() as $support_head_user) {
+            Notification::send($support_head_user, new MessageNotification($messageData));
+        }
+
         //mail_notification
         $client = Client::find(Auth::user()->id);
         $brand = Brand::find($client->brand_id);

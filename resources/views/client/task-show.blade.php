@@ -409,7 +409,7 @@ function Clicked_h_btnAddFileUploadControl() {
         }
     }
     $(".message-box-wrapper").mCustomScrollbar({
-        setHeight:500,
+        setHeight:800,
     });
     $(".message-box-wrapper").mCustomScrollbar("scrollTo", "bottom");
 </script>
