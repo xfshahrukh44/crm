@@ -449,6 +449,35 @@ class AdminClientController extends Controller
                 
             }
         }
+
+        $client = Client::find($request->id);
+
+        //mail_notification
+        $brand = Brand::find($client->brand_id);
+
+        $html = '<p>'. 'Dear ' . $client->name . ',' .'</p>';
+        $html .= '<p>'. 'Welcome to '.$brand->name.'! We are excited to have you on board.' .'</p>';
+        $html .= '<p>'. 'Your account has been successfully created. Below are your login credentials and some basic instructions to help you get started:' .'</p>';
+        $html .= '<p><ul>'. '<li><strong>*Username: '.$client->email.'</strong></li><li><strong>*Password: '.$pass.'</strong></li>' .'</ul></p>';
+        $html .= '<p>'. 'For your security, please change your password upon your first login. You can access your account here: <a href="'.route('login').'">'.route('login').'</a>' .'</p>';
+        $html .= '<p>'. 'If you have any questions or need further assistance, please do not hesitate to contact our support team.' .'</p>';
+        $html .= '<p>'. 'Welcome aboard!' .'</p>';
+        $html .= '<p>'. 'Best Regards,' .'</p>';
+        $html .= '<p>'. $brand->name .'.</p>';
+
+        mail_notification(
+            '',
+            [$client->email],
+            'Welcome to '.$brand->name.' – Your Account is Ready!',
+            view('mail.crm-mail-template')->with([
+                'subject' => 'Welcome to '.$brand->name.' – Your Account is Ready!',
+                'brand_name' => $brand->name,
+                'brand_logo' => asset($brand->logo),
+                'additional_html' => $html
+            ]),
+//            true
+        );
+
         return response()->json(['success' => true , 'message' => 'Login Created']);
     }
 
@@ -574,6 +603,35 @@ class AdminClientController extends Controller
 
             }
         }
+
+        $client = Client::find($request->id);
+
+        //mail_notification
+        $brand = Brand::find($client->brand_id);
+
+        $html = '<p>'. 'Dear ' . $client->name . ',' .'</p>';
+        $html .= '<p>'. 'Welcome to '.$brand->name.'! We are excited to have you on board.' .'</p>';
+        $html .= '<p>'. 'Your account has been successfully created. Below are your login credentials and some basic instructions to help you get started:' .'</p>';
+        $html .= '<p><ul>'. '<li><strong>*Username: '.$client->email.'</strong></li><li><strong>*Password: '.$pass.'</strong></li>' .'</ul></p>';
+        $html .= '<p>'. 'For your security, please change your password upon your first login. You can access your account here: <a href="'.route('login').'">'.route('login').'</a>' .'</p>';
+        $html .= '<p>'. 'If you have any questions or need further assistance, please do not hesitate to contact our support team.' .'</p>';
+        $html .= '<p>'. 'Welcome aboard!' .'</p>';
+        $html .= '<p>'. 'Best Regards,' .'</p>';
+        $html .= '<p>'. $brand->name .'.</p>';
+
+        mail_notification(
+            '',
+            [$client->email],
+            'Welcome to '.$brand->name.' – Your Account is Ready!',
+            view('mail.crm-mail-template')->with([
+                'subject' => 'Welcome to '.$brand->name.' – Your Account is Ready!',
+                'brand_name' => $brand->name,
+                'brand_logo' => asset($brand->logo),
+                'additional_html' => $html
+            ]),
+//            true
+        );
+
         return response()->json(['success' => true , 'message' => 'Login Created']);
     }
 
@@ -583,6 +641,35 @@ class AdminClientController extends Controller
         $user = User::where('client_id', $id)->first();
         $user->password = Hash::make($pass);
         $user->save();
+
+        $client = Client::find($id);
+
+        //mail_notification
+        $brand = Brand::find($client->brand_id);
+
+        $html = '<p>'. 'Dear ' . $client->name . ',' .'</p>';
+        $html .= '<p>'. 'Welcome to '.$brand->name.'! We are excited to have you on board.' .'</p>';
+        $html .= '<p>'. 'Your account has been successfully created. Below are your login credentials and some basic instructions to help you get started:' .'</p>';
+        $html .= '<p><ul>'. '<li><strong>*Username: '.$client->email.'</strong></li><li><strong>*Password: '.$pass.'</strong></li>' .'</ul></p>';
+        $html .= '<p>'. 'For your security, please change your password upon your first login. You can access your account here: <a href="'.route('login').'">'.route('login').'</a>' .'</p>';
+        $html .= '<p>'. 'If you have any questions or need further assistance, please do not hesitate to contact our support team.' .'</p>';
+        $html .= '<p>'. 'Welcome aboard!' .'</p>';
+        $html .= '<p>'. 'Best Regards,' .'</p>';
+        $html .= '<p>'. $brand->name .'.</p>';
+
+        mail_notification(
+            '',
+            [$client->email],
+            'Welcome to '.$brand->name.' – Your Account is Ready!',
+            view('mail.crm-mail-template')->with([
+                'subject' => 'Welcome to '.$brand->name.' – Your Account is Ready!',
+                'brand_name' => $brand->name,
+                'brand_logo' => asset($brand->logo),
+                'additional_html' => $html
+            ]),
+//            true
+        );
+
         return response()->json(['success' => true , 'message' => 'Password Reset']);
     }
 
@@ -592,6 +679,34 @@ class AdminClientController extends Controller
         $user = User::where('client_id', $id)->first();
         $user->password = Hash::make($pass);
         $user->save();
+
+        $client = Client::find($id);
+
+        //mail_notification
+        $brand = Brand::find($client->brand_id);
+
+        $html = '<p>'. 'Dear ' . $client->name . ',' .'</p>';
+        $html .= '<p>'. 'Welcome to '.$brand->name.'! We are excited to have you on board.' .'</p>';
+        $html .= '<p>'. 'Your account has been successfully created. Below are your login credentials and some basic instructions to help you get started:' .'</p>';
+        $html .= '<p><ul>'. '<li><strong>*Username: '.$client->email.'</strong></li><li><strong>*Password: '.$pass.'</strong></li>' .'</ul></p>';
+        $html .= '<p>'. 'For your security, please change your password upon your first login. You can access your account here: <a href="'.route('login').'">'.route('login').'</a>' .'</p>';
+        $html .= '<p>'. 'If you have any questions or need further assistance, please do not hesitate to contact our support team.' .'</p>';
+        $html .= '<p>'. 'Welcome aboard!' .'</p>';
+        $html .= '<p>'. 'Best Regards,' .'</p>';
+        $html .= '<p>'. $brand->name .'.</p>';
+
+        mail_notification(
+            '',
+            [$client->email],
+            'Welcome to '.$brand->name.' – Your Account is Ready!',
+            view('mail.crm-mail-template')->with([
+                'subject' => 'Welcome to '.$brand->name.' – Your Account is Ready!',
+                'brand_name' => $brand->name,
+                'brand_logo' => asset($brand->logo),
+                'additional_html' => $html
+            ]),
+//            true
+        );
         return response()->json(['success' => true , 'message' => 'Password Reset']);
     }
 
@@ -601,6 +716,35 @@ class AdminClientController extends Controller
         $user = User::where('client_id', $id)->first();
         $user->password = Hash::make($pass);
         $user->save();
+
+        $client = Client::find($id);
+
+        //mail_notification
+        $brand = Brand::find($client->brand_id);
+
+        $html = '<p>'. 'Dear ' . $client->name . ',' .'</p>';
+        $html .= '<p>'. 'Welcome to '.$brand->name.'! We are excited to have you on board.' .'</p>';
+        $html .= '<p>'. 'Your account has been successfully created. Below are your login credentials and some basic instructions to help you get started:' .'</p>';
+        $html .= '<p><ul>'. '<li><strong>*Username: '.$client->email.'</strong></li><li><strong>*Password: '.$pass.'</strong></li>' .'</ul></p>';
+        $html .= '<p>'. 'For your security, please change your password upon your first login. You can access your account here: <a href="'.route('login').'">'.route('login').'</a>' .'</p>';
+        $html .= '<p>'. 'If you have any questions or need further assistance, please do not hesitate to contact our support team.' .'</p>';
+        $html .= '<p>'. 'Welcome aboard!' .'</p>';
+        $html .= '<p>'. 'Best Regards,' .'</p>';
+        $html .= '<p>'. $brand->name .'.</p>';
+
+        mail_notification(
+            '',
+            [$client->email],
+            'Welcome to '.$brand->name.' – Your Account is Ready!',
+            view('mail.crm-mail-template')->with([
+                'subject' => 'Welcome to '.$brand->name.' – Your Account is Ready!',
+                'brand_name' => $brand->name,
+                'brand_logo' => asset($brand->logo),
+                'additional_html' => $html
+            ]),
+//            true
+        );
+
         return response()->json(['success' => true , 'message' => 'Password Reset']);
     }
 
