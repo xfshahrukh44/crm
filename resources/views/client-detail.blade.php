@@ -35,22 +35,26 @@
                 <div class="row text-center mb-4">
                     <div class="col-md-8 offset-md-2">
                         <h2>{{$client->name . ' ' . $client->last_name}}</h2>
-                        <p style="font-size: medium;">
+{{--                        <p style="font-size: medium;">--}}
                             @if($client->contact)
-                                <i class="fas fa-phone text-primary"></i>
-                                <a href="tel:{{$client->contact}}">{{$client->contact}}</a>
+                                <div class="col-12">
+                                    <i class="fas fa-phone text-primary"></i>
+                                    <a href="tel:{{$client->contact}}">{{$client->contact}}</a>
+                                </div>
                             @endif
 
                             @if($client->email)
-                                <i class="fas fa-envelope text-primary"></i>
-                                <a href="mailto:{{$client->email}}">{{$client->email}}</a>
+                                <div class="col-12">
+                                    <i class="fas fa-envelope text-primary"></i>
+                                    <a href="mailto:{{$client->email}}">{{$client->email}}</a>
+                                </div>
                             @endif
-                        </p>
+{{--                        </p>--}}
 
 
-                        <div class="row">
+                        <div class="row mt-4">
                             @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]) && count($client->invoices))
-                                <div class="col-6">
+                                <div class="col">
                                     @php
                                         if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
                                             $route = 'admin.invoice';
@@ -63,14 +67,14 @@
                                     <p style="font-size: medium;">
                                         <a href="{{route($route, ['client_id' => $client->id])}}">
                                             <i class="i-Credit-Card text-success"></i>
-                                            View invoices
+                                            Invoices
                                         </a>
                                     </p>
                                 </div>
                             @endif
 
                             @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 4]))
-                                <div class="col-6">
+                                <div class="col">
                                     @php
                                         $client_user = \App\Models\User::where('client_id', $client->id)->first();
                                         if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
@@ -86,7 +90,7 @@
                                     <p style="font-size: medium;">
                                         <a href="{{route($route, ['user_id' => $client_user->id])}}">
                                             <i class="i-Folder-Loading text-primary"></i>
-                                            View pending projects
+                                            Pending projects
                                         </a>
                                     </p>
                                 </div>

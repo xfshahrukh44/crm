@@ -48,37 +48,44 @@
                 <div class="row text-center mb-4">
                     <div class="col-md-8 offset-md-2">
                         <h2>{{$brand->name}}</h2>
-                        <p style="font-size: small;">
+                        <div class="col-12">
                             <i class="fas fa-phone text-primary"></i>
                             <a href="tel:{{$brand->phone}}">{{$brand->phone}}</a>
+                        </div>
 
+                        <div class="col-12">
                             <i class="fas fa-envelope text-primary"></i>
                             <a href="mailto:{{$brand->email}}">{{$brand->email}}</a>
+                        </div>
 
+                        <div class="col-12">
                             <i class="fas fa-link text-primary"></i>
                             <a target="_blank" href="{{$brand->url}}">{{$brand->url}}</a>
-                        </p>
+                        </div>
 
-                        <div class="row">
-                            <div class="col-6"><p style="font-size: medium;">
+                        <div class="row mt-4">
+                            <div class="col"><p style="font-size: medium;">
                                 <i class="fas fa-check-double text-success"></i>
+                                    <br />
                                 Services completed: {{$completed_projects_count}}/{{$total_projects_count}}
                             </p></div>
 
                             @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6]))
                                 @if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6)
-                                    <div class="col-6"><p style="font-size: medium;">
+                                    <div class="col"><p style="font-size: medium;">
                                         <a target="_blank" href="{{route('manager.notification', ['brand_id' => $brand->id])}}">
                                             <i class="fas fa-bell text-danger"></i>
-                                            Brand notifications
+                                            <br />
+                                            Notifications
                                         </a>
                                     </p></div>
                                 @endif
 
-                                <div class="col-6"><p style="font-size: medium;">
+                                <div class="col"><p style="font-size: medium;">
                                     <a href="#" data-toggle="modal" data-target="#salesFiguresModal">
                                         <i class="fas fa-dollar text-success"></i>
-                                        View sales figures
+                                        <br />
+                                        Sales figures
                                     </a>
                                 </p></div>
                             @endif
@@ -95,10 +102,11 @@
                                         $briefs_pending_route = 'sale.brief.pending';
                                     }
                                 @endphp
-                                <div class="col-6"><p style="font-size: medium;">
+                                <div class="col"><p style="font-size: medium;">
                                     <a href="{{route($briefs_pending_route, ['brand_id' => $brand->id])}}">
                                         <i class="i-Folder-Close text-primary"></i>
-                                        View briefs pending
+                                        <br />
+                                        Briefs pending
                                     </a>
                                 </p></div>
                             @endif
