@@ -100,12 +100,13 @@
                                     @endfor
                                 </td>
                                 <td>
-                                    <span class="btn btn-{{ App\Models\Invoice::STATUS_COLOR[$datas->payment_status] }} btn-sm">
+{{--                                    <span class="btn btn-{{ App\Models\Invoice::STATUS_COLOR[$datas->payment_status] }} btn-sm">--}}
+                                    <span class="">
                                         {{ App\Models\Invoice::PAYMENT_STATUS[$datas->payment_status] }}
                                         @if($datas->payment_status == 1)
                                         <form method="post" action="{{ route('manager.invoice.paid', $datas->id) }}">
                                             @csrf
-                                            <button type="submit" class="mark-paid btn btn-danger p-0">Click</button>
+                                            <button type="submit" class="btn btn-danger">Mark As Paid</button>
                                         </form>
                                         @endif
                                     </span>
