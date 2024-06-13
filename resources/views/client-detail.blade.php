@@ -88,42 +88,46 @@
                                             $route = 'support.pending.project';
                                         }
                                     @endphp
-                                    <p style="font-size: medium;">
-                                        <a href="{{route($route, ['user_id' => $client_user->id])}}">
-                                            <i class="i-Folder-Loading text-primary"></i>
-                                            <br />
-                                            Pending projects
-                                        </a>
-                                    </p>
+                                    @if($client_user)
+                                        <p style="font-size: medium;">
+                                            <a href="{{route($route, ['user_id' => $client_user->id])}}">
+                                                <i class="i-Folder-Loading text-primary"></i>
+                                                <br />
+                                                Pending projects
+                                            </a>
+                                        </p>
+                                    @endif
                                 </div>
                             @endif
                         </div>
 
 
-                        @php
-                            $briefs_pendings = get_briefs_pending($client->user->id);
-                        @endphp
-                        @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]) && count($briefs_pendings))
-                            <div class="row my-4">
-                                <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
-                                    <div class="row">
-                                        <div class="col-md-3 d-flex align-items-center" style="border-right: 1px solid #b7b7b7;">
-                                            <i class="i-Folder-Close mr-2"></i>
-                                            <b>Briefs pending</b>
-                                        </div>
-                                        <div class="col-md-9 d-flex align-items-center" style="border-right: 1px solid #b7b7b7;">
-                                            <div class="row m-auto p-2" style="font-size: 15px;">
-                                                @foreach($briefs_pendings as $brief_pending)
-{{--                                                    <div class="col">--}}
-                                                        <span class="badge badge-pill badge-primary my-1">{{$brief_pending}}</span>
-                                                        &nbsp;
-{{--                                                    </div>--}}
-                                                @endforeach
+                        @if($client->user)
+                            @php
+                                $briefs_pendings = get_briefs_pending($client->user->id);
+                            @endphp
+                            @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]) && count($briefs_pendings))
+                                <div class="row my-4">
+                                    <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
+                                        <div class="row">
+                                            <div class="col-md-3 d-flex align-items-center" style="border-right: 1px solid #b7b7b7;">
+                                                <i class="i-Folder-Close mr-2"></i>
+                                                <b>Briefs pending</b>
+                                            </div>
+                                            <div class="col-md-9 d-flex align-items-center" style="border-right: 1px solid #b7b7b7;">
+                                                <div class="row m-auto p-2" style="font-size: 15px;">
+                                                    @foreach($briefs_pendings as $brief_pending)
+    {{--                                                    <div class="col">--}}
+                                                            <span class="badge badge-pill badge-primary my-1">{{$brief_pending}}</span>
+                                                            &nbsp;
+    {{--                                                    </div>--}}
+                                                    @endforeach
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
                         @endif
 
                         @if (\Illuminate\Support\Facades\Auth::user()->is_employee != 0 && count($projects))

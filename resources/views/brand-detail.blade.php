@@ -263,7 +263,9 @@
                                         <td>{{count($client->invoices)}}</td>
                                         <td>{{$project_count}}</td>
                                         <td>
-                                            {{$client->added_by->name . ($client->added_by->last_name ? (' ' . $client->added_by->last_name) : '' )}}
+                                            @if($client->added_by)
+                                                {{$client->added_by->name . ($client->added_by->last_name ? (' ' . $client->added_by->last_name) : '' )}}
+                                            @endif
                                             <small class="text-success ml-2">
                                                 <b>{{\Carbon\Carbon::parse($client->created_at)->format('d M Y, h:i A')}}</b>
                                             </small>
