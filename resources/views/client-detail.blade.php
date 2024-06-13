@@ -67,6 +67,7 @@
                                     <p style="font-size: medium;">
                                         <a href="{{route($route, ['client_id' => $client->id])}}">
                                             <i class="i-Credit-Card text-success"></i>
+                                            <br />
                                             Invoices
                                         </a>
                                     </p>
@@ -90,6 +91,7 @@
                                     <p style="font-size: medium;">
                                         <a href="{{route($route, ['user_id' => $client_user->id])}}">
                                             <i class="i-Folder-Loading text-primary"></i>
+                                            <br />
                                             Pending projects
                                         </a>
                                     </p>
