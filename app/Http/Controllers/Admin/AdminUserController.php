@@ -25,7 +25,8 @@ class AdminUserController extends Controller
 
     public function getProductionUser(){
         $category = Category::where('status', 1)->get();
-		return view('admin.production.create', compact('category'));
+        $brand = Brand::where('status', 1)->get();
+		return view('admin.production.create', compact('category', 'brand'));
     }
 
     public function getUserProduction(Request $request){
@@ -70,15 +71,15 @@ class AdminUserController extends Controller
             'is_employee' => 'required',
         ]);
 
-        if(($request->input('is_employee') == 0) || ($request->input('is_employee') == 4) || ($request->input('is_employee') == 6)){
-            $request->validate([
-                'brand' => 'required',
-            ]);
-        }else{
-            $request->validate([
-                'category' => 'required',
-            ]);
-        }
+//        if(($request->input('is_employee') == 0) || ($request->input('is_employee') == 4) || ($request->input('is_employee') == 6)){
+//            $request->validate([
+//                'brand' => 'required',
+//            ]);
+//        }else{
+//            $request->validate([
+//                'category' => 'required',
+//            ]);
+//        }
         $user = new User();
         $user->name = $request->input('name');
         $user->last_name = $request->input('last_name');
@@ -90,13 +91,13 @@ class AdminUserController extends Controller
         $user->is_employee = ($request->input('is_employee') == 8) ? 4 : $request->input('is_employee');
         $user->is_support_head = ($request->input('is_employee') == 8) ? true : false;
         $user->save();
+
+        $user->brands()->sync($request->input('brand'));
+        $user->category()->sync($request->input('category'));
+
         if(($request->input('is_employee') == 0) || ($request->input('is_employee') == 4) || ($request->input('is_employee') == 6)){
-            $brand = $request->input('brand');
-            $user->brands()->sync($brand);
             return redirect()->route('admin.user.sales.create')->with('success','Sale Person Created Successfully.');
         }else{
-            $category = $request->input('category');
-            $user->category()->sync($category);
             return redirect()->route('admin.user.production.create')->with('success','Production Person Created Successfully.');
         }
     }
@@ -110,7 +111,8 @@ class AdminUserController extends Controller
     public function editUserProduction($id){
         $data = User::find($id);
         $category = Category::where('status', 1)->get();
-        return view('admin.production.edit', compact('data', 'category'));
+        $brand = Brand::where('status', 1)->get();
+        return view('admin.production.edit', compact('data', 'category', 'brand'));
     }
 
     public function updateUserSale(Request $request, $id){

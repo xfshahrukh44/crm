@@ -46,6 +46,14 @@
                             </select>
                         </div>
                         <div class="col-md-4 form-group mb-3">
+                            <label for="brand">Brand Name <span>*</span></label>
+                            <select name="brand[]" id="brand" class="form-control select2" required multiple="multiple">
+                                @foreach($brand as $brands)
+                                    <option value="{{$brands->id}}">{{$brands->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-4 form-group mb-3">
                             <label for="contact">Contact Number</label>
                             <input type="text" id="contact" class="form-control" value="{{old('contact')}}" placeholder="Contact Number" name="contact">
                         </div>
