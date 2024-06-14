@@ -397,7 +397,10 @@ class ClientController extends Controller
                 $Notification->markAsRead();
             }   
         }
-        $messages = Message::where('user_id', Auth::user()->id)->orWhere('sender_id', Auth::user()->id)->get();
+        $messages = Message::where('user_id', Auth::user()->id)->orWhere('sender_id', Auth::user()->id)
+            ->orWhere('user_id', Auth::user()->client->id)
+            ->orWhere('sender_id', Auth::user()->client->id)
+            ->get();
         return view('client.task-show', compact('messages'));
     }
 
