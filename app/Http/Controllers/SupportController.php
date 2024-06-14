@@ -521,7 +521,9 @@ class SupportController extends Controller
         }
 
         //send notification to client
-        Notification::send($task->projects->client, new MessageNotification($messageData));
+        if ($task and $task->projects && $task->projects->client) {
+            Notification::send($task->projects->client, new MessageNotification($messageData));
+        }
 
         //mail_notification
         $project = Project::find($task->project_id);
