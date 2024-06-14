@@ -54,7 +54,7 @@
             @foreach($brands as $brand)
                 <div class="col-lg-2 col-md-6 col-sm-6">
 
-                    <a target="_blank" href="{{route('brands.detail', $brand->id)}}">
+                    <a href="{{route('brands.detail', $brand->id)}}">
                         <div class="card card-icon mb-4" style="height: 180px;">
                             <div class="card-body text-center">
                                 <div class="preview">
