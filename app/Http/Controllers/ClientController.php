@@ -398,8 +398,7 @@ class ClientController extends Controller
             }   
         }
         $messages = Message::where('user_id', Auth::user()->id)->orWhere('sender_id', Auth::user()->id)
-            ->orWhere('user_id', Auth::user()->client->id)
-            ->orWhere('sender_id', Auth::user()->client->id)
+            ->orWhere('client_id', Auth::user()->id)
             ->get();
         return view('client.task-show', compact('messages'));
     }
