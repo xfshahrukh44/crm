@@ -45,6 +45,7 @@
                                     <option value="" {{ Request::get('status') ==  null ? 'selected' : ''}}>Any</option>
                                     <option value="0" {{ Request::get('status') ==  '0' ? 'selected' : ''}}>Open</option>
                                     <option value="1" {{ Request::get('status') ==  '1' ? 'selected' : ''}}>Re Open</option>
+                                    <option value="4" {{ Request::get('status') ==  '4' ? 'selected' : ''}}>In Progress</option>
                                     <option value="5" {{ Request::get('status') ==  '5' ? 'selected' : ''}}>Sent for Approval</option>
                                     <option value="6" {{ Request::get('status') ==  '6' ? 'selected' : ''}}>Incomplete Brief</option>
                                     <option value="2" {{ Request::get('status') ==  '2' ? 'selected' : ''}}>Hold</option>
