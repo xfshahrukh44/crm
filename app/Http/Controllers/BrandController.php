@@ -97,7 +97,8 @@ class BrandController extends Controller
         $brand= Brand::with('clients')->find($id);
         $clients = Client::where('brand_id', $id)
             ->withCount('projects')->withCount('invoices')
-            ->orderBy('projects_count', 'desc')->orderBy('invoices_count', 'desc')
+            ->orderBy('created_at', 'DESC')
+//            ->orderBy('projects_count', 'desc')->orderBy('invoices_count', 'desc')
             ->when($request->has('client_name'), function ($q) use ($request) {
                 return $q->whereHas('user', function ($q) use ($request) {
                     return $q->where('name', 'LIKE', '%'.$request->get('client_name').'%')

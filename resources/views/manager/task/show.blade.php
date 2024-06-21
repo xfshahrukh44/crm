@@ -269,7 +269,7 @@
                                                                 <span class="t-font-bolder">{{ $sub_tasks->user->name }} {{ $sub_tasks->user->last_name }}</span>
                                                             </a>
                                                             <br>
-                                                            <span class="ul-widget-notification-item-time">{{ $sub_tasks->created_at->diffForHumans() }}</span>
+                                                            <span class="ul-widget-notification-item-time">{{ $sub_tasks->created_at ? $sub_tasks->created_at->diffForHumans() : '' }}</span>
                                                         </div>
                                                         <span class="ul-widget3-status text-success t-font-bolder">
                                                             @if($sub_tasks->duedate != null)

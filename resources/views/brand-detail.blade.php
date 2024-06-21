@@ -264,12 +264,8 @@
                                         <td>{{count($client->invoices)}}</td>
                                         <td>
                                             @foreach($client_projects as $client_project)
-                                                {{str_replace($client_user->name, '', str_replace(' - ', '', $client_project->name)) . ($loop->last ? '.' : ', ')}}
+                                                <a href="{{route('projects.detail', $client_project->id)}}" class="btn- btn btn-{!! no_pending_tasks_left($client_project->id) ? 'success' : 'warning' !!} btn-sm">{{str_replace($client_user->name, '', str_replace(' - ', '', $client_project->name))}}</a>
                                             @endforeach
-
-                                            <br />
-
-                                            ({{$project_count}} services.)
                                         </td>
                                         <td>
                                             @if($client->added_by)
