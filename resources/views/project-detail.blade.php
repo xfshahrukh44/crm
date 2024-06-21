@@ -118,6 +118,9 @@
                                     <a href="{{route($show_route, $task->id)}}" class="btn btn-primary btn-icon btn-sm">
                                         <span class="ul-btn__icon"><i class="i-Eye"></i></span>
                                     </a>
+                                    <a href="{{route($show_route, $task->id) . '?show-message=true'}}" class="btn btn-info btn-icon btn-sm">
+                                        <span class="ul-btn__icon"><i class="i-Speach-Bubble-3"></i></span>
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach

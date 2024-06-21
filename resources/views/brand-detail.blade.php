@@ -126,7 +126,7 @@
             </div>
             <div class="col-md-6 offset-md-3" style="border: 1px solid #b7b7b7; border-top: 0px; background-color: #F3F3F3;">
                 @if(count($buhs))
-                    <b>BUHs</b>
+                    <b>BUH</b>
                     <br />
                     <div class="row m-auto">
                         @foreach($buhs as $buh)
@@ -145,7 +145,7 @@
                 @endif
 
                 @if(count($agents))
-                    <b>Agents</b>
+                    <b>Sales agents</b>
                     <br />
                     <div class="row m-auto">
                         @foreach($agents as $agent)
@@ -183,7 +183,7 @@
                 @endif
 
                 @if(count($customer_supports))
-                    <b>Customer support</b>
+                    <b>Customer Support + Upsell</b>
                     <br />
                     <div class="row m-auto">
                         @foreach($customer_supports as $customer_support)
@@ -252,6 +252,7 @@
                                     @php
                                           $client_user = \App\Models\User::where('client_id', $client->id)->first();
                                           $project_count = $client_user ? count($client_user->projects) : 0;
+                                          $client_projects = $client_user ? $client_user->latest_projects : [];
                                     @endphp
                                     <tr>
 {{--                                        <td><span class="btn btn-primary btn-sm">#{{ $client->id }}</span></td>--}}
@@ -261,7 +262,15 @@
                                             </a>
                                         </td>
                                         <td>{{count($client->invoices)}}</td>
-                                        <td>{{$project_count}}</td>
+                                        <td>
+                                            @foreach($client_projects as $client_project)
+                                                {{str_replace($client_user->name, '', str_replace(' - ', '', $client_project->name)) . ($loop->last ? '.' : ', ')}}
+                                            @endforeach
+
+                                            <br />
+
+                                            ({{$project_count}} services.)
+                                        </td>
                                         <td>
                                             @if($client->added_by)
                                                 {{$client->added_by->name . ($client->added_by->last_name ? (' ' . $client->added_by->last_name) : '' )}}

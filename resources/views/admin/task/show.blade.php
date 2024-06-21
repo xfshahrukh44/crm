@@ -362,6 +362,10 @@
 <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 <script>
     $(document).ready(function(){
+        @if(request()->has('show-message') && request()->get('show-message') == true)
+            $('a[href="#message-show"]').click();
+        @endif
+
         $('.btn_download_all_files').on('click', function () {
             $('.anchor_test').each((i, item) => {
                 item.click();
