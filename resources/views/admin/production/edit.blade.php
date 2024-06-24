@@ -54,7 +54,7 @@
                         </div>
                         <div class="col-md-4 form-group mb-3">
                             <label for="brand">Brand Name <span>*</span></label>
-                            <select name="brand[]" id="brand" class="form-control select2" required multiple="multiple">
+                            <select name="brand[]" id="brand" class="form-control select2" multiple="multiple">
                                 @foreach ($brand as $brands)
                                     <option value="{{ $brands->id }}" {{ isset($data) && in_array($brands->id, $data->brands()->pluck('id')->toArray()) ? 'selected' : '' }}> {{ $brands->name }}</option>
                                 @endforeach
