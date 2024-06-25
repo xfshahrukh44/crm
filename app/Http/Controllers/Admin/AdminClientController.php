@@ -132,7 +132,7 @@ class AdminClientController extends Controller
             'brand_id' => 'required',
             'last_name' => 'required',
 //            'email' => 'required|unique:users,email,'.$client->id,
-            'email' => 'required' . $client->user ? ('|unique:users,email,'.$client->user->id) : '',
+            'email' => 'required' . !is_null($client->user) ? ('|unique:users,email,'.$client->user->id) : '',
             'status' => 'required',
         ]);
         $client->update($request->all());
