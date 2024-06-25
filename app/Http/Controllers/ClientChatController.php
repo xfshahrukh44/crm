@@ -100,8 +100,10 @@ class ClientChatController extends Controller
         ];
 
         $sale = User::find(Auth::user()->client->user_id);
-        $sale->notify(new MessageNotification($messageData));
-        \Mail::to($sale->email)->send(new \App\Mail\ClientNotifyMail($details));
+        if ($sale) {
+            $sale->notify(new MessageNotification($messageData));
+            \Mail::to($sale->email)->send(new \App\Mail\ClientNotifyMail($details));
+        }
         $projects = Project::select('user_id')->where('client_id', Auth::user()->id)->get();
         foreach($projects as $project){
             \Mail::to($project->added_by->email)->send(new \App\Mail\ClientNotifyMail($details));
