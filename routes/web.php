@@ -283,7 +283,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('production/{form_id}/projects/{check}/form/{id}', [SupportController::class, 'getFormByProduction'])->name('production.form');
         Route::get('production/download/{form_id}/projects/{check}/form/{id}', [SupportController::class, 'getPdfFormByProduction'])->name('production.download.form');
         Route::patch('production/update-profile/{id}', [HomeController::class, 'updateProfileProduction'])->name('production.update.profile');
-        Route::get('notification/all/read', [HomeController::class, 'readNotification'])->name('notification.all.read');
+        Route::get('notification/all/read', [HomeController::class, 'readNotification'])->name('notification.all.read')->withoutMiddleware('is_production');
         Route::get('notification', [HomeController::class, 'allNotification'])->name('production.notification');
         Route::post('change/duedate', [SubTaskController::class, 'productionChangeDuedate'])->name('production.change.duadate');
         Route::post('production/member/message', [SubTaskController::class, 'productionMemberSubtaskStore'])->name('production.member.subtask.store');
