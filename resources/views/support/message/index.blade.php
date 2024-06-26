@@ -28,72 +28,104 @@
 <section class="widgets-content">
     <!-- begin::users-->
     <div class="row">
-    <div class="col-md-12">
-        <button class="btn btn-primary ml-auto" id="write-message">Write A Message</button>
-    </div>
+{{--    <div class="col-md-12">--}}
+{{--        <button class="btn btn-primary ml-auto" id="write-message">Write A Message</button>--}}
+{{--    </div>--}}
 </div>
 </section>
 <section id="basic-form-layouts">
     <div class="row">
         <div class="col-md-12 message-box-wrapper">
-        @foreach($messages as $message)
-            <div class="card mb-3 {{ $message->role_id == Auth()->user()->is_employee ? 'left-card' : 'right-card' }}">
-                <div class="card-body">
-                    <div class="card-content collapse show">
-                        <div class="ul-widget__body mt-0">
-                            <div class="ul-widget3 message_show">
-                                <div class="ul-widget3-item mt-0 mb-0">
-                                    <div class="ul-widget3-header">
-                                        <div class="ul-widget3-info">
-                                            <a class="__g-widget-username" href="#">
-                                                <span class="t-font-bolder">{{ $message->user->name }} {{ $message->user->last_name }}</span>
-                                            </a>
+            @foreach($messages as $message)
+                <div class="card mb-3 {{ $message->role_id == Auth()->user()->is_employee ? 'left-card' : 'right-card' }}">
+                    <div class="card-body">
+                        <div class="card-content collapse show">
+                            <div class="ul-widget__body mt-0">
+                                <div class="ul-widget3 message_show">
+                                    <div class="ul-widget3-item mt-0 mb-0">
+                                        <div class="ul-widget3-header">
+                                            <div class="ul-widget3-info">
+                                                <a class="__g-widget-username" href="#">
+                                                    <span class="t-font-bolder">{{ $message->user->name }} {{ $message->user->last_name }}</span>
+                                                </a>
+                                            </div>
+                                            @if($message->user_id == Auth()->user()->id)
+                                            <button class="btn-sm btn btn-primary" onclick="editMessage({{$message->id}})">Edit Message</button>
+                                            @endif
                                         </div>
-                                        @if($message->user_id == Auth()->user()->id)
-                                        <button class="btn-sm btn btn-primary" onclick="editMessage({{$message->id}})">Edit Message</button>
-                                        @endif
-                                    </div>
-                                    <div class="ul-widget3-body">
-                                        {!! nl2br($message->message) !!}
-                                        <span class="ul-widget3-status text-success t-font-bolder">
-                                            {{ \Carbon\Carbon::parse($message->created_at)->format('d M Y h:i A') }}
-                                        </span>
-                                    </div>
-                                    <div class="file-wrapper">
-                                        @if(count($message->sended_client_files) != 0)
-                                        @foreach($message->sended_client_files as $key => $client_file)
-                                        <ul>
-                                            <li>
-                                                <button class="btn btn-dark btn-sm">{{++$key}}</button>
-                                            </li>
-                                            <li>
-                                                @if(($client_file->get_extension() == 'jpg') || ($client_file->get_extension() == 'png') || (($client_file->get_extension() == 'jpeg')))
-                                                <a href="{{asset('files/'.$client_file->path)}}" target="_blank">
-                                                    <img src="{{asset('files/'.$client_file->path)}}" alt="{{$client_file->name}}" width="40">
-                                                </a>
-                                                @else
-                                                <a href="{{asset('files/'.$client_file->path)}}" target="_blank">
-                                                    {{$client_file->name}}.{{$client_file->get_extension()}}
-                                                </a>
-                                                @endif
-                                            </li>
-                                            <li>
-                                                <a href="{{asset('files/'.$client_file->path)}}" target="_blank">{{$client_file->name}}</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{asset('files/'.$client_file->path)}}" download>Download</a>
-                                            </li>
-                                        </ul>
-                                        @endforeach
-                                        @endif
+                                        <div class="ul-widget3-body">
+                                            {!! nl2br($message->message) !!}
+                                            <span class="ul-widget3-status text-success t-font-bolder">
+                                                {{ \Carbon\Carbon::parse($message->created_at)->format('d M Y h:i A') }}
+                                            </span>
+                                        </div>
+                                        <div class="file-wrapper">
+                                            @if(count($message->sended_client_files) != 0)
+                                            @foreach($message->sended_client_files as $key => $client_file)
+                                            <ul>
+                                                <li>
+                                                    <button class="btn btn-dark btn-sm">{{++$key}}</button>
+                                                </li>
+                                                <li>
+                                                    @if(($client_file->get_extension() == 'jpg') || ($client_file->get_extension() == 'png') || (($client_file->get_extension() == 'jpeg')))
+                                                    <a href="{{asset('files/'.$client_file->path)}}" target="_blank">
+                                                        <img src="{{asset('files/'.$client_file->path)}}" alt="{{$client_file->name}}" width="40">
+                                                    </a>
+                                                    @else
+                                                    <a href="{{asset('files/'.$client_file->path)}}" target="_blank">
+                                                        {{$client_file->name}}.{{$client_file->get_extension()}}
+                                                    </a>
+                                                    @endif
+                                                </li>
+                                                <li>
+                                                    <a href="{{asset('files/'.$client_file->path)}}" target="_blank">{{$client_file->name}}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{asset('files/'.$client_file->path)}}" download>Download</a>
+                                                </li>
+                                            </ul>
+                                            @endforeach
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
             @endforeach
+        </div>
+
+        <div class="col-md-12">
+            <div class="left-message-box">
+                <form class="form" action="{{ route('support.message.send') }}" enctype="multipart/form-data" method="post" id="message-post">
+                    @csrf
+                    <input type="hidden" name="client_id" value="{{ $user->id }}">
+                    <div class="form-body">
+                        <div class="form-group mb-0">
+                            <h1>Write A Message <span id="close-message-left"><i class="nav-icon i-Close-Window"></i></span></h1>
+                            <textarea id="message" rows="8" class="form-control border-primary" name="message" required placeholder="Write a Message">{{old('message')}}</textarea>
+                            <div class="input-field">
+                                <div class="input-images" style="padding-top: .5rem;"></div>
+                            </div>
+                            <!-- <table>
+                                <tr>
+                                    <td colspan="3" style="vertical-align:middle; text-align:left;">
+                                        <div id="h_ItemAttachments"></div>
+                                        <input type="button" id="h_btnAddFileUploadControl" value="Add Attachment" onclick="Clicked_h_btnAddFileUploadControl()" class="btn btn-info btn_Standard" />
+                                        <div id="h_ItemAttachmentControls"></div>
+                                    </td>
+                                </tr>
+                            </table> -->
+                            <div class="form-actions pb-0">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="la la-check-square-o"></i> Send Message
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </section>

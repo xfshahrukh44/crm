@@ -648,7 +648,7 @@ class SupportController extends Controller
 
     public function getMessageBySupportClientId($id, $name){
         $user = User::find($id);
-        $messages = Message::where('client_id', $id)->orderBy('id', 'desc')->get();
+        $messages = Message::where('client_id', $id)->orderBy('id', 'asc')->get();
         return view('support.message.index', compact('messages', 'user'));
     }
 
