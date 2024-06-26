@@ -86,6 +86,17 @@
                     $k++;
                 @endphp
                 @endforeach
+                <a href="{{ route('notification.all.read') }}" class="dropdown-item d-flex">
+                    <div class="notification-icon">
+                        <i class="i-Check text-primary mr-1"></i>
+                    </div>
+                    <div class="notification-details flex-grow-1">
+                        <p class="m-0 d-flex align-items-center">
+                            <span class="lead-heading">Mark All As Read</span>
+                            <span class="flex-grow-1"></span>
+                        </p>
+                    </div>
+                </a>
             </div>
         </div>
         <!-- Notificaiton End -->
