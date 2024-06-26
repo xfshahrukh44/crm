@@ -555,24 +555,28 @@ class SupportController extends Controller
     }
 
     public function sendMessageClient(Request $request){
-        $this->validate($request, [
-            'message' => 'required',
-            'task_id' => 'required',
-        ]);
-        $task = Task::find($request->task_id);
-        $message = new Message();
-        $message->user_id = Auth::user()->id;
-        $message->message = $request->message;
-        $message->sender_id = 1;
-        $message->task_id = $request->task_id;
-        $message->client_id = Auth::user()->id;
-        $message->save();
-        $details = [
-            'title' => $task->projects->client->name . ' ' . $task->projects->client->last_name . ' has message on your task.',
-            'body' => 'Please Login into your Dashboard to view it..'
-        ];
-        \Mail::to($task->projects->added_by->email)->send(new \App\Mail\ClientNotifyMail($details));
-        return response()->json(['success' => true, 'data' => $message->message, 'name' => Auth::user()->name . ' ' . Auth::user()->last_name, 'created_at' => $message->created_at->diffForHumans()]);
+        try {
+            $this->validate($request, [
+                'message' => 'required',
+                'task_id' => 'required',
+            ]);
+            $task = Task::find($request->task_id);
+            $message = new Message();
+            $message->user_id = Auth::user()->id;
+            $message->message = $request->message;
+            $message->sender_id = 1;
+            $message->task_id = $request->task_id;
+            $message->client_id = Auth::user()->id;
+            $message->save();
+            $details = [
+                'title' => $task->projects->client->name . ' ' . $task->projects->client->last_name . ' has message on your task.',
+                'body' => 'Please Login into your Dashboard to view it..'
+            ];
+            \Mail::to($task->projects->added_by->email)->send(new \App\Mail\ClientNotifyMail($details));
+            return response()->json(['success' => true, 'data' => $message->message, 'name' => Auth::user()->name . ' ' . Auth::user()->last_name, 'created_at' => $message->created_at->diffForHumans()]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'data' => $e->getMessage()]);
+        }
     }
 
     public function getMessageByManager(){

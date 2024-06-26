@@ -390,17 +390,21 @@ class ClientController extends Controller
     }
 
     public function clientTaskshow($id, $notify = null){
-        $notifications = Auth::user()->Notifications->markAsRead();
-        if($notify != null){
-            $Notification = Auth::user()->Notifications->find($notify);
-            if($Notification){
-                $Notification->markAsRead();
-            }   
+        try {
+            $notifications = Auth::user()->Notifications->markAsRead();
+            if($notify != null){
+                $Notification = Auth::user()->Notifications->find($notify);
+                if($Notification){
+                    $Notification->markAsRead();
+                }
+            }
+            $messages = Message::where('user_id', Auth::user()->id)->orWhere('sender_id', Auth::user()->id)
+                ->orWhere('client_id', Auth::user()->id)
+                ->get();
+            return view('client.task-show', compact('messages'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-        $messages = Message::where('user_id', Auth::user()->id)->orWhere('sender_id', Auth::user()->id)
-            ->orWhere('client_id', Auth::user()->id)
-            ->get();
-        return view('client.task-show', compact('messages'));
     }
 
     public function managerClientById($id, $name){

@@ -26,18 +26,17 @@ use File;
 
 class LogoFormController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index($id)
     {
-        $logo_form = LogoForm::find($id);
-        if($logo_form->user_id == Auth::user()->id){
-            return view('client.logo', compact('logo_form'));
-        }else{
-            return redirect()->back();
+        try {
+            $logo_form = LogoForm::find($id);
+            if($logo_form->user_id == Auth::user()->id){
+                return view('client.logo', compact('logo_form'));
+            }else{
+                return redirect()->back();
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -84,67 +83,60 @@ class LogoFormController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\LogoForm  $logoForm
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        $logo_form = LogoForm::find($id);
-        if($logo_form->user_id == Auth::user()->id){
-            $logo_form->logo_name = $request->logo_name;
-            $logo_form->slogan = $request->slogan;
-            $logo_form->business = $request->business;
-            $logo_form->logo_categories = json_encode($request->logo_categories);
-            $logo_form->icon_based_logo = json_encode($request->icon_based_logo);
-            $logo_form->font_style = $request->font_style;
-            $logo_form->additional_information = $request->additional_information;
-            $logo_form->save();
-            if($request->hasfile('attachment'))
-            {
-                $i = 0;
-                foreach($request->file('attachment') as $file)
+        try {
+            $logo_form = LogoForm::find($id);
+            if($logo_form->user_id == Auth::user()->id){
+                $logo_form->logo_name = $request->logo_name;
+                $logo_form->slogan = $request->slogan;
+                $logo_form->business = $request->business;
+                $logo_form->logo_categories = json_encode($request->logo_categories);
+                $logo_form->icon_based_logo = json_encode($request->icon_based_logo);
+                $logo_form->font_style = $request->font_style;
+                $logo_form->additional_information = $request->additional_information;
+                $logo_form->save();
+                if($request->hasfile('attachment'))
                 {
-                    $file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                    $name = strtolower(str_replace(' ', '-', $file_name)) . '_' . $i . '_' .time().'.'.$file->extension();
-                    $file->move(public_path().'/files/form', $name);
-                    $i++;
-                    $form_files = new FormFiles();
-                    $form_files->name = $file_name;
-                    $form_files->path = $name;
-                    $form_files->logo_form_id = $logo_form->id;
-                    $form_files->form_code = 1;
-                    $form_files->save();
+                    $i = 0;
+                    foreach($request->file('attachment') as $file)
+                    {
+                        $file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                        $name = strtolower(str_replace(' ', '-', $file_name)) . '_' . $i . '_' .time().'.'.$file->extension();
+                        $file->move(public_path().'/files/form', $name);
+                        $i++;
+                        $form_files = new FormFiles();
+                        $form_files->name = $file_name;
+                        $form_files->path = $name;
+                        $form_files->logo_form_id = $logo_form->id;
+                        $form_files->form_code = 1;
+                        $form_files->save();
+                    }
                 }
+                return redirect()->back()->with('success', 'Logo Form Created');
+            }else{
+                return redirect()->back();
             }
-            return redirect()->back()->with('success', 'Logo Form Created');
-        }else{
-            return redirect()->back();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\LogoForm  $logoForm
-     * @return \Illuminate\Http\Response
-     */
-     
      
     public function destroy(Request $request)
     {
-        $logo_form = FormFiles::where('form_code', 1)->first();
-        if(Auth::user()->id == $logo_form->logo_form->user_id){
-            if(File::exists(public_path('files//form/'.$logo_form->path))){
-                File::delete(public_path('files//form/'.$logo_form->path));
+        try {
+            $logo_form = FormFiles::where('form_code', 1)->first();
+            if(Auth::user()->id == $logo_form->logo_form->user_id){
+                if(File::exists(public_path('files//form/'.$logo_form->path))){
+                    File::delete(public_path('files//form/'.$logo_form->path));
+                }
+                $logo_form->delete();
+                return response()->json(['success' => true, 'message' => 'File Deleted Successfully']);
+            }else{
+                return response()->json(['success' => false, 'message' => 'You Dont have Access']);
             }
-            $logo_form->delete();
-            return response()->json(['success' => true, 'message' => 'File Deleted Successfully']);
-        }else{
-            return response()->json(['success' => false, 'message' => 'You Dont have Access']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
     }
     

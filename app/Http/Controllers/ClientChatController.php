@@ -51,101 +51,105 @@ class ClientChatController extends Controller
 
     public function sendMessage(Request $request)
     {
-        $this->validate($request, [
-            'message' => 'required',
-        ]);
-        $carbon = Carbon::now(new DateTimeZone('America/Los_Angeles'))->toDateTimeString();
-        // send Notification to customer
-        $message = new Message();
-        $message->user_id = Auth::user()->id;
-        $message->sender_id = Auth::user()->id;
-        $message->message = $request->message;
-        $message->role_id = 3;
-        $message->created_at = $carbon;
-        $message->client_id = Auth::user()->id;
-        $message->save();
+        try {
+            $this->validate($request, [
+                'message' => 'required',
+            ]);
+            $carbon = Carbon::now(new DateTimeZone('America/Los_Angeles'))->toDateTimeString();
+            // send Notification to customer
+            $message = new Message();
+            $message->user_id = Auth::user()->id;
+            $message->sender_id = Auth::user()->id;
+            $message->message = $request->message;
+            $message->role_id = 3;
+            $message->created_at = $carbon;
+            $message->client_id = Auth::user()->id;
+            $message->save();
 
-        if($request->hasfile('h_Item_Attachments_FileInput'))
-        {
-            $files_array = array();
-            $i = 0;
-            foreach($request->file('h_Item_Attachments_FileInput') as $file)
+            if($request->hasfile('h_Item_Attachments_FileInput'))
             {
-                $file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                $name = $file_name . '_' . $i . '_]' .time().'.'.$file->extension();
-                $file->move(public_path().'/files/', $name);
-                $i++;
-                $client_file = new ClientFile();
-                $client_file->name = $file_name;
-                $client_file->path = $name;
-                $client_file->task_id = -1;
-                $client_file->user_id = Auth()->user()->id;
-                $client_file->user_check = Auth()->user()->is_employee;
-                $client_file->production_check = 2;
-                $client_file->message_id = $message->id;
-                $client_file->created_at = $carbon;
-                $client_file->save();
+                $files_array = array();
+                $i = 0;
+                foreach($request->file('h_Item_Attachments_FileInput') as $file)
+                {
+                    $file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                    $name = $file_name . '_' . $i . '_]' .time().'.'.$file->extension();
+                    $file->move(public_path().'/files/', $name);
+                    $i++;
+                    $client_file = new ClientFile();
+                    $client_file->name = $file_name;
+                    $client_file->path = $name;
+                    $client_file->task_id = -1;
+                    $client_file->user_id = Auth()->user()->id;
+                    $client_file->user_check = Auth()->user()->is_employee;
+                    $client_file->production_check = 2;
+                    $client_file->message_id = $message->id;
+                    $client_file->created_at = $carbon;
+                    $client_file->save();
+                }
             }
-        }
-        $details = [
-            'title' => Auth::user()->name . ' ' . Auth::user()->last_name . ' send you a message.',
-            'body' => 'Please Login into your Dashboard to view it..'
-        ];
-        $messageData = [
-            'id' => Auth()->user()->id,
-            'name' => Auth()->user()->name . ' ' . Auth()->user()->last_name,
-            'text' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has send you a Message',
-            'details' => Str::limit(filter_var($request->message, FILTER_SANITIZE_STRING), 40 ),
-            'url' => '',
-        ];
+            $details = [
+                'title' => Auth::user()->name . ' ' . Auth::user()->last_name . ' send you a message.',
+                'body' => 'Please Login into your Dashboard to view it..'
+            ];
+            $messageData = [
+                'id' => Auth()->user()->id,
+                'name' => Auth()->user()->name . ' ' . Auth()->user()->last_name,
+                'text' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has send you a Message',
+                'details' => Str::limit(filter_var($request->message, FILTER_SANITIZE_STRING), 40 ),
+                'url' => '',
+            ];
 
-        $sale = User::find(Auth::user()->client->user_id);
-        if ($sale) {
-            $sale->notify(new MessageNotification($messageData));
-            \Mail::to($sale->email)->send(new \App\Mail\ClientNotifyMail($details));
-        }
-        $projects = Project::select('user_id')->where('client_id', Auth::user()->id)->get();
-        foreach($projects as $project){
-            \Mail::to($project->added_by->email)->send(new \App\Mail\ClientNotifyMail($details));
-            $project->added_by->notify(new MessageNotification($messageData));
-        } 
-       
-        $adminusers = User::where('is_employee', 2)->get();
-        foreach($adminusers as $adminuser){
-            Notification::send($adminuser, new MessageNotification($messageData));
-        }
+            $sale = User::find(Auth::user()->client->user_id);
+            if ($sale) {
+                $sale->notify(new MessageNotification($messageData));
+                \Mail::to($sale->email)->send(new \App\Mail\ClientNotifyMail($details));
+            }
+            $projects = Project::select('user_id')->where('client_id', Auth::user()->id)->get();
+            foreach($projects as $project){
+                \Mail::to($project->added_by->email)->send(new \App\Mail\ClientNotifyMail($details));
+                $project->added_by->notify(new MessageNotification($messageData));
+            }
 
-        //send notification to support members
+            $adminusers = User::where('is_employee', 2)->get();
+            foreach($adminusers as $adminuser){
+                Notification::send($adminuser, new MessageNotification($messageData));
+            }
+
+            //send notification to support members
 //        foreach (User::where(['is_employee' => 4, 'is_support_head' => 1])->get() as $support_head_user) {
-        foreach (User::where(['is_employee' => 4])->get() as $support_head_user) {
-            Notification::send($support_head_user, new MessageNotification($messageData));
-        }
+            foreach (User::where(['is_employee' => 4])->get() as $support_head_user) {
+                Notification::send($support_head_user, new MessageNotification($messageData));
+            }
 
-        //mail_notification
-        $client = Client::find(Auth::user()->id);
-        $brand = Brand::find($client->brand_id);
+            //mail_notification
+            $client = Client::find(Auth::user()->id);
+            $brand = Brand::find($client->brand_id);
 
-        $sales_head_emails = User::where('is_employee', 6)->whereIn('id', array_unique(DB::table('brand_users')->where('brand_id', $brand->id)->pluck('user_id')->toArray()))->pluck('email')->toArray();
+            $sales_head_emails = User::where('is_employee', 6)->whereIn('id', array_unique(DB::table('brand_users')->where('brand_id', $brand->id)->pluck('user_id')->toArray()))->pluck('email')->toArray();
 
-        $html = '<p>'. (Auth::user()->name.'') . ' has sent a new message' .'</p><br />';
-        $html .= $request->message .'<br />';
-        $html .= '<strong>Client:</strong> <span>'.Auth::user()->name.'</span><br />';
+            $html = '<p>'. (Auth::user()->name.'') . ' has sent a new message' .'</p><br />';
+            $html .= $request->message .'<br />';
+            $html .= '<strong>Client:</strong> <span>'.Auth::user()->name.'</span><br />';
 
 //        mail_notification('', [$user->email], 'CRM | Project assignment', $html, true);
-        mail_notification(
-            '',
-            $sales_head_emails,
-            'New Message',
-            view('mail.crm-mail-template')->with([
-                'subject' => 'New Message',
-                'brand_name' => $brand->name,
-                'brand_logo' => asset($brand->logo),
-                'additional_html' => $html
-            ]),
-            true
-        );
+            mail_notification(
+                '',
+                $sales_head_emails,
+                'New Message',
+                view('mail.crm-mail-template')->with([
+                    'subject' => 'New Message',
+                    'brand_name' => $brand->name,
+                    'brand_logo' => asset($brand->logo),
+                    'additional_html' => $html
+                ]),
+                true
+            );
 
-        return redirect()->back()->with('success', 'Message Send Successfully.');
+            return redirect()->back()->with('success', 'Message Send Successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
 }
