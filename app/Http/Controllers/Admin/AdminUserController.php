@@ -153,7 +153,9 @@ class AdminUserController extends Controller
         $brand = $request->input('brand');
         $user->brands()->sync($brand);
         $user->category()->sync($request->get('category'));
-        return redirect()->route('admin.user.sales.edit', $id)->with('success','Sale Person Updated Successfully.');
+
+        $redirect_route = $user->is_employee == 4 ? 'admin.user.production.edit' : 'admin.user.sales.edit';
+        return redirect()->route($redirect_route, $id)->with('success','Sale Person Updated Successfully.');
     }
 
     public function getUserQA(){
