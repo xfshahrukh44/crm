@@ -916,7 +916,7 @@ class InvoiceController extends Controller
         $html .= '<strong>Service(s):</strong> <span>'.strval($services).'</span><br />';
         mail_notification(
             '',
-            ['test-crm@mailinator.com'],
+            ['info@designcrm.net'],
             'New invoice created',
             view('mail.crm-mail-template')->with([
                 'subject' => 'New invoice created',
@@ -1255,10 +1255,10 @@ class InvoiceController extends Controller
         $html = '<p>'.'Sales agent '. Auth::user()->name .' has marked invoice # '.$invoice->invoice_number.' as PAID'.'</p><br />';
         $html .= '<strong>Client:</strong> <span>'.$invoice->client->name.'</span><br />';
         $html .= '<strong>Service(s):</strong> <span>'.strval($invoice->services()->name).'</span><br />';
-//        mail_notification('', ['test-crm@mailinator.com'], 'Invoice payment', $html);
+//        mail_notification('', ['info@designcrm.net'], 'Invoice payment', $html);
         mail_notification(
             '',
-            ['test-crm@mailinator.com'],
+            ['info@designcrm.net'],
             'Invoice payment',
             view('mail.crm-mail-template')->with([
                 'subject' => 'Invoice payment',
@@ -1451,10 +1451,10 @@ class InvoiceController extends Controller
         $html = '<p>'.'Sales agent '. Auth::user()->name .' has marked invoice # '.$invoice->invoice_number.' as PAID'.'</p><br />';
         $html .= '<strong>Client:</strong> <span>'.$invoice->client->name.'</span><br />';
         $html .= '<strong>Service(s):</strong> <span>'.strval($invoice->services()->name).'</span><br />';
-//        mail_notification('', ['test-crm@mailinator.com'], 'Invoice payment', $html);
+//        mail_notification('', ['info@designcrm.net'], 'Invoice payment', $html);
         mail_notification(
             '',
-            ['test-crm@mailinator.com'],
+            ['info@designcrm.net'],
             'Invoice payment',
             view('mail.crm-mail-template')->with([
                 'subject' => 'Invoice payment',
