@@ -571,29 +571,30 @@ class TaskController extends Controller
         $customer_support_user = User::find($project->user_id);
         foreach ($departments_leads_emails as $departments_leads_email) {
             $departments_lead = User::where('is_employee', 1)->where('email', $departments_leads_email)->first();
-            $client = Client::find($project->client_id);
-            $brand = Brand::find($client->brand_id);
+            if (!$client = Client::find($project->client_id)) {
+                $brand = Brand::find($client->brand_id);
 
-            $html = '<p>'. 'Hello ' . $departments_lead->name .'</p>';
-            $html .= '<p>'. 'A new task has been assigned to you by '.$customer_support_user->name.'. Please review the task details and begin working on it as soon as possible.' .'</p>';
-            $html .= '<p><ul>'. '<li><strong>*Task: ('.$task->notes.' / '.$task->id.')</strong></li><li><strong>*Deadline: '.Carbon::parse($task->duedate)->format('d M Y, h:i A').'</strong></li>' .'</ul></p>';
-            $html .= '<p>'. 'Access the task here: <a href="'.route('support.task.show', $task->id).'">'.route('support.task.show', $task->id).'</a>' .'</p>';
-            $html .= '<p>'. 'Thank you for your dedication and hard work.' .'</p>';
-            $html .= '<p>'. 'Best Regards,' .'</p>';
-            $html .= '<p>'. $brand->name .'.</p>';
+                $html = '<p>'. 'Hello ' . $departments_lead->name .'</p>';
+                $html .= '<p>'. 'A new task has been assigned to you by '.$customer_support_user->name.'. Please review the task details and begin working on it as soon as possible.' .'</p>';
+                $html .= '<p><ul>'. '<li><strong>*Task: ('.$task->notes.' / '.$task->id.')</strong></li><li><strong>*Deadline: '.Carbon::parse($task->duedate)->format('d M Y, h:i A').'</strong></li>' .'</ul></p>';
+                $html .= '<p>'. 'Access the task here: <a href="'.route('support.task.show', $task->id).'">'.route('support.task.show', $task->id).'</a>' .'</p>';
+                $html .= '<p>'. 'Thank you for your dedication and hard work.' .'</p>';
+                $html .= '<p>'. 'Best Regards,' .'</p>';
+                $html .= '<p>'. $brand->name .'.</p>';
 
-            mail_notification(
-                '',
-                [$departments_leads_email],
-                'New Task Assignment: ('.$task->notes.' / '.$task->id.')',
-                view('mail.crm-mail-template')->with([
-                    'subject' => 'New Task Assignment: ('.$task->notes.' / '.$task->id.')',
-                    'brand_name' => $brand->name,
-                    'brand_logo' => asset($brand->logo),
-                    'additional_html' => $html
-                ]),
-            //            true
-            );
+                mail_notification(
+                    '',
+                    [$departments_leads_email],
+                    'New Task Assignment: ('.$task->notes.' / '.$task->id.')',
+                    view('mail.crm-mail-template')->with([
+                        'subject' => 'New Task Assignment: ('.$task->notes.' / '.$task->id.')',
+                        'brand_name' => $brand->name,
+                        'brand_logo' => asset($brand->logo),
+                        'additional_html' => $html
+                    ]),
+                //            true
+                );
+            }
         }
 
         return redirect()->back()->with('success', 'Task created Successfully.');
