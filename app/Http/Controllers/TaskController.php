@@ -571,7 +571,7 @@ class TaskController extends Controller
         $customer_support_user = User::find($project->user_id);
         foreach ($departments_leads_emails as $departments_leads_email) {
             $departments_lead = User::where('is_employee', 1)->where('email', $departments_leads_email)->first();
-            if (!is_null($project->client_id) && !$client = Client::find($project->client_id)) {
+            if (!is_null($project) && !$client = Client::find($project->client_id)) {
                 $brand = Brand::find($client->brand_id);
 
                 $html = '<p>'. 'Hello ' . $departments_lead->name .'</p>';
