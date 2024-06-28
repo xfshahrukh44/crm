@@ -166,6 +166,9 @@
                 <a class="nav-item-hold" href="{{ route('brands.dashboard') }}">
                     <i class="nav-icon i-Medal-2"></i>
                     <span class="nav-text">Brands</span>
+                    <span class="badge badge-success">
+                        <b>NEW</b>
+                    </span>
                 </a>
                 <div class="triangle"></div>
             </li>

@@ -145,6 +145,9 @@
                                                         <thead>
                                                             <tr>
                                                                 <th>Service</th>
+                                                                @if(in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [4, 6]))
+                                                                    <th>Assigned to</th>
+                                                                @endif
                                                                 <th>Status</th>
                                                             </tr>
                                                         </thead>
@@ -166,6 +169,18 @@
                                                                             {{str_replace($client->name, '', str_replace(' - ', '', $project->name))}}
                                                                         </a>
                                                                     </td>
+
+                                                                    @if(in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [4, 6]))
+                                                                        <td>
+                                                                            <h6>{{$project->added_by->name . ' ' . $project->added_by->last_name}}</h6>
+
+                                                                            <a href="javascript:;" class="btn btn-primary btn-icon btn-sm" onclick="assignAgent({{$project->id}}, {{$project->form_checker}}, {{$project->brand_id}})">
+                                                                                <span class="ul-btn__icon"><i class="i-Checked-User"></i></span>
+                                                                                <span class="ul-btn__text">Re Assign</span>
+                                                                            </a>
+                                                                        </td>
+                                                                    @endif
+
                                                                     <th>
                                                                         @if(no_pending_tasks_left($project->id))
                                                                             <span class="badge badge-success">No pending tasks</span>
@@ -194,10 +209,58 @@
     </div>
 
 </div>
+
+<!--  Assign Model -->
+<div class="modal fade" id="assignModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle-2" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle-2">Assign Agent</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+            <form action="{{ route('support.reassign.support') }}" method="post">
+                @csrf
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="assign_id">
+                    <input type="hidden" name="form" id="form_id">
+                    <div class="form-group">
+                        <label class="col-form-label" for="agent-name-wrapper">Name:</label>
+                        <select name="agent_id" id="agent-name-wrapper" class="form-control">
+
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+                    <button class="btn btn-primary ml-2" type="submit">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 @push('scripts')
 <script>
-    $(document).ready(function() {
+    function assignAgent(id, form, brand_id){
+        $('#agent-name-wrapper').html('');
+        var url = "{{ route('support.client.agent', ":id") }}";
+        url = url.replace(':id', brand_id);
+        $.ajax({
+            type:'GET',
+            url: url,
+            success:function(data) {
+                var getData = data.data;
+                for (var i = 0; i < getData.length; i++) {
+                    $('#agent-name-wrapper').append('<option value="'+getData[i].id+'">'+getData[i].name+ ' ' +getData[i].last_name+'</option>');
+                }
+            }
+        });
+        $('#assignModel').find('#assign_id').val(id);
+        $('#assignModel').find('#form_id').val(form);
+        $('#assignModel').modal('show');
+    }
+
+    $(document).ready(function(){
 
     });
 </script>
