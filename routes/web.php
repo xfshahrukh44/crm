@@ -3,17 +3,12 @@
 use App\Http\Controllers\Manager\ManagerUserController;
 use App\Http\Controllers\QAController;
 use App\Models\Invoice;
-use App\Models\ProductionMemberAssign;
-use App\Models\SubTask;
-use App\Models\Task;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ClientChatController;
 use App\Http\Controllers\MerchantController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\CategoryController;
