@@ -622,17 +622,21 @@ class SupportController extends Controller
     }
 
     public function updateAdminMessage(Request $request){
-        $request->validate([
-            'message_id' => 'required',
-            'editmessage' => 'required',
-        ]);
-        $message = Message::find($request->message_id);
-        if($message != null){
-            $message->message = $request->editmessage;
-            $message->save();
-            return redirect()->back()->with('success', 'Message Updated Successfully.');
+        try {
+            $request->validate([
+                'message_id' => 'required',
+                'editmessage' => 'required',
+            ]);
+            $message = Message::find($request->message_id);
+            if($message != null){
+                $message->message = $request->editmessage;
+                $message->save();
+                return redirect()->back()->with('success', 'Message Updated Successfully.');
+            }
+            return redirect()->back()->with('success', 'Error Occured');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-        return redirect()->back()->with('success', 'Error Occured');
     }
 
     public function editMessageByManagerClientId($id){
@@ -641,8 +645,12 @@ class SupportController extends Controller
     }
 
     public function editMessageByAdminClientId($id){
-        $message = Message::find($id);
-        return response()->json(['success' => true, 'data' => $message]);
+        try {
+            $message = Message::find($id);
+            return response()->json(['success' => true, 'data' => $message]);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function editMessageBySupportClientId($id){
@@ -686,84 +694,92 @@ class SupportController extends Controller
     }
 
     public function getMessageByAdmin(Request $request){
-        // $filter = 0;
-        // $message_array = [];
-        // $datas = Project::orderBy('id', 'desc')->get();
-        // if($request->message != ''){
-        //     $task_id = 0;
-        //     $messages = Message::where('message', 'like', '%' . $request->message . '%')->orderBy('id', 'desc')->get();
-        //     foreach($messages as $message){
-        //         if($message->user_name != null){
-        //             $message_array[$message->user_name->id]['f_name'] = $message->user_name->name;
-        //             $message_array[$message->user_name->id]['l_name'] = $message->user_name->last_name;
-        //             $message_array[$message->user_name->id]['email'] = $message->user_name->email;
-        //             $message_array[$message->user_name->id]['message'] = $message->message;
-        //             $message_array[$message->user_name->id]['image'] = $message->user_name->image;
-        //             $projects = Project::where('client_id', $message->user_name->id)->get();
-        //             foreach($projects as $project){
-        //                 foreach($project->tasks as $key => $tasks){
-        //                     $message_array[$message->user_name->id]['task_id'][$key] = $tasks->id;
-        //                 }
-        //             }
-        //         }
-        //     }
+        try {
+            // $filter = 0;
+            // $message_array = [];
+            // $datas = Project::orderBy('id', 'desc')->get();
+            // if($request->message != ''){
+            //     $task_id = 0;
+            //     $messages = Message::where('message', 'like', '%' . $request->message . '%')->orderBy('id', 'desc')->get();
+            //     foreach($messages as $message){
+            //         if($message->user_name != null){
+            //             $message_array[$message->user_name->id]['f_name'] = $message->user_name->name;
+            //             $message_array[$message->user_name->id]['l_name'] = $message->user_name->last_name;
+            //             $message_array[$message->user_name->id]['email'] = $message->user_name->email;
+            //             $message_array[$message->user_name->id]['message'] = $message->message;
+            //             $message_array[$message->user_name->id]['image'] = $message->user_name->image;
+            //             $projects = Project::where('client_id', $message->user_name->id)->get();
+            //             foreach($projects as $project){
+            //                 foreach($project->tasks as $key => $tasks){
+            //                     $message_array[$message->user_name->id]['task_id'][$key] = $tasks->id;
+            //                 }
+            //             }
+            //         }
+            //     }
 
-        // }else{
-        //     $filter = 1;
-        //     foreach($datas as $data){
-        //         $task_array_id = array();
-        //         $task_id = 0;
-        //         if(count($data->tasks) != 0){
-        //             $task_id = $data->tasks[0]->id;
-        //         }
-        //         $message = Message::where('user_id', $data->client->id)->orWhere('sender_id', $data->client->id)->orderBy('id', 'desc')->first();
-        //         if($message != null){
-        //             $message_array[$data->client->id]['f_name'] = $data->client->name;
-        //             $message_array[$data->client->id]['l_name'] = $data->client->last_name;
-        //             $message_array[$data->client->id]['email'] = $data->client->email;
-        //             $message_array[$data->client->id]['message'] = $message->message;
-        //             $message_array[$data->client->id]['image'] = $data->client->image;
-        //             $projects = Project::where('client_id', $data->client->id)->get();
-        //             foreach($projects as $project){
-        //                 foreach($project->tasks as $key => $tasks){
-        //                     $message_array[$data->client->id]['task_id'][$key] = $tasks->id;
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-        $filter = 0;
-        $brand_array = [];
-        $brands = DB::table('brands')->select('id', 'name')->get();
-        foreach($brands as $key => $brand){
-            array_push($brand_array, $brand->id);
+            // }else{
+            //     $filter = 1;
+            //     foreach($datas as $data){
+            //         $task_array_id = array();
+            //         $task_id = 0;
+            //         if(count($data->tasks) != 0){
+            //             $task_id = $data->tasks[0]->id;
+            //         }
+            //         $message = Message::where('user_id', $data->client->id)->orWhere('sender_id', $data->client->id)->orderBy('id', 'desc')->first();
+            //         if($message != null){
+            //             $message_array[$data->client->id]['f_name'] = $data->client->name;
+            //             $message_array[$data->client->id]['l_name'] = $data->client->last_name;
+            //             $message_array[$data->client->id]['email'] = $data->client->email;
+            //             $message_array[$data->client->id]['message'] = $message->message;
+            //             $message_array[$data->client->id]['image'] = $data->client->image;
+            //             $projects = Project::where('client_id', $data->client->id)->get();
+            //             foreach($projects as $project){
+            //                 foreach($project->tasks as $key => $tasks){
+            //                     $message_array[$data->client->id]['task_id'][$key] = $tasks->id;
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
+            $filter = 0;
+            $brand_array = [];
+            $brands = DB::table('brands')->select('id', 'name')->get();
+            foreach($brands as $key => $brand){
+                array_push($brand_array, $brand->id);
+            }
+            $message_array = [];
+            $data = User::where('is_employee', 3)->where('client_id', '!=', 0);
+            if($request->brand != null){
+                $get_brand = $request->brand;
+                $data = $data->whereHas('client', function ($query) use ($get_brand) {
+                    return $query->where('brand_id', $get_brand);
+                });
+            }else{
+                $data = $data->whereHas('client', function ($query) use ($brand_array) {
+                    return $query->whereIn('brand_id', $brand_array);
+                });
+            }
+            if($request->message != null){
+                $message = $request->message;
+                $data = $data->whereHas('messages', function ($query) use ($message) {
+                    return $query->where('message', 'like', '%' . $message . '%');
+                });
+            }
+            $data = $data->orderBy('id', 'desc')->paginate(20);
+            return view('admin.messageshow', compact('message_array', 'brands', 'filter', 'data'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-        $message_array = [];
-        $data = User::where('is_employee', 3)->where('client_id', '!=', 0);
-        if($request->brand != null){
-            $get_brand = $request->brand;
-            $data = $data->whereHas('client', function ($query) use ($get_brand) {
-                return $query->where('brand_id', $get_brand);
-            });
-        }else{
-            $data = $data->whereHas('client', function ($query) use ($brand_array) {
-                return $query->whereIn('brand_id', $brand_array);
-            });
-        }
-        if($request->message != null){
-            $message = $request->message;
-            $data = $data->whereHas('messages', function ($query) use ($message) {
-                return $query->where('message', 'like', '%' . $message . '%');
-            });
-        }
-        $data = $data->orderBy('id', 'desc')->paginate(20);
-        return view('admin.messageshow', compact('message_array', 'brands', 'filter', 'data'));
     }
 
     public function getMessageByAdminClientId($id, $name){
-        $user = User::find($id);
-        $messages = Message::where('client_id', $id)->orderBy('id', 'desc')->get();
-        return view('admin.message-index', compact('messages', 'user'));
+        try {
+            $user = User::find($id);
+            $messages = Message::where('client_id', $id)->orderBy('id', 'desc')->get();
+            return view('admin.message-index', compact('messages', 'user'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function getPendingProjectManager(Request $request){

@@ -29,21 +29,19 @@ class CurrencyController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'short_name' => 'required',
-            'sign' => 'required'
-        ]);
-        Currency::create($request->all());
-        return redirect()->back()->with('success', 'Currency created Successfully.');
+        try {
+            $request->validate([
+                'name' => 'required',
+                'short_name' => 'required',
+                'sign' => 'required'
+            ]);
+            Currency::create($request->all());
+            return redirect()->back()->with('success', 'Currency created Successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -57,34 +55,29 @@ class CurrencyController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Admin\Brand  $brand
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        $data = Currency::find($id);
-        return view('admin.currency.edit', compact('data'));
+        try {
+            $data = Currency::find($id);
+            return view('admin.currency.edit', compact('data'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Admin\Brand  $brand
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Currency $currency)
     {
-        $request->validate([
-            'name' => 'required',
-            'short_name' => 'required',
-            'sign' => 'required'
-        ]);
-        $currency->update($request->all());
-        return redirect()->back()->with('success', 'Currency Updated Successfully.');
+        try {
+            $request->validate([
+                'name' => 'required',
+                'short_name' => 'required',
+                'sign' => 'required'
+            ]);
+            $currency->update($request->all());
+            return redirect()->back()->with('success', 'Currency Updated Successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**

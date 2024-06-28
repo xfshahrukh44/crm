@@ -37,13 +37,17 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name'    =>  'required',
-        ]);
+        try {
+            $request->validate([
+                'name'    =>  'required',
+            ]);
 
-        Category::create($request->all());
+            Category::create($request->all());
 
-        return redirect()->back()->with('success','Category created Successfully.');
+            return redirect()->back()->with('success','Category created Successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
 
     }
 
@@ -66,8 +70,12 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $data = Category::find($id);
-        return view('admin.category.edit', compact('data'));
+        try {
+            $data = Category::find($id);
+            return view('admin.category.edit', compact('data'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -79,11 +87,15 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        $request->validate([
-            'name'    =>  'required',
-        ]);
-        $category->update($request->all());
-        return redirect()->back()->with('success','Category Updated successfully.');
+        try {
+            $request->validate([
+                'name'    =>  'required',
+            ]);
+            $category->update($request->all());
+            return redirect()->back()->with('success','Category Updated successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**

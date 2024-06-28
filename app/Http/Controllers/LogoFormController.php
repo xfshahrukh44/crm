@@ -523,45 +523,47 @@ class LogoFormController extends Controller
     }
 
     public function getPendingProjectbyId($id, $form){
-        
-        if($form == 1){
-            $logo_form = LogoForm::find($id);
-            return view('admin.brief.logoform', compact('logo_form'));
-        }elseif($form == 2){
-            $web_form = WebForm::find($id);
-            return view('admin.brief.webform', compact('web_form'));
-        }elseif($form == 3){
-            $smm_form = SmmForm::find($id);
-            return view('admin.brief.smmform', compact('smm_form'));
-        }elseif($form == 4){
-            $content_form = ContentWritingForm::find($id);
-            return view('admin.brief.contentform', compact('content_form'));
-        }elseif($form == 5){
-            $seo_form = SeoForm::find($id);
-            return view('admin.brief.seoform', compact('seo_form'));
-        }elseif($form == 6){
-            $data = BookFormatting::find($id);
-            return view('admin.brief.bookformattingform', compact('data'));
-        }elseif($form == 7){
-            $data = BookWriting::find($id);
-            return view('admin.brief.bookwritingform', compact('data'));
-        }elseif($form == 8){
-            $data = AuthorWebsite::find($id);
-            return view('admin.brief.authorwebsiteform', compact('data'));
-        }elseif($form == 9){
-            $data = Proofreading::find($id);
-            return view('admin.brief.proofreadingform', compact('data'));
-        }elseif($form == 10){
-            $data = BookCover::find($id);
-            return view('admin.brief.bookcoverform', compact('data'));
-        }elseif($form == 11){
-            $data = Isbnform::find($id);  
-            return view('manager.brief.isbnform', compact('data'));
-        }elseif($form == 12){
-            $data = Bookprinting::find($id);
-            return view('manager.brief.bookprintingform', compact('data'));
+        try {
+            if($form == 1){
+                $logo_form = LogoForm::find($id);
+                return view('admin.brief.logoform', compact('logo_form'));
+            }elseif($form == 2){
+                $web_form = WebForm::find($id);
+                return view('admin.brief.webform', compact('web_form'));
+            }elseif($form == 3){
+                $smm_form = SmmForm::find($id);
+                return view('admin.brief.smmform', compact('smm_form'));
+            }elseif($form == 4){
+                $content_form = ContentWritingForm::find($id);
+                return view('admin.brief.contentform', compact('content_form'));
+            }elseif($form == 5){
+                $seo_form = SeoForm::find($id);
+                return view('admin.brief.seoform', compact('seo_form'));
+            }elseif($form == 6){
+                $data = BookFormatting::find($id);
+                return view('admin.brief.bookformattingform', compact('data'));
+            }elseif($form == 7){
+                $data = BookWriting::find($id);
+                return view('admin.brief.bookwritingform', compact('data'));
+            }elseif($form == 8){
+                $data = AuthorWebsite::find($id);
+                return view('admin.brief.authorwebsiteform', compact('data'));
+            }elseif($form == 9){
+                $data = Proofreading::find($id);
+                return view('admin.brief.proofreadingform', compact('data'));
+            }elseif($form == 10){
+                $data = BookCover::find($id);
+                return view('admin.brief.bookcoverform', compact('data'));
+            }elseif($form == 11){
+                $data = Isbnform::find($id);
+                return view('manager.brief.isbnform', compact('data'));
+            }elseif($form == 12){
+                $data = Bookprinting::find($id);
+                return view('manager.brief.bookprintingform', compact('data'));
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-        
     }
     
 }

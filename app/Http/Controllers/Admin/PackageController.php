@@ -36,21 +36,19 @@ class PackageController extends Controller
         return view('admin.package.create', compact('brands', 'currencys'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'brand' => 'required'
-        ]);
-        $request->request->add(['brand_id' => $request->brand]);
-        Service::create($request->all());
-        return redirect()->back()->with('success', 'Service created Successfully.');
+        try {
+            $request->validate([
+                'name' => 'required',
+                'brand' => 'required'
+            ]);
+            $request->request->add(['brand_id' => $request->brand]);
+            Service::create($request->all());
+            return redirect()->back()->with('success', 'Service created Successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -64,35 +62,30 @@ class PackageController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Admin\Brand  $brand
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        $data = Service::find($id);
-        $brands = Brand::where('status', 1)->get();
-        return view('admin.service.edit', compact('data', 'brands'));
+        try {
+            $data = Service::find($id);
+            $brands = Brand::where('status', 1)->get();
+            return view('admin.service.edit', compact('data', 'brands'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Admin\Brand  $brand
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Service $service)
     {
-        $request->validate([
-            'name' => 'required',
-            'brand' => 'required'
-        ]);
-        $request->request->add(['brand_id' => $request->brand]);
-        $service->update($request->all());
-        return redirect()->back()->with('success', 'Service Updated Successfully.');
+        try {
+            $request->validate([
+                'name' => 'required',
+                'brand' => 'required'
+            ]);
+            $request->request->add(['brand_id' => $request->brand]);
+            $service->update($request->all());
+            return redirect()->back()->with('success', 'Service Updated Successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**

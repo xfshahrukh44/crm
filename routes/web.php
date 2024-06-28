@@ -151,6 +151,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('service', ServiceController::class);
         Route::resource('package', PackageController::class);
         Route::resource('currency', CurrencyController::class);
+
         Route::get('/service-list/{id}', [HomeController::class, 'serviceList'])->name('admin.service.list');
         Route::resource('client', AdminClientController::class, ['names' => 'admin.client']);
         Route::resource('merchant', MerchantController::class, ['names' => 'admin.merchant']);

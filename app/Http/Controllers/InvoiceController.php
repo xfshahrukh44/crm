@@ -42,67 +42,72 @@ class InvoiceController extends Controller
      */
     public function index($id)
     {
-        $user = Client::find($id);
-        $brand = Brand::all();
-        $services = Service::all();
-        $currencies =  Currency::all();
-        return view('admin.invoice.create', compact('user', 'brand', 'currencies', 'services'));
+        try {
+            $user = Client::find($id);
+            $brand = Brand::all();
+            $services = Service::all();
+            $currencies =  Currency::all();
+            return view('admin.invoice.create', compact('user', 'brand', 'currencies', 'services'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function invoiceAll(Request $request){
-        $data = new Invoice();
-        $brands = Brand::all();
-        $data = $data->orderBy('id', 'desc');
-        if($request->package != ''){
-            $data = $data->where('custom_package', 'LIKE', "%$request->package%");
-        }
-        if($request->invoice != ''){
-            $data = $data->where('invoice_number', 'LIKE', "%$request->invoice%");
-        }
-        if($request->customer != ''){
-            $customer = $request->customer;
-            $data = $data->whereHas(
-                'client', function($q) use($customer){
+        try {
+            $data = new Invoice();
+            $brands = Brand::all();
+            $data = $data->orderBy('id', 'desc');
+            if($request->package != ''){
+                $data = $data->where('custom_package', 'LIKE', "%$request->package%");
+            }
+            if($request->invoice != ''){
+                $data = $data->where('invoice_number', 'LIKE', "%$request->invoice%");
+            }
+            if($request->customer != ''){
+                $customer = $request->customer;
+                $data = $data->whereHas(
+                    'client', function($q) use($customer){
                     $q->where('name', 'LIKE', "%$customer%");
                     $q->orWhere('last_name', 'LIKE', "%$customer%");
                 }
-            );
-        }
-        if($request->agent != ''){
-            $agent = $request->agent;
-            $data = $data->whereHas(
-                'sale', function($q) use($agent){
+                );
+            }
+            if($request->agent != ''){
+                $agent = $request->agent;
+                $data = $data->whereHas(
+                    'sale', function($q) use($agent){
                     $q->where('name', 'LIKE', "%$agent%");
                     $q->orWhere('last_name', 'LIKE', "%$agent%");
                 }
-            );
-        }
-        if($request->status != 0){
-            $data = $data->where('payment_status', $request->status);
-        }
-        if($request->brand != 0){
-            $brand = $request->brand;
-            $data = $data->whereHas('brands', function($q) use($brand){
-                        $q->where('id', $brand);
-                    });
-        }
-        //when client_id
-        $data->when($request->has('client_id'), function ($q) use ($request) {
-            return $q->where('client_id', $request->get('client_id'));
-        });
-        $data = $data->paginate(10);
-        $display = '';
-        if ($request->ajax()) {
-            foreach ($data as $rander) {
-                $form = '';
-                if($rander->payment_status == 1){
-                    $form = '<form method="post" action="'.route('admin.invoice.paid', $rander->id).'">
+                );
+            }
+            if($request->status != 0){
+                $data = $data->where('payment_status', $request->status);
+            }
+            if($request->brand != 0){
+                $brand = $request->brand;
+                $data = $data->whereHas('brands', function($q) use($brand){
+                    $q->where('id', $brand);
+                });
+            }
+            //when client_id
+            $data->when($request->has('client_id'), function ($q) use ($request) {
+                return $q->where('client_id', $request->get('client_id'));
+            });
+            $data = $data->paginate(10);
+            $display = '';
+            if ($request->ajax()) {
+                foreach ($data as $rander) {
+                    $form = '';
+                    if($rander->payment_status == 1){
+                        $form = '<form method="post" action="'.route('admin.invoice.paid', $rander->id).'">
                         <input type="hidden" name="_token" value="'.csrf_token().'">
                         <button type="submit" class="mark-paid btn btn-danger p-0">Mark As Paid</button>
                     </form>';
-                }
-                $display .= 
-                '<tr>
+                    }
+                    $display .=
+                        '<tr>
                     <td><span class="btn btn-primary btn-sm">#'.$rander->invoice_number.'</span></td>
                     <td>'. ($rander->package == 0 ? $rander->custom_package : $rander->package) .'</td>
                     <td>'. $rander->client->name . ' ' . $rander->client->last_name . '<br>' . $rander->client->email .'</td>
@@ -112,7 +117,7 @@ class InvoiceController extends Controller
                     <td>
                         <span class="btn btn-'.\App\Models\Invoice::STATUS_COLOR[$rander->payment_status].' btn-sm">
                             '.\App\Models\Invoice::PAYMENT_STATUS[$rander->payment_status].
-                            $form.'
+                        $form.'
                         </span>
                     </td>
                     <td><button class="btn btn-sm btn-secondary">'.date('g:i a - d M, Y', strtotime($rander->created_at)).'</button></td>
@@ -123,10 +128,13 @@ class InvoiceController extends Controller
                         </a>
                     </td>
                 </tr>';
+                }
+                return $display;
             }
-            return $display;
+            return view('admin.invoice.index', compact('data', 'brands'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-        return view('admin.invoice.index', compact('data', 'brands'));
     }
 
     public function getInvoice(){
@@ -151,58 +159,66 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'brand' => 'required',
-            'service' => 'required',
-            'package' => 'required',
-            'currency' => 'required',
-            'amount' => 'required',
-            'payment_type' => 'required'
-        ]);
+        try {
+            $validated = $request->validate([
+                'name' => 'required',
+                'email' => 'required',
+                'brand' => 'required',
+                'service' => 'required',
+                'package' => 'required',
+                'currency' => 'required',
+                'amount' => 'required',
+                'payment_type' => 'required'
+            ]);
 
 
-        $latest = Invoice::latest()->first();
-        if (! $latest) {
-            $nextInvoiceNumber = date('Y').'-1';
-        }else{
-            $expNum = explode('-', $latest->invoice_number);
-            $expIncrement = (int)$expNum[1] + 1;
-            $nextInvoiceNumber = $expNum[0].'-'.$expIncrement;
+            $latest = Invoice::latest()->first();
+            if (! $latest) {
+                $nextInvoiceNumber = date('Y').'-1';
+            }else{
+                $expNum = explode('-', $latest->invoice_number);
+                $expIncrement = (int)$expNum[1] + 1;
+                $nextInvoiceNumber = $expNum[0].'-'.$expIncrement;
+            }
+            $invoice = new Invoice;
+            $invoice->name = $request->name;
+            $invoice->email = $request->email;
+            $contact = $request->contact;
+            if($contact == null){
+                $contact = '#';
+            }
+            $invoice->contact = $contact;
+            $invoice->brand = $request->brand;
+            $invoice->package = $request->package;
+            $invoice->currency = $request->currency;
+            $invoice->client_id = $request->client_id;
+            $invoice->invoice_number = $nextInvoiceNumber;
+            $invoice->sales_agent_id = Auth()->user()->id;
+            $invoice->discription = $request->discription;
+            $invoice->amount = $request->amount;
+            $invoice->payment_status = '1';
+            $invoice->custom_package = $request->custom_package;
+            $invoice->payment_type = $request->payment_type;
+            $service = implode(",",$request->service);
+            $invoice->service = $service;
+            $invoice->save();
+            $id = $invoice->id;
+            return redirect()->route('admin.link',($invoice->id));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-		$invoice = new Invoice;
-        $invoice->name = $request->name;
-        $invoice->email = $request->email;
-        $contact = $request->contact;
-        if($contact == null){
-            $contact = '#';
-        }
-        $invoice->contact = $contact;
-        $invoice->brand = $request->brand;
-        $invoice->package = $request->package;
-        $invoice->currency = $request->currency;
-        $invoice->client_id = $request->client_id;
-        $invoice->invoice_number = $nextInvoiceNumber;
-        $invoice->sales_agent_id = Auth()->user()->id;
-        $invoice->discription = $request->discription;
-        $invoice->amount = $request->amount;
-        $invoice->payment_status = '1';
-        $invoice->custom_package = $request->custom_package;
-        $invoice->payment_type = $request->payment_type;
-		$service = implode(",",$request->service);
-		$invoice->service = $service;
-        $invoice->save();					
-		$id = $invoice->id;
-		return redirect()->route('admin.link',($invoice->id));
     }
 
     public function linkPage($id){
-		$id = Crypt::encrypt($id);
-		$invoiceId = Crypt::decrypt($id);
-		$_getInvoiceData = Invoice::findOrFail($invoiceId);
-		$_getBrand = Brand::where('id',$_getInvoiceData->brand)->first();
-        return view('admin.invoice.link-page', compact('_getInvoiceData', 'id', '_getInvoiceData', '_getBrand'));
+        try {
+            $id = Crypt::encrypt($id);
+            $invoiceId = Crypt::decrypt($id);
+            $_getInvoiceData = Invoice::findOrFail($invoiceId);
+            $_getBrand = Brand::where('id',$_getInvoiceData->brand)->first();
+            return view('admin.invoice.link-page', compact('_getInvoiceData', 'id', '_getInvoiceData', '_getBrand'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function linkPageSale($id){
@@ -1468,10 +1484,14 @@ class InvoiceController extends Controller
     }
 
     public function invoicePaidById($id){
-        $invoice = Invoice::find($id);
-        $invoice->payment_status = 2;
-        $invoice->save();
-        return redirect()->back()->with('success','Invoice# ' . $invoice->invoice_number . ' Mark as Paid.');
+        try {
+            $invoice = Invoice::find($id);
+            $invoice->payment_status = 2;
+            $invoice->save();
+            return redirect()->back()->with('success','Invoice# ' . $invoice->invoice_number . ' Mark as Paid.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function editInvoice($id){
