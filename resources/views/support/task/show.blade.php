@@ -459,15 +459,18 @@
                                         <div class="form-body">
                                             <div class="form-group">
                                                 <textarea id="message" rows="5" class="form-control border-primary" name="message" required>{{old('message')}}</textarea>
-                                                <table>
-                                                    <tr>
-                                                        <td colspan="3" style="vertical-align:middle; text-align:left;">
-                                                            <div id="h_ItemAttachments"></div>
-                                                            <input type="button" id="h_btnAddFileUploadControl" value="Add Attachment" onclick="Clicked_h_btnAddFileUploadControl()" class="btn btn-primary btn_Standard" />
-                                                            <div id="h_ItemAttachmentControls"></div>
-                                                        </td>
-                                                    </tr>
-                                                </table>
+                                                <div class="input-field">
+                                                    <div class="input-images" style="padding-top: .5rem;"></div>
+                                                </div>
+{{--                                                <table>--}}
+{{--                                                    <tr>--}}
+{{--                                                        <td colspan="3" style="vertical-align:middle; text-align:left;">--}}
+{{--                                                            <div id="h_ItemAttachments"></div>--}}
+{{--                                                            <input type="button" id="h_btnAddFileUploadControl" value="Add Attachment" onclick="Clicked_h_btnAddFileUploadControl()" class="btn btn-primary btn_Standard" />--}}
+{{--                                                            <div id="h_ItemAttachmentControls"></div>--}}
+{{--                                                        </td>--}}
+{{--                                                    </tr>--}}
+{{--                                                </table>--}}
                                             </div>
                                         </div>
                                         <div class="form-actions pb-0 text-right">
