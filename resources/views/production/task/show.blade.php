@@ -426,7 +426,7 @@
 @push('scripts')
 <script src="{{ asset('global/js/fileinput.js') }}"></script>
 <script src="{{ asset('global/js/fileinput-theme.js') }}"></script>
-<script src="https://cdn.ckeditor.com/4.24.0-lts/standard/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 <script>
     function deleteFile(id){
         $.ajax({
