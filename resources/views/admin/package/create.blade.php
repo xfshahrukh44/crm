@@ -224,6 +224,28 @@
 @push('scripts')
 <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
 <script>
+    $(document).ready(() => {
+        setTimeout(() => {
+            $('#cke_notifications_area_description').remove();
+        }, 1000);
+    });
+    $(document).ready(() => {
+        setTimeout(() => {
+            $('#cke_notifications_area_description').remove();
+        }, 1000);
+    });
+    $(document).ready(() => {
+        setTimeout(() => {
+            $('#cke_notifications_area_description').remove();
+        }, 1000);
+    });
+    $(document).ready(() => {
+        setTimeout(() => {
+            $('#cke_notifications_area_description').remove();
+        }, 1000);
+    });
+</script>
+<script>
     CKEDITOR.replace('details');
     CKEDITOR.replace('description');
 </script>

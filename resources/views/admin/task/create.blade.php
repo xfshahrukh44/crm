@@ -161,6 +161,28 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js" integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+<script>
+    $(document).ready(() => {
+        setTimeout(() => {
+            $('#cke_notifications_area_description').remove();
+        }, 1000);
+    });
+    $(document).ready(() => {
+        setTimeout(() => {
+            $('#cke_notifications_area_description').remove();
+        }, 1000);
+    });
+    $(document).ready(() => {
+        setTimeout(() => {
+            $('#cke_notifications_area_description').remove();
+        }, 1000);
+    });
+    $(document).ready(() => {
+        setTimeout(() => {
+            $('#cke_notifications_area_description').remove();
+        }, 1000);
+    });
+</script>
     <script>
         CKEDITOR.replace('description');
         $('.dropify').dropify();

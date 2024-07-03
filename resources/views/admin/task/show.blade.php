@@ -361,6 +361,28 @@
 <script src="{{ asset('newglobal/js/image-uploader.min.js') }}"></script>
 <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
 <script>
+    $(document).ready(() => {
+        setTimeout(() => {
+            $('#cke_notifications_area_description').remove();
+        }, 1000);
+    });
+    $(document).ready(() => {
+        setTimeout(() => {
+            $('#cke_notifications_area_description').remove();
+        }, 1000);
+    });
+    $(document).ready(() => {
+        setTimeout(() => {
+            $('#cke_notifications_area_description').remove();
+        }, 1000);
+    });
+    $(document).ready(() => {
+        setTimeout(() => {
+            $('#cke_notifications_area_description').remove();
+        }, 1000);
+    });
+</script>
+<script>
     $(document).ready(function(){
         @if(request()->has('show-message') && request()->get('show-message') == true)
             $('a[href="#message-show"]').click();
