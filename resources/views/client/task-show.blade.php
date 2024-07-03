@@ -191,22 +191,22 @@
 <script>
     $(document).ready(() => {
         setTimeout(() => {
-            $('#cke_notifications_area_description').remove();
+            $('.cke_notifications_area').remove();
         }, 1000);
     });
     $(document).ready(() => {
         setTimeout(() => {
-            $('#cke_notifications_area_description').remove();
+            $('.cke_notifications_area').remove();
         }, 1000);
     });
     $(document).ready(() => {
         setTimeout(() => {
-            $('#cke_notifications_area_description').remove();
+            $('.cke_notifications_area').remove();
         }, 1000);
     });
     $(document).ready(() => {
         setTimeout(() => {
-            $('#cke_notifications_area_description').remove();
+            $('.cke_notifications_area').remove();
         }, 1000);
     });
 </script>
