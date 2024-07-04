@@ -2,25 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AuthorWebsite;
-use App\Models\BookCover;
-use App\Models\BookFormatting;
-use App\Models\Bookprinting;
-use App\Models\BookWriting;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Client;
-use App\Models\ContentWritingForm;
-use App\Models\Isbnform;
-use App\Models\LogoForm;
-use App\Models\NoForm;
 use App\Models\Project;
-use App\Models\Proofreading;
-use App\Models\SeoForm;
-use App\Models\SmmForm;
 use App\Models\Task;
 use App\Models\User;
-use App\Models\WebForm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -35,15 +22,14 @@ class BrandController extends Controller
             return false;
         }
 
-        if (Auth::user()->is_employee == 2) {
-            $this->layout = 'layouts.app-admin';
-        } else if (Auth::user()->is_employee == 6) {
-            $this->layout = 'layouts.app-manager';
-        } else if (Auth::user()->is_employee == 0) {
-            $this->layout = 'layouts.app-sale';
-        } else if (Auth::user()->is_employee == 4) {
-            $this->layout = 'layouts.app-support';
-        }
+        $layout_map = [
+            2 => 'layouts.app-admin',
+            6 => 'layouts.app-manager',
+            0 => 'layouts.app-sale',
+            4 => 'layouts.app-support',
+        ];
+
+        $this->layout = $layout_map[Auth::user()->is_employee];
 
         return true;
     }
@@ -76,7 +62,6 @@ class BrandController extends Controller
         })
         ->orderBy('created_at', 'DESC')
         ->paginate(30);
-
 
         return view('brand-dashboard', compact('brands'))->with(['layout' => $this->layout]);
     }

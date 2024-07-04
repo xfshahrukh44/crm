@@ -58,17 +58,7 @@
                         <div class="card card-icon mb-4" style="height: 180px;">
                             <div class="card-body text-center">
                                 <div class="preview">
-                                    @php
-                                        $curl_handle=curl_init();
-                                        curl_setopt($curl_handle, CURLOPT_URL, asset($brand->logo));
-                                        curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
-                                        curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
-                                        curl_setopt($curl_handle, CURLOPT_USERAGENT, 'test');
-                                        $query = curl_exec($curl_handle);
-                                        curl_close($curl_handle);
-                                        $logo = (boolean)$query ? asset($brand->logo) : asset('images/noimg.png');
-                                    @endphp
-                                    <img style="" src="{{$logo}}" alt="">
+                                    <img style="" src="{{asset($brand->logo)}}" alt="">
                                 </div>
                                 <p class="text-muted mt-2 mb-2">{{$brand->name}}</p>
                                 <small class="text-muted mt-2 mb-2">Clients: {{count($brand->clients)}} | Projects: {{count($brand->projects)}}</small>
@@ -107,8 +97,8 @@
     {{--    data_day.push(data[i].invoice_date);--}}
     {{--}--}}
 
-    $(document).ready(function() {
-
-    });
+    // $(document).ready(function() {
+    //
+    // });
 </script>
 @endpush

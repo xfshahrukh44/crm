@@ -87,6 +87,11 @@ class AdminClientController extends Controller
                 'status' => 'required',
                 'brand_id' => 'required',
             ]);
+
+            if ($user_check = User::where('email', $request->email)->first()) {
+                return redirect()->back()->with('error', 'Email already taken');
+            }
+
             $request->request->add(['user_id' => auth()->user()->id]);
             Client::create($request->all());
             return redirect()->back()->with('success', 'Client created Successfully.');

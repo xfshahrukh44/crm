@@ -80,6 +80,12 @@
 
 @push('scripts')
     <script>
+        @if(session()->has('success'))
+                toastr.success('{{session()->get('success')}}');
+        @endif
+        @if(session()->has('error'))
+                toastr.error('{{session()->get('error')}}');
+        @endif
         $('#contact').keypress(function(event){
             if(event.which != 8 && isNaN(String.fromCharCode(event.which))){
                 event.preventDefault(); //stop character from entering input

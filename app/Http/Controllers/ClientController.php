@@ -105,6 +105,11 @@ class ClientController extends Controller
             'status' => 'required',
             'brand_id' => 'required',
         ]);
+
+        if ($user_check = User::where('email', $request->email)->first()) {
+            return redirect()->back()->with('error', 'Email already taken');
+        }
+
         $request->request->add(['user_id' => auth()->user()->id]);
         $client = Client::create($request->all());
         return redirect()->route('client.generate.payment', $client->id);

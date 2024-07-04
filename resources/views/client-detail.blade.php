@@ -20,6 +20,10 @@
         }
         /* Mouse over link */
         a {text-decoration: none; color: black;}   /* Mouse over link */
+
+        .anchor_project_name:hover {
+            color: #00aeef;
+        }
     </style>
 @endpush
 @section('content')
@@ -165,7 +169,7 @@
                                                                 @endphp
                                                                 <tr>
                                                                     <td>
-                                                                        <a href="{{route('projects.detail', $project->id)}}">
+                                                                        <a href="{{route('projects.detail', $project->id)}}" class="anchor_project_name">
                                                                             {{str_replace($client->name, '', str_replace(' - ', '', $project->name))}}
                                                                         </a>
                                                                     </td>
