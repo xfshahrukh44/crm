@@ -560,17 +560,17 @@
     $(document).ready(() => {
         setTimeout(() => {
             $('.cke_notifications_area').remove();
-        }, 1000);
+        }, 2000);
     });
     $(document).ready(() => {
         setTimeout(() => {
             $('.cke_notifications_area').remove();
-        }, 1000);
+        }, 3000);
     });
     $(document).ready(() => {
         setTimeout(() => {
             $('.cke_notifications_area').remove();
-        }, 1000);
+        }, 4000);
     });
 </script>
 <script src="{{ asset('newglobal/js/image-uploader.min.js') }}"></script>
