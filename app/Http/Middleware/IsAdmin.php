@@ -20,7 +20,6 @@ class IsAdmin
      */
     public function handle($request, Closure $next)
     {
-        return (auth()->user()->is_employee == 2) ? $next($request) : redirect()->back()->with("error","You don't have admin access.");
         
 
         
