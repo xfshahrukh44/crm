@@ -317,18 +317,6 @@ Route::group(['middleware' => 'auth'], function () {
 
         //assign task to member
         Route::post('qa/assign-task-to-member', [QAController::class, 'assignTaskToMember'])->name('qa.assign.task.to.member');
-
-//        Route::get('/qa/dashboard', [HomeController::class, 'productionDashboard'])->name('production.dashboard');
-//        Route::get('/qa/profile/edit', [HomeController::class, 'productionProfile'])->name('production.profile');
-//        Route::post('/qa/files/{id}', [TaskController::class, 'insertFiles'])->name('insert.files');
-//        Route::post('/qa/file/delete', [TaskController::class, 'deleteFiles'])->name('delete.files');
-//        Route::post('/qa/files/show/agent', [TaskController::class, 'showFilesToAgent'])->name('production.agent.file.show');
-//        Route::patch('qa/update-profile/{id}', [HomeController::class, 'updateProfileProduction'])->name('production.update.profile');
-//        Route::post('/qa/member/files/{id}/{subtask_id?}', [TaskController::class, 'insertFilesMember'])->name('production.member.insert.files');
-
-//        Route::post('production/member/category', [TaskController::class, 'categoryMemberList'])->name('category.member.list');
-//        Route::post('production/member/category/add', [TaskController::class, 'categoryMemberListAdd'])->name('category.member.list.add');
-//        Route::post('production/member/category/remove', [TaskController::class, 'categoryMemberListRemove'])->name('category.member.list.remove');
     });
 });
 

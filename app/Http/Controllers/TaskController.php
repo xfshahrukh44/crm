@@ -1075,7 +1075,7 @@ class TaskController extends Controller
 
         if (auth()->user()->is_support_head) {
             //status: sent for approval
-            $task = $task->where('status', 5);
+            $task = $task->where('status', 5)
 
             if($request->category != null){
                 if($request->category == 0){
@@ -1098,7 +1098,10 @@ class TaskController extends Controller
         }
 
 
-        $task = $task->get();
+        $task = $task
+            //testing (danny brands)
+            ->whereIn('brand_id', [3, 10, 16, 17, 21, 22, 26, 33, 34, 51, 48, 44, 27])
+            ->get();
 
         $qa_member_ids = DB::table('category_users')->whereIn('category_id', auth()->user()->category_list())->pluck('user_id');
         $qa_members = User::where([
