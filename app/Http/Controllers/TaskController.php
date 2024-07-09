@@ -491,6 +491,13 @@ class TaskController extends Controller
         return view('support.task.create', compact('project', 'categorys'));
     }
 
+    public function editTaskById (Request $request, $id) {
+        $task = Task::find($id);
+        $categorys = Category::where('status', 1)->get();
+
+        return view('support.task.edit', compact('task', 'categorys'));
+    }
+
     public function storeTaskBySupport(Request $request){
         $request->validate([
             'project' => 'required',
@@ -599,7 +606,41 @@ class TaskController extends Controller
             }
         }
 
+        return redirect()->route('edit.task.by.id', $task->id)->with('success', 'Task created successfully!');
         return redirect()->back()->with('success', 'Task created Successfully.');
+    }
+
+    public function updateTaskBySupport(Request $request, $id){
+        $request->validate([
+            'category' => 'required',
+            'description' => 'required',
+            'duedate' => 'required',
+        ]);
+
+        $category = $request->category;
+
+        $task = Task::find($id)->update($request->all());
+        if($request->hasfile('filenames'))
+        {
+            $i = 0;
+            foreach($request->file('filenames') as $file)
+            {
+                $file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $name = $file_name . '_' . $i . '_]' .time().'.'.$file->extension();
+                $file->move(public_path().'/files/', $name);
+                $i++;
+                $client_file = new ClientFile();
+                $client_file->name = $file_name;
+                $client_file->path = $name;
+                $client_file->user_id = Auth()->user()->id;
+                $client_file->user_check = Auth()->user()->is_employee;
+                $client_file->production_check = 1;
+                $client_file->task_id = $task->id;
+                $client_file->save();
+            }
+        }
+
+        return redirect()->back()->with('success', 'Task updated Successfully.');
     }
 
     public function supportTaskList(Request $request){

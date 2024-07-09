@@ -1,6 +1,7 @@
 @extends('layouts.app-support')
    
 @section('content')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <div class="content-header row">
     <div class="content-header-left col-md-12 col-12 mb-2 breadcrumb-new">
         <h3 class="content-header-title mb-0 d-inline-block">Tasks List</h3>
@@ -170,6 +171,7 @@
                                         <th>Due Date</th>
                                         <th>Status</th>
                                         <th>Active</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -204,6 +206,11 @@
                                                 <span class="ul-btn__text">Details</span>
                                             </a>
                                         </td>
+                                        <td>
+                                            <a href="{{route('edit.task.by.id', $datas->id)}}" class="btn btn-primary btn-icon btn-sm">
+                                                <span class="ul-btn__text"><i class="fas fa-pencil mr-1"></i> Edit</span>
+                                            </a>
+                                        </td>
                                     </tr>
                                     @endforeach
                                     
@@ -219,6 +226,7 @@
                                         <th>Due Date</th>
                                         <th>Status</th>
                                         <th>Active</th>
+                                        <th>Action</th>
                                     </tr>
                                 </tfoot>
                             </table>

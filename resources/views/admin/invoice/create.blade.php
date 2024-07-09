@@ -43,7 +43,7 @@
                             </div>
                             <div class="col-md-4 form-group mb-3">
                                 <label for="service">Service <span>*</span></label>
-                                <select name="service[]" id="service" class="form-control select2" required multiple>
+                                <select name="service[]" id="service" class="form-control select2" required>
                                     <option value="">Select Service</option>
                                     @foreach($services as $service)
                                     <option value="{{ $service->id }}">{{$service->name}}</option>
