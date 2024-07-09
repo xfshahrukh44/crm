@@ -316,4 +316,9 @@ class User extends Authenticatable
         return $this->hasMany(TaskStatusChangedLog::class);
     }
 
+    public function qa_feedbacks ()
+    {
+        return $this->hasMany(QaFeedback::class);
+    }
+
 }

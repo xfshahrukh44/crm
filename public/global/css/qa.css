@@ -1,0 +1,12 @@
+.card_body_qa_feedback {
+    /*background: #ffff000f;*/
+}
+
+#feedback_wrapper_row {
+    background: #ffff000f;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #c9940059;
+    margin: 2% 0%;
+}

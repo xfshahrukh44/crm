@@ -69,29 +69,29 @@
         </div>
 
     </div>
-    <div class="content-header-right col-md-3 col-12 pr-0">
-        <div class="btn-group float-md-right w-100">
-            <div class="task-page w-100">
-                <fieldset>
-                    <div class="input-group">
-                        <select name="update-task-value" id="update-task-value" class="form-control w-200">
-                            <option value="">Select task status</option>
+{{--    <div class="content-header-right col-md-3 col-12 pr-0">--}}
+{{--        <div class="btn-group float-md-right w-100">--}}
+{{--            <div class="task-page w-100">--}}
+{{--                <fieldset>--}}
+{{--                    <div class="input-group">--}}
+{{--                        <select name="update-task-value" id="update-task-value" class="form-control w-200">--}}
+{{--                            <option value="">Select task status</option>--}}
 {{--                            <option value="0" {{($task->status == 0) ? 'selected' : ''}} disabled>Open</option>--}}
-                            <option value="1" {{($task->status == 1) ? 'selected' : ''}}>Re Open</option>
+{{--                            <option value="1" {{($task->status == 1) ? 'selected' : ''}}>Re Open</option>--}}
 {{--                            <option value="4" {{($task->status == 4) ? 'selected' : ''}}>In Progress</option>--}}
 {{--                            <option value="2" {{($task->status == 2) ? 'selected' : ''}}>On Hold</option>--}}
 {{--                            <option value="5" {{($task->status == 5) ? 'selected' : ''}}>Sent for Approval</option>--}}
 {{--                            <option value="6" {{($task->status == 6) ? 'selected' : ''}}>Incomplete Brief</option>--}}
-                            <option value="3" {{($task->status == 3) ? 'selected' : ''}}>Completed</option>
-                        </select>
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="button" id="update-task">Update</button>
-                        </div>
-                    </div>
-                </fieldset>
-            </div>
-        </div>
-    </div>
+{{--                            <option value="3" {{($task->status == 3) ? 'selected' : ''}}>Completed</option>--}}
+{{--                        </select>--}}
+{{--                        <div class="input-group-append">--}}
+{{--                            <button class="btn btn-primary" type="button" id="update-task">Update</button>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </fieldset>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 </div>
 <div class="separator-breadcrumb border-top"></div>
 
@@ -195,6 +195,122 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-body card_body_qa_feedback">
+                    <h4 class="card-title mb-3">QA Feedback</h4>
+
+                    @if(count($task->qa_feedbacks))
+                        @foreach($task->qa_feedbacks as $qa_feedback)
+                            <div class="row" id="feedback_wrapper_row">
+                                <div class="col-md-4 p-0">
+                                    <button type="submit" name="status" value="0" class="btn btn-{!! $qa_feedback->status == '3' ? 'success' : 'danger' !!} mx-3">{{get_task_status_text($qa_feedback->status)}}</button>
+                                </div>
+                                <div class="col-md-4">
+
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <div class="row">
+                                        <div class="col-12">
+                                                <span>
+                                                    <b class="text-info">{{$qa_feedback->user->name . ' ' . $qa_feedback->user->last_name}}</b>
+                                                </span>
+                                        </div>
+                                        <div class="col-12">
+                                                <small class="text-info">
+                                                    {{\Carbon\Carbon::parse($qa_feedback->created_at)->format('d M Y, h:i A')}}
+{{--                                                    12 Dec 2024, 12:12 PM--}}
+                                                </small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @if($qa_feedback->message)
+                                    <div class="col-12 mt-3">
+                                        <label for="">
+                                            <b class="text-15">Message</b>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <p>
+                                            {{$qa_feedback->message}}
+                                        </p>
+                                    </div>
+                                @endif
+
+                                @if(count($qa_feedback->qa_files))
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <label for="">
+                                                    <b class="text-15">
+                                                        Attached files
+                                                        @if(count($qa_feedback->qa_files) > 1)
+                                                            <a href="#" class="anchor_download__all_qa_files">
+                                                                <small>(Download all)</small>
+                                                            </a>
+                                                        @endif
+                                                    </b>
+                                                </label>
+                                            </div>
+                                            <ul>
+                                                @foreach($qa_feedback->qa_files as $qa_file)
+                                                    <li>
+                                                        <a class="anchor_download_qa_file" download href="{{asset($qa_file->path)}}">{{$qa_file->name}}</a>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        @endforeach
+                    @endif
+
+                    <div class="separator-breadcrumb border-top mb-3"></div>
+                    <form action="{{route('qa.update.task', $task->id)}}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="user_id" value="{{auth()->id()}}">
+                        <div id="feedback_form_row" class="row">
+                            <div class="col-md-12 form-group">
+                                <label for="message">
+                                    <b>Message</b>
+                                </label>
+                                <textarea name="message" id="message" cols="30" rows="5" class="form-control"></textarea>
+                            </div>
+    {{--                        <div class="col-md-12 form-group">--}}
+    {{--                            <label for="message">--}}
+    {{--                                <b>Rating</b>--}}
+    {{--                            </label>--}}
+    {{--                            <div class="row rating_row mx-2">--}}
+    {{--                                <div class="col-md-4 text-center rating_column">--}}
+    {{--                                    <i class="far fa-frown text-danger"></i>--}}
+    {{--                                </div>--}}
+    {{--                                <div class="col-md-4 text-center rating_column">--}}
+    {{--                                    <i class="far fa-meh text-info"></i>--}}
+    {{--                                </div>--}}
+    {{--                                <div class="col-md-4 text-center rating_column">--}}
+    {{--                                    <i class="far fa-smile text-success"></i>--}}
+    {{--                                </div>--}}
+    {{--                            </div>--}}
+    {{--                        </div>--}}
+                            <div class="col-md-12 form-group">
+                                <label for="">
+                                    <b>Attach files</b>
+                                </label>
+                                <input id="image-file" type="file" name="files[]" multiple data-browse-on-zone-click="true">
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <div class="row">
+                                    <button type="submit" name="status" value="1" class="btn-sm btn-danger mx-3">Re Open</button>
+                                    <button type="submit" name="status" value="3" class="btn-sm btn-success">Complete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 @endsection
@@ -244,6 +360,12 @@
     $(document).ready(function(){
         $('.btn_download_all_files').on('click', function () {
             $('.anchor_test').each((i, item) => {
+                item.click();
+            });
+        });
+
+        $('.anchor_download__all_qa_files').on('click', function () {
+            $('.anchor_download_qa_file').each((i, item) => {
                 item.click();
             });
         });

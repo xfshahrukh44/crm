@@ -301,61 +301,63 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 message-box-wrapper">
-                            @foreach($messages as $message)
-                            <div class="card mb-3 {{ $message->role_id == Auth()->user()->is_employee ? 'left-card' : 'right-card' }}">
-                                <div class="card-body">
-                                    <div class="card-content collapse show">
-                                        <div class="ul-widget__body mt-0">
-                                            <div class="ul-widget3 message_show">
-                                                <div class="ul-widget3-item mt-0 mb-0">
-                                                    <div class="ul-widget3-header">
-                                                        <div class="ul-widget3-info">
-                                                            <a class="__g-widget-username" href="#">
-                                                                <span class="t-font-bolder">{{ $message->user->name }} {{ $message->user->last_name }}</span>
-                                                            </a>
+                            @if(isset($messages) && count($messages))
+                                @foreach($messages as $message)
+                                <div class="card mb-3 {{ $message->role_id == Auth()->user()->is_employee ? 'left-card' : 'right-card' }}">
+                                    <div class="card-body">
+                                        <div class="card-content collapse show">
+                                            <div class="ul-widget__body mt-0">
+                                                <div class="ul-widget3 message_show">
+                                                    <div class="ul-widget3-item mt-0 mb-0">
+                                                        <div class="ul-widget3-header">
+                                                            <div class="ul-widget3-info">
+                                                                <a class="__g-widget-username" href="#">
+                                                                    <span class="t-font-bolder">{{ $message->user->name }} {{ $message->user->last_name }}</span>
+                                                                </a>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="ul-widget3-body">
-                                                        <p>{!! nl2br($message->message) !!}</p>
-                                                        <span class="ul-widget3-status text-success t-font-bolder">
-                                                            {{ date('d M, y', strtotime($message->created_at)) }}
-                                                        </span>
-                                                    </div>
-                                                    <div class="file-wrapper">
-                                                        @if(count($message->sended_client_files) != 0)
-                                                        @foreach($message->sended_client_files as $key => $client_file)
-                                                        <ul>
-                                                            <li>
-                                                                <button class="btn btn-dark btn-sm">{{++$key}}</button>
-                                                            </li>
-                                                            <li>
-                                                                @if(($client_file->get_extension() == 'jpg') || ($client_file->get_extension() == 'png') || (($client_file->get_extension() == 'jpeg')))
-                                                                <a href="{{asset('files/'.$client_file->path)}}" target="_blank">
-                                                                    <img src="{{asset('files/'.$client_file->path)}}" alt="{{$client_file->name}}" width="40">
-                                                                </a>
-                                                                @else
-                                                                <a href="{{asset('files/'.$client_file->path)}}" target="_blank">
-                                                                    {{$client_file->name}}.{{$client_file->get_extension()}}
-                                                                </a>
-                                                                @endif
-                                                            </li>
-                                                            <li>
-                                                                <a href="{{asset('files/'.$client_file->path)}}" target="_blank">{{$client_file->name}}</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="{{asset('files/'.$client_file->path)}}" download>Download</a>
-                                                            </li>
-                                                        </ul>
-                                                        @endforeach
-                                                        @endif
+                                                        <div class="ul-widget3-body">
+                                                            <p>{!! nl2br($message->message) !!}</p>
+                                                            <span class="ul-widget3-status text-success t-font-bolder">
+                                                                {{ date('d M, y', strtotime($message->created_at)) }}
+                                                            </span>
+                                                        </div>
+                                                        <div class="file-wrapper">
+                                                            @if(count($message->sended_client_files) != 0)
+                                                            @foreach($message->sended_client_files as $key => $client_file)
+                                                            <ul>
+                                                                <li>
+                                                                    <button class="btn btn-dark btn-sm">{{++$key}}</button>
+                                                                </li>
+                                                                <li>
+                                                                    @if(($client_file->get_extension() == 'jpg') || ($client_file->get_extension() == 'png') || (($client_file->get_extension() == 'jpeg')))
+                                                                    <a href="{{asset('files/'.$client_file->path)}}" target="_blank">
+                                                                        <img src="{{asset('files/'.$client_file->path)}}" alt="{{$client_file->name}}" width="40">
+                                                                    </a>
+                                                                    @else
+                                                                    <a href="{{asset('files/'.$client_file->path)}}" target="_blank">
+                                                                        {{$client_file->name}}.{{$client_file->get_extension()}}
+                                                                    </a>
+                                                                    @endif
+                                                                </li>
+                                                                <li>
+                                                                    <a href="{{asset('files/'.$client_file->path)}}" target="_blank">{{$client_file->name}}</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="{{asset('files/'.$client_file->path)}}" download>Download</a>
+                                                                </li>
+                                                            </ul>
+                                                            @endforeach
+                                                            @endif
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            @endforeach
+                                @endforeach
+                            @endif
                         </div>
                         <!-- <div class="col-md-12">
                             <div class="card mb-4">

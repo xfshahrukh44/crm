@@ -961,3 +961,19 @@ function get_invoice_totals ($invoice_ids) {
 
     return $invoice_totals;
 }
+
+function generateRandomString($length = 10) {
+    // Define the characters that can be used in the string
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    // Calculate the length of the characters string
+    $charactersLength = strlen($characters);
+    // Initialize the random string
+    $randomString = '';
+    // Loop through and generate the random string
+    for ($i = 0; $i < $length; $i++) {
+        // Append a random character from the characters string to the random string
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    // Return the generated random string
+    return $randomString;
+}

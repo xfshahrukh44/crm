@@ -33,6 +33,7 @@
     <link href="{{ asset('newglobal/css/datatables.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('newglobal/css/select2.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('newglobal/css/sweetalert2.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('global/css/qa.css') }}" rel="stylesheet" />
     <style type="text/css">
         .file {
               visibility: hidden;

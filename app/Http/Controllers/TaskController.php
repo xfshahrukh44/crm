@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Project;
+use App\Models\QaFeedback;
+use App\Models\QaFile;
 use App\Models\Task;
 use App\Models\TaskStatusChangedLog;
 use App\Models\User;
@@ -1120,6 +1122,28 @@ class TaskController extends Controller
     }
 
     public function qaUpdateTask(Request $request, $id){
+//        dd($request->all());
+        //qa feedback
+        $qa_feedback = QaFeedback::create([
+            'user_id' => auth()->id() ?? null,
+            'task_id' => $id,
+            'message' => $request->get('message'),
+            'status' => $request->get('status'),
+        ]);
+
+        if ($request->has('files')) {
+            foreach ($request->file('files') as $file) {
+                $file_name = $file->getClientOriginalName();
+                $name = (generateRandomString(20)) . '_' . ']' .time().'.'.$file->getClientOriginalExtension();
+                $file->move(public_path().'/files/', $name);
+                $qa_file = new QaFile();
+                $qa_file->qa_feedback_id = $qa_feedback->id;
+                $qa_file->path = 'files/' . $name;
+                $qa_file->name = $file_name;
+                $qa_file->save();
+            }
+        }
+
         $value = $request->value;
         $task = Task::find($id);
         $user = $task->user;
@@ -1128,13 +1152,14 @@ class TaskController extends Controller
         if ($task->status != $request->value) {
             TaskStatusChangedLog::create([
                 'task_id' => $task->id,
+                'user_id' => auth()->id() ?? null,
                 'column' => 'status',
                 'old' => $task->status,
                 'new' => $request->value,
             ]);
         }
 
-        $task->status = $value;
+        $task->status = $request->status;
         $task->save();
         $status = '';
 
@@ -1216,7 +1241,8 @@ class TaskController extends Controller
             );
         }
 
-        return response()->json(['status' => true, 'message' => 'Status Updated Successfully']);
+//        return response()->json(['status' => true, 'message' => 'Status Updated Successfully']);
+        return redirect()->back()->with('success', 'QA feedback submitted Successfully.');
     }
 
     public function supportUpdateTask(Request $request, $id){
@@ -1228,6 +1254,7 @@ class TaskController extends Controller
         if ($task->status != $request->value) {
             TaskStatusChangedLog::create([
                 'task_id' => $task->id,
+                'user_id' => auth()->id() ?? null,
                 'column' => 'status',
                 'old' => $task->status,
                 'new' => $request->value,
