@@ -655,9 +655,13 @@ class TaskController extends Controller
 
         $data = $data->whereNotIn('id', $task_array)->orderBy('id', 'desc')->paginate(20);
         
-        $notify_data = Task::whereIn('brand_id', Auth()->user()->brand_list())->whereHas('projects', function ($query) {
-                            return $query->where('user_id', '=', Auth()->user()->id);
-                        })->whereIn('id', $task_array)->orderBy('id', 'desc')->get();
+        $notify_data = Task::whereIn('brand_id', Auth()->user()->brand_list())
+            ->when(!auth()->user()->is_support_head, function ($q) {
+                return $q->whereHas('projects', function ($query) {
+                    return $query->where('user_id', '=', Auth()->user()->id);
+                });
+            })
+            ->whereIn('id', $task_array)->orderBy('id', 'desc')->get();
         $brands =  Brand::whereIn('id', Auth()->user()->brand_list())->get();
         
         $date_now = new DateTime();
