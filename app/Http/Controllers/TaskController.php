@@ -1075,7 +1075,7 @@ class TaskController extends Controller
 
         if (auth()->user()->is_support_head) {
             //status: sent for approval
-            $task = $task->where('status', 5)
+            $task = $task->where('status', 5);
 
             if($request->category != null){
                 if($request->category == 0){
