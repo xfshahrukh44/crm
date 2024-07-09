@@ -42,6 +42,7 @@
                                 <td>{{$users->name}} {{$users->last_name}}</td>
                                 <td><span class="btn btn-primary btn-sm">{{ $users->get_role() }}</span></td>
                                 <td>
+                                    @dump($user->brand_list())
                                     @if($users->brands != null)
                                     @foreach($users->brands as $brands)
                                     <button class="btn btn-info btn-sm">{{$brands->name}}</button>
