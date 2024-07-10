@@ -49,7 +49,7 @@
                                                 <span class="t-font-bolder">{{ $message->user->name }} {{ $message->user->last_name }}</span>
                                             </a>
                                         </div>
-                                        @if($message->role_id != 3)
+                                        @if($message->role_id != 3 && (\Carbon\Carbon::now() <= \Carbon\Carbon::parse($message->created_at)->addMinutes(10)))
                                         <button class="btn-sm btn btn-primary" onclick="editMessage({{$message->id}})">Edit Message</button>
                                         @endif
                                     </div>

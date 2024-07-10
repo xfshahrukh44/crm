@@ -49,8 +49,8 @@
                                                     <span class="t-font-bolder">{{ $message->user->name }} {{ $message->user->last_name }}</span>
                                                 </a>
                                             </div>
-                                            @if($message->user_id == Auth()->user()->id)
-                                            <button class="btn-sm btn btn-primary" onclick="editMessage({{$message->id}})">Edit Message</button>
+                                            @if($message->user_id == Auth()->user()->id && (\Carbon\Carbon::now() <= \Carbon\Carbon::parse($message->created_at)->addMinutes(10)))
+                                                <button class="btn-sm btn btn-primary" onclick="editMessage({{$message->id}})">Edit Message</button>
                                             @endif
                                         </div>
                                         <div class="ul-widget3-body">
