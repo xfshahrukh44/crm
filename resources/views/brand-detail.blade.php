@@ -91,7 +91,7 @@
                             @endif
 
 
-                            @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]))
+                            @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]) || (auth()->user()->is_employee == 4 && auth()->user()->is_support_head))
                                 @php
                                     $briefs_pending_route = null;
                                     if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
@@ -100,6 +100,8 @@
                                         $briefs_pending_route = 'manager.brief.pending';
                                     } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {
                                         $briefs_pending_route = 'sale.brief.pending';
+                                    } else if (auth()->user()->is_employee == 4 && auth()->user()->is_support_head) {
+                                        $briefs_pending_route = 'support.brief.pending';
                                     }
                                 @endphp
                                 <div class="col"><p style="font-size: medium;">

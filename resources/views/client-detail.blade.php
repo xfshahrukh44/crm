@@ -57,7 +57,7 @@
 
 
                         <div class="row mt-4">
-                            @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]) && count($client->invoices))
+                            @if ((in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]) || (auth()->user()->is_employee == 4 && auth()->user()->is_support_head)) && count($client->invoices))
                                 <div class="col">
                                     @php
                                         if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
@@ -66,6 +66,8 @@
                                             $route = 'manager.invoice';
                                         } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {
                                             $route = 'sale.invoice';
+                                        } else if (auth()->user()->is_employee == 4 && auth()->user()->is_support_head) {
+                                            $route = 'support.invoice';
                                         }
                                     @endphp
                                     <p style="font-size: medium;">
@@ -110,7 +112,7 @@
                             @php
                                 $briefs_pendings = get_briefs_pending($client->user->id);
                             @endphp
-                            @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]) && count($briefs_pendings))
+                            @if ((in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]) || (auth()->user()->is_employee == 4 && auth()->user()->is_support_head)) && count($briefs_pendings))
                                 <div class="row my-4">
                                     <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
                                         <div class="row">
@@ -151,6 +153,7 @@
                                                                 <th>Service</th>
                                                                 @if(in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [4, 6]))
                                                                     <th>Assigned to</th>
+                                                                    <th>Actions</th>
                                                                 @endif
                                                                 <th>Status</th>
                                                             </tr>
@@ -178,9 +181,24 @@
                                                                         <td>
                                                                             <h6>{{$project->added_by->name . ' ' . $project->added_by->last_name}}</h6>
 
-                                                                            <a href="javascript:;" class="btn btn-primary btn-icon btn-sm" onclick="assignAgent({{$project->id}}, {{$project->form_checker}}, {{$project->brand_id}})">
+                                                                            <a href="javascript:;" class="badge badge-primary btn-icon btn-sm" onclick="assignAgent({{$project->id}}, {{$project->form_checker}}, {{$project->brand_id}})">
                                                                                 <span class="ul-btn__icon"><i class="i-Checked-User"></i></span>
                                                                                 <span class="ul-btn__text">Re Assign</span>
+                                                                            </a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="{{ route('support.message.show.id', ['id' => $project->client->id ,'name' => $project->client->name]) }}" class="badge badge-warning badge-sm">
+                                                                                Message
+                                                                            </a>
+                                                                            <br>
+                                                                            @if($project->form_checker != 0)
+                                                                                <a href="{{ route('support.form', [ 'form_id' => $project->form_id , 'check' => $project->form_checker, 'id' => $project->id]) }}" class="badge badge-primary badge-icon badge-sm">
+                                                                                    View Form
+                                                                                </a>
+                                                                            @endif
+                                                                            <br>
+                                                                            <a href="{{ route('create.task.by.project.id', ['id' => $project->id, 'name' => preg_replace('/[^A-Za-z0-9\-]/', '', strtolower(str_replace(' ', '-', $project->name))) ]) }}" class="badge badge-success badge-icon badge-sm">
+                                                                                Create Task
                                                                             </a>
                                                                         </td>
                                                                     @endif

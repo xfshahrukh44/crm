@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Manager\ManagerUserController;
 use App\Http\Controllers\QAController;
+use App\Http\Controllers\SupportClientController;
+use App\Http\Controllers\SupportInvoiceController;
 use App\Models\Invoice;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -224,6 +226,20 @@ Route::group(['middleware' => 'auth'], function () {
         //client
         Route::post('/support/client/create_auth/', [AdminClientController::class, 'createAuthSupport'])->name('support.client.createauth');
         Route::post('/support/client/update_auth/', [AdminClientController::class, 'updateAuthSupport'])->name('support.client.updateauth');
+        Route::resource('/support/client', SupportClientController::class, ['names' => 'support.client']);
+        Route::get('/support/payment-link/{id}', [SupportClientController::class, 'paymentLink'])->name('support.client.generate.payment');
+
+        //invoice
+        Route::post('/support/invoice', [SupportInvoiceController::class, 'saleStore'])->name('support.invoice.create');
+        Route::post('/support/invoice/update', [SupportInvoiceController::class, 'saleUpdate'])->name('support.invoice.update');
+        Route::any('/support/invoice/generated/{id}', [SupportInvoiceController::class, 'linkPageSale'])->name('support.link');
+        Route::get('/support/invoice', [SupportInvoiceController::class, 'getInvoiceByUserId'])->name('support.invoice');
+        Route::get('/support/invoice/{id}', [SupportInvoiceController::class, 'getSingleInvoice'])->name('support.single.invoice');
+        Route::get('/support/invoice/edit/{id}', [SupportInvoiceController::class, 'editInvoice'])->name('support.invoice.edit');
+        Route::post('/support/invoice/paid/{id}', [SupportInvoiceController::class, 'invoicePaidByIdSale'])->name('support.invoice.paid');
+
+        //brief pending
+        Route::get('/support/brief/pending', [SupportClientController::class, 'getBriefPendingById'])->name('support.brief.pending');
     });
 });
 

@@ -155,6 +155,29 @@
                 </a>
                 <div class="triangle"></div>
             </li>
+            @if(auth()->user()->is_support_head)
+                <li class="nav-item {{ ( request()->routeIs('support.client.index') || request()->routeIs('support.client.edit') || request()->routeIs('support.client.generate.payment') || request()->routeIs('support.client.create')) ? 'active' : '' }}">
+                    <a class="nav-item-hold" href="{{ route('support.client.index') }}">
+                        <i class="nav-icon i-Add-User"></i>
+                        <span class="nav-text">Clients</span>
+                    </a>
+                    <div class="triangle"></div>
+                </li>
+                <li class="nav-item {{ (request()->routeIs('support.invoice')) || (request()->routeIs('support.single.invoice') || request()->routeIs('support.link')) ? 'active' : '' }}">
+                    <a class="nav-item-hold" href="{{ route('support.invoice') }}">
+                        <i class="nav-icon i-Credit-Card"></i>
+                        <span class="nav-text">Invoices</span>
+                    </a>
+                    <div class="triangle"></div>
+                </li>
+                <li class="nav-item {{ (request()->routeIs('support.brief.pending')) ? 'active' : '' }}">
+                    <a class="nav-item-hold" href="{{ route('support.brief.pending') }}">
+                        <i class="nav-icon i-Folder-Close"></i>
+                        <span class="nav-text">Brief Pending</span>
+                    </a>
+                    <div class="triangle"></div>
+                </li>
+            @endif
             @if(\Illuminate\Support\Facades\Auth::user()->is_support_head)
                 <li class="nav-item {{ (request()->routeIs('support.pending.project')) || (request()->routeIs('support.pending.project.details') ) ? 'active' : '' }}">
                     <a class="nav-item-hold" href="{{ route('support.pending.project') }}">
