@@ -88,7 +88,7 @@
 
 <div class="breadcrumb">
     <h1 class="mr-2">Messages</h1>
-    <button class="btn btn-primary ml-auto" id="write-message">Write A Message</button>
+    <button class="btn btn-primary ml-auto" id="write-message" data-intro='Send us a message.' data-step='3'>Write A Message</button>
 </div>
 <div class="separator-breadcrumb border-top"></div>
 

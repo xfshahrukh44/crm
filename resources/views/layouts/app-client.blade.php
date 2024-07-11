@@ -33,6 +33,7 @@
     <link href="{{ asset('newglobal/css/datatables.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('newglobal/css/select2.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('newglobal/css/sweetalert2.min.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/introjs.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @stack('styles')
     <style>
         .select2-container .select2-selection--single{
@@ -105,6 +106,10 @@
     <script src="{{ asset('newglobal/js/select2.min.js') }}"></script>
     <script src="{{ asset('newglobal/js/Chart.min.js') }}"></script>
     <script src="{{ asset('newglobal/js/sweetalert2.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/intro.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        introJs().start();
+    </script>
     @yield('script')
 
     @stack('scripts')

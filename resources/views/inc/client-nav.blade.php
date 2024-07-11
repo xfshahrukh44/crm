@@ -103,7 +103,7 @@
                 <div class="triangle"></div>
             </li> -->
 
-            <li class="nav-item {{ (request()->routeIs('client.fetch.messages') || request()->routeIs('client.home')) ? 'active' : '' }}">
+            <li class="nav-item {{ (request()->routeIs('client.fetch.messages') || request()->routeIs('client.home')) ? 'active' : '' }}" data-intro='View messages from our staff.' data-step='2'>
                 <a class="nav-item-hold" href="{{ route('client.fetch.messages') }}">
                     <i class="nav-icon i-Speach-Bubble-3"></i>
                     <span class="nav-text">Message</span>
@@ -111,7 +111,7 @@
                 <div class="triangle"></div>
             </li>
 
-            <li class="nav-item {{ request()->routeIs('client.brief') ? 'active' : '' }}">
+            <li class="nav-item {{ request()->routeIs('client.brief') ? 'active' : '' }}" data-intro='Fill out your brief forms.' data-step='1'>
                 <a class="nav-item-hold" href="{{ route('client.brief') }}">
                     <i class="nav-icon i-File-Horizontal-Text"></i>
                     <span class="nav-text">Brief</span>
