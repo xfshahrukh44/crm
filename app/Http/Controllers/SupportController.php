@@ -751,7 +751,7 @@ class SupportController extends Controller
                        ->orWhere('email', 'LIKE', "%".request()->get('client_name')."%")
                        ->orWhere('contact', 'LIKE', "%".request()->get('client_name')."%");
                });
-        })->get();
+        })->paginate(10);
 
 //        $datas = Project::where('user_id', Auth()->user()->id)
 ////            ->when(auth()->user()->is_support_head == 1, function ($q) {
