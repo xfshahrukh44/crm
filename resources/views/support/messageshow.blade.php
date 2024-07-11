@@ -57,7 +57,7 @@
     {{--                                            </div>--}}
     {{--                                        @else--}}
                                                 <div class="ul-widget4__actions text-right">
-                                                    <a href="{{ route('support.message.show.id', ['id' => $client_with_messages->id, 'name' => $user->name]) }}" class="btn btn-outline-success m-1">View Details</a>
+                                                    <a href="{{ route('support.message.show.id', ['id' => $client_with_messages->id, 'name' => $client_with_messages->name]) }}" class="btn btn-outline-success m-1">View Details</a>
                                                 </div>
     {{--                                        @endif--}}
                                         </div>
