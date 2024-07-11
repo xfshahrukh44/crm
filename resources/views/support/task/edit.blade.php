@@ -28,7 +28,8 @@
                             </div>
                             <div class="col-md-4 form-group mb-3">
                                 <label for="category">Select Category <span>*</span></label>
-                                <select name="category[]" id="category" class="form-control select2" required multiple>
+{{--                                <select name="category[]" id="category" class="form-control select2" required multiple>--}}
+                                <select name="category_id" id="category" class="form-control select2" required>
                                     @foreach($categorys as $category)
                                         <option value="{{ $category->id }}" {!! $task->category_id == $category->id ? 'selected' : '' !!}>{{ $category->name }}</option>
                                     @endforeach

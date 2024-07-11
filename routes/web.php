@@ -200,7 +200,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('support/message/{id}/show', [SupportController::class, 'showMessage'])->name('support.message.show');
         Route::post('support/message/', [SupportController::class, 'sendMessage'])->name('support.message.send');
         Route::get('create/task/{id}/{name}/{notify?}', [TaskController::class, 'createTaskByProjectId'])->name('create.task.by.project.id');
-        Route::get('edit/task/{id}', [TaskController::class, 'editTaskById'])->name('edit.task.by.id');
+        Route::get('support/edit/task/{id}', [TaskController::class, 'editTaskById'])->name('edit.task.by.id');
         Route::post('support/task/store', [TaskController::class, 'storeTaskBySupport'])->name('store.task.by.support');
         Route::post('support/task/update/{id}', [TaskController::class, 'updateTaskBySupport'])->name('update.task.by.support');
         Route::post('support/task/notes', [TaskController::class, 'storeoNotesBySupport'])->name('store.notes.by.support');
