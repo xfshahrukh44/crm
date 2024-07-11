@@ -291,5 +291,9 @@ function Clicked_h_btnAddFileUploadControl() {
     $('#message-post').submit(function(){
         $(this).find('.btn-primary').hide();
     })
+
+    setTimeout(() => {
+        $("html, body").animate({ scrollTop: document.body.scrollHeight }, "slow");
+    }, 1400);
 </script>
 @endpush

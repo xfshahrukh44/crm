@@ -726,7 +726,19 @@ class SupportController extends Controller
     }
 
     public function getMessageBySupport(){
-        $datas = Project::where('user_id', Auth()->user()->id)->orderBy('id', 'desc')->get();
+        $datas = Project::where('user_id', Auth()->user()->id)
+            ->when(auth()->user()->is_support_head == 1, function ($q) {
+                return $q->orWhereIn('brand_id', auth()->user()->brand_list());
+            })
+            ->when(request()->has('client_name'), function ($q) {
+                return $q->whereHas('client', function ($q) {
+                    return $q->where('name', 'LIKE', "%".request()->get('client_name')."%")
+                        ->orWhere('last_name', 'LIKE', "%".request()->get('client_name')."%")
+                        ->orWhere('email', 'LIKE', "%".request()->get('client_name')."%")
+                        ->orWhere('contact', 'LIKE', "%".request()->get('client_name')."%");
+                });
+            })
+            ->orderBy('id', 'desc')->get();
         $message_array = [];
         foreach($datas as $data){
             $task_array_id = array();
@@ -742,6 +754,7 @@ class SupportController extends Controller
                 $message_array[$data->client->id]['message'] = $message->message;
                 $message_array[$data->client->id]['image'] = $data->client->image;
                 $message_array[$data->client->id]['task_id'] = $task_id;
+                $message_array[$data->client->id]['client_id'] = $data->client->id;
             }
         }
 

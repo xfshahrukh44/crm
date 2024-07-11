@@ -16,6 +16,14 @@
 <section class="widgets-content">
     <!-- begin::users-->
     <div class="row mt-2">
+        <form action="{{route('support.message.get.by.support')}}" style="width: 100%">
+            <div class="col-xl-12">
+                <input type="text" class="form-control mb-2" placeholder="Search client" name="client_name" value="{{request()->get('client_name')}}">
+            </div>
+            <div class="col-md-2 offset-md-5 mb-4">
+                <button class="btn btn-block btn-primary" type="submit">Search client</button>
+            </div>
+        </form>
         <div class="col-xl-12">
             @foreach($message_array as $key => $message)
             <div class="card mb-4">
@@ -39,11 +47,15 @@
 {{--                                        <div class="ul-widget4__actions text-center">--}}
 {{--                                            <span class="badge badge-primary">{{ \Carbon\Carbon::parse($message['created_at'])->format('d M Y h:i A') }}</span>--}}
 {{--                                        </div>--}}
-                                        @if($message['task_id'] != 0)
-                                        <div class="ul-widget4__actions text-right">
-                                            <a href="{{ route('support.task.show', $message['task_id']) }}" class="btn btn-outline-success m-1">View Details</a>
-                                        </div>
-                                        @endif
+{{--                                        @if($message['task_id'] != 0)--}}
+{{--                                            <div class="ul-widget4__actions text-right">--}}
+{{--                                                <a href="{{ route('support.task.show', $message['task_id']) }}" class="btn btn-outline-success m-1">View Details</a>--}}
+{{--                                            </div>--}}
+{{--                                        @else--}}
+                                            <div class="ul-widget4__actions text-right">
+                                                <a href="{{ route('support.message.show.id', ['id' => $message['client_id'], 'name' => $message['f_name']]) }}" class="btn btn-outline-success m-1">View Details</a>
+                                            </div>
+{{--                                        @endif--}}
                                     </div>
                                 </div>
                             </div>
