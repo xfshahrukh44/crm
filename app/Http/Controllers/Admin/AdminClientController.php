@@ -41,7 +41,9 @@ class AdminClientController extends Controller
             $data = new Client;
             $data = $data->orderBy('id', 'desc');
             if($request->name != ''){
-                $data = $data->where(DB::raw('concat(name," ",last_name)'), 'like', '%'.$request->name.'%');
+                $data = $data->where(DB::raw('concat(name," ",last_name)'), 'like', '%'.$request->name.'%')
+                    ->orWhere('name', 'like', '%'.$request->name.'%');
+                    ->orWhere('last_name', 'like', '%'.$request->name.'%');
             }
             if($request->email != ''){
                 $data = $data->where('email', 'LIKE', "%$request->email%");
