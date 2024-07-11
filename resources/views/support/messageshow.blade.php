@@ -26,9 +26,9 @@
         </form>
         <div class="col-xl-12">
             @foreach($clients_with_messages as $client_with_messages)
-            @if($client_with_messages)
+            @if($client_with_messages && $client_with_messages->user)
                 @php
-                    $message = \App\Models\Message::where('user_id', $user->id)->orWhere('sender_id', $user->id)->orderBy('id', 'desc')->first();
+                    $message = \App\Models\Message::where('user_id', $client_with_messages->user->id)->orWhere('sender_id', $client_with_messages->user->id)->orderBy('id', 'desc')->first();
                 @endphp
             @endif
             @if(isset($message) && $message)
@@ -59,7 +59,7 @@
     {{--                                            </div>--}}
     {{--                                        @else--}}
                                                 <div class="ul-widget4__actions text-right">
-                                                    <a href="{{ route('support.message.show.id', ['id' => $user->id, 'name' => $client_with_messages->name]) }}" class="btn btn-outline-success m-1">View Details</a>
+                                                    <a href="{{ route('support.message.show.id', ['id' => $client_with_messages->user->id, 'name' => $client_with_messages->name]) }}" class="btn btn-outline-success m-1">View Details</a>
                                                 </div>
     {{--                                        @endif--}}
                                         </div>
