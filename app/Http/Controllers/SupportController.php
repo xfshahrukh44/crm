@@ -727,9 +727,9 @@ class SupportController extends Controller
 
     public function getMessageBySupport(){
         $datas = Project::where('user_id', Auth()->user()->id)
-            ->when(auth()->user()->is_support_head == 1, function ($q) {
-                return $q->orWhereIn('brand_id', auth()->user()->brand_list());
-            })
+//            ->when(auth()->user()->is_support_head == 1, function ($q) {
+//                return $q->orWhereIn('brand_id', auth()->user()->brand_list());
+//            })
             ->when(request()->has('client_name'), function ($q) {
                 return $q->where('name', 'LIKE', "%".request()->get('client_name')."%")
                     ->orWhereHas('client', function ($q) {
