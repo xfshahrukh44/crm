@@ -737,7 +737,7 @@ class SupportController extends Controller
                                 ->orWhere('email', 'LIKE', "%".request()->get('client_name')."%")
                                 ->orWhereHas('client', function ($q) {
                                     return $q->orWhere('name', 'LIKE', "%".request()->get('client_name')."%")
-                                        ->orWhere('email', 'LIKE', "%".request()->get('client_name')."%")
+                                        ->orWhere('email', 'LIKE', "%".request()->get('client_name')."%");
                                 });
                         });
                 });
