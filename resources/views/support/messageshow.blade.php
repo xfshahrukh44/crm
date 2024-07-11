@@ -69,7 +69,7 @@
                     </div>
                 @endif
             @endforeach
-            {{$client_with_messages->links()}}
+            {{$clients_with_messages->links()}}
         </div>
     </div>
     <!-- end::users-->
