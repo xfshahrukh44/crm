@@ -28,7 +28,6 @@
             @foreach($clients_with_messages as $client_with_messages)
             @php
                 $user = \App\Models\User::where('client_id', $client_with_messages->id)->first();
-                dump($user);
                 $message = \App\Models\Message::where('user_id', $user->id)->orWhere('sender_id', $user->id)->orderBy('id', 'desc')->first();
             @endphp
             @if($message)
