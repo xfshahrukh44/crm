@@ -27,9 +27,11 @@
         <div class="col-xl-12">
             @foreach($clients_with_messages as $client_with_messages)
             @php
-                $message = \App\Models\Message::where('user_id', $client_with_messages->user->id)->orWhere('sender_id', $client_with_messages->user->id)->orderBy('id', 'desc')->first();
+                if($user = \App\Models\User::where('client_id', $client_with_messages->id)->first()) {
+                    $message = \App\Models\Message::where('user_id', $user->id)->orWhere('sender_id', $user->id)->orderBy('id', 'desc')->first();
+                }
             @endphp
-            @if($message)
+            @if(isset($message) && $user)
                 <div class="card mb-4">
                     <div class="card-body">
                         <div class="ul-widget__body">
@@ -57,7 +59,7 @@
     {{--                                            </div>--}}
     {{--                                        @else--}}
                                                 <div class="ul-widget4__actions text-right">
-                                                    <a href="{{ route('support.message.show.id', ['id' => $client_with_messages->user->id, 'name' => $client_with_messages->name]) }}" class="btn btn-outline-success m-1">View Details</a>
+                                                    <a href="{{ route('support.message.show.id', ['id' => $user->id, 'name' => $user->name]) }}" class="btn btn-outline-success m-1">View Details</a>
                                                 </div>
     {{--                                        @endif--}}
                                         </div>
