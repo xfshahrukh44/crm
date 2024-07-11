@@ -726,43 +726,54 @@ class SupportController extends Controller
     }
 
     public function getMessageBySupport(){
-        $datas = Project::where('user_id', Auth()->user()->id)
-//            ->when(auth()->user()->is_support_head == 1, function ($q) {
-//                return $q->orWhereIn('brand_id', auth()->user()->brand_list());
+        $clients_with_messages = Client::whereIn('brand_id', auth()->user()->brand_list())
+//            ->whereHas('projects', function ($q) {
+//                return $q->orderBy('id', 'desc');
 //            })
-            ->when(request()->has('client_name'), function ($q) {
-                return $q->where(function ($q) {
-                    return $q->whereHas('client', function ($q) {
-                            return $q->orWhere('name', 'LIKE', "%".request()->get('client_name')."%")
-                                ->orWhere('email', 'LIKE', "%".request()->get('client_name')."%")
-                                ->orWhereHas('client', function ($q) {
-                                    return $q->orWhere('name', 'LIKE', "%".request()->get('client_name')."%")
-                                        ->orWhere('email', 'LIKE', "%".request()->get('client_name')."%");
-                                });
-                        });
+            ->whereHas('user', function ($q) {
+                return $q->when(request()->has('client_name'), function ($q) {
+                    return $q->orWhere('name', 'LIKE', "%".request()->get('client_name')."%")
+                        ->orWhere('last_name', 'LIKE', "%".request()->get('client_name')."%")
+                        ->orWhere('email', 'LIKE', "%".request()->get('client_name')."%")
+                        ->orWhere('contact', 'LIKE', "%".request()->get('client_name')."%");
                 });
-            })
-            ->orderBy('id', 'desc')->get();
-        $message_array = [];
-        foreach($datas as $data){
-            $task_array_id = array();
-            $task_id = 0;
-            if(count($data->tasks) != 0){
-                $task_id = $data->tasks[0]->id;
-            }
-            $message = Message::where('user_id', $data->client->id)->orWhere('sender_id', $data->client->id)->orderBy('id', 'desc')->first();
-            if($message != null){
-                $message_array[$data->client->id]['f_name'] = $data->client->name;
-                $message_array[$data->client->id]['l_name'] = $data->client->last_name;
-                $message_array[$data->client->id]['email'] = $data->client->email;
-                $message_array[$data->client->id]['message'] = $message->message;
-                $message_array[$data->client->id]['image'] = $data->client->image;
-                $message_array[$data->client->id]['task_id'] = $task_id;
-                $message_array[$data->client->id]['client_id'] = $data->client->id;
-            }
-        }
+            })->get();
 
-        return view('support.messageshow', compact('message_array'));
+//        $datas = Project::where('user_id', Auth()->user()->id)
+////            ->when(auth()->user()->is_support_head == 1, function ($q) {
+////                return $q->orWhereIn('brand_id', auth()->user()->brand_list());
+////            })
+//            ->when(request()->has('client_name'), function ($q) {
+//                return $q->where(function ($q) {
+//                    return $q->whereHas('client', function ($q) {
+//                            return $q->orWhere('name', 'LIKE', "%".request()->get('client_name')."%")
+//                                ->orWhere('last_name', 'LIKE', "%".request()->get('client_name')."%")
+//                                ->orWhere('email', 'LIKE', "%".request()->get('client_name')."%")
+//                                ->orWhere('contact', 'LIKE', "%".request()->get('client_name')."%");
+//                        });
+//                });
+//            })
+//            ->orderBy('id', 'desc')->get();
+//        $message_array = [];
+//        foreach($datas as $data){
+//            $task_array_id = array();
+//            $task_id = 0;
+//            if(count($data->tasks) != 0){
+//                $task_id = $data->tasks[0]->id;
+//            }
+//            $message = Message::where('user_id', $data->client->id)->orWhere('sender_id', $data->client->id)->orderBy('id', 'desc')->first();
+//            if($message != null){
+//                $message_array[$data->client->id]['f_name'] = $data->client->name;
+//                $message_array[$data->client->id]['l_name'] = $data->client->last_name;
+//                $message_array[$data->client->id]['email'] = $data->client->email;
+//                $message_array[$data->client->id]['message'] = $message->message;
+//                $message_array[$data->client->id]['image'] = $data->client->image;
+//                $message_array[$data->client->id]['task_id'] = $task_id;
+//                $message_array[$data->client->id]['client_id'] = $data->client->id;
+//            }
+//        }
+
+        return view('support.messageshow', compact('clients_with_messages'));
     }
 
     public function getMessageByAdmin(Request $request){
