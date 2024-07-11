@@ -68,6 +68,24 @@
         .layout-sidebar-large .sidebar-left .navigation-left .nav-item .nav-item-hold {
             position: relative;
         }
+
+        .introjs-tooltip-header {
+            padding: 0px;
+        }
+
+        .introjs-tooltiptext {
+            padding-top: 0px;
+            padding-bottom: 0px;
+            font-size: 18px;
+        }
+
+        .introjs-bullets {
+            padding: 0px;
+        }
+
+        a.introjs-button {
+            padding: 2%;
+        }
     </style>
 </head>
 <body class="text-left">
@@ -108,7 +126,7 @@
     <script src="{{ asset('newglobal/js/sweetalert2.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/intro.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-        introJs().start();
+        introJs().setOption("dontShowAgain", true).start();
     </script>
     @yield('script')
 
