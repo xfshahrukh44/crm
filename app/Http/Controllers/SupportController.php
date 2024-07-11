@@ -727,9 +727,9 @@ class SupportController extends Controller
 
     public function getMessageBySupport(){
         $clients_with_messages = Client::whereIn('brand_id', auth()->user()->brand_list())
-//            ->whereHas('projects', function ($q) {
-//                return $q->orderBy('id', 'desc');
-//            })
+            ->whereHas('projects', function ($q) {
+                return $q->orderBy('id', 'desc');
+            })
             ->whereHas('user', function ($q) {
                 return $q->when(request()->has('client_name'), function ($q) {
                     return $q->orWhere('name', 'LIKE', "%".request()->get('client_name')."%")
