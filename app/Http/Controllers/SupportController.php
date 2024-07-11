@@ -729,7 +729,7 @@ class SupportController extends Controller
         $clients_with_messages = Client::with('user')
 //            ->whereIn('brand_id', auth()->user()->brand_list())
             ->whereHas('projects', function ($q) {
-                return $q->orderBy('id', 'desc');
+                return $q->where('user_id', auth()->user()->id)->orderBy('id', 'desc');
             })
             ->whereHas('user', function ($q) {
                 return $q->when(request()->has('client_name'), function ($q) {
