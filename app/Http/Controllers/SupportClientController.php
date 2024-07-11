@@ -27,7 +27,7 @@ class SupportClientController extends Controller
             });
         }
         if($request->email != ''){
-            $data = $data->whereHas('user', function ($q) use ($request) {
+            $data = $data->where('email', 'LIKE', '%'.$request->email.'%')->orWhereHas('user', function ($q) use ($request) {
                 return $q->where('email', 'LIKE', '%'.$request->email.'%');
             });
         }
