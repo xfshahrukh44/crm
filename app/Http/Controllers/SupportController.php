@@ -731,12 +731,13 @@ class SupportController extends Controller
                 return $q->orWhereIn('brand_id', auth()->user()->brand_list());
             })
             ->when(request()->has('client_name'), function ($q) {
-                return $q->whereHas('client', function ($q) {
-                    return $q->where('name', 'LIKE', "%".request()->get('client_name')."%")
-                        ->orWhere('last_name', 'LIKE', "%".request()->get('client_name')."%")
-                        ->orWhere('email', 'LIKE', "%".request()->get('client_name')."%")
-                        ->orWhere('contact', 'LIKE', "%".request()->get('client_name')."%");
-                });
+                return $q->where('name', 'LIKE', "%".request()->get('client_name')."%")
+                    ->orWhereHas('client', function ($q) {
+                        return $q->orWhere('name', 'LIKE', "%".request()->get('client_name')."%")
+                            ->orWhere('last_name', 'LIKE', "%".request()->get('client_name')."%")
+                            ->orWhere('email', 'LIKE', "%".request()->get('client_name')."%")
+                            ->orWhere('contact', 'LIKE', "%".request()->get('client_name')."%");
+                    });
             })
             ->orderBy('id', 'desc')->get();
         $message_array = [];
