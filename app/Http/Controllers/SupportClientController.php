@@ -21,16 +21,20 @@ class SupportClientController extends Controller
         $data = $data->whereIn('brand_id', auth()->user()->brand_list());
         $data = $data->orderBy('id', 'desc');
         if($request->name != ''){
-            $data = $data->where('name', 'LIKE', "%$request->name%");
-            $data = $data
-                ->where('name', 'like', '%'.$request->name.'%')
-                ->orWhere('last_name', 'like', '%'.$request->name.'%');
+            $data = $data->whereHas('user', function ($q) use ($request) {
+                return $q->where('name', 'LIKE', '%'.$request->name.'%')
+                    ->orWhere('last_name', 'LIKE', '%'.$request->name.'%');
+            });
         }
         if($request->email != ''){
-            $data = $data->where('email', 'LIKE', "%$request->email%");
+            $data = $data->whereHas('user', function ($q) use ($request) {
+                return $q->where('email', 'LIKE', '%'.$request->email.'%');
+            });
         }
         if($request->contact != ''){
-            $data = $data->where('contact', 'LIKE', "%$request->contact%");
+            $data = $data->whereHas('user', function ($q) use ($request) {
+                return $q->where('contact', 'LIKE', '%'.$request->contact.'%');
+            });
         }
         if($request->status != ''){
             $data = $data->where('status', $request->status);
