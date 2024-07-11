@@ -612,7 +612,7 @@ class TaskController extends Controller
 
     public function updateTaskBySupport(Request $request, $id){
         $request->validate([
-            'category' => 'required',
+            'category_id' => 'required',
             'description' => 'required',
             'duedate' => 'required',
         ]);
