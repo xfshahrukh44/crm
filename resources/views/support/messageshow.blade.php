@@ -26,11 +26,12 @@
         </form>
         <div class="col-xl-12">
             @foreach($clients_with_messages as $client_with_messages)
-            @php
-                $user = \App\Models\User::where('client_id', $client_with_messages->id)->first();
-                $message = \App\Models\Message::where('user_id', $user->id)->orWhere('sender_id', $user->id)->orderBy('id', 'desc')->first();
-            @endphp
-            @if($message)
+            @if($client_with_messages)
+                @php
+                    $message = \App\Models\Message::where('user_id', $user->id)->orWhere('sender_id', $user->id)->orderBy('id', 'desc')->first();
+                @endphp
+            @endif
+            @if(isset($message) && $message)
                 <div class="card mb-4">
                     <div class="card-body">
                         <div class="ul-widget__body">

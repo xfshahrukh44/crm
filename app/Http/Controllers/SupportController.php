@@ -727,12 +727,15 @@ class SupportController extends Controller
 
     public function getMessageBySupport(){
         $clients_with_messages = Client::whereIn('brand_id', auth()->user()->brand_list())
-//            ->whereHas('projects', function ($q) {
-//                return $q->orderBy('id', 'desc');
-//            })
+            ->whereHas('projects', function ($q) {
+                return $q->orderBy('id', 'desc');
+            })
             ->whereHas('user', function ($q) {
                 return $q->when(request()->has('client_name'), function ($q) {
-                    return $q->where('email', 'pipayperez@hotmail.com');
+                    return $q->orWhere('name', 'LIKE', "%".request()->get('client_name')."%")
+                        ->orWhere('last_name', 'LIKE', "%".request()->get('client_name')."%")
+                        ->orWhere('email', 'LIKE', "%".request()->get('client_name')."%")
+                        ->orWhere('contact', 'LIKE', "%".request()->get('client_name')."%");
                 });
             })->get();
 
