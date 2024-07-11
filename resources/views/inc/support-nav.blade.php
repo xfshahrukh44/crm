@@ -44,7 +44,7 @@
                 @php
                 $k = 0;
                 @endphp
-                @foreach(auth()->user()->unreadnotifications as $notifications)
+                @foreach(auth()->user()->unreadnotifications()->latest()->take(10)->get() as $notifications)
                 @if($notifications->type == 'App\Notifications\AssignProjectNotification')
                 <a href="{{ route('create.task.by.project.id', ['id' => $notifications->data['project_id'], 'name' => $notifications->data['text'], 'notify' => $notifications->id]) }}" class="dropdown-item d-flex">
                 @elseif($notifications->type == 'App\Notifications\TaskNotification')

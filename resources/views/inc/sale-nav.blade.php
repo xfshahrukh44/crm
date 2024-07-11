@@ -44,7 +44,7 @@
                 @php
                 $k = 0;
                 @endphp
-                @foreach(auth()->user()->unreadnotifications as $notifications)
+                @foreach(auth()->user()->unreadnotifications()->latest()->take(10)->get() as $notifications)
                 @if($notifications->type == 'App\Notifications\LeadNotification')
                 <a href="{{ route('admin.client.shownotification', ['client' => $notifications->data['id'], 'id' => $notifications->id] ) }}" class="dropdown-item d-flex">
                 @elseif($notifications->type == 'App\Notifications\PaymentNotification')

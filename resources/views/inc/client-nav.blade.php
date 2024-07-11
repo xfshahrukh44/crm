@@ -33,7 +33,7 @@
                 @php
                 $k = 0;
                 @endphp
-                @foreach(auth()->user()->unreadnotifications as $notifications)
+                @foreach(auth()->user()->unreadnotifications()->latest()->take(10)->get() as $notifications)
                 <a href="{{ route('client.fetch.messages') }}" class="dropdown-item d-flex">
                     <div class="notification-icon">
                         <i class="i-Speach-Bubble-8 text-primary mr-1"></i>

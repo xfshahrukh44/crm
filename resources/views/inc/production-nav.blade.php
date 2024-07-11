@@ -30,7 +30,7 @@
                 @php
                 $k = 0;
                 @endphp
-                @foreach(auth()->user()->unreadnotifications()->take(5)->get() as $notifications)
+                @foreach(auth()->user()->unreadnotifications()->latest()->take(10)->get() as $notifications)
                 @if($notifications->type == 'App\Notifications\SubTaskNotification')
                 <a href="{{ route('production.subtask.show', ['id' => $notifications->data['task_id'], 'notify' => $notifications->id]) }}" class="dropdown-item d-flex">
                 @else
