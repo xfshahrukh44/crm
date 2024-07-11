@@ -22,7 +22,9 @@ class SupportClientController extends Controller
         $data = $data->orderBy('id', 'desc');
         if($request->name != ''){
             $data = $data->where('name', 'LIKE', "%$request->name%");
-            $data = $data->where('name', 'LIKE', "%$request->last_name%");
+            $data = $data
+                ->where('name', 'like', '%'.$request->name.'%')
+                ->orWhere('last_name', 'like', '%'.$request->name.'%');
         }
         if($request->email != ''){
             $data = $data->where('email', 'LIKE', "%$request->email%");
