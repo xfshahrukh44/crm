@@ -726,19 +726,32 @@ class SupportController extends Controller
     }
 
     public function getMessageBySupport(){
-        $clients_with_messages = Client::with('user')
+//        $clients_with_messages = Client::with('user')
 //            ->whereIn('brand_id', auth()->user()->brand_list())
-            ->whereHas('projects', function ($q) {
-                return $q->where('user_id', auth()->user()->id)->orderBy('id', 'desc');
-            })
-            ->whereHas('user', function ($q) {
-                return $q->when(request()->has('client_name'), function ($q) {
-                    return $q->orWhere('name', 'LIKE', "%".request()->get('client_name')."%")
-                        ->orWhere('last_name', 'LIKE', "%".request()->get('client_name')."%")
-                        ->orWhere('email', 'LIKE', "%".request()->get('client_name')."%")
-                        ->orWhere('contact', 'LIKE', "%".request()->get('client_name')."%");
-                });
-            })->get();
+//            ->whereHas('projects', function ($q) {
+//                return $q->orderBy('id', 'desc');
+//            })
+//            ->whereHas('user', function ($q) {
+//                return $q->when(request()->has('client_name'), function ($q) {
+//                    return $q->orWhere('name', 'LIKE', "%".request()->get('client_name')."%")
+//                        ->orWhere('last_name', 'LIKE', "%".request()->get('client_name')."%")
+//                        ->orWhere('email', 'LIKE', "%".request()->get('client_name')."%")
+//                        ->orWhere('contact', 'LIKE', "%".request()->get('client_name')."%");
+//                });
+//            })->get();
+
+        $clients_with_messages = User::whereHas('client', function ($q) {
+           return $q->whereIn('brand_id', auth()->user()->brand_list())
+               ->whereHas('projects', function ($q) {
+                   return $q->orderBy('id', 'desc');
+               })
+               ->when(request()->has('client_name'), function ($q) {
+                   return $q->orWhere('name', 'LIKE', "%".request()->get('client_name')."%")
+                       ->orWhere('last_name', 'LIKE', "%".request()->get('client_name')."%")
+                       ->orWhere('email', 'LIKE', "%".request()->get('client_name')."%")
+                       ->orWhere('contact', 'LIKE', "%".request()->get('client_name')."%");
+               });
+        })->get();
 
 //        $datas = Project::where('user_id', Auth()->user()->id)
 ////            ->when(auth()->user()->is_support_head == 1, function ($q) {
