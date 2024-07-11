@@ -101,7 +101,7 @@ class ClientController extends Controller
         $request->validate([
             'name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|unique:clients,email',
+            'email' => 'required|email|unique:clients,email',
             'status' => 'required',
             'brand_id' => 'required',
         ]);
@@ -119,7 +119,7 @@ class ClientController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|unique:clients,email',
+            'email' => 'required|email|unique:clients,email',
             'status' => 'required',
             'brand_id' => 'required',
         ]);

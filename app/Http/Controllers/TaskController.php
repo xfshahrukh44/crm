@@ -1034,7 +1034,18 @@ class TaskController extends Controller
         ];
         $client_file->show_to_client = $client_file->task->projects->client_id;
         $client_file->save();
-        \Mail::to($client_file->task->projects->client->email)->send(new \App\Mail\ClientNotifyMail($details));
+        try {
+            \Mail::to($client_file->task->projects->client->email)->send(new \App\Mail\ClientNotifyMail($details));
+        } catch (\Exception $e) {
+
+            $mail_error_data = json_encode([
+                'emails' => [$client_file->task->projects->client->email],
+                'body' => 'Please Login into your Dashboard to view it..',
+                'error' => $e->getMessage(),
+            ]);
+
+            \Illuminate\Support\Facades\Log::error('MAIL FAILED: ' . $mail_error_data);
+        }
         return response()->json(['success' => true]);
     }
 

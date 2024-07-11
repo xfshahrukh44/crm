@@ -103,12 +103,34 @@ class ClientChatController extends Controller
             $sale = User::find(Auth::user()->client->user_id);
             if ($sale) {
                 $sale->notify(new MessageNotification($messageData));
-                \Mail::to($sale->email)->send(new \App\Mail\ClientNotifyMail($details));
+                try {
+                    \Mail::to($sale->email)->send(new \App\Mail\ClientNotifyMail($details));
+                } catch (\Exception $e) {
+
+                    $mail_error_data = json_encode([
+                        'emails' => [$sale->email],
+                        'body' => 'Please Login into your Dashboard to view it..',
+                        'error' => $e->getMessage(),
+                    ]);
+
+                    \Illuminate\Support\Facades\Log::error('MAIL FAILED: ' . $mail_error_data);
+                }
             }
             $projects = Project::select('user_id')->where('client_id', Auth::user()->id)->get();
             foreach($projects as $project){
-                \Mail::to($project->added_by->email)->send(new \App\Mail\ClientNotifyMail($details));
-                $project->added_by->notify(new MessageNotification($messageData));
+                try {
+                    \Mail::to($project->added_by->email)->send(new \App\Mail\ClientNotifyMail($details));
+                    $project->added_by->notify(new MessageNotification($messageData));
+                } catch (\Exception $e) {
+
+                    $mail_error_data = json_encode([
+                        'emails' => [$project->added_by->email],
+                        'body' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has send you a Message',
+                        'error' => $e->getMessage(),
+                    ]);
+
+                    \Illuminate\Support\Facades\Log::error('MAIL FAILED: ' . $mail_error_data);
+                }
             }
 
             $adminusers = User::where('is_employee', 2)->get();

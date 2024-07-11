@@ -579,7 +579,18 @@ class InvoiceController extends Controller
                     'title' =>  'Invoice Number #' . $get_invoice->id . ' has been paid by '. $customerName . ' - ' . $customerEmail,
                     'body' => 'Please Login into your Dashboard to view it..'
                 ];
-                \Mail::to($get_invoice->sale->email)->send(new \App\Mail\ClientNotifyMail($details));
+                try {
+                    \Mail::to($get_invoice->sale->email)->send(new \App\Mail\ClientNotifyMail($details));
+                } catch (\Exception $e) {
+
+                    $mail_error_data = json_encode([
+                        'emails' => [$get_invoice->sale->email],
+                        'body' => 'Please Login into your Dashboard to view it..',
+                        'error' => $e->getMessage(),
+                    ]);
+
+                    \Illuminate\Support\Facades\Log::error('MAIL FAILED: ' . $mail_error_data);
+                }
 
                 $messageData = [
                     'id' => $get_invoice->id,
@@ -765,7 +776,18 @@ class InvoiceController extends Controller
                             'title' =>  'Invoice Number #' . $get_invoice->id . ' has been paid by '. $customerName . ' - ' . $customerEmail,
                             'body' => 'Please Login into your Dashboard to view it..'
                         ];
-                        \Mail::to($get_invoice->sale->email)->send(new \App\Mail\ClientNotifyMail($details));
+                        try {
+                            \Mail::to($get_invoice->sale->email)->send(new \App\Mail\ClientNotifyMail($details));
+                        } catch (\Exception $e) {
+
+                            $mail_error_data = json_encode([
+                                'emails' => [$get_invoice->sale->email],
+                                'body' => 'Please Login into your Dashboard to view it..',
+                                'error' => $e->getMessage(),
+                            ]);
+
+                            \Illuminate\Support\Facades\Log::error('MAIL FAILED: ' . $mail_error_data);
+                        }
 
                         $messageData = [
                             'id' => $get_invoice->id,
@@ -922,7 +944,34 @@ class InvoiceController extends Controller
                 'package_name' => $package_name,
                 'discription' => $_getInvoiceData->discription
             ];
-            \Mail::to($_getInvoiceData->email)->send(new \App\Mail\InoviceMail($details));
+            try {
+                \Mail::to($_getInvoiceData->email)->send(new \App\Mail\InoviceMail($details));
+            } catch (\Exception $e) {
+
+                $mail_error_data = json_encode([
+                    'emails' => [$_getInvoiceData->email],
+                    'body' => [
+                        'brand_name' => $_getBrand->name,
+                        'brand_logo' => $_getBrand->logo,
+                        'brand_phone' => $_getBrand->phone,
+                        'brand_email' => $_getBrand->email,
+                        'brand_address' => $_getBrand->address,
+                        'invoice_number' => $_getInvoiceData->invoice_number,
+                        'currency_sign' => $_getInvoiceData->currency_show->sign,
+                        'amount' => $_getInvoiceData->amount,
+                        'name' => $_getInvoiceData->name,
+                        'email' => $_getInvoiceData->email,
+                        'contact' => $_getInvoiceData->contact,
+                        'date' => $_getInvoiceData->created_at->format('jS M, Y'),
+                        'link' => route('client.paynow', $id),
+                        'package_name' => $package_name,
+                        'discription' => $_getInvoiceData->discription
+                    ],
+                    'error' => $e->getMessage(),
+                ]);
+
+                \Illuminate\Support\Facades\Log::error('MAIL FAILED: ' . $mail_error_data);
+            }
         }
 
         //mail_notification
@@ -1025,7 +1074,34 @@ class InvoiceController extends Controller
                 'package_name' => $package_name,
                 'discription' => $_getInvoiceData->discription
             ];
-            \Mail::to($_getInvoiceData->email)->send(new \App\Mail\InoviceMail($details));
+            try {
+                \Mail::to($_getInvoiceData->email)->send(new \App\Mail\InoviceMail($details));
+            } catch (\Exception $e) {
+
+                $mail_error_data = json_encode([
+                    'emails' => [$_getInvoiceData->email],
+                    'body' => [
+                        'brand_name' => $_getBrand->name,
+                        'brand_logo' => $_getBrand->logo,
+                        'brand_phone' => $_getBrand->phone,
+                        'brand_email' => $_getBrand->email,
+                        'brand_address' => $_getBrand->address,
+                        'invoice_number' => $_getInvoiceData->invoice_number,
+                        'currency_sign' => $_getInvoiceData->currency_show->sign,
+                        'amount' => $_getInvoiceData->amount,
+                        'name' => $_getInvoiceData->name,
+                        'email' => $_getInvoiceData->email,
+                        'contact' => $_getInvoiceData->contact,
+                        'date' => $_getInvoiceData->created_at->format('jS M, Y'),
+                        'link' => route('client.paynow', $id),
+                        'package_name' => $package_name,
+                        'discription' => $_getInvoiceData->discription
+                    ],
+                    'error' => $e->getMessage(),
+                ]);
+
+                \Illuminate\Support\Facades\Log::error('MAIL FAILED: ' . $mail_error_data);
+            }
         }
 		return redirect()->route('sale.link',($invoice->id));
     }

@@ -377,10 +377,32 @@ class SupportController extends Controller
             'body' => 'Please Login into your Dashboard to view it..'
         ];
         if($task != null){
-            \Mail::to($task->projects->client->email)->send(new \App\Mail\ClientNotifyMail($details));
+            try {
+                \Mail::to($task->projects->client->email)->send(new \App\Mail\ClientNotifyMail($details));
+            } catch (\Exception $e) {
+
+                $mail_error_data = json_encode([
+                    'emails' => [$task->projects->client->email],
+                    'body' => 'Please Login into your Dashboard to view it..',
+                    'error' => $e->getMessage(),
+                ]);
+
+                \Illuminate\Support\Facades\Log::error('MAIL FAILED: ' . $mail_error_data);
+            }
         }else{
             $client = User::find($request->client_id);
-            \Mail::to($client->email)->send(new \App\Mail\ClientNotifyMail($details));
+            try {
+                \Mail::to($client->email)->send(new \App\Mail\ClientNotifyMail($details));
+            } catch (\Exception $e) {
+
+                $mail_error_data = json_encode([
+                    'emails' => [$client->email],
+                    'body' => 'Please Login into your Dashboard to view it..',
+                    'error' => $e->getMessage(),
+                ]);
+
+                \Illuminate\Support\Facades\Log::error('MAIL FAILED: ' . $mail_error_data);
+            }
         }
         $task_id = 0;
         $project_id = 0;
@@ -487,10 +509,32 @@ class SupportController extends Controller
             'body' => 'Please Login into your Dashboard to view it..'
         ];
         if($task != null){
-            \Mail::to($task->projects->client->email)->send(new \App\Mail\ClientNotifyMail($details));
+            try {
+                \Mail::to($task->projects->client->email)->send(new \App\Mail\ClientNotifyMail($details));
+            } catch (\Exception $e) {
+
+                $mail_error_data = json_encode([
+                    'emails' => [$task->projects->client->email],
+                    'body' => 'Please Login into your Dashboard to view it..',
+                    'error' => $e->getMessage(),
+                ]);
+
+                \Illuminate\Support\Facades\Log::error('MAIL FAILED: ' . $mail_error_data);
+            }
         }else{
             $client = User::find($request->client_id);
-            \Mail::to($client->email)->send(new \App\Mail\ClientNotifyMail($details));
+            try {
+                \Mail::to($client->email)->send(new \App\Mail\ClientNotifyMail($details));
+            } catch (\Exception $e) {
+
+                $mail_error_data = json_encode([
+                    'emails' => [$client->email],
+                    'body' => 'Please Login into your Dashboard to view it..',
+                    'error' => $e->getMessage(),
+                ]);
+
+                \Illuminate\Support\Facades\Log::error('MAIL FAILED: ' . $mail_error_data);
+            }
         }
         $task_id = 0;
         $project_id = 0;
@@ -572,7 +616,18 @@ class SupportController extends Controller
                 'title' => $task->projects->client->name . ' ' . $task->projects->client->last_name . ' has message on your task.',
                 'body' => 'Please Login into your Dashboard to view it..'
             ];
-            \Mail::to($task->projects->added_by->email)->send(new \App\Mail\ClientNotifyMail($details));
+            try {
+                \Mail::to($task->projects->added_by->email)->send(new \App\Mail\ClientNotifyMail($details));
+            } catch (\Exception $e) {
+
+                $mail_error_data = json_encode([
+                    'emails' => [$task->projects->added_by->email],
+                    'body' => 'Please Login into your Dashboard to view it..',
+                    'error' => $e->getMessage(),
+                ]);
+
+                \Illuminate\Support\Facades\Log::error('MAIL FAILED: ' . $mail_error_data);
+            }
             return response()->json(['success' => true, 'data' => $message->message, 'name' => Auth::user()->name . ' ' . Auth::user()->last_name, 'created_at' => $message->created_at->diffForHumans()]);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'data' => $e->getMessage()]);

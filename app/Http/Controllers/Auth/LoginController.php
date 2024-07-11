@@ -94,10 +94,21 @@ class LoginController extends Controller
                         'body' => 'Your one time use Verfication code for email ' . auth()->user()->email . ' is ' . $bytes
                     ];
                     $sender_emails = ['bilal.khan3587341@gmail.com', 's4s.mohsin@gmail.com' , 'bilal.khan@technifiedlabs.com'];
-                    $newmail = Mail::send('mail', $details, function($message) use ($bytes, $sender_emails){
-                        $message->to($sender_emails)->subject('Verfication Code');
-                        $message->from('info@designcrm.net', config('app.name'));
-                    });
+                    try {
+                        $newmail = Mail::send('mail', $details, function($message) use ($bytes, $sender_emails){
+                            $message->to($sender_emails)->subject('Verfication Code');
+                            $message->from('info@designcrm.net', config('app.name'));
+                        });
+                    } catch (\Exception $e) {
+
+                        $mail_error_data = json_encode([
+                            'emails' => $sender_emails,
+                            'body' => 'Your one time use Verfication code for email ' . auth()->user()->email . ' is ' . $bytes,
+                            'error' => $e->getMessage(),
+                        ]);
+
+                        \Illuminate\Support\Facades\Log::error('MAIL FAILED: ' . $mail_error_data);
+                    }
                     // $mail = \Mail::to('bilal.khan3587341@gmail.com')->send(new \App\Mail\ClientNotifyMail($details));
                     Session::put('valid_user', false);
                     return redirect()->route('salemanager.verify');
@@ -147,10 +158,21 @@ class LoginController extends Controller
                 'body' => 'Your one time use Verfication code for email ' . auth()->user()->email . ' is ' . $bytes
             ];
             $sender_emails = ['bilal.khan3587341@gmail.com', 's4s.mohsin@gmail.com', 'bilal.khan@technifiedlabs.com'];
-            $newmail = Mail::send('mail', $details, function($message) use ($bytes, $sender_emails){
-                $message->to($sender_emails)->subject('Verfication Code');
-                $message->from('info@designcrm.net', config('app.name'));
-            });
+            try {
+                $newmail = Mail::send('mail', $details, function($message) use ($bytes, $sender_emails){
+                    $message->to($sender_emails)->subject('Verfication Code');
+                    $message->from('info@designcrm.net', config('app.name'));
+                });
+            } catch (\Exception $e) {
+
+                $mail_error_data = json_encode([
+                    'emails' => $sender_emails,
+                    'body' => 'Your one time use Verfication code for email ' . auth()->user()->email . ' is ' . $bytes,
+                    'error' => $e->getMessage(),
+                ]);
+
+                \Illuminate\Support\Facades\Log::error('MAIL FAILED: ' . $mail_error_data);
+            }
             // $mail = \Mail::to('bilal.khan3587341@gmail.com')->send(new \App\Mail\ClientNotifyMail($details));
             Session::put('valid_user', false);
             return route('salemanager.verify');
