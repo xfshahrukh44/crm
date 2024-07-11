@@ -746,7 +746,7 @@ class SupportController extends Controller
                    return $q->orderBy('id', 'desc');
                })
                ->when(request()->has('client_name'), function ($q) {
-                   return $q->orWhere('name', 'LIKE', "%".request()->get('client_name')."%")
+                   return $q->where('name', 'LIKE', "%".request()->get('client_name')."%")
                        ->orWhere('last_name', 'LIKE', "%".request()->get('client_name')."%")
                        ->orWhere('email', 'LIKE', "%".request()->get('client_name')."%")
                        ->orWhere('contact', 'LIKE', "%".request()->get('client_name')."%");
