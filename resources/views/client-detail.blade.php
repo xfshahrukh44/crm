@@ -80,10 +80,31 @@
                                 </div>
                             @endif
 
-                            @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 4]))
+                            @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [6, 4]))
                                 <div class="col">
                                     @php
                                         $client_user = \App\Models\User::where('client_id', $client->id)->first();
+                                        if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
+                                            $message_route = 'manager.message.show';
+                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4 && \Illuminate\Support\Facades\Auth::user()->is_support_head) {
+                                            $message_route = 'support.message.show.id';
+                                        }
+                                    @endphp
+                                    @if($client_user)
+                                        <p style="font-size: medium;">
+                                            <a href="{{route($message_route, ['id' => $client->id ,'name' => $client->name])}}">
+                                                <i class="i-Speach-Bubble-3 text-warning"></i>
+                                                <br />
+                                                Message
+                                            </a>
+                                        </p>
+                                    @endif
+                                </div>
+                            @endif
+
+                            @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 4]))
+                                <div class="col">
+                                    @php
                                         if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
                                             $route = 'admin.pending.project';
                                         } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
@@ -180,24 +201,26 @@
                                                                     @if(in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [4, 6]))
                                                                         <td>
                                                                             <h6>{{$project->added_by->name . ' ' . $project->added_by->last_name}}</h6>
+                                                                        </td>
+                                                                        <td>
+{{--                                                                            <a href="{{ route('support.message.show.id', ['id' => $project->client->id ,'name' => $project->client->name]) }}" class="badge badge-warning badge-sm">--}}
+{{--                                                                                Message--}}
+{{--                                                                            </a>--}}
+{{--                                                                            <br>--}}
 
                                                                             <a href="javascript:;" class="badge badge-primary btn-icon btn-sm" onclick="assignAgent({{$project->id}}, {{$project->form_checker}}, {{$project->brand_id}})">
                                                                                 <span class="ul-btn__icon"><i class="i-Checked-User"></i></span>
                                                                                 <span class="ul-btn__text">Re Assign</span>
                                                                             </a>
-                                                                        </td>
-                                                                        <td>
-                                                                            <a href="{{ route('support.message.show.id', ['id' => $project->client->id ,'name' => $project->client->name]) }}" class="badge badge-warning badge-sm">
-                                                                                Message
-                                                                            </a>
                                                                             <br>
                                                                             @if($project->form_checker != 0)
-                                                                                <a href="{{ route('support.form', [ 'form_id' => $project->form_id , 'check' => $project->form_checker, 'id' => $project->id]) }}" class="badge badge-primary badge-icon badge-sm">
+                                                                                <a href="{{ route('support.form', [ 'form_id' => $project->form_id , 'check' => $project->form_checker, 'id' => $project->id]) }}" class="badge badge-info badge-icon badge-sm">
                                                                                     View Form
                                                                                 </a>
                                                                             @endif
                                                                             <br>
                                                                             <a href="{{ route('create.task.by.project.id', ['id' => $project->id, 'name' => preg_replace('/[^A-Za-z0-9\-]/', '', strtolower(str_replace(' ', '-', $project->name))) ]) }}" class="badge badge-success badge-icon badge-sm">
+                                                                                <i class="fas fa-plus"></i>
                                                                                 Create Task
                                                                             </a>
                                                                         </td>
