@@ -218,7 +218,7 @@ class TaskController extends Controller
                 array_push($files_array, $client_file->id);
             }
         }
-        $data = ClientFile::whereIn('id', $files_array)->get();
+        $data = $request->hasfile('images') ? ClientFile::whereIn('id', $files_array)->get() : [];
         $role = '';
         $uploaded_by = Auth()->user()->name . ' ('. $role .')';
         return response()->json(['uploaded' => 'success', 'files' => $data, 'uploaded_by' => $uploaded_by]);
@@ -314,7 +314,7 @@ class TaskController extends Controller
             }
         }
 
-        $data = ClientFile::whereIn('id', $files_array)->get();
+        $data = $request->hasfile('images') ? ClientFile::whereIn('id', $files_array)->get() : [];
         $role = '';
         $uploaded_by = Auth()->user()->name . ' ' . Auth()->user()->last_name;
 
@@ -442,28 +442,29 @@ class TaskController extends Controller
         if (get_task_status_text($task->status) == 'Completed') {
             $project = Project::find($task->project_id);
             $customer_support_user = User::find($project->user_id);
-            $client = Client::find($project->client_id);
-            $brand = Brand::find($client->brand_id);
+            if ($client = Client::find($project->client_id)) {
+                $brand = Brand::find($client->brand_id);
 
-            $html = '<p>'. 'Hello ' . $customer_support_user->name .'</p>';
-            $html .= '<p>'. 'The production team has submitted their deliverables for the task titled "('.$task->notes.' / '.$task->id.')". Please review the submitted files and proceed with the necessary actions.' .'</p>';
-            $html .= '<p>'. 'Access the task here: <a href="'.route('support.task.show', $task->id).'">'.route('support.task.show', $task->id).'</a>' .'</p>';
-            $html .= '<p>'. 'Thank you for ensuring the continued progress of our projects.' .'</p>';
-            $html .= '<p>'. 'Best Regards,' .'</p>';
-            $html .= '<p>'. $brand->name .'.</p>';
+                $html = '<p>'. 'Hello ' . $customer_support_user->name .'</p>';
+                $html .= '<p>'. 'The production team has submitted their deliverables for the task titled "('.$task->notes.' / '.$task->id.')". Please review the submitted files and proceed with the necessary actions.' .'</p>';
+                $html .= '<p>'. 'Access the task here: <a href="'.route('support.task.show', $task->id).'">'.route('support.task.show', $task->id).'</a>' .'</p>';
+                $html .= '<p>'. 'Thank you for ensuring the continued progress of our projects.' .'</p>';
+                $html .= '<p>'. 'Best Regards,' .'</p>';
+                $html .= '<p>'. $brand->name .'.</p>';
 
-            mail_notification(
-                '',
-                [$customer_support_user->email],
-                'Task Submission Alert: Review Required',
-                view('mail.crm-mail-template')->with([
-                    'subject' => 'Task Submission Alert: Review Required',
-                    'brand_name' => $brand->name,
-                    'brand_logo' => asset($brand->logo),
-                    'additional_html' => $html
-                ]),
-    //            true
-            );
+                mail_notification(
+                    '',
+                    [$customer_support_user->email],
+                    'Task Submission Alert: Review Required',
+                    view('mail.crm-mail-template')->with([
+                        'subject' => 'Task Submission Alert: Review Required',
+                        'brand_name' => $brand->name,
+                        'brand_logo' => asset($brand->logo),
+                        'additional_html' => $html
+                    ]),
+        //            true
+                );
+            }
         }
 
         return response()->json(['status' => true, 'message' => 'Status Updated Successfully']);
@@ -619,7 +620,8 @@ class TaskController extends Controller
 
         $category = $request->category;
 
-        $task = Task::find($id)->update($request->all());
+        $task = Task::find($id);
+        $task->update($request->all());
         if($request->hasfile('filenames'))
         {
             $i = 0;
@@ -1066,9 +1068,10 @@ class TaskController extends Controller
         $client_file = ClientFile::find($request->id);
         $subtask_id = $client_file->subtask_id;
         if($subtask_id != null){
-            $data = ProductionMemberAssign::where('subtask_id', $subtask_id)->where('assigned_to', $client_file->user_id)->first();
-            $data->status = 3;
-            $data->save();
+            if ($data = ProductionMemberAssign::where('subtask_id', $subtask_id)->where('assigned_to', $client_file->user_id)->first()) {
+                $data->status = 3;
+                $data->save();
+            }
         }
         $client_file->production_check = 1;
         $client_file->save();
