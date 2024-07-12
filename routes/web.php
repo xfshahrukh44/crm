@@ -217,8 +217,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/support/pending/projects', [SupportController::class, 'getPendingProjectManager'])->name('support.pending.project');
         Route::get('/support/pending/projects/{id}/{form}', [SupportController::class, 'getPendingProjectbyIdManager'])->name('support.pending.project.details');
         Route::post('/support/assign/support/', [SupportController::class, 'assignSupportManager'])->name('support.assign.support');
-        Route::post('/support/reassign/support/', [SupportController::class, 'reassignSupportManager'])->name('support.reassign.support');
-        Route::get('/support/client/agent/{brand_id?}', [SupportController::class, 'getAgentManager'])->name('support.client.agent');
+        Route::post('/support/reassign/support/', [SupportController::class, 'reassignSupportManager'])->name('support.reassign.support')->withoutMiddleware('is_support');
+        Route::get('/support/client/agent/{brand_id?}', [SupportController::class, 'getAgentManager'])->name('support.client.agent')->withoutMiddleware('is_support');
 
         //update task status
         Route::post('/support/updatetask/{id}', [TaskController::class, 'supportUpdateTask'])->name('support.update.task');
