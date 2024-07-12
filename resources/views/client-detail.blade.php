@@ -35,7 +35,7 @@
     <div class="col-lg-12 col-md-12">
         {{--brand detail--}}
         <div class="row">
-            <div class="col-md-6 offset-md-3">
+            <div class="col-md-8 offset-md-2">
                 <div class="row text-center mb-4">
                     <div class="col-md-8 offset-md-2">
                         <h2>{{$client->name . ' ' . $client->last_name}}</h2>
@@ -192,17 +192,17 @@
                                                                     }
                                                                 @endphp
                                                                 <tr>
-                                                                    <td>
+                                                                    <td style="vertical-align: middle;">
                                                                         <a href="{{route('projects.detail', $project->id)}}" class="anchor_project_name">
                                                                             {{str_replace($client->name, '', str_replace(' - ', '', $project->name))}}
                                                                         </a>
                                                                     </td>
 
                                                                     @if(in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [4, 6]))
-                                                                        <td>
+                                                                        <td style="vertical-align: middle;">
                                                                             <h6>{{$project->added_by->name . ' ' . $project->added_by->last_name}}</h6>
                                                                         </td>
-                                                                        <td>
+                                                                        <td style="vertical-align: middle;">
 {{--                                                                            <a href="{{ route('support.message.show.id', ['id' => $project->client->id ,'name' => $project->client->name]) }}" class="badge badge-warning badge-sm">--}}
 {{--                                                                                Message--}}
 {{--                                                                            </a>--}}
@@ -227,7 +227,7 @@
                                                                         </td>
                                                                     @endif
 
-                                                                    <th>
+                                                                    <th style="vertical-align: middle;">
                                                                         @if(no_pending_tasks_left($project->id))
                                                                             <span class="badge badge-success">No pending tasks</span>
                                                                         @endif
