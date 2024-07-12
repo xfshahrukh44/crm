@@ -86,7 +86,7 @@
                                         $client_user = \App\Models\User::where('client_id', $client->id)->first();
                                         if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
                                             $message_route = 'manager.message.show';
-                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4 && \Illuminate\Support\Facades\Auth::user()->is_support_head) {
+                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4) {
                                             $message_route = 'support.message.show.id';
                                         }
                                     @endphp
