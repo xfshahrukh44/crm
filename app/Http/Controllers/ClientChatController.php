@@ -116,27 +116,52 @@ class ClientChatController extends Controller
                     \Illuminate\Support\Facades\Log::error('MAIL FAILED: ' . $mail_error_data);
                 }
             }
-            $projects = Project::select('user_id')->where('client_id', Auth::user()->id)->get();
-            foreach($projects as $project){
-                try {
-                    \Mail::to($project->added_by->email)->send(new \App\Mail\ClientNotifyMail($details));
-                    $project->added_by->notify(new MessageNotification($messageData));
-                } catch (\Exception $e) {
 
-                    $mail_error_data = json_encode([
-                        'emails' => [$project->added_by->email],
-                        'body' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has send you a Message',
-                        'error' => $e->getMessage(),
-                    ]);
+            //support notification
+            if ($client = Client::find(Auth::user()->client_id)) {
+                foreach (
+                    User::where('is_employee', 4)->whereIn('id', DB::table('brand_users')
+                        ->where('brand_id', $client->brand_id)
+                        ->pluck('user_id'))->get()
+                    as $support_member
+                ) {
+                    try {
+                        \Mail::to($support_member->email)->send(new \App\Mail\ClientNotifyMail($details));
+                        $support_member->added_by->notify(new MessageNotification($messageData));
+                    } catch (\Exception $e) {
 
-                    \Illuminate\Support\Facades\Log::error('MAIL FAILED: ' . $mail_error_data);
+                        $mail_error_data = json_encode([
+                            'emails' => [$support_member->email],
+                            'body' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has send you a Message',
+                            'error' => $e->getMessage(),
+                        ]);
+
+                        \Illuminate\Support\Facades\Log::error('MAIL FAILED: ' . $mail_error_data);
+                    }
                 }
             }
 
-            $adminusers = User::where('is_employee', 2)->get();
-            foreach($adminusers as $adminuser){
-                Notification::send($adminuser, new MessageNotification($messageData));
-            }
+//            $projects = Project::select('user_id')->where('client_id', Auth::user()->id)->get();
+//            foreach($projects as $project){
+//                try {
+//                    \Mail::to($project->added_by->email)->send(new \App\Mail\ClientNotifyMail($details));
+//                    $project->added_by->notify(new MessageNotification($messageData));
+//                } catch (\Exception $e) {
+//
+//                    $mail_error_data = json_encode([
+//                        'emails' => [$project->added_by->email],
+//                        'body' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has send you a Message',
+//                        'error' => $e->getMessage(),
+//                    ]);
+//
+//                    \Illuminate\Support\Facades\Log::error('MAIL FAILED: ' . $mail_error_data);
+//                }
+//            }
+//
+//            $adminusers = User::where('is_employee', 2)->get();
+//            foreach($adminusers as $adminuser){
+//                Notification::send($adminuser, new MessageNotification($messageData));
+//            }
 
             //send notification to support members
 //        foreach (User::where(['is_employee' => 4, 'is_support_head' => 1])->get() as $support_head_user) {
