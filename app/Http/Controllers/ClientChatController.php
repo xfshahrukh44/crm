@@ -127,7 +127,9 @@ class ClientChatController extends Controller
                 ) {
                     try {
                         \Mail::to($support_member->email)->send(new \App\Mail\ClientNotifyMail($details));
-                        $support_member->added_by->notify(new MessageNotification($messageData));
+                        if ($support_member->added_by) {
+                            $support_member->added_by->notify(new MessageNotification($messageData));
+                        }
                     } catch (\Exception $e) {
 
                         $mail_error_data = json_encode([
