@@ -570,10 +570,8 @@ class SupportController extends Controller
 
             //mail_notification
             $project = Project::find($task->project_id);
-            if (!$client = Client::find($project->client_id)) {
-                $client = User::find($request->client_id);
-            }
-            $brand = Brand::find($client->brand_id);
+            $client = Client::find($project->client_id);
+            $brand = Brand::find($project->client->client->brand_id);
 
             $html = '<p>'. 'Hello ' . $client->name . ',' .'</p>';
             $html .= '<p>'. 'You have received a new message from your Project Manager, ('.Auth::user()->name.'), on our CRM platform. Please log in to your account to read the message and respond.' .'</p>';
