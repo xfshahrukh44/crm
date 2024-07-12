@@ -105,6 +105,7 @@
                             @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 4]))
                                 <div class="col">
                                     @php
+                                        $client_user = \App\Models\User::where('client_id', $client->id)->first();
                                         if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
                                             $route = 'admin.pending.project';
                                         } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
