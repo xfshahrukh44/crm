@@ -570,7 +570,7 @@ class SupportController extends Controller
 
             //mail_notification
             $project = Project::find($task->project_id);
-            $client = Client::find($project->client_id);
+            $client = Client::find($project->client->client->id);
             $brand = Brand::find($project->client->client->brand_id);
 
             $html = '<p>'. 'Hello ' . $client->name . ',' .'</p>';
