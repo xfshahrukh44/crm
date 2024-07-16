@@ -47,6 +47,11 @@ class InvoiceController extends Controller
             $brand = Brand::all();
             $services = Service::all();
             $currencies =  Currency::all();
+
+            if (request()->has('redirect_to_client_detail')) {
+                session()->put('redirect_to_client_detail', true);
+            }
+
             return view('admin.invoice.create', compact('user', 'brand', 'currencies', 'services'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
@@ -203,6 +208,13 @@ class InvoiceController extends Controller
             $invoice->service = $service;
             $invoice->save();
             $id = $invoice->id;
+
+            if (session()->has('redirect_to_client_detail')) {
+                session()->remove('redirect_to_client_detail');
+
+                return redirect()->route('clients.detail', $request->client_id)->with('success', 'Client created Successfully.');
+            }
+
             return redirect()->route('admin.link',($invoice->id));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
@@ -991,6 +1003,12 @@ class InvoiceController extends Controller
             ])
         );
 
+        if (session()->has('redirect_to_client_detail')) {
+            session()->remove('redirect_to_client_detail');
+
+            return redirect()->route('clients.detail', $request->client_id)->with('success', 'Client created Successfully.');
+        }
+
 		return redirect()->route('manager.link',($invoice->id));
     }
 
@@ -1103,6 +1121,13 @@ class InvoiceController extends Controller
                 \Illuminate\Support\Facades\Log::error('MAIL FAILED: ' . $mail_error_data);
             }
         }
+
+        if (session()->has('redirect_to_client_detail')) {
+            session()->remove('redirect_to_client_detail');
+
+            return redirect()->route('clients.detail', $request->client_id)->with('success', 'Client created Successfully.');
+        }
+
 		return redirect()->route('sale.link',($invoice->id));
     }
 

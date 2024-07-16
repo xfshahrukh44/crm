@@ -16,7 +16,10 @@
             <div class="card-body">
                 <div class="card-title mb-3">Client Form</div>
                 <form class="form" action="{{route('admin.client.store')}}" method="POST" enctype="multipart/form-data">
-                    @csrf   
+                    @csrf
+                    @if(request()->has('brand_id'))
+                        <input type="hidden" name="redirect_to_client_detail" value="1">
+                    @endif
                     <div class="form-body">
                         <div class="row">
                             <div class="col-md-4 form-group mb-3">
@@ -52,7 +55,7 @@
                                 <select name="brand_id" id="brand" class="form-control" required>
                                     <option value="">Select Brand</option>
                                     @foreach($brands as $brand)
-                                    <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                    <option value="{{ $brand->id }}" {!! request()->has('brand_id') && request()->get('brand_id') == $brand->id ? 'selected' : '' !!}>{{ $brand->name }}</option>
                                     @endforeach
                                 </select>
                                 @error('brand_id')

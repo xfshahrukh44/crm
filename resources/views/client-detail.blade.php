@@ -58,76 +58,173 @@
 
                         <div class="row mt-4">
                             @if ((in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]) || (auth()->user()->is_employee == 4 && auth()->user()->is_support_head)) && count($client->invoices))
+                                @php
+                                    $generate_payment_route = '';
+                                    if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
+                                        $generate_payment_route = 'admin.invoice.index';
+                                    } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
+                                        $generate_payment_route = 'manager.generate.payment';
+                                    } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {
+                                        $generate_payment_route = 'client.generate.payment';
+                                    } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4 && \Illuminate\Support\Facades\Auth::user()->is_support_head) {
+                                        $generate_payment_route = 'support.client.generate.payment';
+                                    }
+                                @endphp
                                 <div class="col">
-                                    @php
-                                        if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
-                                            $route = 'admin.invoice';
-                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
-                                            $route = 'manager.invoice';
-                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {
-                                            $route = 'sale.invoice';
-                                        } else if (auth()->user()->is_employee == 4 && auth()->user()->is_support_head) {
-                                            $route = 'support.invoice';
-                                        }
-                                    @endphp
                                     <p style="font-size: medium;">
-                                        <a href="{{route($route, ['client_id' => $client->id])}}">
-                                            <i class="i-Credit-Card text-success"></i>
+                                        <a href="{{route($generate_payment_route, ['id' => $client->id , 'redirect_to_client_detail' => true])}}">
+                                            <i class="fas fa-dollar-sign text-success"></i>
                                             <br />
-                                            Invoices
+                                            Generate payment
                                         </a>
                                     </p>
                                 </div>
                             @endif
 
                             @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [6, 4]))
-                                <div class="col">
-                                    @php
-                                        $client_user = \App\Models\User::where('client_id', $client->id)->first();
-                                        if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
-                                            $message_route = 'manager.message.show';
-                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4) {
-                                            $message_route = 'support.message.show.id';
-                                        }
-                                    @endphp
-                                    @if($client_user)
+                                @php
+                                    $client_user = \App\Models\User::where('client_id', $client->id)->first();
+                                    if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
+                                        $message_route = 'manager.message.show';
+                                    } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4) {
+                                        $message_route = 'support.message.show.id';
+                                    }
+                                @endphp
+                                @if($client_user)
+                                    <div class="col">
                                         <p style="font-size: medium;">
-                                            <a href="{{route($message_route, ['id' => $client->id ,'name' => $client->name])}}">
+                                            <a href="{{route($message_route, ['id' => $client_user->id ,'name' => $client->name])}}">
                                                 <i class="i-Speach-Bubble-3 text-warning"></i>
                                                 <br />
                                                 Message
                                             </a>
                                         </p>
-                                    @endif
-                                </div>
-                            @endif
-
-                            @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 4]))
-                                <div class="col">
-                                    @php
-                                        $client_user = \App\Models\User::where('client_id', $client->id)->first();
-                                        if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
-                                            $route = 'admin.pending.project';
-                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
-                                            $route = 'manager.pending.project';
-                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4 && \Illuminate\Support\Facades\Auth::user()->is_support_head) {
-                                            $route = 'support.pending.project';
-                                        } else {
-                                            $route = 'support.pending.project';
-                                        }
-                                    @endphp
-                                    @if($client_user)
-                                        <p style="font-size: medium;">
-                                            <a href="{{route($route, ['user_id' => $client_user->id])}}">
-                                                <i class="i-Folder-Loading text-primary"></i>
-                                                <br />
-                                                Pending projects
-                                            </a>
-                                        </p>
-                                    @endif
-                                </div>
+                                    </div>
+                                @endif
                             @endif
                         </div>
+
+
+
+                        @if ((in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0, 4])))
+                            <div class="row my-4">
+                                <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
+                                    <div class="row">
+                                        <div class="col-md-12" style="border: 1px solid #b7b7b7; font-size: 16px;">
+                                            <i class="fas fa-user mr-2"></i>
+                                            <b>Account</b>
+                                        </div>
+                                        <div class="col-md-12 p-2" style="border-top: 1px solid #b7b7b7;">
+                                            @php
+                                                $create_auth_route = '';
+                                                $update_auth_route = '';
+                                                if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
+                                                    $create_auth_route = route('admin.client.createauth');
+                                                    $update_auth_route = route('admin.client.updateauth');
+                                                } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
+                                                    $create_auth_route = route('manager.client.createauth');
+                                                    $update_auth_route = route('manager.client.updateauth');
+                                                } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {
+                                                    $create_auth_route = route('sale.client.createauth');
+                                                    $update_auth_route = route('sale.client.updateauth');
+                                                } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4) {
+                                                    $create_auth_route = route('support.client.createauth');
+                                                    $update_auth_route = route('support.client.updateauth');
+                                                }
+                                            @endphp
+                                            @if($client->user == null)
+                                                <a href="javascript:void(0)" class="btn btn-danger btn-sm auth_create" data-route="{{$create_auth_route}}">Create account</a>
+                                            @else
+                                                <a href="javascript:void(0)" class="btn btn-success btn-sm auth_create" data-route="{{$update_auth_route}}">Reset password</a>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
+                        @endif
+
+
+                        @if ((in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]) || (auth()->user()->is_employee == 4 && auth()->user()->is_support_head)) && count($client->invoices))
+                            <div class="row my-4">
+                                <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
+                                    <div class="row">
+                                        <div class="col-md-12" style="border: 1px solid #b7b7b7; font-size: 16px;">
+                                            <i class="i-Credit-Card mr-2"></i>
+                                            <b>Invoices</b>
+                                            <br>
+                                        </div>
+                                        <div class="col-md-12 p-0" style="border-top: 1px solid #b7b7b7;">
+                                            {{--                                            <div class="row m-auto p-2" style="font-size: 15px;">--}}
+                                            {{--                                                <div class="col-md-12">--}}
+                                            <table class="table table-sm table-bordered mb-0">
+                                                <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Package</th>
+                                                    <th>Service</th>
+                                                    <th>Status</th>
+                                                    <th>Amount</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($client->invoices as $invoice)
+                                                        <tr>
+                                                            <td style="vertical-align: middle;">
+                                                                <span class="badge badge-sm badge-dark">#{{ $invoice->invoice_number }}</span>
+                                                            </td>
+                                                            <td style="vertical-align: middle;">
+                                                                @if($invoice->package == 0)
+                                                                    {{ $invoice->custom_package }}
+                                                                @else
+                                                                    {{ $invoice->package }}
+                                                                @endif
+                                                            </td>
+                                                            <td style="vertical-align: middle;">
+                                                                @php
+                                                                    $service_list = explode(',', $invoice->service);
+                                                                @endphp
+                                                                @for($i = 0; $i < count($service_list); $i++)
+                                                                    <span class="badge badge-info badge-sm mb-1">{{ $invoice->services($service_list[$i])->name }}</span>
+                                                                @endfor
+                                                            </td>
+                                                            <td style="vertical-align: middle;">
+                                                                <span class="">
+                                                                    {{ App\Models\Invoice::PAYMENT_STATUS[$invoice->payment_status] }}
+                                                                    @if($invoice->payment_status == 1)
+                                                                        @php
+                                                                            if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
+                                                                                $invoice_update_route = 'admin.invoice.paid';
+                                                                            } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
+                                                                                $invoice_update_route = 'manager.invoice.paid';
+                                                                            } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {
+                                                                                $invoice_update_route = 'sale.invoice.paid';
+                                                                            } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4) {
+                                                                                $invoice_update_route = 'support.invoice.paid';
+                                                                            }
+                                                                        @endphp
+                                                                        <form method="post" action="{{ route($invoice_update_route, $invoice->id) }}">
+                                                                            @csrf
+                                                                            <button type="submit" class="badge badge-danger" style="border: 0px;">Mark As Paid</button>
+                                                                        </form>
+                                                                    @endif
+                                                                </span>
+                                                            </td>
+                                                            <td style="vertical-align: middle;">{{ $invoice->currency_show->sign }}{{ $invoice->amount }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                            {{--                                                </div>--}}
+                                            {{--                                            </div>--}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
+                        @endif
 
 
                         @if($client->user)
@@ -138,19 +235,86 @@
                                 <div class="row my-4">
                                     <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
                                         <div class="row">
-                                            <div class="col-md-3 d-flex align-items-center" style="border-right: 1px solid #b7b7b7;">
+                                            <div class="col-md-12" style="border: 1px solid #b7b7b7; font-size: 16px;">
                                                 <i class="i-Folder-Close mr-2"></i>
                                                 <b>Briefs pending</b>
                                             </div>
-                                            <div class="col-md-9 d-flex align-items-center" style="border-right: 1px solid #b7b7b7;">
-                                                <div class="row m-auto p-2" style="font-size: 15px;">
-                                                    @foreach($briefs_pendings as $brief_pending)
-    {{--                                                    <div class="col">--}}
-                                                            <span class="badge badge-pill badge-primary my-1">{{$brief_pending}}</span>
-                                                            &nbsp;
-    {{--                                                    </div>--}}
-                                                    @endforeach
+                                            <div class="col-md-12" style="border-top: 1px solid #b7b7b7;">
+                                                <div class="row m-auto p-1" style="font-size: 15px;">
+                                                    <div class="text-center" style="width: 100%">
+                                                        @foreach($briefs_pendings as $brief_pending)
+        {{--                                                    <div class="col">--}}
+                                                                <span class="badge badge-pill badge-primary my-1">{{$brief_pending}}</span>
+                                                                &nbsp;
+        {{--                                                    </div>--}}
+                                                        @endforeach
+                                                    </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr>
+                            @endif
+                        @endif
+
+                        @if($client->user)
+                            @php
+                                $pending_projects = get_pending_projects($client->user->id);
+                            @endphp
+                            @if ((in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6]) || (auth()->user()->is_employee == 4 && auth()->user()->is_support_head)) && count($pending_projects))
+                                <div class="row my-4">
+                                    <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
+                                        <div class="row">
+                                            <div class="col-md-12" style="border: 1px solid #b7b7b7; font-size: 16px;">
+                                                <i class="i-Folder-Loading mr-2"></i>
+                                                <b>Pending projects</b>
+                                            </div>
+                                            <div class="col-md-12 p-0" style="border-top: 1px solid #b7b7b7;">
+    {{--                                            <div class="row m-auto p-2" style="font-size: 15px;">--}}
+    {{--                                                <div class="col-md-12">--}}
+                                                        <table class="table table-sm table-bordered mb-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Brief Pending</th>
+                                                                    <th>Actions</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach($pending_projects as $pending_project)
+                                                                    @php
+                                                                        $pending_project_detail_route = '';
+                                                                        $assign_pending_project_route = '';
+                                                                        if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
+                                                                            $pending_project_detail_route = 'admin.pending.project.details';
+                                                                            $assign_pending_project_route = 'admin.assign.support';
+                                                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
+                                                                            $pending_project_detail_route = 'manager.pending.project.details';
+                                                                            $assign_pending_project_route = 'admin.assign.support';
+                                                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4 && \Illuminate\Support\Facades\Auth::user()->is_support_head) {
+                                                                            $pending_project_detail_route = 'support.pending.project.details';
+                                                                            $assign_pending_project_route = 'admin.assign.support';
+                                                                        }
+                                                                    @endphp
+                                                                    <tr>
+                                                                        <td>{{$pending_project['project_type']}}</td>
+                                                                        <td>
+                                                                            <a href="javascript:;" class="badge badge-primary badge-icon badge-sm" onclick="assignAgentToPending({{$pending_project['id']}}, {{$pending_project['form_number']}}, {{$pending_project['brand_id']}})">
+                                                                                <span class="ul-badge__icon"><i class="i-Checked-User"></i></span>
+                                                                                <span class="ul-badge__text">Assign</span>
+                                                                            </a>
+                                                                            <a href="{{ route($pending_project_detail_route, ['id' => $pending_project['id'], 'form' => $pending_project['form_number']]) }}" class="badge badge-info badge-icon badge-sm">
+                                                                                <span class="ul-badge__icon"><i class="i-Eye-Visible"></i></span>
+                                                                                <span class="ul-badge__text">View</span>
+                                                                            </a>
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
+    {{--                                                </div>--}}
+    {{--                                            </div>--}}
                                             </div>
                                         </div>
                                     </div>
@@ -162,11 +326,11 @@
                             <div class="row my-4">
                                 <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
                                     <div class="row">
-                                        <div class="col-md-3 d-flex align-items-center" style="border-right: 1px solid #b7b7b7;">
+                                        <div class="col-md-12" style="border: 1px solid #b7b7b7; font-size: 16px;">
                                             <i class="i-Suitcase mr-2"></i>
                                             <b>Services</b>
                                         </div>
-                                        <div class="col-md-9 px-0" style="border-right: 1px solid #b7b7b7;">
+                                        <div class="col-md-12 p-0" style="border-top: 1px solid #b7b7b7;">
 {{--                                            <div class="row m-auto p-2" style="font-size: 15px;">--}}
 {{--                                                <div class="col-md-12">--}}
                                                     <table class="table table-sm table-bordered mb-0">
@@ -175,9 +339,11 @@
                                                                 <th>Service</th>
                                                                 @if(in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [4, 6]))
                                                                     <th>Assigned to</th>
-                                                                    <th>Actions</th>
                                                                 @endif
                                                                 <th>Status</th>
+                                                                @if(in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [4, 6]))
+                                                                    <th>Actions</th>
+                                                                @endif
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -203,11 +369,24 @@
                                                                         <td style="vertical-align: middle;">
                                                                             <h6>{{$project->added_by->name . ' ' . $project->added_by->last_name}}</h6>
                                                                         </td>
+                                                                    @endif
+
+                                                                    <th style="vertical-align: middle;">
+                                                                        @if(no_pending_tasks_left($project->id))
+                                                                            <span class="badge badge-success">No pending tasks</span>
+                                                                        @endif
+
+                                                                        @if($department_count > 0)
+                                                                            <small class="text-muted mt-2 mb-2">{{count($active_tasks)}} active task(s) in {{$department_count}} department(s)</small>
+                                                                        @endif
+                                                                    </th>
+
+                                                                    @if(in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [4, 6]))
                                                                         <td style="vertical-align: middle;">
-{{--                                                                            <a href="{{ route('support.message.show.id', ['id' => $project->client->id ,'name' => $project->client->name]) }}" class="badge badge-warning badge-sm">--}}
-{{--                                                                                Message--}}
-{{--                                                                            </a>--}}
-{{--                                                                            <br>--}}
+                                                                            {{--                                                                            <a href="{{ route('support.message.show.id', ['id' => $project->client->id ,'name' => $project->client->name]) }}" class="badge badge-warning badge-sm">--}}
+                                                                            {{--                                                                                Message--}}
+                                                                            {{--                                                                            </a>--}}
+                                                                            {{--                                                                            <br>--}}
 
                                                                             <a href="javascript:;" class="badge badge-primary btn-icon btn-sm" onclick="assignAgent({{$project->id}}, {{$project->form_checker}}, {{$project->brand_id}})">
                                                                                 <span class="ul-btn__icon"><i class="i-Checked-User"></i></span>
@@ -227,16 +406,6 @@
                                                                             </a>
                                                                         </td>
                                                                     @endif
-
-                                                                    <th style="vertical-align: middle;">
-                                                                        @if(no_pending_tasks_left($project->id))
-                                                                            <span class="badge badge-success">No pending tasks</span>
-                                                                        @endif
-
-                                                                        @if($department_count > 0)
-                                                                            <small class="text-muted mt-2 mb-2">{{count($active_tasks)}} active task(s) in {{$department_count}} department(s)</small>
-                                                                        @endif
-                                                                    </th>
                                                                 </tr>
                                                             @endforeach
                                                         </tbody>
@@ -285,13 +454,67 @@
         </div>
     </div>
 </div>
+
+<!--  Assign Pending Model -->
+<div class="modal fade" id="assignPendingModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle-2" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle-2">Assign Agent</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+            <form action="{{ route('assign-pending-project-to-agent') }}" method="post">
+                @csrf
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="pending_assign_id">
+                    <input type="hidden" name="form" id="pending_form_id">
+                    <div class="form-group">
+                        <label class="col-form-label" for="agent-name-wrapper">Name:</label>
+                        <select name="agent_id" id="agent-name-wrapper-2" class="form-control">
+
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+                    <button class="btn btn-primary ml-2" type="submit">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 @push('scripts')
 <script>
+    $('form').on('submit', function () {
+        $(this).find('button[type="submit"]').prop('disabled', true);
+    });
+</script>
+<script>
+    function assignAgentToPending(id, form, brand_id){
+        $('#agent-name-wrapper-2').html('');
+        var url = "{{ route('get-support-agents', ['brand_id' => 'temp']) }}";
+        url = url.replace('temp', brand_id);
+        $.ajax({
+            type:'GET',
+            url: url,
+            success:function(data) {
+                var getData = data.data;
+                for (var i = 0; i < getData.length; i++) {
+                    $('#agent-name-wrapper-2').append('<option value="'+getData[i].id+'">'+getData[i].name+ ' ' +getData[i].last_name+'</option>');
+                }
+            }
+        });
+
+        $('#assignPendingModel').find('#pending_assign_id').val(id);
+        $('#assignPendingModel').find('#pending_form_id').val(form);
+        $('#assignPendingModel').modal('show');
+    }
+
     function assignAgent(id, form, brand_id){
         $('#agent-name-wrapper').html('');
-        var url = "{{ route('support.client.agent', ":id") }}";
-        url = url.replace(':id', brand_id);
+        var url = "{{ route('get-support-agents', ['brand_id' => 'temp']) }}";
+        url = url.replace('temp', brand_id);
         $.ajax({
             type:'GET',
             url: url,
@@ -308,7 +531,73 @@
     }
 
     $(document).ready(function(){
+        function generatePassword() {
+            var length = 16,
+                charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+                retVal = "";
+            for (var i = 0, n = charset.length; i < length; ++i) {
+                retVal += charset.charAt(Math.floor(Math.random() * n));
+            }
+            return retVal;
+        }
 
+        $('.auth_create').on('click', function () {
+            var id = '{{$client->id}}';
+            var pass = generatePassword();
+            var url = $(this).data('route');
+
+            var el = $(this);
+
+            swal({
+                title: "Enter Password",
+                input: "text",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                inputPlaceholder: "Enter Password",
+                inputValue: pass
+            }).then(function (inputValue) {
+                if (inputValue === false){
+                    return swal({
+                        title:"Field cannot be empty",
+                        text: "Password Not Inserted/Updated because it is Empty",
+                        type:"danger"
+                    })
+                }
+                if (inputValue === "") {
+                    return swal({
+                        title:"Field cannot be empty",
+                        text: "Password Not Inserted/Updated because it is Empty",
+                        type:"danger"
+                    })
+                }
+
+                var text = el.text();
+                el.prop('disabled', !(el.prop('disabled')));
+                el.text('Please wait.');
+
+                $.ajax({
+                    type:'POST',
+                    url: url,
+                    data: {id: id, pass:inputValue},
+                    success:function(data) {
+                        if(data.success == true){
+                            swal("Auth Created", "Password is : " + inputValue, "success");
+
+                            el.prop('disabled', !(el.prop('disabled')));
+                            el.text(text);
+
+                            window.location.reload();
+                        }else{
+                            return swal({
+                                title:"Error",
+                                text: "There is an Error, Please Contact Administrator",
+                                type:"danger"
+                            })
+                        }
+                    }
+                });
+            });
+        });
     });
 </script>
 @endpush

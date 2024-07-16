@@ -138,6 +138,13 @@ class SupportInvoiceController extends Controller
                 \Illuminate\Support\Facades\Log::error('MAIL FAILED: ' . $mail_error_data);
             }
         }
+
+        if (session()->has('redirect_to_client_detail')) {
+            session()->remove('redirect_to_client_detail');
+
+            return redirect()->route('clients.detail', $request->client_id)->with('success', 'Client created Successfully.');
+        }
+
         return redirect()->route('support.link',($invoice->id));
     }
 

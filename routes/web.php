@@ -5,6 +5,7 @@ use App\Http\Controllers\QAController;
 use App\Http\Controllers\SupportClientController;
 use App\Http\Controllers\SupportInvoiceController;
 use App\Models\Invoice;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -401,15 +402,6 @@ Route::get('brands-detail/{id}', [GeneralBrandController::class, 'brands_detail'
 Route::get('clients-detail/{id}', [GeneralBrandController::class, 'clients_detail'])->name('clients.detail');
 Route::get('service-detail/{id}', [GeneralBrandController::class, 'projects_detail'])->name('projects.detail');
 
-Route::get('get-invoices', function (Request $request) {
-    $invoices = Invoice::with('currency_show', 'sale', 'brands')->where('payment_status', 2)
-    ->when($request->has('brand'), function ($q) use ($request) {
-        return $q->where('brand', $request->get('brand'));
-    })->when($request->has('start_date'), function ($q) use ($request) {
-        return $q->where('updated_at', '>=', Carbon::parse($request->get('start_date')));
-    })->when($request->has('end_date'), function ($q) use ($request) {
-        return $q->where('updated_at', '<=', Carbon::parse($request->get('end_date')));
-    })->get();
-
-    return $invoices;
-})->name('get-invoices');
+Route::get('get-invoices', [GeneralBrandController::class, 'get_invoices'])->middleware('auth')->name('get-invoices');
+Route::get('get-support-agents', [GeneralBrandController::class, 'get_support_agents'])->middleware('auth')->name('get-support-agents');
+Route::post('assign-pending-project-to-agent', [GeneralBrandController::class, 'assign_pending_project_to_agent'])->middleware('auth')->name('assign-pending-project-to-agent');

@@ -95,7 +95,12 @@ class AdminClientController extends Controller
             }
 
             $request->request->add(['user_id' => auth()->user()->id]);
-            Client::create($request->all());
+            $client = Client::create($request->all());
+
+            if ($request->has('redirect_to_client_detail')) {
+                return redirect()->route('clients.detail', $client->id)->with('success', 'Client created Successfully.');
+            }
+
             return redirect()->back()->with('success', 'Client created Successfully.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
@@ -1139,6 +1144,55 @@ class AdminClientController extends Controller
                 $client_id = $seo_form->user->id;
                 $brand_id = $seo_form->invoice->brand;
                 $description = $seo_form->top_goals;
+            }elseif($form_checker == 6){
+                // Book Formatting & Publishing Form
+                $book_formatting_form = BookFormatting::find($form_id);
+                $name = $book_formatting_form->book_title;
+                $client_id = $book_formatting_form->user->id;
+                $brand_id = $book_formatting_form->invoice->brand;
+                $description = $book_formatting_form->book_subtitle;
+            }elseif($form_checker == 7){
+                // Book Writing Form
+                $book_writing_form = BookWriting::find($form_id);
+                $name = $book_writing_form->book_title;
+                $client_id = $book_writing_form->user->id;
+                $brand_id = $book_writing_form->invoice->brand;
+                $description = $book_writing_form->brief_summary;
+            }elseif($form_checker == 8){
+                // AuthorWebsite Form
+                $author_website_form = AuthorWebsite::find($form_id);
+                $name = $author_website_form->author_name;
+                $client_id = $author_website_form->user->id;
+                $brand_id = $author_website_form->invoice->brand;
+                $description = $author_website_form->brief_overview;
+            }elseif($form_checker == 9){
+                // Proofreading Form
+                $proofreading_form = Proofreading::find($form_id);
+                $name = $proofreading_form->services;
+                $client_id = $proofreading_form->user->id;
+                $brand_id = $proofreading_form->invoice->brand;
+                $description = $proofreading_form->description0;
+            }elseif($form_checker == 10){
+                // BookCover Form
+                $bookcover_form = BookCover::find($form_id);
+                $name = $bookcover_form->title;
+                $client_id = $bookcover_form->user->id;
+                $brand_id = $bookcover_form->invoice->brand;
+                $description = $bookcover_form->subtitle;
+            }elseif($form_checker == 11){
+                // BookCover Form
+                $isbn_form = Isbnform::find($form_id);
+                $name = $isbn_form->pi_fullname;
+                $client_id = $isbn_form->user->id;
+                $brand_id = $isbn_form->invoice->brand;
+                $description = $isbn_form->bi_titlebook;
+            }elseif($form_checker == 12){
+                // BookCover Form
+                $bookprinting_form = Bookprinting::find($form_id);
+                $name = $bookprinting_form->title;
+                $client_id = $bookprinting_form->user->id;
+                $brand_id = $bookprinting_form->invoice->brand;
+                $description = $bookprinting_form->title;
             }
             $project = new Project();
             $project->name = $name;

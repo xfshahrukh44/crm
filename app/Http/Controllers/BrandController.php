@@ -2,12 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AuthorWebsite;
+use App\Models\BookCover;
+use App\Models\BookFormatting;
+use App\Models\Bookprinting;
+use App\Models\BookWriting;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Client;
+use App\Models\ContentWritingForm;
+use App\Models\Invoice;
+use App\Models\Isbnform;
+use App\Models\LogoForm;
+use App\Models\NoForm;
 use App\Models\Project;
+use App\Models\Proofreading;
+use App\Models\SeoForm;
+use App\Models\SmmForm;
 use App\Models\Task;
 use App\Models\User;
+use App\Models\WebForm;
+use App\Notifications\AssignProjectNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -145,5 +160,233 @@ class BrandController extends Controller
 //        $projects = Project::where('project_id', $id)->get();
 
         return view('project-detail', compact('project', 'categories_with_active_tasks'))->with(['layout' => $this->layout]);
+    }
+
+    public function get_invoices (Request $request)
+    {
+        $invoices = Invoice::with('currency_show', 'sale', 'brands')->where('payment_status', 2)
+            ->when($request->has('brand'), function ($q) use ($request) {
+                return $q->where('brand', $request->get('brand'));
+            })->when($request->has('start_date'), function ($q) use ($request) {
+                return $q->where('updated_at', '>=', Carbon::parse($request->get('start_date')));
+            })->when($request->has('end_date'), function ($q) use ($request) {
+                return $q->where('updated_at', '<=', Carbon::parse($request->get('end_date')));
+            })->get();
+
+        return $invoices;
+    }
+
+    public function get_support_agents (Request $request)
+    {
+        $user = User::select('id', 'name', 'last_name')
+            ->where('id', '!=', auth()->id())
+            ->where('is_employee', 4)
+            ->whereHas('brands', function ($query) use ($request) {
+                return $query->where('brand_id', $request->brand_id);
+            })->get()->toArray();
+
+        if (auth()->user()->is_employee != 2) {
+            $user []= auth()->user();
+        }
+
+        return response()->json(['success' => true , 'data' => $user]);
+    }
+
+    public function assign_pending_project_to_agent (Request $request)
+    {
+        $form_id  = $request->id;
+        $agent_id  = $request->agent_id;
+        $form_checker  = $request->form;
+        $name = '';
+        $client_id = 0;
+        $brand_id = 0;
+        $description = '';
+        if($form_checker == 0){
+            $no_form = NoForm::find($form_id);
+            if($no_form->name != null){
+                $name = $no_form->name . ' - OTHER';
+            }else{
+                $name = $no_form->name . ' - OTHER';
+            }
+            $client_id = $no_form->user->id;
+            $brand_id = $no_form->invoice->brand;
+            $description = $no_form->business;
+
+        }elseif($form_checker == 1){
+            // Logo form
+            $logo_form = LogoForm::find($form_id);
+            if($logo_form->logo_name != null){
+                $name = $logo_form->logo_name . ' - LOGO';
+            }else{
+                $name = $logo_form->user->name . ' - LOGO';
+            }
+            $client_id = $logo_form->user->id;
+            $brand_id = $logo_form->invoice->brand;
+            $description = $logo_form->business;
+        }elseif($form_checker == 2){
+            // Web form
+            $web_form = WebForm::find($form_id);
+            if($web_form->business_name != null){
+                $name = $web_form->business_name . ' - WEBSITE';
+            }else{
+                $name = $web_form->user->name . ' - WEBSITE';
+            }
+            $client_id = $web_form->user->id;
+            $brand_id = $web_form->invoice->brand;
+            $description = $web_form->about_companys;
+        }elseif($form_checker == 3){
+            // Social Media Marketing Form
+            $smm_form = SmmForm::find($form_id);
+            if($smm_form->business_name != null){
+                $name = $smm_form->business_name . ' - SMM';
+            }else{
+                $name = $smm_form->user->name . ' - SMM';
+            }
+            $client_id = $smm_form->user->id;
+            $brand_id = $smm_form->invoice->brand;
+            $description = $smm_form->business_category;
+        }elseif($form_checker == 4){
+            // Content Writing Form
+            $content_form = ContentWritingForm::find($form_id);
+            if($content_form->company_name != null){
+                $name = $content_form->company_name . ' - CONTENT WRITING';
+            }else{
+                $name = $content_form->user->name . ' - CONTENT WRITING';
+            }
+            $client_id = $content_form->user->id;
+            $brand_id = $content_form->invoice->brand;
+            $description = $content_form->company_details;
+        }elseif($form_checker == 5){
+            // Search Engine Optimization Form
+            $seo_form = SeoForm::find($form_id);
+            if($seo_form->company_name != null){
+                $name = $seo_form->company_name . ' - SEO';
+            }else{
+                $name = $seo_form->user->name . ' - SEO';
+            }
+            $client_id = $seo_form->user->id;
+            $brand_id = $seo_form->invoice->brand;
+            $description = $seo_form->top_goals;
+        }elseif($form_checker == 6){
+            // Book Formatting & Publishing Form
+            $book_formatting_form = BookFormatting::find($form_id);
+            if($book_formatting_form->book_title != null){
+                $name = $book_formatting_form->book_title . ' - Book Formatting & Publishing';
+            }else{
+                $name = $book_formatting_form->user->name . ' - Book Formatting & Publishing';
+            }
+            $client_id = $book_formatting_form->user->id;
+            $brand_id = $book_formatting_form->invoice->brand;
+            $description = $book_formatting_form->additional_instructions;
+        }elseif($form_checker == 7){
+            // Book Writing Form
+            $book_writing_form = BookWriting::find($form_id);
+            if($book_writing_form->book_title != null){
+                $name = $book_writing_form->book_title . ' - Book Writing';
+            }else{
+                $name = $book_writing_form->user->name . ' - Book Writing';
+            }
+            $client_id = $book_writing_form->user->id;
+            $brand_id = $book_writing_form->invoice->brand;
+            $description = $book_writing_form->brief_summary;
+        }elseif($form_checker == 8){
+            // Author Website Form
+            $author_website_form = AuthorWebsite::find($form_id);
+            if($author_website_form->author_name != null){
+                $name = $author_website_form->author_name . ' - Author Website';
+            }else{
+                $name = $author_website_form->user->name . ' - Author Website';
+            }
+            $client_id = $author_website_form->user->id;
+            $brand_id = $author_website_form->invoice->brand;
+            $description = $author_website_form->brief_overview;
+        }elseif($form_checker == 9){
+            // Editing & Proofreading Form
+            $proofreading_form = Proofreading::find($form_id);
+            if($proofreading_form->author_name != null){
+                $name = $proofreading_form->description . ' - Editing & Proofreading';
+            }else{
+                $name = $proofreading_form->user->name . ' - Editing & Proofreading';
+            }
+            $client_id = $proofreading_form->user->id;
+            $brand_id = $proofreading_form->invoice->brand;
+            $description = $proofreading_form->guide;
+        }elseif($form_checker == 10){
+            // Cover Design Form
+            $bookcover_form = BookCover::find($form_id);
+            if($bookcover_form->author_name != null){
+                $name = $bookcover_form->title . ' - Cover Design';
+            }else{
+                $name = $bookcover_form->user->name . ' - Cover Design';
+            }
+            $client_id = $bookcover_form->user->id;
+            $brand_id = $bookcover_form->invoice->brand;
+            $description = $bookcover_form->information;
+        }
+        elseif($form_checker == 11){
+            // Cover Design Form
+            $isbn_form = Isbnform::find($form_id);
+            if($isbn_form->author_name != null){
+                $name = $isbn_form->title . ' - ISBN Form';
+            }else{
+                $name = $isbn_form->user->name . ' - ISBN Form';
+            }
+            $client_id = $isbn_form->user->id;
+            $brand_id = $isbn_form->invoice->brand;
+            $description = $isbn_form->information;
+        }
+        elseif($form_checker == 12){
+            // Cover Design Form
+            $bookprinting_form = Bookprinting::find($form_id);
+            if($bookprinting_form->author_name != null){
+                $name = $bookprinting_form->title . ' - Book Printing Form';
+            }else{
+                $name = $bookprinting_form->user->name . ' - Book Printing Form';
+            }
+            $client_id = $bookprinting_form->user->id;
+            $brand_id = $bookprinting_form->invoice->brand;
+            $description = $bookprinting_form->information;
+        }
+
+        $project = new Project();
+        $project->name = $name;
+        $project->description = $description;
+        $project->status = 1;
+        $project->user_id = $agent_id;
+        $project->client_id = $client_id;
+        $project->brand_id = $brand_id;
+        $project->form_id = $form_id;
+        $project->form_checker = $form_checker;
+        $project->save();
+        $assignData = [
+            'id' => Auth()->user()->id,
+            'project_id' => $project->id,
+            'name' => Auth()->user()->name . ' ' . Auth()->user()->last_name,
+            'text' => $project->name . ' has assign. ('.Auth()->user()->name.')',
+            'url' => '',
+        ];
+        $user = User::find($agent_id);
+        $user->notify(new AssignProjectNotification($assignData));
+
+        //mail_notification
+        $html = '<p>'.'New project `'.$project->name.'`'.'</p><br />';
+        $html .= '<strong>Assigned by:</strong> <span>'.Auth::user()->name.'</span><br />';
+        $html .= '<strong>Assigned to:</strong> <span>'.$user->name.' ('.$user->email.')'.'</span><br />';
+        $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
+
+        mail_notification(
+            '',
+            [$user->email],
+            'New project',
+            view('mail.crm-mail-template')->with([
+                'subject' => 'New project',
+                'brand_name' => $project->brand->name,
+                'brand_logo' => asset($project->brand->logo),
+                'additional_html' => $html
+            ]),
+            true
+        );
+
+        return redirect()->back()->with('success', $user->name . ' ' . $user->last_name . ' Assigned Successfully');
     }
 }

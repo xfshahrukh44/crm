@@ -74,7 +74,7 @@
                                 <th>ID</th>
                                 <th>Full Name</th>
                                 <th>Email</th>
-                                <th>Crate Login</th>
+                                <th>Create Login</th>
                                 <th>Brand</th>
                                 <th>Payment Link</th>
                                 <th>Status</th>
@@ -131,7 +131,7 @@
                                 <th>ID</th>
                                 <th>Full Name</th>
                                 <th>Email</th>
-                                <th>Crate Login</th>
+                                <th>Create Login</th>
                                 <th>Brand</th>
                                 <th>Payment Link</th>
                                 <th>Status</th>

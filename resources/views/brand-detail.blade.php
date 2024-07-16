@@ -234,9 +234,32 @@
             <div class="col-md-12">
                 <div class="card text-left">
                     <div class="card-body">
-                        <h4 class="card-title mb-3 count-card-title">Clients list <span> Total: {{ $clients->total() }} </span></h4>
+                        <h4 class="card-title mb-3 count-card-title">
+                            Clients list
+                            <span>
+                                 Total: {{ $clients->total() }}
+                                <br>
+                                @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]) || (auth()->user()->is_employee == 4 && auth()->user()->is_support_head))
+                                    @php
+                                        if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
+                                            $create_client_route = 'admin.client.create';
+                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
+                                            $create_client_route = 'salemanager.client.create';
+                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {
+                                            $create_client_route = 'client.create';
+                                        } else if (auth()->user()->is_employee == 4 && auth()->user()->is_support_head) {
+                                            $create_client_route = 'support.client.create';
+                                        }
+                                    @endphp
+                                    <a class="btn btn-sm btn-success text-white" href="{{route($create_client_route, ['brand_id' => $brand->id])}}">
+                                        <i class="fas fa-plus"></i>
+                                        Create client
+                                    </a>
+                                @endif
+                            </span>
+                        </h4>
                         <div class="table-responsive">
-                            <table class="display table table-striped table-bordered" style="width:100%" id="display">
+                            <table class="display table table-striped tmble-bordered" style="width:100%" id="display">
                                 <thead>
                                 <tr>
 {{--                                    <th>ID</th>--}}

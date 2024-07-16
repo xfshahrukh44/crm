@@ -64,6 +64,11 @@ class SupportClientController extends Controller
 
         $request->request->add(['user_id' => auth()->user()->id]);
         $client = Client::create($request->all());
+
+        if ($request->has('redirect_to_client_detail')) {
+            session()->put('redirect_to_client_detail', true);
+        }
+
         return redirect()->route('support.client.generate.payment', $client->id);
     }
 
@@ -105,6 +110,11 @@ class SupportClientController extends Controller
         $services = Service::all();
         $currencies =  Currency::all();
         $merchant = Merchant::orderBy('id', 'desc')->get();
+
+        if (request()->has('redirect_to_client_detail')) {
+            session()->put('redirect_to_client_detail', true);
+        }
+
         return view('support.payment.create', compact('user', 'brand', 'currencies', 'services', 'merchant'));
     }
 
