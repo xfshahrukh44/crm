@@ -114,7 +114,7 @@
                                             <i class="fas fa-user mr-2"></i>
                                             <b>Account</b>
                                         </div>
-                                        <div class="col-md-12 p-2" style="border-top: 1px solid #b7b7b7;" id="wrapper1" hidden >
+                                        <div class="col-md-12 p-2" style="border-top: 1px solid #b7b7b7;" id="wrapper1" >
                                             @php
                                                 $create_auth_route = '';
                                                 $update_auth_route = '';
@@ -155,7 +155,7 @@
                                             <b>Invoices</b>
                                             <br>
                                         </div>
-                                        <div class="col-md-12 p-0" style="border-top: 1px solid #b7b7b7;" id="wrapper2" hidden >
+                                        <div class="col-md-12 p-0" style="border-top: 1px solid #b7b7b7;" id="wrapper2"  >
                                             {{--                                            <div class="row m-auto p-2" style="font-size: 15px;">--}}
                                             {{--                                                <div class="col-md-12">--}}
                                             <table class="table table-sm table-bordered mb-0">
@@ -239,7 +239,7 @@
                                                 <i class="i-Folder-Close mr-2"></i>
                                                 <b>Briefs pending</b>
                                             </div>
-                                            <div class="col-md-12" style="border-top: 1px solid #b7b7b7;" id="wrapper3" hidden >
+                                            <div class="col-md-12" style="border-top: 1px solid #b7b7b7;" id="wrapper3" >
                                                 <div class="row m-auto p-1" style="font-size: 15px;">
                                                     <div class="text-center" style="width: 100%">
                                                         @foreach($briefs_pendings as $brief_pending)
@@ -271,7 +271,7 @@
                                                 <i class="i-Folder-Loading mr-2"></i>
                                                 <b>Pending projects</b>
                                             </div>
-                                            <div class="col-md-12 p-0" style="border-top: 1px solid #b7b7b7;" id="wrapper4" hidden >
+                                            <div class="col-md-12 p-0" style="border-top: 1px solid #b7b7b7;" id="wrapper4" >
                                                 <table class="table table-sm table-bordered mb-0">
                                                     <thead>
                                                         <tr>
@@ -328,7 +328,7 @@
                                             <i class="i-Suitcase mr-2"></i>
                                             <b>Services</b>
                                         </div>
-                                        <div class="col-md-12 p-0" style="border-top: 1px solid #b7b7b7;" id="wrapper5" hidden >
+                                        <div class="col-md-12 p-0" style="border-top: 1px solid #b7b7b7;" id="wrapper5" >
                                             <table class="table table-sm table-bordered mb-0">
                                                 <thead>
                                                     <tr>
