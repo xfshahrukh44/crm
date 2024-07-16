@@ -485,11 +485,15 @@ class TaskController extends Controller
             ->where('user_id', Auth()->user()->id)
             ->limit(1)
             ->update(array('seen' => 1));
-        foreach($project->tasks as $tasks){
-            array_push($cat_array, $tasks->category_id);
+        if ($project && $project->tasks) {
+            foreach($project->tasks as $tasks){
+                array_push($cat_array, $tasks->category_id);
+            }
+            $categorys = Category::where('status', 1)->get();
+            return view('support.task.create', compact('project', 'categorys'));
+        } else {
+            return redirect()->back();
         }
-        $categorys = Category::where('status', 1)->get();
-        return view('support.task.create', compact('project', 'categorys'));
     }
 
     public function editTaskById (Request $request, $id) {
