@@ -119,10 +119,13 @@ class ClientChatController extends Controller
 
             //support notification
             if ($client = Client::find(Auth::user()->client_id)) {
+                $project_assigned_support_ids = Project::where('client_id', auth()->user()->id)->where('brand_id', $client->brand_id)->pluck('user_id');
                 foreach (
-                    User::where('is_employee', 4)->whereIn('id', DB::table('brand_users')
-                        ->where('brand_id', $client->brand_id)
-                        ->pluck('user_id'))->get()
+//                    User::whereIn('id', DB::table('brand_users')
+//                        ->where('brand_id', $client->brand_id)
+//                        ->pluck('user_id')->toArray()
+//                    )->where('is_employee', 4)->where('is_support_head', 1)->get()
+                    User::whereIn('id', $project_assigned_support_ids)->get()
                     as $support_member
                 ) {
                     try {
