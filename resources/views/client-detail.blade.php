@@ -172,7 +172,8 @@
                                                     @foreach($client->invoices as $invoice)
                                                         <tr>
                                                             <td style="vertical-align: middle;">
-                                                                <span class="badge badge-sm badge-dark">#{{ $invoice->invoice_number }}</span>
+{{--                                                                <span class="badge badge-sm badge-dark">#{{ $invoice->invoice_number }}</span>--}}
+                                                                <span class="badge badge-sm badge-dark">#{{ $invoice->id }}</span>
                                                             </td>
                                                             <td style="vertical-align: middle;">
                                                                 @if($invoice->package == 0)
