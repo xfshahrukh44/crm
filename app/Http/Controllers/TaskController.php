@@ -479,7 +479,9 @@ class TaskController extends Controller
         }
         // $project = Project::where('status', 1)->where('user_id', Auth()->user()->id)->where('brand_id', Auth()->user()->brand_list())->where('id', $id)->first();
         $cat_array = array();
-        $project = Project::where('status', 1)->whereIn('brand_id', Auth()->user()->brand_list())->where('id', $id)->first();
+        $project = Project::where('status', 1)
+//            ->whereIn('brand_id', Auth()->user()->brand_list())
+            ->where('id', $id)->first();
         DB::table('projects')
             ->where('id', $id)
             ->where('user_id', Auth()->user()->id)
