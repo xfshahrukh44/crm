@@ -912,6 +912,22 @@ function get_pending_projects ($client_user_id) {
         ];
     }
 
+    foreach (NoForm::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->whereIn('brand', Auth::user()->brand_list());
+            });
+        })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+         ->where('user_id', $client_user_id)->get() as $item) {
+        $pending_projects []= [
+            'project_type' => 'No Form',
+            'id' => $item->id,
+            'form_number' => 12,
+            'brand_id' => $item->invoice->brands->id,
+        ];
+    }
+
     return $pending_projects;
 }
 
