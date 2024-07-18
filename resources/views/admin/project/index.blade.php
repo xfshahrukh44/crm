@@ -74,6 +74,7 @@
                                 <th>Brand</th>
                                 <th>Category</th>
                                 <th>Status</th>
+                                <th>Created At</th>
                                 <th>Active</th>
                             </tr>
                         </thead>
@@ -102,6 +103,11 @@
                                     @else
                                         <button class="btn btn-danger btn-sm">Deactive</button>
                                     @endif
+                                </td>
+                                <td>
+                                    <span class="badge badge-info">
+                                        {{\Carbon\Carbon::parse($datas->created_at)->format('d F, Y h:i A')}}
+                                    </span>
                                 </td>
                                 <td>
                                     <a href="{{ route('admin.project.edit', $datas->id) }}" class="btn btn-primary btn-icon btn-sm">

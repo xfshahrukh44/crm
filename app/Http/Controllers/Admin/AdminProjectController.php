@@ -17,7 +17,7 @@ class AdminProjectController extends Controller
     {
         try {
             $data = new Project();
-            $data = $data->select('id', 'name', 'status', 'product_status', 'user_id', 'client_id', 'brand_id');
+            $data = $data->select('id', 'name', 'status', 'product_status', 'user_id', 'client_id', 'brand_id', 'created_at');
             if($request->brand != null){
                 $data = $data->where('brand_id', $request->brand);
             }
