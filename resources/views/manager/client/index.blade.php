@@ -82,7 +82,7 @@
                                     <span class="btn btn-info btn-sm">{{$datas->brand->name}}</span>
                                 </td>
                                 <td>
-                                    @if($datas->url == null)
+                                    @if($datas->url == null && $datas->added_by)
                                     {{$datas->added_by->name}} {{$datas->added_by->last_name}}<br>{{$datas->added_by->email}}
                                     @endif
                                     @if($datas->url != null)
