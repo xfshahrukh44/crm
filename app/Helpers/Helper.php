@@ -923,7 +923,7 @@ function get_pending_projects ($client_user_id) {
         $pending_projects []= [
             'project_type' => 'No Form',
             'id' => $item->id,
-            'form_number' => 12,
+            'form_number' => 0,
             'brand_id' => $item->invoice->brands->id,
         ];
     }
