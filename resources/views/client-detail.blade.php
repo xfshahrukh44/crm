@@ -24,6 +24,10 @@
         .anchor_project_name:hover {
             color: #00aeef;
         }
+
+        .btn_mark_as_paid:hover {
+            cursor: pointer;
+        }
     </style>
 @endpush
 @section('content')
@@ -158,14 +162,15 @@
                                         <div class="col-md-12 p-0" style="border-top: 1px solid #b7b7b7;" id="wrapper2"  >
                                             {{--                                            <div class="row m-auto p-2" style="font-size: 15px;">--}}
                                             {{--                                                <div class="col-md-12">--}}
-                                            <table class="table table-sm table-bordered mb-0">
+                                            <table class="table table-sm table-striped table-bordered mb-0">
                                                 <thead>
                                                 <tr>
                                                     <th>ID</th>
                                                     <th>Package</th>
                                                     <th>Service</th>
-                                                    <th>Status</th>
                                                     <th>Amount</th>
+                                                    <th>Status</th>
+                                                    <th>Created at</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -191,8 +196,14 @@
                                                                 @endfor
                                                             </td>
                                                             <td style="vertical-align: middle;">
+                                                                <b>{{ $invoice->currency_show->sign }}</b>
+                                                                {{ $invoice->amount }}
+                                                            </td>
+                                                            <td style="vertical-align: middle;">
                                                                 <span class="">
-                                                                    {{ App\Models\Invoice::PAYMENT_STATUS[$invoice->payment_status] }}
+                                                                    <span class="badge badge-{{App\Models\Invoice::STATUS_COLOR[$invoice->payment_status]}}">
+                                                                        {{ App\Models\Invoice::PAYMENT_STATUS[$invoice->payment_status] }}
+                                                                    </span>
                                                                     @if($invoice->payment_status == 1)
                                                                         @php
                                                                             if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
@@ -207,12 +218,18 @@
                                                                         @endphp
                                                                         <form method="post" action="{{ route($invoice_update_route, $invoice->id) }}">
                                                                             @csrf
-                                                                            <button type="submit" class="badge badge-danger" style="border: 0px;">Mark As Paid</button>
+                                                                            <button type="submit" class="badge badge-danger btn_mark_as_paid" style="border: 0px;">
+                                                                                Mark as paid
+                                                                            </button>
                                                                         </form>
                                                                     @endif
                                                                 </span>
                                                             </td>
-                                                            <td style="vertical-align: middle;">{{ $invoice->currency_show->sign }}{{ $invoice->amount }}</td>
+                                                            <td style="vertical-align: middle;">
+                                                                <span class="badge badge-info">
+                                                                    {{ \Carbon\Carbon::parse($invoice->created_at)->format('d F, Y') }}
+                                                                </span>
+                                                            </td>
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
@@ -273,7 +290,7 @@
                                                 <b>Pending projects</b>
                                             </div>
                                             <div class="col-md-12 p-0" style="border-top: 1px solid #b7b7b7;" id="wrapper4" >
-                                                <table class="table table-sm table-bordered mb-0">
+                                                <table class="table table-sm table-striped table-bordered mb-0">
                                                     <thead>
                                                         <tr>
                                                             <th>Brief Pending</th>
@@ -330,14 +347,16 @@
                                             <b>Services</b>
                                         </div>
                                         <div class="col-md-12 p-0" style="border-top: 1px solid #b7b7b7;" id="wrapper5" >
-                                            <table class="table table-sm table-bordered mb-0">
+                                            <table class="table table-sm table-striped table-bordered mb-0">
                                                 <thead>
                                                     <tr>
+                                                        <th>ID</th>
                                                         <th>Service</th>
                                                         @if(in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [4, 6]))
                                                             <th>Assigned to</th>
                                                         @endif
                                                         <th>Status</th>
+                                                        <th>Created at</th>
                                                         @if(in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [4, 6]))
                                                             <th>Actions</th>
                                                         @endif
@@ -356,6 +375,10 @@
                                                             }
                                                         @endphp
                                                         <tr>
+                                                            <td style="vertical-align: middle;">
+                                                                {{--                                                                <span class="badge badge-sm badge-dark">#{{ $invoice->invoice_number }}</span>--}}
+                                                                <span class="badge badge-sm badge-dark">#{{ $project->id }}</span>
+                                                            </td>
                                                             <td style="vertical-align: middle;">
                                                                 <a href="{{route('projects.detail', $project->id)}}" class="anchor_project_name">
                                                                     {{str_replace($client->name, '', str_replace(' - ', '', $project->name))}}
@@ -377,6 +400,12 @@
                                                                     <small class="text-muted mt-2 mb-2">{{count($active_tasks)}} active task(s) in {{$department_count}} department(s)</small>
                                                                 @endif
                                                             </th>
+
+                                                            <td style="vertical-align: middle;">
+                                                                <span class="badge badge-info">
+                                                                    {{ \Carbon\Carbon::parse($project->created_at)->format('d F, Y') }}
+                                                                </span>
+                                                            </td>
 
                                                             @if(in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [4, 6]))
                                                                 <td style="vertical-align: middle;">
