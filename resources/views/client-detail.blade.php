@@ -422,7 +422,7 @@
 </div>
 
 <!--  Assign Model -->
-<div class="modal fade" id="assignModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle-2" aria-hidden="true">
+<div class="modal fade" id="assignModel" role="dialog" aria-labelledby="exampleModalCenterTitle-2" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -451,7 +451,7 @@
 </div>
 
 <!--  Assign Pending Model -->
-<div class="modal fade" id="assignPendingModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle-2" aria-hidden="true">
+<div class="modal fade" id="assignPendingModel" role="dialog" aria-labelledby="exampleModalCenterTitle-2" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -498,6 +498,8 @@
                 for (var i = 0; i < getData.length; i++) {
                     $('#agent-name-wrapper-2').append('<option value="'+getData[i].id+'">'+getData[i].name+ ' ' +getData[i].last_name+'</option>');
                 }
+
+                $('#agent-name-wrapper-2').select2();
             }
         });
 
@@ -518,6 +520,8 @@
                 for (var i = 0; i < getData.length; i++) {
                     $('#agent-name-wrapper').append('<option value="'+getData[i].id+'">'+getData[i].name+ ' ' +getData[i].last_name+'</option>');
                 }
+
+                $('#agent-name-wrapper').select2();
             }
         });
         $('#assignModel').find('#assign_id').val(id);
