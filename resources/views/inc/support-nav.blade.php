@@ -34,7 +34,8 @@
         <i class="i-Full-Screen header-icon d-none d-sm-inline-block" data-fullscreen></i>
         <!-- Grid menu Dropdown -->
         <!-- Notificaiton -->
-        <div class="dropdown" {!! auth() ->user()->is_support_head ? '' : 'hidden'!!}>
+{{--        <div class="dropdown" {!! auth() ->user()->is_support_head ? '' : 'hidden'!!}>--}}
+        <div class="dropdown">
             <div class="badge-top-container" role="button" id="dropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="badge badge-primary">{{count(auth()->user()->unreadNotifications)}}</span>
                 <i class="i-Bell text-muted header-icon"></i>
