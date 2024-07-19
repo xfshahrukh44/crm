@@ -129,7 +129,7 @@
 @push('scripts')
     <script>
         $(document).ready(function(){
-            $('.update-password').click(function(){
+            $('body').on('click', '.update-password', function(){
                 var id = $(this).data('id');
                 $('#user_id').val(id);
                 // $('#default').modal('toggle');
