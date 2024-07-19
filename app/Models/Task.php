@@ -61,6 +61,30 @@ class Task extends Model
         }
     }
 
+    public function project_status_badge(){
+        // 0 for open
+        // 1 for re_open
+        // 2 for hold
+        // 3 for completed
+        // 4 for in_progress
+        $status = $this->status;
+        if($status == 0){
+            return "<span class='badge badge-danger badge-sm'>Open</span>";
+        }else if($status == 1){
+            return "<span class='badge badge-primary badge-sm'>Re Open</span>";
+        }else if($status == 2){
+            return "<span class='badge badge-info badge-sm'>Hold</span>";
+        }else if($status == 3){
+            return "<span class='badge badge-success badge-sm'>Completed</span>";
+        }else if($status == 4){
+            return "<span class='badge badge-warning badge-sm'>In Progress</span>";
+        }else if($status == 5){
+            return "<span class='badge badge-info badge-sm'>Sent for Approval</span>";
+        }else if($status == 6){
+            return "<span class='badge badge-warning badge-sm'>Incomplete Brief</span>";
+        }
+    }
+
     public function client_files(){
         return $this->hasMany(ClientFile::class, 'task_id', 'id')->orderBy('id', 'desc')->where('message_id', 0);
     }
