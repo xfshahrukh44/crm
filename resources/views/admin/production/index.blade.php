@@ -132,7 +132,8 @@
             $('.update-password').click(function(){
                 var id = $(this).data('id');
                 $('#user_id').val(id);
-                $('#default').modal('toggle');
+                // $('#default').modal('toggle');
+                $('#default').modal('show');
                 $('#password').val(generatePassword());
             });
         });
