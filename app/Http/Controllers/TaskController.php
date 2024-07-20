@@ -1260,9 +1260,10 @@ class TaskController extends Controller
 
         //mail_notification
         $project = Project::find($task->project_id);
-        $sales_head_emails = User::where('is_employee', 6)->whereIn('id', array_unique(DB::table('brand_users')->where('brand_id', $project->brand_id)->pluck('user_id')->toArray()))->pluck('email')->toArray();
-        $customer_support_user = User::find($project->user_id);
-        $sales_head_emails []= $customer_support_user->email;
+//        $sales_head_emails = User::where('is_employee', 6)->whereIn('id', array_unique(DB::table('brand_users')->where('brand_id', $project->brand_id)->pluck('user_id')->toArray()))->pluck('email')->toArray();
+        $sales_head_emails = [$user->email];
+//        $customer_support_user = User::find($project->user_id);
+//        $sales_head_emails []= $customer_support_user->email;
         $html = '<p>'. (Auth::user()->name) .' has updated task on project `'.$project->name.'`' .'</p><br />';
         $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
         $html .= '<strong>Task status:</strong> <span>'.get_task_status_text($task->status).'</span><br />';
@@ -1282,33 +1283,33 @@ class TaskController extends Controller
         );
 
 
-        //mail_notification
-        if (get_task_status_text($task->status) == 'Completed') {
-            $project = Project::find($task->project_id);
-            $customer_support_user = User::find($project->user_id);
-            $client = Client::find($project->client_id);
-            $brand = Brand::find($client->brand_id);
-
-            $html = '<p>'. 'Hello ' . $customer_support_user->name .'</p>';
-            $html .= '<p>'. 'The production team has submitted their deliverables for the task titled "('.$task->notes.' / '.$task->id.')". Please review the submitted files and proceed with the necessary actions.' .'</p>';
-            $html .= '<p>'. 'Access the task here: <a href="'.route('support.task.show', $task->id).'">'.route('support.task.show', $task->id).'</a>' .'</p>';
-            $html .= '<p>'. 'Thank you for ensuring the continued progress of our projects.' .'</p>';
-            $html .= '<p>'. 'Best Regards,' .'</p>';
-            $html .= '<p>'. $brand->name .'.</p>';
-
-            mail_notification(
-                '',
-                [$customer_support_user->email],
-                'Task Submission Alert: Review Required',
-                view('mail.crm-mail-template')->with([
-                    'subject' => 'Task Submission Alert: Review Required',
-                    'brand_name' => $brand->name,
-                    'brand_logo' => asset($brand->logo),
-                    'additional_html' => $html
-                ]),
-            //            true
-            );
-        }
+//        //mail_notification
+//        if (get_task_status_text($task->status) == 'Completed') {
+//            $project = Project::find($task->project_id);
+//            $customer_support_user = User::find($project->user_id);
+//            $client = Client::find($project->client_id);
+//            $brand = Brand::find($client->brand_id);
+//
+//            $html = '<p>'. 'Hello ' . $customer_support_user->name .'</p>';
+//            $html .= '<p>'. 'The production team has submitted their deliverables for the task titled "('.$task->notes.' / '.$task->id.')". Please review the submitted files and proceed with the necessary actions.' .'</p>';
+//            $html .= '<p>'. 'Access the task here: <a href="'.route('support.task.show', $task->id).'">'.route('support.task.show', $task->id).'</a>' .'</p>';
+//            $html .= '<p>'. 'Thank you for ensuring the continued progress of our projects.' .'</p>';
+//            $html .= '<p>'. 'Best Regards,' .'</p>';
+//            $html .= '<p>'. $brand->name .'.</p>';
+//
+//            mail_notification(
+//                '',
+//                [$customer_support_user->email],
+//                'Task Submission Alert: Review Required',
+//                view('mail.crm-mail-template')->with([
+//                    'subject' => 'Task Submission Alert: Review Required',
+//                    'brand_name' => $brand->name,
+//                    'brand_logo' => asset($brand->logo),
+//                    'additional_html' => $html
+//                ]),
+//            //            true
+//            );
+//        }
 
 //        return response()->json(['status' => true, 'message' => 'Status Updated Successfully']);
         return redirect()->back()->with('success', 'QA feedback submitted Successfully.');
