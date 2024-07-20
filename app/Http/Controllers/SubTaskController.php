@@ -214,27 +214,27 @@ class SubTaskController extends Controller
         $user = User::find($task->assigned_by);
         $user->notify(new SubTaskNotification($assignData));
 
-        //mail_notification
-        $project = Project::find($task->task->project_id);
-        $departments_leads_ids = array_unique(DB::table('category_users')->where('category_id', $task->task->category_id)->pluck('user_id')->toArray());
-        $departments_leads_emails = User::where('is_employee', 1)->whereIn('id', $departments_leads_ids)->pluck('email')->toArray();
-        $html = '<p>'. (Auth::user()->name) .' has updated task on project `'.$project->name.'`: ' . $task->comments .'</p><br />';
-        $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
-        $html .= '<strong>Task status:</strong> <span>'.get_task_status_text($task->task->status).'</span><br />';
-        $html .= '<br /><strong>Description</strong> <span>' . $task->task->description;
-
-        mail_notification(
-            '',
-            $departments_leads_emails,
-            'Task updated',
-            view('mail.crm-mail-template')->with([
-                'subject' => 'Task updated',
-                'brand_name' => $project->brand->name,
-                'brand_logo' => asset($project->brand->logo),
-                'additional_html' => $html
-            ]),
-            true
-        );
+//        //mail_notification
+//        $project = Project::find($task->task->project_id);
+//        $departments_leads_ids = array_unique(DB::table('category_users')->where('category_id', $task->task->category_id)->pluck('user_id')->toArray());
+//        $departments_leads_emails = User::where('is_employee', 1)->whereIn('id', $departments_leads_ids)->pluck('email')->toArray();
+//        $html = '<p>'. (Auth::user()->name) .' has updated task on project `'.$project->name.'`: ' . $task->comments .'</p><br />';
+//        $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
+//        $html .= '<strong>Task status:</strong> <span>'.get_task_status_text($task->task->status).'</span><br />';
+//        $html .= '<br /><strong>Description</strong> <span>' . $task->task->description;
+//
+//        mail_notification(
+//            '',
+//            $departments_leads_emails,
+//            'Task updated',
+//            view('mail.crm-mail-template')->with([
+//                'subject' => 'Task updated',
+//                'brand_name' => $project->brand->name,
+//                'brand_logo' => asset($project->brand->logo),
+//                'additional_html' => $html
+//            ]),
+//            true
+//        );
 
         return response()->json(['status' => true, 'message' => 'Status Updated Successfully']);
 
