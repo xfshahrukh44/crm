@@ -59,6 +59,12 @@
                             @endif
 {{--                        </p>--}}
 
+                        @if($client->brand)
+                            <div class="col-12">
+                                <b>Brand</b>: {{$client->brand->name}}
+                            </div>
+                        @endif
+
 
                         <div class="row mt-4">
                             @if ((in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]) || (auth()->user()->is_employee == 4 && auth()->user()->is_support_head)) && count($client->invoices))
