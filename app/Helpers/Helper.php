@@ -1006,7 +1006,7 @@ function fetch_search_bar_content ($query = null) {
             return $q->where(DB::raw('concat(name," ",last_name)'), 'like', '%'.$query.'%')
                 ->orWhere('name', 'like', '%'.$query.'%')
                 ->orWhere('last_name', 'like', '%'.$query.'%')
-                ->orWhere('email', 'like', '%'.$query.'%');
+                ->orWhere('email', $query);
         })
         ->orderBy('created_at', 'DESC')->take(5)->get();
     foreach ($clients as $client) {
