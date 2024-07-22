@@ -389,4 +389,9 @@ class BrandController extends Controller
 
         return redirect()->back()->with('success', $user->name . ' ' . $user->last_name . ' Assigned Successfully');
     }
+
+    public function fetch_search_bar_content (Request $request)
+    {
+        return fetch_search_bar_content($request->get('query'));
+    }
 }

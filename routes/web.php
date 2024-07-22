@@ -405,3 +405,4 @@ Route::get('service-detail/{id}', [GeneralBrandController::class, 'projects_deta
 Route::get('get-invoices', [GeneralBrandController::class, 'get_invoices'])->middleware('auth')->name('get-invoices');
 Route::get('get-support-agents', [GeneralBrandController::class, 'get_support_agents'])->middleware('auth')->name('get-support-agents');
 Route::post('assign-pending-project-to-agent', [GeneralBrandController::class, 'assign_pending_project_to_agent'])->middleware('auth')->name('assign-pending-project-to-agent');
+Route::get('fetch-search-bar-content', [GeneralBrandController::class, 'fetch_search_bar_content'])->middleware('auth')->name('fetch-search-bar-content');

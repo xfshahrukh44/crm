@@ -993,3 +993,46 @@ function generateRandomString($length = 10) {
     // Return the generated random string
     return $randomString;
 }
+
+function fetch_search_bar_content ($query = null) {
+    $final = [];
+
+    //clients
+    $clients = Client::
+        when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereIn('brand_id', auth()->user()->brand_list());
+        })
+        ->when($query, function ($q) use ($query) {
+            return $q->where(DB::raw('concat(name," ",last_name)'), 'like', '%'.$query.'%')
+                ->orWhere('name', 'like', '%'.$query.'%')
+                ->orWhere('last_name', 'like', '%'.$query.'%')
+                ->orWhere('email', 'like', '%'.$query.'%');
+        })
+        ->orderBy('created_at', 'DESC')->take(5)->get();
+    foreach ($clients as $client) {
+        $final []= [
+            'label' => $client->name . ' ' . $client->last_name,
+            'category' => 'Clients',
+            'id' => $client->id,
+        ];
+    }
+
+    //brands
+    $brands = \App\Models\Brand::
+        when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereIn('id', auth()->user()->brand_list());
+        })
+        ->when($query, function ($q) use ($query) {
+            return $q->where('name', 'like', '%'.$query.'%');
+        })
+        ->orderBy('created_at', 'DESC')->take(5)->get();
+    foreach ($brands as $brand) {
+        $final []= [
+            'label' => $brand->name,
+            'category' => 'Brands',
+            'id' => $brand->id,
+        ];
+    }
+
+    return json_encode($final);
+}

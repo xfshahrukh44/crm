@@ -10,7 +10,7 @@
     <div class="d-flex align-items-center">
         <!-- / Mega menu -->
         <div class="search-bar">
-            <input type="text" placeholder="Search">
+            <input type="text" placeholder="Search" id="search-bar">
             <i class="search-icon text-muted i-Magnifi-Glass1"></i>
         </div>
         <!--<a href="javascript:;" class="brands-list" style="margin-top: 3px;">-->

@@ -33,6 +33,7 @@
     <link href="{{ asset('newglobal/css/datatables.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('newglobal/css/select2.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('newglobal/css/sweetalert2.min.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
     @stack('styles')
     <style>
         .select2-container .select2-selection--single{
@@ -47,6 +48,12 @@
             background-color: transparent;
             border: 1px solid #ced4da;
             border-radius: 4px;
+        }
+        .ui-autocomplete-category {
+            font-weight: bold;
+            padding: .2em .4em;
+            margin: .8em 0 .2em;
+            line-height: 2.5;
         }
     </style>
 </head>
@@ -86,6 +93,98 @@
     <script src="{{ asset('newglobal/js/select2.min.js') }}"></script>
     <script src="{{ asset('newglobal/js/Chart.min.js') }}"></script>
     <script src="{{ asset('newglobal/js/sweetalert2.min.js') }}"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+    <script>
+        $( function() {
+            $.widget( "custom.catcomplete", $.ui.autocomplete, {
+                _create: function() {
+                    this._super();
+                    this.widget().menu( "option", "items", "> :not(.ui-autocomplete-category)" );
+                },
+                _renderMenu: function( ul, items ) {
+                    var that = this,
+                        currentCategory = "";
+                    $.each( items, function( index, item ) {
+                        var li;
+                        if ( item.category != currentCategory ) {
+                            ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+                            currentCategory = item.category;
+                        }
+                        li = that._renderItemData( ul, item );
+                        if ( item.category ) {
+                            li.attr( "aria-label", item.category + " : " + item.label );
+                            li.attr( "data-type", item.category );
+                            li.attr( "data-id", item.id );
+                        }
+                    });
+                }
+            });
+        } );
+    </script>
+    <script>
+        var typingTimer;                // Timer identifier
+        var doneTypingInterval = 100;   // Time in ms, 0.5 second for example
+
+        // On keyup, start the countdown
+        $('#search-bar').on('input', function () {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(doneTyping, doneTypingInterval);
+        });
+
+        // On keydown, clear the countdown
+        $('#search-bar').on('keydown', function () {
+            clearTimeout(typingTimer);
+        });
+
+        // User is "finished typing," do something
+        function doneTyping () {
+            // Do something after user has stopped typing
+            $.ajax({
+                url: '{{route("fetch-search-bar-content")}}',
+                method: 'GET',
+                data: {
+                    query: $( "#search-bar" ).val(),
+                },
+                success: (data) => {
+                    data = JSON.parse(data);
+
+                    $( "#search-bar" ).catcomplete({
+                        delay: 0,
+                        source: data,
+                        search: (e, item) => {
+                            console.log(item);
+                        }
+                    });
+
+                    $( "#search-bar" ).trigger('change');
+                }
+            });
+        }
+
+        $('body').on('click', '.ui-menu-item', function () {
+            if ($(this).data('type') == 'Brands') {
+                let redirect_url = "{{route('brands.detail', 'temp')}}";
+                redirect_url = redirect_url.replaceAll('temp', $(this).data('id'));
+                window.location.href = redirect_url;
+            } else if ($(this).data('type') == 'Clients') {
+                let redirect_url = "{{route('clients.detail', 'temp')}}";
+                redirect_url = redirect_url.replaceAll('temp', $(this).data('id'));
+                window.location.href = redirect_url;
+            }
+        });
+
+        $('body').on('keyup', '.ui-menu-item', function (e) {
+            if ($(this).data('type') == 'Brands') {
+                let redirect_url = "{{route('brands.detail', 'temp')}}";
+                redirect_url = redirect_url.replaceAll('temp', $(this).data('id'));
+                window.location.href = redirect_url;
+            } else if ($(this).data('type') == 'Clients') {
+                let redirect_url = "{{route('clients.detail', 'temp')}}";
+                redirect_url = redirect_url.replaceAll('temp', $(this).data('id'));
+                window.location.href = redirect_url;
+            }
+        });
+    </script>
     @yield('script')
 
     @stack('scripts')
