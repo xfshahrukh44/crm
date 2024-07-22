@@ -101,21 +101,21 @@ class ClientChatController extends Controller
             ];
 
             $sale = User::find(Auth::user()->client->user_id);
-            if ($sale) {
-                $sale->notify(new MessageNotification($messageData));
-                try {
-                    \Mail::to($sale->email)->send(new \App\Mail\ClientNotifyMail($details));
-                } catch (\Exception $e) {
-
-                    $mail_error_data = json_encode([
-                        'emails' => [$sale->email],
-                        'body' => 'Please Login into your Dashboard to view it..',
-                        'error' => $e->getMessage(),
-                    ]);
-
-                    \Illuminate\Support\Facades\Log::error('MAIL FAILED: ' . $mail_error_data);
-                }
-            }
+//            if ($sale) {
+//                $sale->notify(new MessageNotification($messageData));
+//                try {
+//                    \Mail::to($sale->email)->send(new \App\Mail\ClientNotifyMail($details));
+//                } catch (\Exception $e) {
+//
+//                    $mail_error_data = json_encode([
+//                        'emails' => [$sale->email],
+//                        'body' => 'Please Login into your Dashboard to view it..',
+//                        'error' => $e->getMessage(),
+//                    ]);
+//
+//                    \Illuminate\Support\Facades\Log::error('MAIL FAILED: ' . $mail_error_data);
+//                }
+//            }
 
             //support notification
             if ($client = Client::find(Auth::user()->client_id)) {
