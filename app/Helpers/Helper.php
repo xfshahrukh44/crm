@@ -1036,3 +1036,18 @@ function fetch_search_bar_content ($query = null) {
 
     return json_encode($final);
 }
+
+function emit_pusher_notification ($channel, $event, $data) {
+    try {
+        $pusher = new \Pusher\Pusher('7d1bc788fe2aaa7a2ea5', '5758ce8139ba816eb7d7', '1838156', [
+            'cluster' => 'ap2',
+            'useTLS' => true
+        ]);
+
+        $pusher->trigger($channel, $event, $data);
+
+        return true;
+    } catch (\Exception $e) {
+        return false;
+    }
+}

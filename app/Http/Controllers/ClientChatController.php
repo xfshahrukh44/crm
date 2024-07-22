@@ -142,6 +142,14 @@ class ClientChatController extends Controller
                         \Illuminate\Support\Facades\Log::error('MAIL FAILED: ' . $mail_error_data);
                     }
                 }
+
+                //pusher notification
+                $pusher_notification_data = [
+                    'for_ids' => $project_assigned_support_ids,
+                    'text' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has send you a Message',
+                    'redirect_url' => route('support.message.show.id', ['id' => Auth()->user()->id, 'name' => Auth()->user()->name]),
+                ];
+                emit_pusher_notification('message-channel', 'new-message', $pusher_notification_data);
             }
 
 //            $projects = Project::select('user_id')->where('client_id', Auth::user()->id)->get();
