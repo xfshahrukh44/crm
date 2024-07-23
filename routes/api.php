@@ -14,7 +14,7 @@ use App\Http\Controllers\ApiHomeController;
 |
 */
 
-//Route::post('/leads', [ApiHomeController::class, 'leadStore']);
+Route::post('/leads', [ApiHomeController::class, 'leadStore']);
 Route::post('/payments', [ApiHomeController::class, 'paymentStore']);
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
