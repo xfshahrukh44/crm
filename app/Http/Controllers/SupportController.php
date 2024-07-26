@@ -742,11 +742,11 @@ class SupportController extends Controller
 //                });
 //            })->get();
 
-        if (auth()->user()->is_support_head) {
-            $client_user_ids = array_unique(Project::whereIn('brand_id', auth()->user()->brand_list())->pluck('client_id')->toArray());
-        } else {
+//        if (auth()->user()->is_support_head) {
+//            $client_user_ids = array_unique(Project::whereIn('brand_id', auth()->user()->brand_list())->pluck('client_id')->toArray());
+//        } else {
             $client_user_ids = array_unique(Project::whereIn('brand_id', auth()->user()->brand_list())->where('user_id', auth()->id())->pluck('client_id')->toArray());
-        }
+//        }
 
         $clients_with_messages = User::whereIn('id', $client_user_ids)
             ->when(request()->has('client_name'), function ($q) {
