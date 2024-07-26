@@ -742,18 +742,27 @@ class SupportController extends Controller
 //                });
 //            })->get();
 
-        $clients_with_messages = User::whereHas('client', function ($q) {
-           return $q->whereIn('brand_id', auth()->user()->brand_list())
-               ->whereHas('projects', function ($q) {
-                   return $q->orderBy('id', 'desc');
-               })
-               ->when(request()->has('client_name'), function ($q) {
-                   return $q->where('name', 'LIKE', "%".request()->get('client_name')."%")
-                       ->orWhere('last_name', 'LIKE', "%".request()->get('client_name')."%")
-                       ->orWhere('email', 'LIKE', "%".request()->get('client_name')."%")
-                       ->orWhere('contact', 'LIKE', "%".request()->get('client_name')."%");
-               });
-        })->paginate(10);
+        if (auth()->user()->is_support_head) {
+            $client_user_ids = array_unique(Project::whereIn('brand_id', auth()->user()->brand_list())->pluck('client_id')->toArray());
+        } else {
+            $client_user_ids = array_unique(Project::whereIn('brand_id', auth()->user()->brand_list())->where('user_id', auth()->id())->pluck('client_id')->toArray());
+        }
+
+        $clients_with_messages = User::whereIn('id', $client_user_ids)
+            ->when(request()->has('client_name'), function ($q) {
+                return $q->whereHas('client', function ($q) {
+//               return $q->whereIn('brand_id', auth()->user()->brand_list())
+//                   ->whereHas('projects', function ($q) {
+//                       return $q->orderBy('id', 'desc');
+//                   })
+                    return $q->when(request()->has('client_name'), function ($q) {
+                        return $q->where('name', 'LIKE', "%".request()->get('client_name')."%")
+                            ->orWhere('last_name', 'LIKE', "%".request()->get('client_name')."%")
+                            ->orWhere('email', 'LIKE', "%".request()->get('client_name')."%")
+                            ->orWhere('contact', 'LIKE', "%".request()->get('client_name')."%");
+                    });
+                });
+            })->orderBy('created_at', 'DESC')->paginate(10);
 
 //        $datas = Project::where('user_id', Auth()->user()->id)
 ////            ->when(auth()->user()->is_support_head == 1, function ($q) {
