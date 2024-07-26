@@ -101,7 +101,8 @@ class BrandController extends Controller
 //            ->orderBy('projects_count', 'desc')->orderBy('invoices_count', 'desc')
             ->when($request->has('client_name'), function ($q) use ($request) {
                 return $q->whereHas('user', function ($q) use ($request) {
-                    return $q->where('name', 'LIKE', '%'.$request->get('client_name').'%')
+                    return $q->where(DB::raw('concat(name," ",last_name)'), 'like', '%'.$request->get('client_name').'%')
+                        ->orWhere('name', 'LIKE', '%'.$request->get('client_name').'%')
                         ->orWhere('last_name', 'LIKE', '%'.$request->get('client_name').'%')
                         ->orWhere('email', 'LIKE', '%'.$request->get('client_name').'%')
                         ->orWhere('contact', 'LIKE', '%'.$request->get('client_name').'%');

@@ -26,13 +26,13 @@ use App\Models\Message;
 use App\Notifications\AssignProjectNotification;
 use Illuminate\Http\Request;
 use App\Notifications\MessageNotification;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Rules\MatchOldPassword;
 use Illuminate\Support\Facades\Hash;
 use Auth;
 use Notification;
 use Mail;
-use DB;
 use PDF;
 use \Carbon\Carbon;
 use DateTimeZone;
@@ -756,7 +756,8 @@ class SupportController extends Controller
 //                       return $q->orderBy('id', 'desc');
 //                   })
                     return $q->when(request()->has('client_name'), function ($q) {
-                        return $q->where('name', 'LIKE', "%".request()->get('client_name')."%")
+                        return $q->where(DB::raw('concat(name," ",last_name)'), 'like', '%'.request()->get('client_name').'%')
+                            ->orWhere('name', 'LIKE', "%".request()->get('client_name')."%")
                             ->orWhere('last_name', 'LIKE', "%".request()->get('client_name')."%")
                             ->orWhere('email', 'LIKE', "%".request()->get('client_name')."%")
                             ->orWhere('contact', 'LIKE', "%".request()->get('client_name')."%");
