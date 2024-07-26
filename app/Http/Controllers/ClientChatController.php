@@ -121,7 +121,7 @@ class ClientChatController extends Controller
             if ($client = Client::find(Auth::user()->client_id)) {
                 $project_assigned_support_ids = Project::where('client_id', auth()->user()->id)->where('brand_id', $client->brand_id)->pluck('user_id')->toArray();
                 if ($sale) { $project_assigned_support_ids []= $sale->id; }
-                $support_ids = DB::table('brand_users')->where('brand_id', $client->brand_id)->pluck('user_id');
+                $support_ids = DB::table('brand_users')->where('brand_id', $client->brand_id)->pluck('user_id')->toArray();
                 $support_ids = DB::table('users')->where(['is_employee' => 4, 'is_support_head' => 1])->whereIn('id', $support_ids)->pluck('id');
                 $project_assigned_support_ids = array_merge($project_assigned_support_ids, $support_ids);
                 foreach (
