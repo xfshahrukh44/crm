@@ -1196,7 +1196,7 @@ class InvoiceController extends Controller
         $invoice = Invoice::find($id);
         $user = Client::where('email', $invoice->client->email)->first();
         $user_client = User::where('email', $invoice->client->email)->first();
-        if($user_client != null){
+        if($user_client != null || $user->user){
             $service_array = explode(',', $invoice->service);
             for($i = 0; $i < count($service_array); $i++){
                 $service = Service::find($service_array[$i]);
@@ -1392,7 +1392,7 @@ class InvoiceController extends Controller
         $invoice = Invoice::find($id);
         $user = Client::where('email', $invoice->client->email)->first();
         $user_client = User::where('email', $invoice->client->email)->first();
-        if($user_client != null){
+        if($user_client != null || $user->user){
             $service_array = explode(',', $invoice->service);
             for($i = 0; $i < count($service_array); $i++){
                 $service = Service::find($service_array[$i]);
@@ -1593,7 +1593,7 @@ class InvoiceController extends Controller
 
             $user = Client::where('email', $invoice->client->email)->first();
             $user_client = User::where('email', $invoice->client->email)->first();
-            if($user_client != null){
+            if($user_client != null || $user->user){
                 $service_array = explode(',', $invoice->service);
                 for($i = 0; $i < count($service_array); $i++){
                     $service = Service::find($service_array[$i]);
