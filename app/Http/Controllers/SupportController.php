@@ -221,7 +221,6 @@ class SupportController extends Controller
                 return view('support.bookformatting', compact('data'));
             }elseif($check == 7){
                 $data = BookWriting::find($form_id);
-                dd($data);
                 return view('support.bookwriting', compact('data'));
             }elseif($check == 8){
                 $data = AuthorWebsite::find($form_id);
