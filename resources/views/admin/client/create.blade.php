@@ -80,9 +80,67 @@
     </div>
 </div>
 
+<!-- External Client Modal -->
+<div class="modal fade" id="externalClientModal" tabindex="-1" role="dialog" aria-labelledby="externalClientModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Warning</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Client already exists.
+            </div>
+            <div class="modal-footer">
+{{--                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>--}}
+                <a href="#" type="button" class="btn btn-primary" id="btn_edit_external_client">Edit Client</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @push('scripts')
+    <script>
+        function check_if_external_client () {
+            if ($('#email').val() == '' || $('#brand').val() == '') {
+                return false;
+            }
+
+            $.ajax({
+                url: '{{route("check-if-external-client")}}',
+                method: 'GET',
+                data: {
+                    email: $('#email').val(),
+                    brand_id: $('#brand').val(),
+                },
+                success: (data) => {
+                    if (data == '') {
+                        return false;
+                    } else {
+                        $('#btn_edit_external_client').prop('href', data);
+                        $('#externalClientModal').modal('show');
+                    }
+                },
+                error: (e) => {
+                    alert(e);
+                },
+            });
+        }
+
+        $(document).ready(() => {
+            $('#email').on('change', () => {
+                check_if_external_client();
+            });
+
+            $('#brand').on('change', () => {
+                check_if_external_client();
+            });
+        });
+    </script>
     <script>
         @if(session()->has('success'))
             toastr.success('{{session()->get('success')}}');

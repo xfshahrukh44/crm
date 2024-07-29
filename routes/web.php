@@ -254,7 +254,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/change-password', [HomeController::class, 'changePassword'])->name('sale.change.password');
         Route::post('/change-password', [HomeController::class, 'updatePassword'])->name('sale.update.password');
         Route::resource('/project', ProjectController::class);
-        Route::resource('/client', ClientController::class);
+        Route::resource('/client', ClientController::class, ['names' => 'sale.client']);
         Route::get('/payment-link/{id}', [ClientController::class, 'paymentLink'])->name('client.generate.payment');
         Route::resource('/task', TaskController::class, ['names' => 'sale.task']);
         Route::resource('/subtask', SubTaskController::class);
@@ -397,6 +397,8 @@ Route::group(['middleware' => 'auth'], function () {
     });
 });
 
+
+//brands dashboard
 Route::get('brands-dashboard', [GeneralBrandController::class, 'brands_dashboard'])->name('brands.dashboard');
 Route::get('brands-detail/{id}', [GeneralBrandController::class, 'brands_detail'])->name('brands.detail');
 Route::get('clients-detail/{id}', [GeneralBrandController::class, 'clients_detail'])->name('clients.detail');
@@ -406,3 +408,4 @@ Route::get('get-invoices', [GeneralBrandController::class, 'get_invoices'])->mid
 Route::get('get-support-agents', [GeneralBrandController::class, 'get_support_agents'])->middleware('auth')->name('get-support-agents');
 Route::post('assign-pending-project-to-agent', [GeneralBrandController::class, 'assign_pending_project_to_agent'])->middleware('auth')->name('assign-pending-project-to-agent');
 Route::get('fetch-search-bar-content', [GeneralBrandController::class, 'fetch_search_bar_content'])->middleware('auth')->name('fetch-search-bar-content');
+Route::get('check-if-external-client', [GeneralBrandController::class, 'check_if_external_client'])->middleware('auth')->name('check-if-external-client');

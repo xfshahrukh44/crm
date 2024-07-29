@@ -1010,8 +1010,9 @@ function fetch_search_bar_content ($query = null) {
         })
         ->orderBy('created_at', 'DESC')->take(5)->get();
     foreach ($clients as $client) {
+        $label = $client->name . " " . $client->last_name . (in_array(auth()->user()->is_employee, [0, 2, 6]) ? "    (".$client->email.")" : "");
         $final []= [
-            'label' => $client->name . ' ' . $client->last_name,
+            'label' => $label,
             'category' => 'Clients',
             'id' => $client->id,
         ];
@@ -1050,4 +1051,27 @@ function emit_pusher_notification ($channel, $event, $data) {
     } catch (\Exception $e) {
         return false;
     }
+}
+
+function check_if_external_client (Request $request) {
+    if (!$client = Client::where([ 'brand_id' => $request->get('brand_id'), 'email' => $request->get('email') ])->first()) {
+        return '';
+    }
+
+    if ($user = User::where('client_id', $client->id)->first()) {
+        return '';
+    }
+
+    if (is_null($client->url) || $client->added_by) {
+        return '';
+    }
+
+    $edit_client_map = [
+        2 => route('admin.client.edit', $client->id),
+        6 => route('manager.client.edit', $client->id),
+        0 => route('sale.client.edit', $client->id),
+        4 => route('support.client.edit', $client->id),
+    ];
+
+    return $edit_client_map[intval(Auth::user()->is_employee)] ?? '';
 }

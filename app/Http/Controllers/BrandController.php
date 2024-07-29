@@ -395,4 +395,10 @@ class BrandController extends Controller
     {
         return fetch_search_bar_content($request->get('query'));
     }
+
+    function check_if_external_client (Request $request)
+    {
+        return check_if_external_client($request);
+    }
+
 }

@@ -107,9 +107,12 @@ class SupportController extends Controller
     }
 
     public function getFormByProduction($form_id, $check, $id){
-        
-        
-        $project = Project::find($id);
+
+
+        if(!$project = Project::find($id)) {
+            return redirect()->back();
+        }
+
         // if($project->user_id == Auth()->user()->id){
         if($check == 1){
             $logo_form = LogoForm::find($form_id);
@@ -153,7 +156,10 @@ class SupportController extends Controller
     }
 
     public function getFormByMember($form_id, $check, $id){
-        $project = Project::find($id);
+        if(!$project = Project::find($id)) {
+            return redirect()->back();
+        }
+
         // if($project->user_id == Auth()->user()->id){
         if($check == 1){
             $logo_form = LogoForm::find($form_id);
@@ -190,7 +196,10 @@ class SupportController extends Controller
 
     public function getForm($form_id, $check, $id){
         
-        $project = Project::find($id);
+        if(!$project = Project::find($id)) {
+            return redirect()->back();
+        }
+
         // if($project->user_id == Auth()->user()->id){
             if($check == 1){
                 $logo_form = LogoForm::find($form_id);
@@ -239,7 +248,9 @@ class SupportController extends Controller
     }
 
     public function getFormManager($form_id, $check, $id){
-        $project = Project::find($id);
+        if(!$project = Project::find($id)) {
+            return redirect()->back();
+        }
         // if($project->user_id == Auth()->user()->id){
             if($check == 1){
                 $logo_form = LogoForm::find($form_id);
@@ -278,7 +289,10 @@ class SupportController extends Controller
     }
 
     public function getFormSale($form_id, $check, $id){
-        $project = Project::find($id);
+        if(!$project = Project::find($id)) {
+            return redirect()->back();
+        }
+
         // if($project->user_id == Auth()->user()->id){
             if($check == 1){
                 $logo_form = LogoForm::find($form_id);
@@ -1276,7 +1290,9 @@ class SupportController extends Controller
     public function getFormByQA($form_id, $check, $id){
 
 
-        $project = Project::find($id);
+        if(!$project = Project::find($id)) {
+            return redirect()->back();
+        }
         // if($project->user_id == Auth()->user()->id){
         if($check == 1){
             $logo_form = LogoForm::find($form_id);
