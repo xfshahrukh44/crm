@@ -268,6 +268,123 @@
                         </div>
                         <div class="col-md-6">
                             <div class="card mb-4">
+                                <div class="card-body">
+                                    <h4 class="card-title mb-3">Sub Task Message</h4>
+                                    <div class="separator-breadcrumb border-top mb-3"></div>
+                                    <form class="form" action="{{route('support.subtask.store')}}" method="POST" id="subtask" enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="hidden" name="task_id" value="{{ $task->id }}">
+                                        <input type="hidden" name="created_at" class="created_at" value="">
+                                        <div class="form-group mb-4">
+                                            <label for="duedate">Due Date <span>*</span></label>
+                                            <input class="form-control" type="date" name="duedate" id="duedate" value="" required>
+                                        </div>
+                                        <div class="form-body">
+                                            <div class="form-group">
+                                                <textarea id="description" rows="5" class="form-control border-primary" name="description" placeholder="Sub Task Message Details" required>{{old('description')}}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-actions text-right pb-0">
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="la la-check-square-o"></i> Save
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h4 class="card-title mb-0">Sub Task</h4>
+                                </div>
+                            </div>
+                            @foreach($task->sub_tasks as $sub_tasks)
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <div class="card-content collapse show">
+                                            <div class="ul-widget__body">
+                                                <div class="ul-widget3" id="subtask_show">
+                                                    <div class="ul-widget3-item">
+                                                        <div class="ul-widget3-header">
+                                                            <div class="ul-widget3-img">
+                                                                @if($sub_tasks->user->image != '')
+                                                                    <img id="userDropdown" src="{{ asset($sub_tasks->user->image) }}" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                @else
+                                                                    <img id="userDropdown" src="{{ asset('global/img/user.png') }}" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                @endif
+                                                            </div>
+                                                            <div class="ul-widget3-info">
+                                                                <a class="__g-widget-username" href="#">
+                                                                    <span class="t-font-bolder">{{ $sub_tasks->user->name }} {{ $sub_tasks->user->last_name }}</span>
+                                                                </a>
+                                                                <br>
+                                                                <span class="ul-widget-notification-item-time d-block">
+                                                            @if($sub_tasks->created_at != null)
+                                                                        {{ $sub_tasks->created_at->diffForHumans() }}
+                                                                    @endif
+                                                            </span>
+                                                                @if($sub_tasks->created_at != null)
+                                                                    <strong class="badge badge-info">{{ $sub_tasks->created_at->format('d M, y - h:i:s A') }}</strong>
+                                                                @endif
+                                                            </div>
+                                                            <span class="ul-widget3-status text-success t-font-bolder" style="display: flex;justify-content: end;gap: 20px;">
+                                                            @if($sub_tasks->duedate != null)
+                                                                    <div class="left">
+                                                                Due Date <br>
+                                                                {{ date('d M, y', strtotime($sub_tasks->duedate)) }}
+                                                            </div>
+                                                                @endif
+                                                                @if($sub_tasks->duedateChange != null)
+                                                                    <div class="right" style="border-left: 1px solid #e5e5e5;padding-left: 15px;text-align: left;">
+                                                            Changed By {{ $sub_tasks->duedateChange->user->name }} {{ $sub_tasks->duedateChange->user->last_name }}<br>
+                                                            From {{ date('d M, y', strtotime($sub_tasks->duedateChange->duadate)) }} to {{ date('d M, y', strtotime($sub_tasks->duedate)) }}
+                                                            </div>
+                                                                @endif
+                                                        </span>
+                                                        </div>
+                                                        <div class="ul-widget3-body">
+                                                            {!! nl2br($sub_tasks->description) !!}
+                                                        </div>
+                                                    </div>
+                                                    @if(count($sub_tasks->subtask_message) != 0)
+                                                        @foreach($sub_tasks->subtask_message as $subtask_message)
+                                                            <hr>
+                                                            <div class="ul-widget3-item sub-ul-widget3-item">
+                                                                <div class="ul-widget3-header">
+                                                                    <div class="ul-widget3-img">
+                                                                        @if($subtask_message->user->image != '')
+                                                                            <img id="userDropdown" src="{{ asset($subtask_message->user->image) }}" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        @else
+                                                                            <img id="userDropdown" src="{{ asset('global/img/user.png') }}" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        @endif
+                                                                    </div>
+                                                                    <div class="ul-widget3-info">
+                                                                        <a class="__g-widget-username" href="#">
+                                                                            <span class="t-font-bolder">{{ $subtask_message->user->name }} {{ $subtask_message->user->last_name }}</span>
+                                                                        </a>
+                                                                        <br>
+                                                                        <span class="ul-widget-notification-item-time">{{ $subtask_message->created_at->diffForHumans() }}</span>
+                                                                    </div>
+                                                                    <span class="ul-widget3-status text-success t-font-bolder">
+                                                            {{ date('d M, y', strtotime($subtask_message->created_at)) }}
+                                                        </span>
+                                                                </div>
+                                                                <div class="ul-widget3-body">
+                                                                    {!! $subtask_message->description !!}
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6">
+                            <div class="card mb-4">
                                 <div class="card-body card_body_qa_feedback">
                                     <h4 class="card-title mb-3">QA Feedback</h4>
 
@@ -339,123 +456,6 @@
                                     @endif
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-6"></div>
-                        <div class="col-md-6">
-                            <div class="card mb-4">
-                                <div class="card-body">
-                                    <h4 class="card-title mb-3">Sub Task Message</h4>
-                                    <div class="separator-breadcrumb border-top mb-3"></div>
-                                    <form class="form" action="{{route('support.subtask.store')}}" method="POST" id="subtask" enctype="multipart/form-data">
-                                        @csrf
-                                        <input type="hidden" name="task_id" value="{{ $task->id }}">
-                                        <input type="hidden" name="created_at" class="created_at" value="">
-                                        <div class="form-group mb-4">
-                                            <label for="duedate">Due Date <span>*</span></label>
-                                            <input class="form-control" type="date" name="duedate" id="duedate" value="" required>
-                                        </div>
-                                        <div class="form-body">
-                                            <div class="form-group">
-                                                <textarea id="description" rows="5" class="form-control border-primary" name="description" placeholder="Sub Task Message Details" required>{{old('description')}}</textarea>
-                                            </div>
-                                        </div>
-                                        <div class="form-actions text-right pb-0">
-                                            <button type="submit" class="btn btn-primary">
-                                            <i class="la la-check-square-o"></i> Save
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="card mb-3">
-                                <div class="card-body">
-                                    <h4 class="card-title mb-0">Sub Task</h4>
-                                </div>
-                            </div>
-                            @foreach($task->sub_tasks as $sub_tasks)
-                            <div class="card mb-3">
-                                <div class="card-body">
-                                    <div class="card-content collapse show">
-                                        <div class="ul-widget__body">
-                                            <div class="ul-widget3" id="subtask_show">
-                                                <div class="ul-widget3-item">
-                                                    <div class="ul-widget3-header">
-                                                        <div class="ul-widget3-img">
-                                                        @if($sub_tasks->user->image != '')
-                                                            <img id="userDropdown" src="{{ asset($sub_tasks->user->image) }}" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        @else
-                                                            <img id="userDropdown" src="{{ asset('global/img/user.png') }}" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        @endif
-                                                        </div>
-                                                        <div class="ul-widget3-info">
-                                                            <a class="__g-widget-username" href="#">
-                                                                <span class="t-font-bolder">{{ $sub_tasks->user->name }} {{ $sub_tasks->user->last_name }}</span>
-                                                            </a>
-                                                            <br>
-                                                            <span class="ul-widget-notification-item-time d-block">
-                                                            @if($sub_tasks->created_at != null)
-                                                                {{ $sub_tasks->created_at->diffForHumans() }}
-                                                            @endif
-                                                            </span>
-                                                            @if($sub_tasks->created_at != null)
-                                                            <strong class="badge badge-info">{{ $sub_tasks->created_at->format('d M, y - h:i:s A') }}</strong>
-                                                            @endif
-                                                        </div>
-                                                        <span class="ul-widget3-status text-success t-font-bolder" style="display: flex;justify-content: end;gap: 20px;">
-                                                            @if($sub_tasks->duedate != null)
-                                                            <div class="left">
-                                                                Due Date <br>
-                                                                {{ date('d M, y', strtotime($sub_tasks->duedate)) }}
-                                                            </div>
-                                                            @endif
-                                                            @if($sub_tasks->duedateChange != null)
-                                                            <div class="right" style="border-left: 1px solid #e5e5e5;padding-left: 15px;text-align: left;">
-                                                            Changed By {{ $sub_tasks->duedateChange->user->name }} {{ $sub_tasks->duedateChange->user->last_name }}<br>
-                                                            From {{ date('d M, y', strtotime($sub_tasks->duedateChange->duadate)) }} to {{ date('d M, y', strtotime($sub_tasks->duedate)) }}
-                                                            </div>
-                                                            @endif
-                                                        </span>
-                                                    </div>
-                                                    <div class="ul-widget3-body">
-                                                        {!! nl2br($sub_tasks->description) !!}
-                                                    </div>
-                                                </div>
-                                                @if(count($sub_tasks->subtask_message) != 0)
-                                                @foreach($sub_tasks->subtask_message as $subtask_message)
-                                                <hr>
-                                                <div class="ul-widget3-item sub-ul-widget3-item">
-                                                    <div class="ul-widget3-header">
-                                                        <div class="ul-widget3-img">
-                                                        @if($subtask_message->user->image != '')
-                                                            <img id="userDropdown" src="{{ asset($subtask_message->user->image) }}" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        @else
-                                                            <img id="userDropdown" src="{{ asset('global/img/user.png') }}" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        @endif
-                                                        </div>
-                                                        <div class="ul-widget3-info">
-                                                            <a class="__g-widget-username" href="#">
-                                                                <span class="t-font-bolder">{{ $subtask_message->user->name }} {{ $subtask_message->user->last_name }}</span>
-                                                            </a>
-                                                            <br>
-                                                            <span class="ul-widget-notification-item-time">{{ $subtask_message->created_at->diffForHumans() }}</span>
-                                                        </div>
-                                                        <span class="ul-widget3-status text-success t-font-bolder">
-                                                            {{ date('d M, y', strtotime($subtask_message->created_at)) }}
-                                                        </span>
-                                                    </div>
-                                                    <div class="ul-widget3-body">
-                                                        {!! $subtask_message->description !!}
-                                                    </div>
-                                                </div>
-                                                @endforeach
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            @endforeach
                         </div>
                     </div>
                 </div>
