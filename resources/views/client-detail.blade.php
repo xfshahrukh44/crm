@@ -44,6 +44,7 @@
                     <div class="col-md-8 offset-md-2">
                         <h2>{{$client->name . ' ' . $client->last_name}}</h2>
 {{--                        <p style="font-size: medium;">--}}
+                        @if(in_array(auth()->user()->is_employee, [0, 2, 6]))
                             @if($client->contact)
                                 <div class="col-12">
                                     <i class="fas fa-phone text-primary"></i>
@@ -58,6 +59,7 @@
                                 </div>
                             @endif
 {{--                        </p>--}}
+                        @endif
 
                         @if($client->brand)
                             <div class="col-12">
