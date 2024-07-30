@@ -301,9 +301,14 @@
                                 <input id="image-file" type="file" name="files[]" multiple data-browse-on-zone-click="true">
                             </div>
                             <div class="col-md-12 form-group">
+                                <label for="">
+                                    <b>Update status</b>
+                                </label>
                                 <div class="row">
-                                    <button type="submit" name="status" value="1" class="btn-sm btn-danger mx-3">Re Open</button>
-                                    <button type="submit" name="status" value="3" class="btn-sm btn-success">Complete</button>
+                                    @if($task->qa_feedbacks->where('status', 1)->count() <= 2)
+                                        <button type="submit" name="status" value="1" class="btn-sm btn-danger mx-3">Re Open</button>
+                                    @endif
+                                    <button type="submit" name="status" value="3" class="btn-sm btn-success mx-3">Complete</button>
                                 </div>
                             </div>
                         </div>
