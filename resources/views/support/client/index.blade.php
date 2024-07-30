@@ -64,8 +64,8 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Full Name</th>
-                                <th>Email</th>
-                                <th>Contact</th>
+{{--                                <th>Email</th>--}}
+{{--                                <th>Contact</th>--}}
                                 <th>Brand</th>
                                 <th>Payment Link</th>
                                 <th>Status</th>
@@ -77,8 +77,8 @@
                             <tr>
                                 <td>{{$datas->id}}</td>
                                 <td>{{$datas->name}} {{$datas->last_name}}</td>
-                                <td>{{$datas->email}}</td>
-                                <td>{{$datas->contact}}</td>
+{{--                                <td>{{$datas->email}}</td>--}}
+{{--                                <td>{{$datas->contact}}</td>--}}
                                 <td><span class="btn btn-info btn-sm">{{$datas->brand->name}}</span></td>
                                 <td><a href="{{ route('support.client.generate.payment', $datas->id) }}" class="btn btn-primary btn-sm">Generate Payment</a></td>
                                 <td>
@@ -101,8 +101,8 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Full Name</th>
-                                <th>Email</th>
-                                <th>Contact</th>
+{{--                                <th>Email</th>--}}
+{{--                                <th>Contact</th>--}}
                                 <th>Brand</th>
                                 <th>Payment Link</th>
                                 <th>Status</th>
