@@ -177,6 +177,11 @@
                         <li class="nav-item">
                             <a class="nav-link" id="notes-tab" data-toggle="tab" href="#notes-show" role="tab" aria-controls="notes-show" aria-selected="false">Notes</a>
                         </li>
+                        @if(count($task->qa_feedbacks))
+                            <li class="nav-item">
+                                <a class="nav-link" id="qa-tab" data-toggle="tab" href="#qa-show" role="tab" aria-controls="qa-show" aria-selected="false">QA Feedback</a>
+                            </li>
+                        @endif
                     </ul>
                 </div>    
             </div>
@@ -382,81 +387,6 @@
                                 </div>
                             @endforeach
                         </div>
-                        <div class="col-md-6"></div>
-                        <div class="col-md-6">
-                            <div class="card mb-4">
-                                <div class="card-body card_body_qa_feedback">
-                                    <h4 class="card-title mb-3">QA Feedback</h4>
-
-                                    @if(count($task->qa_feedbacks))
-                                        @foreach($task->qa_feedbacks as $qa_feedback)
-                                            <div class="row" id="feedback_wrapper_row">
-                                                <div class="col-md-4 p-0">
-                                                    <button type="submit" name="status" value="0" class="btn btn-{!! $qa_feedback->status == '3' ? 'success' : 'danger' !!} mx-3">{{get_task_status_text($qa_feedback->status)}}</button>
-                                                </div>
-                                                <div class="col-md-4">
-
-                                                </div>
-                                                <div class="col-md-4 text-right">
-                                                    <div class="row">
-                                                        <div class="col-12">
-                                                <span>
-                                                    <b class="text-info">{{$qa_feedback->user->name . ' ' . $qa_feedback->user->last_name}}</b>
-                                                </span>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <small class="text-info">
-                                                                {{\Carbon\Carbon::parse($qa_feedback->created_at)->format('d M Y, h:i A')}}
-                                                                {{--                                                    12 Dec 2024, 12:12 PM--}}
-                                                            </small>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                @if($qa_feedback->message)
-                                                    <div class="col-12 mt-3">
-                                                        <label for="">
-                                                            <b class="text-15">Message</b>
-                                                        </label>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <p>
-                                                            {{$qa_feedback->message}}
-                                                        </p>
-                                                    </div>
-                                                @endif
-
-                                                @if(count($qa_feedback->qa_files))
-                                                    <div class="col-md-12">
-                                                        <div class="row">
-                                                            <div class="col-12">
-                                                                <label for="">
-                                                                    <b class="text-15">
-                                                                        Attached files
-                                                                        @if(count($qa_feedback->qa_files) > 1)
-                                                                            <a href="#" class="anchor_download__all_qa_files">
-                                                                                <small>(Download all)</small>
-                                                                            </a>
-                                                                        @endif
-                                                                    </b>
-                                                                </label>
-                                                            </div>
-                                                            <ul>
-                                                                @foreach($qa_feedback->qa_files as $qa_file)
-                                                                    <li>
-                                                                        <a class="anchor_download_qa_file" download href="{{asset($qa_file->path)}}">{{$qa_file->name}}</a>
-                                                                    </li>
-                                                                @endforeach
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        @endforeach
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="message-show" role="tabpanel" aria-labelledby="message-show-tab">
@@ -581,10 +511,89 @@
                         <div>
                     </div>        
                 </div>
+
+                @if(count($task->qa_feedbacks))
+                    <div class="tab-pane fade show active" id="task-overview" role="tabpanel" aria-labelledby="task-overview-tab">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card mb-4">
+                                    <div class="card-body card_body_qa_feedback">
+                                        <h4 class="card-title mb-3">QA Feedback</h4>
+
+                                        @foreach($task->qa_feedbacks as $qa_feedback)
+                                            <div class="row" id="feedback_wrapper_row">
+                                                <div class="col-md-4 p-0">
+                                                    <button type="submit" name="status" value="0" class="btn btn-{!! $qa_feedback->status == '3' ? 'success' : 'danger' !!} mx-3">{{get_task_status_text($qa_feedback->status)}}</button>
+                                                </div>
+                                                <div class="col-md-4">
+
+                                                </div>
+                                                <div class="col-md-4 text-right">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                            <span>
+                                <b class="text-info">{{$qa_feedback->user->name . ' ' . $qa_feedback->user->last_name}}</b>
+                            </span>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <small class="text-info">
+                                                                {{\Carbon\Carbon::parse($qa_feedback->created_at)->format('d M Y, h:i A')}}
+                                                                {{--                                                    12 Dec 2024, 12:12 PM--}}
+                                                            </small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                @if($qa_feedback->message)
+                                                    <div class="col-12 mt-3">
+                                                        <label for="">
+                                                            <b class="text-15">Message</b>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <p>
+                                                            {{$qa_feedback->message}}
+                                                        </p>
+                                                    </div>
+                                                @endif
+
+                                                @if(count($qa_feedback->qa_files))
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <label for="">
+                                                                    <b class="text-15">
+                                                                        Attached files
+                                                                        @if(count($qa_feedback->qa_files) > 1)
+                                                                            <a href="#" class="anchor_download__all_qa_files">
+                                                                                <small>(Download all)</small>
+                                                                            </a>
+                                                                        @endif
+                                                                    </b>
+                                                                </label>
+                                                            </div>
+                                                            <ul>
+                                                                @foreach($qa_feedback->qa_files as $qa_file)
+                                                                    <li>
+                                                                        <a class="anchor_download_qa_file" download href="{{asset($qa_file->path)}}">{{$qa_file->name}}</a>
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
-    
+
 </section>
 
 
