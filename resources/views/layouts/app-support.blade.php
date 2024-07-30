@@ -31,6 +31,7 @@
     <link href="{{ asset('newglobal/css/sweetalert2.min.css') }}" rel="stylesheet" />
 {{--    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.3/dist/sweetalert2.min.css" rel="stylesheet">--}}
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+    <link href="{{ asset('global/css/qa.css') }}" rel="stylesheet" />
     @stack('styles')
     <style>
         .select2-container .select2-selection--single{

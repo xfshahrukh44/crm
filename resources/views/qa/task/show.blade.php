@@ -276,7 +276,7 @@
                                 <label for="message">
                                     <b>Message</b>
                                 </label>
-                                <textarea name="message" id="message" cols="30" rows="5" class="form-control"></textarea>
+                                <textarea name="message" id="message" cols="30" rows="5" class="form-control" required></textarea>
                             </div>
     {{--                        <div class="col-md-12 form-group">--}}
     {{--                            <label for="message">--}}
