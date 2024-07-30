@@ -28,6 +28,12 @@
         .btn_mark_as_paid:hover {
             cursor: pointer;
         }
+
+        @if(auth()->user()->is_employee == 4)
+            .support_sensitive {
+                color: white !important;
+            }
+        @endif
     </style>
 @endpush
 @section('content')
@@ -44,22 +50,22 @@
                     <div class="col-md-8 offset-md-2">
                         <h2>{{$client->name . ' ' . $client->last_name}}</h2>
 {{--                        <p style="font-size: medium;">--}}
-                        @if(in_array(auth()->user()->is_employee, [0, 2, 6]))
-                            @if($client->contact)
-                                <div class="col-12">
-                                    <i class="fas fa-phone text-primary"></i>
-                                    <a href="tel:{{$client->contact}}">{{$client->contact}}</a>
-                                </div>
-                            @endif
-
-                            @if($client->email)
-                                <div class="col-12">
-                                    <i class="fas fa-envelope text-primary"></i>
-                                    <a href="mailto:{{$client->email}}">{{$client->email}}</a>
-                                </div>
-                            @endif
-{{--                        </p>--}}
+{{--                        @if(in_array(auth()->user()->is_employee, [0, 2, 6]))--}}
+                        @if($client->contact)
+                            <div class="col-12">
+                                <i class="fas fa-phone text-primary support_sensitive"></i>
+                                <a class="support_sensitive" href="tel:{{$client->contact}}">{{$client->contact}}</a>
+                            </div>
                         @endif
+
+                        @if($client->email)
+                            <div class="col-12">
+                                <i class="fas fa-envelope text-primary support_sensitive"></i>
+                                <a class="support_sensitive" href="mailto:{{$client->email}}">{{$client->email}}</a>
+                            </div>
+                        @endif
+{{--                        </p>--}}
+{{--                        @endif--}}
 
                         @if($client->brand)
                             <div class="col-12">

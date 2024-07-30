@@ -430,7 +430,7 @@ class SupportController extends Controller
             'task_id' => $task_id,
             'project_id' => $project_id,
             'name' => Auth()->user()->name . ' ' . Auth()->user()->last_name,
-            'text' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has send you a Message',
+            'text' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has sent you a Message',
             'details' => Str::limit(filter_var($request->message, FILTER_SANITIZE_STRING), 40 ),
             'url' => '',
         ];
@@ -444,6 +444,15 @@ class SupportController extends Controller
         $adminusers = User::where('is_employee', 2)->get();
         foreach($adminusers as $adminuser){
             Notification::send($adminuser, new MessageNotification($messageData));
+        }
+
+        //pusher notification
+        if ($client_user = User::where('id', $request->client_id)->first()) {
+            $pusher_notification_data = [
+                'text' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has sent you a Message',
+                'redirect_url' => route('client.home'),
+            ];
+            emit_pusher_notification(('message-channel-for-client-user-' . $client_user->id), 'new-message', $pusher_notification_data);
         }
 
         //mail_notification
@@ -563,7 +572,7 @@ class SupportController extends Controller
             'task_id' => $task_id,
             'project_id' => $project_id,
             'name' => Auth()->user()->name . ' ' . Auth()->user()->last_name,
-            'text' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has send you a Message',
+            'text' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has sent you a Message',
             'details' => Str::limit(filter_var($request->message, FILTER_SANITIZE_STRING), 40 ),
             'url' => '',
         ];
@@ -577,6 +586,15 @@ class SupportController extends Controller
         $adminusers = User::where('is_employee', 2)->get();
         foreach($adminusers as $adminuser){
             Notification::send($adminuser, new MessageNotification($messageData));
+        }
+
+        //pusher notification
+        if ($client_user = User::where('id', $request->client_id)->first()) {
+            $pusher_notification_data = [
+                'text' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has sent you a Message',
+                'redirect_url' => route('client.home'),
+            ];
+            emit_pusher_notification(('message-channel-for-client-user-' . $client_user->id), 'new-message', $pusher_notification_data);
         }
 
         //send notification to client

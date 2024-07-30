@@ -128,6 +128,37 @@
     <script>
         introJs().setOption("dontShowAgain", true).start();
     </script>
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+    <script>
+        $(document).ready(() => {
+            //global vars
+            let auth_id = parseInt('{{auth()->user()->id}}');
+
+            // Enable Pusher logging - don't include this in production
+            Pusher.logToConsole = true;
+
+            var pusher = new Pusher('7d1bc788fe2aaa7a2ea5', {
+                cluster: 'ap2'
+            });
+
+            var channel = pusher.subscribe('message-channel-for-client-user-' + auth_id.toString());
+            channel.bind('new-message', function(data) {
+                swal({
+                    icon: 'info',
+                    title: data.text,
+                    showDenyButton: false,
+                    showCancelButton: false,
+                    confirmButtonText: "View message",
+                }).then((result) => {
+                    if (result && data.redirect_url) {
+                        window.location.href = data.redirect_url
+                    }
+                });
+
+                console.log(data);
+            });
+        });
+    </script>
     @yield('script')
 
     @stack('scripts')

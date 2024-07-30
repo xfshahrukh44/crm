@@ -95,7 +95,7 @@ class ClientChatController extends Controller
             $messageData = [
                 'id' => Auth()->user()->id,
                 'name' => Auth()->user()->name . ' ' . Auth()->user()->last_name,
-                'text' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has send you a Message',
+                'text' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has sent you a Message',
                 'details' => Str::limit(filter_var($request->message, FILTER_SANITIZE_STRING), 40 ),
                 'url' => '',
             ];
@@ -139,7 +139,7 @@ class ClientChatController extends Controller
 
                         $mail_error_data = json_encode([
                             'emails' => [$support_member->email],
-                            'body' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has send you a Message',
+                            'body' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has sent you a Message',
                             'error' => $e->getMessage(),
                         ]);
 
@@ -150,7 +150,7 @@ class ClientChatController extends Controller
                 //pusher notification
                 $pusher_notification_data = [
                     'for_ids' => $project_assigned_support_ids,
-                    'text' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has send you a Message',
+                    'text' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has sent you a Message',
                     'redirect_url' => route('support.message.show.id', ['id' => Auth()->user()->id, 'name' => Auth()->user()->name]),
                 ];
                 emit_pusher_notification('message-channel', 'new-message', $pusher_notification_data);
@@ -165,7 +165,7 @@ class ClientChatController extends Controller
 //
 //                    $mail_error_data = json_encode([
 //                        'emails' => [$project->added_by->email],
-//                        'body' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has send you a Message',
+//                        'body' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has sent you a Message',
 //                        'error' => $e->getMessage(),
 //                    ]);
 //
