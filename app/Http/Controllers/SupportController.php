@@ -492,7 +492,8 @@ class SupportController extends Controller
             $message->client_id = $task->projects->client->id;
         }
         $message->role_id = 4;
-        $message->created_at = $carbon;
+//        $message->created_at = $carbon;
+        $message->created_at = Carbon::now();
         $message->save();
 
         if($request->hasfile('images')){
