@@ -254,7 +254,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/change-password', [HomeController::class, 'changePassword'])->name('sale.change.password');
         Route::post('/change-password', [HomeController::class, 'updatePassword'])->name('sale.update.password');
         Route::resource('/project', ProjectController::class);
-        Route::resource('/client', ClientController::class, ['names' => 'sale.client']);
+//        Route::resource('/client', ClientController::class, ['names' => 'sale.client']);
+        Route::resource('/client', ClientController::class);
         Route::get('/payment-link/{id}', [ClientController::class, 'paymentLink'])->name('client.generate.payment');
         Route::resource('/task', TaskController::class, ['names' => 'sale.task']);
         Route::resource('/subtask', SubTaskController::class);

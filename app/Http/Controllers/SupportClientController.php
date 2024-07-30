@@ -79,7 +79,10 @@ class SupportClientController extends Controller
 
     public function edit($id)
     {
-        $data = Client::where('id', $id)->where('user_id', Auth::user()->id)->first();
+//        $data = Client::where('id', $id)->where('user_id', Auth::user()->id)->first();
+        $data = Client::where('id', $id)
+//            ->where('user_id', Auth::user()->id)
+            ->first();
         if($data == null){
             return redirect()->back();
         }else{

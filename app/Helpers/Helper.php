@@ -1069,7 +1069,7 @@ function check_if_external_client (Request $request) {
     $edit_client_map = [
         2 => route('admin.client.edit', $client->id),
         6 => route('manager.client.edit', $client->id),
-        0 => route('sale.client.edit', $client->id),
+        0 => route('client.edit', $client->id),
         4 => route('support.client.edit', $client->id),
     ];
 
