@@ -669,18 +669,51 @@ class SupportController extends Controller
         }
     }
 
-    public function getMessageByManager(){
+    public function getMessageByManager(Request $request){
         
-        $messages = Message::select('messages.*', DB::raw('MAX(messages.id) as max_id'))
-                    ->join('users', 'users.id', '=', 'messages.client_id')
-                    ->join('clients', 'users.client_id', '=', 'clients.id')
-                    ->where('messages.role_id', 3)
-//                    ->whereIn('clients.brand_id', Brand::all()->pluck('id'))
-                    ->whereIn('clients.brand_id', Auth()->user()->brand_list())
-                    ->groupBy('messages.client_id')
-                    ->orderBy('max_id', 'desc')
-                    ->paginate(20);
-        return view('manager.messageshow', compact('messages'));
+//        $messages = Message::select('messages.*', DB::raw('MAX(messages.id) as max_id'))
+//                    ->join('users', 'users.id', '=', 'messages.client_id')
+//                    ->join('clients', 'users.client_id', '=', 'clients.id')
+//                    ->where('messages.role_id', 3)
+////                    ->whereIn('clients.brand_id', Brand::all()->pluck('id'))
+//                    ->whereIn('clients.brand_id', Auth()->user()->brand_list())
+//                    ->groupBy('messages.client_id')
+//                    ->orderBy('max_id', 'desc')
+//                    ->paginate(20);
+//
+//        $brands = DB::table('brands')->select('id', 'name')->get();
+
+        $filter = 0;
+        $brand_array = [];
+        $brands = DB::table('brands')->whereIn('id', auth()->user()->brand_list())->select('id', 'name')->get();
+        foreach($brands as $key => $brand){
+            array_push($brand_array, $brand->id);
+        }
+        $message_array = [];
+        $data = User::where('is_employee', 3)->where('client_id', '!=', 0)->whereHas('client', function ($q) {
+            return $q->whereIn('brand_id', auth()->user()->brand_list());
+        });
+
+        if($request->brand != null){
+            $get_brand = $request->brand;
+            $data = $data->whereHas('client', function ($query) use ($get_brand) {
+                return $query->where('brand_id', $get_brand);
+            });
+        }else{
+            $data = $data->whereHas('client', function ($query) use ($brand_array) {
+                return $query->whereIn('brand_id', $brand_array);
+            });
+        }
+        if($request->message != null){
+            $message = $request->message;
+            $data = $data->whereHas('messages', function ($query) use ($message) {
+                return $query->where('message', 'like', '%' . $message . '%');
+            });
+        }
+        $data = $data->orderBy('id', 'desc')->paginate(20);
+
+//        return view('manager.messageshow', compact('messages', 'brands'));
+        return view('manager.messageshow', compact('message_array', 'brands', 'filter', 'data'));
     }
 
     public function updateSupportMessage(Request $request){
