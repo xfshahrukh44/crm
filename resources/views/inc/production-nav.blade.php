@@ -66,6 +66,17 @@
                         </p>
                     </div>
                 </a>
+                <a href="{{ route('production.my-notifications') }}" class="dropdown-item d-flex">
+                    <div class="notification-icon">
+                        <i class="i-Check text-primary mr-1"></i>
+                    </div>
+                    <div class="notification-details flex-grow-1">
+                        <p class="m-0 d-flex align-items-center">
+                            <span class="lead-heading">View all</span>
+                            <span class="flex-grow-1"></span>
+                        </p>
+                    </div>
+                </a>
             </div>
         </div>
         <!-- Notificaiton End -->

@@ -241,6 +241,9 @@ Route::group(['middleware' => 'auth'], function () {
 
         //brief pending
         Route::get('/support/brief/pending', [SupportClientController::class, 'getBriefPendingById'])->name('support.brief.pending');
+
+        //notifications
+        Route::get('/support/my-notifications', function () { return view('support.my-notifications'); })->name('support.my-notifications');
     });
 });
 
@@ -279,6 +282,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('client/update_auth/', [AdminClientController::class, 'updateAuth'])->name('sale.client.updateauth');
         Route::get('brief/pending', [LogoFormController::class, 'getBriefPendingById'])->name('sale.brief.pending');
         Route::get('sale/{form_id}/projects/{check}/form/{id}', [SupportController::class, 'getFormSale'])->name('sale.form');
+
+        //notifications
+        Route::get('/my-notifications', function () { return view('sale.my-notifications'); })->name('sale.my-notifications');
     });
 });
 Route::group(['middleware' => 'auth'], function () {
@@ -307,6 +313,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('production/member/category', [TaskController::class, 'categoryMemberList'])->name('category.member.list')->withoutMiddleware('is_production');
         Route::post('production/member/category/add', [TaskController::class, 'categoryMemberListAdd'])->name('category.member.list.add')->withoutMiddleware('is_production');
         Route::post('production/member/category/remove', [TaskController::class, 'categoryMemberListRemove'])->name('category.member.list.remove');
+
+        //notifications
+        Route::get('/production/my-notifications', function () { return view('production.my-notifications'); })->name('production.my-notifications');
     });
 });
 Route::group(['middleware' => 'auth'], function () {
@@ -318,6 +327,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/member/subtask', [SubTaskController::class, 'memberSubtaskStore'])->name('member.subtask.store');
         Route::post('/member/subtask/update/{id}', [SubTaskController::class, 'memberSubtaskUpdate'])->name('member.update.task');
         Route::get('member/{form_id}/projects/{check}/form/{id}', [SupportController::class, 'getFormByMember'])->name('member.form');
+
+        //notifications
+        Route::get('/member/my-notifications', function () { return view('member.my-notifications'); })->name('member.my-notifications');
     });
 });
 
@@ -395,6 +407,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('manager/user/create', [ManagerUserController::class, 'createUserSale'])->name('manager.user.sales.create');
         Route::get('manager/user/sale/edit/{id}', [ManagerUserController::class, 'editUserSale'])->name('manager.user.sales.edit');
         Route::post('manager/user/sale/update/{id}', [ManagerUserController::class, 'updateUserSale'])->name('manager.user.sales.update');
+
+        //notifications
+        Route::get('/manager/my-notifications', function () { return view('manager.my-notifications'); })->name('manager.my-notifications');
     });
 });
 
