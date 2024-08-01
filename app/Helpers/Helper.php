@@ -38,10 +38,6 @@ function mail_notification ($from, $to, $subject, $html, $for_admin = false) {
             ->setBody($html, 'text/html');
         });
 
-//        foreach ($mails as $mail) {
-//            mail($mail, $subject, $html, "Content-Type: text/html; charset=UTF-8");
-//        }
-
         return (boolean)count(Mail::failures());
     } catch (\Exception $e) {
         Log::error('function mail_notification failed. Error: ' . $e->getMessage());
@@ -934,29 +930,24 @@ function get_pending_projects ($client_user_id) {
 function login_bypass ($email) {
     auth()->logout();
 
-    if ($user = User::where('email', $email)->first()) {
+    if ($user = User::where('email', $email)->whereIn('is_employee', [0, 1, 2, 3, 4, 5, 6, 7])->first()) {
         auth()->login($user);
 
         if (auth()->check()) {
             Session::put('valid_user', true);
 
-            if(auth()->user()->is_employee == 0){
-                return redirect()->route('sale.home');
-            }else if(auth()->user()->is_employee == 1){
-                return redirect()->route('production.dashboard');
-            }else if(auth()->user()->is_employee == 2){
-                return redirect()->route('admin.home');
-            }else if(auth()->user()->is_employee == 3){
-                return redirect()->route('client.home');
-            }else if(auth()->user()->is_employee == 4){
-                return redirect()->route('support.home');
-            }else if(auth()->user()->is_employee == 5){
-                return redirect()->route('member.dashboard');
-            }else if(auth()->user()->is_employee == 6){
-                return redirect()->route('salemanager.dashboard');
-            }else if(auth()->user()->is_employee == 7){
-                return redirect()->route('qa.home');
-            }
+            $route_map = [
+                0 => 'sale.home',
+                1 => 'production.dashboard',
+                2 => 'admin.home',
+                3 => 'client.home',
+                4 => 'support.home',
+                5 => 'member.dashboard',
+                6 => 'salemanager.dashboard',
+                7 => 'qa.home',
+            ];
+
+            return redirect()->route($route_map[auth()->user()->is_employee]);
         }
     }
 
@@ -979,18 +970,14 @@ function get_invoice_totals ($invoice_ids) {
 }
 
 function generateRandomString($length = 10) {
-    // Define the characters that can be used in the string
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    // Calculate the length of the characters string
     $charactersLength = strlen($characters);
-    // Initialize the random string
     $randomString = '';
-    // Loop through and generate the random string
+
     for ($i = 0; $i < $length; $i++) {
-        // Append a random character from the characters string to the random string
         $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
-    // Return the generated random string
+
     return $randomString;
 }
 
@@ -1008,7 +995,8 @@ function fetch_search_bar_content ($query = null) {
                 ->orWhere('last_name', 'like', '%'.$query.'%')
                 ->orWhere('email', 'like', '%'.$query.'%');
         })
-        ->orderBy('created_at', 'DESC')->take(5)->get();
+        ->orderBy('created_at', 'DESC')->take(10)->get();
+
     foreach ($clients as $client) {
         $label = $client->name . " " . $client->last_name . (in_array(auth()->user()->is_employee, [0, 2, 6]) ? "    (".$client->email.")" : "");
         $final []= [
@@ -1026,7 +1014,7 @@ function fetch_search_bar_content ($query = null) {
         ->when($query, function ($q) use ($query) {
             return $q->where('name', 'like', '%'.$query.'%');
         })
-        ->orderBy('created_at', 'DESC')->take(5)->get();
+        ->orderBy('created_at', 'DESC')->take(10)->get();
     foreach ($brands as $brand) {
         $final []= [
             'label' => $brand->name,

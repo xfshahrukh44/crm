@@ -277,7 +277,7 @@
                                     @php
                                           $client_user = \App\Models\User::where('client_id', $client->id)->first();
                                           $project_count = $client_user ? count($client_user->projects) : 0;
-                                          $client_projects = $client_user ? $client_user->latest_projects : [];
+                                          $client_projects = $client_user ? $client_user->recent_projects : [];
                                     @endphp
                                     <tr>
 {{--                                        <td><span class="btn btn-primary btn-sm">#{{ $client->id }}</span></td>--}}

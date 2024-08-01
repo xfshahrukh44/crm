@@ -94,7 +94,8 @@ class BrandController extends Controller
             $completed_projects_count += no_pending_tasks_left($project->id) ? 1 : 0;
         }
 
-        $brand= Brand::with('clients')->find($id);
+//        $brand= Brand::with('clients')->find($id);
+        $brand= Brand::find($id);
         $clients = Client::where('brand_id', $id)
             ->withCount('projects')->withCount('invoices')
             ->orderBy('created_at', 'DESC')
@@ -128,7 +129,7 @@ class BrandController extends Controller
 
         $client= Client::find($id);
         $client_user = \App\Models\User::where('client_id', $client->id)->first();
-        $projects = $client_user ? $client_user->latest_projects : [];
+        $projects = $client_user ? $client_user->recent_projects : [];
 
         return view('client-detail', compact('client', 'projects'))->with(['layout' => $this->layout]);
     }
@@ -156,9 +157,6 @@ class BrandController extends Controller
                 'tasks' => $tasks,
             ];
         }
-
-
-//        $projects = Project::where('project_id', $id)->get();
 
         return view('project-detail', compact('project', 'categories_with_active_tasks'))->with(['layout' => $this->layout]);
     }
