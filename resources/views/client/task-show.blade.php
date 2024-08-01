@@ -112,7 +112,7 @@
                                     <div class="ul-widget3-body">
                                         <p>{!! nl2br($message->message) !!}</p>
                                         <span class="ul-widget3-status text-success t-font-bolder">
-                                            {{ \Carbon\Carbon::parse($message->created_at)->format('d M Y h:i A') }}
+                                            {{ \Carbon\Carbon::parse($message->created_at)->setTimezone('UTC')->format('d M Y h:i A') }}
                                         </span>
                                     </div>
                                     <div class="file-wrapper">
