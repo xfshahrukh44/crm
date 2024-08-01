@@ -54,6 +54,7 @@
                                                     <div class="ul-widget2__info ul-widget4_qsers-info">
         {{--                                                <a class="ul-widget2__title" href="#">John Doe</a>--}}
                                                         <h4 style="font-weight: 100;" href="#">{{ strip_tags($notification->data['text']) }}</h4>
+                                                        <h6 href="#" class="text-info">Name: {{$notification->data['name']}}</h6>
                                                         <h6 style="" href="#" class="text-primary">{{Carbon\Carbon::parse($notification->created_at)->format('d F Y, h:i A')}}</h6>
                                                     </div>
                                             </div>
