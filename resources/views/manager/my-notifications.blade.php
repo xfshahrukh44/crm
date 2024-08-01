@@ -7,7 +7,7 @@
     .ul-widget4__actions {flex: 0 0 220px;}
 
     .unread_notification {
-        border: 1px solid #2978c270;
+        background-color: #2978c21c;
     }
 </style>
 @endpush
