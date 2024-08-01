@@ -415,7 +415,7 @@
                                                         </span>
                                                             </div>
                                                             <div class="ul-widget3-body">
-                                                                {!! preg_replace('/<\/?div[^>]*>/', '', (nl2br($sub_tasks->description))) !!}
+                                                                {!! strip_tags(nl2br($sub_tasks->description)) !!}
                                                             </div>
                                                         </div>
                                                         @if(count($sub_tasks->subtask_message) != 0)
