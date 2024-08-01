@@ -1,4 +1,4 @@
-@extends('layouts.app-support')
+@extends('layouts.app-production')
 @push('styles')
 <style>
     .ul-widget2__username {
