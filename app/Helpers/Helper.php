@@ -1063,3 +1063,9 @@ function check_if_external_client (Request $request) {
 
     return $edit_client_map[intval(Auth::user()->is_employee)] ?? '';
 }
+
+function remove_div_tags ($input) {
+    // Use a regular expression to remove all opening and closing <div> tags
+    $output = preg_replace('/<\/?div[^>]*>/', '', $input);
+    return $output;
+}
