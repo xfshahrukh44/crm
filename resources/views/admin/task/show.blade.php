@@ -364,22 +364,19 @@
     $(document).ready(() => {
         setTimeout(() => {
             $('.cke_notifications_area').remove();
+
+            setTimeout(() => {
+                $('.cke_notifications_area').remove();
+
+                setTimeout(() => {
+                    $('.cke_notifications_area').remove();
+
+                    setTimeout(() => {
+                        $('.cke_notifications_area').remove();
+                    }, 1000);
+                }, 1000);
+            }, 1000);
         }, 1000);
-    });
-    $(document).ready(() => {
-        setTimeout(() => {
-            $('.cke_notifications_area').remove();
-        }, 2000);
-    });
-    $(document).ready(() => {
-        setTimeout(() => {
-            $('.cke_notifications_area').remove();
-        }, 3000);
-    });
-    $(document).ready(() => {
-        setTimeout(() => {
-            $('.cke_notifications_area').remove();
-        }, 4000);
     });
 </script>
 <script>
