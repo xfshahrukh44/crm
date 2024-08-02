@@ -686,9 +686,21 @@ class SupportController extends Controller
         $filter = 0;
         $brands = DB::table('brands')->whereIn('id', auth()->user()->brand_list())->select('id', 'name')->get();
         $message_array = [];
-        $data = User::where('is_employee', 3)->where('client_id', '!=', 0)->whereHas('client', function ($q) {
-            return $q->whereIn('brand_id', auth()->user()->brand_list());
-        });
+        $data = User::where('is_employee', 3)->where('client_id', '!=', 0)
+            ->whereHas('client', function ($q) {
+                return $q->whereIn('brand_id', auth()->user()->brand_list());
+            })
+            ->when(request()->has('client_name'), function ($q) {
+                return $q->whereHas('client', function ($q) {
+                    return $q->when(request()->has('client_name'), function ($q) {
+                        return $q->where(DB::raw('concat(name," ",last_name)'), 'like', '%'.request()->get('client_name').'%')
+                            ->orWhere('name', 'LIKE', "%".request()->get('client_name')."%")
+                            ->orWhere('last_name', 'LIKE', "%".request()->get('client_name')."%")
+                            ->orWhere('email', 'LIKE', "%".request()->get('client_name')."%")
+                            ->orWhere('contact', 'LIKE', "%".request()->get('client_name')."%");
+                    });
+                });
+            });
 
         if($request->brand != null){
             $data = $data->whereHas('client', function ($query) use ($request) {

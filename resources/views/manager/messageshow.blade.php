@@ -36,6 +36,10 @@
                             <label for="message">Search By Message</label>
                             <input type="text" class="form-control" id="message" name="message" value="{{ Request::get('message') }}">
                         </div>
+                        <div class="col-md-4 form-group mb-3">
+                            <label for="message">Search By Client</label>
+                            <input type="text" class="form-control" id="message" name="client_name" value="{{request()->get('client_name')}}">
+                        </div>
                         <div class="col-md-12">
                             <div class="text-right">
                                 <button class="btn btn-primary">Search Result</button>
