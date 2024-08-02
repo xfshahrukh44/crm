@@ -39,6 +39,8 @@
                     $route = '#';
                     if ($notification->type == 'App\Notifications\LeadNotification') {
                         $route = route('admin.client.shownotification', ['client' => $notification->data['id'], 'id' => $notification->id] );
+                    } else if ($notification->type == 'App\Notifications\MessageNotification') {
+                        $route = route('manager.message.show', ['id' => $notification->data['id'], 'name' => $notification->data['name']]);
                     }
                 @endphp
                 <div class="card mb-4 {!! is_null($notification->read_at) ? 'unread_notification' : '' !!}">
