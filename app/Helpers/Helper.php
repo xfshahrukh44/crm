@@ -1073,6 +1073,9 @@ function remove_div_tags ($input) {
 }
 
 function client_user_has_unread_message ($client_user_id) {
+    //testing
+    return false;
+
     return CRMNotification::
         where('client_user_id', $client_user_id)
         ->where('type', 'App\Notifications\MessageNotification')
