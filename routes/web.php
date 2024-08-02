@@ -177,7 +177,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('message/{id}/{name}/show', [SupportController::class, 'getMessageByAdminClientId'])->name('admin.message.show');
 
         Route::get('temp', function () {
-            purge_notifications('31 June 2024');
 //    dump('----Tasks completed----');
 //    dump('Today: ' . (ProductionMemberAssign::where('assigned_to', auth()->id())->where('status', 3)->wheredate('created_at', Carbon::today())->count()));
 //    dump('This week: ' . (ProductionMemberAssign::where('assigned_to', auth()->id())->where('status', 3)->where('created_at', '>=', Carbon::now()->startOfWeek())->where('created_at', '<=', Carbon::now()->endOfWeek())->count()));
