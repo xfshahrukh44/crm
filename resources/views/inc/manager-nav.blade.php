@@ -187,6 +187,7 @@
                 <a class="nav-item-hold" href="{{ route('manager.message') }}">
                     <i class="nav-icon i-Speach-Bubble-3"></i>
                     <span class="nav-text">Messages</span>
+                    <span class="counter">{{ get_unread_notification_count_for_buh() }}</span>
                 </a>
                 <div class="triangle"></div>
             </li>

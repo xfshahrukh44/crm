@@ -139,6 +139,19 @@ class AdminTaskController extends Controller
 
             $categorys = Category::all();
 
+            $task_array = [];
+            $support_staff_users = User::where('is_employee', 4)
+                ->whereIn('id', DB::table('brand_users')->whereIn('brand_id', auth()->user()->brand_list())->pluck('user_id')->toArray())
+                ->get();
+            foreach ($support_staff_users as $support_staff_user) {
+                $notification_task = $support_staff_user->notifications->where('type', 'App\Notifications\TaskNotification')->all();
+                foreach($notification_task as $notification_tasks){
+                    array_push($task_array, $notification_tasks['data']['task_id']);
+                }
+            }
+            $task_array = array_unique($task_array);
+
+            $notify_data = Task::whereIn('brand_id', Auth()->user()->brand_list())->whereIn('id', $task_array)->orderBy('id', 'desc')->get();
 
             $display = '';
 
@@ -207,8 +220,7 @@ class AdminTaskController extends Controller
 
             // dump($users);
 
-
-            return view('manager.task.index', compact('data', 'brands', 'clients', 'users', 'categorys'));
+            return view('manager.task.index', compact('data', 'brands', 'clients', 'users', 'categorys', 'notify_data'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }

@@ -4,6 +4,10 @@
     .ul-widget2__username {
        font-size: 0.8rem;
     }
+
+    .unread_notification {
+        background-color: #2978c21c;
+    }
 </style>
 @endpush
 @section('content')
@@ -107,7 +111,7 @@
     <div class="row mt-2">
         <div class="col-xl-12">
             @foreach($data as $key => $value)
-                <div class="card mb-4">
+                <div class="card mb-4 {!! client_user_has_unread_message($value->id) ? 'unread_notification' : '' !!}">
                     <div class="card-body">
                         <div class="ul-widget__body">
                             <div class="tab-content pt-0 pb-0">
@@ -129,6 +133,9 @@
                                                         {!! strip_tags($value->lastmessage->message) !!}
                                                     @endif
                                             </span>
+                                            </div>
+                                            <div class="ul-widget4__actions text-right">
+                                                <a href="{{ route('manager.message.show', ['id' => $value->id, 'name' => $value->name]) }}" class="btn btn-outline-success m-1">View Details</a>
                                             </div>
                                         </div>
                                         <div class="view-task-list-button">

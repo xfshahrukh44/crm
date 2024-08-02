@@ -684,24 +684,19 @@ class SupportController extends Controller
 //        $brands = DB::table('brands')->select('id', 'name')->get();
 
         $filter = 0;
-        $brand_array = [];
         $brands = DB::table('brands')->whereIn('id', auth()->user()->brand_list())->select('id', 'name')->get();
-        foreach($brands as $key => $brand){
-            array_push($brand_array, $brand->id);
-        }
         $message_array = [];
         $data = User::where('is_employee', 3)->where('client_id', '!=', 0)->whereHas('client', function ($q) {
             return $q->whereIn('brand_id', auth()->user()->brand_list());
         });
 
         if($request->brand != null){
-            $get_brand = $request->brand;
-            $data = $data->whereHas('client', function ($query) use ($get_brand) {
-                return $query->where('brand_id', $get_brand);
+            $data = $data->whereHas('client', function ($query) use ($request) {
+                return $query->where('brand_id', $request->brand);
             });
         }else{
-            $data = $data->whereHas('client', function ($query) use ($brand_array) {
-                return $query->whereIn('brand_id', $brand_array);
+            $data = $data->whereHas('client', function ($query) {
+                return $query->whereIn('brand_id', auth()->user()->brand_list());
             });
         }
         if($request->message != null){

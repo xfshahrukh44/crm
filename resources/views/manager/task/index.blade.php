@@ -80,6 +80,80 @@
     </div>
 </div>
 
+    @if(count($notify_data) != 0)
+        <div class="row mb-5">
+            <div class="col-md-12">
+                <div class="card text-left">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3">Notification Task Details</h4>
+                        <div class="table-responsive">
+                            <table class="display table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Task</th>
+                                    <th>Project</th>
+                                    <th>Client</th>
+                                    <th>Brand</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <th>Active</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($notify_data as $datas)
+                                    <tr class="selected">
+                                        <td>{{$datas->id}}</td>
+                                        <td>
+                                            <a href="{{route('manager.task.show', $datas->id)}}">{!! \Illuminate\Support\Str::limit(preg_replace("/<\/?a( [^>]*)?>/i", "", strip_tags($datas->description)), 30, $end='...') !!}</a>
+                                        </td>
+                                        <td>{{$datas->projects->name}}</td>
+                                        <td>
+                                            {{ $datas->projects->client->name }} {{ $datas->projects->client->last_name }}
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-primary btn-sm" title="{{ $datas->brand->name }}">{{ implode('', array_map(function($v) { return $v[0]; }, explode(' ', $datas->brand->name))) }}</button>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm btn-dark" title="{{ $datas->category->name }}">{{ implode('', array_map(function($v) { return $v[0]; }, explode(' ', $datas->category->name))) }}</button>
+                                            @if(count($datas->member_list) != 0)
+                                                <ul id="member-box" class="task-list-member-box">
+                                                    @foreach($datas->member_list as $key => $member)
+                                                        <li><div class="member-box"><a href="javascript:;" title="{{ $member->user->name . ' ' . $member->user->last_name }}"><span>{{ implode('', array_map(function($v) { return $v[0]; }, explode(' ', $member->user->name . ' ' . $member->user->last_name))) }}</span></a></div></li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+                                        </td>
+                                        <td>{!! $datas->project_status() !!}</td>
+                                        <td>
+                                            <a href="{{route('manager.task.show', $datas->id)}}" class="btn btn-primary btn-icon btn-sm">
+                                                <span class="ul-btn__text">Details</span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Task</th>
+                                    <th>Project</th>
+                                    <th>Client</th>
+                                    <th>Brand</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <th>Active</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
 <div class="row">
     <div class="col-md-12">
         <div class="card text-left">

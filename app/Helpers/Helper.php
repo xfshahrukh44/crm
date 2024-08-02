@@ -7,6 +7,7 @@ use App\Models\Bookprinting;
 use App\Models\BookWriting;
 use App\Models\Client;
 use App\Models\ContentWritingForm;
+use App\Models\CRMNotification;
 use App\Models\Invoice;
 use App\Models\Isbnform;
 use App\Models\LogoForm;
@@ -1068,4 +1069,35 @@ function remove_div_tags ($input) {
     // Use a regular expression to remove all opening and closing <div> tags
     $output = preg_replace('/<\/?div[^>]*>/', '', $input);
     return $output;
+}
+
+function client_user_has_unread_message ($client_user_id) {
+    return CRMNotification::
+        where('client_user_id', $client_user_id)
+        ->where('type', 'App\Notifications\MessageNotification')
+        ->whereNull('read_at')
+//        ->whereJsonContains('data->id', $client_user_id)
+        ->exists();
+}
+
+function get_unread_notification_count_for_buh () {
+    $notification_count = 0;
+
+    foreach (User::where('is_employee', 3)->where('client_id', '!=', 0)->whereHas('client', function ($q) {
+        return $q->whereIn('brand_id', auth()->user()->brand_list());
+    })->orderBy('id', 'desc')->pluck('id') as $client_user_id) {
+        if (client_user_has_unread_message($client_user_id)) {
+            $notification_count += 1;
+        }
+    }
+
+    return $notification_count;
+}
+
+function purge_notifications ($date) {
+    if (!$date) { return false; }
+
+    CRMNotification::whereDate('created_at', '<=', Carbon::parse($date))->delete();
+
+    return true;
 }

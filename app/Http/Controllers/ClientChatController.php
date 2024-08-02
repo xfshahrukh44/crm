@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use App\Models\Client;
+use App\Models\CRMNotification;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\Service;
@@ -132,9 +133,21 @@ class ClientChatController extends Controller
                     User::whereIn('id', $project_assigned_support_ids)->get()
                     as $support_member
                 ) {
+                    //notification for agents
+                    $support_member->notify(new MessageNotification($messageData));
+
+                    //notification read/unread mechanism for BUH
+                    if ($latest_notification = CRMNotification::where('notifiable_id', $support_member->id)
+//                        ->where('notifiable_type', 'App\Notifications\MessageNotification')
+                        ->latest()
+                        ->first()) {
+                        $latest_notification->client_user_id = auth()->id();
+                        $latest_notification->save();
+                    }
+
+                    //mail
                     try {
                         \Mail::to($support_member->email)->send(new \App\Mail\ClientNotifyMail($details));
-                            $support_member->notify(new MessageNotification($messageData));
                     } catch (\Exception $e) {
 
                         $mail_error_data = json_encode([
