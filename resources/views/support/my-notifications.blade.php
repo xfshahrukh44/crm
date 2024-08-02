@@ -36,7 +36,7 @@
             @endphp
             @foreach($notifications as $notification)
                 @php
-                    $route = url('/');
+                    $route = '#';
                     if ($notification->type == 'App\Notifications\AssignProjectNotification') {
                         $route = route('create.task.by.project.id', ['id' => $notification->data['project_id'], 'name' => $notification->data['text'], 'notify' => $notification->id]);
                     } else if ($notification->type == 'App\Notifications\TaskNotification') {

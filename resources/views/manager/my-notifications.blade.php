@@ -36,7 +36,7 @@
             @endphp
             @foreach($notifications as $notification)
                 @php
-                    $route = url('/');
+                    $route = '#';
                     if ($notification->type == 'App\Notifications\LeadNotification') {
                         $route = route('admin.client.shownotification', ['client' => $notification->data['id'], 'id' => $notification->id] );
                     }

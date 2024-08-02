@@ -36,7 +36,7 @@
             @endphp
             @foreach($notifications as $notification)
                 @php
-                    $route = url('/');
+                    $route = '#';
                     if ($notification->type == 'App\Notifications\SubTaskNotification') {
                         $route = route('production.subtask.show', ['id' => $notification->data['task_id'], 'notify' => $notification->id]);
                     } else {
