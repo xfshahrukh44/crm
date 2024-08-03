@@ -315,6 +315,229 @@
                     </form>
                 </div>
             </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">Sub Task Message</h4>
+                    <div class="separator-breadcrumb border-top mb-3"></div>
+                    <form class="form" action="{{route('production.subtask.store')}}" method="POST" id="subtask" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="task_id" value="{{ $task->id }}">
+                        <input type="hidden" name="created_at" class="created_at" value="">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <textarea id="description" rows="5" class="form-control border-primary" name="description" placeholder="Sub Task Message Details" required>{{old('description')}}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-actions text-right pb-0">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="la la-check-square-o"></i> Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <hr>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h4 class="card-title mb-0">Sub Task</h4>
+                </div>
+            </div>
+            <div id="subtask_show">
+                @foreach($task->sub_tasks as $sub_tasks)
+                    <div class="card mb-3" id="{{ $sub_tasks->id }}">
+                        <div class="card-body">
+                            <div class="card-content collapse show">
+                                <div class="ul-widget__body">
+                                    <div class="ul-widget3">
+                                        <div class="ul-widget3-item">
+                                            <div class="ul-widget3-header">
+                                                <div class="ul-widget3-img">
+                                                    @if($sub_tasks->user->image != '')
+                                                        <img id="userDropdown" src="{{ asset($sub_tasks->user->image) }}" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    @else
+                                                        <img id="userDropdown" src="{{ asset('global/img/user.png') }}" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    @endif
+                                                </div>
+                                                <div class="ul-widget3-info">
+                                                    <a class="__g-widget-username" href="#">
+                                                        <span class="t-font-bolder">{{ $sub_tasks->user->name }} {{ $sub_tasks->user->last_name }}</span>
+                                                    </a>
+                                                    <br>
+                                                    <span class="ul-widget-notification-item-time">
+                                                    @if($sub_tasks->created_at != null)
+                                                            {{ $sub_tasks->created_at->format('d M, y | h:i A') }}
+                                                        @endif
+                                                </span>
+                                                </div>
+                                                <span class="ul-widget3-status text-success t-font-bolder">
+                                                @if($sub_tasks->duedate != null)
+                                                        <ul class="d-flex" style="justify-content: end;gap: 15px;list-style: none;padding: 0;margin: 0;">
+                                                    <li>
+                                                        Due Date <br>
+                                                    <span class="subtask_duedate">
+                                                        {{ date('d M, y', strtotime($sub_tasks->duedate)) }}
+                                                    </span>
+                                                    </li>
+                                                @if($sub_tasks->duedateChange != null)
+                                                                <li style="text-align: left;border-left: 1px solid #e5e5e5;padding-left: 12px;">
+                                                        Changed By {{ $sub_tasks->duedateChange->user->name }} {{ $sub_tasks->duedateChange->user->last_name }}<br>
+                                                        <span class="subtask_duedate">
+                                                        From {{ date('d M, y', strtotime($sub_tasks->duedateChange->duadate)) }} to {{ date('d M, y', strtotime($sub_tasks->duedate)) }}
+                                                        </span>
+                                                    </li>
+                                                            @endif
+                                                </ul>
+                                                        <form class="change_duadate" action="{{ route('production.change.duadate') }}" style="width: 50%;margin-left: auto;margin-top:5px">
+                                                    @csrf
+                                                    <input type="hidden" name="subtask_id" value="{{ $sub_tasks->id }}">
+                                                    <fieldset>
+                                                        <div class="input-group">
+                                                            <input type="date" class="form-control" name="duedate" required>
+                                                            <div class="input-group-append">
+                                                                <button class="btn btn-primary" type="submit">Update</button>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                </form>
+                                                    @endif
+
+                                            </span>
+                                            </div>
+                                            <div class="ul-widget3-body">
+                                                {!! $sub_tasks->description !!}
+                                            </div>
+                                            @if(($sub_tasks->user->is_employee != 1) && ($sub_tasks->user->is_employee != 5))
+                                                <hr>
+                                                <div class="assign-wrapper">
+                                                    @foreach($sub_tasks->assign_members as $assign_members)
+                                                        {{--                                            <a href="{{ route('production.subtask.show', $assign_members->id) }}">--}}
+                                                        <div class="card mb-4">
+                                                            <div class="card-body">
+                                                                <div class="d-flex align-items-center border-bottom-dotted-dim">
+                                                                    @if($assign_members->assigned_to_user->image != '')
+                                                                        <img style="margin-right: 10px;" class="avatar-md rounded mr-3" src="{{ asset($assign_members->assigned_to_user->image) }}" alt="{{ $assign_members->assigned_to_user->name }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    @else
+                                                                        <img style="margin-right: 10px;" calss="avatar-md rounded mr-3" src="{{ asset('global/img/user.png') }}" alt="{{ $assign_members->assigned_to_user->name }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    @endif
+                                                                    <div class="flex-grow-1">
+                                                                        <h6 class="m-0">{{ $assign_members->assigned_to_user->name }} {{ $assign_members->assigned_to_user->last_name }}</h6>
+                                                                        <form action="{{route('production.subtask.update', $assign_members->id)}}" method="POST">
+                                                                            @csrf
+                                                                            <p class="m-0 text-small text-muted p_comment_editable" contenteditable="false" type="submit"> {{ $assign_members->comments }} </p>
+                                                                            <input class="hidden_input_comments" type="hidden" name="comments">
+                                                                        </form>
+                                                                    </div>
+                                                                    <div>
+                                                                        @if(\Illuminate\Support\Facades\Auth::user()->is_employee == 1)
+                                                                            <button class='btn btn-info btn-sm mr-2 btn_edit_subtask'>Edit</button>
+                                                                        @endif
+                                                                    </div>
+                                                                    <div>
+                                                                        <a href="{{ route('production.subtask.show', $assign_members->id) }}" class='btn btn-primary btn-sm mr-2'>Detail</a>
+                                                                    </div>
+                                                                    <div>
+                                                                        {!! $assign_members->get_status() !!}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        {{--                                            </a>--}}
+                                                    @endforeach
+                                                    <form class="repeater assign-sub-task-form mb-4" action="{{ route('production.subtask.assign') }}" method="post">
+                                                        @csrf
+                                                        <input type="hidden" name="sub_task" value="{{ $sub_tasks->id }}">
+                                                        <div data-repeater-list="members">
+                                                            <div data-repeater-item class="mb-3">
+                                                                <div class="input-group">
+                                                                    <select name="assign_sub_task_user_id" id="assign-sub-task-user-id" class="form-control w-200 select2" required>
+                                                                        <option value="">Select Member</option>
+                                                                        @foreach($members as $member)
+                                                                            <option value="{{ $member->id }}" {{ $sub_tasks->assign_id == $member->id ? 'selected' : '' }}>{{ $member->name }} {{ $member->last_name }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                    <input type="date" class="form-control" name="duadate" required>
+                                                                    <div class="input-group-append">
+                                                                        <input class="btn btn-danger" data-repeater-delete type="button" value="DELETE"/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group mt-2">
+                                                                    <label for="">Additional Comment</label>
+                                                                    <textarea name="comment" id="" cols="30" rows="4" class="form-control"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <hr>
+                                                        </div>
+                                                        <input data-repeater-create class="btn btn-secondary" type="button" value="Add More"/>
+                                                        <div class="form-group mt-2 text-right">
+                                                            <button class="btn btn-primary">Assign Sub Task</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+
+
+                                            <!-- <div class="assign-wrapper">
+                                            <form id="assign-sub-task-form" action="{{ route('production.subtask.assign') }}">
+                                                @csrf
+                                                    <input type="hidden" name="sub_task" value="{{ $sub_tasks->id }}">
+                                                <div class="input-group">
+                                                    <select name="assign_sub_task_user_id" id="assign-sub-task-user-id" class="form-control w-200 select2" required>
+                                                        <option value="">Select Member</option>
+                                                        @foreach($members as $member)
+                                                <option value="{{ $member->id }}" {{ $sub_tasks->assign_id == $member->id ? 'selected' : '' }}>{{ $member->name }} {{ $member->last_name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mt-2">
+                                                    <label for="comment">Additional Comment</label>
+                                                    <textarea name="comment" id="comment" cols="30" rows="4" class="form-control"></textarea>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-primary" type="submit" id="assign-sub-task">
+                                                        {{ $sub_tasks->assign_id == null ? 'Assign' : 'Change Member' }}
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div> -->
+                                            @endif
+                                        </div>
+                                        @if(count($sub_tasks->subtask_message) != 0)
+                                            @foreach($sub_tasks->subtask_message as $subtask_message)
+                                                <hr>
+                                                <div class="ul-widget3-item sub-ul-widget3-item">
+                                                    <div class="ul-widget3-header">
+                                                        <div class="ul-widget3-img">
+                                                            @if($subtask_message->user->image != '')
+                                                                <img id="userDropdown" src="{{ asset($subtask_message->user->image) }}" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            @else
+                                                                <img id="userDropdown" src="{{ asset('global/img/user.png') }}" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            @endif
+                                                        </div>
+                                                        <div class="ul-widget3-info">
+                                                            <a class="__g-widget-username" href="#">
+                                                                <span class="t-font-bolder">{{ $subtask_message->user->name }} {{ $subtask_message->user->last_name }}</span>
+                                                            </a>
+                                                            <br>
+                                                            <span class="ul-widget-notification-item-time">{{ $subtask_message->created_at->diffForHumans() }}</span>
+                                                        </div>
+                                                        <span class="ul-widget3-status text-success t-font-bolder">
+                                                {{ date('d M, y', strtotime($subtask_message->created_at)) }}
+                                            </span>
+                                                    </div>
+                                                    <div class="ul-widget3-body">
+                                                        {!! $subtask_message->description !!}
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         </div>
     </div>
 </section>
