@@ -63,10 +63,10 @@
                     $task_index_route = 'support.task';
                 }
             @endphp
-            <div class="col-lg-12 col-md-12">
+{{--            <div class="col-lg-12 col-md-12">--}}
 {{--                <a target="_blank" href="{{route($task_index_route, ['project_id' => $project->id])}}" class="btn btn-primary ml-3">View all tasks</a>--}}
-                <a href="{{route($task_index_route, ['project_id' => $project->id])}}" class="btn btn-primary ml-3">View all tasks</a>
-            </div>
+{{--                <a href="{{route($task_index_route, ['project_id' => $project->id])}}" class="btn btn-primary ml-3">View all tasks</a>--}}
+{{--            </div>--}}
         </div>
 
         @foreach($categories_with_active_tasks as $category_with_active_tasks)
