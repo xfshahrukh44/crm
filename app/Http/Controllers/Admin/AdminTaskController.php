@@ -151,7 +151,7 @@ class AdminTaskController extends Controller
             }
             $task_array = array_unique($task_array);
 
-            $notify_data = Task::whereIn('brand_id', Auth()->user()->brand_list())->whereIn('id', $task_array)->orderBy('id', 'desc')->get();
+            $notify_data = Task::whereIn('brand_id', Auth()->user()->brand_list())->whereIn('id', $task_array)->orderBy('id', 'desc')->paginate(10);
 
             $display = '';
 
