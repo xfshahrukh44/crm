@@ -81,6 +81,8 @@
                 <a href="{{ route('admin.client.shownotification', ['client' => $notifications->data['id'], 'id' => $notifications->id] ) }}" class="dropdown-item d-flex">
                 @elseif($notifications->type == 'App\Notifications\PaymentNotification')
                 <a href="" class="dropdown-item d-flex">
+                @elseif($notifications->type == 'App\Notifications\MessageNotification')
+                <a href="{{ route('manager.message.show', ['id' => $notifications->data['id'], 'name' => $notifications->data['name']]) }}" class="dropdown-item d-flex">
                 @else
                 <a href="" class="dropdown-item d-flex">
                 @endif

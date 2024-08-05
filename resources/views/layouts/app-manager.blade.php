@@ -288,16 +288,16 @@
     </script>
     <script>
         $(document).ready(function(){
-            $('#dropdownNotification').click(function(){
-                $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
-                $.ajax({
-                    type:'POST',
-                    url:"{{ route('mark.notification') }}",
-                    success:function(data){
-                        console.log(data);
-                    }
-                });
-            });
+            {{--$('#dropdownNotification').click(function(){--}}
+            {{--    $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });--}}
+            {{--    $.ajax({--}}
+            {{--        type:'POST',--}}
+            {{--        url:"{{ route('mark.notification') }}",--}}
+            {{--        success:function(data){--}}
+            {{--            console.log(data);--}}
+            {{--        }--}}
+            {{--    });--}}
+            {{--});--}}
         });
     </script>
 </body>
