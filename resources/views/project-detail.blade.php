@@ -70,70 +70,72 @@
         </div>
 
         @foreach($categories_with_active_tasks as $category_with_active_tasks)
-            <div class="row my-4">
-                <div class="col-md-6 offset-md-3" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
-                    <div class="row">
-                        <div class="col-md-12 text-center" style="border: 1px solid #b7b7b7; font-size: 16px;">
-                            <b>{{$category_with_active_tasks['category']->name}}</b>
-                            <br>
-                        </div>
-                        <div class="col-md-12 p-0" style="border-top: 1px solid #b7b7b7;" id="wrapper2"  >
-                            {{--                                            <div class="row m-auto p-2" style="font-size: 15px;">--}}
-                            {{--                                                <div class="col-md-12">--}}
-                            <table class="table table-sm table-striped table-bordered mb-0">
-                                <thead>
-                                <tr class="text-center">
-                                    <th>ID</th>
-                                    <th>Task</th>
-                                    <th>Agent</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @php
-                                    if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
-                                        $show_route = 'admin.task.show';
-                                    } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
-                                        $show_route = 'manager.task.show';
-                                    } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {
-                                        $show_route = 'sale.task.show';
-                                    } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4) {
-                                        $show_route = 'support.task.show';
-                                    }
-                                @endphp
-                                @foreach($category_with_active_tasks['tasks'] as $task)
+            @if(count($category_with_active_tasks['tasks']))
+                <div class="row my-4">
+                    <div class="col-md-6 offset-md-3" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
+                        <div class="row">
+                            <div class="col-md-12 text-center" style="border: 1px solid #b7b7b7; font-size: 16px;">
+                                <b>{{$category_with_active_tasks['category']->name}}</b>
+                                <br>
+                            </div>
+                            <div class="col-md-12 p-0" style="border-top: 1px solid #b7b7b7;" id="wrapper2"  >
+                                {{--                                            <div class="row m-auto p-2" style="font-size: 15px;">--}}
+                                {{--                                                <div class="col-md-12">--}}
+                                <table class="table table-sm table-striped table-bordered mb-0">
+                                    <thead>
                                     <tr class="text-center">
-                                        <td style="vertical-align: middle;">
-                                            <span class="badge badge-sm badge-dark">#{{$task->id}}</span>
-                                        </td>
-                                        {{--                                <td style="vertical-align: middle;"><a target="_blank" href="{{route($show_route, $task->id)}}">{!! \Illuminate\Support\Str::limit(strip_tags($task->description), 25, $end='...') !!}</a></td>--}}
-                                        <td style="vertical-align: middle;"><a href="{{route($show_route, $task->id)}}">{!! \Illuminate\Support\Str::limit(strip_tags($task->description), 25, $end='...') !!}</a></td>
-                                        <td style="vertical-align: middle;">{{$task->user->name}} {{$task->user->last_name}}</td>
-                                        <td style="vertical-align: middle;">{!! $task->project_status_badge() !!}</td>
-                                        <td style="vertical-align: middle;">
-                                            {{--                                    <a target="_blank" href="{{route($show_route, $task->id)}}" class="btn btn-primary btn-icon btn-sm">--}}
-                                            <a href="{{route($show_route, $task->id)}}" class="badge badge-primary badge-icon badge-sm">
-                                                <span class="ul-badge__icon"><i class="i-Eye"></i> View</span>
-                                            </a>
-                                            <a href="{{route($show_route, $task->id) . '?show-message=true'}}" class="badge badge-info badge-icon badge-sm">
-                                                <span class="ul-badge__icon"><i class="i-Speach-Bubble-3"></i> Message</span>
-                                            </a>
-                                        </td>
+                                        <th>ID</th>
+                                        <th>Task</th>
+                                        <th>Agent</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
                                     </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                            {{--                                                </div>--}}
-                            {{--                                            </div>--}}
+                                    </thead>
+                                    <tbody>
+                                    @php
+                                        if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
+                                            $show_route = 'admin.task.show';
+                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
+                                            $show_route = 'manager.task.show';
+                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {
+                                            $show_route = 'sale.task.show';
+                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4) {
+                                            $show_route = 'support.task.show';
+                                        }
+                                    @endphp
+                                    @foreach($category_with_active_tasks['tasks'] as $task)
+                                        <tr class="text-center">
+                                            <td style="vertical-align: middle;">
+                                                <span class="badge badge-sm badge-dark">#{{$task->id}}</span>
+                                            </td>
+                                            {{--                                <td style="vertical-align: middle;"><a target="_blank" href="{{route($show_route, $task->id)}}">{!! \Illuminate\Support\Str::limit(strip_tags($task->description), 25, $end='...') !!}</a></td>--}}
+                                            <td style="vertical-align: middle;"><a href="{{route($show_route, $task->id)}}">{!! \Illuminate\Support\Str::limit(strip_tags($task->description), 25, $end='...') !!}</a></td>
+                                            <td style="vertical-align: middle;">{{$task->user->name}} {{$task->user->last_name}}</td>
+                                            <td style="vertical-align: middle;">{!! $task->project_status_badge() !!}</td>
+                                            <td style="vertical-align: middle;">
+                                                {{--                                    <a target="_blank" href="{{route($show_route, $task->id)}}" class="btn btn-primary btn-icon btn-sm">--}}
+                                                <a href="{{route($show_route, $task->id)}}" class="badge badge-primary badge-icon badge-sm">
+                                                    <span class="ul-badge__icon"><i class="i-Eye"></i> View</span>
+                                                </a>
+                                                <a href="{{route($show_route, $task->id) . '?show-message=true'}}" class="badge badge-info badge-icon badge-sm">
+                                                    <span class="ul-badge__icon"><i class="i-Speach-Bubble-3"></i> Message</span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                                {{--                                                </div>--}}
+                                {{--                                            </div>--}}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-md-6 offset-md-3">
-                <hr>
-            </div>
+                <div class="col-md-6 offset-md-3">
+                    <hr>
+                </div>
+            @endif
 
         @endforeach
     </div>

@@ -143,15 +143,18 @@ class BrandController extends Controller
 
         $project= Project::find($id);
 
-        $category_ids_from_tasks = array_unique(Task::where('project_id', $id)->where('status', '!=', 3)->pluck('category_id')->toArray());
+//        $category_ids_from_tasks = array_unique(Task::where('project_id', $id)->where('status', '!=', 3)->pluck('category_id')->toArray());
+        $category_ids_from_tasks = array_unique(Task::where('project_id', $id)->pluck('category_id')->toArray());
 
         $categories_with_active_tasks = [];
         foreach ($category_ids_from_tasks as $category_id_from_tasks) {
             if (Auth::user()->is_employee == 2) {
-                $tasks = Task::where(['project_id' => $id, 'category_id' => $category_id_from_tasks])->where('status', '!=', 3)->get();
+//                $tasks = Task::where(['project_id' => $id, 'category_id' => $category_id_from_tasks])->where('status', '!=', 3)->get();
+                $tasks = Task::where(['project_id' => $id, 'category_id' => $category_id_from_tasks])->get();
             } else {
                 $tasks = Task::where(['project_id' => $id, 'category_id' => $category_id_from_tasks])
-                    ->where('status', '!=', 3)->whereIn('brand_id', Auth::user()->brand_list())->get();
+//                    ->where('status', '!=', 3)
+                    ->whereIn('brand_id', Auth::user()->brand_list())->get();
             }
             $categories_with_active_tasks []= [
                 'category' => Category::find($category_id_from_tasks),
