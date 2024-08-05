@@ -717,13 +717,33 @@ class SupportController extends Controller
                 return $query->where('message', 'like', '%' . $message . '%');
             });
         }
-        $data = $data->orderBy('id', 'desc')
-            ->whereHas('client_messages')
-            ->join('messages', 'users.id', '=', 'messages.client_id')
-            ->orderBy('messages.created_at', 'DESC')
+
+        //sort by latest message
+        $latestMessages = DB::table('messages')
+            ->select('client_id', DB::raw('MAX(created_at) as latest_message_date'))
+            ->groupBy('client_id');
+
+
+        $data = $data->joinSub($latestMessages, 'latest_messages', function ($join) {
+            $join->on('users.id', '=', 'latest_messages.client_id');
+        })
+            ->join('messages', function ($join) {
+                $join->on('users.id', '=', 'messages.client_id')
+                    ->on('latest_messages.latest_message_date', '=', 'messages.created_at');
+            })
             ->select('users.*') // Ensure only User attributes are selected
+            ->orderBy('messages.created_at', 'DESC')
             ->distinct()
             ->paginate(20);
+
+//        $data = $data
+////            ->orderBy('id', 'desc')
+//            ->whereHas('client_messages')
+//            ->join('messages', 'users.id', '=', 'messages.client_id')
+//            ->select('users.*') // Ensure only User attributes are selected
+//            ->orderBy('messages.created_at', 'DESC')
+//            ->distinct()
+//            ->paginate(20);
 
 //        return view('manager.messageshow', compact('messages', 'brands'));
         return view('manager.messageshow', compact('message_array', 'brands', 'filter', 'data'));
