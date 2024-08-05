@@ -113,6 +113,11 @@ class User extends Authenticatable
         return $this->hasMany(Message::class, 'user_id', 'id');
     }
 
+    public function client_messages()
+    {
+        return $this->hasMany(Message::class, 'client_id', 'id');
+    }
+
     public function projects()
     {
         return $this->hasMany(Project::class, 'client_id', 'id');

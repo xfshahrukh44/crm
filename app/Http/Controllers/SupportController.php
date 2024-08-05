@@ -687,6 +687,7 @@ class SupportController extends Controller
         $brands = DB::table('brands')->whereIn('id', auth()->user()->brand_list())->select('id', 'name')->get();
         $message_array = [];
         $data = User::where('is_employee', 3)->where('client_id', '!=', 0)
+            ->whereHas('client_messages')
             ->whereHas('client', function ($q) {
                 return $q->whereIn('brand_id', auth()->user()->brand_list());
             })
