@@ -150,11 +150,13 @@ class BrandController extends Controller
         foreach ($category_ids_from_tasks as $category_id_from_tasks) {
             if (Auth::user()->is_employee == 2) {
 //                $tasks = Task::where(['project_id' => $id, 'category_id' => $category_id_from_tasks])->where('status', '!=', 3)->get();
-                $tasks = Task::where(['project_id' => $id, 'category_id' => $category_id_from_tasks])->get();
+                $tasks = Task::where(['project_id' => $id, 'category_id' => $category_id_from_tasks])
+                    ->orderBy('created_at', 'DESC')->get();
             } else {
                 $tasks = Task::where(['project_id' => $id, 'category_id' => $category_id_from_tasks])
 //                    ->where('status', '!=', 3)
-                    ->whereIn('brand_id', Auth::user()->brand_list())->get();
+                    ->whereIn('brand_id', Auth::user()->brand_list())
+                    ->orderBy('created_at', 'DESC')->get();
             }
             $categories_with_active_tasks []= [
                 'category' => Category::find($category_id_from_tasks),
