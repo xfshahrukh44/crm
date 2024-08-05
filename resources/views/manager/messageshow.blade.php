@@ -130,7 +130,8 @@
                                                     {{ $value->name }} {{ $value->last_name }} - <span>{{ $value->email }}</span>
                                                     <span class="badge badge-primary">{{ Request('message')}}</span>
                                                     <span class="badge badge-warning">{{ $value->client->brand->name }}</span>
-                                                    <span class="badge badge-primary">{{ \Carbon\Carbon::parse($value->created_at)->format('d M Y h:i A') }}</span>
+{{--                                                    <span class="badge badge-primary">{{ \Carbon\Carbon::parse($value->created_at)->format('d M Y h:i A') }}</span>--}}
+                                                    <span class="badge badge-primary">{{ \Carbon\Carbon::parse($value->client_messages()->latest()->first()->created_at)->format('d M Y h:i A') }}</span>
                                                 </a>
                                                 <span class="ul-widget2__username" href="#">
                                                 @if($value->lastmessage != null )

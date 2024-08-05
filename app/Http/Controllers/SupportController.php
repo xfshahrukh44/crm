@@ -686,8 +686,7 @@ class SupportController extends Controller
         $filter = 0;
         $brands = DB::table('brands')->whereIn('id', auth()->user()->brand_list())->select('id', 'name')->get();
         $message_array = [];
-        $data = User::where('is_employee', 3)->where('client_id', '!=', 0)
-            ->whereHas('client_messages')
+        $data = User::where('is_employee', 3)->where('users.client_id', '!=', 0)
             ->whereHas('client', function ($q) {
                 return $q->whereIn('brand_id', auth()->user()->brand_list());
             })
@@ -718,7 +717,13 @@ class SupportController extends Controller
                 return $query->where('message', 'like', '%' . $message . '%');
             });
         }
-        $data = $data->orderBy('id', 'desc')->paginate(20);
+        $data = $data->orderBy('id', 'desc')
+            ->whereHas('client_messages')
+            ->join('messages', 'users.id', '=', 'messages.client_id')
+            ->select('users.*') // Ensure only User attributes are selected
+            ->distinct()
+            ->orderBy('messages.created_at', 'DESC')
+            ->paginate(20);
 
 //        return view('manager.messageshow', compact('messages', 'brands'));
         return view('manager.messageshow', compact('message_array', 'brands', 'filter', 'data'));
