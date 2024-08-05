@@ -987,15 +987,16 @@ function fetch_search_bar_content ($query = null) {
 
     //clients
     $clients = Client::
-        when($query, function ($q) use ($query) {
-            return $q
-                ->when(auth()->user()->is_employee != 2, function ($q) {
-                    return $q->whereIn('brand_id', auth()->user()->brand_list());
-                })
-                ->where(DB::raw('concat(name," ",last_name)'), 'like', '%'.$query.'%')
-                ->orWhere('name', 'like', '%'.$query.'%')
-                ->orWhere('last_name', 'like', '%'.$query.'%')
-                ->orWhere('email', 'like', '%'.$query.'%');
+        when(in_array(auth()->user()->is_employee, [0, 4, 6]), function ($q) {
+            return $q->whereIn('brand_id', Auth::user()->brand_list());
+        })
+        ->when($query && $query != "", function ($q) use ($query) {
+            return $q->where(function($q) use ($query) {
+                return $q->where(DB::raw('concat(name," ",last_name)'), 'like', '%'.$query.'%')
+                    ->orWhere('name', 'like', '%'.$query.'%')
+                    ->orWhere('last_name', 'like', '%'.$query.'%')
+                    ->orWhere('email', 'like', '%'.$query.'%');
+            });
         })
         ->orderBy('created_at', 'DESC')->take(10)->get();
 
