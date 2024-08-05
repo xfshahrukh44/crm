@@ -720,9 +720,9 @@ class SupportController extends Controller
         $data = $data->orderBy('id', 'desc')
             ->whereHas('client_messages')
             ->join('messages', 'users.id', '=', 'messages.client_id')
+            ->orderBy('messages.created_at', 'DESC')
             ->select('users.*') // Ensure only User attributes are selected
             ->distinct()
-            ->orderBy('messages.created_at', 'DESC')
             ->paginate(20);
 
 //        return view('manager.messageshow', compact('messages', 'brands'));
