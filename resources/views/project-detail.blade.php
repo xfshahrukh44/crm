@@ -48,26 +48,26 @@
             </div>
         </div>
 
-        <div class="row mb-4">
-            <div class="col-lg-12 col-md-12">
-                <h2 class="ml-3">Active Tasks</h2>
-            </div>
-            @php
-                if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
-                    $task_index_route = 'admin.task.index';
-                } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
-                    $task_index_route = 'manager.task.index';
-                } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {
-                    $task_index_route = 'sale.task.index';
-                } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4) {
-                    $task_index_route = 'support.task';
-                }
-            @endphp
+{{--        <div class="row mb-4">--}}
+{{--            <div class="col-lg-12 col-md-12">--}}
+{{--                <h2 class="ml-3">Active Tasks</h2>--}}
+{{--            </div>--}}
+{{--            @php--}}
+{{--                if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {--}}
+{{--                    $task_index_route = 'admin.task.index';--}}
+{{--                } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {--}}
+{{--                    $task_index_route = 'manager.task.index';--}}
+{{--                } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {--}}
+{{--                    $task_index_route = 'sale.task.index';--}}
+{{--                } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4) {--}}
+{{--                    $task_index_route = 'support.task';--}}
+{{--                }--}}
+{{--            @endphp--}}
 {{--            <div class="col-lg-12 col-md-12">--}}
 {{--                <a target="_blank" href="{{route($task_index_route, ['project_id' => $project->id])}}" class="btn btn-primary ml-3">View all tasks</a>--}}
 {{--                <a href="{{route($task_index_route, ['project_id' => $project->id])}}" class="btn btn-primary ml-3">View all tasks</a>--}}
 {{--            </div>--}}
-        </div>
+{{--        </div>--}}
 
         @foreach($categories_with_active_tasks as $category_with_active_tasks)
             @if(count($category_with_active_tasks['tasks']))
