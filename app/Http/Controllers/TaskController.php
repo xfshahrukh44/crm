@@ -1163,7 +1163,13 @@ class TaskController extends Controller
         $task = $task
             //testing (danny brands)
             ->whereIn('brand_id', [3, 10, 16, 17, 21, 22, 26, 33, 34, 51, 48, 44, 27])
-            ->whereDate('created_at', '>=', Carbon::parse('6 August 2024'))
+//            ->whereDate('created_at', '>=', Carbon::parse('6 August 2024'))
+            ->whereHas('status_logs', function ($q) {
+                return $q->where([
+                    'column' => 'status',
+                    'new' => '5',
+                ])->whereDate('created_at', '>=', Carbon::parse('6 August 2024'));
+            })
             ->get();
 
         $qa_member_ids = DB::table('category_users')->whereIn('category_id', auth()->user()->category_list())->pluck('user_id');
