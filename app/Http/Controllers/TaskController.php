@@ -1135,7 +1135,7 @@ class TaskController extends Controller
 
         $task = new Task;
 
-        if (auth()->user()->is_support_head) {
+//        if (auth()->user()->is_support_head) {
             //status: sent for approval
             $task = $task->where('status', 5);
 
@@ -1155,14 +1155,15 @@ class TaskController extends Controller
     //        else {
     //            $task = $task->where('status', 5);
     //        }
-        } else {
-            $task = $task->where('qa_id', auth()->id());
-        }
+//        } else {
+//            $task = $task->where('qa_id', auth()->id());
+//        }
 
 
         $task = $task
             //testing (danny brands)
             ->whereIn('brand_id', [3, 10, 16, 17, 21, 22, 26, 33, 34, 51, 48, 44, 27])
+            ->whereDate('created_at', '>=', Carbon::parse('6 August 2024'))
             ->get();
 
         $qa_member_ids = DB::table('category_users')->whereIn('category_id', auth()->user()->category_list())->pluck('user_id');
