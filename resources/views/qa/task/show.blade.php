@@ -202,7 +202,7 @@
 
                     @if(count($task->qa_feedbacks))
                         @foreach($task->qa_feedbacks as $qa_feedback)
-                            <div class="row" id="feedback_wrapper_row">
+                            <div class="row" id="feedback_wrapper_row" style="padding-bottom: 0px;">
                                 <div class="col-md-4 p-0">
                                     <button type="submit" name="status" value="0" class="btn btn-{!! $qa_feedback->status == '3' ? 'success' : 'danger' !!} mx-3">{{get_task_status_text($qa_feedback->status)}}</button>
                                 </div>
@@ -257,10 +257,23 @@
                                                 @foreach($qa_feedback->qa_files as $qa_file)
                                                     <li>
                                                         <a class="anchor_download_qa_file" download href="{{asset($qa_file->path)}}">{{$qa_file->name}}</a>
+                                                        @if($qa_feedback->user_id == auth()->id())
+                                                            <a href="{{route('qa.delete.file', $qa_file->id)}}" class="text-danger ml-2">
+                                                                <i class="fas fa-trash"></i>
+                                                            </a>
+                                                        @endif
                                                     </li>
                                                 @endforeach
                                             </ul>
                                         </div>
+                                    </div>
+                                @endif
+
+                                @if($qa_feedback->user_id == auth()->id())
+                                    <div class="col-md-12 text-center" style="background: red; border-radius: 0px 0px 6px 6px;">
+                                        <a href="{{route('qa.delete.feedback', $qa_feedback->id)}}" class="text-white btn btn-sm btn-block" style="max-height: 26px;">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
                                     </div>
                                 @endif
                             </div>

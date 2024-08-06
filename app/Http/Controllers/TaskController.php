@@ -1424,4 +1424,39 @@ class TaskController extends Controller
         return response()->json(['status' => true, 'message' => 'Status Updated Successfully']);
     }
 
+    public function deleteQaFile (Request $request, $id)
+    {
+        if ($qa_file = QaFile::find($id)) {
+            if (File::exists(asset($qa_file->path))) {
+                File::delete(asset($qa_file->path));
+            }
+
+            $qa_file->delete();
+
+            return redirect()->back()->with('success', 'QA file deleted Successfully.');
+        }
+
+        return redirect()->back();
+    }
+
+    public function deleteQaFeedback (Request $request, $id)
+    {
+        if ($qa_feedback = QaFeedback::find($id)) {
+            //delete files
+            foreach ($qa_feedback->qa_files as $qa_file) {
+                if (File::exists(asset($qa_file->path))) {
+                    File::delete(asset($qa_file->path));
+                }
+
+                $qa_file->delete();
+            }
+
+            $qa_feedback->delete();
+
+            return redirect()->back()->with('success', 'QA feedback deleted Successfully.');
+        }
+
+        return redirect()->back();
+    }
+
 }

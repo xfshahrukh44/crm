@@ -339,6 +339,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/qa/task/{id}/{notify?}', [TaskController::class, 'qaShow'])->name('qa.task.show');
         Route::post('/qa/updatetask/{id}', [TaskController::class, 'qaUpdateTask'])->name('qa.update.task');
         Route::get('qa/{form_id}/projects/{check}/form/{id}', [SupportController::class, 'getFormByQA'])->name('qa.form');
+        Route::get('qa/delete-file/{id}', [TaskController::class, 'deleteQaFile'])->name('qa.delete.file');
+        Route::get('qa/delete-feedback/{id}', [TaskController::class, 'deleteQaFeedback'])->name('qa.delete.feedback');
 
         //member create
         Route::get('qa/user', [QAController::class, 'getUserQA'])->name('qa.user.qa');
