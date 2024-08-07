@@ -204,7 +204,7 @@
                         @foreach($task->qa_feedbacks as $qa_feedback)
                             <div class="row" id="feedback_wrapper_row" style="padding-bottom: 0px;">
                                 <div class="col-md-4 p-0">
-                                    <button type="submit" name="status" value="0" class="btn btn-{!! $qa_feedback->status == '3' ? 'success' : 'danger' !!} mx-3">{{get_task_status_text($qa_feedback->status)}}</button>
+                                    <button type="submit" name="status" value="0" class="btn btn-{{get_task_status_color_class(intval($qa_feedback->status))}} mx-3">{{get_task_status_text($qa_feedback->status)}}</button>
                                 </div>
                                 <div class="col-md-4">
 
@@ -270,9 +270,9 @@
                                 @endif
 
                                 @if($qa_feedback->user_id == auth()->id())
-                                    <div class="col-md-12 text-center" style="background: red; border-radius: 0px 0px 6px 6px;">
-                                        <a href="{{route('qa.delete.feedback', $qa_feedback->id)}}" class="text-white btn btn-sm btn-block" style="max-height: 26px;">
-                                            <i class="fas fa-trash"></i>
+                                    <div class="col-md-12 text-center" style="background: transparent; border-radius: 0px 0px 6px 6px;">
+                                        <a href="{{route('qa.delete.feedback', $qa_feedback->id)}}" class="text-danger btn btn-sm btn-block" style="max-height: 26px;">
+                                            <i class="fas fa-trash"></i> Delete
                                         </a>
                                     </div>
                                 @endif
@@ -321,6 +321,7 @@
                                     @if($task->qa_feedbacks->where('status', 1)->count() <= 2)
                                         <button type="submit" name="status" value="1" class="btn-sm btn-danger mx-3">Re Open</button>
                                     @endif
+                                    <button type="submit" name="status" value="5" class="btn-sm btn-info mx-3">Sent for Approval</button>
                                     <button type="submit" name="status" value="3" class="btn-sm btn-success mx-3">Complete</button>
                                 </div>
                             </div>

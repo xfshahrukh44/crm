@@ -65,6 +65,21 @@ function get_task_status_text ($num = 0) {
     return ucfirst($arr[$num]) ?? 'Open';
 }
 
+function get_task_status_color_class ($num = 0) {
+    $arr = [
+        0 => 'danger',
+        1 => 'danger',
+        4 => 'warning',
+        2 => 'info',
+        5 => 'info',
+        6 => 'warning',
+        3 => 'success',
+        7 => 'info',
+    ];
+
+    return $arr[$num] ?? 'danger';
+}
+
 function sale_manager_notifications ($brand_id = null)
 {
     if (!Auth::check() || Auth::user()->is_employee != 6) {
