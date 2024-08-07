@@ -59,6 +59,7 @@ function get_task_status_text ($num = 0) {
         5 => 'Sent for Approval',
         6 => 'Incomplete Brief',
         3 => 'Completed',
+        7 => 'Sent for QA',
     ];
 
     return ucfirst($arr[$num]) ?? 'Open';

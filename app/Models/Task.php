@@ -58,6 +58,8 @@ class Task extends Model
             return "<button class='btn btn-info btn-sm'>Sent for Approval</button>";
         }else if($status == 6){
             return "<button class='btn btn-warning btn-sm'>Incomplete Brief</button>";
+        }else if($status == 7){
+            return "<button class='btn btn-info btn-sm'>Sent for QA</button>";
         }
     }
 
@@ -82,6 +84,8 @@ class Task extends Model
             return "<span class='badge badge-info badge-sm'>Sent for Approval</span>";
         }else if($status == 6){
             return "<span class='badge badge-warning badge-sm'>Incomplete Brief</span>";
+        }else if($status == 7){
+            return "<span class='badge badge-info badge-sm'>Sent for QA</span>";
         }
     }
 

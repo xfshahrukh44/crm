@@ -656,7 +656,7 @@ class TaskController extends Controller
         $data = new Task();
 
         //hide tasks in QA
-        $data = $data->where('status', '!=', 5);
+        $data = $data->where('status', '!=', 7);
 
         $categorys_array = [];
         $categorys = Category::all();
@@ -711,7 +711,7 @@ class TaskController extends Controller
         
         $notify_data = Task::whereIn('brand_id', Auth()->user()->brand_list())
             //hide tasks in QA
-            ->where('status', '!=', 5)
+            ->where('status', '!=', 7)
             ->when(!auth()->user()->is_support_head, function ($q) {
                 return $q->whereHas('projects', function ($query) {
                     return $query->where('user_id', '=', Auth()->user()->id);
@@ -1143,7 +1143,7 @@ class TaskController extends Controller
 
 //        if (auth()->user()->is_support_head) {
             //status: sent for approval
-            $task = $task->where('status', 5);
+            $task = $task->where('status', 7);
 
             if($request->category != null){
                 if($request->category == 0){
@@ -1173,7 +1173,7 @@ class TaskController extends Controller
             ->whereHas('status_logs', function ($q) {
                 return $q->where([
                     'column' => 'status',
-                    'new' => '5',
+                    'new' => '7',
                 ])->whereDate('created_at', '>=', Carbon::parse('6 August 2024'));
             })
             ->get();
@@ -1259,6 +1259,8 @@ class TaskController extends Controller
             $status = 'Sent for Approval';
         }else if($value == 6){
             $status = 'Incomplete Brief';
+        }else if($value == 7){
+            $status = 'Sent for QA';
         }
 
         $description = $task->projects->name . " Marked as " . $status;
