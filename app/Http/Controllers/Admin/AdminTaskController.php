@@ -75,6 +75,8 @@ class AdminTaskController extends Controller
         try {
             $data = new Task();
             $data = $data->orderBy('id', 'desc');
+            //hide tasks in QA
+            $data = $data->where('status', '!=', 5);
             $data = $data->whereIn('brand_id', Auth()->user()->brand_list());
 
             if($request->project != ''){
@@ -151,7 +153,10 @@ class AdminTaskController extends Controller
             }
             $task_array = array_unique($task_array);
 
-            $notify_data = Task::whereIn('brand_id', Auth()->user()->brand_list())->whereIn('id', $task_array)->orderBy('id', 'desc')->paginate(10);
+            $notify_data = Task::whereIn('brand_id', Auth()->user()->brand_list())
+                //hide tasks in QA
+                ->where('status', '!=', 5)
+                ->whereIn('id', $task_array)->orderBy('id', 'desc')->paginate(10);
 
             $display = '';
 

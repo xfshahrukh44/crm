@@ -654,6 +654,10 @@ class TaskController extends Controller
 
     public function supportTaskList(Request $request){
         $data = new Task();
+
+        //hide tasks in QA
+        $data = $data->where('status', '!=', 5);
+
         $categorys_array = [];
         $categorys = Category::all();
         foreach($categorys as $category){
@@ -706,6 +710,8 @@ class TaskController extends Controller
         $data = $data->whereNotIn('id', $task_array)->orderBy('id', 'desc')->paginate(20);
         
         $notify_data = Task::whereIn('brand_id', Auth()->user()->brand_list())
+            //hide tasks in QA
+            ->where('status', '!=', 5)
             ->when(!auth()->user()->is_support_head, function ($q) {
                 return $q->whereHas('projects', function ($query) {
                     return $query->where('user_id', '=', Auth()->user()->id);
