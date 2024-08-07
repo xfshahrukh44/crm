@@ -16,9 +16,9 @@
     </div>
     <div style="margin: auto"></div>
     <div class="header-part-right">
-        <label class="switch switch-dark mb-0"><span>Dark</span>
-            <input type="checkbox" id="theme-mode"/><span class="slider"></span>
-        </label>
+{{--        <label class="switch switch-dark mb-0"><span>Dark</span>--}}
+{{--            <input type="checkbox" id="theme-mode"/><span class="slider"></span>--}}
+{{--        </label>--}}
         <!-- Full screen toggle -->
         <i class="i-Full-Screen header-icon d-none d-sm-inline-block" data-fullscreen></i>
         <!-- Grid menu Dropdown -->
