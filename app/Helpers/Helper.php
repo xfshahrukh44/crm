@@ -731,6 +731,7 @@ function get_project_client_user_ids () {
 }
 
 function get_pending_projects ($client_user_id) {
+    $user = User::find($client_user_id);
     $pending_projects = [];
 
     foreach (LogoForm::with('project')->doesntHave('project')
@@ -931,8 +932,13 @@ function get_pending_projects ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
-        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
-         ->where('user_id', $client_user_id)->get() as $item) {
+        ->whereHas('invoice', function ($q) use ($user) {
+            return $q->whereHas('brands')->whereHas('client', function ($q) use ($user) {
+                return $q->where('id', $user->client->id);
+            });
+        })
+//         ->where('user_id', $client_user_id)->get() as $item) {
+         ->get() as $item) {
         $pending_projects []= [
             'project_type' => 'No Form',
             'id' => $item->id,
