@@ -75,7 +75,7 @@
                                 <th>Agent</th>
                                 <th>Brand</th>
                                 <th>Category</th>
-{{--                                <th>Status</th>--}}
+                                <th>Status</th>
 {{--                                @if(auth()->user()->is_support_head)--}}
 {{--                                    <th>Assigned to</th>--}}
 {{--                                @endif--}}
@@ -111,7 +111,7 @@
                                     </ul>
                                     @endif
                                 </td>
-{{--                                <td>{!! $datas->project_status() !!}</td>--}}
+                                <td>{!! $datas->project_status() !!}</td>
 {{--                                @if(auth()->user()->is_support_head)--}}
 {{--                                    <td>--}}
 {{--                                        {!! $datas->qa_agent ? ($datas->qa_agent->name . "<br />") : '' !!}--}}
@@ -180,23 +180,6 @@
                             @endforeach
                             
                         </tbody>
-{{--                        <tfoot>--}}
-{{--                            <tr>--}}
-{{--                                <th>ID</th>--}}
-{{--                                <th>Task</th>--}}
-{{--                                <th>Project Name</th>--}}
-{{--                                <th>Agent</th>--}}
-{{--                                <th>Brand</th>--}}
-{{--                                <th>Category</th>--}}
-{{--                                --}}{{--                                <th>Status</th>--}}
-{{--                                @if(auth()->user()->is_support_head)--}}
-{{--                                    <th>Assigned to</th>--}}
-{{--                                @endif--}}
-{{--                                <th>Due Date</th>--}}
-{{--                                <th>Form</th>--}}
-{{--                                <th>Action</th>--}}
-{{--                            </tr>--}}
-{{--                        </tfoot>--}}
                     </table>
                 </div>
             </div>

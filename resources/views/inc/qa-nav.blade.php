@@ -130,6 +130,13 @@
                 </a>
                 <div class="triangle"></div>
             </li>
+            <li class="nav-item {{ ( request()->routeIs('qa.completed_tasks') )? 'active' : '' }}">
+                <a class="nav-item-hold" href="{{ route('qa.completed_tasks') }}">
+                    <i class="nav-icon i-Suitcase"></i>
+                    <span class="nav-text">Completed Tasks</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
             @if(auth()->user()->is_support_head)
                 <li class="nav-item {{ ( request()->routeIs('qa.user.qa') ) || ( request()->routeIs('qa.user.qa.edit') ) || ( request()->routeIs('qa.user.qa.create') )  ? 'active' : '' }}">
                     <a class="nav-item-hold" href="{{ route('qa.user.qa') }}">

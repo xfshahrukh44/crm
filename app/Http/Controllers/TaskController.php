@@ -1141,30 +1141,17 @@ class TaskController extends Controller
 
         $task = new Task;
 
-//        if (auth()->user()->is_support_head) {
-            //status: sent for approval
-            $task = $task->where('status', 7);
+        $task = $task->where('status', 7);
 
-            if($request->category != null){
-                if($request->category == 0){
-                    $task = $task->whereIn('category_id', $category_id);
-                }else{
-                    $task = $task->where('category_id', $request->category);
-                }
-            }else{
+        if($request->category != null){
+            if($request->category == 0){
                 $task = $task->whereIn('category_id', $category_id);
+            }else{
+                $task = $task->where('category_id', $request->category);
             }
-
-    //        if($request->status != null){
-    //            $task = $task->whereIn('status', $request->status);
-    //        }
-    //        else {
-    //            $task = $task->where('status', 5);
-    //        }
-//        } else {
-//            $task = $task->where('qa_id', auth()->id());
-//        }
-
+        }else{
+            $task = $task->whereIn('category_id', $category_id);
+        }
 
         $task = $task
             //testing (danny brands)
@@ -1465,6 +1452,51 @@ class TaskController extends Controller
         }
 
         return redirect()->back();
+    }
+
+    public function completedTasks(Request $request)
+    {
+        $category_id = array();
+        foreach(Auth()->user()->category as $category){
+            array_push($category_id, $category->id);
+        }
+
+        $task = new Task;
+
+        $task = $task->where(function ($q) {
+            return $q->where('status', 5)->orWhere('status', 3);
+        });
+
+        if($request->category != null){
+            if($request->category == 0){
+                $task = $task->whereIn('category_id', $category_id);
+            }else{
+                $task = $task->where('category_id', $request->category);
+            }
+        }else{
+            $task = $task->whereIn('category_id', $category_id);
+        }
+
+        $task = $task
+            //testing (danny brands)
+            ->whereIn('brand_id', [3, 10, 16, 17, 21, 22, 26, 33, 34, 51, 48, 44, 27])
+//            ->whereDate('created_at', '>=', Carbon::parse('6 August 2024'))
+            ->whereHas('status_logs', function ($q) {
+                return $q
+//                    ->where([
+//                        'column' => 'status',
+//                        'new' => '7',
+//                    ])
+                    ->whereDate('created_at', '>=', Carbon::parse('6 August 2024'));
+            })
+            ->get();
+
+        $qa_member_ids = DB::table('category_users')->whereIn('category_id', auth()->user()->category_list())->pluck('user_id');
+        $qa_members = User::where([
+            'is_employee' => 7,
+            'is_support_head' => false,
+        ])->whereIn('id', $qa_member_ids)->get();
+        return view('qa.projects.completed-tasks', compact('task', 'qa_members'));
     }
 
 }
