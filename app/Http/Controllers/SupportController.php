@@ -847,7 +847,7 @@ class SupportController extends Controller
             $client_user_ids = array_unique(Project::whereIn('brand_id', auth()->user()->brand_list())->where('user_id', auth()->id())->pluck('client_id')->toArray());
 //        }
 
-        $clients_with_messages = User::whereIn('id', $client_user_ids)
+        $clients_with_messages = User::whereIn('users.id', $client_user_ids)
             ->when(request()->has('client_name'), function ($q) {
                 return $q->whereHas('client', function ($q) {
 //               return $q->whereIn('brand_id', auth()->user()->brand_list())
@@ -862,7 +862,26 @@ class SupportController extends Controller
                             ->orWhere('contact', 'LIKE', "%".request()->get('client_name')."%");
                     });
                 });
-            })->orderBy('created_at', 'DESC')->paginate(10);
+            });
+//            ->orderBy('created_at', 'DESC')->paginate(10);
+
+        //sort by latest message
+        $latestMessages = DB::table('messages')
+            ->select('client_id', DB::raw('MAX(created_at) as latest_message_date'))
+            ->groupBy('client_id');
+
+
+        $clients_with_messages = $clients_with_messages->joinSub($latestMessages, 'latest_messages', function ($join) {
+            $join->on('users.id', '=', 'latest_messages.client_id');
+        })
+            ->join('messages', function ($join) {
+                $join->on('users.id', '=', 'messages.client_id')
+                    ->on('latest_messages.latest_message_date', '=', 'messages.created_at');
+            })
+            ->select('users.*') // Ensure only User attributes are selected
+            ->orderBy('messages.created_at', 'DESC')
+            ->distinct()
+            ->paginate(10);
 
 //        $datas = Project::where('user_id', Auth()->user()->id)
 ////            ->when(auth()->user()->is_support_head == 1, function ($q) {
