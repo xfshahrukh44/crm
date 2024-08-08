@@ -239,7 +239,9 @@ class SupportInvoiceController extends Controller
 
     public function invoicePaidByIdSale($id){
         $invoice = Invoice::find($id);
-        $user = Client::where('email', $invoice->client->email)->first();
+        if (!$user = Client::find($invoice->client_id)->first()) {
+            $user = Client::where('email', $invoice->client->email)->first();
+        }
         $user_client = User::where('client_id', $user->id)->first();
         if($user_client != null || $user->user){
             $service_array = explode(',', $invoice->service);
