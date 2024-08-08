@@ -722,7 +722,7 @@ function get_project_client_user_ids () {
                     return $query->whereIn('brand', Auth::user()->brand_list());
                 });
             })
-//        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
         ->groupBy('user_id')->pluck('user_id')->toArray();
     $client_user_ids = array_merge($res, $client_user_ids);
 
