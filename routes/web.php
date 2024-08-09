@@ -430,3 +430,4 @@ Route::get('get-support-agents', [GeneralBrandController::class, 'get_support_ag
 Route::post('assign-pending-project-to-agent', [GeneralBrandController::class, 'assign_pending_project_to_agent'])->middleware('auth')->name('assign-pending-project-to-agent');
 Route::get('fetch-search-bar-content', [GeneralBrandController::class, 'fetch_search_bar_content'])->middleware('auth')->name('fetch-search-bar-content');
 Route::get('check-if-external-client', [GeneralBrandController::class, 'check_if_external_client'])->middleware('auth')->name('check-if-external-client');
+Route::post('clear-notification', [GeneralBrandController::class, 'clear_notification'])->middleware('auth')->name('clear-notification');

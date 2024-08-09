@@ -21,6 +21,7 @@ use App\Models\User;
 use App\Models\WebForm;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -1133,4 +1134,19 @@ function get_buh_ids_by_brand_id ($brand_id) {
     $user_ids = array_unique(DB::table('brand_users')->where('brand_id', $brand_id)->pluck('user_id')->toArray());
 
     return User::where('is_employee', 6)->whereIn('id', $user_ids)->pluck('id')->toArray();
+}
+
+function clear_notification ($notification_id) {
+//    if ($notification = auth()->user()->notifications()->find($notification_id)) {
+    if ($notification = DatabaseNotification::find($notification_id)) {
+        if ($notification->unread()) {
+            $notification->markAsRead();
+
+            return true;
+        }
+
+        return false;
+    }
+
+    return false;
 }

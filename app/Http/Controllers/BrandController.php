@@ -400,9 +400,21 @@ class BrandController extends Controller
         return fetch_search_bar_content($request->get('query'));
     }
 
-    function check_if_external_client (Request $request)
+    public function check_if_external_client (Request $request)
     {
         return check_if_external_client($request);
+    }
+
+    public function clear_notification (Request $request)
+    {
+        $res = clear_notification($request->notification_id);
+
+        return response()->json([
+            'success' => $res,
+            'data' => [],
+            'message' => $res ? 'Notification cleared!' : 'Failed to clear notification.',
+            'errors' => [],
+        ]);
     }
 
 }

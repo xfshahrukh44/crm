@@ -43,7 +43,7 @@
                         $route = route('production.task.show', ['id' => $notification->data['task_id'], 'notify' => $notification->id]);
                     }
                 @endphp
-                <div class="card mb-4 {!! is_null($notification->read_at) ? 'unread_notification' : '' !!}">
+                <div class="card mb-4 {!! is_null($notification->read_at) ? 'unread_notification' : '' !!}" data-id="{{$notification->id}}">
                     <a href="{{$route}}">
                         <div class="card-body p-0">
                             <div class="ul-widget__body">
@@ -75,4 +75,27 @@
 @endsection
 
 @push('scripts')
+    <script>
+        $(document).ready(() => {
+            $('.unread_notification').on('click', function (e) {
+                // e.preventDefault();
+                $(this).removeClass('unread_notification');
+
+                $.ajax({
+                    url: "{{route('clear-notification')}}",
+                    method: "POST",
+                    data: {
+                        _token: '{{csrf_token()}}',
+                        notification_id: $(this).data('id')
+                    },
+                    success: (data) => {
+                        console.log(data);
+                        window.location.href = $(this).find('a:first').prop('href');
+                    },
+                });
+
+
+            });
+        });
+    </script>
 @endpush
