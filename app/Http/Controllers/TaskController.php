@@ -412,7 +412,14 @@ class TaskController extends Controller
             'text' => $description,
             'details' => '',
         ];
+        //notify task agent
         $user->notify(new TaskNotification($assignData));
+        //notify buh
+        if ($task->brand_id) {
+            foreach (
+                User::whereIn('id', get_buh_ids_by_brand_id($task->brand_id))->get() as $buh
+            ) { $buh->notify(new TaskNotification($assignData)); }
+        }
 
         //mail_notification
         $project = Project::find($task->project_id);
@@ -1361,7 +1368,14 @@ class TaskController extends Controller
             'text' => $description,
             'details' => '',
         ];
+        //notify task agent
         $user->notify(new TaskNotification($assignData));
+        //notify buh
+        if ($task->brand_id) {
+            foreach (
+                User::whereIn('id', get_buh_ids_by_brand_id($task->brand_id))->get() as $buh
+            ) { $buh->notify(new TaskNotification($assignData)); }
+        }
 
         //mail_notification
         $project = Project::find($task->project_id);

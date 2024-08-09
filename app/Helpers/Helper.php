@@ -1128,3 +1128,9 @@ function purge_notifications ($date) {
 
     return true;
 }
+
+function get_buh_ids_by_brand_id ($brand_id) {
+    $user_ids = array_unique(DB::table('brand_users')->where('brand_id', $brand_id)->pluck('user_id')->toArray());
+
+    return User::where('is_employee', 6)->whereIn('id', $user_ids)->pluck('id')->toArray();
+}
