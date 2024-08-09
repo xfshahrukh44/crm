@@ -9,6 +9,76 @@
         margin-bottom: 30px;
     }
     .ul-widget3-body p {margin-bottom: 4px;}
+
+    .uploaded-file img {
+        max-width: 200px;
+    }
+
+    button.delete-image {
+        margin-top: 10px;
+    }
+
+    .image-uploader {
+        display: flex;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 10px; /* Space between uploaded items and the upload area */
+        border: 2px dashed #ddd;
+        padding: 20px;
+        border-radius: 5px;
+    }
+
+    .image-uploader .uploaded {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px; /* Space between uploaded images */
+    }
+
+    .image-uploader .uploaded-file {
+        position: relative;
+        width: 200px; /* Increased width for better image and text fit */
+        height: 200px; /* Increased height for better image and text fit */
+        overflow: hidden;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        background-color: #f7f7f7;
+        display: flex;
+        flex-direction: column; /* Allows stacking of image and text */
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 5px; /* Padding inside the tile for spacing */
+        box-sizing: border-box; /* Ensures padding doesn't affect width */
+        line-height: 1 !important;
+    }
+
+    .image-uploader .uploaded-file img {
+        max-width: 200px;
+        max-height: 100px; /* Limit image height to prevent crumpling */
+        object-fit: contain; /* Ensure the image fits within the container without being distorted */
+        margin-bottom: 5px; /* Space between image and text */
+    }
+
+    .image-uploader .uploaded-file span {
+        font-size: 12px; /* Adjust text size to fit within the tile */
+        word-wrap: break-word; /* Ensure long text wraps inside the container */
+    }
+
+    .image-uploader .upload-text {
+        flex: 1; /* Takes up remaining space */
+        text-align: center;
+        text-overflow: clip;
+        cursor: pointer;
+        min-width: 200px; /* Minimum width for the upload area */
+        padding: 20px;
+        border: 2px dashed #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        box-sizing: border-box;
+    }
 </style>
 @endpush
 @section('content')
@@ -205,7 +275,7 @@
         }, 1000);
     });
 </script>
-<script src="{{ asset('newglobal/js/image-uploader.min.js') }}"></script>
+<script src="{{ asset('newglobal/js/image-uploader-2.min.js') }}"></script>
 <script>
     $(document).ready(function(){
         $('.input-images').imageUploader();
