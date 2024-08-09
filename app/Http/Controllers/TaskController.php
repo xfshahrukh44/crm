@@ -396,12 +396,20 @@ class TaskController extends Controller
             $status = 'Hold';
         }else if($value == 3){
             $status = 'Completed';
+
+            //notify qa of outgoing task
+            notify_qa_of_outgoing_task($task->id);
         }else if($value == 4){
             $status = 'In Progress';
         }else if($value == 5){
             $status = 'Sent for Approval';
         }else if($value == 6){
             $status = 'Incomplete Brief';
+        }else if($value == 7){
+            $status = 'Sent for QA';
+
+            //notify qa of incoming task
+            notify_qa_of_incoming_task($task->id);
         }
 
         $description = $task->projects->name . " Marked as " . $status;
@@ -1358,6 +1366,8 @@ class TaskController extends Controller
             $status = 'Sent for Approval';
         }else if($value == 6){
             $status = 'Incomplete Brief';
+        }else if($value == 7){
+            $status = 'Sent for QA';
         }
 
         $description = $task->projects->name . " Marked as " . $status;

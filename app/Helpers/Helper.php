@@ -19,6 +19,7 @@ use App\Models\SmmForm;
 use App\Models\Task;
 use App\Models\User;
 use App\Models\WebForm;
+use App\Notifications\TaskNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\DatabaseNotification;
@@ -1136,6 +1137,12 @@ function get_buh_ids_by_brand_id ($brand_id) {
     return User::where('is_employee', 6)->whereIn('id', $user_ids)->pluck('id')->toArray();
 }
 
+function get_qa_ids_by_category_id ($category_id) {
+    $user_ids = array_unique(DB::table('category_users')->where('category_id', $category_id)->pluck('user_id')->toArray());
+
+    return User::where('is_employee', 7)->whereIn('id', $user_ids)->pluck('id')->toArray();
+}
+
 function clear_notification ($notification_id) {
 //    if ($notification = auth()->user()->notifications()->find($notification_id)) {
     if ($notification = DatabaseNotification::find($notification_id)) {
@@ -1149,4 +1156,59 @@ function clear_notification ($notification_id) {
     }
 
     return false;
+}
+
+function notify_qa_of_incoming_task ($task_id) {
+    if (!$task = Task::find($task_id)) {
+        return false;
+    }
+
+    $user_name = auth()->user()->name.' '.auth()->user()->last_name;
+    $message = 'Task # '.$task_id.' has been sent to QA by '.$user_name.'.';
+
+    $assignData = [
+        'id' => auth()->user()->id,
+        'task_id' => $task_id,
+        'name' => $user_name,
+        'text' => $message,
+        'details' => '',
+    ];
+
+    foreach (get_qa_ids_by_category_id($task->category_id) as $qa_id) {
+        if ($qa = User::find($qa_id)) {
+            $qa->notify(new TaskNotification($assignData));
+        }
+    }
+
+    return true;
+}
+
+function notify_qa_of_outgoing_task ($task_id) {
+    if (!$task = Task::find($task_id)) {
+        return false;
+    }
+
+    //check if any qa actually done on task
+    if (!count($task->qa_feedbacks)) {
+        return false;
+    }
+
+    $user_name = auth()->user()->name.' '.auth()->user()->last_name;
+    $message = 'Task # '.$task_id.' has been marked as COMPLETE by '.$user_name.'.';
+
+    $assignData = [
+        'id' => auth()->user()->id,
+        'task_id' => $task_id,
+        'name' => $user_name,
+        'text' => $message,
+        'details' => '',
+    ];
+
+    foreach (get_qa_ids_by_category_id($task->category_id) as $qa_id) {
+        if ($qa = User::find($qa_id)) {
+            $qa->notify(new TaskNotification($assignData));
+        }
+    }
+
+    return true;
 }

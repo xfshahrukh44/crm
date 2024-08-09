@@ -201,6 +201,8 @@ class SubTaskController extends Controller
             $status = 'Sent for Approval';
         }else if($value == 6){
             $status = 'Incomplete Brief';
+        }else if($value == 7){
+            $status = 'Sent for QA';
         }
 
         $description = $task->task->projects->name . " Marked as " . $status;

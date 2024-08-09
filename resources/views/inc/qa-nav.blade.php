@@ -31,10 +31,8 @@
                 $k = 0;
                 @endphp
                 @foreach(auth()->user()->unreadnotifications()->latest()->take(10)->get() as $notifications)
-                @if($notifications->type == 'App\Notifications\SubTaskNotification')
-                <a href="{{ route('production.subtask.show', ['id' => $notifications->data['task_id'], 'notify' => $notifications->id]) }}" class="dropdown-item d-flex">
-                @else
-                <a href="{{ route('production.task.show', ['id' => $notifications->data['task_id'], 'notify' => $notifications->id]) }}" class="dropdown-item d-flex">
+                @if($notifications->type == 'App\Notifications\TaskNotification')
+                <a href="{{ route('qa.task.show', ['id' => $notifications->data['task_id'], 'notify' => $notifications->id]) }}" class="dropdown-item d-flex">
                 @endif
                     <div class="notification-icon">
                         <i class="i-Speach-Bubble-8 text-primary mr-1"></i>
@@ -62,6 +60,17 @@
                     <div class="notification-details flex-grow-1">
                         <p class="m-0 d-flex align-items-center">
                             <span class="lead-heading">Mark All As Read</span>
+                            <span class="flex-grow-1"></span>
+                        </p>
+                    </div>
+                </a>
+                <a href="{{ route('qa.my-notifications') }}" class="dropdown-item d-flex">
+                    <div class="notification-icon">
+                        <i class="i-Check text-primary mr-1"></i>
+                    </div>
+                    <div class="notification-details flex-grow-1">
+                        <p class="m-0 d-flex align-items-center">
+                            <span class="lead-heading">View all</span>
                             <span class="flex-grow-1"></span>
                         </p>
                     </div>

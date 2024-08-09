@@ -352,8 +352,11 @@ Route::group(['middleware' => 'auth'], function () {
         //assign task to member
         Route::post('qa/assign-task-to-member', [QAController::class, 'assignTaskToMember'])->name('qa.assign.task.to.member');
 
-        //completed tasks=
+        //completed tasks
         Route::get('/qa/completed-tasks', [TaskController::class, 'completedTasks'])->name('qa.completed_tasks');
+
+        //notifications
+        Route::get('/qa/my-notifications', function () { return view('qa.my-notifications'); })->name('qa.my-notifications');
     });
 });
 
