@@ -132,6 +132,13 @@
 {{--                </a>--}}
 {{--                <div class="triangle"></div>--}}
 {{--            </li>--}}
+            <li class="nav-item {{ (request()->routeIs('qa.dashboard'))? 'active' : '' }}">
+                <a class="nav-item-hold" href="{{ route('qa.dashboard') }}">
+                    <i class="nav-icon i-Bar-Chart"></i>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
             <li class="nav-item {{ ( request()->routeIs('qa.home') || request()->routeIs('qa.task.show') )? 'active' : '' }}">
                 <a class="nav-item-hold" href="{{ route('qa.home') }}">
                     <i class="nav-icon i-Suitcase"></i>

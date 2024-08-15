@@ -1168,16 +1168,9 @@ class TaskController extends Controller
             $task = $task->whereIn('category_id', $category_id);
         }
 
-        $restricted_brand_ids = [];
-        $danny_brand_ids = [3, 10, 16, 17, 21, 22, 26, 33, 34, 51, 48, 44, 27];
-        $ashmara_brand_ids = [13, 23, 38, 36, 37];
-
-        $restricted_brand_ids = array_merge($danny_brand_ids, $ashmara_brand_ids);
-
         $task = $task
-            //testing (danny brands)
-//            ->whereIn('brand_id', [3, 10, 16, 17, 21, 22, 26, 33, 34, 51, 48, 44, 27])
-            ->whereIn('brand_id', $restricted_brand_ids)
+            //testing (danny, ashmara brands) date
+            ->whereIn('brand_id', get_restricted_brand_ids_for_qa())
 //            ->whereDate('created_at', '>=', Carbon::parse('6 August 2024'))
             ->whereHas('status_logs', function ($q) {
                 return $q->where([
@@ -1509,8 +1502,8 @@ class TaskController extends Controller
         }
 
         $task = $task
-            //testing (danny brands)
-            ->whereIn('brand_id', [3, 10, 16, 17, 21, 22, 26, 33, 34, 51, 48, 44, 27])
+            //testing (danny, ashmara brands)
+            ->whereIn('brand_id', get_restricted_brand_ids_for_qa())
 //            ->whereDate('created_at', '>=', Carbon::parse('6 August 2024'))
             ->whereHas('status_logs', function ($q) {
                 return $q

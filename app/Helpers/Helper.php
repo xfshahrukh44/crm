@@ -969,7 +969,7 @@ function login_bypass ($email) {
                 4 => 'support.home',
                 5 => 'member.dashboard',
                 6 => 'salemanager.dashboard',
-                7 => 'qa.home',
+                7 => 'qa.dashboard',
             ];
 
             return redirect()->route($route_map[auth()->user()->is_employee]);
@@ -1211,4 +1211,12 @@ function notify_qa_of_outgoing_task ($task_id) {
     }
 
     return true;
+}
+
+function get_restricted_brand_ids_for_qa () {
+    $restricted_brand_ids = [];
+    $danny_brand_ids = [3, 10, 16, 17, 21, 22, 26, 33, 34, 51, 48, 44, 27];
+    $ashmara_brand_ids = [13, 23, 38, 36, 37];
+
+    return array_merge($danny_brand_ids, $ashmara_brand_ids);
 }

@@ -145,7 +145,7 @@ class LoginController extends Controller
             }else if(auth()->user()->is_employee == 5){
                 return route('member.dashboard');
             }else if(auth()->user()->is_employee == 7){
-                return route('qa.home');
+                return route('qa.dashboard');
             }
         }else{
             $bytes = bin2hex(random_bytes(3));

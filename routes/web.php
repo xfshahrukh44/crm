@@ -335,6 +335,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'is_qa'], function(){
+        Route::get('/qa/dashboard', [QAController::class, 'qaDashboard'])->name('qa.dashboard');
+
         Route::get('/qa/home', [TaskController::class, 'qaHome'])->name('qa.home');
         Route::get('/qa/task/{id}/{notify?}', [TaskController::class, 'qaShow'])->name('qa.task.show');
         Route::post('/qa/updatetask/{id}', [TaskController::class, 'qaUpdateTask'])->name('qa.update.task');
