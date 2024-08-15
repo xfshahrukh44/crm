@@ -24,6 +24,7 @@ use Auth;
 use App\Models\SubTask;
 use File;
 use DateTime;
+use function MongoDB\BSON\toJSON;
 
 class TaskController extends Controller
 {
@@ -410,6 +411,12 @@ class TaskController extends Controller
 
             //notify qa of incoming task
             notify_qa_of_incoming_task($task->id);
+
+            //emit pusher notification
+            emit_pusher_notification('qa-channel', 'incoming-task', [
+                'task' => $task,
+                'redirect_url' => route('qa.task.show', $task->id)
+            ]);
         }
 
         $description = $task->projects->name . " Marked as " . $status;
