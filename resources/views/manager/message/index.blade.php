@@ -103,7 +103,7 @@
                         <div class="form-body">
                             <div class="form-group mb-0">
 {{--                                <h1>Write A Message <span id="close-message-left"><i class="nav-icon i-Close-Window"></i></span></h1>--}}
-                                <textarea id="message" rows="8" class="form-control border-primary" name="message" required placeholder="Write a Message">{{old('message')}}</textarea>
+                                <textarea id="message" rows="8" class="form-control border-primary" name="message" placeholder="Write a Message">{{old('message')}}</textarea>
                                 <div class="input-field">
                                     <div class="input-images" style="padding-top: .5rem;"></div>
                                 </div>
@@ -185,12 +185,40 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
-<script>
-    $(document).ready(() => {
-        setTimeout(() => {
-            $('.cke_notifications_area').remove();
+    <!-- Place the first <script> tag in your HTML's <head> -->
+    <script src="https://cdn.tiny.cloud/1/v342h96m9l2d2xvl69w2yxp6fwd33xvey1c4h3do99vwwpt2/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 
+    <!-- Place the following <script> and <textarea> tags your HTML's <body> -->
+    <script>
+        tinymce.init({
+            selector: '#message',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name',
+            mergetags_list: [
+                { value: 'First.Name', title: 'First Name' },
+                { value: 'Email', title: 'Email' },
+            ],
+            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
+        });
+        tinymce.init({
+            selector: '#editmessage',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name',
+            mergetags_list: [
+                { value: 'First.Name', title: 'First Name' },
+                { value: 'Email', title: 'Email' },
+            ],
+            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
+        });
+    </script>
+
+{{--    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>--}}
+    <script>
+        $(document).ready(() => {
             setTimeout(() => {
                 $('.cke_notifications_area').remove();
 
@@ -199,91 +227,95 @@
 
                     setTimeout(() => {
                         $('.cke_notifications_area').remove();
+
+                        setTimeout(() => {
+                            $('.cke_notifications_area').remove();
+                        }, 1000);
                     }, 1000);
                 }, 1000);
             }, 1000);
-        }, 1000);
-    });
-</script>
-<script src="{{ asset('newglobal/js/image-uploader.min.js') }}"></script>
-<script>
-    $(document).ready(function(){
-        $('.input-images').imageUploader();
-    });
-    CKEDITOR.replace('editmessage');
-    CKEDITOR.replace('message');
-    function editMessage(message_id){
-        var url = "{{ route('manager.message.edit', ":message_id") }}";
-        url = url.replace(':message_id', message_id);
-        $.ajax({
-            type:'GET',
-            url: url,
-            success:function(data) {
-                if(data.success){
-                    CKEDITOR.instances['editmessage'].setData(data.data.message);
-                    $('#exampleModalMessageEdit').find('#message_id').val(data.data.id);
-                    $('#exampleModalMessageEdit').modal('toggle');
-                    console.log();
+        });
+    </script>
+    <script src="{{ asset('newglobal/js/image-uploader.min.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            $('.input-images').imageUploader();
+        });
+        // CKEDITOR.replace('editmessage');
+        // CKEDITOR.replace('message');
+        function editMessage(message_id){
+            var url = "{{ route('manager.message.edit', ":message_id") }}";
+            url = url.replace(':message_id', message_id);
+            $.ajax({
+                type:'GET',
+                url: url,
+                success:function(data) {
+                    if(data.success){
+                        // CKEDITOR.instances['editmessage'].setData(data.data.message);
+                        tinymce.get('editmessage').setContent(data.data.message)
+                        $('#exampleModalMessageEdit').find('#message_id').val(data.data.id);
+                        $('#exampleModalMessageEdit').modal('toggle');
+                        console.log();
+                    }
+                }
+            });
+        }
+         $(document).ready(function(){
+            $("html, body").animate({ scrollTop: document.body.scrollHeight }, "slow");
+            $('#write-message').click(function(){
+                $('.left-message-box-wrapper').addClass('fixed-option');
+            });
+            $('#close-message-left').click(function(){
+                $('.left-message-box-wrapper').removeClass('fixed-option');
+            })
+        });
+    </script>
+    <script>
+    g_FileUploadControlCounter = 0;
+
+    function Clicked_h_btnAddFileUploadControl() {
+        var v_btnFileUploadControl = document.getElementById("h_btnAddFileUploadControl");
+            v_btnFileUploadControl.value = "Add Another Attachment";
+
+        var n="h_Item_Attachments_FileInput[]";
+        var z="h_Item_Attachment" + g_FileUploadControlCounter;
+        var x = document.createElement("INPUT");
+
+            x.setAttribute("type", "file");
+            x.setAttribute("id", z);
+            x.setAttribute("name", n);
+            x.setAttribute("onchange", "UpdateAttachmentsDisplayList()");
+            x.setAttribute("class", "Otr_Std_pad");
+            document.getElementById("h_ItemAttachmentControls").appendChild(x);
+            g_FileUploadControlCounter++;
+        }
+
+        function Clicked_h_hrefRemoveFileUploadControl(v_Item_Attachment) {
+
+            document.getElementById(v_Item_Attachment.id).value = null;
+            UpdateAttachmentsDisplayList();
+        }
+
+        function UpdateAttachmentsDisplayList() {
+
+        var inputs = document.getElementsByTagName('input');
+        var txt='';
+
+        for(var i = 0; i < inputs.length; i++) {
+            if(inputs[i].type.toLowerCase() == 'file') {
+                if(inputs[i].value.length > 0)
+                {
+                    var x = inputs[i];
+                    txt += "<div class='item-attachments-wrapper'><strong>" + inputs[i].value + "</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='javascript:Clicked_h_hrefRemoveFileUploadControl(" + x.id + ");'>Delete</a></div>";
+                    document.getElementById(inputs[i].id).style.visibility = "hidden";
+                    document.getElementById(inputs[i].id).style.height = "0";
+                    document.getElementById(inputs[i].id).style.width = "0";
+                }else{
+                    document.getElementById(inputs[i].id).style.visibility = "visible";
                 }
             }
-        });
-    }
-     $(document).ready(function(){
-        $("html, body").animate({ scrollTop: document.body.scrollHeight }, "slow");
-        $('#write-message').click(function(){
-            $('.left-message-box-wrapper').addClass('fixed-option');
-        });
-        $('#close-message-left').click(function(){
-            $('.left-message-box-wrapper').removeClass('fixed-option');
-        })
-    });
-</script>
-<script>
-g_FileUploadControlCounter = 0;
-
-function Clicked_h_btnAddFileUploadControl() {
-    var v_btnFileUploadControl = document.getElementById("h_btnAddFileUploadControl");  
-        v_btnFileUploadControl.value = "Add Another Attachment";
-
-    var n="h_Item_Attachments_FileInput[]";
-    var z="h_Item_Attachment" + g_FileUploadControlCounter;
-    var x = document.createElement("INPUT");
-
-        x.setAttribute("type", "file");
-        x.setAttribute("id", z);
-        x.setAttribute("name", n);
-        x.setAttribute("onchange", "UpdateAttachmentsDisplayList()");
-        x.setAttribute("class", "Otr_Std_pad");
-        document.getElementById("h_ItemAttachmentControls").appendChild(x);
-        g_FileUploadControlCounter++;
-    }
-
-    function Clicked_h_hrefRemoveFileUploadControl(v_Item_Attachment) {
-
-        document.getElementById(v_Item_Attachment.id).value = null;
-        UpdateAttachmentsDisplayList();
-    }
-
-    function UpdateAttachmentsDisplayList() {
-
-    var inputs = document.getElementsByTagName('input');
-    var txt='';
-
-    for(var i = 0; i < inputs.length; i++) {
-        if(inputs[i].type.toLowerCase() == 'file') {
-            if(inputs[i].value.length > 0)
-            {
-                var x = inputs[i];
-                txt += "<div class='item-attachments-wrapper'><strong>" + inputs[i].value + "</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='javascript:Clicked_h_hrefRemoveFileUploadControl(" + x.id + ");'>Delete</a></div>";
-                document.getElementById(inputs[i].id).style.visibility = "hidden";
-                document.getElementById(inputs[i].id).style.height = "0";
-                document.getElementById(inputs[i].id).style.width = "0";
-            }else{
-                document.getElementById(inputs[i].id).style.visibility = "visible";
+            document.getElementById("h_ItemAttachments").innerHTML = txt;
             }
         }
-        document.getElementById("h_ItemAttachments").innerHTML = txt;
-        }
-    }
-</script>
+    </script>
 @endpush

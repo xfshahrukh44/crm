@@ -41,7 +41,7 @@
                             </div>
                             <div class="col-md-12 form-group mb-3">
                                 <label for="description">Description <span>*</span></label>
-                                <textarea class="form-control" name="description" id="description" cols="30" rows="10" required="required" required>{{$task->description}}</textarea>
+                                <textarea class="form-control" name="description" id="description2" cols="30" rows="10">{{$task->description}}</textarea>
                             </div>
                             <div class="col-md-12 form-group mb-3">
                                 <label>Select File</label>
@@ -62,6 +62,24 @@
 @endsection
 
 @push('scripts')
+    <!-- Place the first <script> tag in your HTML's <head> -->
+    <script src="https://cdn.tiny.cloud/1/v342h96m9l2d2xvl69w2yxp6fwd33xvey1c4h3do99vwwpt2/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <!-- Place the following <script> and <textarea> tags your HTML's <body> -->
+    <script>
+        tinymce.init({
+            selector: '#description2',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name',
+            mergetags_list: [
+                { value: 'First.Name', title: 'First Name' },
+                { value: 'Email', title: 'Email' },
+            ],
+            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
+        });
+    </script>
     <script>
         $(document).ready(function(){
             $('#project').on('change', function() {
@@ -76,7 +94,7 @@
         })
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js" integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+{{--    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>--}}
 <script>
     $(document).ready(() => {
         setTimeout(() => {
@@ -97,7 +115,7 @@
     });
 </script>
     <script>
-        CKEDITOR.replace('description');
+        // CKEDITOR.replace('description');
         $('.dropify').dropify();
         var start = new Date;
         setInterval(function() {

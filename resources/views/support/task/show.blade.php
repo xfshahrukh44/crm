@@ -342,10 +342,9 @@
                                             </div>
                                             <div class="form-body">
                                                 <div class="form-group">
-                                                    <textarea id="description" rows="5"
+                                                    <textarea id="description2" rows="5"
                                                               class="form-control border-primary" name="description"
-                                                              placeholder="Sub Task Message Details"
-                                                              required>{{old('description')}}</textarea>
+                                                              placeholder="Sub Task Message Details">{{old('description')}}</textarea>
                                                 </div>
                                             </div>
                                             <div class="form-actions text-right pb-0">
@@ -550,7 +549,7 @@
                                             <div class="form-body">
                                                 <div class="form-group">
                                                     <textarea id="message" rows="5" class="form-control border-primary"
-                                                              name="message" required>{{old('message')}}</textarea>
+                                                              name="message">{{old('message')}}</textarea>
                                                     <div class="input-field">
                                                         <div class="input-images" style="padding-top: .5rem;"></div>
                                                     </div>
@@ -736,7 +735,37 @@
 @push('scripts')
     <script src="{{ asset('global/js/fileinput.js') }}"></script>
     <script src="{{ asset('global/js/fileinput-theme.js') }}"></script>
-    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+{{--    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>--}}
+    <!-- Place the first <script> tag in your HTML's <head> -->
+    <script src="https://cdn.tiny.cloud/1/v342h96m9l2d2xvl69w2yxp6fwd33xvey1c4h3do99vwwpt2/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <!-- Place the following <script> and <textarea> tags your HTML's <body> -->
+    <script>
+        tinymce.init({
+            selector: '#description2',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name',
+            mergetags_list: [
+                { value: 'First.Name', title: 'First Name' },
+                { value: 'Email', title: 'Email' },
+            ],
+            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
+        });
+        tinymce.init({
+            selector: '#message',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name',
+            mergetags_list: [
+                { value: 'First.Name', title: 'First Name' },
+                { value: 'Email', title: 'Email' },
+            ],
+            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
+        });
+    </script>
     <script>
         $(document).ready(() => {
             setTimeout(() => {
@@ -811,8 +840,8 @@
             $('.nav-tabs a[href="#message-show"]').tab('show');
             @endif
             @endif
-            CKEDITOR.replace('message');
-            CKEDITOR.replace('description');
+            // CKEDITOR.replace('message');
+            // CKEDITOR.replace('description');
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -833,7 +862,8 @@
             });
             $('#subtask').on('submit', function (e) {
                 e.preventDefault();
-                var description = CKEDITOR.instances.description.getData();
+                // var description = CKEDITOR.instances.description.getData();
+                var description = tinymce.get('description2').getContent();
                 var duedate = $(this).find('[name=duedate]').val();
                 var action = $(this).attr('action');
                 var task_id = $(this).find('[name=task_id]').val();
@@ -867,7 +897,8 @@
                                         <p>' + response.data.description + '</p>\
                                     </div>\
                                 </div>');
-                            CKEDITOR.instances.description.setData('');
+                            // CKEDITOR.instances.description.setData('');
+                            tinymce.get('description2').setContent('');
                             $('#duedate').val('');
                             toastr.success(response.success, '', {timeOut: 5000})
                         }
