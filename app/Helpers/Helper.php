@@ -1220,3 +1220,12 @@ function get_restricted_brand_ids_for_qa () {
 
     return array_merge($danny_brand_ids, $ashmara_brand_ids);
 }
+
+function get_auth_category_ids () {
+    $category_id_array = array();
+    foreach(auth()->user()->category as $category){
+        array_push($category_id_array, $category->id);
+    }
+
+    return $category_id_array;
+}
