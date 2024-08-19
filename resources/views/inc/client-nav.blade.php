@@ -13,6 +13,15 @@
             <input type="text" placeholder="Search">
             <i class="search-icon text-muted i-Magnifi-Glass1"></i>
         </div>
+        @if(session()->has('coming-from-admin'))
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <span>
+                <a href="{{route('admin.back_to_admin')}}" class="btn btn-info">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to admin
+                </a>
+            </span>
+        @endif
     </div>
     <div style="margin: auto"></div>
     <div class="header-part-right">

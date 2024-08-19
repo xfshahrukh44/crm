@@ -11,6 +11,7 @@ use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class SupportClientController extends Controller
 {
@@ -114,11 +115,15 @@ class SupportClientController extends Controller
         $currencies =  Currency::all();
         $merchant = Merchant::orderBy('id', 'desc')->get();
 
+        $sale_agents = User::whereIn('is_employee', [0, 4, 6])
+            ->whereIn('id', array_unique(DB::table('brand_users')->where('brand_id', $user->brand_id)->pluck('user_id')->toArray()))
+            ->get();
+
         if (request()->has('redirect_to_client_detail')) {
             session()->put('redirect_to_client_detail', true);
         }
 
-        return view('support.payment.create', compact('user', 'brand', 'currencies', 'services', 'merchant'));
+        return view('support.payment.create', compact('user', 'brand', 'currencies', 'services', 'merchant', 'sale_agents'));
     }
 
     public function getBriefPendingById(Request $request){

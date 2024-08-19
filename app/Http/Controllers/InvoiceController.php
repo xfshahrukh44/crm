@@ -48,11 +48,15 @@ class InvoiceController extends Controller
             $services = Service::all();
             $currencies =  Currency::all();
 
+            $sale_agents = User::whereIn('is_employee', [0, 4, 6])
+                ->whereIn('id', array_unique(DB::table('brand_users')->where('brand_id', $user->brand_id)->pluck('user_id')->toArray()))
+                ->get();
+
             if (request()->has('redirect_to_client_detail')) {
                 session()->put('redirect_to_client_detail', true);
             }
 
-            return view('admin.invoice.create', compact('user', 'brand', 'currencies', 'services'));
+            return view('admin.invoice.create', compact('user', 'brand', 'currencies', 'services', 'sale_agents'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -198,7 +202,7 @@ class InvoiceController extends Controller
             $invoice->currency = $request->currency;
             $invoice->client_id = $request->client_id;
             $invoice->invoice_number = $nextInvoiceNumber;
-            $invoice->sales_agent_id = Auth()->user()->id;
+            $invoice->sales_agent_id = $request->has('sales_agent_id') ? $request->get('sales_agent_id') : Auth()->user()->id;
             $invoice->discription = $request->discription;
             $invoice->amount = $request->amount;
             $invoice->payment_status = '1';
@@ -916,7 +920,7 @@ class InvoiceController extends Controller
         $invoice->currency = $request->currency;
         $invoice->client_id = $request->client_id;
         $invoice->invoice_number = $nextInvoiceNumber;
-        $invoice->sales_agent_id = Auth()->user()->id;
+        $invoice->sales_agent_id = $request->has('sales_agent_id') ? $request->get('sales_agent_id') : Auth()->user()->id;
         $invoice->discription = $request->discription;
         $invoice->amount = $request->amount;
         $invoice->payment_status = '1';
@@ -1051,7 +1055,7 @@ class InvoiceController extends Controller
         $invoice->currency = $request->currency;
         $invoice->client_id = $request->client_id;
         $invoice->invoice_number = $nextInvoiceNumber;
-        $invoice->sales_agent_id = Auth()->user()->id;
+        $invoice->sales_agent_id = $request->has('sales_agent_id') ? $request->get('sales_agent_id') : Auth()->user()->id;
         $invoice->discription = $request->discription;
         $invoice->amount = $request->amount;
         $invoice->payment_status = '1';

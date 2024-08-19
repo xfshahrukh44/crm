@@ -78,6 +78,7 @@
                                 <th>Brand</th>
                                 <th>Payment Link</th>
                                 <th>Status</th>
+                                <th>Login</th>
                                 <th>Active</th>
                             </tr>
                         </thead>
@@ -105,6 +106,9 @@
                                     @endif
                                 </td>
                                 <td>
+                                    <a class="btn btn-primary btn-sm" href="{{route('admin.login_bypass', ['email' => $datas->email])}}">Login as {{$datas->name}} {{$datas->last_name}}</a>
+                                </td>
+                                <td>
                                     <a href="{{ route('admin.client.edit', $datas->id) }}" class="btn btn-primary btn-icon btn-sm">
                                         <span class="ul-btn__icon"><i class="i-Edit"></i></span>
                                         <span class="ul-btn__text">Edit</span>
@@ -126,18 +130,6 @@
                             @endforeach
                             
                         </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>ID</th>
-                                <th>Full Name</th>
-                                <th>Email</th>
-                                <th>Create Login</th>
-                                <th>Brand</th>
-                                <th>Payment Link</th>
-                                <th>Status</th>
-                                <th>Active</th>
-                            </tr>
-                        </tfoot>
                     </table>
                     {{ $data->appends(['name' => Request::get('name'), 'email' => Request::get('email'), 'brand' => Request::get('brand'), 'status' => Request::get('status')])->links("pagination::bootstrap-4") }}
                 </div>

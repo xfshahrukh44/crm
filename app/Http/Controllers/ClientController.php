@@ -25,6 +25,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\Currency;
+use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
 {
@@ -223,11 +224,15 @@ class ClientController extends Controller
         $currencies =  Currency::all();
         $merchant = Merchant::orderBy('id', 'desc')->get();
 
+        $sale_agents = User::whereIn('is_employee', [0, 4, 6])
+            ->whereIn('id', array_unique(DB::table('brand_users')->where('brand_id', $user->brand_id)->pluck('user_id')->toArray()))
+            ->get();
+
         if (request()->has('redirect_to_client_detail')) {
             session()->put('redirect_to_client_detail', true);
         }
 
-        return view('sale.payment.create', compact('user', 'brand', 'currencies', 'services', 'merchant'));
+        return view('sale.payment.create', compact('user', 'brand', 'currencies', 'services', 'merchant', 'sale_agents'));
     }
 
     public function managerPaymentLink($id){
@@ -237,11 +242,15 @@ class ClientController extends Controller
         $currencies =  Currency::all();
         $merchant = Merchant::where('status', 1)->orderBy('id', 'desc')->get();
 
+        $sale_agents = User::whereIn('is_employee', [0, 4, 6])
+            ->whereIn('id', array_unique(DB::table('brand_users')->where('brand_id', $user->brand_id)->pluck('user_id')->toArray()))
+            ->get();
+
         if (request()->has('redirect_to_client_detail')) {
             session()->put('redirect_to_client_detail', true);
         }
 
-        return view('manager.payment.create', compact('user', 'brand', 'currencies', 'services', 'merchant'));
+        return view('manager.payment.create', compact('user', 'brand', 'currencies', 'services', 'merchant', 'sale_agents'));
     }
 
     public function getClientBrief(){

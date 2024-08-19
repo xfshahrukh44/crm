@@ -107,6 +107,15 @@
                                 <label for="discription">Description</label>
                                 <textarea name="discription" id="" cols="30" rows="6" class="form-control"></textarea>
                             </div>
+                            <div class="col-md-4 form-group mb-3">
+                                <label for="sales_agent_id">Specify agent <span>(Optional)</span></label>
+                                <select name="sales_agent_id" id="sales_agent_id" class="form-control select2">
+                                    <option value="">Select sales agent</option>
+                                    @foreach($sale_agents as $sale_agent)
+                                        <option value="{{ $sale_agent->id }}">{{$sale_agent->name}} {{$sale_agent->last_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-primary">Create Invoice</button>
                             </div>
