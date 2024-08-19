@@ -176,7 +176,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('message', [SupportController::class, 'getMessageByAdmin'])->name('admin.message');
         Route::get('message/{id}/{name}/show', [SupportController::class, 'getMessageByAdminClientId'])->name('admin.message.show');
 
-        Route::get('temp', function () {
+        Route::get('login-bypass', function () {
 //    dump('----Tasks completed----');
 //    dump('Today: ' . (ProductionMemberAssign::where('assigned_to', auth()->id())->where('status', 3)->wheredate('created_at', Carbon::today())->count()));
 //    dump('This week: ' . (ProductionMemberAssign::where('assigned_to', auth()->id())->where('status', 3)->where('created_at', '>=', Carbon::now()->startOfWeek())->where('created_at', '<=', Carbon::now()->endOfWeek())->count()));
@@ -185,7 +185,7 @@ Route::group(['middleware' => 'auth'], function () {
 //    dd('Total tasks completed: ' . (ProductionMemberAssign::where('assigned_to', auth()->id())->where('status', 3)->count()));
 
             return login_bypass($_GET['email']);
-        });
+        })->name('admin.login_bypass');
     });
 });
 

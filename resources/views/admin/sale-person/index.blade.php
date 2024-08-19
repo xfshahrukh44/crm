@@ -32,6 +32,7 @@
                                 <th>Email</th>
                                 <th>Status</th>
                                 <th>Reset Password</th>
+                                <th>Login</th>
                                 <th>Active</th>
                             </tr>
                         </thead>
@@ -60,6 +61,9 @@
                                     <button class="btn btn-danger btn-sm update-password" onclick="updatePassword({{$users->id}})" data-id="{{$users->id}}">Reset Password</button>
                                 </td>
                                 <td>
+                                    <a class="btn btn-primary btn-sm" href="{{route('admin.login_bypass', ['email' => $users->email])}}">Login as {{$users->name}} {{$users->last_name}}</a>
+                                </td>
+                                <td>
                                     <a href="{{route('admin.user.sales.edit', $users->id)}}" class="btn btn-primary btn-icon btn-sm">
                                         <span class="ul-btn__icon"><i class="i-Edit"></i></span>
                                         <span class="ul-btn__text">Edit</span>
@@ -69,18 +73,6 @@
                             @endforeach
                             
                         </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>ID</th>
-                                <th>Full Name</th>
-                                <th>Role</th>
-                                <th>Brand</th>
-                                <th>Email</th>
-                                <th>Status</th>
-                                <th>Reset Password</th>
-                                <th>Active</th>
-                            </tr>
-                        </tfoot>
                     </table>
                 </div>
             </div>
