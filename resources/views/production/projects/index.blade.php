@@ -114,34 +114,34 @@
                                     {!! $datas->getDueDate() !!}
                                     <!-- @if(count($datas->sub_tasks) == 0)
                                         @php
-                                        $date_now = new DateTime();
-                                        $date2 = new DateTime(date('d-m-Y', strtotime($datas->duedate)));
+                                        $date_now = Carbon\Carbon::now();
+                                        $date2 = \Carbon\Carbon::parse($datas->duedate);
                                         @endphp
                                         @if ($date_now > $date2)
-                                        <button class="btn btn-danger btn-sm">{{ date('d-m-Y', strtotime($datas->duedate)) }}</button>
+                                        <button class="btn btn-danger btn-sm">{{ \Carbon\Carbon::parse($datas->duedate)->format('d-m-Y') }}</button>
                                         @else
-                                        <button class="btn btn-success btn-sm">{{ date('d-m-Y', strtotime($datas->duedate)) }}</button>
+                                        <button class="btn btn-success btn-sm">{{ \Carbon\Carbon::parse($datas->duedate)->format('d-m-Y') }}</button>
                                         @endif
                                     @else
                                     @if($datas->subtaskDueDate != null)
                                     @php
-                                    $date_now = new DateTime();
-                                    $date2 = new DateTime(date('d-m-Y', strtotime($datas->subtaskDueDate->duedate)));
+                                    $date_now = Carbon\Carbon::now();
+                                    $date2 = \Carbon\Carbon::parse($datas->subtaskDueDate->duedate);
                                     @endphp
                                     @if ($date_now > $date2)
-                                    <button class="btn btn-danger btn-sm">{{ date('d-m-Y', strtotime($datas->subtaskDueDate->duedate)) }}</button>
+                                    <button class="btn btn-danger btn-sm">{{ \Carbon\Carbon::parse($datas->subtaskDueDate->duedate)->format('d-m-Y') }}</button>
                                     @else
-                                    <button class="btn btn-success btn-sm">{{ date('d-m-Y', strtotime($datas->subtaskDueDate->duedate)) }}</button>
+                                    <button class="btn btn-success btn-sm">{{ \Carbon\Carbon::parse($datas->subtaskDueDate->duedate)->format('d-m-Y') }}</button>
                                     @endif
                                     @else
                                     @php
-                                    $date_now = new DateTime();
-                                    $date2 = new DateTime(date('d-m-Y', strtotime($datas->duedate)));
+                                    $date_now = Carbon\Carbon::now();
+                                    $date2 = \Carbon\Carbon::parse($datas->duedate);
                                     @endphp
                                     @if ($date_now > $date2)
-                                    <button class="btn btn-danger btn-sm">{{ date('d-m-Y', strtotime($datas->duedate)) }}</button>
+                                    <button class="btn btn-danger btn-sm">{{ \Carbon\Carbon::parse($datas->duedate)->format('d-m-Y') }}</button>
                                     @else
-                                    <button class="btn btn-success btn-sm">{{ date('d-m-Y', strtotime($datas->duedate)) }}</button>
+                                    <button class="btn btn-success btn-sm">{{ \Carbon\Carbon::parse($datas->duedate)->format('d-m-Y') }}</button>
                                     @endif
                                     @endif
                                     @endif -->

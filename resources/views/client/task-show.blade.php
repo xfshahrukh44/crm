@@ -383,7 +383,7 @@
 <script>
 g_FileUploadControlCounter = 0;
 
-function Clicked_h_btnAddFileUploadControl() {
+    function Clicked_h_btnAddFileUploadControl() {
     var v_btnFileUploadControl = document.getElementById("h_btnAddFileUploadControl");  
         v_btnFileUploadControl.value = "Add Another Attachment";
 
@@ -435,7 +435,9 @@ function Clicked_h_btnAddFileUploadControl() {
 
 <script>
     $('form').on('submit', function () {
-        $(this).find('button[type="submit"]').prop('disabled', true);
+        let button = $(this).find('button[type="submit"]');
+        button.prop('disabled', true);
+        button.text('Please wait');
     });
 </script>
 @endpush
