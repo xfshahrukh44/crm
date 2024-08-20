@@ -42,6 +42,10 @@
                                 <option value="0" {{ Request::get('status') == 0 ? 'selected' : '' }}>Deactive</option>
                             </select>
                         </div>
+                        <div class="col-md-3 form-group mb-3">
+                            <label for="contact">Search by Task ID</label>
+                            <input type="text" class="form-control" id="task_id" name="task_id" value="{{request()->get('task_id')}}">
+                        </div>
                         <div class="col-md-12">
                             <div class="text-right">
                                 <button class="btn btn-primary">Search Result</button>

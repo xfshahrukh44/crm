@@ -444,3 +444,13 @@ Route::post('assign-pending-project-to-agent', [GeneralBrandController::class, '
 Route::get('fetch-search-bar-content', [GeneralBrandController::class, 'fetch_search_bar_content'])->middleware('auth')->name('fetch-search-bar-content');
 Route::get('check-if-external-client', [GeneralBrandController::class, 'check_if_external_client'])->middleware('auth')->name('check-if-external-client');
 Route::post('clear-notification', [GeneralBrandController::class, 'clear_notification'])->middleware('auth')->name('clear-notification');
+
+Route::get('temp', function () {
+//    \App\Models\Client::whereHas('user', function ($q) {
+//        return $q->whereHas('projects', function ($q) {
+//            return $q->whereHas('tasks', function ($q) {
+//                return $q->where('id', 123);
+//            });
+//        });
+//    });
+});

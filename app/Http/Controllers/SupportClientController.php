@@ -40,6 +40,26 @@ class SupportClientController extends Controller
         if($request->status != ''){
             $data = $data->where('status', $request->status);
         }
+        if($request->task_id != ''){
+            $data = $data
+                ->where(function ($q) {
+                    return $q->whereHas('user', function ($q) {
+                        return $q->whereHas('projects', function ($q) {
+                            return $q->whereHas('tasks', function ($q) {
+                                return $q->where('id', request()->get('task_id'));
+                            });
+                        });
+                    });
+                })
+                ->orWhere(function ($q) {
+                    return $q->whereHas('projects', function ($q) {
+                        return $q->whereHas('tasks', function ($q) {
+                            return $q->where('id', request()->get('task_id'));
+                        });
+                    });
+                })->whereIn('brand_id', auth()->user()->brand_list());
+        }
+
         $data = $data->paginate(10);
         return view('support.client.index', compact('data'));
     }
