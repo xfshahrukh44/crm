@@ -43,12 +43,14 @@
                             </div>
                             <div class="mt-3 mb-4 border-top"></div>
                             <div class="row mb-5">
-                                <div class="col-md-6 mb-3 mb-sm-0">
-                                    <h5 class="font-weight-bold">Bill From</h5>
-                                    <p class="mb-1">{{ $_getInvoiceData->sale->name }}</p>
-{{--                                    <p class="mb-1">{{ $_getInvoiceData->sale->email }}</p>--}}
-                                    <p class="mb-1">{{ $_getInvoiceData->sale->contact }}</p>
-                                </div>
+                                @if($_getInvoiceData->sale)
+                                    <div class="col-md-6 mb-3 mb-sm-0">
+                                        <h5 class="font-weight-bold">Bill From</h5>
+                                        <p class="mb-1">{{ $_getInvoiceData->sale->name }}</p>
+    {{--                                    <p class="mb-1">{{ $_getInvoiceData->sale->email }}</p>--}}
+                                        <p class="mb-1">{{ $_getInvoiceData->sale->contact }}</p>
+                                    </div>
+                                @endif
                                 <div class="col-md-6 text-sm-right">
                                     <h5 class="font-weight-bold">Bill To</h5>
                                     <p class="mb-1">{{ $_getInvoiceData->name }}</p>
