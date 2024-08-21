@@ -4,10 +4,16 @@ namespace App\Http\Livewire;
 
 use App\Models\Brand;
 use App\Models\Client;
+use App\Models\Currency;
+use App\Models\Invoice;
+use App\Models\Merchant;
 use App\Models\Project;
+use App\Models\Service;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -20,6 +26,12 @@ class BrandDashboard extends Component
     public $active_page = 'brands_dashboard';
     public $history = ['brands_dashboard'];
 
+    protected $listeners = [
+        'client_auth_create' => 'client_auth_create',
+        'client_auth_update' => 'client_auth_update',
+        'set_select2_field_value' => 'set_select2_field_value',
+    ];
+
     public $brand_name;
     public $client_name;
 
@@ -29,6 +41,23 @@ class BrandDashboard extends Component
     public $client_create_contact = '';
     public $client_create_brand_id = '';
     public $client_create_status = '1';
+
+    public $client_payment_create_client_id = '';
+    public $client_payment_create_name = '';
+    public $client_payment_create_email = '';
+    public $client_payment_create_contact = '';
+    public $client_payment_create_brand = '';
+    public $client_payment_create_service = '';
+    public $client_payment_create_package = '';
+    public $client_payment_create_createform = '';
+    public $client_payment_create_custom_package = '';
+    public $client_payment_create_currency = '';
+    public $client_payment_create_amount = '';
+    public $client_payment_create_payment_type = '';
+    public $client_payment_create_merchant = '';
+    public $client_payment_create_sendemail = '';
+    public $client_payment_create_discription = '';
+    public $client_payment_create_sales_agent_id = '';
 
     public function construct()
     {
@@ -55,16 +84,19 @@ class BrandDashboard extends Component
         }
     }
 
-    public function set_active_page ($page) {
+    public function set_active_page ($page)
+    {
         $this->active_page = $page;
-        $this->history []= $this->active_page;
+        $this->history[] = $this->active_page;
 
-        $this->render();
+        $this->resetPage(); // Reset pagination
+
+        $this->render(); // Trigger rendering
     }
 
     public function back () {
-        unset($this->history[count($this->history) - 1]);
-        $this->active_page = $this->history[count($this->history) - 1];
+        array_pop($this->history);
+        $this->active_page = end($this->history);
 
         $this->resetPage();
         $this->render();
@@ -73,27 +105,38 @@ class BrandDashboard extends Component
     public function render()
     {
         if ($this->active_page == 'brands_dashboard') {
-            return $this->brands_dashboard();
+            $view = $this->brands_dashboard();
         } else if (str_contains($this->active_page, 'brands_detail')) {
             $brand_id = intval(str_replace('brands_detail-', '', $this->active_page));
-            return $this->brands_detail($brand_id);
+            $view = $this->brands_detail($brand_id);
         } else if (str_contains($this->active_page, 'manager_notification')) {
             $brand_id = intval(str_replace('manager_notification-', '', $this->active_page));
-            return $this->manager_notification($brand_id);
+            $view = $this->manager_notification($brand_id);
         } else if (str_contains($this->active_page, 'brief_pending')) {
             $brief_pending_explode = explode('_brief_pending-', $this->active_page);
             $role = $brief_pending_explode[0];
             $brand_id = $brief_pending_explode[1];
-            return $this->brief_pending($role, $brand_id);
+            $view = $this->brief_pending($role, $brand_id);
         } else if (str_contains($this->active_page, 'client_create')) {
             $client_create_explode = explode('_client_create-', $this->active_page);
             $role = $client_create_explode[0];
             $brand_id = $client_create_explode[1];
-            return $this->client_create($role, $brand_id);
+            $view = $this->client_create($role, $brand_id);
         } else if (str_contains($this->active_page, 'clients_detail')) {
             $client_id = intval(str_replace('clients_detail-', '', $this->active_page));
-            return $this->clients_detail($client_id);
+            $view = $this->clients_detail($client_id);
+        } else if (str_contains($this->active_page, 'client_payment_link')) {
+            $client_id = intval(str_replace('client_payment_link-', '', $this->active_page));
+            $view = $this->client_payment_link($client_id);
         }
+
+        return $view;
+    }
+
+    public function set_select2_field_value ($data)
+    {
+        $property = $data['name'];
+        $this->$property = $data['value'];
     }
 
     public function brands_dashboard ()
@@ -216,8 +259,171 @@ class BrandDashboard extends Component
             'status' => $this->client_create_status,
         ]);
 
-        session()->flash('success', 'Client created successfully');
+//        session()->flash('success', 'Client created successfully');
+        $this->emit('success', 'Client created successfully');
 
-        return $this->set_active_page('clients_detail-' . $client->id);
+//        return $this->set_active_page('clients_detail-' . $client->id);
+        return $this->set_active_page('client_payment_link-' . $client->id);
+    }
+
+    public function client_auth_create ($data)
+    {
+        if (create_client_auth($data)) {
+            $this->emit('success', 'Account created successfully');
+        } else {
+            $this->emit('error', "Couldn't create account.");
+        }
+
+        return $this->render();
+    }
+
+    public function client_auth_update ($data)
+    {
+        if (create_update_auth($data)) {
+            $this->emit('success', 'Account updated successfully');
+        } else {
+            $this->emit('error', "Couldn't update account.");
+        }
+
+        return $this->render();
+    }
+
+    public function client_payment_link ($client_id)
+    {
+        $user = Client::find($client_id);
+        $brands = Brand::whereIn('id', [$user->brand_id])->get();
+        $services = Service::all();
+        $currencies =  Currency::all();
+        $merchant = Merchant::where('status', 1)->orderBy('id', 'desc')->get();
+
+        $sale_agents = User::whereIn('is_employee', [0, 4, 6])
+            ->whereIn('id', array_unique(DB::table('brand_users')->where('brand_id', $user->brand_id)->pluck('user_id')->toArray()))
+            ->get();
+
+        $this->client_payment_create_client_id = $client_id;
+        $this->client_payment_create_name = $user->name . ' ' . $user->last_name;
+        $this->client_payment_create_email = $user->email;
+        $this->client_payment_create_contact = $user->contact;
+        $this->client_payment_create_brand = $user->brand_id;
+
+        $this->emit('emit_select2', '#service');
+        $this->emit('emit_select2', '#sales_agent_id');
+
+        return view('livewire.payment.create', compact('user', 'brands', 'currencies', 'services', 'merchant', 'sale_agents'))->extends($this->layout);
+    }
+
+    public function client_payment_save ()
+    {
+        $this->validate([
+            'client_payment_create_name' => 'required',
+            'client_payment_create_email' => 'required',
+            'client_payment_create_brand' => 'required',
+            'client_payment_create_service' => 'required',
+            'client_payment_create_package' => 'required',
+            'client_payment_create_currency' => 'required',
+            'client_payment_create_amount' => 'required',
+            'client_payment_create_payment_type' => 'required',
+            'client_payment_create_merchant' => 'required'
+        ]);
+
+        $latest = Invoice::latest()->first();
+        if (! $latest) {
+            $nextInvoiceNumber = date('Y').'-1';
+        }else{
+            $expNum = explode('-', $latest->invoice_number);
+            $expIncrement = (int)$expNum[1] + 1;
+            $nextInvoiceNumber = $expNum[0].'-'.$expIncrement;
+        }
+        $contact = $this->client_payment_create_contact;
+        if($contact == null){
+            $contact = '#';
+        }
+        $invoice = new Invoice;
+        if($this->client_payment_create_createform != null){
+            $invoice->createform = $this->client_payment_create_createform;
+        }else{
+            $invoice->createform = 1;
+        }
+        $invoice->name = $this->client_payment_create_name;
+        $invoice->email = $this->client_payment_create_email;
+        $invoice->contact = $contact;
+        $invoice->brand = $this->client_payment_create_brand;
+        $invoice->package = $this->client_payment_create_package;
+        $invoice->currency = $this->client_payment_create_currency;
+        $invoice->client_id = $this->client_payment_create_client_id;
+        $invoice->invoice_number = $nextInvoiceNumber;
+        $invoice->sales_agent_id = $this->client_payment_create_sales_agent_id && $this->client_payment_create_sales_agent_id != '' ? $this->client_payment_create_sales_agent_id : Auth()->user()->id;
+        $invoice->discription = $this->client_payment_create_discription;
+        $invoice->amount = $this->client_payment_create_amount;
+        $invoice->payment_status = '1';
+        $invoice->custom_package = $this->client_payment_create_custom_package;
+        $invoice->payment_type = $this->client_payment_create_payment_type;
+        $service = $this->client_payment_create_service;
+        $invoice->service = $service;
+        $invoice->merchant_id = $this->client_payment_create_merchant;
+        $invoice->save();
+        $id = $invoice->id;
+
+        $id = Crypt::encrypt($id);
+        $invoiceId = Crypt::decrypt($id);
+        $_getInvoiceData = Invoice::findOrFail($invoiceId);
+        $_getBrand = Brand::where('id',$_getInvoiceData->brand)->first();
+        $package_name = '';
+        if($_getInvoiceData->package == 0){
+            $package_name = strip_tags($_getInvoiceData->custom_package);
+        }
+        $sendemail = $this->client_payment_create_sendemail;
+        if($sendemail == 1) {
+            // Send Invoice Link To Email
+            $details = [
+                'brand_name' => $_getBrand->name,
+                'brand_logo' => $_getBrand->logo,
+                'brand_phone' => $_getBrand->phone,
+                'brand_email' => $_getBrand->email,
+                'brand_address' => $_getBrand->address,
+                'invoice_number' => $_getInvoiceData->invoice_number,
+                'currency_sign' => $_getInvoiceData->currency_show->sign,
+                'amount' => $_getInvoiceData->amount,
+                'name' => $_getInvoiceData->name,
+                'email' => $_getInvoiceData->email,
+                'contact' => $_getInvoiceData->contact,
+                'date' => $_getInvoiceData->created_at->format('jS M, Y'),
+                'link' => route('client.paynow', $id),
+                'package_name' => $package_name,
+                'discription' => $_getInvoiceData->discription
+            ];
+            try {
+                Mail::to($_getInvoiceData->email)->send(new \App\Mail\InoviceMail($details));
+            } catch (\Exception $e) {
+
+                $mail_error_data = json_encode([
+                    'emails' => [$_getInvoiceData->email],
+                    'body' => [
+                        'brand_name' => $_getBrand->name,
+                        'brand_logo' => $_getBrand->logo,
+                        'brand_phone' => $_getBrand->phone,
+                        'brand_email' => $_getBrand->email,
+                        'brand_address' => $_getBrand->address,
+                        'invoice_number' => $_getInvoiceData->invoice_number,
+                        'currency_sign' => $_getInvoiceData->currency_show->sign,
+                        'amount' => $_getInvoiceData->amount,
+                        'name' => $_getInvoiceData->name,
+                        'email' => $_getInvoiceData->email,
+                        'contact' => $_getInvoiceData->contact,
+                        'date' => $_getInvoiceData->created_at->format('jS M, Y'),
+                        'link' => route('client.paynow', $id),
+                        'package_name' => $package_name,
+                        'discription' => $_getInvoiceData->discription
+                    ],
+                    'error' => $e->getMessage(),
+                ]);
+
+                \Illuminate\Support\Facades\Log::error('MAIL FAILED: ' . $mail_error_data);
+            }
+        }
+
+        $this->emit('success', 'Invoice created successfully.');
+
+        return $this->set_active_page('clients_detail-' . $this->client_payment_create_client_id);
     }
 }

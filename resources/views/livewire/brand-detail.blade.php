@@ -1,4 +1,5 @@
 <div>
+    @include('livewire.loader')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         /*img {*/
@@ -216,7 +217,7 @@
                                 <div class="row">
                                     <div class="col-md-12 form-group mb-3">
                                         <label for="package">Search client</label>
-                                        <input type="text" class="form-control" id="client_name" name="client_name" wire:model="client_name" placeholder="Client information">
+                                        <input type="text" class="form-control" id="client_name" name="client_name" wire:model.debounce.500ms="client_name" placeholder="Client information">
                                     </div>
                                 </div>
                         </div>
@@ -244,7 +245,7 @@
                                                 $create_client_string = 'support_client_create';
                                             }
                                         @endphp
-                                        <a class="btn btn-sm btn-success text-white" href="#" wire:click="set_active_page('{{$create_client_string}}-{{$brand->id}}')">
+                                        <a class="btn btn-sm btn-success text-white" href="javascript:void(0)" wire:click="set_active_page('{{$create_client_string}}-{{$brand->id}}')">
                                         <i class="fas fa-plus"></i>
                                         Create client
                                     </a>
@@ -296,7 +297,7 @@
                                             @if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4 && \Illuminate\Support\Facades\Auth::user()->is_support_head)
                                                 <td>
                                                     <a href="javascript:;"
-                                                       class="btn btn-{{ $client->user == null ? 'primary' : 'success' }} btn-sm auth-create"
+                                                       class="btn btn-{{ $client->user == null ? 'primary auth_create' : 'success auth_update' }} btn-sm"
                                                        data-id="{{ $client->id }}"
                                                        data-auth="{{ $client->user == null ? 0 : 1 }}"
                                                        data-password="{{ $client->user == null ? '' : $client->user->password }}"

@@ -1,4 +1,5 @@
 <div>
+    @include('livewire.loader')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         /*img {*/
@@ -151,9 +152,9 @@
                                                     }
                                                 @endphp
                                                 @if($client->user == null)
-                                                    <a href="javascript:void(0)" class="btn btn-danger btn-sm auth_create" data-route="{{$create_auth_route}}">Create account</a>
+                                                    <a href="javascript:void(0)" class="btn btn-danger btn-sm auth_create" data-id="{{$client->id}}" data-route="{{$create_auth_route}}">Create account</a>
                                                 @else
-                                                    <a href="javascript:void(0)" class="btn btn-success btn-sm auth_create" data-route="{{$update_auth_route}}">Reset password</a>
+                                                    <a href="javascript:void(0)" class="btn btn-success btn-sm auth_update" data-id="{{$client->id}}" data-route="{{$update_auth_route}}">Reset password</a>
                                                 @endif
                                             </div>
                                         </div>
@@ -602,63 +603,61 @@
                 $('#wrapper5').prop('hidden', !($('#wrapper5').prop('hidden')));
             });
 
-            $('.auth_create').on('click', function () {
-                var id = '{{$client->id}}';
-                var pass = generatePassword();
-                var url = $(this).data('route');
+            {{--$('.auth_create').on('click', function () {--}}
+            {{--    var id = '{{$client->id}}';--}}
+            {{--    var pass = generatePassword();--}}
+            {{--    var url = $(this).data('route');--}}
 
-                var el = $(this);
+            {{--    var el = $(this);--}}
 
-                swal({
-                    title: "Enter Password",
-                    input: "text",
-                    showCancelButton: true,
-                    closeOnConfirm: false,
-                    inputPlaceholder: "Enter Password",
-                    inputValue: pass
-                }).then(function (inputValue) {
-                    if (inputValue === false){
-                        return swal({
-                            title:"Field cannot be empty",
-                            text: "Password Not Inserted/Updated because it is Empty",
-                            type:"danger"
-                        })
-                    }
-                    if (inputValue === "") {
-                        return swal({
-                            title:"Field cannot be empty",
-                            text: "Password Not Inserted/Updated because it is Empty",
-                            type:"danger"
-                        })
-                    }
+            {{--    swal({--}}
+            {{--        title: "Enter Password",--}}
+            {{--        input: "text",--}}
+            {{--        showCancelButton: true,--}}
+            {{--        closeOnConfirm: false,--}}
+            {{--        inputPlaceholder: "Enter Password",--}}
+            {{--        inputValue: pass--}}
+            {{--    }).then(function (inputValue) {--}}
+            {{--        if (inputValue === false){--}}
+            {{--            return swal({--}}
+            {{--                title:"Field cannot be empty",--}}
+            {{--                text: "Password Not Inserted/Updated because it is Empty",--}}
+            {{--                type:"danger"--}}
+            {{--            })--}}
+            {{--        }--}}
+            {{--        if (inputValue === "") {--}}
+            {{--            return swal({--}}
+            {{--                title:"Field cannot be empty",--}}
+            {{--                text: "Password Not Inserted/Updated because it is Empty",--}}
+            {{--                type:"danger"--}}
+            {{--            })--}}
+            {{--        }--}}
 
-                    var text = el.text();
-                    el.prop('disabled', !(el.prop('disabled')));
-                    el.text('Please wait.');
+            {{--        var text = el.text();--}}
+            {{--        el.prop('disabled', !(el.prop('disabled')));--}}
+            {{--        el.text('Please wait.');--}}
 
-                    $.ajax({
-                        type:'POST',
-                        url: url,
-                        data: {id: id, pass:inputValue},
-                        success:function(data) {
-                            if(data.success == true){
-                                swal("Auth Created", "Password is : " + inputValue, "success");
+            {{--        $.ajax({--}}
+            {{--            type:'POST',--}}
+            {{--            url: url,--}}
+            {{--            data: {id: id, pass:inputValue},--}}
+            {{--            success:function(data) {--}}
+            {{--                if(data.success == true){--}}
+            {{--                    swal("Auth Created", "Password is : " + inputValue, "success");--}}
 
-                                el.prop('disabled', !(el.prop('disabled')));
-                                el.text(text);
-
-                                window.location.reload();
-                            }else{
-                                return swal({
-                                    title:"Error",
-                                    text: "There is an Error, Please Contact Administrator",
-                                    type:"danger"
-                                })
-                            }
-                        }
-                    });
-                });
-            });
+            {{--                    el.prop('disabled', !(el.prop('disabled')));--}}
+            {{--                    el.text(text);--}}
+            {{--                }else{--}}
+            {{--                    return swal({--}}
+            {{--                        title:"Error",--}}
+            {{--                        text: "There is an Error, Please Contact Administrator",--}}
+            {{--                        type:"danger"--}}
+            {{--                    })--}}
+            {{--                }--}}
+            {{--            }--}}
+            {{--        });--}}
+            {{--    });--}}
+            {{--});--}}
         });
     </script>
 </div>

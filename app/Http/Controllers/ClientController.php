@@ -277,7 +277,7 @@ class ClientController extends Controller
 
     public function managerPaymentLink($id){
         $user = Client::find($id);
-        $brand = Brand::whereIn('id', Auth()->user()->brand_list())->get();;
+        $brand = Brand::whereIn('id', Auth()->user()->brand_list())->get();
         $services = Service::all();
         $currencies =  Currency::all();
         $merchant = Merchant::where('status', 1)->orderBy('id', 'desc')->get();

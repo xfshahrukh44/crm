@@ -311,5 +311,6 @@
         });
     </script>
     @livewireScripts
+    @include('livewire.scripts.listeners')
 </body>
 </html>

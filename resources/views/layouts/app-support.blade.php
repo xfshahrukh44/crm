@@ -290,5 +290,6 @@
         }, 1200000)
     </script>
     @livewireScripts
+    @include('livewire.scripts.listeners')
 </body>
 </html>

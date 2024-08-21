@@ -5,6 +5,7 @@ use App\Models\BookCover;
 use App\Models\BookFormatting;
 use App\Models\Bookprinting;
 use App\Models\BookWriting;
+use App\Models\Brand;
 use App\Models\Client;
 use App\Models\ContentWritingForm;
 use App\Models\CRMNotification;
@@ -15,6 +16,7 @@ use App\Models\NoForm;
 use App\Models\Project;
 use App\Models\Proofreading;
 use App\Models\SeoForm;
+use App\Models\Service;
 use App\Models\SmmForm;
 use App\Models\Task;
 use App\Models\User;
@@ -25,6 +27,7 @@ use Illuminate\Http\Request;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
@@ -1233,4 +1236,218 @@ function get_auth_category_ids () {
     }
 
     return $category_id_array;
+}
+
+function create_client_auth ($data) {
+    try {
+        $invoices = Invoice::where('client_id', $data['id'])->get();
+        $pass = $data['pass'];
+        $id = $data['id'];
+        $client = Client::find($id);
+        $user = new User();
+        $user->name = $client->name;
+        $user->last_name = $client->last_name;
+        $user->email = $client->email;
+        $user->contact = $client->contact;
+        $user->status = 1;
+        $user->password = Hash::make($pass);
+        $user->is_employee = 3;
+        $user->client_id = $id;
+        $user->save();
+        foreach($invoices as $invoice){
+            $service_array = explode(',', $invoice->service);
+            for($i = 0; $i < count($service_array); $i++){
+                $service = Service::find($service_array[$i]);
+                if($service->form == 0){
+                    if($invoice->createform == 1){
+                        $no_form = new NoForm();
+                        $no_form->invoice_id = $invoice->id;
+                        $no_form->user_id = $user->id;
+                        $no_form->agent_id = $invoice->sales_agent_id;
+                        $no_form->save();
+                    }
+                }elseif($service->form == 1){
+                    if($invoice->createform == 1){
+                        // Logo Form
+                        $logo_form = new LogoForm();
+                        $logo_form->invoice_id = $invoice->id;
+                        $logo_form->user_id = $user->id;
+                        $logo_form->agent_id = $invoice->sales_agent_id;
+                        $logo_form->save();
+                    }
+                }elseif($service->form == 2){
+                    if($invoice->createform == 1){
+                        // Website Form
+                        $web_form = new WebForm();
+                        $web_form->invoice_id = $invoice->id;
+                        $web_form->user_id = $user->id;
+                        $web_form->agent_id = $invoice->sales_agent_id;
+                        $web_form->save();
+                    }
+                }elseif($service->form == 3){
+                    if($invoice->createform == 1){
+                        // Smm Form
+                        $smm_form = new SmmForm();
+                        $smm_form->invoice_id = $invoice->id;
+                        $smm_form->user_id = $user->id;
+                        $smm_form->agent_id = $invoice->sales_agent_id;
+                        $smm_form->save();
+                    }
+                }elseif($service->form == 4){
+                    if($invoice->createform == 1){
+                        // Content Writing Form
+                        $content_writing_form = new ContentWritingForm();
+                        $content_writing_form->invoice_id = $invoice->id;
+                        $content_writing_form->user_id = $user->id;
+                        $content_writing_form->agent_id = $invoice->sales_agent_id;
+                        $content_writing_form->save();
+                    }
+                }elseif($service->form == 5){
+                    if($invoice->createform == 1){
+                        // Search Engine Optimization Form
+                        $seo_form = new SeoForm();
+                        $seo_form->invoice_id = $invoice->id;
+                        $seo_form->user_id = $user->id;
+                        $seo_form->agent_id = $invoice->sales_agent_id;
+                        $seo_form->save();
+                    }
+                }elseif($service->form == 6){
+                    if($invoice->createform == 1){
+                        // Book Formatting & Publishing Form
+                        $book_formatting_form = new BookFormatting();
+                        $book_formatting_form->invoice_id = $invoice->id;
+                        $book_formatting_form->user_id = $user->id;
+                        $book_formatting_form->agent_id = $invoice->sales_agent_id;
+                        $book_formatting_form->save();
+                    }
+                }elseif($service->form == 7){
+                    if($invoice->createform == 1){
+                        // Book Writing Form
+                        $book_writing_form = new BookWriting();
+                        $book_writing_form->invoice_id = $invoice->id;
+                        $book_writing_form->user_id = $user->id;
+                        $book_writing_form->agent_id = $invoice->sales_agent_id;
+                        $book_writing_form->save();
+                    }
+                }elseif($service->form == 8){
+                    if($invoice->createform == 1){
+                        // AuthorWebsite Form
+                        $author_website_form = new AuthorWebsite();
+                        $author_website_form->invoice_id = $invoice->id;
+                        $author_website_form->user_id = $user->id;
+                        $author_website_form->agent_id = $invoice->sales_agent_id;
+                        $author_website_form->save();
+                    }
+                }elseif($service->form == 9){
+                    if($invoice->createform == 1){
+                        // Proofreading Form
+                        $proofreading_form = new Proofreading();
+                        $proofreading_form->invoice_id = $invoice->id;
+                        $proofreading_form->user_id = $user->id;
+                        $proofreading_form->agent_id = $invoice->sales_agent_id;
+                        $proofreading_form->save();
+                    }
+                }elseif($service->form == 10){
+                    if($invoice->createform == 1){
+                        // BookCover Form
+                        $bookcover_form = new BookCover();
+                        $bookcover_form->invoice_id = $invoice->id;
+                        $bookcover_form->user_id = $user->id;
+                        $bookcover_form->agent_id = $invoice->sales_agent_id;
+                        $bookcover_form->save();
+                    }
+                }elseif($service->form == 11){
+                    if($invoice->createform == 1){
+                        // BookCover Form
+                        $isbn_form = new Isbnform();
+                        $isbn_form->invoice_id = $invoice->id;
+                        $isbn_form->user_id = $user->id;
+                        $isbn_form->agent_id = $invoice->sales_agent_id;
+                        $isbn_form->save();
+                    }
+                }elseif($service->form == 12){
+                    if($invoice->createform == 1){
+                        // BookCover Form
+                        $bookprinting_form = new Bookprinting();
+                        $bookprinting_form->invoice_id = $invoice->id;
+                        $bookprinting_form->user_id = $user->id;
+                        $bookprinting_form->agent_id = $invoice->sales_agent_id;
+                        $bookprinting_form->save();
+                    }
+                }
+
+
+            }
+        }
+
+        //mail_notification
+        $brand = Brand::find($client->brand_id);
+
+        $html = '<p>'. 'Dear ' . $client->name . ',' .'</p>';
+        $html .= '<p>'. 'Welcome to '.$brand->name.'! We are excited to have you on board.' .'</p>';
+        $html .= '<p>'. 'Your account has been successfully created. Below are your login credentials and some basic instructions to help you get started:' .'</p>';
+        $html .= '<p><ul>'. '<li><strong>*Username: '.$client->email.'</strong></li><li><strong>*Password: '.$pass.'</strong></li>' .'</ul></p>';
+        $html .= '<p>'. 'For your security, please change your password upon your first login. You can access your account here: <a href="'.route('login').'">'.route('login').'</a>' .'</p>';
+        $html .= '<p>'. 'If you have any questions or need further assistance, please do not hesitate to contact our support team.' .'</p>';
+        $html .= '<p>'. 'Welcome aboard!' .'</p>';
+        $html .= '<p>'. 'Best Regards,' .'</p>';
+        $html .= '<p>'. $brand->name .'.</p>';
+
+        mail_notification(
+            '',
+            [$client->email],
+            'Welcome to '.$brand->name.' – Your Account is Ready!',
+            view('mail.crm-mail-template')->with([
+                'subject' => 'Welcome to '.$brand->name.' – Your Account is Ready!',
+                'brand_name' => $brand->name,
+                'brand_logo' => asset($brand->logo),
+                'additional_html' => $html
+            ]),
+//            true
+        );
+
+        return true;
+    } catch (\Exception $e) {
+        return response()->json(['success' => false , 'message' => $e->getMessage()]);
+    }
+}
+
+function create_update_auth ($data) {
+    try {
+        $id = $data['id'];
+        $pass = $data['pass'];
+        $user = User::where('client_id', $id)->first();
+        $user->password = Hash::make($pass);
+        $user->save();
+
+        $client = Client::find($id);
+
+        //mail_notification
+        $brand = Brand::find($client->brand_id);
+
+        $html = '<p>'. 'Dear ' . $client->name . ',' .'</p>';
+        $html .= '<p>'. 'Your account credentials have been reset. Below are your login credentials:' .'</p>';
+        $html .= '<p><ul>'. '<li><strong>*Username: '.$client->email.'</strong></li><li><strong>*Password: '.$pass.'</strong></li>' .'</ul></p>';
+        $html .= '<p>'. 'You can access your account here: <a href="'.route('login').'">'.route('login').'</a>' .'</p>';
+        $html .= '<p>'. 'If you have any questions or need further assistance, please do not hesitate to contact our support team.' .'</p>';
+        $html .= '<p>'. 'Best Regards,' .'</p>';
+        $html .= '<p>'. $brand->name .'.</p>';
+
+        mail_notification(
+            '',
+            [$client->email],
+            'CRM | Password reset',
+            view('mail.crm-mail-template')->with([
+                'subject' => 'CRM | Password reset',
+                'brand_name' => $brand->name,
+                'brand_logo' => asset($brand->logo),
+                'additional_html' => $html
+            ]),
+//            true
+        );
+
+        return true;
+    } catch (\Exception $e) {
+        return false;
+    }
 }

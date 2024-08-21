@@ -1,4 +1,5 @@
 <div>
+    @include('livewire.loader')
     <style>
         img {
             height: 50px;
@@ -33,7 +34,7 @@
                     <div class="row">
                         <div class="col-md-12 form-group mb-3">
                             <label for="package">Search brand</label>
-                            <input type="text" class="form-control" id="brand_name" name="brand_name" wire:model.live="brand_name" placeholder="Brand information">
+                            <input type="text" class="form-control" id="brand_name" name="brand_name" wire:model.debounce.500ms="brand_name" placeholder="Brand information">
                         </div>
                     </div>
                 </div>
