@@ -80,7 +80,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $datas->name }}<br>{{ $datas->email }}</td>
-                                <td>{{ $datas->sale->name }} {{ $datas->sale->last_name }}</td>
+                                <td>{{ $datas->sale->name ?? '' }} {{ $datas->sale->last_name ?? '' }}</td>
                                 <td><span class="btn btn-primary btn-sm">{{ $datas->brands->name }}</span></td>
                                 <td>
                                     @php
