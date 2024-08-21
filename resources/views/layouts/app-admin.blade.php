@@ -34,6 +34,7 @@
     <link href="{{ asset('newglobal/css/select2.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('newglobal/css/sweetalert2.min.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @stack('styles')
     <style>
         .select2-container .select2-selection--single{
@@ -56,6 +57,7 @@
             line-height: 2.5;
         }
     </style>
+    @livewireStyles
 </head>
 
 <body class="text-left">
@@ -94,6 +96,14 @@
     <script src="{{ asset('newglobal/js/Chart.min.js') }}"></script>
     <script src="{{ asset('newglobal/js/sweetalert2.min.js') }}"></script>
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+    <script>
+        @if(session()->has('success'))
+        toastr.success("{{session()->get('success')}}");
+        @endif
+        @if(session()->has('error'))
+        toastr.error("{{session()->get('error')}}");
+        @endif
+    </script>
     <script>
         $( function() {
             $.widget( "custom.catcomplete", $.ui.autocomplete, {
@@ -247,5 +257,6 @@
             });
         }, 1200000)
     </script>
+    @livewireScripts
 </body>
 </html>

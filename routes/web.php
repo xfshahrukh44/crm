@@ -4,6 +4,8 @@ use App\Http\Controllers\Manager\ManagerUserController;
 use App\Http\Controllers\QAController;
 use App\Http\Controllers\SupportClientController;
 use App\Http\Controllers\SupportInvoiceController;
+use App\Http\Livewire\BrandDashboard;
+use App\Http\Livewire\BrandDetail;
 use App\Models\Invoice;
 use App\Models\User;
 use Carbon\Carbon;
@@ -437,6 +439,12 @@ Route::get('brands-dashboard', [GeneralBrandController::class, 'brands_dashboard
 Route::get('brands-detail/{id}', [GeneralBrandController::class, 'brands_detail'])->name('brands.detail');
 Route::get('clients-detail/{id}', [GeneralBrandController::class, 'clients_detail'])->name('clients.detail');
 Route::get('service-detail/{id}', [GeneralBrandController::class, 'projects_detail'])->name('projects.detail');
+
+//brands dashboard v2
+Route::get('v3/brands-dashboard', BrandDashboard::class)->name('brands.dashboard.v3');
+Route::get('v3/brands-detail/{id}', BrandDetail::class)->name('brands.detail.v3');
+Route::get('v3/clients-detail/{id}', [GeneralBrandController::class, 'clients_detail'])->name('clients.detail.v3');
+Route::get('v3/service-detail/{id}', [GeneralBrandController::class, 'projects_detail'])->name('projects.detail.v3');
 
 Route::get('get-invoices', [GeneralBrandController::class, 'get_invoices'])->middleware('auth')->name('get-invoices');
 Route::get('get-support-agents', [GeneralBrandController::class, 'get_support_agents'])->middleware('auth')->name('get-support-agents');

@@ -254,7 +254,12 @@ function no_pending_tasks_left ($project_id) {
     return ($project->tasks()->count() == 0) || array_unique($project->tasks()->pluck('status')->toArray()) === [3];
 }
 
-function get_brief_client_user_ids (Request $request = null) {
+function get_brief_client_user_ids (Request $request = null, $brand_id = null) {
+    if (is_null($brand_id)) {
+        if ($request && $request->has('brand_id')) {
+            $brand_id = $request->get('brand_id');
+        }
+    }
     $client_user_ids = [];
 
     $res = LogoForm::where('logo_name', '')
@@ -264,9 +269,9 @@ function get_brief_client_user_ids (Request $request = null) {
             });
         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
-        ->when($request && $request->has('brand_id'), function ($q) use ($request) {
-            return $q->whereHas('invoice', function ($q) use ($request) {
-                return $q->where('brand', $request->get('brand_id'));
+        ->when($brand_id, function ($q) use ($brand_id) {
+            return $q->whereHas('invoice', function ($q) use ($brand_id) {
+                return $q->where('brand', $brand_id);
             });
         })
         ->groupBy('user_id')->pluck('user_id')->toArray();
@@ -279,9 +284,9 @@ function get_brief_client_user_ids (Request $request = null) {
             });
         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
-        ->when($request && $request->has('brand_id'), function ($q) use ($request) {
-            return $q->whereHas('invoice', function ($q) use ($request) {
-                return $q->where('brand', $request->get('brand_id'));
+        ->when($brand_id, function ($q) use ($brand_id) {
+            return $q->whereHas('invoice', function ($q) use ($brand_id) {
+                return $q->where('brand', $brand_id);
             });
         })
         ->groupBy('user_id')->pluck('user_id')->toArray();
@@ -294,9 +299,9 @@ function get_brief_client_user_ids (Request $request = null) {
             });
         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
-        ->when($request && $request->has('brand_id'), function ($q) use ($request) {
-            return $q->whereHas('invoice', function ($q) use ($request) {
-                return $q->where('brand', $request->get('brand_id'));
+        ->when($brand_id, function ($q) use ($brand_id) {
+            return $q->whereHas('invoice', function ($q) use ($brand_id) {
+                return $q->where('brand', $brand_id);
             });
         })
         ->groupBy('user_id')->pluck('user_id')->toArray();
@@ -309,9 +314,9 @@ function get_brief_client_user_ids (Request $request = null) {
             });
         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
-        ->when($request && $request->has('brand_id'), function ($q) use ($request) {
-            return $q->whereHas('invoice', function ($q) use ($request) {
-                return $q->where('brand', $request->get('brand_id'));
+        ->when($brand_id, function ($q) use ($brand_id) {
+            return $q->whereHas('invoice', function ($q) use ($brand_id) {
+                return $q->where('brand', $brand_id);
             });
         })
         ->groupBy('user_id')->pluck('user_id')->toArray();
@@ -324,9 +329,9 @@ function get_brief_client_user_ids (Request $request = null) {
             });
         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
-        ->when($request && $request->has('brand_id'), function ($q) use ($request) {
-            return $q->whereHas('invoice', function ($q) use ($request) {
-                return $q->where('brand', $request->get('brand_id'));
+        ->when($brand_id, function ($q) use ($brand_id) {
+            return $q->whereHas('invoice', function ($q) use ($brand_id) {
+                return $q->where('brand', $brand_id);
             });
         })
         ->groupBy('user_id')->pluck('user_id')->toArray();
@@ -339,9 +344,9 @@ function get_brief_client_user_ids (Request $request = null) {
             });
         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
-        ->when($request && $request->has('brand_id'), function ($q) use ($request) {
-            return $q->whereHas('invoice', function ($q) use ($request) {
-                return $q->where('brand', $request->get('brand_id'));
+        ->when($brand_id, function ($q) use ($brand_id) {
+            return $q->whereHas('invoice', function ($q) use ($brand_id) {
+                return $q->where('brand', $brand_id);
             });
         })
         ->groupBy('user_id')->pluck('user_id')->toArray();
@@ -354,9 +359,9 @@ function get_brief_client_user_ids (Request $request = null) {
             });
         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
-        ->when($request && $request->has('brand_id'), function ($q) use ($request) {
-            return $q->whereHas('invoice', function ($q) use ($request) {
-                return $q->where('brand', $request->get('brand_id'));
+        ->when($brand_id, function ($q) use ($brand_id) {
+            return $q->whereHas('invoice', function ($q) use ($brand_id) {
+                return $q->where('brand', $brand_id);
             });
         })
         ->groupBy('user_id')->pluck('user_id')->toArray();
@@ -369,9 +374,9 @@ function get_brief_client_user_ids (Request $request = null) {
             });
         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
-        ->when($request && $request->has('brand_id'), function ($q) use ($request) {
-            return $q->whereHas('invoice', function ($q) use ($request) {
-                return $q->where('brand', $request->get('brand_id'));
+        ->when($brand_id, function ($q) use ($brand_id) {
+            return $q->whereHas('invoice', function ($q) use ($brand_id) {
+                return $q->where('brand', $brand_id);
             });
         })
         ->groupBy('user_id')->pluck('user_id')->toArray();
@@ -380,9 +385,9 @@ function get_brief_client_user_ids (Request $request = null) {
     $res = NoForm::whereHas('invoice', function ($query) {
         return $query->whereIn('brand', Auth::user()->brand_list());
     })->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
-        ->when($request && $request->has('brand_id'), function ($q) use ($request) {
-            return $q->whereHas('invoice', function ($q) use ($request) {
-                return $q->where('brand', $request->get('brand_id'));
+        ->when($brand_id, function ($q) use ($brand_id) {
+            return $q->whereHas('invoice', function ($q) use ($brand_id) {
+                return $q->where('brand', $brand_id);
             });
         })
     ->groupBy('user_id')->pluck('user_id')->toArray();
@@ -395,9 +400,9 @@ function get_brief_client_user_ids (Request $request = null) {
             });
         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
-        ->when($request && $request->has('brand_id'), function ($q) use ($request) {
-            return $q->whereHas('invoice', function ($q) use ($request) {
-                return $q->where('brand', $request->get('brand_id'));
+        ->when($brand_id, function ($q) use ($brand_id) {
+            return $q->whereHas('invoice', function ($q) use ($brand_id) {
+                return $q->where('brand', $brand_id);
             });
         })
         ->groupBy('user_id')->pluck('user_id')->toArray();
@@ -410,9 +415,9 @@ function get_brief_client_user_ids (Request $request = null) {
             });
         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
-        ->when($request && $request->has('brand_id'), function ($q) use ($request) {
-            return $q->whereHas('invoice', function ($q) use ($request) {
-                return $q->where('brand', $request->get('brand_id'));
+        ->when($brand_id, function ($q) use ($brand_id) {
+            return $q->whereHas('invoice', function ($q) use ($brand_id) {
+                return $q->where('brand', $brand_id);
             });
         })
         ->groupBy('user_id')->pluck('user_id')->toArray();
@@ -425,9 +430,9 @@ function get_brief_client_user_ids (Request $request = null) {
             });
         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
-        ->when($request && $request->has('brand_id'), function ($q) use ($request) {
-            return $q->whereHas('invoice', function ($q) use ($request) {
-                return $q->where('brand', $request->get('brand_id'));
+        ->when($brand_id, function ($q) use ($brand_id) {
+            return $q->whereHas('invoice', function ($q) use ($brand_id) {
+                return $q->where('brand', $brand_id);
             });
         })
         ->groupBy('user_id')->pluck('user_id')->toArray();
@@ -440,9 +445,9 @@ function get_brief_client_user_ids (Request $request = null) {
             });
         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
-        ->when($request && $request->has('brand_id'), function ($q) use ($request) {
-            return $q->whereHas('invoice', function ($q) use ($request) {
-                return $q->where('brand', $request->get('brand_id'));
+        ->when($brand_id, function ($q) use ($brand_id) {
+            return $q->whereHas('invoice', function ($q) use ($brand_id) {
+                return $q->where('brand', $brand_id);
             });
         })
         ->groupBy('user_id')->pluck('user_id')->toArray();
