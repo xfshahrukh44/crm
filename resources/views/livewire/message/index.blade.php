@@ -167,13 +167,16 @@
 
             <div class="col-md-12">
                 <div class="left-message-box">
-                    <form class="form" action="{{ route('support.message.send') }}" enctype="multipart/form-data" method="post" id="message-post">
+                    <form class="form" wire:submit.prevent="message_client_send" enctype="multipart/form-data"   id="message-post">
                         @csrf
                         <input type="hidden" name="client_id" value="{{ $user->id }}">
                         <div class="form-body">
                             <div class="form-group mb-0">
                                 <h1>Write A Message <span id="close-message-left"><i class="nav-icon i-Close-Window"></i></span></h1>
-                                <textarea wire:model="message_client_message" id="message" rows="8" class="form-control border-primary" name="message" placeholder="Write a Message">{{old('message')}}</textarea>
+                                <textarea wire:model="message_client_message" id="message" rows="8" class="form-control border-primary" name="message" placeholder="Write a Message">
+
+                                </textarea>
+                                @error('message_client_message') <span class="error text-danger">{{ $message }}</span> @enderror
                                 <div class="input-field">
                                     <div class="input-images" style="padding-top: .5rem;"></div>
                                 </div>
@@ -206,11 +209,12 @@
                     <h5 class="modal-title" id="exampleModalCenterTitle-2">Edit Message</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
-                <form action="{{ route('support.message.update') }}" method="post">
+                <form action="{{ route('support.message.update') }}" wire:submit.prevent="message_client_edit" method="post">
                     @csrf
                     <input type="hidden" name="message_id" id="message_id">
                     <div class="modal-body">
                         <textarea wire:model="message_client_edit_message" name="editmessage" id="editmessage" cols="30" rows="10" class="form-control"></textarea>
+                        @error('message_client_edit_message') <span class="error text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>

@@ -630,7 +630,7 @@ class SupportController extends Controller
         }
 
 
-        return redirect()->back()->with('success', 'Message Send Successfully.')->with('data', 'message');;
+        return redirect()->back()->with('success', 'Message Send Successfully.')->with('data', 'message');
     }
 
     public function sendMessageClient(Request $request){

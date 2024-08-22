@@ -30,19 +30,60 @@
         Livewire.on('emit_init_tiny_mce', function (data) {
             initTinyMCE(data['selector']);
 
-            $(data['selector']).on('change', function () {
-                // alert($(this).data('wire'));
-                Livewire.emit('set_tiny_mce_field_value', {
-                    name: data['name'],
-                    value: $(this).val()
-                });
-            })
+            // $(data['selector']).on('keyup', function () {
+            //     Livewire.emit('set_tiny_mce_field_value', {
+            //         name: data['name'],
+            //         value: $(this).val()
+            //     });
+            // })
+
+            // setTimeout(() => {
+            //     $('#message_ifr').on('change', function () {
+            //         alert();
+            //     });
+            // }, 4000);
         });
 
         let img_uploader_init = false;
         Livewire.on('emit_init_image_uploader', function (selector) {
             if (!img_uploader_init) {
                 $(selector).imageUploader();
+                $('input[name="images[]"]').attr('wire:model', 'message_client_files');
+
+                $('input[name="images[]"]').on('change', function () {
+                    var fileData = [];
+
+                    $('input[name="images[]"]').each(function () {
+                        if (this.files.length > 0) {
+                            for (var i = 0; i < this.files.length; i++) {
+                                var file = this.files[i];
+                                var reader = new FileReader();
+
+                                // Closure to capture the file information
+                                reader.onload = (function(file) {
+                                    return function(e) {
+                                        fileData.push({
+                                            name: file.name,
+                                            size: file.size,
+                                            type: file.type,
+                                            binaryData: e.target.result // Base64 encoded binary data
+                                        });
+
+                                        // Emit the file data to Livewire
+                                        Livewire.emit('mutate', {
+                                            name: 'message_client_files',
+                                            value: fileData,
+                                        });
+                                    };
+                                })(file);
+
+                                // Read the file as a data URL (base64 encoded string)
+                                reader.readAsDataURL(file);
+                            }
+                        }
+                    });
+                });
+
                 img_uploader_init = true;
             }
         });
@@ -78,6 +119,114 @@
             ],
             ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
         });
+    }
+
+    let assign_pending_id = '';
+    let assign_pending_form = '';
+    let assign_pending_agent_id = '';
+    function assignAgentToPending(id, form, brand_id){
+        $('#agent-name-wrapper-2').html('');
+        var url = "{{ route('get-support-agents', ['brand_id' => 'temp']) }}";
+        url = url.replace('temp', brand_id);
+        $.ajax({
+            type:'GET',
+            url: url,
+            success:function(data) {
+                var getData = data.data;
+                $('#agent-name-wrapper-2').append('<option value="" selected>Select agent</option>');
+                for (var i = 0; i < getData.length; i++) {
+                    $('#agent-name-wrapper-2').append('<option value="'+getData[i].id+'">'+getData[i].name+ ' ' +getData[i].last_name+'</option>');
+                }
+
+                $('#agent-name-wrapper-2').select2();
+            }
+        });
+
+        assign_pending_id = id;
+        assign_pending_form = form;
+
+        $('#agent-name-wrapper-2').on('change', function () {
+            if ($(this).val() != '') {
+                assign_pending_agent_id = $(this).val();
+            }
+        });
+
+        $('#btn_assignPendingModel').on('click', function () {
+            if (assign_pending_id ==  '') {
+                return false;
+            }
+
+            Livewire.emit('mutate', {
+                name: 'assign_pending_agent_id',
+                value: assign_pending_agent_id,
+            });
+            Livewire.emit('mutate', {
+                name: 'assign_pending_id',
+                value: assign_pending_id,
+            });
+            Livewire.emit('mutate', {
+                name: 'assign_pending_form',
+                value: assign_pending_form,
+            });
+
+            $('#assignPendingModel').modal('hide');
+            Livewire.emit('assign_pending');
+        });
+
+        $('#assignPendingModel').find('#pending_assign_id').val(id);
+        $('#assignPendingModel').find('#pending_form_id').val(form);
+        $('#assignPendingModel').modal('show');
+    }
+
+    let reassign_pending_project_id = '';
+    let reassign_pending_agent_id = '';
+    function assignAgent(id, form, brand_id){
+        $('#agent-name-wrapper').html('');
+        var url = "{{ route('get-support-agents', ['brand_id' => 'temp']) }}";
+        url = url.replace('temp', brand_id);
+        $.ajax({
+            type:'GET',
+            url: url,
+            success:function(data) {
+                var getData = data.data;
+                $('#agent-name-wrapper').append('<option value="" selected>Select agent</option>');
+                for (var i = 0; i < getData.length; i++) {
+                    $('#agent-name-wrapper').append('<option value="'+getData[i].id+'">'+getData[i].name+ ' ' +getData[i].last_name+'</option>');
+                }
+
+                $('#agent-name-wrapper').select2();
+            }
+        });
+
+        reassign_pending_project_id = id;
+
+        $('#agent-name-wrapper').on('change', function () {
+            if ($(this).val() != '') {
+                reassign_pending_agent_id = $(this).val();
+            }
+        });
+
+        $('#btn_assignModel').on('click', function () {
+            if (reassign_pending_agent_id ==  '') {
+                return false;
+            }
+
+            Livewire.emit('mutate', {
+                name: 'reassign_pending_project_id',
+                value: reassign_pending_project_id,
+            });
+            Livewire.emit('mutate', {
+                name: 'reassign_pending_agent_id',
+                value: reassign_pending_agent_id,
+            });
+
+            $('#assignModel').modal('hide');
+            Livewire.emit('reassign_pending');
+        });
+
+        $('#assignModel').find('#assign_id').val(id);
+        $('#assignModel').find('#form_id').val(form);
+        $('#assignModel').modal('show');
     }
 
     $('body').on('click', '.auth_create', function () {
@@ -159,24 +308,33 @@
     }
 
     function UpdateAttachmentsDisplayList() {
-
         var inputs = document.getElementsByTagName('input');
-        var txt='';
+        var fileData = [];
 
-        for(var i = 0; i < inputs.length; i++) {
-            if(inputs[i].type.toLowerCase() == 'file') {
-                if(inputs[i].value.length > 0)
-                {
-                    var x = inputs[i];
-                    txt += "<div class='item-attachments-wrapper'><strong>" + inputs[i].value + "</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='javascript:Clicked_h_hrefRemoveFileUploadControl(" + x.id + ");'>Delete</a></div>";
-                    document.getElementById(inputs[i].id).style.visibility = "hidden";
-                    document.getElementById(inputs[i].id).style.height = "0";
-                    document.getElementById(inputs[i].id).style.width = "0";
-                }else{
-                    document.getElementById(inputs[i].id).style.visibility = "visible";
-                }
+        for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].type.toLowerCase() == 'file' && inputs[i].value.length > 0) {
+                fileData.push({
+                    id: inputs[i].id,
+                    value: inputs[i].value
+                });
+
+                var x = inputs[i];
+                var txt = "<div class='item-attachments-wrapper'><strong>" + inputs[i].value + "</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='javascript:Clicked_h_hrefRemoveFileUploadControl(" + x.id + ");'>Delete</a></div>";
+                document.getElementById(inputs[i].id).style.visibility = "hidden";
+                document.getElementById(inputs[i].id).style.height = "0";
+                document.getElementById(inputs[i].id).style.width = "0";
+            } else {
+                document.getElementById(inputs[i].id).style.visibility = "visible";
             }
-            document.getElementById("h_ItemAttachments").innerHTML = txt;
         }
+
+        document.getElementById("h_ItemAttachments").innerHTML = txt;
+
+        // Emit file data to Livewire
+        console.log(fileData)
+        Livewire.emit('mutate', {
+            name: 'message_client_files',
+            value: fileData,
+        });
     }
 </script>

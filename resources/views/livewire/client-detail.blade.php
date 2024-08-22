@@ -91,11 +91,16 @@
                                 @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [6, 4]))
                                     @php
                                         $client_user = \App\Models\User::where('client_id', $client->id)->first();
+                                        if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
+                                            $message_url = 'manager.message.show';
+                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4) {
+                                            $message_url = 'support.message.show.id';
+                                        }
                                     @endphp
                                     @if($client_user)
                                         <div class="col">
                                             <p style="font-size: medium;">
-                                                <a wire:click="set_active_page('client_message_show-{{$client_user->id}}')" href="javascript:void(0)">
+                                                <a target="_blank" href="{{route($message_url, ['id' => $client_user->id ,'name' => $client->name])}}">
                                                     <i class="i-Speach-Bubble-3 text-warning"></i>
                                                     <br />
                                                     Message
@@ -267,17 +272,13 @@
                                                         <tbody>
                                                         @foreach($pending_projects as $pending_project)
                                                             @php
-                                                                $pending_project_detail_route = '';
-                                                                $assign_pending_project_route = '';
+                                                                $pending_project_detail_url = '';
                                                                 if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
-                                                                    $pending_project_detail_route = 'admin.pending.project.details';
-                                                                    $assign_pending_project_route = 'admin.assign.support';
+                                                                    $pending_project_detail_url = 'admin.pending.project.details';
                                                                 } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
-                                                                    $pending_project_detail_route = 'manager.pending.project.details';
-                                                                    $assign_pending_project_route = 'admin.assign.support';
+                                                                    $pending_project_detail_url = 'manager.pending.project.details';
                                                                 } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4 && \Illuminate\Support\Facades\Auth::user()->is_support_head) {
-                                                                    $pending_project_detail_route = 'support.pending.project.details';
-                                                                    $assign_pending_project_route = 'admin.assign.support';
+                                                                    $pending_project_detail_url = 'support.pending.project.details';
                                                                 }
                                                             @endphp
                                                             <tr>
@@ -287,7 +288,7 @@
                                                                         <span class="ul-badge__icon"><i class="i-Checked-User"></i></span>
                                                                         <span class="ul-badge__text">Assign</span>
                                                                     </a>
-                                                                    <a href="{{ route($pending_project_detail_route, ['id' => $pending_project['id'], 'form' => $pending_project['form_number']]) }}" class="badge badge-info badge-icon badge-sm">
+                                                                    <a target="_blank" href="{{ route($pending_project_detail_url, ['id' => $pending_project['id'], 'form' => $pending_project['form_number']]) }}" class="badge badge-info badge-icon badge-sm">
                                                                         <span class="ul-badge__icon"><i class="i-Eye-Visible"></i></span>
                                                                         <span class="ul-badge__text">View</span>
                                                                     </a>
@@ -347,7 +348,7 @@
                                                                 <span class="badge badge-sm badge-dark">#{{ $project->id }}</span>
                                                             </td>
                                                             <td style="vertical-align: middle;">
-                                                                <a href="{{route('projects.detail', $project->id)}}" class="anchor_project_name">
+                                                                <a wire:click="set_active_page('projects_detail-{{$project->id}}')" href="javascript:void(0)" class="anchor_project_name">
                                                                     {{str_replace($client->name, '', str_replace(' - ', '', $project->name))}}
                                                                 </a>
                                                             </td>
@@ -376,24 +377,19 @@
 
                                                             @if(in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [4, 6]))
                                                                 <td style="vertical-align: middle;">
-                                                                    {{--                                                                            <a href="{{ route('support.message.show.id', ['id' => $project->client->id ,'name' => $project->client->name]) }}" class="badge badge-warning badge-sm">--}}
-                                                                    {{--                                                                                Message--}}
-                                                                    {{--                                                                            </a>--}}
-                                                                    {{--                                                                            <br>--}}
-
                                                                     <a href="javascript:;" class="badge badge-primary btn-icon btn-sm" onclick="assignAgent({{$project->id}}, {{$project->form_checker}}, {{$project->brand_id}})">
                                                                         <span class="ul-btn__icon"><i class="i-Checked-User"></i></span>
                                                                         <span class="ul-btn__text">Re Assign</span>
                                                                     </a>
                                                                     <br>
                                                                     @if($project->form_checker != 0)
-                                                                        <a href="{{ route('support.form', [ 'form_id' => $project->form_id , 'check' => $project->form_checker, 'id' => $project->id]) }}" class="badge badge-info badge-icon badge-sm">
+                                                                        <a target="_blank" href="{{ route('support.form', [ 'form_id' => $project->form_id , 'check' => $project->form_checker, 'id' => $project->id]) }}" class="badge badge-info badge-icon badge-sm">
                                                                             <i class="i-Receipt-4 mr-1"></i>
                                                                             View Form
                                                                         </a>
                                                                     @endif
                                                                     <br>
-                                                                    <a href="{{ route('create.task.by.project.id', ['id' => $project->id, 'name' => preg_replace('/[^A-Za-z0-9\-]/', '', strtolower(str_replace(' ', '-', $project->name))) ]) }}" class="badge badge-success badge-icon badge-sm">
+                                                                    <a target="_blank" href="{{ route('create.task.by.project.id', ['id' => $project->id, 'name' => preg_replace('/[^A-Za-z0-9\-]/', '', strtolower(str_replace(' ', '-', $project->name))) ]) }}" class="badge badge-success badge-icon badge-sm">
                                                                         <i class="fas fa-plus"></i>
                                                                         Create Task
                                                                     </a>
@@ -425,23 +421,20 @@
                     <h5 class="modal-title" id="exampleModalCenterTitle-2">Assign Agent</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
-                <form action="{{ route('support.reassign.support') }}" method="post">
-                    @csrf
-                    <div class="modal-body">
-                        <input type="hidden" name="id" id="assign_id">
-                        <input type="hidden" name="form" id="form_id">
-                        <div class="form-group">
-                            <label class="col-form-label" for="agent-name-wrapper">Name:</label>
-                            <select name="agent_id" id="agent-name-wrapper" class="form-control">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="assign_id">
+                    <input type="hidden" name="form" id="form_id">
+                    <div class="form-group">
+                        <label class="col-form-label" for="agent-name-wrapper">Name:</label>
+                        <select name="agent_id" id="agent-name-wrapper" class="form-control">
 
-                            </select>
-                        </div>
+                        </select>
                     </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                        <button class="btn btn-primary ml-2" type="submit">Save changes</button>
-                    </div>
-                </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+                    <button class="btn btn-primary ml-2" id="btn_assignModel" type="submit">Save changes</button>
+                </div>
             </div>
         </div>
     </div>
@@ -454,23 +447,18 @@
                     <h5 class="modal-title" id="exampleModalCenterTitle-2">Assign Agent</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
-                <form action="{{ route('assign-pending-project-to-agent') }}" method="post">
-                    @csrf
                     <div class="modal-body">
-                        <input type="hidden" name="id" id="pending_assign_id">
-                        <input type="hidden" name="form" id="pending_form_id">
                         <div class="form-group">
                             <label class="col-form-label" for="agent-name-wrapper">Name:</label>
-                            <select name="agent_id" id="agent-name-wrapper-2" class="form-control">
+                            <select name="agent_id" id="agent-name-wrapper-2" class="form-control" wire:model="assign_pending_agent_id">
 
                             </select>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                        <button class="btn btn-primary ml-2" type="submit">Save changes</button>
+                        <button class="btn btn-primary ml-2" id="btn_assignPendingModel" type="submit">Save changes</button>
                     </div>
-                </form>
             </div>
         </div>
     </div>
@@ -481,49 +469,6 @@
         });
     </script>
     <script>
-        function assignAgentToPending(id, form, brand_id){
-            $('#agent-name-wrapper-2').html('');
-            var url = "{{ route('get-support-agents', ['brand_id' => 'temp']) }}";
-            url = url.replace('temp', brand_id);
-            $.ajax({
-                type:'GET',
-                url: url,
-                success:function(data) {
-                    var getData = data.data;
-                    for (var i = 0; i < getData.length; i++) {
-                        $('#agent-name-wrapper-2').append('<option value="'+getData[i].id+'">'+getData[i].name+ ' ' +getData[i].last_name+'</option>');
-                    }
-
-                    $('#agent-name-wrapper-2').select2();
-                }
-            });
-
-            $('#assignPendingModel').find('#pending_assign_id').val(id);
-            $('#assignPendingModel').find('#pending_form_id').val(form);
-            $('#assignPendingModel').modal('show');
-        }
-
-        function assignAgent(id, form, brand_id){
-            $('#agent-name-wrapper').html('');
-            var url = "{{ route('get-support-agents', ['brand_id' => 'temp']) }}";
-            url = url.replace('temp', brand_id);
-            $.ajax({
-                type:'GET',
-                url: url,
-                success:function(data) {
-                    var getData = data.data;
-                    for (var i = 0; i < getData.length; i++) {
-                        $('#agent-name-wrapper').append('<option value="'+getData[i].id+'">'+getData[i].name+ ' ' +getData[i].last_name+'</option>');
-                    }
-
-                    $('#agent-name-wrapper').select2();
-                }
-            });
-            $('#assignModel').find('#assign_id').val(id);
-            $('#assignModel').find('#form_id').val(form);
-            $('#assignModel').modal('show');
-        }
-
         $(document).ready(function(){
             function generatePassword() {
                 var length = 16,
@@ -554,62 +499,6 @@
             $('#header5').on('click', () => {
                 $('#wrapper5').prop('hidden', !($('#wrapper5').prop('hidden')));
             });
-
-            {{--$('.auth_create').on('click', function () {--}}
-            {{--    var id = '{{$client->id}}';--}}
-            {{--    var pass = generatePassword();--}}
-            {{--    var url = $(this).data('route');--}}
-
-            {{--    var el = $(this);--}}
-
-            {{--    swal({--}}
-            {{--        title: "Enter Password",--}}
-            {{--        input: "text",--}}
-            {{--        showCancelButton: true,--}}
-            {{--        closeOnConfirm: false,--}}
-            {{--        inputPlaceholder: "Enter Password",--}}
-            {{--        inputValue: pass--}}
-            {{--    }).then(function (inputValue) {--}}
-            {{--        if (inputValue === false){--}}
-            {{--            return swal({--}}
-            {{--                title:"Field cannot be empty",--}}
-            {{--                text: "Password Not Inserted/Updated because it is Empty",--}}
-            {{--                type:"danger"--}}
-            {{--            })--}}
-            {{--        }--}}
-            {{--        if (inputValue === "") {--}}
-            {{--            return swal({--}}
-            {{--                title:"Field cannot be empty",--}}
-            {{--                text: "Password Not Inserted/Updated because it is Empty",--}}
-            {{--                type:"danger"--}}
-            {{--            })--}}
-            {{--        }--}}
-
-            {{--        var text = el.text();--}}
-            {{--        el.prop('disabled', !(el.prop('disabled')));--}}
-            {{--        el.text('Please wait.');--}}
-
-            {{--        $.ajax({--}}
-            {{--            type:'POST',--}}
-            {{--            url: url,--}}
-            {{--            data: {id: id, pass:inputValue},--}}
-            {{--            success:function(data) {--}}
-            {{--                if(data.success == true){--}}
-            {{--                    swal("Auth Created", "Password is : " + inputValue, "success");--}}
-
-            {{--                    el.prop('disabled', !(el.prop('disabled')));--}}
-            {{--                    el.text(text);--}}
-            {{--                }else{--}}
-            {{--                    return swal({--}}
-            {{--                        title:"Error",--}}
-            {{--                        text: "There is an Error, Please Contact Administrator",--}}
-            {{--                        type:"danger"--}}
-            {{--                    })--}}
-            {{--                }--}}
-            {{--            }--}}
-            {{--        });--}}
-            {{--    });--}}
-            {{--});--}}
         });
     </script>
 </div>
