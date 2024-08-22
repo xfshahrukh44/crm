@@ -254,7 +254,9 @@
             });
         }, 1200000)
     </script>
-    @livewireScripts
-    @include('livewire.scripts.listeners')
+    @if(\Illuminate\Support\Facades\Route::is('brands.dashboard.v3'))
+        @livewireScripts
+        @include('livewire.scripts.listeners')
+    @endif
 </body>
 </html>

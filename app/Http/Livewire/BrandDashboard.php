@@ -2,14 +2,31 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\AuthorWebsite;
+use App\Models\BookCover;
+use App\Models\BookFormatting;
+use App\Models\Bookprinting;
+use App\Models\BookWriting;
 use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Client;
+use App\Models\ContentWritingForm;
 use App\Models\Currency;
 use App\Models\Invoice;
+use App\Models\Isbnform;
+use App\Models\LogoForm;
 use App\Models\Merchant;
+use App\Models\Message;
+use App\Models\NoForm;
 use App\Models\Project;
+use App\Models\Proofreading;
+use App\Models\SeoForm;
 use App\Models\Service;
+use App\Models\SmmForm;
+use App\Models\Task;
 use App\Models\User;
+use App\Models\WebForm;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
@@ -30,6 +47,7 @@ class BrandDashboard extends Component
         'client_auth_create' => 'client_auth_create',
         'client_auth_update' => 'client_auth_update',
         'set_select2_field_value' => 'set_select2_field_value',
+        'set_tiny_mce_field_value' => 'set_tiny_mce_field_value',
     ];
 
     public $brand_name;
@@ -58,6 +76,9 @@ class BrandDashboard extends Component
     public $client_payment_create_sendemail = '';
     public $client_payment_create_discription = '';
     public $client_payment_create_sales_agent_id = '';
+
+    public $message_client_message = '';
+    public $message_client_edit_message = '';
 
     public function construct()
     {
@@ -91,6 +112,7 @@ class BrandDashboard extends Component
 
         $this->resetPage(); // Reset pagination
 
+        $this->emit('emit_pre_render');
         $this->render(); // Trigger rendering
     }
 
@@ -125,15 +147,27 @@ class BrandDashboard extends Component
         } else if (str_contains($this->active_page, 'clients_detail')) {
             $client_id = intval(str_replace('clients_detail-', '', $this->active_page));
             $view = $this->clients_detail($client_id);
+        } else if (str_contains($this->active_page, 'projects_detail')) {
+            $project_id = intval(str_replace('projects_detail-', '', $this->active_page));
+            $view = $this->projects_detail($project_id);
         } else if (str_contains($this->active_page, 'client_payment_link')) {
             $client_id = intval(str_replace('client_payment_link-', '', $this->active_page));
             $view = $this->client_payment_link($client_id);
+        } else if (str_contains($this->active_page, 'client_message_show')) {
+            $client_user_id = intval(str_replace('client_message_show-', '', $this->active_page));
+            $view = $this->client_message_show($client_user_id);
         }
 
         return $view;
     }
 
     public function set_select2_field_value ($data)
+    {
+        $property = $data['name'];
+        $this->$property = $data['value'];
+    }
+
+    public function set_tiny_mce_field_value ($data)
     {
         $property = $data['name'];
         $this->$property = $data['value'];
@@ -205,6 +239,32 @@ class BrandDashboard extends Component
         return view('livewire.client-detail', compact('client', 'projects'))->extends($this->layout);
     }
 
+    public function projects_detail ($project_id)
+    {
+        $project= Project::find($project_id);
+        $category_ids_from_tasks = array_unique(Task::where('project_id', $project_id)->pluck('category_id')->toArray());
+
+        $categories_with_active_tasks = [];
+        foreach ($category_ids_from_tasks as $category_id_from_tasks) {
+            if (Auth::user()->is_employee == 2) {
+//                $tasks = Task::where(['project_id' => $id, 'category_id' => $category_id_from_tasks])->where('status', '!=', 3)->get();
+                $tasks = Task::where(['project_id' => $project_id, 'category_id' => $category_id_from_tasks])
+                    ->orderBy('created_at', 'DESC')->get();
+            } else {
+                $tasks = Task::where(['project_id' => $project_id, 'category_id' => $category_id_from_tasks])
+//                    ->where('status', '!=', 3)
+                    ->whereIn('brand_id', Auth::user()->brand_list())
+                    ->orderBy('created_at', 'DESC')->get();
+            }
+            $categories_with_active_tasks []= [
+                'category' => Category::find($category_id_from_tasks),
+                'tasks' => $tasks,
+            ];
+        }
+
+        return view('livewire.project-detail', compact('project', 'categories_with_active_tasks'))->extends($this->layout);
+    }
+
     public function manager_notification ($brand_id)
     {
         $notifications = sale_manager_notifications($brand_id);
@@ -259,10 +319,8 @@ class BrandDashboard extends Component
             'status' => $this->client_create_status,
         ]);
 
-//        session()->flash('success', 'Client created successfully');
         $this->emit('success', 'Client created successfully');
 
-//        return $this->set_active_page('clients_detail-' . $client->id);
         return $this->set_active_page('client_payment_link-' . $client->id);
     }
 
@@ -306,8 +364,8 @@ class BrandDashboard extends Component
         $this->client_payment_create_contact = $user->contact;
         $this->client_payment_create_brand = $user->brand_id;
 
-        $this->emit('emit_select2', '#service');
-        $this->emit('emit_select2', '#sales_agent_id');
+        $this->emit('emit_select2', ['selector' => '#service', 'name' => 'client_payment_create_service' ]);
+        $this->emit('emit_select2', ['selector' => '#sales_agent_id', 'name' => 'client_payment_create_sales_agent_id' ]);
 
         return view('livewire.payment.create', compact('user', 'brands', 'currencies', 'services', 'merchant', 'sale_agents'))->extends($this->layout);
     }
@@ -425,5 +483,219 @@ class BrandDashboard extends Component
         $this->emit('success', 'Invoice created successfully.');
 
         return $this->set_active_page('clients_detail-' . $this->client_payment_create_client_id);
+    }
+
+    public function mark_invoice_as_paid ($invoice_id)
+    {
+        $invoice = Invoice::find($invoice_id);
+        if (!$user = Client::find($invoice->client_id)) {
+            $user = Client::where('email', $invoice->client->email)->first();
+        }
+        $user_client = User::where('client_id', $user->id)->first();
+        if($user_client != null || $user->user){
+            $service_array = explode(',', $invoice->service);
+            for($i = 0; $i < count($service_array); $i++){
+                $service = Service::find($service_array[$i]);
+                if($service->form == 0){
+                    //No Form
+                    //if($invoice->createform == 1){
+                    $no_form = new NoForm();
+                    $no_form->name = $invoice->custom_package;
+                    $no_form->invoice_id = $invoice->id;
+                    if($user_client != null){
+                        $no_form->user_id = $user_client->id;
+                    }
+                    $no_form->client_id = $user->id;
+                    $no_form->agent_id = $invoice->sales_agent_id;
+                    $no_form->save();
+                    //}
+                }elseif($service->form == 1){
+                    // Logo Form
+                    //if($invoice->createform == 1){
+                    $logo_form = new LogoForm();
+                    $logo_form->invoice_id = $invoice->id;
+                    if($user_client != null){
+                        $logo_form->user_id = $user_client->id;
+                    }
+                    $logo_form->client_id = $user->id;
+                    $logo_form->agent_id = $invoice->sales_agent_id;
+                    $logo_form->save();
+                    //}
+                }elseif($service->form == 2){
+                    // Website Form
+                    //if($invoice->createform == 1){
+                    $web_form = new WebForm();
+                    $web_form->invoice_id = $invoice->id;
+                    if($user_client != null){
+                        $web_form->user_id = $user_client->id;
+                    }
+                    $web_form->client_id = $user->id;
+                    $web_form->agent_id = $invoice->sales_agent_id;
+                    $web_form->save();
+                    //}
+                }elseif($service->form == 3){
+                    // Smm Form
+                    //if($invoice->createform == 1){
+                    $smm_form = new SmmForm();
+                    $smm_form->invoice_id = $invoice->id;
+                    if($user_client != null){
+                        $smm_form->user_id = $user_client->id;
+                    }
+                    $smm_form->client_id = $user->id;
+                    $smm_form->agent_id = $invoice->sales_agent_id;
+                    $smm_form->save();
+                    //}
+                }elseif($service->form == 4){
+                    // Content Writing Form
+                    //if($invoice->createform == 1){
+                    $content_writing_form = new ContentWritingForm();
+                    $content_writing_form->invoice_id = $invoice->id;
+                    if($user_client != null){
+                        $content_writing_form->user_id = $user_client->id;
+                    }
+                    $content_writing_form->client_id = $user->id;
+                    $content_writing_form->agent_id = $invoice->sales_agent_id;
+                    $content_writing_form->save();
+                    //}
+                }elseif($service->form == 5){
+                    // Search Engine Optimization Form
+                    //if($invoice->createform == 1){
+                    $seo_form = new SeoForm();
+                    $seo_form->invoice_id = $invoice->id;
+                    if($user_client != null){
+                        $seo_form->user_id = $user_client->id;
+                    }
+                    $seo_form->client_id = $user->id;
+                    $seo_form->agent_id = $invoice->sales_agent_id;
+                    $seo_form->save();
+                    //}
+                }elseif($service->form == 6){
+                    // Book Formatting & Publishing
+                    //if($invoice->createform == 1){
+                    $book_formatting_form = new BookFormatting();
+                    $book_formatting_form->invoice_id = $invoice->id;
+                    if($user_client != null){
+                        $book_formatting_form->user_id = $user_client->id;
+                    }
+                    $book_formatting_form->client_id = $user->id;
+                    $book_formatting_form->agent_id = $invoice->sales_agent_id;
+                    $book_formatting_form->save();
+                    //}
+                }elseif($service->form == 7){
+                    // Book Formatting & Publishing
+                    //if($invoice->createform == 1){
+                    $book_writing_form = new BookWriting();
+                    $book_writing_form->invoice_id = $invoice->id;
+                    if($user_client != null){
+                        $book_writing_form->user_id = $user_client->id;
+                    }
+                    $book_writing_form->client_id = $user->id;
+                    $book_writing_form->agent_id = $invoice->sales_agent_id;
+                    $book_writing_form->save();
+                    //}
+                }elseif($service->form == 8){
+                    // Author Website
+                    //if($invoice->createform == 1){
+                    $author_website_form = new AuthorWebsite();
+                    $author_website_form->invoice_id = $invoice->id;
+                    if($user_client != null){
+                        $author_website_form->user_id = $user_client->id;
+                    }
+                    $author_website_form->client_id = $user->id;
+                    $author_website_form->agent_id = $invoice->sales_agent_id;
+                    $author_website_form->save();
+                    //}
+                }elseif($service->form == 9){
+                    // Author Website
+                    //if($invoice->createform == 1){
+                    $proofreading_form = new Proofreading();
+                    $proofreading_form->invoice_id = $invoice->id;
+                    if($user_client != null){
+                        $proofreading_form->user_id = $user_client->id;
+                    }
+                    $proofreading_form->client_id = $user->id;
+                    $proofreading_form->agent_id = $invoice->sales_agent_id;
+                    $proofreading_form->save();
+                    //}
+                }elseif($service->form == 10){
+                    // Author Website
+                    //if($invoice->createform == 1){
+                    $bookcover_form = new BookCover();
+                    $bookcover_form->invoice_id = $invoice->id;
+                    if($user_client != null){
+                        $bookcover_form->user_id = $user_client->id;
+                    }
+                    $bookcover_form->client_id = $user->id;
+                    $bookcover_form->agent_id = $invoice->sales_agent_id;
+                    $bookcover_form->save();
+                    //}
+                }elseif($service->form == 11){
+                    // Author Website
+                    //if($invoice->createform == 1){
+                    $isbn_form = new Isbnform();
+                    $isbn_form->invoice_id = $invoice->id;
+                    if($user_client != null){
+                        $isbn_form->user_id = $user_client->id;
+                    }
+                    $isbn_form->client_id = $user->id;
+                    $isbn_form->agent_id = $invoice->sales_agent_id;
+                    $isbn_form->save();
+                    //}
+                }
+                elseif($service->form == 12){
+                    // Author Website
+                    //if($invoice->createform == 1){
+                    $book_printing = new Bookprinting();
+                    $book_printing->invoice_id = $invoice->id;
+                    if($user_client != null){
+                        $book_printing->user_id = $user_client->id;
+                    }
+                    $book_printing->client_id = $user->id;
+                    $book_printing->agent_id = $invoice->sales_agent_id;
+                    $book_printing->save();
+                    //}
+                }
+
+
+            }
+        }
+        $invoice->payment_status = 2;
+        $invoice->invoice_date = Carbon::today()->toDateTimeString();
+        $invoice->save();
+
+        //mail_notification
+        $_getBrand = Brand::find($invoice->brand);
+        $html = '<p>'.'Support member '. Auth::user()->name .' has marked invoice # '.$invoice->invoice_number.' as PAID'.'</p><br />';
+        $html .= '<strong>Client:</strong> <span>'.$invoice->client->name.'</span><br />';
+        $html .= '<strong>Service(s):</strong> <span>'.strval($invoice->services()->name).'</span><br />';
+//        mail_notification('', ['info@designcrm.net'], 'Invoice payment', $html);
+        mail_notification(
+            '',
+            ['info@designcrm.net'],
+            'Invoice payment',
+            view('mail.crm-mail-template')->with([
+                'subject' => 'Invoice payment',
+                'brand_name' => $_getBrand->name,
+                'brand_logo' => asset($_getBrand->logo),
+                'additional_html' => $html
+            ])
+        );
+
+        $this->emit('success', 'Invoice# ' . $invoice->invoice_number . ' marked as paid.');
+
+        $this->render();
+    }
+
+    public function client_message_show ($client_user_id)
+    {
+        $user = User::find($client_user_id);
+        $messages = Message::where('client_id', $client_user_id)->orderBy('id', 'asc')->get();
+
+        $this->emit('emit_init_image_uploader', '.input-images');
+        $this->emit('emit_init_tiny_mce', ['selector' => '#message', 'name' => 'message_client_message' ]);
+        $this->emit('emit_init_tiny_mce', ['selector' => '#editmessage', 'name' => 'message_client_edit_message' ]);
+        $this->emit('emit_scroll_to_bottom', 1400);
+
+        return view('livewire.message.index', compact('messages', 'user'))->extends($this->layout);
     }
 }

@@ -77,21 +77,9 @@
 
                             <div class="row mt-4">
                                 @if ((in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]) || (auth()->user()->is_employee == 4 && auth()->user()->is_support_head)) && count($client->invoices))
-                                    @php
-                                        $generate_payment_route = '';
-                                        if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
-                                            $generate_payment_route = 'admin.invoice.index';
-                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
-                                            $generate_payment_route = 'manager.generate.payment';
-                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {
-                                            $generate_payment_route = 'client.generate.payment';
-                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4 && \Illuminate\Support\Facades\Auth::user()->is_support_head) {
-                                            $generate_payment_route = 'support.client.generate.payment';
-                                        }
-                                    @endphp
                                     <div class="col">
                                         <p style="font-size: medium;">
-                                            <a href="{{route($generate_payment_route, ['id' => $client->id , 'redirect_to_client_detail' => true])}}">
+                                            <a wire:click="set_active_page('client_payment_link-{{$client->id}}')" href="javascript:void(0)">
                                                 <i class="fas fa-dollar-sign text-success"></i>
                                                 <br />
                                                 Generate payment
@@ -103,16 +91,11 @@
                                 @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [6, 4]))
                                     @php
                                         $client_user = \App\Models\User::where('client_id', $client->id)->first();
-                                        if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
-                                            $message_route = 'manager.message.show';
-                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4) {
-                                            $message_route = 'support.message.show.id';
-                                        }
                                     @endphp
                                     @if($client_user)
                                         <div class="col">
                                             <p style="font-size: medium;">
-                                                <a href="{{route($message_route, ['id' => $client_user->id ,'name' => $client->name])}}">
+                                                <a wire:click="set_active_page('client_message_show-{{$client_user->id}}')" href="javascript:void(0)">
                                                     <i class="i-Speach-Bubble-3 text-warning"></i>
                                                     <br />
                                                     Message
@@ -134,27 +117,10 @@
                                                 <b>Account</b>
                                             </div>
                                             <div class="col-md-12 p-2" style="border-top: 1px solid #b7b7b7;" id="wrapper1" >
-                                                @php
-                                                    $create_auth_route = '';
-                                                    $update_auth_route = '';
-                                                    if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
-                                                        $create_auth_route = route('admin.client.createauth');
-                                                        $update_auth_route = route('admin.client.updateauth');
-                                                    } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
-                                                        $create_auth_route = route('manager.client.createauth');
-                                                        $update_auth_route = route('manager.client.updateauth');
-                                                    } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {
-                                                        $create_auth_route = route('sale.client.createauth');
-                                                        $update_auth_route = route('sale.client.updateauth');
-                                                    } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4) {
-                                                        $create_auth_route = route('support.client.createauth');
-                                                        $update_auth_route = route('support.client.updateauth');
-                                                    }
-                                                @endphp
                                                 @if($client->user == null)
-                                                    <a href="javascript:void(0)" class="btn btn-danger btn-sm auth_create" data-id="{{$client->id}}" data-route="{{$create_auth_route}}">Create account</a>
+                                                    <a href="javascript:void(0)" class="btn btn-danger btn-sm auth_create" data-id="{{$client->id}}">Create account</a>
                                                 @else
-                                                    <a href="javascript:void(0)" class="btn btn-success btn-sm auth_update" data-id="{{$client->id}}" data-route="{{$update_auth_route}}">Reset password</a>
+                                                    <a href="javascript:void(0)" class="btn btn-success btn-sm auth_update" data-id="{{$client->id}}">Reset password</a>
                                                 @endif
                                             </div>
                                         </div>
@@ -220,23 +186,9 @@
                                                                         {{ App\Models\Invoice::PAYMENT_STATUS[$invoice->payment_status] }}
                                                                     </span>
                                                                     @if($invoice->payment_status == 1)
-                                                                        @php
-                                                                            if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
-                                                                                $invoice_update_route = 'admin.invoice.paid';
-                                                                            } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
-                                                                                $invoice_update_route = 'manager.invoice.paid';
-                                                                            } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {
-                                                                                $invoice_update_route = 'sale.invoice.paid';
-                                                                            } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4) {
-                                                                                $invoice_update_route = 'support.invoice.paid';
-                                                                            }
-                                                                        @endphp
-                                                                        <form method="post" action="{{ route($invoice_update_route, $invoice->id) }}">
-                                                                            @csrf
-                                                                            <button type="submit" class="badge badge-danger btn_mark_as_paid" style="border: 0px;">
-                                                                                Mark as paid
-                                                                            </button>
-                                                                        </form>
+                                                                        <a type="submit" class="badge badge-danger btn_mark_as_paid text-white" style="border: 0px;" wire:click="mark_invoice_as_paid({{$invoice->id}})">
+                                                                            Mark as paid
+                                                                        </a>
                                                                     @endif
                                                                 </span>
                                                             </td>

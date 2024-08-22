@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="col-md-4 form-group mb-3">
                                     <label for="service">Service <span>*</span></label>
-                                    <select wire:model="client_payment_create_service" data-wire="client_payment_create_service" id="service" class="form-control">
+                                    <select wire:model="client_payment_create_service" id="service" class="form-control">
                                         <option value="">Select service</option>
                                         @foreach($services as $service)
                                             <option value="{{ $service->id }}">{{ $service->name }}</option>
@@ -127,7 +127,7 @@
 
                                 <div class="col-md-4 form-group mb-3">
                                     <label for="sales_agent_id">Specify agent <span>(Optional)</span></label>
-                                    <select wire:model="client_payment_create_sales_agent_id" data-wire="client_payment_create_sales_agent_id" id="sales_agent_id" class="form-control select2">
+                                    <select wire:model="client_payment_create_sales_agent_id" id="sales_agent_id" class="form-control select2">
                                         <option value="">Select sales agent</option>
                                         @foreach($sale_agents as $sale_agent)
                                             <option value="{{ $sale_agent->id }}">{{$sale_agent->name}} {{$sale_agent->last_name}}</option>
