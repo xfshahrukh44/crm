@@ -100,7 +100,7 @@
                                     @if($client_user)
                                         <div class="col">
                                             <p style="font-size: medium;">
-                                                <a target="_blank" href="{{route($message_url, ['id' => $client_user->id ,'name' => $client->name])}}">
+                                                <a href="{{route($message_url, ['id' => $client_user->id ,'name' => $client->name])}}">
                                                     <i class="i-Speach-Bubble-3 text-warning"></i>
                                                     <br />
                                                     Message
@@ -288,7 +288,7 @@
                                                                         <span class="ul-badge__icon"><i class="i-Checked-User"></i></span>
                                                                         <span class="ul-badge__text">Assign</span>
                                                                     </a>
-                                                                    <a target="_blank" href="{{ route($pending_project_detail_url, ['id' => $pending_project['id'], 'form' => $pending_project['form_number']]) }}" class="badge badge-info badge-icon badge-sm">
+                                                                    <a href="{{ route($pending_project_detail_url, ['id' => $pending_project['id'], 'form' => $pending_project['form_number']]) }}" class="badge badge-info badge-icon badge-sm">
                                                                         <span class="ul-badge__icon"><i class="i-Eye-Visible"></i></span>
                                                                         <span class="ul-badge__text">View</span>
                                                                     </a>
@@ -383,13 +383,13 @@
                                                                     </a>
                                                                     <br>
                                                                     @if($project->form_checker != 0)
-                                                                        <a target="_blank" href="{{ route('support.form', [ 'form_id' => $project->form_id , 'check' => $project->form_checker, 'id' => $project->id]) }}" class="badge badge-info badge-icon badge-sm">
+                                                                        <a href="{{ route('support.form', [ 'form_id' => $project->form_id , 'check' => $project->form_checker, 'id' => $project->id]) }}" class="badge badge-info badge-icon badge-sm">
                                                                             <i class="i-Receipt-4 mr-1"></i>
                                                                             View Form
                                                                         </a>
                                                                     @endif
                                                                     <br>
-                                                                    <a target="_blank" href="{{ route('create.task.by.project.id', ['id' => $project->id, 'name' => preg_replace('/[^A-Za-z0-9\-]/', '', strtolower(str_replace(' ', '-', $project->name))) ]) }}" class="badge badge-success badge-icon badge-sm">
+                                                                    <a href="{{ route('create.task.by.project.id', ['id' => $project->id, 'name' => preg_replace('/[^A-Za-z0-9\-]/', '', strtolower(str_replace(' ', '-', $project->name))) ]) }}" class="badge badge-success badge-icon badge-sm">
                                                                         <i class="fas fa-plus"></i>
                                                                         Create Task
                                                                     </a>

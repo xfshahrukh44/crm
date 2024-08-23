@@ -122,12 +122,20 @@ class BrandDashboard extends Component
         if (!$this->construct()) {
             return redirect()->route('login');
         }
+
+        if (session()->has('livewire_history')) {
+            $this->history = session()->get('livewire_history');
+            $this->active_page = end($this->history);
+        }
     }
 
     public function set_active_page ($page)
     {
         $this->active_page = $page;
         $this->history[] = $this->active_page;
+
+        //put history in session
+        session()->put('livewire_history', $this->history);
 
         $this->resetPage(); // Reset pagination
 

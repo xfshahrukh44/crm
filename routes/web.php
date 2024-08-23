@@ -10,6 +10,7 @@ use App\Models\Invoice;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ClientChatController;
@@ -454,6 +455,7 @@ Route::get('check-if-external-client', [GeneralBrandController::class, 'check_if
 Route::post('clear-notification', [GeneralBrandController::class, 'clear_notification'])->middleware('auth')->name('clear-notification');
 
 Route::get('temp', function () {
+    dd(DB::table('notifications')->whereNotNull('read_at')->whereDate('created_at', '<=', Carbon::parse('30 April 2022'))->count());
 //    \App\Models\Client::whereHas('user', function ($q) {
 //        return $q->whereHas('projects', function ($q) {
 //            return $q->whereHas('tasks', function ($q) {
