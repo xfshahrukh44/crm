@@ -148,8 +148,8 @@
                 </a>
                 <div class="triangle"></div>
             </li>
-            <li class="nav-item {{ (request()->routeIs('brands.dashboard')) || (request()->routeIs('brands.detail')) || (request()->routeIs('clients.detail')) || (request()->routeIs('projects.detail'))? 'active' : '' }}">
-                <a class="nav-item-hold" href="{{ route('brands.dashboard') }}">
+            <li class="nav-item {{ (request()->routeIs('brands.dashboard.v3')) || (request()->routeIs('brands.detail')) || (request()->routeIs('clients.detail')) || (request()->routeIs('projects.detail'))? 'active' : '' }}">
+                <a class="nav-item-hold" href="{{ route('brands.dashboard.v3') }}">
                     <i class="nav-icon i-Medal-2"></i>
                     <span class="nav-text">Brands</span>
                     <span class="badge badge-success">
