@@ -147,6 +147,9 @@ class BrandDashboard extends Component
         array_pop($this->history);
         $this->active_page = end($this->history);
 
+        //put history in session
+        session()->put('livewire_history', $this->history);
+
         $this->resetPage();
         $this->render();
     }
