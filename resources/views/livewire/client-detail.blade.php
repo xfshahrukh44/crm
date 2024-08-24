@@ -190,7 +190,7 @@
                                                                     <span class="badge badge-{{App\Models\Invoice::STATUS_COLOR[$invoice->payment_status]}}">
                                                                         {{ App\Models\Invoice::PAYMENT_STATUS[$invoice->payment_status] }}
                                                                     </span>
-                                                                    @if($invoice->payment_status == 1)
+                                                                    @if($invoice->payment_status == 1 && $client->user != null)
                                                                         <a type="submit" class="badge badge-danger btn_mark_as_paid text-white" style="border: 0px;" wire:click="mark_invoice_as_paid({{$invoice->id}})">
                                                                             Mark as paid
                                                                         </a>
