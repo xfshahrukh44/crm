@@ -243,23 +243,12 @@ class BrandDashboard extends Component
             ->withCount('projects')->withCount('invoices')
             ->orderBy('created_at', 'DESC')
             ->when($this->client_name && $this->client_name != "", function ($q) {
-                return $q->where(function ($q) {
-                    return $q->whereHas('user', function ($q) {
-                        return $q->where(DB::raw('concat(name," ",last_name)'), 'like', '%'. $this->client_name .'%')
-                            ->orWhere('name', 'LIKE', '%'. $this->client_name .'%')
-                            ->orWhere('last_name', 'LIKE', '%'. $this->client_name .'%')
-                            ->orWhere('email', 'LIKE', '%'. $this->client_name .'%')
-                            ->orWhere('contact', 'LIKE', '%'. $this->client_name .'%');
-                    });
-                })
-                ->orWhere(function ($q) {
-                    return $q->where(function ($q) {
-                        return $q->where(DB::raw('concat(name," ",last_name)'), 'like', '%'. $this->client_name .'%')
-                            ->orWhere('name', 'LIKE', '%'. $this->client_name .'%')
-                            ->orWhere('last_name', 'LIKE', '%'. $this->client_name .'%')
-                            ->orWhere('email', 'LIKE', '%'. $this->client_name .'%')
-                            ->orWhere('contact', 'LIKE', '%'. $this->client_name .'%');
-                    });
+                return $q->whereHas('user', function ($q) {
+                    return $q->where(DB::raw('concat(name," ",last_name)'), 'like', '%'. $this->client_name .'%')
+                        ->orWhere('name', 'LIKE', '%'. $this->client_name .'%')
+                        ->orWhere('last_name', 'LIKE', '%'. $this->client_name .'%')
+                        ->orWhere('email', 'LIKE', '%'. $this->client_name .'%')
+                        ->orWhere('contact', 'LIKE', '%'. $this->client_name .'%');
                 });
             })
             ->paginate(10);
