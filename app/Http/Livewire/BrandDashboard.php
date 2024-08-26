@@ -325,7 +325,7 @@ class BrandDashboard extends Component
 
         $this->client_create_brand_id = $brand_id;
 
-        return view('livewire.'.$role.'.client.create', compact('brands'))->extends($this->layout);
+        return view('livewire.client.create', compact('brands'))->extends($this->layout);
     }
 
     public function client_save ()
@@ -403,6 +403,7 @@ class BrandDashboard extends Component
         $this->client_payment_create_brand = $user->brand_id;
 
         $this->emit('emit_select2', ['selector' => '#service', 'name' => 'client_payment_create_service' ]);
+        $this->emit('emit_select2', ['selector' => '#currency', 'name' => 'client_payment_create_currency' ]);
         $this->emit('emit_select2', ['selector' => '#sales_agent_id', 'name' => 'client_payment_create_sales_agent_id' ]);
 
         return view('livewire.payment.create', compact('user', 'brands', 'currencies', 'services', 'merchant', 'sale_agents'))->extends($this->layout);

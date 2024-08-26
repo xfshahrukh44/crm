@@ -1,5 +1,4 @@
 <div>
-    @include('livewire.loader')
     <div class="breadcrumb">
         <a href="#" class="btn btn-info btn-sm mr-2" wire:click="back">
             <i class="fas fa-arrow-left"></i>
