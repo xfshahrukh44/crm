@@ -93,25 +93,14 @@
 
 
                                 @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]) || (auth()->user()->is_employee == 4 && auth()->user()->is_support_head))
-                                    @php
-                                        $briefs_pending_string = null;
-                                        if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
-                                            $briefs_pending_string = 'admin_brief_pending';
-                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
-                                            $briefs_pending_string = 'manager_brief_pending';
-                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {
-                                            $briefs_pending_string = 'sale_brief_pending';
-                                        } else if (auth()->user()->is_employee == 4 && auth()->user()->is_support_head) {
-                                            $briefs_pending_string = 'support_brief_pending';
-                                        }
-                                    @endphp
                                     <div class="col"><p style="font-size: medium;">
-                                            <a href="#" wire:click="set_active_page('{{$briefs_pending_string}}-{{$brand->id}}')">
+                                            <a href="#" wire:click="set_active_page('brief_pending-{{$brand->id}}')">
                                                 <i class="i-Folder-Close text-primary"></i>
                                                 <br />
                                                 Briefs pending
                                             </a>
-                                        </p></div>
+                                        </p>
+                                    </div>
                                 @endif
                             </div>
 
@@ -234,22 +223,11 @@
                                  Total: {{ $clients->total() }}
                                 <br>
                                 @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]) || (auth()->user()->is_employee == 4 && auth()->user()->is_support_head))
-                                        @php
-                                            if (\Illuminate\Support\Facades\Auth::user()->is_employee == 2) {
-                                                $create_client_string = 'admin_client_create';
-                                            } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
-                                                $create_client_string = 'manager_client_create';
-                                            } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 0) {
-                                                $create_client_string = 'sale_client_create';
-                                            } else if (auth()->user()->is_employee == 4 && auth()->user()->is_support_head) {
-                                                $create_client_string = 'support_client_create';
-                                            }
-                                        @endphp
-                                        <a class="btn btn-sm btn-success text-white" href="javascript:void(0)" wire:click="set_active_page('{{$create_client_string}}-{{$brand->id}}')">
+                                    <a class="btn btn-sm btn-success text-white" href="javascript:void(0)" wire:click="set_active_page('client_create-{{$brand->id}}')">
                                         <i class="fas fa-plus"></i>
                                         Create client
                                     </a>
-                                    @endif
+                                @endif
                             </span>
                             </h4>
                             <div class="table-responsive">

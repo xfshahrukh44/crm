@@ -165,15 +165,11 @@ class BrandDashboard extends Component
             $brand_id = intval(str_replace('manager_notification-', '', $this->active_page));
             $view = $this->manager_notification($brand_id);
         } else if (str_contains($this->active_page, 'brief_pending')) {
-            $brief_pending_explode = explode('_brief_pending-', $this->active_page);
-            $role = $brief_pending_explode[0];
-            $brand_id = $brief_pending_explode[1];
-            $view = $this->brief_pending($role, $brand_id);
+            $brand_id = intval(str_replace('brief_pending-', '', $this->active_page));
+            $view = $this->brief_pending($brand_id);
         } else if (str_contains($this->active_page, 'client_create')) {
-            $client_create_explode = explode('_client_create-', $this->active_page);
-            $role = $client_create_explode[0];
-            $brand_id = $client_create_explode[1];
-            $view = $this->client_create($role, $brand_id);
+            $brand_id = intval(str_replace('client_create-', '', $this->active_page));
+            $view = $this->client_create($brand_id);
         } else if (str_contains($this->active_page, 'clients_detail')) {
             $client_id = intval(str_replace('clients_detail-', '', $this->active_page));
             $view = $this->clients_detail($client_id);
@@ -310,14 +306,14 @@ class BrandDashboard extends Component
         return view('livewire.manager.notification', compact('notifications'))->extends($this->layout);
     }
 
-    public function brief_pending ($role, $brand_id)
+    public function brief_pending ($brand_id)
     {
         $client_users_with_brief_pendings = User::whereIn('id', get_brief_client_user_ids(null, $brand_id))->get();
 
-        return view('livewire.'.$role.'.brief.pending', compact('client_users_with_brief_pendings'))->extends($this->layout);
+        return view('livewire.brief.pending', compact('client_users_with_brief_pendings'))->extends($this->layout);
     }
 
-    public function client_create ($role, $brand_id)
+    public function client_create ($brand_id)
     {
         $brands = Brand::when(auth()->user()->is_employee != 2, function ($q) {
             return $q->whereIn('id', auth()->user()->brand_list());
