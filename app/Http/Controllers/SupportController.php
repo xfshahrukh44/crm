@@ -1319,7 +1319,7 @@ class SupportController extends Controller
             'id' => Auth()->user()->id,
             'project_id' => $project->id,
             'name' => Auth()->user()->name . ' ' . Auth()->user()->last_name,
-            'text' => $project->name . ' has assign. ('.Auth()->user()->name.')',
+            'text' => $project->name . ' has been assigned to you by '.Auth()->user()->name,
             'url' => '',
         ];
         $user = User::find($agent_id);

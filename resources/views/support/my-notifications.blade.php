@@ -37,13 +37,18 @@
             @foreach($notifications as $notification)
                 @php
                     $route = '#';
+                    $badge = '';
                     if ($notification->type == 'App\Notifications\AssignProjectNotification') {
+                        $badge = '<span class="badge badge-info">Project</span>';
                         $route = route('create.task.by.project.id', ['id' => $notification->data['project_id'], 'name' => $notification->data['text'], 'notify' => $notification->id]);
                     } else if ($notification->type == 'App\Notifications\TaskNotification') {
+                        $badge = '<span class="badge badge-primary">Task</span>';
                         $route = route('support.task.show', ['id' => $notification->data['task_id'], 'notify' => $notification->id]);
                     } else if ($notification->type == 'App\Notifications\MessageNotification') {
+                        $badge = '<span class="badge badge-warning">Message</span>';
                         $route = route('support.message.show.id', ['id' => $notification->data['id'], 'name' => $notification->data['name']]);
                     } else {
+                        $badge = '<span class="badge badge-primary">Task</span>';
                         $task_id = 0;
                         $project = \App\Models\Project::where('client_id', $notification->data['id'])->first();
                         if($project != null){
@@ -64,6 +69,9 @@
                                             <div class="ul-widget4__item ul-widget4__users">
                                                     <div class="ul-widget2__info ul-widget4_qsers-info">
         {{--                                                <a class="ul-widget2__title" href="#">John Doe</a>--}}
+                                                        <h5>
+                                                            {!! $badge ?? '' !!}
+                                                        </h5>
                                                         <h4 style="font-weight: 100;" href="#">{{ strip_tags($notification->data['text']) }}</h4>
                                                         <h6 href="#" class="text-info">Name: {{$notification->data['name']}}</h6>
                                                         <h6 style="" href="#" class="text-primary">{{Carbon\Carbon::parse($notification->created_at)->format('d F Y, h:i A')}}</h6>

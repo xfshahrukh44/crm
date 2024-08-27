@@ -36,7 +36,8 @@
             @endphp
             @foreach($notifications as $notification)
                 @php
-                    $route = route('member.subtask.show', ['id' => $notification->data['id'], 'notify' => $notification->id]);
+                $badge = '<span class="badge badge-primary">Task</span>';
+                $route = route('member.subtask.show', ['id' => $notification->data['id'], 'notify' => $notification->id]);
                 @endphp
                 <div class="card mb-4 {!! is_null($notification->read_at) ? 'unread_notification' : '' !!}" data-id="{{$notification->id}}">
                     <a href="{{$route}}">
@@ -48,6 +49,9 @@
                                             <div class="ul-widget4__item ul-widget4__users">
                                                     <div class="ul-widget2__info ul-widget4_qsers-info">
         {{--                                                <a class="ul-widget2__title" href="#">John Doe</a>--}}
+                                                        <h5>
+                                                            {!! $badge ?? '' !!}
+                                                        </h5>
                                                         <h4 style="font-weight: 100;" href="#">{{ strip_tags($notification->data['text']) }}</h4>
                                                         <h6 href="#" class="text-info">Name: {{$notification->data['name']}}</h6>
                                                         <h6 style="" href="#" class="text-primary">{{Carbon\Carbon::parse($notification->created_at)->format('d F Y, h:i A')}}</h6>

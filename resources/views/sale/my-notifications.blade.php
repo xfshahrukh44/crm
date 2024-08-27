@@ -38,7 +38,10 @@
                 @php
                     $route = '#';
                     if ($notification->type == 'App\Notifications\LeadNotification') {
+                        $badge = '<span class="badge badge-danger">Lead</span>';
                         $route = route('admin.client.shownotification', ['client' => $notification->data['id'], 'id' => $notification->id] );
+                    } else if ($notification->type == 'App\Notifications\MessageNotification') {
+                        $badge = '<span class="badge badge-warning">Message</span>';
                     }
                 @endphp
                 <div class="card mb-4 {!! is_null($notification->read_at) ? 'unread_notification' : '' !!}" data-id="{{$notification->id}}">
@@ -51,6 +54,9 @@
                                             <div class="ul-widget4__item ul-widget4__users">
                                                     <div class="ul-widget2__info ul-widget4_qsers-info">
         {{--                                                <a class="ul-widget2__title" href="#">John Doe</a>--}}
+                                                        <h5>
+                                                            {!! $badge ?? '' !!}
+                                                        </h5>
                                                         <h4 style="font-weight: 100;" href="#">{{ strip_tags($notification->data['text']) }}</h4>
                                                         <h6 href="#" class="text-info">Name: {{$notification->data['name']}}</h6>
                                                         <h6 style="" href="#" class="text-primary">{{Carbon\Carbon::parse($notification->created_at)->format('d F Y, h:i A')}}</h6>
