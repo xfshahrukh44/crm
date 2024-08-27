@@ -39,7 +39,7 @@
                             <a class="nav-link active" id="task-overview-tab" data-toggle="tab" href="#task-overview" role="tab" aria-controls="task-overview" aria-selected="true">Task Overview</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="message-show-tab" data-toggle="tab" href="#message-show" role="tab" aria-controls="message-show" aria-selected="false">Message</a>
+                            <a class="nav-link" id="message-show-tab" data-toggle="tab" href="#message-show" role="tab" aria-controls="message-show" aria-selected="false" onclick="setTimeout(() => { window.scrollTo(0, document.body.scrollHeight); }, 800)">Message</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="notes-tab" data-toggle="tab" href="#notes-show" role="tab" aria-controls="notes-show" aria-selected="false">Notes</a>
