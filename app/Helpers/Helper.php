@@ -1225,8 +1225,9 @@ function get_restricted_brand_ids_for_qa () {
     $restricted_brand_ids = [];
     $danny_brand_ids = [3, 10, 16, 17, 21, 22, 26, 33, 34, 51, 48, 44, 27];
     $ashmara_brand_ids = [13, 23, 38, 36, 37];
+    $zech_brand_ids = [1, 8, 5, 31, 32, 46, 49, 50, 57, 60, 47];
 
-    return array_merge($danny_brand_ids, $ashmara_brand_ids);
+    return array_merge($danny_brand_ids, $ashmara_brand_ids, $zech_brand_ids);
 }
 
 function get_auth_category_ids () {
