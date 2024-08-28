@@ -41,8 +41,11 @@
                         $badge = '<span class="badge badge-danger">Lead</span>';
                         $route = route('admin.client.shownotification', ['client' => $notification->data['id'], 'id' => $notification->id] );
                     } else if ($notification->type == 'App\Notifications\MessageNotification') {
-                        $route = route('manager.message.show', ['id' => $notification->data['id'], 'name' => $notification->data['name']]);
                         $badge = '<span class="badge badge-warning">Message</span>';
+                        $route = route('manager.message.show', ['id' => $notification->data['id'], 'name' => $notification->data['name']]);
+                    } else if ($notification->type == 'App\Notifications\TaskNotification') {
+                        $badge = '<span class="badge badge-primary">Task</span>';
+                        $route = route('manager.task.show', ['id' => $notification->data['task_id'], 'notify' => $notification->id]);
                     }
                 @endphp
                 <div class="card mb-4 {!! is_null($notification->read_at) ? 'unread_notification' : '' !!}" data-id="{{$notification->id}}">
