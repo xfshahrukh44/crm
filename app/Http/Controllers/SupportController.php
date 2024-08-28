@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Invoice;
 use App\Models\NoForm;
 use App\Models\Project;
 use App\Models\LogoForm;
+use App\Models\Service;
 use App\Models\WebForm;
 use App\Models\SmmForm;
 use App\Models\Client;
@@ -1160,11 +1162,15 @@ class SupportController extends Controller
         $description = '';
         if($form_checker == 0){
             $no_form = NoForm::find($form_id);
-            if($no_form->name != null){
-                $name = $no_form->name . ' - OTHER';
-            }else{
-                $name = $no_form->name . ' - OTHER';
-            }
+            $no_form_invoice = Invoice::find($no_form->invoice_id);
+            $client = Client::find($no_form_invoice->client_id);
+            $service = Service::find(explode(',', $no_form_invoice->service)[0]);
+            $name = $client->name . ' ' . $client->last_name . ' - ' . $service->name;
+//            if($no_form->name != null){
+//                $name = $no_form->name . ' - OTHER';
+//            }else{
+//                $name = $no_form->name . ' - OTHER';
+//            }
             $client_id = $no_form->user->id;
             $brand_id = $no_form->invoice->brand;
             $description = $no_form->business;

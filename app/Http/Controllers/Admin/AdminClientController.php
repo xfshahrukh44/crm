@@ -908,11 +908,15 @@ class AdminClientController extends Controller
             $description = '';
             if($form_checker == 0){
                 $no_form = NoForm::find($form_id);
-                if($no_form->name != null){
-                    $name = $no_form->name . ' - OTHER';
-                }else{
-                    $name = $no_form->name . ' - OTHER';
-                }
+                $no_form_invoice = Invoice::find($no_form->invoice_id);
+                $client = Client::find($no_form_invoice->client_id);
+                $service = Service::find(explode(',', $no_form_invoice->service)[0]);
+                $name = $client->name . ' ' . $client->last_name . ' - ' . $service->name;
+//                if($no_form->name != null){
+//                    $name = $no_form->name . ' - OTHER';
+//                }else{
+//                    $name = $no_form->name . ' - OTHER';
+//                }
                 $client_id = $no_form->user->id;
                 $brand_id = $no_form->invoice->brand;
                 $description = $no_form->business;
@@ -1105,6 +1109,7 @@ class AdminClientController extends Controller
             $form_id  = $request->id;
             $agent_id  = $request->agent_id;
             $form_checker  = $request->form;
+            dd($form_checker);
             $name = '';
             $client_id = 0;
             $brand_id = 0;
