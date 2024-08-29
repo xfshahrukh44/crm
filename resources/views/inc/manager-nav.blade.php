@@ -87,13 +87,13 @@
                 @endphp
                 @foreach(auth()->user()->unreadnotifications()->latest()->take(10)->get() as $notifications)
                 @if($notifications->type == 'App\Notifications\LeadNotification')
-                <a href="{{ route('admin.client.shownotification', ['client' => $notifications->data['id'], 'id' => $notifications->id] ) }}" class="dropdown-item d-flex">
+                <a href="{{ route('admin.client.shownotification', ['client' => $notifications->data['id'], 'id' => $notifications->id] ) }}" class="unread_notification_nav dropdown-item d-flex" data-id="{{$notifications->id}}">
                 @elseif($notifications->type == 'App\Notifications\PaymentNotification')
-                <a href="" class="dropdown-item d-flex">
+                <a href="" class="unread_notification_nav dropdown-item d-flex" data-id="{{$notifications->id}}">
                 @elseif($notifications->type == 'App\Notifications\MessageNotification')
-                <a href="{{ route('manager.message.show', ['id' => $notifications->data['id'], 'name' => $notifications->data['name']]) }}" class="dropdown-item d-flex">
+                <a href="{{ route('manager.message.show', ['id' => $notifications->data['id'], 'name' => $notifications->data['name']]) }}" class="unread_notification_nav dropdown-item d-flex" data-id="{{$notifications->id}}">
                 @else
-                <a href="" class="dropdown-item d-flex">
+                <a href="" class="unread_notification_nav dropdown-item d-flex" data-id="{{$notifications->id}}">
                 @endif
                     <div class="notification-icon">
                         @if($notifications->type == 'App\Notifications\LeadNotification')

@@ -32,7 +32,7 @@
                 $k = 0;
                 @endphp
                 @foreach(auth()->user()->unreadnotifications()->take(5)->get() as $notifications)
-                <a href="{{ route('member.subtask.show', ['id' => $notifications->data['id'], 'notify' => $notifications->id]) }}" class="dropdown-item d-flex">
+                <a href="{{ route('member.subtask.show', ['id' => $notifications->data['id'], 'notify' => $notifications->id]) }}" class="unread_notification_nav dropdown-item d-flex" data-id="{{$notifications->id}}">
                     <div class="notification-icon">
                         <i class="i-Speach-Bubble-8 text-primary mr-1"></i>
                     </div>

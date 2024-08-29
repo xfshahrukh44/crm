@@ -56,15 +56,15 @@
                 @endphp
                 @foreach(auth()->user()->unreadnotifications()->latest()->take(10)->get() as $notifications)
                 @if($notifications->type == 'App\Notifications\AssignProjectNotification')
-                <a href="{{ route('create.task.by.project.id', ['id' => $notifications->data['project_id'], 'name' => $notifications->data['text'], 'notify' => $notifications->id]) }}" class="dropdown-item d-flex">
+                <a href="{{ route('create.task.by.project.id', ['id' => $notifications->data['project_id'], 'name' => $notifications->data['text'], 'notify' => $notifications->id]) }}" class="unread_notification_nav dropdown-item d-flex" data-id="{{$notifications->id}}">
                 @elseif($notifications->type == 'App\Notifications\TaskNotification')
-                <a href="{{ route('support.task.show', ['id' => $notifications->data['task_id'], 'notify' => $notifications->id]) }}" class="dropdown-item d-flex">
+                <a href="{{ route('support.task.show', ['id' => $notifications->data['task_id'], 'notify' => $notifications->id]) }}" class="unread_notification_nav dropdown-item d-flex" data-id="{{$notifications->id}}">
                 @elseif($notifications->type == 'App\Notifications\MessageNotification')
                     @php
                         $client_user_id = $notifications->data['id'];
                         $name = $notifications->data['name'];
                     @endphp
-                    <a href="{{ route('support.message.show.id', ['id' => $client_user_id, 'name' => $name]) }}" class="dropdown-item d-flex">
+                    <a href="{{ route('support.message.show.id', ['id' => $client_user_id, 'name' => $name]) }}" class="unread_notification_nav dropdown-item d-flex" data-id="{{$notifications->id}}">
                 @else
                 @php
                 $task_id = 0;

@@ -41,9 +41,9 @@
                 @endphp
                 @foreach(auth()->user()->unreadnotifications()->latest()->take(10)->get() as $notifications)
                 @if($notifications->type == 'App\Notifications\SubTaskNotification')
-                <a href="{{ route('production.subtask.show', ['id' => $notifications->data['task_id'], 'notify' => $notifications->id]) }}" class="dropdown-item d-flex">
+                <a href="{{ route('production.subtask.show', ['id' => $notifications->data['task_id'], 'notify' => $notifications->id]) }}" class="unread_notification_nav dropdown-item d-flex" data-id="{{$notifications->id}}">
                 @else
-                <a href="{{ route('production.task.show', ['id' => $notifications->data['task_id'], 'notify' => $notifications->id]) }}" class="dropdown-item d-flex">
+                <a href="{{ route('production.task.show', ['id' => $notifications->data['task_id'], 'notify' => $notifications->id]) }}" class="unread_notification_nav dropdown-item d-flex" data-id="{{$notifications->id}}">
                 @endif
                     <div class="notification-icon">
                         <i class="i-Speach-Bubble-8 text-primary mr-1"></i>

@@ -115,6 +115,29 @@
     <script src="{{ asset('newglobal/js/Chart.min.js') }}"></script>
     <script src="{{ asset('newglobal/js/sweetalert2.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.repeater/1.2.1/jquery.repeater.min.js" integrity="sha512-foIijUdV0fR0Zew7vmw98E6mOWd9gkGWQBWaoA1EOFAx+pY+N8FmmtIYAVj64R98KeD2wzZh1aHK0JSpKmRH8w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        $(document).ready(() => {
+            $('.unread_notification_nav').on('click', function (e) {
+                e.preventDefault();
+                $(this).removeClass('unread_notification');
+
+                $.ajax({
+                    url: "{{route('clear-notification')}}",
+                    method: "POST",
+                    data: {
+                        _token: '{{csrf_token()}}',
+                        notification_id: $(this).data('id')
+                    },
+                    success: (data) => {
+                        console.log(data);
+                        window.location.href = $(this).prop('href');
+                    },
+                });
+            });
+        });
+    </script>
+
     <script>
         $(document).ready(function () {
             if($('.repeater').length != 0){

@@ -96,6 +96,29 @@
     <script src="{{ asset('newglobal/js/Chart.min.js') }}"></script>
     <script src="{{ asset('newglobal/js/sweetalert2.min.js') }}"></script>
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+
+    <script>
+        $(document).ready(() => {
+            $('.unread_notification_nav').on('click', function (e) {
+                e.preventDefault();
+                $(this).removeClass('unread_notification');
+
+                $.ajax({
+                    url: "{{route('clear-notification')}}",
+                    method: "POST",
+                    data: {
+                        _token: '{{csrf_token()}}',
+                        notification_id: $(this).data('id')
+                    },
+                    success: (data) => {
+                        console.log(data);
+                        window.location.href = $(this).prop('href');
+                    },
+                });
+            });
+        });
+    </script>
+
     <script>
         @if(session()->has('success'))
         toastr.success("{{session()->get('success')}}");
