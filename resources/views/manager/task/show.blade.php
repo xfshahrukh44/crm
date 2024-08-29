@@ -462,7 +462,7 @@
 
 <!-- Place the following <script> and <textarea> tags your HTML's <body> -->
 <script>
-    $('#description').summernote({ height: 200 });
+    $('#description2').summernote({ height: 200 });
 </script>
 <script>
     $(document).ready(() => {
