@@ -62,23 +62,12 @@
 @endsection
 
 @push('scripts')
-    <!-- Place the first <script> tag in your HTML's <head> -->
-    <script src="https://cdn.tiny.cloud/1/v342h96m9l2d2xvl69w2yxp6fwd33xvey1c4h3do99vwwpt2/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="{{ asset('global/js/fileinput.js') }}"></script>
+    <script src="{{ asset('global/js/fileinput-theme.js') }}"></script>
 
     <!-- Place the following <script> and <textarea> tags your HTML's <body> -->
     <script>
-        tinymce.init({
-            selector: '#description2',
-            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount linkchecker',
-            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-            tinycomments_mode: 'embedded',
-            tinycomments_author: 'Author name',
-            mergetags_list: [
-                { value: 'First.Name', title: 'First Name' },
-                { value: 'Email', title: 'Email' },
-            ],
-            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
-        });
+        $('#description2').summernote({ height: 200 });
     </script>
     <script>
         $(document).ready(function(){
