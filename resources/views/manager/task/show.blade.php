@@ -531,7 +531,7 @@
         $('#subtask' ).on('submit', function(e) {
             e.preventDefault();
             // var description = CKEDITOR.instances.description.getData();
-            var description = tinymce.get('description2').getContent();
+            var description = $('#description2').summernote('code');
             var duedate = $(this).find('[name=duedate]').val();
             var action = $(this).attr('action');
             var task_id = $(this).find('[name=task_id]').val();
@@ -566,7 +566,7 @@
                                     </div>\
                                 </div>');
                         // CKEDITOR.instances.description.setData('');
-                        tinymce.get('description2').setContent('')
+                        $('#description2').summernote('code', '');
                         $('#duedate').val('');
                         toastr.success(response.success, '', {timeOut: 5000})
                     }

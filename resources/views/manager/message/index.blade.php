@@ -230,7 +230,7 @@
                 success:function(data) {
                     if(data.success){
                         // CKEDITOR.instances['editmessage'].setData(data.data.message);
-                        tinymce.get('editmessage').setContent(data.data.message)
+                        $('#editmessage').summernote('code', data.data.message);
                         $('#exampleModalMessageEdit').find('#message_id').val(data.data.id);
                         $('#exampleModalMessageEdit').modal('toggle');
                         console.log();
