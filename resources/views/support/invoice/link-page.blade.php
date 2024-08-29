@@ -24,7 +24,7 @@
                         <div class="d-sm-flex mb-5" data-view="print">
                             <img src="{{ asset($_getBrand->logo) }}" width="150"/>
                             <span class="m-auto"></span>
-                            <button class="btn btn-primary mb-sm-0 mb-3 print-invoice">Print Invoice</button>
+                            <button class="btn btn-primary mb-sm-0 mb-3 print-invoice" onclick="window.print()">Print Invoice</button>
                         </div>
                         <!-- -===== Print Area =======-->
                         <div id="print-area">
