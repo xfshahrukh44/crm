@@ -256,8 +256,8 @@
 
 @push('scripts')
 {{--<script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>--}}
-<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.7.0/summernote.css" rel="stylesheet">
-<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.7.0/summernote.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.7.0/summernote.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.7.0/summernote.js"></script>
 
 <!-- Place the following <script> and <textarea> tags your HTML's <body> -->
 <script>
