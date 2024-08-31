@@ -88,14 +88,15 @@
                                                 <br />
                                                 Sales figures
                                             </a>
-                                        </p></div>
+                                        </p>
+                                    </div>
                                 @endif
 
 
                                 @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]) || (auth()->user()->is_employee == 4 && auth()->user()->is_support_head))
                                     <div class="col"><p style="font-size: medium;">
                                             <a href="#" wire:click="set_active_page('brief_pending-{{$brand->id}}')">
-                                                <i class="i-Folder-Close text-primary"></i>
+                                                <i class="far fa-folder text-primary"></i>
                                                 <br />
                                                 Briefs pending
                                             </a>

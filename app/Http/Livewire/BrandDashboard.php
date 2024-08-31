@@ -10,7 +10,6 @@ use App\Models\BookWriting;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Client;
-use App\Models\ClientFile;
 use App\Models\ContentWritingForm;
 use App\Models\Currency;
 use App\Models\Invoice;
@@ -35,7 +34,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -98,6 +96,10 @@ class BrandDashboard extends Component
 
     public $reassign_pending_project_id = '';
     public $reassign_pending_agent_id = '';
+
+    public $admin_sales_report_buh_id = '';
+
+    public $manager_sales_report_agent_id = '';
 
     public function construct()
     {
@@ -182,6 +184,10 @@ class BrandDashboard extends Component
         } else if (str_contains($this->active_page, 'client_message_show')) {
             $client_user_id = intval(str_replace('client_message_show-', '', $this->active_page));
             $view = $this->client_message_show($client_user_id);
+        } else if (str_contains($this->active_page, 'admin_sales_report')) {
+            $view = $this->admin_sales_report();
+        } else if (str_contains($this->active_page, 'manager_sales_report')) {
+            $view = $this->manager_sales_report();
         }
 
         return $view;
@@ -1096,5 +1102,143 @@ class BrandDashboard extends Component
         $this->emit('success', $project->name . ' Reassigned Successfully');
 
         $this->render();
+    }
+
+    public function admin_sales_report ()
+    {
+        $buh_users = User::where('is_employee', 6)->orderBy('name', 'ASC')->get();
+        $selected_buh = ($this->admin_sales_report_buh_id != '') ? User::find($this->admin_sales_report_buh_id) : null;
+
+        $today_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_buh), function ($q) use ($selected_buh) { return $q->whereIn('brand', $selected_buh->brand_list()); })->whereDate('updated_at', Carbon::today())->pluck('id')->toArray());
+
+        $monday_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_buh), function ($q) use ($selected_buh) { return $q->whereIn('brand', $selected_buh->brand_list()); })->whereDate('updated_at', Carbon::now()->weekday(1))->pluck('id')->toArray());
+        $tuesday_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_buh), function ($q) use ($selected_buh) { return $q->whereIn('brand', $selected_buh->brand_list()); })->whereDate('updated_at', Carbon::now()->weekday(2))->pluck('id')->toArray());
+        $wednesday_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_buh), function ($q) use ($selected_buh) { return $q->whereIn('brand', $selected_buh->brand_list()); })->whereDate('updated_at', Carbon::now()->weekday(3))->pluck('id')->toArray());
+        $thursday_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_buh), function ($q) use ($selected_buh) { return $q->whereIn('brand', $selected_buh->brand_list()); })->whereDate('updated_at', Carbon::now()->weekday(4))->pluck('id')->toArray());
+        $friday_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_buh), function ($q) use ($selected_buh) { return $q->whereIn('brand', $selected_buh->brand_list()); })->whereDate('updated_at', Carbon::now()->weekday(5))->pluck('id')->toArray());
+        $saturday_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_buh), function ($q) use ($selected_buh) { return $q->whereIn('brand', $selected_buh->brand_list()); })->whereDate('updated_at', Carbon::now()->weekday(6))->pluck('id')->toArray());
+        $sunday_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_buh), function ($q) use ($selected_buh) { return $q->whereIn('brand', $selected_buh->brand_list()); })->whereDate('updated_at', Carbon::now()->weekday(7))->pluck('id')->toArray());
+        $this_week_total_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_buh), function ($q) use ($selected_buh) { return $q->whereIn('brand', $selected_buh->brand_list()); })->whereDate('updated_at', '>=', Carbon::now()->weekday(1))->whereDate('updated_at', '<=', Carbon::now()->weekday(7))->pluck('id')->toArray());
+
+        $this_month_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_buh), function ($q) use ($selected_buh) { return $q->whereIn('brand', $selected_buh->brand_list()); })->whereDate('updated_at', '>=', Carbon::now()->startOfMonth())->whereDate('updated_at', '<=', Carbon::now()->endOfMonth())->pluck('id')->toArray());
+
+        $january_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_buh), function ($q) use ($selected_buh) { return $q->whereIn('brand', $selected_buh->brand_list()); })->whereDate('updated_at', '>=', Carbon::create(null, 1)->startOfMonth())->whereDate('updated_at', '<=', Carbon::create(null, 1)->endOfMonth())->pluck('id')->toArray());
+        $february_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_buh), function ($q) use ($selected_buh) { return $q->whereIn('brand', $selected_buh->brand_list()); })->whereDate('updated_at', '>=', Carbon::create(null, 2)->startOfMonth())->whereDate('updated_at', '<=', Carbon::create(null, 2)->endOfMonth())->pluck('id')->toArray());
+        $march_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_buh), function ($q) use ($selected_buh) { return $q->whereIn('brand', $selected_buh->brand_list()); })->whereDate('updated_at', '>=', Carbon::create(null, 3)->startOfMonth())->whereDate('updated_at', '<=', Carbon::create(null, 3)->endOfMonth())->pluck('id')->toArray());
+        $april_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_buh), function ($q) use ($selected_buh) { return $q->whereIn('brand', $selected_buh->brand_list()); })->whereDate('updated_at', '>=', Carbon::create(null, 4)->startOfMonth())->whereDate('updated_at', '<=', Carbon::create(null, 4)->endOfMonth())->pluck('id')->toArray());
+        $may_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_buh), function ($q) use ($selected_buh) { return $q->whereIn('brand', $selected_buh->brand_list()); })->whereDate('updated_at', '>=', Carbon::create(null, 5)->startOfMonth())->whereDate('updated_at', '<=', Carbon::create(null, 5)->endOfMonth())->pluck('id')->toArray());
+        $june_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_buh), function ($q) use ($selected_buh) { return $q->whereIn('brand', $selected_buh->brand_list()); })->whereDate('updated_at', '>=', Carbon::create(null, 6)->startOfMonth())->whereDate('updated_at', '<=', Carbon::create(null, 6)->endOfMonth())->pluck('id')->toArray());
+        $july_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_buh), function ($q) use ($selected_buh) { return $q->whereIn('brand', $selected_buh->brand_list()); })->whereDate('updated_at', '>=', Carbon::create(null, 7)->startOfMonth())->whereDate('updated_at', '<=', Carbon::create(null, 7)->endOfMonth())->pluck('id')->toArray());
+        $august_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_buh), function ($q) use ($selected_buh) { return $q->whereIn('brand', $selected_buh->brand_list()); })->whereDate('updated_at', '>=', Carbon::create(null, 8)->startOfMonth())->whereDate('updated_at', '<=', Carbon::create(null, 8)->endOfMonth())->pluck('id')->toArray());
+        $september_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_buh), function ($q) use ($selected_buh) { return $q->whereIn('brand', $selected_buh->brand_list()); })->whereDate('updated_at', '>=', Carbon::create(null, 9)->startOfMonth())->whereDate('updated_at', '<=', Carbon::create(null, 9)->endOfMonth())->pluck('id')->toArray());
+        $october_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_buh), function ($q) use ($selected_buh) { return $q->whereIn('brand', $selected_buh->brand_list()); })->whereDate('updated_at', '>=', Carbon::create(null, 10)->startOfMonth())->whereDate('updated_at', '<=', Carbon::create(null, 10)->endOfMonth())->pluck('id')->toArray());
+        $november_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_buh), function ($q) use ($selected_buh) { return $q->whereIn('brand', $selected_buh->brand_list()); })->whereDate('updated_at', '>=', Carbon::create(null, 11)->startOfMonth())->whereDate('updated_at', '<=', Carbon::create(null, 11)->endOfMonth())->pluck('id')->toArray());
+        $december_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_buh), function ($q) use ($selected_buh) { return $q->whereIn('brand', $selected_buh->brand_list()); })->whereDate('updated_at', '>=', Carbon::create(null, 12)->startOfMonth())->whereDate('updated_at', '<=', Carbon::create(null, 12)->endOfMonth())->pluck('id')->toArray());
+        $this_year_total_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_buh), function ($q) use ($selected_buh) { return $q->whereIn('brand', $selected_buh->brand_list()); })->whereDate('updated_at', '>=', Carbon::create(null, 1)->startOfMonth())->whereDate('updated_at', '<=', Carbon::create(null, 12)->endOfMonth())->pluck('id')->toArray());
+
+
+        $report = [
+            'today' => $today_invoices,
+            'this_week' => [
+                'Monday' => $monday_invoices,
+                'Tuesday' => $tuesday_invoices,
+                'Wednesday' => $wednesday_invoices,
+                'Thursday' => $thursday_invoices,
+                'Friday' => $friday_invoices,
+                'Saturday' => $saturday_invoices,
+                'Sunday' => $sunday_invoices,
+            ],
+            'this_week_total' => $this_week_total_invoices,
+            'this_month' => $this_month_invoices,
+            'this_year' => [
+                'January' => $january_invoices,
+                'February' => $february_invoices,
+                'March' => $march_invoices,
+                'April' => $april_invoices,
+                'May' => $may_invoices,
+                'June' => $june_invoices,
+                'July' => $july_invoices,
+                'August' => $august_invoices,
+                'September' => $september_invoices,
+                'October' => $october_invoices,
+                'November' => $november_invoices,
+                'December' => $december_invoices,
+            ],
+            'this_year_total' => $this_year_total_invoices,
+        ];
+
+
+        $this->emit('emit_select2', ['selector' => '#buh_id', 'name' => 'admin_sales_report_buh_id' ]);
+
+        return view('livewire.admin.sales-report', compact('buh_users', 'report'))->extends($this->layout);
+    }
+
+    public function manager_sales_report ()
+    {
+        $agents = User::whereIn('is_employee', [0, 4, 6])->orderBy('name', 'ASC')->get();
+        $selected_agent = ($this->manager_sales_report_agent_id != '') ? User::find($this->manager_sales_report_agent_id) : null;
+
+        $today_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_agent), function ($q) use ($selected_agent) { return $q->where('sales_agent_id', $selected_agent->id); })->whereIn('brand', auth()->user()->brand_list())->whereDate('updated_at', Carbon::today())->pluck('id')->toArray());
+
+        $monday_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_agent), function ($q) use ($selected_agent) { return $q->where('sales_agent_id', $selected_agent->id); })->whereIn('brand', auth()->user()->brand_list())->whereDate('updated_at', Carbon::now()->weekday(1))->pluck('id')->toArray());
+        $tuesday_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_agent), function ($q) use ($selected_agent) { return $q->where('sales_agent_id', $selected_agent->id); })->whereIn('brand', auth()->user()->brand_list())->whereDate('updated_at', Carbon::now()->weekday(2))->pluck('id')->toArray());
+        $wednesday_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_agent), function ($q) use ($selected_agent) { return $q->where('sales_agent_id', $selected_agent->id); })->whereIn('brand', auth()->user()->brand_list())->whereDate('updated_at', Carbon::now()->weekday(3))->pluck('id')->toArray());
+        $thursday_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_agent), function ($q) use ($selected_agent) { return $q->where('sales_agent_id', $selected_agent->id); })->whereIn('brand', auth()->user()->brand_list())->whereDate('updated_at', Carbon::now()->weekday(4))->pluck('id')->toArray());
+        $friday_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_agent), function ($q) use ($selected_agent) { return $q->where('sales_agent_id', $selected_agent->id); })->whereIn('brand', auth()->user()->brand_list())->whereDate('updated_at', Carbon::now()->weekday(5))->pluck('id')->toArray());
+        $saturday_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_agent), function ($q) use ($selected_agent) { return $q->where('sales_agent_id', $selected_agent->id); })->whereIn('brand', auth()->user()->brand_list())->whereDate('updated_at', Carbon::now()->weekday(6))->pluck('id')->toArray());
+        $sunday_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_agent), function ($q) use ($selected_agent) { return $q->where('sales_agent_id', $selected_agent->id); })->whereIn('brand', auth()->user()->brand_list())->whereDate('updated_at', Carbon::now()->weekday(7))->pluck('id')->toArray());
+        $this_week_total_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_agent), function ($q) use ($selected_agent) { return $q->where('sales_agent_id', $selected_agent->id); })->whereIn('brand', auth()->user()->brand_list())->whereDate('updated_at', '>=', Carbon::now()->weekday(1))->whereDate('updated_at', '<=', Carbon::now()->weekday(7))->pluck('id')->toArray());
+
+        $this_month_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_agent), function ($q) use ($selected_agent) { return $q->where('sales_agent_id', $selected_agent->id); })->whereIn('brand', auth()->user()->brand_list())->whereDate('updated_at', '>=', Carbon::now()->startOfMonth())->whereDate('updated_at', '<=', Carbon::now()->endOfMonth())->pluck('id')->toArray());
+
+        $january_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_agent), function ($q) use ($selected_agent) { return $q->where('sales_agent_id', $selected_agent->id); })->whereIn('brand', auth()->user()->brand_list())->whereDate('updated_at', '>=', Carbon::create(null, 1)->startOfMonth())->whereDate('updated_at', '<=', Carbon::create(null, 1)->endOfMonth())->pluck('id')->toArray());
+        $february_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_agent), function ($q) use ($selected_agent) { return $q->where('sales_agent_id', $selected_agent->id); })->whereIn('brand', auth()->user()->brand_list())->whereDate('updated_at', '>=', Carbon::create(null, 2)->startOfMonth())->whereDate('updated_at', '<=', Carbon::create(null, 2)->endOfMonth())->pluck('id')->toArray());
+        $march_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_agent), function ($q) use ($selected_agent) { return $q->where('sales_agent_id', $selected_agent->id); })->whereIn('brand', auth()->user()->brand_list())->whereDate('updated_at', '>=', Carbon::create(null, 3)->startOfMonth())->whereDate('updated_at', '<=', Carbon::create(null, 3)->endOfMonth())->pluck('id')->toArray());
+        $april_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_agent), function ($q) use ($selected_agent) { return $q->where('sales_agent_id', $selected_agent->id); })->whereIn('brand', auth()->user()->brand_list())->whereDate('updated_at', '>=', Carbon::create(null, 4)->startOfMonth())->whereDate('updated_at', '<=', Carbon::create(null, 4)->endOfMonth())->pluck('id')->toArray());
+        $may_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_agent), function ($q) use ($selected_agent) { return $q->where('sales_agent_id', $selected_agent->id); })->whereIn('brand', auth()->user()->brand_list())->whereDate('updated_at', '>=', Carbon::create(null, 5)->startOfMonth())->whereDate('updated_at', '<=', Carbon::create(null, 5)->endOfMonth())->pluck('id')->toArray());
+        $june_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_agent), function ($q) use ($selected_agent) { return $q->where('sales_agent_id', $selected_agent->id); })->whereIn('brand', auth()->user()->brand_list())->whereDate('updated_at', '>=', Carbon::create(null, 6)->startOfMonth())->whereDate('updated_at', '<=', Carbon::create(null, 6)->endOfMonth())->pluck('id')->toArray());
+        $july_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_agent), function ($q) use ($selected_agent) { return $q->where('sales_agent_id', $selected_agent->id); })->whereIn('brand', auth()->user()->brand_list())->whereDate('updated_at', '>=', Carbon::create(null, 7)->startOfMonth())->whereDate('updated_at', '<=', Carbon::create(null, 7)->endOfMonth())->pluck('id')->toArray());
+        $august_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_agent), function ($q) use ($selected_agent) { return $q->where('sales_agent_id', $selected_agent->id); })->whereIn('brand', auth()->user()->brand_list())->whereDate('updated_at', '>=', Carbon::create(null, 8)->startOfMonth())->whereDate('updated_at', '<=', Carbon::create(null, 8)->endOfMonth())->pluck('id')->toArray());
+        $september_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_agent), function ($q) use ($selected_agent) { return $q->where('sales_agent_id', $selected_agent->id); })->whereIn('brand', auth()->user()->brand_list())->whereDate('updated_at', '>=', Carbon::create(null, 9)->startOfMonth())->whereDate('updated_at', '<=', Carbon::create(null, 9)->endOfMonth())->pluck('id')->toArray());
+        $october_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_agent), function ($q) use ($selected_agent) { return $q->where('sales_agent_id', $selected_agent->id); })->whereIn('brand', auth()->user()->brand_list())->whereDate('updated_at', '>=', Carbon::create(null, 10)->startOfMonth())->whereDate('updated_at', '<=', Carbon::create(null, 10)->endOfMonth())->pluck('id')->toArray());
+        $november_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_agent), function ($q) use ($selected_agent) { return $q->where('sales_agent_id', $selected_agent->id); })->whereIn('brand', auth()->user()->brand_list())->whereDate('updated_at', '>=', Carbon::create(null, 11)->startOfMonth())->whereDate('updated_at', '<=', Carbon::create(null, 11)->endOfMonth())->pluck('id')->toArray());
+        $december_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_agent), function ($q) use ($selected_agent) { return $q->where('sales_agent_id', $selected_agent->id); })->whereIn('brand', auth()->user()->brand_list())->whereDate('updated_at', '>=', Carbon::create(null, 12)->startOfMonth())->whereDate('updated_at', '<=', Carbon::create(null, 12)->endOfMonth())->pluck('id')->toArray());
+        $this_year_total_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_agent), function ($q) use ($selected_agent) { return $q->where('sales_agent_id', $selected_agent->id); })->whereIn('brand', auth()->user()->brand_list())->whereDate('updated_at', '>=', Carbon::create(null, 1)->startOfMonth())->whereDate('updated_at', '<=', Carbon::create(null, 12)->endOfMonth())->pluck('id')->toArray());
+
+
+        $report = [
+            'today' => $today_invoices,
+            'this_week' => [
+                'Monday' => $monday_invoices,
+                'Tuesday' => $tuesday_invoices,
+                'Wednesday' => $wednesday_invoices,
+                'Thursday' => $thursday_invoices,
+                'Friday' => $friday_invoices,
+                'Saturday' => $saturday_invoices,
+                'Sunday' => $sunday_invoices,
+            ],
+            'this_week_total' => $this_week_total_invoices,
+            'this_month' => $this_month_invoices,
+            'this_year' => [
+                'January' => $january_invoices,
+                'February' => $february_invoices,
+                'March' => $march_invoices,
+                'April' => $april_invoices,
+                'May' => $may_invoices,
+                'June' => $june_invoices,
+                'July' => $july_invoices,
+                'August' => $august_invoices,
+                'September' => $september_invoices,
+                'October' => $october_invoices,
+                'November' => $november_invoices,
+                'December' => $december_invoices,
+            ],
+            'this_year_total' => $this_year_total_invoices,
+        ];
+
+
+        $this->emit('emit_select2', ['selector' => '#agent_id', 'name' => 'manager_sales_report_agent_id' ]);
+
+        return view('livewire.manager.sales-report', compact('agents', 'report'))->extends($this->layout);
     }
 }

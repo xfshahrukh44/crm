@@ -26,6 +26,21 @@
     <div class="breadcrumb">
         <h1 class="mr-2">Brands dashboard</h1>
     </div>
+
+    @if(auth()->user()->is_employee == 2)
+        <div class="breadcrumb">
+            <h5>
+                <a href="#" wire:click="set_active_page('admin_sales_report')" class="badge badge-success">View sales report</a>
+            </h5>
+        </div>
+    @endif
+    @if(auth()->user()->is_employee == 6)
+        <div class="breadcrumb">
+            <h5>
+                <a href="#" wire:click="set_active_page('manager_sales_report')" class="badge badge-success">View sales report</a>
+            </h5>
+        </div>
+    @endif
     <div class="separator-breadcrumb border-top"></div>
     <div class="row mb-4">
         <div class="col-md-12">

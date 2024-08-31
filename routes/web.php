@@ -455,7 +455,8 @@ Route::get('check-if-external-client', [GeneralBrandController::class, 'check_if
 Route::post('clear-notification', [GeneralBrandController::class, 'clear_notification'])->middleware('auth')->name('clear-notification');
 
 Route::get('temp', function () {
-    dd(DB::table('notifications')->whereNotNull('read_at')->whereDate('created_at', '<=', Carbon::parse('30 March 2022'))->count());
+    $date = Carbon::parse('31 December 2023');
+    dump(DB::table('notifications')->whereDate('created_at', '<=', $date)->count());
 //    \App\Models\Client::whereHas('user', function ($q) {
 //        return $q->whereHas('projects', function ($q) {
 //            return $q->whereHas('tasks', function ($q) {
