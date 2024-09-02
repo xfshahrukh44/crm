@@ -79,6 +79,9 @@
                                 </table>
                             </div>
 
+                            @php
+                              $weekday_index = \Carbon\Carbon::now()->dayOfWeek;
+                            @endphp
                             <div class="col-md-8 offset-md-2 my-2 py-2">
                                 <table class="table table-sm table-bordered">
                                     <thead>
@@ -86,7 +89,7 @@
                                             <th colspan="999"><h4>This week</h4></th>
                                         </tr>
                                         <tr>
-                                            <th class="text-center">Monday</th>
+                                            <th class="text-center {!! $weekday_index == 1 ? 'text-danger' : '' !!}">Monday</th>
                                             @forelse($report['this_week']['Monday'] as $symbol => $total)
                                                 <th class="text-center" colspan="{{$loop->last ? '999' : ''}}">
                                                     <strong>{{$symbol}}</strong>
@@ -99,7 +102,7 @@
                                             @endforelse
                                         </tr>
                                         <tr>
-                                            <th class="text-center">Tuesday</th>
+                                            <th class="text-center {!! $weekday_index == 2 ? 'text-danger' : '' !!}">Tuesday</th>
                                             @forelse($report['this_week']['Tuesday'] as $symbol => $total)
                                                 <th class="text-center" colspan="{{$loop->last ? '999' : ''}}">
                                                     <strong>{{$symbol}}</strong>
@@ -112,7 +115,7 @@
                                             @endforelse
                                         </tr>
                                         <tr>
-                                            <th class="text-center">Wednesday</th>
+                                            <th class="text-center {!! $weekday_index == 3 ? 'text-danger' : '' !!}">Wednesday</th>
                                             @forelse($report['this_week']['Wednesday'] as $symbol => $total)
                                                 <th class="text-center" colspan="{{$loop->last ? '999' : ''}}">
                                                     <strong>{{$symbol}}</strong>
@@ -125,7 +128,7 @@
                                             @endforelse
                                         </tr>
                                         <tr>
-                                            <th class="text-center">Thursday</th>
+                                            <th class="text-center {!! $weekday_index == 4 ? 'text-danger' : '' !!}">Thursday</th>
                                             @forelse($report['this_week']['Thursday'] as $symbol => $total)
                                                 <th class="text-center" colspan="{{$loop->last ? '999' : ''}}">
                                                     <strong>{{$symbol}}</strong>
@@ -138,7 +141,7 @@
                                             @endforelse
                                         </tr>
                                         <tr>
-                                            <th class="text-center">Friday</th>
+                                            <th class="text-center {!! $weekday_index == 5 ? 'text-danger' : '' !!}">Friday</th>
                                             @forelse($report['this_week']['Friday'] as $symbol => $total)
                                                 <th class="text-center" colspan="{{$loop->last ? '999' : ''}}">
                                                     <strong>{{$symbol}}</strong>
@@ -151,7 +154,7 @@
                                             @endforelse
                                         </tr>
                                         <tr>
-                                            <th class="text-center">Saturday</th>
+                                            <th class="text-center {!! $weekday_index == 6 ? 'text-danger' : '' !!}">Saturday</th>
                                             @forelse($report['this_week']['Saturday'] as $symbol => $total)
                                                 <th class="text-center" colspan="{{$loop->last ? '999' : ''}}">
                                                     <strong>{{$symbol}}</strong>
@@ -164,7 +167,7 @@
                                             @endforelse
                                         </tr>
                                         <tr>
-                                            <th class="text-center">Sunday</th>
+                                            <th class="text-center {!! $weekday_index == 0 ? 'text-danger' : '' !!}">Sunday</th>
                                             @forelse($report['this_week']['Sunday'] as $symbol => $total)
                                                 <th class="text-center" colspan="{{$loop->last ? '999' : ''}}">
                                                     <strong>{{$symbol}}</strong>
@@ -217,6 +220,9 @@
                                 </table>
                             </div>
 
+                            @php
+                                $month_index = \Carbon\Carbon::now()->month;
+                            @endphp
                             <div class="col-md-8 offset-md-2 my-2 py-2">
                                 <table class="table table-sm table-bordered">
                                     <thead>
@@ -224,7 +230,7 @@
                                             <th colspan="999"><h4>This year</h4></th>
                                         </tr>
                                         <tr>
-                                            <th class="text-center">January</th>
+                                            <th class="text-center {!! $month_index == 1 ? 'text-danger' : '' !!}">January</th>
                                             @forelse($report['this_year']['January'] as $symbol => $total)
                                                 <th class="text-center" colspan="{{$loop->last ? '999' : ''}}">
                                                     <strong>{{$symbol}}</strong>
@@ -237,7 +243,7 @@
                                             @endforelse
                                         </tr>
                                         <tr>
-                                            <th class="text-center">February</th>
+                                            <th class="text-center {!! $month_index == 2 ? 'text-danger' : '' !!}">February</th>
                                             @forelse($report['this_year']['February'] as $symbol => $total)
                                                 <th class="text-center" colspan="{{$loop->last ? '999' : ''}}">
                                                     <strong>{{$symbol}}</strong>
@@ -250,7 +256,7 @@
                                             @endforelse
                                         </tr>
                                         <tr>
-                                            <th class="text-center">March</th>
+                                            <th class="text-center {!! $month_index == 3 ? 'text-danger' : '' !!}">March</th>
                                             @forelse($report['this_year']['March'] as $symbol => $total)
                                                 <th class="text-center" colspan="{{$loop->last ? '999' : ''}}">
                                                     <strong>{{$symbol}}</strong>
@@ -263,7 +269,7 @@
                                             @endforelse
                                         </tr>
                                         <tr>
-                                            <th class="text-center">April</th>
+                                            <th class="text-center {!! $month_index == 4 ? 'text-danger' : '' !!}">April</th>
                                             @forelse($report['this_year']['April'] as $symbol => $total)
                                                 <th class="text-center" colspan="{{$loop->last ? '999' : ''}}">
                                                     <strong>{{$symbol}}</strong>
@@ -276,7 +282,7 @@
                                             @endforelse
                                         </tr>
                                         <tr>
-                                            <th class="text-center">May</th>
+                                            <th class="text-center {!! $month_index == 5 ? 'text-danger' : '' !!}">May</th>
                                             @forelse($report['this_year']['May'] as $symbol => $total)
                                                 <th class="text-center" colspan="{{$loop->last ? '999' : ''}}">
                                                     <strong>{{$symbol}}</strong>
@@ -289,7 +295,7 @@
                                             @endforelse
                                         </tr>
                                         <tr>
-                                            <th class="text-center">June</th>
+                                            <th class="text-center {!! $month_index == 6 ? 'text-danger' : '' !!}">June</th>
                                             @forelse($report['this_year']['June'] as $symbol => $total)
                                                 <th class="text-center" colspan="{{$loop->last ? '999' : ''}}">
                                                     <strong>{{$symbol}}</strong>
@@ -302,7 +308,7 @@
                                             @endforelse
                                         </tr>
                                         <tr>
-                                            <th class="text-center">July</th>
+                                            <th class="text-center {!! $month_index == 7 ? 'text-danger' : '' !!}">July</th>
                                             @forelse($report['this_year']['July'] as $symbol => $total)
                                                 <th class="text-center" colspan="{{$loop->last ? '999' : ''}}">
                                                     <strong>{{$symbol}}</strong>
@@ -315,7 +321,7 @@
                                             @endforelse
                                         </tr>
                                         <tr>
-                                            <th class="text-center">August</th>
+                                            <th class="text-center {!! $month_index == 8 ? 'text-danger' : '' !!}">August</th>
                                             @forelse($report['this_year']['August'] as $symbol => $total)
                                                 <th class="text-center" colspan="{{$loop->last ? '999' : ''}}">
                                                     <strong>{{$symbol}}</strong>
@@ -328,7 +334,7 @@
                                             @endforelse
                                         </tr>
                                         <tr>
-                                            <th class="text-center">September</th>
+                                            <th class="text-center {!! $month_index == 9 ? 'text-danger' : '' !!}">September</th>
                                             @forelse($report['this_year']['September'] as $symbol => $total)
                                                 <th class="text-center" colspan="{{$loop->last ? '999' : ''}}">
                                                     <strong>{{$symbol}}</strong>
@@ -341,7 +347,7 @@
                                             @endforelse
                                         </tr>
                                         <tr>
-                                            <th class="text-center">October</th>
+                                            <th class="text-center {!! $month_index == 10 ? 'text-danger' : '' !!}">October</th>
                                             @forelse($report['this_year']['October'] as $symbol => $total)
                                                 <th class="text-center" colspan="{{$loop->last ? '999' : ''}}">
                                                     <strong>{{$symbol}}</strong>
@@ -354,7 +360,7 @@
                                             @endforelse
                                         </tr>
                                         <tr>
-                                            <th class="text-center">November</th>
+                                            <th class="text-center {!! $month_index == 11 ? 'text-danger' : '' !!}">November</th>
                                             @forelse($report['this_year']['November'] as $symbol => $total)
                                                 <th class="text-center" colspan="{{$loop->last ? '999' : ''}}">
                                                     <strong>{{$symbol}}</strong>
@@ -367,7 +373,7 @@
                                             @endforelse
                                         </tr>
                                         <tr>
-                                            <th class="text-center">December</th>
+                                            <th class="text-center {!! $month_index == 12 ? 'text-danger' : '' !!}">December</th>
                                             @forelse($report['this_year']['December'] as $symbol => $total)
                                                 <th class="text-center" colspan="{{$loop->last ? '999' : ''}}">
                                                     <strong>{{$symbol}}</strong>
