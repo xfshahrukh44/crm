@@ -262,7 +262,7 @@
                                             <td>{{count($client->invoices)}}</td>
                                             <td>
                                                 @foreach($client_projects as $client_project)
-                                                    <a href="javascript:void(0)" wire:click="set_active_page('projects_detail-{{$client_project->id}}')" class="btn- btn btn-{!! no_pending_tasks_left($client_project->id) ? 'success' : 'warning' !!} btn-sm">{{str_replace($client_user->name, '', str_replace(' - ', '', $client_project->name))}}</a>
+                                                    <a href="javascript:void(0)" wire:click="set_active_page('projects_detail-{{$client_project->id}}')" class="btn- btn btn-{!! no_pending_tasks_left($client_project->id) ? 'success' : 'warning' !!} btn-sm">{{str_replace($client_user->name, '', str_replace(' - ', ' ', $client_project->name))}}</a>
                                                 @endforeach
                                             </td>
                                             <td>

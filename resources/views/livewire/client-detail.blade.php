@@ -349,7 +349,7 @@
                                                             </td>
                                                             <td style="vertical-align: middle;">
                                                                 <a wire:click="set_active_page('projects_detail-{{$project->id}}')" href="javascript:void(0)" class="anchor_project_name">
-                                                                    {{str_replace($client->name, '', str_replace(' - ', '', $project->name))}}
+                                                                    {{str_replace($client->name, '', str_replace(' - ', ' ', $project->name))}}
                                                                 </a>
                                                             </td>
 
