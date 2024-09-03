@@ -454,6 +454,11 @@ Route::get('fetch-search-bar-content', [GeneralBrandController::class, 'fetch_se
 Route::get('check-if-external-client', [GeneralBrandController::class, 'check_if_external_client'])->middleware('auth')->name('check-if-external-client');
 Route::post('clear-notification', [GeneralBrandController::class, 'clear_notification'])->middleware('auth')->name('clear-notification');
 
+Route::get('redirect-to-livewire', function (Request $request) {
+    session()->put('livewire_history', [ 'brands_dashboard', $request->page ]);
+    return redirect()->route('brands.dashboard.v3');
+})->name('redirect-to-livewire');
+
 Route::get('temp', function () {
     $date = Carbon::parse('31 December 2023');
     dump(DB::table('notifications')->whereDate('created_at', '<=', $date)->count());

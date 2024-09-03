@@ -239,24 +239,24 @@
 
         $('body').on('click', '.ui-menu-item', function () {
             if ($(this).data('type') == 'Brands') {
-                let redirect_url = "{{route('brands.detail', 'temp')}}";
-                redirect_url = redirect_url.replaceAll('temp', $(this).data('id'));
+                let redirect_url = "{{route('redirect-to-livewire', ['page' => 'temp'])}}";
+                redirect_url = redirect_url.replaceAll('temp', 'brands_detail-'+$(this).data('id'));
                 window.location.href = redirect_url;
             } else if ($(this).data('type') == 'Clients') {
-                let redirect_url = "{{route('clients.detail', 'temp')}}";
-                redirect_url = redirect_url.replaceAll('temp', $(this).data('id'));
+                let redirect_url = "{{route('redirect-to-livewire', ['page' => 'temp'])}}";
+                redirect_url = redirect_url.replaceAll('temp', 'clients_detail-'+$(this).data('id'));
                 window.location.href = redirect_url;
             }
         });
 
         $('body').on('keyup', '.ui-menu-item', function (e) {
             if ($(this).data('type') == 'Brands') {
-                let redirect_url = "{{route('brands.detail', 'temp')}}";
-                redirect_url = redirect_url.replaceAll('temp', $(this).data('id'));
+                let redirect_url = "{{route('redirect-to-livewire', ['page' => 'temp'])}}";
+                redirect_url = redirect_url.replaceAll('temp', 'brands_detail-'+$(this).data('id'));
                 window.location.href = redirect_url;
             } else if ($(this).data('type') == 'Clients') {
-                let redirect_url = "{{route('clients.detail', 'temp')}}";
-                redirect_url = redirect_url.replaceAll('temp', $(this).data('id'));
+                let redirect_url = "{{route('redirect-to-livewire', ['page' => 'temp'])}}";
+                redirect_url = redirect_url.replaceAll('temp', 'clients_detail-'+$(this).data('id'));
                 window.location.href = redirect_url;
             }
         });
