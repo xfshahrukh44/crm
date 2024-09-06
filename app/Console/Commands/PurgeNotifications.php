@@ -42,11 +42,10 @@ class PurgeNotifications extends Command
     public function handle()
     {
         $date = Carbon::now()->subMonth();
-        \Illuminate\Support\Facades\Log::info('purging notifications');
 
-//        foreach (DB::table('notifications')->whereDate('created_at', '<=', $date)->pluck('id') as $notification_id) {
-//            dispatch(new PurgeNotification($notification_id));
-//        }
+        foreach (DB::table('notifications')->whereDate('created_at', '<=', $date)->pluck('id') as $notification_id) {
+            dispatch(new PurgeNotification($notification_id));
+        }
 
         return Command::SUCCESS;
     }
