@@ -15,7 +15,7 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <div class="card-title mb-3">Payment Details Form</div>
-                    <form class="form" action="{{route('manager.invoice.create')}}" wire:submit.prevent="client_payment_save" enctype="multipart/form-data">
+                    <form class="form" action="#" wire:submit.prevent="client_payment_save" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" wire:model="client_payment_create_client_id">
                         <div class="form-body">
