@@ -1368,7 +1368,7 @@ function create_stripe_invoice ($invoice_id, $currency = 'usd') {
     }
 
     if (is_null($client->stripe_customer_id)) {
-        return false;
+        create_stripe_customer($client->id);
     }
 
     $stripe = new \Stripe\StripeClient('sk_test_51PwC1NKIH1Ehl47nVzMn8kCWtLqWlPv9bsjRm26tUi3sTUCacRZ3aiw4autOySf3rSt965n1EBGv5EwyQAfApxu300wnj3IhbS');
