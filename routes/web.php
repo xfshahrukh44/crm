@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Manager\ManagerUserController;
 use App\Http\Controllers\QAController;
+use App\Http\Controllers\StripeController;
 use App\Http\Controllers\SupportClientController;
 use App\Http\Controllers\SupportInvoiceController;
 use App\Http\Livewire\BrandDashboard;
@@ -455,6 +456,8 @@ Route::get('redirect-to-livewire', function (Request $request) {
     session()->put('livewire_history', [ 'brands_dashboard', $request->page ]);
     return redirect()->route('brands.dashboard.v3');
 })->name('redirect-to-livewire');
+
+Route::get('stripe-invoice-paid', [StripeController::class, 'stripe_invoice_paid'])->name('stripe.invoice.paid');
 
 Route::get('temp', function () {
     $date = Carbon::parse('31 December 2023');
