@@ -457,7 +457,7 @@ Route::get('redirect-to-livewire', function (Request $request) {
     return redirect()->route('brands.dashboard.v3');
 })->name('redirect-to-livewire');
 
-Route::get('stripe-invoice-paid', [StripeController::class, 'stripe_invoice_paid'])->name('stripe.invoice.paid');
+Route::post('stripe-invoice-paid', [StripeController::class, 'stripe_invoice_paid'])->name('stripe.invoice.paid');
 
 Route::get('temp', function () {
     $date = Carbon::parse('31 December 2023');
