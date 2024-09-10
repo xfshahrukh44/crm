@@ -14,8 +14,7 @@ class StripeController extends Controller
         Log::info(json_encode($request->all()));
 
         if ($request['data']['object']['id'] && $invoice = Invoice::where('stripe_invoice_id', $request['data']['object']['id'])->first()) {
-            $invoice->payment_status = 2;
-            $invoice->save();
+            mark_invoice_as_paid($invoice->id);
         }
 
         Log::info('----STRIPE PAYMENT WEBHOOK END----');
