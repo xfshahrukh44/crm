@@ -70,5 +70,6 @@ class Kernel extends HttpKernel
         'is_admin' => \App\Http\Middleware\IsAdmin::class,
         'is_client' => \App\Http\Middleware\IsClient::class,
         'is_sale_manager' => \App\Http\Middleware\IsSaleManager::class,
+        'verify.csrf.token' => \App\Http\Middleware\VerifyCsrfToken::class,
       ];
 }
