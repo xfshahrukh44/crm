@@ -1323,3 +1323,82 @@ function create_update_auth ($data) {
         return false;
     }
 }
+
+function create_clients_merchant_accounts ($client_id) {
+    $res = create_stripe_customer($client_id);
+
+    return $res;
+}
+
+function create_stripe_customer ($client_id) {
+    $client = Client::find($client_id);
+
+    if (!is_null($client->stripe_customer_id)) {
+        return true;
+    }
+
+    $stripe = new \Stripe\StripeClient('sk_test_51PwC1NKIH1Ehl47nVzMn8kCWtLqWlPv9bsjRm26tUi3sTUCacRZ3aiw4autOySf3rSt965n1EBGv5EwyQAfApxu300wnj3IhbS');
+
+    $stripe_customer_res = $stripe->customers->create([
+        'name' => $client->name . ' ' . $client->last_name,
+        'email' => $client->email
+    ]);
+
+    if (!$stripe_customer_res->id) {
+        return false;
+    }
+
+    $client->stripe_customer_id = $stripe_customer_res->id;
+    $client->save();
+
+    return true;
+}
+
+function create_stripe_invoice ($invoice_id, $currency = 'usd') {
+    if (!$invoice = Invoice::find($invoice_id)) {
+        return false;
+    }
+
+    if (($invoice->amount * 100) < 100) {
+        return false;
+    }
+
+    if (!$client = Client::find($invoice->client_id)) {
+        return false;
+    }
+
+    if (is_null($client->stripe_customer_id)) {
+        return false;
+    }
+
+    $stripe = new \Stripe\StripeClient('sk_test_51PwC1NKIH1Ehl47nVzMn8kCWtLqWlPv9bsjRm26tUi3sTUCacRZ3aiw4autOySf3rSt965n1EBGv5EwyQAfApxu300wnj3IhbS');
+
+    $stripe_invoice_res = $stripe->invoices->create([
+        'customer' => $client->stripe_customer_id,
+        'collection_method' => 'send_invoice',
+        'currency' => $currency,
+        'due_date' => Carbon::now()->addYear()->timestamp,
+    ]);
+
+    $stripe_price_res = $stripe->prices->create([
+        'currency' => $currency,
+        'unit_amount' => $invoice->amount * 100,
+        'product_data' => ['name' => 'Gold Plan'],
+    ]);
+
+    $stripe_invoice_item_res = $stripe->invoiceItems->create([
+        'invoice' => $stripe_invoice_res->id,
+        'customer' => $client->stripe_customer_id,
+        'currency' => $currency,
+        'price' => $stripe_price_res->id
+    ]);
+
+    $stripe->invoices->finalizeInvoice($stripe_invoice_res->id);
+    $stripe_invoice = $stripe->invoices->retrieve($stripe_invoice_res->id);
+
+    $invoice->stripe_invoice_id = $stripe_invoice->id;
+    $invoice->stripe_invoice_url = $stripe_invoice->hosted_invoice_url;
+    $invoice->save();
+
+    return true;
+}

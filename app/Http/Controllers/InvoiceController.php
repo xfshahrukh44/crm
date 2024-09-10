@@ -211,6 +211,18 @@ class InvoiceController extends Controller
             $service = implode(",",$request->service);
             $invoice->service = $service;
             $invoice->save();
+
+            //create stripe invoice
+//            if ($request->get('merchant') == 4) {
+                $currency_map = [
+                    1 => 'usd',
+                    2 => 'cad',
+                    3 => 'gbp',
+                ];
+
+                $stripe_invoice_res = create_stripe_invoice($invoice->id, $currency_map[$request->get('currency') ?? 1]);
+//            }
+
             $id = $invoice->id;
 
             if (session()->has('redirect_to_client_detail')) {
@@ -929,7 +941,19 @@ class InvoiceController extends Controller
 		$service = implode(",",$request->service);
 		$invoice->service = $service;
         $invoice->merchant_id = $request->merchant;
-        $invoice->save();				
+        $invoice->save();
+
+        //create stripe invoice
+        if ($request->get('merchant') == 4) {
+            $currency_map = [
+                1 => 'usd',
+                2 => 'cad',
+                3 => 'gbp',
+            ];
+
+            $stripe_invoice_res = create_stripe_invoice($invoice->id, $currency_map[$request->get('currency') ?? 1]);
+        }
+
 		$id = $invoice->id;
         
         $id = Crypt::encrypt($id);
@@ -1065,7 +1089,19 @@ class InvoiceController extends Controller
 		$invoice->service = $service;
 		$invoice->merchant_id = $request->merchant;
 
-        $invoice->save();				
+        $invoice->save();
+
+        //create stripe invoice
+        if ($request->get('merchant') == 4) {
+            $currency_map = [
+                1 => 'usd',
+                2 => 'cad',
+                3 => 'gbp',
+            ];
+
+            $stripe_invoice_res = create_stripe_invoice($invoice->id, $currency_map[$request->get('currency') ?? 1]);
+        }
+
 		$id = $invoice->id;
         
         $id = Crypt::encrypt($id);

@@ -359,6 +359,9 @@ class BrandDashboard extends Component
             'status' => $this->client_create_status,
         ]);
 
+        //create stripe customer
+        create_clients_merchant_accounts($client->id);
+
         $this->emit('success', 'Client created successfully');
 
         return $this->set_active_page('client_payment_link-' . $client->id);
@@ -461,6 +464,18 @@ class BrandDashboard extends Component
         $invoice->service = $service;
         $invoice->merchant_id = $this->client_payment_create_merchant;
         $invoice->save();
+
+        //create stripe invoice
+        if ($this->client_payment_create_merchant == 4) {
+            $currency_map = [
+                1 => 'usd',
+                2 => 'cad',
+                3 => 'gbp',
+            ];
+
+            $stripe_invoice_res = create_stripe_invoice($invoice->id, $currency_map[$this->client_payment_create_currency ?? 1]);
+        }
+        
         $id = $invoice->id;
 
         $id = Crypt::encrypt($id);

@@ -154,6 +154,9 @@ class ClientController extends Controller
         $request->request->add(['user_id' => auth()->user()->id]);
         $client = Client::create($request->all());
 
+        //create stripe customer
+        create_clients_merchant_accounts($client->id);
+
         if ($request->has('redirect_to_client_detail')) {
             session()->put('redirect_to_client_detail', true);
         }
