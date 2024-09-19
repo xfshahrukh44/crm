@@ -20,6 +20,7 @@ use App\Models\Message;
 use App\Models\NoForm;
 use App\Models\Project;
 use App\Models\Proofreading;
+use App\Models\SeoBrief;
 use App\Models\SeoForm;
 use App\Models\Service;
 use App\Models\SmmForm;
@@ -697,18 +698,28 @@ class BrandDashboard extends Component
                 //}
             }
             elseif($service->form == 12){
-                    // Author Website
-                    //if($invoice->createform == 1){
-                    $book_printing = new Bookprinting();
-                    $book_printing->invoice_id = $invoice->id;
-                    if($user_client != null){
-                        $book_printing->user_id = $user_client->id;
-                    }
-                    $book_printing->client_id = $user->id;
-                    $book_printing->agent_id = $invoice->sales_agent_id;
-                    $book_printing->save();
-                    //}
+                // Author Website
+                //if($invoice->createform == 1){
+                $book_printing = new Bookprinting();
+                $book_printing->invoice_id = $invoice->id;
+                if($user_client != null){
+                    $book_printing->user_id = $user_client->id;
                 }
+                $book_printing->client_id = $user->id;
+                $book_printing->agent_id = $invoice->sales_agent_id;
+                $book_printing->save();
+                //}
+            }
+            elseif($service->form == 13){
+                $seo_form = new SeoBrief();
+                $seo_form->invoice_id = $invoice->id;
+                if($user_client != null){
+                    $seo_form->user_id = $user_client->id;
+                }
+                $seo_form->client_id = $user->id;
+                $seo_form->agent_id = $invoice->sales_agent_id;
+                $seo_form->save();
+            }
         }
         $invoice->payment_status = 2;
         $invoice->invoice_date = Carbon::today()->toDateTimeString();
@@ -1031,6 +1042,17 @@ class BrandDashboard extends Component
             $client_id = $bookprinting_form->user->id;
             $brand_id = $bookprinting_form->invoice->brand;
             $description = $bookprinting_form->information;
+        }elseif($form_checker == 13){
+            // Search Engine Optimization Form
+            $seo_form = SeoBrief::find($form_id);
+            if($seo_form->company_name != null){
+                $name = $seo_form->company_name . ' - SEO';
+            }else{
+                $name = $seo_form->user->name . ' - SEO';
+            }
+            $client_id = $seo_form->user->id;
+            $brand_id = $seo_form->invoice->brand;
+            $description = $seo_form->company_name;
         }
 
         $project = new Project();

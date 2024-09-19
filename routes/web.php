@@ -6,8 +6,6 @@ use App\Http\Controllers\StripeController;
 use App\Http\Controllers\SupportClientController;
 use App\Http\Controllers\SupportInvoiceController;
 use App\Http\Livewire\BrandDashboard;
-use App\Http\Livewire\BrandDetail;
-use App\Models\Invoice;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -99,6 +97,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('client/smm/{id}', [SmmFormController::class, 'update'])->name('client.smm.form.update');
         Route::post('client/content/{id}', [ContentWritingFormController::class, 'update'])->name('client.content.form.update');
         Route::post('client/seo/{id}', [SeoFormController::class, 'update'])->name('client.seo.form.update');
+        Route::post('client/seo-brief/{id}', [SeoFormController::class, 'updateBrief'])->name('client.seo-brief.form.update');
         Route::post('client/bookformatting/{id}', [BookFormattingController::class, 'update'])->name('client.bookformatting.form.update');
         Route::post('client/bookwriting/{id}', [BookWritingController::class, 'update'])->name('client.bookwriting.form.update');
         Route::post('client/authorwebsite/{id}', [AuthorWebsiteController::class, 'update'])->name('client.authorwebsite.form.update');

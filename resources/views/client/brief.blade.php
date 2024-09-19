@@ -1582,6 +1582,8 @@
                                 </div>
                             </div>
                         </form>
+                        @elseif($forms->form_type == 13)
+                            @include('client.forms.seo-brief-form')
                         @elseif($forms->form_type == 6)
                         <form class="col-md-12 brief-form p-0" method="post" action="{{ route('client.bookformatting.form.update', $forms->id) }}" enctype="multipart/form-data">
                             @csrf

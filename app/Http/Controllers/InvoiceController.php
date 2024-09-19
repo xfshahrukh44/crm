@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SeoBrief;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\Invoice;
 use App\Models\Client;
@@ -1402,6 +1403,16 @@ class InvoiceController extends Controller
                         $book_printing->save();
                     //}
                 }
+                elseif($service->form == 13){
+                    $seo_form = new SeoBrief();
+                    $seo_form->invoice_id = $invoice->id;
+                    if($user_client != null){
+                        $seo_form->user_id = $user_client->id;
+                    }
+                    $seo_form->client_id = $user->id;
+                    $seo_form->agent_id = $invoice->sales_agent_id;
+                    $seo_form->save();
+                }
                 
                 
             }
@@ -1600,6 +1611,16 @@ class InvoiceController extends Controller
                         $book_printing->agent_id = $invoice->sales_agent_id;
                         $book_printing->save();
                     //}
+                }
+                elseif($service->form == 13){
+                    $seo_form = new SeoBrief();
+                    $seo_form->invoice_id = $invoice->id;
+                    if($user_client != null){
+                        $seo_form->user_id = $user_client->id;
+                    }
+                    $seo_form->client_id = $user->id;
+                    $seo_form->agent_id = $invoice->sales_agent_id;
+                    $seo_form->save();
                 }
 
 
@@ -1804,6 +1825,16 @@ class InvoiceController extends Controller
                             $book_printing->agent_id = $invoice->sales_agent_id;
                             $book_printing->save();
                         //}
+                    }
+                    elseif($service->form == 13){
+                        $seo_form = new SeoBrief();
+                        $seo_form->invoice_id = $invoice->id;
+                        if($user_client != null){
+                            $seo_form->user_id = $user_client->id;
+                        }
+                        $seo_form->client_id = $user->id;
+                        $seo_form->agent_id = $invoice->sales_agent_id;
+                        $seo_form->save();
                     }
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\LogoForm;
+use App\Models\SeoBrief;
 use App\Models\User;
 use App\Models\WebForm;
 use App\Models\SmmForm;
@@ -560,6 +561,9 @@ class LogoFormController extends Controller
             }elseif($form == 12){
                 $data = Bookprinting::find($id);
                 return view('manager.brief.bookprintingform', compact('data'));
+            }elseif($form == 13){
+                $seo_form = SeoBrief::find($id);
+                return view('manager.brief.seobrief', compact('seo_form'));
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Brand;
+use App\Models\SeoBrief;
 use App\Models\Task;
 use App\Models\Category;
 use App\Models\Message;
@@ -448,6 +449,18 @@ class ClientController extends Controller
                 $bookprinting->form_type = 12;
                 $bookprinting->form_name = 'Book Printing Form';
                 array_push($data, $bookprinting);
+            }
+        }
+        if(count(Auth()->user()->seoBrief) != 0){
+            foreach(Auth()->user()->seoBrief as $seoBrief){
+                $seo_form = SeoBrief::whereHas('invoice')->find($seoBrief->id);
+                if (!$seo_form) {
+                    continue;
+                }
+                $seo_form->option = $seo_form->company_name;
+                $seo_form->form_type = 13;
+                $seo_form->form_name = 'SEO';
+                array_push($data, $seo_form);
             }
         }
         

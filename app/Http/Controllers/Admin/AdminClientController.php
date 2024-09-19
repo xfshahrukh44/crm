@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\Brand;
+use App\Models\SeoBrief;
 use App\Models\User;
 use App\Models\Invoice;
 use App\Models\Service;
@@ -1058,6 +1059,17 @@ class AdminClientController extends Controller
                 $client_id = $bookprinting_form->user->id;
                 $brand_id = $bookprinting_form->invoice->brand;
                 $description = $bookprinting_form->information;
+            }elseif($form_checker == 13){
+                // Search Engine Optimization Form
+                $seo_form = SeoBrief::find($form_id);
+                if($seo_form->company_name != null){
+                    $name = $seo_form->company_name . ' - SEO';
+                }else{
+                    $name = $seo_form->user->name . ' - SEO';
+                }
+                $client_id = $seo_form->user->id;
+                $brand_id = $seo_form->invoice->brand;
+                $description = $seo_form->company_name;
             }
 
             $project = new Project();
@@ -1112,7 +1124,6 @@ class AdminClientController extends Controller
             $form_id  = $request->id;
             $agent_id  = $request->agent_id;
             $form_checker  = $request->form;
-            dd($form_checker);
             $name = '';
             $client_id = 0;
             $brand_id = 0;
@@ -1201,6 +1212,13 @@ class AdminClientController extends Controller
                 $client_id = $bookprinting_form->user->id;
                 $brand_id = $bookprinting_form->invoice->brand;
                 $description = $bookprinting_form->title;
+            }elseif($form_checker == 13){
+                // Search Engine Optimization Form
+                $seo_form = SeoBrief::find($form_id);
+                $name = $seo_form->company_name . ' - SEO';
+                $client_id = $seo_form->user->id;
+                $brand_id = $seo_form->invoice->brand;
+                $description = $seo_form->company_name;
             }
             $project = new Project();
             $project->name = $name;

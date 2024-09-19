@@ -38,6 +38,7 @@
                                     <option value="3">Social Media Marketing Form</option>
                                     <option value="4">Content Writing Form</option>
                                     <option value="5">Search Engine Optimization Form</option>
+                                    <option value="13">SEO Form</option>
                                     <option value="6">Book Formatting & Publishing Form</option>
                                     <option value="7">Book Writing Form</option>
                                     <option value="8">Author Website Form</option>
@@ -105,6 +106,8 @@
                                     <span class="btn btn-dark btn-sm">ISBN Form</span>
                                     @elseif($datas->form == 12)
                                     <span class="btn btn-dark btn-sm">Book Printing Form</span>
+                                    @elseif($datas->form == 13)
+                                    <span class="btn btn-primary btn-sm">SEO Form</span>
                                     @endif
                                 </td>
                                 <td>

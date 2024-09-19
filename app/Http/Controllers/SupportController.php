@@ -5,6 +5,7 @@ use App\Models\Invoice;
 use App\Models\NoForm;
 use App\Models\Project;
 use App\Models\LogoForm;
+use App\Models\SeoBrief;
 use App\Models\Service;
 use App\Models\WebForm;
 use App\Models\SmmForm;
@@ -1144,6 +1145,9 @@ class SupportController extends Controller
         }elseif($form == 12){
             $data = Bookprinting::find($id);
             return view('support.brief.bookprintingform', compact('data'));
+        }elseif($form == 13){
+            $seo_form = SeoBrief::find($id);
+            return view('support.brief.seobrief', compact('seo_form'));
         }
 
 
@@ -1309,6 +1313,17 @@ class SupportController extends Controller
             $client_id = $bookprinting_form->user->id;
             $brand_id = $bookprinting_form->invoice->brand;
             $description = $bookprinting_form->information;
+        }elseif($form_checker == 13){
+            // Search Engine Optimization Form
+            $seo_form = SeoBrief::find($form_id);
+            if($seo_form->company_name != null){
+                $name = $seo_form->company_name . ' - SEO';
+            }else{
+                $name = $seo_form->user->name . ' - SEO';
+            }
+            $client_id = $seo_form->user->id;
+            $brand_id = $seo_form->invoice->brand;
+            $description = $seo_form->company_name;
         }
 
         $project = new Project();

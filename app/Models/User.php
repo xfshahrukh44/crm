@@ -184,6 +184,10 @@ class User extends Authenticatable
         return $this->hasMany(SeoForm::class, 'user_id', 'id');
     }
 
+    public function seoBrief(){
+        return $this->hasMany(SeoBrief::class, 'user_id', 'id');
+    }
+
     public function bookFormattingForm(){
         return $this->hasMany(BookFormatting::class, 'user_id', 'id');
     }

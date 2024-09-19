@@ -15,6 +15,7 @@ use App\Models\LogoForm;
 use App\Models\NoForm;
 use App\Models\Project;
 use App\Models\Proofreading;
+use App\Models\SeoBrief;
 use App\Models\SeoForm;
 use App\Models\Service;
 use App\Models\SmmForm;
@@ -456,6 +457,21 @@ function get_brief_client_user_ids (Request $request = null, $brand_id = null) {
         ->groupBy('user_id')->pluck('user_id')->toArray();
     $client_user_ids = array_merge($res, $client_user_ids);
 
+    $res = SeoBrief::where('company_name', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->whereIn('brand', Auth::user()->brand_list());
+            });
+        })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+        ->when($brand_id, function ($q) use ($brand_id) {
+            return $q->whereHas('invoice', function ($q) use ($brand_id) {
+                return $q->where('brand', $brand_id);
+            });
+        })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
     return array_unique($client_user_ids);
 }
 
@@ -600,6 +616,17 @@ function get_briefs_pending ($client_user_id) {
         $briefs_pending_array []= 'Book printing';
     }
 
+    if ((SeoBrief::where('company_name', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->whereIn('brand', Auth::user()->brand_list());
+            });
+        })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+        ->where('user_id', $client_user_id)->count()) > 0) {
+        $briefs_pending_array []= 'SEO';
+    }
+
     return $briefs_pending_array;
 }
 
@@ -732,6 +759,16 @@ function get_project_client_user_ids () {
                     return $query->whereIn('brand', Auth::user()->brand_list());
                 });
             })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = SeoBrief::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->whereIn('brand', Auth::user()->brand_list());
+            });
+        })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
         ->groupBy('user_id')->pluck('user_id')->toArray();
     $client_user_ids = array_merge($res, $client_user_ids);
@@ -953,6 +990,22 @@ function get_pending_projects ($client_user_id) {
             'project_type' => 'No Form',
             'id' => $item->id,
             'form_number' => 0,
+            'brand_id' => $item->invoice->brands->id,
+        ];
+    }
+
+    foreach (SeoBrief::with('project')->doesntHave('project')
+                 ->when(auth()->user()->is_employee != 2, function ($q) {
+                     return $q->whereHas('invoice', function ($query) {
+                         return $query->whereIn('brand', Auth::user()->brand_list());
+                     });
+                 })
+                 ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+                 ->where('user_id', $client_user_id)->get() as $item) {
+        $pending_projects []= [
+            'project_type' => 'SEO',
+            'id' => $item->id,
+            'form_number' => 13,
             'brand_id' => $item->invoice->brands->id,
         ];
     }
