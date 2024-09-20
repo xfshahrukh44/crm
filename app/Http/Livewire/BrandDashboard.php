@@ -1143,7 +1143,10 @@ class BrandDashboard extends Component
 
     public function admin_sales_report ()
     {
-        $buh_users = User::where('is_employee', 6)->orderBy('name', 'ASC')->get();
+        $buh_users = User::where('is_employee', 6)->orderBy('name', 'ASC')
+            //restricted buhs
+            ->whereIn('id', [7, 1169, 33, 18,])
+            ->get();
         $selected_buh = ($this->admin_sales_report_buh_id != '') ? User::find($this->admin_sales_report_buh_id) : null;
 
         $today_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_buh), function ($q) use ($selected_buh) { return $q->whereIn('brand', $selected_buh->brand_list()); })->whereDate('updated_at', Carbon::today())->pluck('id')->toArray());
@@ -1212,7 +1215,8 @@ class BrandDashboard extends Component
 
     public function manager_sales_report ()
     {
-        $agents = User::whereIn('is_employee', [0, 4, 6])->orderBy('name', 'ASC')->get();
+        $agent_ids = array_unique(DB::table('brand_users')->whereIn('brand_id', auth()->user()->brand_list())->pluck('user_id')->toArray());
+        $agents = User::whereIn('is_employee', [0, 4])->whereIn('id', $agent_ids)->orderBy('name', 'ASC')->get();
         $selected_agent = ($this->manager_sales_report_agent_id != '') ? User::find($this->manager_sales_report_agent_id) : null;
 
         $today_invoices = get_invoice_totals(Invoice::where('payment_status', 2)->when(!is_null($selected_agent), function ($q) use ($selected_agent) { return $q->where('sales_agent_id', $selected_agent->id); })->whereIn('brand', auth()->user()->brand_list())->whereDate('updated_at', Carbon::today())->pluck('id')->toArray());
