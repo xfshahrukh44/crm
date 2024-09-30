@@ -813,6 +813,12 @@ function Clicked_h_btnAddFileUploadControl() {
     }
     $(".message-box-wrapper").mCustomScrollbar({
         setHeight:500,
+        callbacks: {
+            onInit: function() {
+                // Scroll to bottom when initialized
+                $(".message-box-wrapper").mCustomScrollbar("scrollTo", "bottom");
+            }
+        }
     });
 </script>
 @endpush
