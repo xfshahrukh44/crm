@@ -98,12 +98,12 @@
                                         @if($datas->payment_status == 1)
                                             @if($datas->stripe_invoice_url)
                                                 <a target="_blank" href="{{$datas->stripe_invoice_url}}" class="btn btn-primary btn-icon btn-sm mr-1">
-                                                    <span class="ul-btn__text"><b>PAY</b></span>
+                                                    <span class="ul-btn__text"><b>PAY NOW</b></span>
                                                 </a>
                                             @endif
                                             @if($datas->is_authorize)
                                                 <a href="{{route('client.pay.with.authorize', $datas->id)}}" class="btn btn-warning btn-icon btn-sm mr-1">
-                                                    <span class="ul-btn__text"><b>PAY</b></span>
+                                                    <span class="ul-btn__text"><b>PAY NOW</b></span>
                                                 </a>
                                             @endif
                                         @endif
