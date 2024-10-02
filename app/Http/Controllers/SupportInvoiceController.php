@@ -92,6 +92,11 @@ class SupportInvoiceController extends Controller
             $stripe_invoice_res = create_stripe_invoice($invoice->id, $currency_map[$request->get('currency') ?? 1]);
         }
 
+        if ($request->get('merchant') == 3) {
+            $invoice->is_authorize = true;
+            $invoice->save();
+        }
+
         $id = $invoice->id;
 
         $id = Crypt::encrypt($id);

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClientInvoiceController;
 use App\Http\Controllers\Manager\ManagerUserController;
 use App\Http\Controllers\QAController;
 use App\Http\Controllers\StripeController;
@@ -113,6 +114,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('client/task/show/{id}/{notify?}', [ClientController::class, 'clientTaskshow'])->name('client.task.show');
         Route::post('client/message/', [SupportController::class, 'sendMessageClient'])->name('client.message.send');
         Route::get('client/brief', [ClientController::class, 'getClientBrief'])->name('client.brief');
+
+        //invoices
+        Route::get('/client/invoice', [ClientInvoiceController::class, 'getInvoiceByUserId'])->name('client.invoice');
+        Route::get('/client/pay-with-authorize/{id}', [ClientInvoiceController::class, 'payWithAuthorize'])->name('client.pay.with.authorize');
+        Route::post('/client/pay-with-authorize-submit/{id}', [ClientInvoiceController::class, 'payWithAuthorizeSubmit'])->name('client.pay.with.authorize.submit');
     });
 });
 Route::group(['middleware' => 'auth'], function () {

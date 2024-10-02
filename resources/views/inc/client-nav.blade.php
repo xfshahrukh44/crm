@@ -128,6 +128,13 @@
                 </a>
                 <div class="triangle"></div>
             </li>
+            <li class="nav-item {{ (request()->routeIs('client.invoice')) || (request()->routeIs('support.single.invoice') || request()->routeIs('support.link')) ? 'active' : '' }}">
+                <a class="nav-item-hold" href="{{ route('client.invoice') }}">
+                    <i class="nav-icon i-Credit-Card"></i>
+                    <span class="nav-text">Invoices</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
             <li class="nav-item">
                 <a class="nav-item-hold" href="{{ route('logout') }}"
                     onclick="event.preventDefault();

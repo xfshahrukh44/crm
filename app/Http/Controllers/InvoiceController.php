@@ -214,7 +214,7 @@ class InvoiceController extends Controller
             $invoice->save();
 
             //create stripe invoice
-//            if ($request->get('merchant') == 4) {
+            if ($request->get('merchant') == 4) {
                 $currency_map = [
                     1 => 'usd',
                     2 => 'cad',
@@ -222,7 +222,12 @@ class InvoiceController extends Controller
                 ];
 
                 $stripe_invoice_res = create_stripe_invoice($invoice->id, $currency_map[$request->get('currency') ?? 1]);
-//            }
+            }
+
+            if ($request->get('merchant') == 3) {
+                $invoice->is_authorize = true;
+                $invoice->save();
+            }
 
             $id = $invoice->id;
 
@@ -955,6 +960,11 @@ class InvoiceController extends Controller
             $stripe_invoice_res = create_stripe_invoice($invoice->id, $currency_map[$request->get('currency') ?? 1]);
         }
 
+        if ($request->get('merchant') == 3) {
+            $invoice->is_authorize = true;
+            $invoice->save();
+        }
+
 		$id = $invoice->id;
         
         $id = Crypt::encrypt($id);
@@ -1101,6 +1111,11 @@ class InvoiceController extends Controller
             ];
 
             $stripe_invoice_res = create_stripe_invoice($invoice->id, $currency_map[$request->get('currency') ?? 1]);
+        }
+
+        if ($request->get('merchant') == 3) {
+            $invoice->is_authorize = true;
+            $invoice->save();
         }
 
 		$id = $invoice->id;
