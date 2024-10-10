@@ -1460,16 +1460,33 @@ function create_stripe_invoice ($invoice_id, $currency = 'usd') {
     return true;
 }
 
+function get_authorize_keys ($merchant_id) {
+    $keys_map = [
+        3 => [
+            'login_id' => '5vExY98p',
+            'transaction_key' => '6P7r37fD58pVLmRA',
+        ],
+        5 => [
+            'login_id' => '9GeNn93MCpVn',
+            'transaction_key' => '5Q3xv7WGvF939axv',
+        ]
+    ];
+
+    return $keys_map[$merchant_id];
+}
+
 function authorize_charge ($card_number, $exp_month, $exp_year, $cvv, $invoice_id) {
     try {
         $invoice = Invoice::find($invoice_id);
         $client = Client::find($invoice->client_id);
 
+        $keys = get_authorize_keys($invoice->merchant_id);
+
         /* Create a merchantAuthenticationType object with authentication details
        retrieved from the constants file */
         $merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
-        $merchantAuthentication->setName('5vExY98p');
-        $merchantAuthentication->setTransactionKey('6P7r37fD58pVLmRA');
+        $merchantAuthentication->setName($keys['login_id']);
+        $merchantAuthentication->setTransactionKey($keys['transaction_key']);
 
         // Set the transaction's refId
         $refId = 'ref' . time();

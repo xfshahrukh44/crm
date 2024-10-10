@@ -224,7 +224,7 @@ class InvoiceController extends Controller
                 $stripe_invoice_res = create_stripe_invoice($invoice->id, $currency_map[$request->get('currency') ?? 1]);
             }
 
-            if ($request->get('merchant') == 3) {
+            if ($request->get('merchant') == 3 || $request->get('merchant') == 5) {
                 $invoice->is_authorize = true;
                 $invoice->save();
             }
@@ -960,7 +960,7 @@ class InvoiceController extends Controller
             $stripe_invoice_res = create_stripe_invoice($invoice->id, $currency_map[$request->get('currency') ?? 1]);
         }
 
-        if ($request->get('merchant') == 3) {
+        if ($request->get('merchant') == 3 || $request->get('merchant') == 5) {
             $invoice->is_authorize = true;
             $invoice->save();
         }
@@ -1113,7 +1113,7 @@ class InvoiceController extends Controller
             $stripe_invoice_res = create_stripe_invoice($invoice->id, $currency_map[$request->get('currency') ?? 1]);
         }
 
-        if ($request->get('merchant') == 3) {
+        if ($request->get('merchant') == 3 || $request->get('merchant') == 5) {
             $invoice->is_authorize = true;
             $invoice->save();
         }

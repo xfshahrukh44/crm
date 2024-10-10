@@ -477,7 +477,7 @@ class BrandDashboard extends Component
             $stripe_invoice_res = create_stripe_invoice($invoice->id, $currency_map[$this->client_payment_create_currency ?? 1]);
         }
 
-        if ($this->client_payment_create_merchant == 3) {
+        if ($this->client_payment_create_merchant == 3 || $this->client_payment_create_merchant == 5) {
             $invoice->is_authorize = true;
             $invoice->save();
         }
