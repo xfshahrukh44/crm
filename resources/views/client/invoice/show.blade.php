@@ -1,4 +1,4 @@
-@extends('layouts.app-support')
+@extends('layouts.app-client')
 @section('title', 'Invoices - #' . $data->invoice_number)
 @section('content')
 

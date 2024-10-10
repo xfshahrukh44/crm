@@ -1,4 +1,4 @@
-@extends('layouts.app-support')
+@extends('layouts.app-client')
 @push('styles')
 <style>
     .table th, .table td {

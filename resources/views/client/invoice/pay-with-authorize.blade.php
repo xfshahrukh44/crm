@@ -1,4 +1,4 @@
-@extends('layouts.app-support')
+@extends('layouts.app-client')
 @push('styles')
 <style>
     .table th, .table td {
@@ -14,6 +14,12 @@
 
 <div class="main-content">
     <div class="row">
+        <div class="col-md-12 text-center">
+            @php
+                $brand = \App\Models\Brand::find($invoice->brand);
+            @endphp
+            <img src="{{asset($brand->logo)}}" alt="">
+        </div>
         <div class="col-md-12">
             <ul class="nav nav-tabs justify-content-end mb-4" id="myTab" role="tablist">
                 <li class="nav-item"><a class="nav-link active" id="invoice-tab" data-toggle="tab" href="#invoice" role="tab" aria-controls="invoice" aria-selected="true">Invoice</a></li>
