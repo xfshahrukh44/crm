@@ -82,7 +82,8 @@
                                     @endif
                                     <div class="separator-breadcrumb border-top mb-3"></div>
                                     <div class="table-responsive">
-                                        <table class="display table table-striped table-bordered" id="zero_configuration_table" style="width:100%">
+{{--                                        <table class="display table table-striped table-bordered" id="zero_configuration_table" style="width:100%">--}}
+                                        <table class="display table table-striped table-bordered" id="" style="width:100%">
                                             <thead>
                                                 <th>ID</th>
                                                 <th>Image</th>
