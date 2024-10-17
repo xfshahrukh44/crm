@@ -99,6 +99,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('client/content/{id}', [ContentWritingFormController::class, 'update'])->name('client.content.form.update');
         Route::post('client/seo/{id}', [SeoFormController::class, 'update'])->name('client.seo.form.update');
         Route::post('client/seo-brief/{id}', [SeoFormController::class, 'updateBrief'])->name('client.seo-brief.form.update');
+        Route::post('client/book-marketing/{id}', [SeoFormController::class, 'updateBookMarketing'])->name('client.book-marketing.form.update');
+        Route::post('client/new-smm/{id}', [SeoFormController::class, 'updateNewSMM'])->name('client.new-smm.form.update');
         Route::post('client/bookformatting/{id}', [BookFormattingController::class, 'update'])->name('client.bookformatting.form.update');
         Route::post('client/bookwriting/{id}', [BookWritingController::class, 'update'])->name('client.bookwriting.form.update');
         Route::post('client/authorwebsite/{id}', [AuthorWebsiteController::class, 'update'])->name('client.authorwebsite.form.update');

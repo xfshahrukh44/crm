@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\BookMarketing;
 use App\Models\Invoice;
+use App\Models\NewSMM;
 use App\Models\NoForm;
 use App\Models\Project;
 use App\Models\LogoForm;
@@ -1148,6 +1150,12 @@ class SupportController extends Controller
         }elseif($form == 13){
             $seo_form = SeoBrief::find($id);
             return view('support.brief.seobrief', compact('seo_form'));
+        }elseif($form == 14){
+            $book_marketing_form = BookMarketing::find($id);
+            return view('support.brief.book-marketing', compact('book_marketing_form'));
+        }elseif($form == 15){
+            $new_smm_form = NewSMM::find($id);
+            return view('support.brief.new-smm', compact('new_smm_form'));
         }
 
 

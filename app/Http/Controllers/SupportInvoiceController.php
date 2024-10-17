@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AuthorWebsite;
 use App\Models\BookCover;
 use App\Models\BookFormatting;
+use App\Models\BookMarketing;
 use App\Models\Bookprinting;
 use App\Models\BookWriting;
 use App\Models\Brand;
@@ -15,6 +16,7 @@ use App\Models\Invoice;
 use App\Models\Isbnform;
 use App\Models\LogoForm;
 use App\Models\Merchant;
+use App\Models\NewSMM;
 use App\Models\NoForm;
 use App\Models\Proofreading;
 use App\Models\SeoBrief;
@@ -433,6 +435,26 @@ class SupportInvoiceController extends Controller
                     $seo_form->client_id = $user->id;
                     $seo_form->agent_id = $invoice->sales_agent_id;
                     $seo_form->save();
+                }
+                elseif($service->form == 14){
+                    $book_marketing_form = new BookMarketing();
+                    $book_marketing_form->invoice_id = $invoice->id;
+                    if($user_client != null){
+                        $book_marketing_form->user_id = $user_client->id;
+                    }
+                    $book_marketing_form->client_id = $user->id;
+                    $book_marketing_form->agent_id = $invoice->sales_agent_id;
+                    $book_marketing_form->save();
+                }
+                elseif($service->form == 15){
+                    $new_smm_form = new NewSMM();
+                    $new_smm_form->invoice_id = $invoice->id;
+                    if($user_client != null){
+                        $new_smm_form->user_id = $user_client->id;
+                    }
+                    $new_smm_form->client_id = $user->id;
+                    $new_smm_form->agent_id = $invoice->sales_agent_id;
+                    $new_smm_form->save();
                 }
 
 

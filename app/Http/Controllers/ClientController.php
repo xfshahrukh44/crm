@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BookMarketing;
 use App\Models\Client;
 use App\Models\Brand;
+use App\Models\NewSMM;
 use App\Models\SeoBrief;
 use App\Models\Task;
 use App\Models\Category;
@@ -461,6 +463,30 @@ class ClientController extends Controller
                 $seo_form->form_type = 13;
                 $seo_form->form_name = 'SEO';
                 array_push($data, $seo_form);
+            }
+        }
+        if(count(Auth()->user()->bookMarketings) != 0){
+            foreach(Auth()->user()->bookMarketings as $bookMarketing){
+                $book_marketing_form = BookMarketing::whereHas('invoice')->find($bookMarketing->id);
+                if (!$book_marketing_form) {
+                    continue;
+                }
+                $book_marketing_form->option = $book_marketing_form->client_name;
+                $book_marketing_form->form_type = 14;
+                $book_marketing_form->form_name = 'Book Marketing';
+                array_push($data, $book_marketing_form);
+            }
+        }
+        if(count(Auth()->user()->newSMMs) != 0){
+            foreach(Auth()->user()->newSMMs as $newSMM){
+                $new_smm_form = NewSMM::whereHas('invoice')->find($newSMM->id);
+                if (!$new_smm_form) {
+                    continue;
+                }
+                $new_smm_form->option = $new_smm_form->client_name;
+                $new_smm_form->form_type = 15;
+                $new_smm_form->form_name = 'Social Media Marketing (NEW)';
+                array_push($data, $new_smm_form);
             }
         }
         

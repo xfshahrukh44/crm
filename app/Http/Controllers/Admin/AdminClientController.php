@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
+use App\Models\BookMarketing;
 use App\Models\Client;
 use App\Models\Brand;
+use App\Models\NewSMM;
 use App\Models\SeoBrief;
 use App\Models\User;
 use App\Models\Invoice;
@@ -337,6 +339,30 @@ class AdminClientController extends Controller
                             $bookprinting_form->agent_id = $invoice->sales_agent_id;
                             $bookprinting_form->save();
                         }
+                    }elseif($service->form == 13){
+                        if($invoice->createform == 1){
+                            $seo_form = new SeoBrief();
+                            $seo_form->invoice_id = $invoice->id;
+                            $seo_form->user_id = $user->id;
+                            $seo_form->agent_id = $invoice->sales_agent_id;
+                            $seo_form->save();
+                        }
+                    }elseif($service->form == 14){
+                        if($invoice->createform == 1){
+                            $book_marketing_form = new BookMarketing();
+                            $book_marketing_form->invoice_id = $invoice->id;
+                            $book_marketing_form->user_id = $user->id;
+                            $book_marketing_form->agent_id = $invoice->sales_agent_id;
+                            $book_marketing_form->save();
+                        }
+                    }elseif($service->form == 15){
+                        if($invoice->createform == 1){
+                            $new_smm_form = new NewSMM();
+                            $new_smm_form->invoice_id = $invoice->id;
+                            $new_smm_form->user_id = $user->id;
+                            $new_smm_form->agent_id = $invoice->sales_agent_id;
+                            $new_smm_form->save();
+                        }
                     }
 
 
@@ -493,6 +519,30 @@ class AdminClientController extends Controller
                             $bookprinting_form->user_id = $user->id;
                             $bookprinting_form->agent_id = $invoice->sales_agent_id;
                             $bookprinting_form->save();
+                        }
+                    }elseif($service->form == 13){
+                        if($invoice->createform == 1){
+                            $seo_form = new SeoBrief();
+                            $seo_form->invoice_id = $invoice->id;
+                            $seo_form->user_id = $user->id;
+                            $seo_form->agent_id = $invoice->sales_agent_id;
+                            $seo_form->save();
+                        }
+                    }elseif($service->form == 14){
+                        if($invoice->createform == 1){
+                            $book_marketing_form = new BookMarketing();
+                            $book_marketing_form->invoice_id = $invoice->id;
+                            $book_marketing_form->user_id = $user->id;
+                            $book_marketing_form->agent_id = $invoice->sales_agent_id;
+                            $book_marketing_form->save();
+                        }
+                    }elseif($service->form == 15){
+                        if($invoice->createform == 1){
+                            $new_smm_form = new NewSMM();
+                            $new_smm_form->invoice_id = $invoice->id;
+                            $new_smm_form->user_id = $user->id;
+                            $new_smm_form->agent_id = $invoice->sales_agent_id;
+                            $new_smm_form->save();
                         }
                     }
 
@@ -651,6 +701,30 @@ class AdminClientController extends Controller
                             $bookprinting_form->user_id = $user->id;
                             $bookprinting_form->agent_id = $invoice->sales_agent_id;
                             $bookprinting_form->save();
+                        }
+                    }elseif($service->form == 13){
+                        if($invoice->createform == 1){
+                            $seo_form = new SeoBrief();
+                            $seo_form->invoice_id = $invoice->id;
+                            $seo_form->user_id = $user->id;
+                            $seo_form->agent_id = $invoice->sales_agent_id;
+                            $seo_form->save();
+                        }
+                    }elseif($service->form == 14){
+                        if($invoice->createform == 1){
+                            $book_marketing_form = new BookMarketing();
+                            $book_marketing_form->invoice_id = $invoice->id;
+                            $book_marketing_form->user_id = $user->id;
+                            $book_marketing_form->agent_id = $invoice->sales_agent_id;
+                            $book_marketing_form->save();
+                        }
+                    }elseif($service->form == 15){
+                        if($invoice->createform == 1){
+                            $new_smm_form = new NewSMM();
+                            $new_smm_form->invoice_id = $invoice->id;
+                            $new_smm_form->user_id = $user->id;
+                            $new_smm_form->agent_id = $invoice->sales_agent_id;
+                            $new_smm_form->save();
                         }
                     }
 

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BookMarketing;
 use App\Models\Client;
 use App\Models\LogoForm;
+use App\Models\NewSMM;
 use App\Models\SeoBrief;
 use App\Models\User;
 use App\Models\WebForm;
@@ -518,6 +520,15 @@ class LogoFormController extends Controller
         }elseif($form == 12){
             $data = Bookprinting::find($id);
             return view('manager.brief.bookprintingform', compact('data'));
+        }elseif($form == 13){
+            $seo_form = SeoBrief::find($id);
+            return view('manager.brief.seobrief', compact('seo_form'));
+        }elseif($form == 14){
+            $book_marketing_form = BookMarketing::find($id);
+            return view('manager.brief.book-marketing', compact('book_marketing_form'));
+        }elseif($form == 15){
+            $new_smm_form = NewSMM::find($id);
+            return view('manager.brief.new-smm', compact('new_smm_form'));
         }
         
         
@@ -564,6 +575,12 @@ class LogoFormController extends Controller
             }elseif($form == 13){
                 $seo_form = SeoBrief::find($id);
                 return view('manager.brief.seobrief', compact('seo_form'));
+            }elseif($form == 14){
+                $book_marketing_form = BookMarketing::find($id);
+                return view('manager.brief.book-marketing', compact('book_marketing_form'));
+            }elseif($form == 15){
+                $new_smm_form = NewSMM::find($id);
+                return view('manager.brief.new-smm', compact('new_smm_form'));
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());

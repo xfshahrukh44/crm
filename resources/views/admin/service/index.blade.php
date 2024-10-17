@@ -109,6 +109,11 @@
                                     @elseif($datas->form == 13)
                                     <span class="btn btn-primary btn-sm">SEO Form</span>
                                     @endif
+                                    @elseif($datas->form == 14)
+                                    <span class="btn btn-primary btn-sm">Book Marketing</span>
+                                    @elseif($datas->form == 15)
+                                    <span class="btn btn-primary btn-sm">Social Media Marketing Form (NEW)</span>
+                                    @endif
                                 </td>
                                 <td>
                                     <a href="{{ route('service.edit', $datas->id) }}" class="btn btn-primary btn-icon btn-sm">

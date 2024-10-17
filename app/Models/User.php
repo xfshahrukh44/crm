@@ -209,6 +209,14 @@ class User extends Authenticatable
     public function bookPrintingForm(){
         return $this->hasMany(Bookprinting::class, 'user_id', 'id');
     }
+
+    public function bookMarketings(){
+        return $this->hasMany(BookMarketing::class, 'user_id', 'id');
+    }
+
+    public function newSMMs(){
+        return $this->hasMany(NewSMM::class, 'user_id', 'id');
+    }
     
     
 

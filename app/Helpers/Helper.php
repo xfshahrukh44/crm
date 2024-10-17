@@ -3,6 +3,7 @@
 use App\Models\AuthorWebsite;
 use App\Models\BookCover;
 use App\Models\BookFormatting;
+use App\Models\BookMarketing;
 use App\Models\Bookprinting;
 use App\Models\BookWriting;
 use App\Models\Brand;
@@ -12,6 +13,7 @@ use App\Models\CRMNotification;
 use App\Models\Invoice;
 use App\Models\Isbnform;
 use App\Models\LogoForm;
+use App\Models\NewSMM;
 use App\Models\NoForm;
 use App\Models\Project;
 use App\Models\Proofreading;
@@ -474,6 +476,36 @@ function get_brief_client_user_ids (Request $request = null, $brand_id = null) {
         ->groupBy('user_id')->pluck('user_id')->toArray();
     $client_user_ids = array_merge($res, $client_user_ids);
 
+    $res = BookMarketing::where('client_name', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->whereIn('brand', Auth::user()->brand_list());
+            });
+        })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+        ->when($brand_id, function ($q) use ($brand_id) {
+            return $q->whereHas('invoice', function ($q) use ($brand_id) {
+                return $q->where('brand', $brand_id);
+            });
+        })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = NewSMM::where('client_name', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->whereIn('brand', Auth::user()->brand_list());
+            });
+        })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+        ->when($brand_id, function ($q) use ($brand_id) {
+            return $q->whereHas('invoice', function ($q) use ($brand_id) {
+                return $q->where('brand', $brand_id);
+            });
+        })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
     return array_unique($client_user_ids);
 }
 
@@ -629,6 +661,28 @@ function get_briefs_pending ($client_user_id) {
         $briefs_pending_array []= 'SEO';
     }
 
+    if ((BookMarketing::where('client_name', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->whereIn('brand', Auth::user()->brand_list());
+            });
+        })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+        ->where('user_id', $client_user_id)->count()) > 0) {
+        $briefs_pending_array []= 'Book Marketing';
+    }
+
+    if ((NewSMM::where('client_name', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->whereIn('brand', Auth::user()->brand_list());
+            });
+        })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+        ->where('user_id', $client_user_id)->count()) > 0) {
+        $briefs_pending_array []= 'Social Media Marketing (NEW)';
+    }
+
     return $briefs_pending_array;
 }
 
@@ -766,6 +820,26 @@ function get_project_client_user_ids () {
     $client_user_ids = array_merge($res, $client_user_ids);
 
     $res = SeoBrief::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->whereIn('brand', Auth::user()->brand_list());
+            });
+        })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = BookMarketing::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->whereIn('brand', Auth::user()->brand_list());
+            });
+        })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = NewSMM::with('project')->doesntHave('project')
         ->when(auth()->user()->is_employee != 2, function ($q) {
             return $q->whereHas('invoice', function ($query) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
@@ -1008,6 +1082,38 @@ function get_pending_projects ($client_user_id) {
             'project_type' => 'SEO',
             'id' => $item->id,
             'form_number' => 13,
+            'brand_id' => $item->invoice->brands->id,
+        ];
+    }
+
+    foreach (BookMarketing::with('project')->doesntHave('project')
+                 ->when(auth()->user()->is_employee != 2, function ($q) {
+                     return $q->whereHas('invoice', function ($query) {
+                         return $query->whereIn('brand', Auth::user()->brand_list());
+                     });
+                 })
+                 ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+                 ->where('user_id', $client_user_id)->get() as $item) {
+        $pending_projects []= [
+            'project_type' => 'Book Marketing',
+            'id' => $item->id,
+            'form_number' => 14,
+            'brand_id' => $item->invoice->brands->id,
+        ];
+    }
+
+    foreach (NewSMM::with('project')->doesntHave('project')
+                 ->when(auth()->user()->is_employee != 2, function ($q) {
+                     return $q->whereHas('invoice', function ($query) {
+                         return $query->whereIn('brand', Auth::user()->brand_list());
+                     });
+                 })
+                 ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+                 ->where('user_id', $client_user_id)->get() as $item) {
+        $pending_projects []= [
+            'project_type' => 'Social Media Marketing (NEW)',
+            'id' => $item->id,
+            'form_number' => 15,
             'brand_id' => $item->invoice->brands->id,
         ];
     }
@@ -1815,6 +1921,36 @@ function mark_invoice_as_paid ($invoice_id) {
                 $book_printing->agent_id = $invoice->sales_agent_id;
                 $book_printing->save();
                 //}
+            }
+            elseif($service->form == 13){
+                $seo_form = new SeoBrief();
+                $seo_form->invoice_id = $invoice->id;
+                if($user_client != null){
+                    $seo_form->user_id = $user_client->id;
+                }
+                $seo_form->client_id = $user->id;
+                $seo_form->agent_id = $invoice->sales_agent_id;
+                $seo_form->save();
+            }
+            elseif($service->form == 14){
+                $book_marketing_form = new BookMarketing();
+                $book_marketing_form->invoice_id = $invoice->id;
+                if($user_client != null){
+                    $book_marketing_form->user_id = $user_client->id;
+                }
+                $book_marketing_form->client_id = $user->id;
+                $book_marketing_form->agent_id = $invoice->sales_agent_id;
+                $book_marketing_form->save();
+            }
+            elseif($service->form == 15){
+                $new_smm_form = new NewSMM();
+                $new_smm_form->invoice_id = $invoice->id;
+                if($user_client != null){
+                    $new_smm_form->user_id = $user_client->id;
+                }
+                $new_smm_form->client_id = $user->id;
+                $new_smm_form->agent_id = $invoice->sales_agent_id;
+                $new_smm_form->save();
             }
 
 

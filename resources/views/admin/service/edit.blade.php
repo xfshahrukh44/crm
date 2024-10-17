@@ -44,6 +44,9 @@
                                     <option value="10" {{ $data->form == 10 ? 'selected' : '' }}>Book Cover Design</option>
                                     <option value="11" {{ $data->form == 11 ? 'selected' : '' }}>ISBN Form</option>
                                     <option value="12" {{ $data->form == 12 ? 'selected' : '' }}>Book Printing Form</option>
+                                    <option value="12" {{ $data->form == 13 ? 'selected' : '' }}>SEO Form</option>
+                                    <option value="12" {{ $data->form == 14 ? 'selected' : '' }}>Book Marketing Form</option>
+                                    <option value="12" {{ $data->form == 15 ? 'selected' : '' }}>Social Media Marketing Form (NEW)</option>
                                 </select>
                             </div>
                             <div class="col-md-12">

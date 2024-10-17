@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BookMarketing;
+use App\Models\NewSMM;
 use App\Models\SeoBrief;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\Invoice;
@@ -1428,6 +1430,26 @@ class InvoiceController extends Controller
                     $seo_form->agent_id = $invoice->sales_agent_id;
                     $seo_form->save();
                 }
+                elseif($service->form == 14){
+                    $book_marketing_form = new BookMarketing();
+                    $book_marketing_form->invoice_id = $invoice->id;
+                    if($user_client != null){
+                        $book_marketing_form->user_id = $user_client->id;
+                    }
+                    $book_marketing_form->client_id = $user->id;
+                    $book_marketing_form->agent_id = $invoice->sales_agent_id;
+                    $book_marketing_form->save();
+                }
+                elseif($service->form == 15){
+                    $new_smm_form = new NewSMM();
+                    $new_smm_form->invoice_id = $invoice->id;
+                    if($user_client != null){
+                        $new_smm_form->user_id = $user_client->id;
+                    }
+                    $new_smm_form->client_id = $user->id;
+                    $new_smm_form->agent_id = $invoice->sales_agent_id;
+                    $new_smm_form->save();
+                }
                 
                 
             }
@@ -1636,6 +1658,26 @@ class InvoiceController extends Controller
                     $seo_form->client_id = $user->id;
                     $seo_form->agent_id = $invoice->sales_agent_id;
                     $seo_form->save();
+                }
+                elseif($service->form == 14){
+                    $book_marketing_form = new BookMarketing();
+                    $book_marketing_form->invoice_id = $invoice->id;
+                    if($user_client != null){
+                        $book_marketing_form->user_id = $user_client->id;
+                    }
+                    $book_marketing_form->client_id = $user->id;
+                    $book_marketing_form->agent_id = $invoice->sales_agent_id;
+                    $book_marketing_form->save();
+                }
+                elseif($service->form == 15){
+                    $new_smm_form = new NewSMM();
+                    $new_smm_form->invoice_id = $invoice->id;
+                    if($user_client != null){
+                        $new_smm_form->user_id = $user_client->id;
+                    }
+                    $new_smm_form->client_id = $user->id;
+                    $new_smm_form->agent_id = $invoice->sales_agent_id;
+                    $new_smm_form->save();
                 }
 
 
@@ -1850,6 +1892,26 @@ class InvoiceController extends Controller
                         $seo_form->client_id = $user->id;
                         $seo_form->agent_id = $invoice->sales_agent_id;
                         $seo_form->save();
+                    }
+                    elseif($service->form == 14){
+                        $book_marketing_form = new BookMarketing();
+                        $book_marketing_form->invoice_id = $invoice->id;
+                        if($user_client != null){
+                            $book_marketing_form->user_id = $user_client->id;
+                        }
+                        $book_marketing_form->client_id = $user->id;
+                        $book_marketing_form->agent_id = $invoice->sales_agent_id;
+                        $book_marketing_form->save();
+                    }
+                    elseif($service->form == 15){
+                        $new_smm_form = new NewSMM();
+                        $new_smm_form->invoice_id = $invoice->id;
+                        if($user_client != null){
+                            $new_smm_form->user_id = $user_client->id;
+                        }
+                        $new_smm_form->client_id = $user->id;
+                        $new_smm_form->agent_id = $invoice->sales_agent_id;
+                        $new_smm_form->save();
                     }
 
 
