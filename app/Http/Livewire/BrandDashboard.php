@@ -464,7 +464,11 @@ class BrandDashboard extends Component
         $invoice->payment_status = '1';
         $invoice->custom_package = $this->client_payment_create_custom_package;
         $invoice->payment_type = $this->client_payment_create_payment_type;
-        $service = $this->client_payment_create_service;
+        if(is_array($this->client_payment_create_service)) {
+            $service = implode(",",$this->client_payment_create_service);
+        } else {
+            $service = $this->client_payment_create_service;
+        }
         $invoice->service = $service;
         $invoice->merchant_id = $this->client_payment_create_merchant;
         $invoice->save();

@@ -47,7 +47,7 @@
                                 </div>
                                 <div class="col-md-4 form-group mb-3">
                                     <label for="service">Service <span>*</span></label>
-                                    <select wire:model="client_payment_create_service" id="service" class="form-control">
+                                    <select wire:model="client_payment_create_service" id="service" class="form-control" multiple>
                                         <option value="">Select service</option>
                                         @foreach($services as $service)
                                             <option value="{{ $service->id }}">{{ $service->name }}</option>
