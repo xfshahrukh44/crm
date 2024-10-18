@@ -55,6 +55,36 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row mt-4">
+                        <div class="col-md-3"></div>
+
+                        <div class="col-md-3">
+                            <div class="form-group mb-0">
+                                <label for="brand_id">Brand</label>
+                                <select class="form-control select2" name="brand_id" id="brand_id">
+                                    <option value="0">Select All Brands</option>
+                                    @foreach(\App\Models\Brand::all() as $brand)
+                                        <option value="{{ $brand->id }}" @if(request()->get('brand_id') != null) {{ (request()->get('brand_id') == $brand->id ? 'selected' : ' ') }} @endif>{{ $brand->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group mb-0">
+                                <label for="date_from">Date from</label>
+                                <input type="date" class="form-control" name="date_from" id="date_from" value="{{request()->get('date_from')}}">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group mb-0">
+                                <label for="date_to">Date to</label>
+                                <input type="date" class="form-control" name="date_to" id="date_to" value="{{request()->get('date_to')}}">
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -194,6 +224,15 @@
         });
     });
     $('#category').change(function(){
+        $('#status-task').submit();
+    })
+    $('#brand_id').change(function(){
+        $('#status-task').submit();
+    })
+    $('#date_from').change(function(){
+        $('#status-task').submit();
+    })
+    $('#date_to').change(function(){
         $('#status-task').submit();
     })
 </script>

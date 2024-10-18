@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\Service;
@@ -65,31 +66,33 @@ class HomeController extends Controller
             array_push($category_id, $category->id);
         }
 
-        $task = new Task;
-
-        if($request->category != null){
+        $task = Task::when($request->category != null, function ($q) use ($request, $category_id) {
             if($request->category == 0){
-                $task = $task->whereIn('category_id', $category_id);
+                return $q->whereIn('category_id', $category_id);
             }else{
-                $task = $task->where('category_id', $request->category);
+                return $q->where('category_id', $request->category);
             }
-        }else{
-            $task = $task->whereIn('category_id', $category_id);
-        }
+        })
+        ->when($request->category == null, function ($q) use($category_id) {
+            return $q->whereIn('category_id', $category_id);
+        })
+        ->when($request->status != null, function ($q) use($request) {
+            return $q->whereIn('status', $request->status);
+        })
+        ->when($request->status == null, function ($q) {
+            return $q->where('status', 0);
+        })
+        ->when($request->has('brand_id') && $request->get('brand_id') != '0', function ($q) use ($request) {
+            return $q->where('brand_id', $request->get('brand_id'));
+        })
+        ->when($request->has('date_from') && $request->get('date_from') != '', function ($q) use ($request) {
+            return $q->whereDate('created_at', '>=', Carbon::parse($request->get('date_from')));
+        })
+        ->when($request->has('date_to') && $request->get('date_to') != '', function ($q) use ($request) {
+            return $q->whereDate('created_at', '<=', Carbon::parse($request->get('date_to')));
+        })
+        ->get();
 
-        if($request->status != null){
-            $task = $task->whereIn('status', $request->status);
-        }else{
-            $task = $task->where('status', 0);
-        }
-
-        $task = $task->get();
-        // dd($task);
-        // if($request->status == null){
-        //     $task = Task::whereIn('category_id', $category_id)->where('status', 0)->get();
-        // }else{
-        //     $task = Task::whereIn('category_id', $category_id)->whereIn('status', $request->status)->get();
-        // }
         return view('production.projects.index', compact('task'));
     }
 
