@@ -1382,10 +1382,11 @@ function notify_qa_of_outgoing_task ($task_id) {
 function get_restricted_brand_ids_for_qa () {
     $restricted_brand_ids = [];
     $danny_brand_ids = [3, 10, 16, 17, 21, 22, 26, 33, 34, 51, 48, 44, 27];
-    $ashmara_brand_ids = [13, 23, 38, 36, 37];
-    $zech_brand_ids = [1, 8, 5, 31, 32, 46, 49, 50, 57, 60, 47];
+    $ashmara_brand_ids = [13, 23, 38, 36, 37, 66];
+    $zech_brand_ids = [1, 8, 5, 31, 32, 46, 49, 50, 57, 60, 47, 67, 60];
+    $new = [65, 68, 69, 70, 71];
 
-    return array_merge($danny_brand_ids, $ashmara_brand_ids, $zech_brand_ids);
+    return array_merge($danny_brand_ids, $ashmara_brand_ids, $zech_brand_ids, $new);
 }
 
 function get_auth_category_ids () {
