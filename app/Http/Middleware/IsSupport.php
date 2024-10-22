@@ -20,6 +20,11 @@ class IsSupport
      */
     public function handle(Request $request, Closure $next)
     {
+        if (auth()->id() == 3373) {
+            auth()->logout();
+            return redirect()->back()->with("error","You don't have emplyee rights.");
+        }
+
         if(auth()->user()->is_employee == 4){
             $ip_address = $request->ip();
             $current_ip = Session::get('login_ip');
