@@ -116,52 +116,52 @@
     <script src="{{ asset('newglobal/js/sweetalert2.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.repeater/1.2.1/jquery.repeater.min.js" integrity="sha512-foIijUdV0fR0Zew7vmw98E6mOWd9gkGWQBWaoA1EOFAx+pY+N8FmmtIYAVj64R98KeD2wzZh1aHK0JSpKmRH8w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            let category_list = JSON.parse('{{json_encode(get_auth_category_ids())}}');
+{{--    <script>--}}
+{{--        $(document).ready(function () {--}}
+{{--            let category_list = JSON.parse('{{json_encode(get_auth_category_ids())}}');--}}
 
-            // Enable Pusher logging - don't include this in production
-            Pusher.logToConsole = true;
+{{--            // Enable Pusher logging - don't include this in production--}}
+{{--            Pusher.logToConsole = true;--}}
 
-            var pusher = new Pusher('7d1bc788fe2aaa7a2ea5', {
-                cluster: 'ap2'
-            });
+{{--            var pusher = new Pusher('7d1bc788fe2aaa7a2ea5', {--}}
+{{--                cluster: 'ap2'--}}
+{{--            });--}}
 
-            var channel = pusher.subscribe('qa-channel');
-            channel.bind('incoming-task', function(data) {
-                if (category_list.includes(data.task.category_id)) {
-                    swal({
-                        icon: 'info',
-                        title: 'New incoming task (#'+data.task.id+').',
-                        showDenyButton: false,
-                        showCancelButton: false,
-                        confirmButtonText: "Open task",
-                    }).then((result) => {
-                        if (result && data.redirect_url) {
-                            window.location.href = data.redirect_url
-                        }
-                    });
-                }
-                // alert(JSON.stringify(data));
-                console.log(data);
-            });
+{{--            var channel = pusher.subscribe('qa-channel');--}}
+{{--            channel.bind('incoming-task', function(data) {--}}
+{{--                if (category_list.includes(data.task.category_id)) {--}}
+{{--                    swal({--}}
+{{--                        icon: 'info',--}}
+{{--                        title: 'New incoming task (#'+data.task.id+').',--}}
+{{--                        showDenyButton: false,--}}
+{{--                        showCancelButton: false,--}}
+{{--                        confirmButtonText: "Open task",--}}
+{{--                    }).then((result) => {--}}
+{{--                        if (result && data.redirect_url) {--}}
+{{--                            window.location.href = data.redirect_url--}}
+{{--                        }--}}
+{{--                    });--}}
+{{--                }--}}
+{{--                // alert(JSON.stringify(data));--}}
+{{--                console.log(data);--}}
+{{--            });--}}
 
-            if($('.repeater').length != 0){
-                $('.repeater').repeater({
-                    // (Required if there is a nested repeater)
-                    // Specify the configuration of the nested repeaters.
-                    // Nested configuration follows the same format as the base configuration,
-                    // supporting options "defaultValues", "show", "hide", etc.
-                    // Nested repeaters additionally require a "selector" field.
-                    repeaters: [{
-                        // (Required)
-                        // Specify the jQuery selector for this nested repeater
-                        selector: '.inner-repeater'
-                    }]
-                });
-            }
-        });
-    </script>
+{{--            if($('.repeater').length != 0){--}}
+{{--                $('.repeater').repeater({--}}
+{{--                    // (Required if there is a nested repeater)--}}
+{{--                    // Specify the configuration of the nested repeaters.--}}
+{{--                    // Nested configuration follows the same format as the base configuration,--}}
+{{--                    // supporting options "defaultValues", "show", "hide", etc.--}}
+{{--                    // Nested repeaters additionally require a "selector" field.--}}
+{{--                    repeaters: [{--}}
+{{--                        // (Required)--}}
+{{--                        // Specify the jQuery selector for this nested repeater--}}
+{{--                        selector: '.inner-repeater'--}}
+{{--                    }]--}}
+{{--                });--}}
+{{--            }--}}
+{{--        });--}}
+{{--    </script>--}}
     @yield('script')
 
     @stack('scripts')
