@@ -736,7 +736,7 @@ class SupportController extends Controller
                 $join->on('users.id', '=', 'messages.client_id')
                     ->on('latest_messages.latest_message_date', '=', 'messages.created_at');
             })
-            ->select('users.*') // Ensure only User attributes are selected
+            ->select('users.*', 'messages.is_read') // Ensure only User attributes are selected
             ->orderBy('messages.created_at', 'DESC')
             ->distinct()
             ->paginate(20);
@@ -821,13 +821,26 @@ class SupportController extends Controller
 
     public function getMessageBySupportClientId($id, $name){
         $user = User::find($id);
-        $messages = Message::where('client_id', $id)->orderBy('id', 'asc')->get();
+        $messages = Message::where('client_id', $id)->orderBy('id', 'asc');
+
+        $messages->update([
+            'is_read' => Carbon::now()
+        ]);
+
+        $messages = $messages->get();
         return view('support.message.index', compact('messages', 'user'));
     }
 
     public function getMessageByManagerClientId($id, $name){
         $user = User::find($id);
-        $messages = Message::where('client_id', $id)->orderBy('id', 'asc')->get();
+        $messages = Message::where('client_id', $id)->orderBy('id', 'asc');
+
+        $messages->update([
+            'is_read' => Carbon::now()
+        ]);
+
+        $messages = $messages->get();
+
         return view('manager.message.index', compact('messages', 'user'));
     }
 

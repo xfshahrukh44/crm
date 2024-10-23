@@ -115,7 +115,8 @@
     <div class="row mt-2">
         <div class="col-xl-12">
             @foreach($data as $key => $value)
-                <div class="card mb-4 {!! client_user_has_unread_message($value->id) ? 'unread_notification' : '' !!}">
+{{--                <div class="card mb-4 {!! client_user_has_unread_message($value->id) ? 'unread_notification' : '' !!}">--}}
+                <div class="card mb-4 {!! is_null($value->is_read) ? 'unread_notification' : '' !!}">
                     <div class="card-body">
                         <div class="ul-widget__body">
                             <div class="tab-content pt-0 pb-0">

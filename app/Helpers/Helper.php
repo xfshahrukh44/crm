@@ -13,6 +13,7 @@ use App\Models\CRMNotification;
 use App\Models\Invoice;
 use App\Models\Isbnform;
 use App\Models\LogoForm;
+use App\Models\Message;
 use App\Models\NewSMM;
 use App\Models\NoForm;
 use App\Models\Project;
@@ -1281,9 +1282,13 @@ function get_unread_notification_count_for_buh () {
     foreach (User::where('is_employee', 3)->where('client_id', '!=', 0)->whereHas('client', function ($q) {
         return $q->whereIn('brand_id', auth()->user()->brand_list());
     })->orderBy('id', 'desc')->pluck('id') as $client_user_id) {
-        if (client_user_has_unread_message($client_user_id)) {
+        $unread_messages_count = Message::where('role_id', '3')->where('client_id', $client_user_id)->whereNull('is_read')->count();
+        if ($unread_messages_count > 0) {
             $notification_count += 1;
         }
+//        if (client_user_has_unread_message($client_user_id)) {
+//            $notification_count += 1;
+//        }
     }
 
     return $notification_count;
