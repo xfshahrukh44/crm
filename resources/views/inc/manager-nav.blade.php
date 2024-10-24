@@ -91,7 +91,7 @@
                     })
                     ->latest()->take(10)->get();
                 @endphp
-                @foreach(auth()->user()->unreadnotifications()->latest()->take(10)->get() as $notifications)
+                @foreach($notification as $notifications)
                     @if($notifications->type == 'App\Notifications\LeadNotification')
                     <a href="{{ route('admin.client.shownotification', ['client' => $notifications->data['id'], 'id' => $notifications->id] ) }}" class="unread_notification_nav dropdown-item d-flex" data-id="{{$notifications->id}}">
                     @elseif($notifications->type == 'App\Notifications\PaymentNotification')
