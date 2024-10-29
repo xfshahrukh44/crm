@@ -32,7 +32,12 @@
         <div class="col-xl-12">
 
             @php
-                $notifications = auth()->user()->notifications()->latest()->paginate(20);
+                $notification = auth()->user()->notifications()
+                //for qa manager accounts
+                ->when(in_array(auth()->id(), [3839, 3838, 3837]), function ($q) {
+                    return $q->where('type', 'App\Notifications\MessageNotification');
+                })
+                ->latest()->take(10)->get();
             @endphp
             @foreach($notifications as $notification)
                 @php
