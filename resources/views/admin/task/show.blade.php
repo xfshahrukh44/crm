@@ -426,7 +426,7 @@
                         $('#subtask_show').prepend('<div class="ul-widget3-item">\
                                     <div class="ul-widget3-header">\
                                         <div class="ul-widget3-img">\
-                                            <img id="userDropdown" src="http://127.0.0.1:8000/global/img/user.png" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\
+                                            <img id="userDropdown" src="{{ asset('global/img/user.png') }}" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\
                                         </div>\
                                         <div class="ul-widget3-info">\
                                             <a class="__g-widget-username" href="#">\
