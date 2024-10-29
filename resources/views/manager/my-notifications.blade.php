@@ -37,7 +37,7 @@
                 ->when(in_array(auth()->id(), [3839, 3838, 3837]), function ($q) {
                     return $q->where('type', 'App\Notifications\MessageNotification');
                 })
-                ->latest()->take(10)->get();
+                ->latest()->take(10)->paginate(20);
             @endphp
             @foreach($notifications as $notification)
                 @php
