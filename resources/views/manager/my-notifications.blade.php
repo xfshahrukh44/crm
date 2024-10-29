@@ -32,7 +32,7 @@
         <div class="col-xl-12">
 
             @php
-                $notification = auth()->user()->notifications()
+                $notifications = auth()->user()->notifications()
                 //for qa manager accounts
                 ->when(in_array(auth()->id(), [3839, 3838, 3837]), function ($q) {
                     return $q->where('type', 'App\Notifications\MessageNotification');
