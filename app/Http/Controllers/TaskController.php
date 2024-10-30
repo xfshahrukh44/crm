@@ -1177,7 +1177,7 @@ class TaskController extends Controller
 
         $task = $task
             //testing (danny, ashmara brands) date
-            ->whereIn('brand_id', get_restricted_brand_ids_for_qa())
+//            ->whereIn('brand_id', get_restricted_brand_ids_for_qa())
 //            ->whereDate('created_at', '>=', Carbon::parse('6 August 2024'))
             ->whereHas('status_logs', function ($q) {
                 return $q->where([
@@ -1510,7 +1510,7 @@ class TaskController extends Controller
 
         $task = $task
             //testing (danny, ashmara brands)
-            ->whereIn('brand_id', get_restricted_brand_ids_for_qa())
+//            ->whereIn('brand_id', get_restricted_brand_ids_for_qa())
 //            ->whereDate('created_at', '>=', Carbon::parse('6 August 2024'))
             ->whereHas('status_logs', function ($q) {
                 return $q

@@ -111,10 +111,10 @@ class QAController extends Controller
     {
         $category_id_array = get_auth_category_ids();
 
-        $restricted_ids = get_restricted_brand_ids_for_qa();
+//        $restricted_ids = get_restricted_brand_ids_for_qa();
 
         $sent_for_qa_count = Task::where('status', 7)
-                                ->whereIn('brand_id', $restricted_ids)
+//                                ->whereIn('brand_id', $restricted_ids)
                                 ->whereIn('category_id', $category_id_array)
                                 ->whereHas('status_logs', function ($q) {
                                     return $q->where([
@@ -124,7 +124,7 @@ class QAController extends Controller
                                 })->count();
 
         $sent_for_approval_count = Task::where('status', 5)
-                                ->whereIn('brand_id', $restricted_ids)
+//                                ->whereIn('brand_id', $restricted_ids)
                                 ->whereIn('category_id', $category_id_array)
                                 ->whereHas('status_logs', function ($q) {
                                     return $q->where([
@@ -134,7 +134,7 @@ class QAController extends Controller
                                 })->count();
 
         $completed_count = Task::where('status', 3)
-                                ->whereIn('brand_id', $restricted_ids)
+//                                ->whereIn('brand_id', $restricted_ids)
                                 ->whereIn('category_id', $category_id_array)
                                 ->whereHas('status_logs', function ($q) {
                                     return $q->where([
@@ -147,7 +147,7 @@ class QAController extends Controller
 
 
         $recent_tasks = Task::where('status', 7)
-                            ->whereIn('brand_id', $restricted_ids)
+//                            ->whereIn('brand_id', $restricted_ids)
                             ->whereIn('category_id', $category_id_array)
                             ->whereHas('status_logs', function ($q) {
                                 return $q->where([
@@ -159,7 +159,7 @@ class QAController extends Controller
 
 
         $todays_tasks = Task::where('status', 7)
-                            ->whereIn('brand_id', $restricted_ids)
+//                            ->whereIn('brand_id', $restricted_ids)
                             ->whereIn('category_id', $category_id_array)
                             ->whereHas('status_logs', function ($q) {
                                 return $q->where([
