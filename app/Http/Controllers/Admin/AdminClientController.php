@@ -42,6 +42,7 @@ class AdminClientController extends Controller
     {
         try {
             $data = new Client;
+            $data = $data->orderBy('priority', 'ASC');
             $data = $data->orderBy('id', 'desc');
             if($request->name != ''){
                 $data = $data->where(DB::raw('concat(name," ",last_name)'), 'like', '%'.$request->name.'%')

@@ -65,6 +65,15 @@
                                         </select>
                                     </div>
                                 </div>
+
+                                <div class="col-md-4 form-group mb-3">
+                                    <label for="priority">Select Priority <span>*</span></label>
+                                    <select name="priority" id="priority" class="form-control">
+                                        <option value="1" class="bg-danger text-white" {{$data->priority == 1 ? 'selected' : ''}}>HIGH</option>
+                                        <option value="2" class="bg-warning text-black" {{$data->priority == 2 ? 'selected' : ''}}>MEDIUM</option>
+                                        <option value="3" class="bg-info text-white" {{$data->priority == 3 ? 'selected' : ''}}>LOW</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="form-actions text-right">

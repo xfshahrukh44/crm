@@ -239,6 +239,7 @@
                                         <th>Client</th>
                                         <th>Invoices</th>
                                         <th>Services</th>
+                                        <th>Priority</th>
                                         <th>Added by</th>
                                         @if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4 && \Illuminate\Support\Facades\Auth::user()->is_support_head)
                                             <th>Create login</th>
@@ -265,6 +266,7 @@
                                                     <a href="javascript:void(0)" wire:click="set_active_page('projects_detail-{{$client_project->id}}')" class="btn- btn btn-{!! no_pending_tasks_left($client_project->id) ? 'success' : 'warning' !!} btn-sm">{{str_replace($client_user->name, '', str_replace(' - ', ' ', $client_project->name))}}</a>
                                                 @endforeach
                                             </td>
+                                            <td>{!! $client->priority_badge() !!}</td>
                                             <td>
                                                 @if($client->added_by)
                                                     {{$client->added_by->name . ($client->added_by->last_name ? (' ' . $client->added_by->last_name) : '' )}}

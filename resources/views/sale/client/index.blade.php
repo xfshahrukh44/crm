@@ -73,6 +73,7 @@
                                 <th>Brand</th>
                                 <th>Payment Link</th>
                                 <th>Status</th>
+                                <th>Priority</th>
                                 <th>Active</th>
                             </tr>
                         </thead>
@@ -92,6 +93,7 @@
                                         <span class="btn btn-danger btn-sm">Deactive</span><br>
                                     @endif
                                 </td>
+                                <td>{!! $datas->priority_badge() !!}</td>
                                 <td>
                                     <a href="{{route('client.edit', $datas->id)}}" class="btn btn-primary btn-icon btn-sm">
                                         <span class="ul-btn__icon"><i class="i-Edit"></i></span>

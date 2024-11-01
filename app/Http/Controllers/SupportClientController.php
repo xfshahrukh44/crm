@@ -20,6 +20,7 @@ class SupportClientController extends Controller
         $data = new Client;
 //        $data = $data->where('user_id', Auth()->user()->id);
         $data = $data->whereIn('brand_id', auth()->user()->brand_list());
+        $data = $data->orderBy('priority', 'ASC');
         $data = $data->orderBy('id', 'desc');
         if($request->name != ''){
             $data = $data->whereHas('user', function ($q) use ($request) {

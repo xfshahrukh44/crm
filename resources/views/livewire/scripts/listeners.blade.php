@@ -260,6 +260,25 @@
             Livewire.emit('client_auth_update', {id: id, pass:userInput});
         }
     });
+
+    $('body').on('click', '.span_client_priority_badge', function () {
+        let dropdown = $('#priorityDropdown');
+        dropdown.css('display', dropdown.css('display') === "none" ? "block" : "none");
+    });
+
+    document.addEventListener("click", function (event) {
+        $('#priorityDropdown').css('display', dropdown.css('display') === "none" ? "block" : "none");
+    });
+
+    $('body').on('click', '.badge_select_priority', function () {
+        let client_id = $(this).data('client');
+        let value = $(this).data('value');
+
+        Livewire.emit('set_client_priority', {
+            client_id: client_id,
+            value: value
+        });
+    });
 </script>
 
 <script>

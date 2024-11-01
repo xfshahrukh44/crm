@@ -28,6 +28,31 @@
             cursor: pointer;
         }
 
+        .span_client_priority_badge {
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            background-color: #e6e6e6;
+            min-width: 100px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border: 1px solid #ddd;
+            top: 104%;
+            right: 35%;
+        }
+
+        .dropdown-content a {
+            color: black;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
         @if(auth()->user()->is_employee == 4)
             .support_sensitive {
             color: white !important;
@@ -52,6 +77,25 @@
                             <h2>{{$client->name . ' ' . $client->last_name}}</h2>
                             {{--                        <p style="font-size: medium;">--}}
                             {{--                        @if(in_array(auth()->user()->is_employee, [0, 2, 6]))--}}
+
+                            <div class="col-12">
+                                <b>Priority</b>:
+                                {!! $client->priority_badge() !!}
+
+                                <!-- Invisible Dropdown -->
+                                <div id="priorityDropdown" class="dropdown-content" style="display: none;">
+                                    <a href="#">
+                                        <span class="badge badge-danger badge_select_priority" data-client="{{$client->id}}" data-value="1">HIGH</span>
+                                    </a>
+                                    <a href="#">
+                                        <span class="badge badge-warning badge_select_priority" data-client="{{$client->id}}" data-value="2">MEDIUM</span>
+                                    </a>
+                                    <a href="#">
+                                        <span class="badge badge-info badge_select_priority" data-client="{{$client->id}}" data-value="3">LOW</span>
+                                    </a>
+                                </div>
+                            </div>
+
                             @if($client->contact)
                                 <div class="col-12">
                                     <i class="fas fa-phone text-primary support_sensitive"></i>

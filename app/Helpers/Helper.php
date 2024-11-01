@@ -1965,3 +1965,23 @@ function mark_invoice_as_paid ($invoice_id) {
 
     return true;
 }
+
+function get_clients_priority_badge ($client_id, $small = false) {
+    if (!$client = Client::find($client_id)) {
+        return '';
+    }
+
+    $badge_map = [
+        1 => 'danger',
+        2 => 'warning',
+        3 => 'info',
+    ];
+
+    $badge_map_2 = [
+        1 => 'HIGH',
+        2 => 'MEDIUM',
+        3 => 'LOW',
+    ];
+
+    return '<span class="span_client_priority_badge badge badge-'.$badge_map[$client->priority] . ($small ? ' badge-sm' : ''). '">' .$badge_map_2[$client->priority].'</span>';
+}

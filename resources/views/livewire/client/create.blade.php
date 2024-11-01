@@ -59,6 +59,14 @@
                                         <option value="0">Deactive</option>
                                     </select>
                                 </div>
+                                <div class="col-md-4 form-group mb-3">
+                                    <label for="priority">Select Priority <span>*</span></label>
+                                    <select name="priority" wire:model="client_create_priority" id="priority" class="form-control">
+                                        <option value="1" class="bg-danger text-white">HIGH</option>
+                                        <option value="2" class="bg-warning text-black" selected>MEDIUM</option>
+                                        <option value="3" class="bg-info text-white">LOW</option>
+                                    </select>
+                                </div>
                                 <div class="col-md-12">
                                     <button class="btn btn-primary" type="submit">Save Client</button>
                                 </div>

@@ -9,7 +9,7 @@ class Client extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'last_name', 'email', 'contact', 'user_id', 'status', 'brand_id', 'assign_id', 'stripe_customer_id'];
+    protected $fillable = ['name', 'last_name', 'email', 'contact', 'user_id', 'status', 'brand_id', 'assign_id', 'stripe_customer_id', 'priority'];
 
     public function brand(){
         return $this->hasOne(Brand::class, 'id', 'brand_id');
@@ -46,6 +46,23 @@ class Client extends Model
 
     public function projects(){
         return $this->hasMany(Project::class, 'client_id');
+    }
+
+    public function priority_badge ($small = false)
+    {
+        $badge_map = [
+            1 => 'danger',
+            2 => 'warning',
+            3 => 'info',
+        ];
+
+        $badge_map_2 = [
+            1 => 'HIGH',
+            2 => 'MEDIUM',
+            3 => 'LOW',
+        ];
+
+        return '<span class="span_client_priority_badge badge badge-'.$badge_map[$this->priority] . ($small ? ' badge-sm' : ''). '">' .$badge_map_2[$this->priority].'</span>';
     }
 
 }

@@ -59,6 +59,7 @@ class BrandDashboard extends Component
         'set_tiny_mce_field_value' => 'set_tiny_mce_field_value',
         'assign_pending' => 'assign_pending',
         'reassign_pending' => 'reassign_pending',
+        'set_client_priority' => 'set_client_priority',
     ];
 
     public $brand_name;
@@ -70,6 +71,7 @@ class BrandDashboard extends Component
     public $client_create_contact = '';
     public $client_create_brand_id = '';
     public $client_create_status = '1';
+    public $client_create_priority = '2';
 
     public $client_payment_create_client_id = '';
     public $client_payment_create_name = '';
@@ -249,6 +251,7 @@ class BrandDashboard extends Component
         $brand= Brand::find($brand_id);
         $clients = Client::where('brand_id', $brand_id)
             ->withCount('projects')->withCount('invoices')
+            ->orderBy('priority', 'ASC')
             ->orderBy('created_at', 'DESC')
             ->when($this->client_name && $this->client_name != "", function ($q) {
                 return $q->whereHas('user', function ($q) {
@@ -1169,6 +1172,18 @@ class BrandDashboard extends Component
         $this->reassign_pending_project_id = '';
         $this->reassign_pending_agent_id = '';
         $this->emit('success', $project->name . ' Reassigned Successfully');
+
+        $this->render();
+    }
+
+    public function set_client_priority ($data)
+    {
+        if ($client = Client::find($data['client_id'])) {
+            $client->priority = $data['value'];
+            $client->save();
+
+            $this->emit('success', "Client's priority updated!");
+        }
 
         $this->render();
     }

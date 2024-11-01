@@ -41,6 +41,7 @@ class ClientController extends Controller
     {
         $data = new Client;
         $data = $data->where('user_id', Auth()->user()->id);
+        $data = $data->orderBy('priority', 'ASC');
         $data = $data->orderBy('id', 'desc');
         if($request->name != ''){
             $data = $data->where('name', 'LIKE', "%$request->name%");
@@ -82,6 +83,7 @@ class ClientController extends Controller
     public function managerClient(Request $request){
         $data = new Client;
         $data = $data->whereIn('brand_id', Auth()->user()->brand_list());
+        $data = $data->orderBy('priority', 'ASC');
         $data = $data->orderBy('id', 'desc');
         if($request->name != ''){
             $data = $data->where('name', 'LIKE', "%$request->name%");
