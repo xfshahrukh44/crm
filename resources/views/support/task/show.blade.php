@@ -414,7 +414,9 @@
                                                         </span>
                                                             </div>
                                                             <div class="ul-widget3-body">
-                                                                {!! strip_tags(nl2br($sub_tasks->description)) !!}
+{{--                                                                {!! strip_tags(nl2br($sub_tasks->description)) !!}--}}
+{{--                                                                {!! $sub_tasks->description !!}--}}
+                                                                {!! preg_replace('/<\/?div[^>]*>/', '', nl2br($sub_tasks->description)) !!}
 {{--                                                                {!! nl2br($sub_tasks->description) !!}--}}
                                                             </div>
                                                         </div>
