@@ -222,7 +222,12 @@
                                                                     $service_list = explode(',', $invoice->service);
                                                                 @endphp
                                                                 @for($i = 0; $i < count($service_list); $i++)
-                                                                    <span class="badge badge-info badge-sm mb-1">{{ $invoice->services($service_list[$i])->name }}</span>
+                                                                    @php
+                                                                        $record = $invoice->services($service_list[$i]);
+                                                                    @endphp
+                                                                    @if($record)
+                                                                        <span class="badge badge-info badge-sm mb-1">{{ $invoice->services($service_list[$i])->name }}</span>
+                                                                    @endif
                                                                 @endfor
                                                             </td>
                                                             <td style="vertical-align: middle;">
