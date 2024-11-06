@@ -88,7 +88,9 @@
                                     $service_list = explode(',', $datas->service);
                                     @endphp
                                     @for($i = 0; $i < count($service_list); $i++)
-                                    <span class="btn btn-info btn-sm mb-1">{{ $datas->services($service_list[$i])->name }}</span>
+                                        @if($service_list[$i])
+                                            <span class="btn btn-info btn-sm mb-1">{{ $datas->services($service_list[$i])->name }}</span>
+                                        @endif
                                     @endfor
                                 </td>
                                 <td>

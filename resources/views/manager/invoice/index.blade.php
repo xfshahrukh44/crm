@@ -84,19 +84,21 @@
                                 <td><span class="btn btn-primary btn-sm">{{ $datas->brands->name }}</span></td>
                                 <td>
                                     @php
-                                    $service_list = explode(',', $datas->service);
+                                      $service_list = explode(',', $datas->service);
                                     @endphp
                                     @for($i = 0; $i < count($service_list); $i++)
-                                    @php
-                                    $service_list_name = '';
-                                    $words = explode(" ", $datas->services($service_list[$i])->name);
-                                    @endphp
-                                    @for($j = 0; $j < count($words); $j++)
-                                    @php
-                                    $service_list_name .= $words[$j][0];
-                                    @endphp
-                                    @endfor
-                                    <span class="btn btn-info btn-sm mb-1">{{ $service_list_name }}</span>
+                                        @if($service_list[$i])
+                                            @php
+                                                $service_list_name = '';
+                                                $words = explode(" ", $datas->services($service_list[$i])->name);
+                                            @endphp
+                                            @for($j = 0; $j < count($words); $j++)
+                                                @php
+                                                $service_list_name .= $words[$j][0];
+                                                @endphp
+                                            @endfor
+                                            <span class="btn btn-info btn-sm mb-1">{{ $service_list_name }}</span>
+                                        @endif
                                     @endfor
                                 </td>
                                 <td>
