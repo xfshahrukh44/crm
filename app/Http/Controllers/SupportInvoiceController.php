@@ -266,7 +266,9 @@ class SupportInvoiceController extends Controller
         if($user_client != null || $user->user){
             $service_array = explode(',', $invoice->service);
             for($i = 0; $i < count($service_array); $i++){
-                $service = Service::find($service_array[$i]);
+                if (!$service = Service::find($service_array[$i])) {
+                    continue;
+                }
                 if($service->form == 0){
                     //No Form
                     //if($invoice->createform == 1){

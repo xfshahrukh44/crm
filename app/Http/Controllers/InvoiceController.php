@@ -151,7 +151,7 @@ class InvoiceController extends Controller
 
     public function getInvoice(){
 
-    } 
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -342,7 +342,7 @@ class InvoiceController extends Controller
         foreach($temp as $t){
             $result .= $t[0];
         }
-        
+
 	    $customerName = $request->user_name;
         $customerEmail = $request->user_email;
         $customerPhone = $request->user_phone;
@@ -367,7 +367,7 @@ class InvoiceController extends Controller
         }
 
         if($merchant == 1){
-        
+
             try{
                 $cust_id = \Stripe\Customer::create(array(
                     "name" => $customerName,
@@ -378,7 +378,7 @@ class InvoiceController extends Controller
                         "line1" => $request->address,
                         "postal_code" => $request->zip,
                         "city" => $request->city,
-                        "state" => $request->set_state,    
+                        "state" => $request->set_state,
                         "country" => $request->country,
                     ],
                 ));
@@ -392,7 +392,7 @@ class InvoiceController extends Controller
                     $service = Service::find($service_array[$i]);
                     $service_name .= $service->name;
                     if(($i + 1) == count($service_array)){
-                        
+
                     }else{
                         $service_name .=  ', ';
                     }
@@ -442,7 +442,7 @@ class InvoiceController extends Controller
                             ]
                             // "description" => $result . ' ' . $merchant_name . ' - ' . $service_name . ' ( ' . $invoiceData->discription . ' )',
                         ));
-                    
+
                         $devCharge =  \Stripe\Charge::create(array(
                             "amount" => '250',
                             "currency" => $invoiceData->currency_show->short_name,
@@ -461,7 +461,7 @@ class InvoiceController extends Controller
                             ]
                             // "description" => $result . ' ' . $merchant_name . ' - ' . $service_name . ' ( ' . $invoiceData->discription . ' )',
                         ));
-                    
+
                         $devCharge =  \Stripe\Charge::create(array(
                             "amount" => '250',
                             "currency" => $invoiceData->currency_show->short_name,
@@ -518,7 +518,7 @@ class InvoiceController extends Controller
                 return redirect()->back()->with('stripe_error', $error_message);
             }
 
-            if($charge->status == "succeeded"){			
+            if($charge->status == "succeeded"){
                 $invoice = array();
                 $invoice['request'] = $request;
                 $get_invoice = Invoice::findOrFail($request->invoice_id);
@@ -652,7 +652,7 @@ class InvoiceController extends Controller
                 foreach($adminusers as $adminuser){
                     Notification::send($adminuser, new PaymentNotification($messageData));
                 }
-                
+
                 return redirect()->route('thankYou',($get_invoice->id));
             }else{
                 return redirect()->route('failed',($get_invoice->id));
@@ -852,27 +852,27 @@ class InvoiceController extends Controller
                         return redirect()->route('thankYou',($get_invoice->id));
                     } else {
                         $message_text = 'There were some issue with the payment. Please try again later.';
-                        $msg_type = "error_msg";                                    
+                        $msg_type = "error_msg";
 
                         if ($tresponse->getErrors() != null) {
                             $message_text = $tresponse->getErrors()[0]->getErrorText();
-                            $msg_type = "error_msg";                                    
+                            $msg_type = "error_msg";
                         }
                     }
                     // Or, print errors if the API request wasn't successful
                 } else {
                     $message_text = 'There were some issue with the payment. Please try again later.';
-                    $msg_type = "error_msg";                                    
+                    $msg_type = "error_msg";
 
                     $tresponse = $response->getTransactionResponse();
 
                     if ($tresponse != null && $tresponse->getErrors() != null) {
                         $message_text = $tresponse->getErrors()[0]->getErrorText();
-                        $msg_type = "error_msg";                    
+                        $msg_type = "error_msg";
                     } else {
                         $message_text = $response->getMessages()->getMessage()[0]->getText();
                         $msg_type = "error_msg";
-                    }                
+                    }
                 }
             } else {
 
@@ -968,7 +968,7 @@ class InvoiceController extends Controller
         }
 
 		$id = $invoice->id;
-        
+
         $id = Crypt::encrypt($id);
 		$invoiceId = Crypt::decrypt($id);
 		$_getInvoiceData = Invoice::findOrFail($invoiceId);
@@ -1121,7 +1121,7 @@ class InvoiceController extends Controller
         }
 
 		$id = $invoice->id;
-        
+
         $id = Crypt::encrypt($id);
 		$invoiceId = Crypt::decrypt($id);
 		$_getInvoiceData = Invoice::findOrFail($invoiceId);
@@ -1212,7 +1212,7 @@ class InvoiceController extends Controller
         });
         $data = $data->paginate(10);
         return view('manager.invoice.index', compact('data'));
-    }    
+    }
 
     public function getInvoiceByUserId (Request $request){
         $data = new Invoice;
@@ -1260,7 +1260,10 @@ class InvoiceController extends Controller
         if($user_client != null || $user->user){
             $service_array = explode(',', $invoice->service);
             for($i = 0; $i < count($service_array); $i++){
-                $service = Service::find($service_array[$i]);
+                if(!$service = Service::find($service_array[$i])) {
+                    continue;
+                }
+
                 if($service->form == 0){
                     //No Form
                     //if($invoice->createform == 1){
@@ -1450,8 +1453,8 @@ class InvoiceController extends Controller
                     $new_smm_form->agent_id = $invoice->sales_agent_id;
                     $new_smm_form->save();
                 }
-                
-                
+
+
             }
         }
         $invoice->payment_status = 2;
@@ -1489,7 +1492,9 @@ class InvoiceController extends Controller
         if($user_client != null || $user->user){
             $service_array = explode(',', $invoice->service);
             for($i = 0; $i < count($service_array); $i++){
-                $service = Service::find($service_array[$i]);
+                if (!$service = Service::find($service_array[$i])) {
+                    continue;
+                }
                 if($service->form == 0){
                     //No Form
                     //if($invoice->createform == 1){
@@ -1723,7 +1728,9 @@ class InvoiceController extends Controller
             if($user_client != null || $user->user){
                 $service_array = explode(',', $invoice->service);
                 for($i = 0; $i < count($service_array); $i++){
-                    $service = Service::find($service_array[$i]);
+                    if (!$service = Service::find($service_array[$i])) {
+                        continue;
+                    }
                     if($service->form == 0){
                         //No Form
                         //if($invoice->createform == 1){
