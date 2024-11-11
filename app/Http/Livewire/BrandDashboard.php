@@ -491,7 +491,7 @@ class BrandDashboard extends Component
             $invoice->is_authorize = true;
             $invoice->save();
         }
-        
+
         $id = $invoice->id;
 
         $id = Crypt::encrypt($id);
@@ -764,7 +764,9 @@ class BrandDashboard extends Component
         $_getBrand = Brand::find($invoice->brand);
         $html = '<p>'.'Support member '. Auth::user()->name .' has marked invoice # '.$invoice->invoice_number.' as PAID'.'</p><br />';
         $html .= '<strong>Client:</strong> <span>'.$invoice->client->name.'</span><br />';
-        $html .= '<strong>Service(s):</strong> <span>'.strval($invoice->services()->name).'</span><br />';
+        if ($invoice->services()) {
+            $html .= '<strong>Service(s):</strong> <span>'.strval($invoice->services()->name).'</span><br />';
+        }
 //        mail_notification('', ['info@designcrm.net'], 'Invoice payment', $html);
         mail_notification(
             '',
