@@ -369,7 +369,7 @@
                                                     <tr>
                                                         <th>ID</th>
                                                         <th>Service</th>
-                                                        @if(in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [4, 6]))
+                                                        @if(in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [4, 6, 2]))
                                                             <th>Assigned to</th>
                                                         @endif
                                                         <th>Status</th>
@@ -402,7 +402,7 @@
                                                                 </a>
                                                             </td>
 
-                                                            @if(in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [4, 6]))
+                                                            @if(in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [4, 6, 2]))
                                                                 <td style="vertical-align: middle;">
                                                                     <h6>{{$project->added_by->name . ' ' . $project->added_by->last_name}}</h6>
                                                                 </td>
