@@ -21,7 +21,7 @@
                         <div class="row">
                             <div class="col-md-3 form-group mb-3">
                                 <label for="invoice_number">Invoice number</label>
-                                <input type="number" id="invoice_number" class="form-control" placeholder="Enter Invoice Number" name="invoice_number" min="1" required>
+                                <input type="text" id="invoice_number" class="form-control" placeholder="Enter Invoice Number" name="invoice_number" min="1" required>
                             </div>
 
                             <div class="col-md-3 form-group mb-3">
