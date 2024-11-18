@@ -29,10 +29,7 @@
                             <label for="agent">Agents</label>
                             <select class="form-control select2" name="agent" id="agent">
                                 @php
-                                    $agent_ids = \Illuminate\Support\Facades\DB::table('brand_users')
-                                                    ->whereIn('brand_id', auth()->user()->brand_list())
-                                                    ->pluck('user_id');
-                                    $agents = \App\Models\User::whereIn('is_employee', [4, 6])->whereIn('id', $agent_ids)->get();
+                                    $agents = \App\Models\User::whereIn('is_employee', [4, 6])->get();
                                 @endphp
                                 <option value="">Select agent</option>
                                 @foreach($agents as $agent)
