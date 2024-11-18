@@ -80,6 +80,17 @@
                     <h4 class="card-title mb-3">Sales Sheet for {{get_month_name(request()->get('month'))}}</h4>
                 @endif
                 <div class="table-responsive">
+                    <div class="row">
+                        <div class="col text-center">
+                            <h6 class="text-info">Amount: ${{$amount}}</h6>
+                        </div>
+                        <div class="col text-center">
+                            <h6 class="text-danger">Refund/CB: ${{$refund}}</h6>
+                        </div>
+                        <div class="col text-center">
+                            <h6 class="text-success">Net: ${{$net}}</h6>
+                        </div>
+                    </div>
                     <table class="display table table-striped table-bordered">
                         <thead>
                             <tr>

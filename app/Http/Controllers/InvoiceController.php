@@ -2073,7 +2073,15 @@ class InvoiceController extends Controller
             ->orderBy('created_at', 'DESC')
             ->get();
 
-        return view('manager.invoice.sales-sheet', compact('data'));
+        $amount = 0;
+        $refund = 0;
+        foreach ($data as $item) {
+            $amount += $item->amount;
+            $refund += $item->refunded_cb;
+        }
+        $net = $amount - $refund;
+
+        return view('manager.invoice.sales-sheet', compact('data', 'amount', 'refund', 'net'));
     }
 
     public function adminRefundCB (Request $request)
@@ -2121,6 +2129,14 @@ class InvoiceController extends Controller
             ->orderBy('created_at', 'DESC')
             ->get();
 
-        return view('admin.invoice.sales-sheet', compact('data'));
+        $amount = 0;
+        $refund = 0;
+        foreach ($data as $item) {
+            $amount += $item->amount;
+            $refund += $item->refunded_cb;
+        }
+        $net = $amount - $refund;
+
+        return view('admin.invoice.sales-sheet', compact('data', 'amount', 'refund', 'net'));
     }
 }
