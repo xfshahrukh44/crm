@@ -2056,7 +2056,22 @@ class InvoiceController extends Controller
 
     public function managerSalesSheet (Request $request)
     {
-        $data = Invoice::whereIn('brand', auth()->user()->brand_list())->paginate(10);
+        $selected_month = ($request->has('month') && $request->get('month') != '') ? $request->get('month') : Carbon::now()->month;
+        $request->replace(['month' => $selected_month]);
+
+        $data = Invoice::whereIn('brand', auth()->user()->brand_list())
+            ->when($selected_month, function ($q) use($selected_month) {
+                return $q->whereMonth('created_at', '=', $selected_month);
+            })
+            ->when($request->has('brand') && $request->get('brand') != '', function ($q) use($request) {
+                return $q->where('brand', '=', $request->get('brand'));
+            })
+            ->when($request->has('agent') && $request->get('agent') != '', function ($q) use($request) {
+                return $q->where('sales_agent_id', '=', $request->get('agent'));
+            })
+            ->whereYear('created_at', '=', Carbon::now()->year)
+            ->orderBy('created_at', 'DESC')
+            ->get();
 
         return view('manager.invoice.sales-sheet', compact('data'));
     }
@@ -2089,7 +2104,22 @@ class InvoiceController extends Controller
 
     public function adminSalesSheet (Request $request)
     {
-        $data = Invoice::paginate(10);
+        $selected_month = ($request->has('month') && $request->get('month') != '') ? $request->get('month') : Carbon::now()->month;
+        $request->replace(['month' => $selected_month]);
+
+        $data = Invoice::orderBy('created_at', 'DESC')
+            ->when($selected_month, function ($q) use($selected_month) {
+                return $q->whereMonth('created_at', '=', $selected_month);
+            })
+            ->when($request->has('brand') && $request->get('brand') != '', function ($q) use($request) {
+                return $q->where('brand', '=', $request->get('brand'));
+            })
+            ->when($request->has('agent') && $request->get('agent') != '', function ($q) use($request) {
+                return $q->where('sales_agent_id', '=', $request->get('agent'));
+            })
+            ->whereYear('created_at', '=', Carbon::now()->year)
+            ->orderBy('created_at', 'DESC')
+            ->get();
 
         return view('admin.invoice.sales-sheet', compact('data'));
     }

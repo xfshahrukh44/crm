@@ -1985,3 +1985,8 @@ function get_clients_priority_badge ($client_id, $small = false) {
 
     return '<span class="span_client_priority_badge badge badge-'.$badge_map[$client->priority] . ($small ? ' badge-sm' : ''). '">' .$badge_map_2[$client->priority].'</span>';
 }
+
+function get_month_name($monthNumber) {
+    $monthName = Carbon::createFromFormat('m', $monthNumber)->format('F');
+    return $monthName;
+}

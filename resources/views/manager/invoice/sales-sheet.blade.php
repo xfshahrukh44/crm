@@ -6,49 +6,79 @@
 </div>
 <div class="separator-breadcrumb border-top"></div>
 
-{{--<div class="row mb-4">--}}
-{{--    <div class="col-md-12">--}}
-{{--        <div class="card text-left">--}}
-{{--            <div class="card-body">--}}
-{{--                <form action="{{ route('manager.invoice') }}" method="GET">--}}
-{{--                    <div class="row">--}}
-{{--                        <div class="col-md-3 form-group mb-3">--}}
-{{--                            <label for="package">Search Package</label>--}}
-{{--                            <input type="text" class="form-control" id="package" name="package" value="{{ Request::get('package') }}">--}}
-{{--                        </div>--}}
-{{--                        <div class="col-md-3 form-group mb-3">--}}
-{{--                            <label for="invoice">Search Invoice#</label>--}}
-{{--                            <input type="text" class="form-control" id="invoice" name="invoice" value="{{ Request::get('invoice') }}">--}}
-{{--                        </div>--}}
-{{--                        <div class="col-md-3 form-group mb-3">--}}
-{{--                            <label for="user">Search Name or Email</label>--}}
-{{--                            <input type="text" class="form-control" id="user" name="user" value="{{ Request::get('user') }}">--}}
-{{--                        </div>--}}
-{{--                        <div class="col-md-3 form-group mb-3">--}}
-{{--                            <label for="status">Select Status</label>--}}
-{{--                            <select class="form-control select2" name="status" id="status">--}}
-{{--                                <option value="0" {{ Request::get('status') == 0 ? 'selected' : '' }}>Any</option>--}}
-{{--                                <option value="2" {{ Request::get('status') == 2 ? 'selected' : '' }}>Paid</option>--}}
-{{--                                <option value="1" {{ Request::get('status') == 1 ? 'selected' : '' }}>Unpaid</option>--}}
-{{--                            </select>--}}
-{{--                        </div>--}}
-{{--                        <div class="col-md-12">--}}
-{{--                            <div class="text-right">--}}
-{{--                                <button class="btn btn-primary">Search Result</button>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </form>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--</div>--}}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card text-left">
+            <div class="card-body">
+                <form action="{{ route('manager.sales.sheet') }}" method="GET">
+                    <div class="row">
+                        <div class="col-md-3 form-group mb-3">
+                            <label for="brand">Brands</label>
+                            <select class="form-control select2" name="brand" id="brand">
+                                @php
+                                    $get_brands = \App\Models\Brand::whereIn('id', auth()->user()->brand_list())->get();
+                                @endphp
+                                <option value="">Select brand</option>
+                                @foreach($get_brands as $brand)
+                                    <option value="{{$brand->id}}" {!! request()->get('brand') == $brand->id ? 'selected' : '' !!}>{{ $brand->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 form-group mb-3">
+                            <label for="agent">Agents</label>
+                            <select class="form-control select2" name="agent" id="agent">
+                                @php
+                                    $agent_ids = \Illuminate\Support\Facades\DB::table('brand_users')
+                                                    ->whereIn('brand_id', auth()->user()->brand_list())
+                                                    ->pluck('user_id');
+                                    $agents = \App\Models\User::whereIn('is_employee', [4, 6])->whereIn('id', $agent_ids)->get();
+                                @endphp
+                                <option value="">Select agent</option>
+                                @foreach($agents as $agent)
+                                    <option value="{{$agent->id}}" {!! request()->get('agent') == $agent->id ? 'selected' : '' !!}>{{ $agent->name . ' ' . $agent->last_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 form-group mb-3">
+                            <label for="month">Month</label>
+                            <select class="form-control select2" name="month" id="month">
+                                <option value="">Select month</option>
+                                <option value="1" {!! request()->get('month') == '1' ? 'selected' : '' !!}>January</option>
+                                <option value="2" {!! request()->get('month') == '2' ? 'selected' : '' !!}>February</option>
+                                <option value="3" {!! request()->get('month') == '3' ? 'selected' : '' !!}>March</option>
+                                <option value="4" {!! request()->get('month') == '4' ? 'selected' : '' !!}>April</option>
+                                <option value="5" {!! request()->get('month') == '5' ? 'selected' : '' !!}>May</option>
+                                <option value="6" {!! request()->get('month') == '6' ? 'selected' : '' !!}>June</option>
+                                <option value="7" {!! request()->get('month') == '7' ? 'selected' : '' !!}>July</option>
+                                <option value="8" {!! request()->get('month') == '8' ? 'selected' : '' !!}>August</option>
+                                <option value="9" {!! request()->get('month') == '9' ? 'selected' : '' !!}>September</option>
+                                <option value="10" {!! request()->get('month') == '10' ? 'selected' : '' !!}>October</option>
+                                <option value="11" {!! request()->get('month') == '11' ? 'selected' : '' !!}>November</option>
+                                <option value="12" {!! request()->get('month') == '12' ? 'selected' : '' !!}>December</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="text-right">
+                                <button class="btn btn-primary">Search Result</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-md-12">
         <div class="card text-left">
             <div class="card-body">
-                <h4 class="card-title mb-3">Sales Sheet</h4>
+                @if(request()->has('month'))
+                    <h4 class="card-title mb-3">Sales Sheet for {{get_month_name(request()->get('month'))}}</h4>
+                @endif
                 <div class="table-responsive">
                     <table class="display table table-striped table-bordered">
                         <thead>
@@ -71,69 +101,75 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                                $key = 0;
+                            @endphp
                             @foreach($data as $datas)
-                            <tr>
-                                <td>
-                                    <span class="btn btn-sm btn-dark">{{ $datas->id }}</span>
-                                </td>
-                                <td>{{$datas->client->id}}</td>
-                                <td>{{$datas->client->name}}</td>
-                                <td>{{$datas->client->email}}</td>
-                                <td>
-                                    @php
-                                        $service_list = explode(',', $datas->service);
-                                    @endphp
-                                    @for($i = 0; $i < count($service_list); $i++)
-                                        @if($service_list[$i])
-                                            @php
-                                                $service_list_name = '';
-                                                $var_check = $datas->services($service_list[$i]);
-                                                $words = $var_check ? explode(" ", $var_check->name) : [];
-                                            @endphp
-                                            @for($j = 0; $j < count($words); $j++)
-                                                @php
-                                                    $service_list_name .= ' ' . $words[$j];
-                                                @endphp
-                                            @endfor
-                                            <span class="btn btn-info btn-sm mb-1">{{ $service_list_name }}</span>
-                                        @endif
-                                    @endfor
-                                </td>
-                                <td>{{ $datas->currency_show->sign }}{{ $datas->amount }}</td>
-                                <td>
-                                    @if(!is_null($datas->recurring))
-                                        {{ $datas->currency_show->sign }}{{ $datas->recurring }}
-                                    @endif
-                                </td><td>
-                                    <button class="btn btn-sm btn-secondary mb-1">{{ date('g:i a', strtotime($datas->created_at)) }}</button>
-                                    <button class="btn btn-sm btn-secondary">{{ date('d M, Y', strtotime($datas->created_at)) }}</button>
-                                </td>
-                                <td>{{ $datas->sale->name ?? '' }} {{ $datas->sale->last_name ?? '' }}</td>
-                                <td>{{ $datas->sale->sale_or_upsell ?? '' }}</td>
-                                <td><span class="btn btn-primary btn-sm">{{ $datas->brands->name }}</span></td>
                                 @php
-                                    $merchant = \App\Models\Merchant::find($datas->merchant_id);
+                                    $key += 1;
                                 @endphp
-                                <td>{{ $merchant->name ?? '' }}</td>
-                                <td>
-                                    <span class="btn btn-sm btn-dark">#{{ $datas->invoice_number }}</span>
-                                </td>
-                                <td class="text-danger">
-                                    @if(!is_null($datas->refunded_cb))
-                                        {{ $datas->currency_show->sign }}{{ $datas->refunded_cb }}
-                                    @endif
-                                </td>
-                                <td class="text-danger">
-                                    @if(!is_null($datas->refund_cb_date))
-                                        {{\Carbon\Carbon::parse($datas->refund_cb_date)->format('d F, Y')}}
-                                    @endif
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>
+                                        <span class="btn btn-sm btn-dark">{{ $key }}</span>
+                                    </td>
+                                    <td>{{$datas->client->id}}</td>
+                                    <td>{{$datas->client->name}}</td>
+                                    <td>{{$datas->client->email}}</td>
+                                    <td>
+                                        @php
+                                            $service_list = explode(',', $datas->service);
+                                        @endphp
+                                        @for($i = 0; $i < count($service_list); $i++)
+                                            @if($service_list[$i])
+                                                @php
+                                                    $service_list_name = '';
+                                                    $var_check = $datas->services($service_list[$i]);
+                                                    $words = $var_check ? explode(" ", $var_check->name) : [];
+                                                @endphp
+                                                @for($j = 0; $j < count($words); $j++)
+                                                    @php
+                                                        $service_list_name .= ' ' . $words[$j];
+                                                    @endphp
+                                                @endfor
+                                                <span class="btn btn-info btn-sm mb-1">{{ $service_list_name }}</span>
+                                            @endif
+                                        @endfor
+                                    </td>
+                                    <td>{{ $datas->currency_show->sign }}{{ $datas->amount }}</td>
+                                    <td>
+                                        @if(!is_null($datas->recurring))
+                                            {{ $datas->currency_show->sign }}{{ $datas->recurring }}
+                                        @endif
+                                    </td><td>
+                                        <button class="btn btn-sm btn-secondary mb-1">{{ date('g:i a', strtotime($datas->created_at)) }}</button>
+                                        <button class="btn btn-sm btn-secondary">{{ date('d M, Y', strtotime($datas->created_at)) }}</button>
+                                    </td>
+                                    <td>{{ $datas->sale->name ?? '' }} {{ $datas->sale->last_name ?? '' }}</td>
+                                    <td>{{ $datas->sale->sale_or_upsell ?? '' }}</td>
+                                    <td><span class="btn btn-primary btn-sm">{{ $datas->brands->name }}</span></td>
+                                    @php
+                                        $merchant = \App\Models\Merchant::find($datas->merchant_id);
+                                    @endphp
+                                    <td>{{ $merchant->name ?? '' }}</td>
+                                    <td>
+                                        <span class="btn btn-sm btn-dark">#{{ $datas->invoice_number }}</span>
+                                    </td>
+                                    <td class="text-danger">
+                                        @if(!is_null($datas->refunded_cb))
+                                            {{ $datas->currency_show->sign }}{{ $datas->refunded_cb }}
+                                        @endif
+                                    </td>
+                                    <td class="text-danger">
+                                        @if(!is_null($datas->refund_cb_date))
+                                            {{\Carbon\Carbon::parse($datas->refund_cb_date)->format('d F, Y')}}
+                                        @endif
+                                    </td>
+                                </tr>
                             @endforeach
 
                         </tbody>
                     </table>
-                    {{ $data->links("pagination::bootstrap-4") }}
+{{--                    {{ $data->links("pagination::bootstrap-4") }}--}}
                 </div>
             </div>
         </div>
