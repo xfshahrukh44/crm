@@ -2038,12 +2038,12 @@ class InvoiceController extends Controller
     public function managerRefundCBSubmit (Request $request)
     {
         $request->validate([
-            'invoice_id' => 'required',
+            'invoice_number' => 'required',
             'refunded_cb' => 'required',
             'refund_cb_date' => 'required',
         ]);
 
-        if (!$invoice = Invoice::whereIn('brand', auth()->user()->brand_list())->where('id', $request->get('invoice_id'))->first()) {
+        if (!$invoice = Invoice::whereIn('brand', auth()->user()->brand_list())->where('invoice_number', $request->get('invoice_number'))->first()) {
             return redirect()->back()->with('error', 'Invalid Invoice ID');
         }
 
@@ -2094,12 +2094,12 @@ class InvoiceController extends Controller
     public function adminRefundCBSubmit (Request $request)
     {
         $request->validate([
-            'invoice_id' => 'required',
+            'invoice_number' => 'required',
             'refunded_cb' => 'required',
             'refund_cb_date' => 'required',
         ]);
 
-        if (!$invoice = Invoice::where('id', $request->get('invoice_id'))->first()) {
+        if (!$invoice = Invoice::where('invoice_number', $request->get('invoice_number'))->first()) {
             return redirect()->back()->with('error', 'Invalid Invoice ID');
         }
 

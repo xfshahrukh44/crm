@@ -20,8 +20,8 @@
                     <div class="form-body">
                         <div class="row">
                             <div class="col-md-3 form-group mb-3">
-                                <label for="invoice_id">Invoice ID</label>
-                                <input type="number" id="invoice_id" class="form-control" placeholder="Enter Invoice ID CB" name="invoice_id" min="1" required>
+                                <label for="invoice_number">Invoice number</label>
+                                <input type="number" id="invoice_number" class="form-control" placeholder="Enter Invoice Number" name="invoice_number" min="1" required>
                             </div>
 
                             <div class="col-md-3 form-group mb-3">

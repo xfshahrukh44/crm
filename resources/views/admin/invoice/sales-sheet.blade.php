@@ -16,7 +16,7 @@
                             <label for="brand">Brands</label>
                             <select class="form-control select2" name="brand" id="brand">
                                 @php
-                                    $get_brands = \App\Models\Brand::whereIn('id', auth()->user()->brand_list())->get();
+                                    $get_brands = \App\Models\Brand::get();
                                 @endphp
                                 <option value="">Select brand</option>
                                 @foreach($get_brands as $brand)
