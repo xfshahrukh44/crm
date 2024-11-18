@@ -72,6 +72,8 @@ class SupportInvoiceController extends Controller
         $invoice->client_id = $request->client_id;
         $invoice->invoice_number = $nextInvoiceNumber;
         $invoice->sales_agent_id = $request->has('sales_agent_id') && $request->get('sales_agent_id') != '' ? $request->get('sales_agent_id') : Auth()->user()->id;
+        $invoice->recurring = $request->get('recurring');
+        $invoice->sale_or_upsell = $request->get('sale_or_upsell');
         $invoice->discription = $request->discription;
         $invoice->amount = $request->amount;
         $invoice->payment_status = '1';

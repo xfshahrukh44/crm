@@ -89,6 +89,8 @@ class BrandDashboard extends Component
     public $client_payment_create_sendemail = '';
     public $client_payment_create_discription = '';
     public $client_payment_create_sales_agent_id = '';
+    public $client_payment_create_recurring = 0.00;
+    public $client_payment_create_sale_or_upsell = '';
 
     public $message_client_client_id = '';
     public $message_client_message = '';
@@ -462,6 +464,8 @@ class BrandDashboard extends Component
         $invoice->client_id = $this->client_payment_create_client_id;
         $invoice->invoice_number = $nextInvoiceNumber;
         $invoice->sales_agent_id = $this->client_payment_create_sales_agent_id && $this->client_payment_create_sales_agent_id != '' ? $this->client_payment_create_sales_agent_id : Auth()->user()->id;
+        $invoice->recurring = $this->client_payment_create_recurring;
+        $invoice->sale_or_upsell = $this->client_payment_create_sale_or_upsell;
         $invoice->discription = $this->client_payment_create_discription;
         $invoice->amount = $this->client_payment_create_amount;
         $invoice->payment_status = '1';

@@ -58,6 +58,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Invoice Number</th>
                                 <th>Package Name</th>
                                 <th>User</th>
                                 <th>Brand</th>
@@ -71,6 +72,9 @@
                         <tbody>
                             @foreach($data as $datas)
                             <tr>
+                                <td>
+                                    <span class="btn btn-sm btn-dark">{{ $datas->id }}</span>
+                                </td>
                                 <td>
                                     <span class="btn btn-sm btn-dark">#{{ $datas->invoice_number }}</span>
                                 </td>
@@ -106,7 +110,7 @@
                                     </span>
                                 </td>
                                 <td>{{ $datas->currency_show->sign }}{{ $datas->amount }}</td>
-                                <td>                                    
+                                <td>
                                     @if($datas->payment_status == 2)
                                     <a href="javascript:;" class="btn btn-{{ $datas->client->user == null ? 'primary' : 'success' }} btn-sm auth-create" data-id="{{ $datas->client->id }}" data-auth="{{ $datas->client->user == null ? 0 : 1 }}" data-password="{{ $datas->client->user == null ? '' : $datas->client->user->password }}">{{ $datas->client->user == null ? 'Click Here' : 'Reset Pass' }}</a>
                                     @else
@@ -130,11 +134,12 @@
                                 </td>
                             </tr>
                             @endforeach
-                            
+
                         </tbody>
                         <tfoot>
                             <tr>
                                 <th>ID</th>
+                                <th>Invoice Number</th>
                                 <th>Package Name</th>
                                 <th>User Name</th>
                                 <th>Brand</th>
@@ -243,7 +248,7 @@
                         'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
                     }
                 });
-                
+
                 $.ajax({
                     type:'POST',
                     url: "{{ route('support.client.updateauth') }}",

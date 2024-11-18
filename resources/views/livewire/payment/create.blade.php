@@ -135,6 +135,19 @@
                                     @error('client_payment_create_sales_agent_id') <span class="error text-danger">{{ $message }}</span> @enderror
                                 </div>
 
+                                <div class="col-md-4 form-group mb-3">
+                                    <label for="recurring">Recurring amount</label>
+                                    <input step=".01" type="number" id="recurring" class="form-control" value="0.00" placeholder="Recurring amount" wire:model="client_payment_create_recurring" min="1">
+                                </div>
+
+                                <div class="col-md-4 form-group mb-3">
+                                    <label for="sale_or_upsell">Sale/Upsell</label>
+                                    <select wire:model="client_payment_create_sale_or_upsell" id="sale_or_upsell" class="form-control">
+                                        <option value="Sale" selected>Sale</option>
+                                        <option value="Upsell">Upsell</option>
+                                    </select>
+                                </div>
+
                                 <div class="col-md-12">
                                     <button type="submit" class="btn btn-primary">Create Invoice</button>
                                 </div>

@@ -33,9 +33,9 @@ use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\LogoFormController;
 use App\Http\Controllers\VerifyController;
-use App\Http\Controllers\WebFormController; 
+use App\Http\Controllers\WebFormController;
 use App\Http\Controllers\SmmFormController;
-use App\Http\Controllers\ContentWritingFormController; 
+use App\Http\Controllers\ContentWritingFormController;
 use App\Http\Controllers\SeoFormController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\BookFormattingController;
@@ -106,10 +106,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('client/authorwebsite/{id}', [AuthorWebsiteController::class, 'update'])->name('client.authorwebsite.form.update');
         Route::post('client/proofreading/{id}', [ProofreadingController::class, 'update'])->name('client.proofreading.form.update');
         Route::post('client/bookcover/{id}', [BookCoverController::class, 'update'])->name('client.bookcover.form.update');
-        
+
         Route::post('client/isbn/{id}', [IsbnController::class, 'update'])->name('client.isbn.form.update');
         Route::post('client/bookprinting/{id}', [BookprintingController::class, 'update'])->name('client.bookprinting.form.update');
-        
+
         Route::post('client/logo', [LogoFormController::class, 'destroy'])->name('client.logo.form.file.delete');
         Route::get('client/projects', [ClientController::class, 'clientProject'])->name('client.project');
         Route::get('client/projects/view/{id}', [ClientController::class, 'clientProjectView'])->name('client.project.view');
@@ -125,7 +125,7 @@ Route::group(['middleware' => 'auth'], function () {
 });
 Route::group(['middleware' => 'auth'], function () {
     Route::post('verify/code',  [AdminController::class, 'verifyCode'])->name('verify.code');
-}); 
+});
 // Admin Routes
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'admin',  'middleware' => 'is_admin'], function(){
@@ -182,6 +182,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('pending/projects', [LogoFormController::class, 'getPendingProject'])->name('admin.pending.project');
         Route::get('pending/projects/{id}/{form}', [LogoFormController::class, 'getPendingProjectbyId'])->name('admin.pending.project.details');
         Route::post('invoice/paid/{id}', [InvoiceController::class, 'invoicePaidById'])->name('admin.invoice.paid');
+        Route::get('/admin/invoice/refund', [InvoiceController::class, 'adminRefundCB'])->name('admin.refund.cb');
+        Route::post('/admin/invoice/refund', [InvoiceController::class, 'adminRefundCBSubmit'])->name('admin.refund.cb.submit');
+        Route::get('/admin/invoice/sheet', [InvoiceController::class, 'adminSalesSheet'])->name('admin.sales.sheet');
+
+
         Route::get('message/edit/{id}', [SupportController::class, 'editMessageByAdminClientId'])->name('admin.message.edit');
         Route::post('message/update', [SupportController::class, 'updateAdminMessage'])->name('admin.message.update');
         Route::get('message', [SupportController::class, 'getMessageByAdmin'])->name('admin.message');
@@ -401,13 +406,17 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/manager/brief/pending', [LogoFormController::class, 'getBriefPendingByIdManager'])->name('manager.brief.pending');
         Route::get('/manager/invoice/edit/{id}', [InvoiceController::class, 'editInvoiceManager'])->name('manager.invoice.edit');
         Route::post('/manager/invoice/update', [InvoiceController::class, 'saleUpdateManager'])->name('manager.invoice.update');
+        Route::get('/manager/invoice/refund', [InvoiceController::class, 'managerRefundCB'])->name('manager.refund.cb');
+        Route::post('/manager/invoice/refund', [InvoiceController::class, 'managerRefundCBSubmit'])->name('manager.refund.cb.submit');
+        Route::get('/manager/invoice/sheet', [InvoiceController::class, 'managerSalesSheet'])->name('manager.sales.sheet');
+
         Route::get('/manager/pending/projects', [LogoFormController::class, 'getPendingProjectManager'])->name('manager.pending.project');
         Route::get('/manager/pending/projects/{id}/{form}', [LogoFormController::class, 'getPendingProjectbyIdManager'])->name('manager.pending.project.details');
         Route::post('/manager/assign/support/', [AdminClientController::class, 'assignSupportManager'])->name('manager.assign.support');
         Route::post('/manager/reassign/support/', [AdminClientController::class, 'reassignSupportManager'])->name('manager.reassign.support');
-        
+
         Route::post('/manager/reassign/support/taskid', [AdminClientController::class, 'reassignSupportManagerTaskID'])->name('manager.reassign.support.taskid');
-        
+
         Route::get('/manager/client/agent/{brand_id?}', [AdminClientController::class, 'getAgentManager'])->name('manager.client.agent');
         Route::get('/manager/project', [AdminProjectController::class, 'indexManager'])->name('manager.project.index');
         Route::get('/manager/project/edit/{id}', [AdminProjectController::class, 'indexEdit'])->name('manager.project.edit');

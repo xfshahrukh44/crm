@@ -1,70 +1,73 @@
 @extends('layouts.app-manager')
-@section('title', 'Invoices')
+@section('title', 'Sales Sheet')
 @section('content')
 <div class="breadcrumb">
-    <h1 class="mr-2">Invoices</h1>
+    <h1 class="mr-2">Sales Sheet</h1>
 </div>
 <div class="separator-breadcrumb border-top"></div>
 
-<div class="row mb-4">
-    <div class="col-md-12">
-        <div class="card text-left">
-            <div class="card-body">
-                <form action="{{ route('manager.invoice') }}" method="GET">
-                    <div class="row">
-                        <div class="col-md-3 form-group mb-3">
-                            <label for="package">Search Package</label>
-                            <input type="text" class="form-control" id="package" name="package" value="{{ Request::get('package') }}">
-                        </div>
-                        <div class="col-md-3 form-group mb-3">
-                            <label for="invoice">Search Invoice#</label>
-                            <input type="text" class="form-control" id="invoice" name="invoice" value="{{ Request::get('invoice') }}">
-                        </div>
-                        <div class="col-md-3 form-group mb-3">
-                            <label for="user">Search Name or Email</label>
-                            <input type="text" class="form-control" id="user" name="user" value="{{ Request::get('user') }}">
-                        </div>
-                        <div class="col-md-3 form-group mb-3">
-                            <label for="status">Select Status</label>
-                            <select class="form-control select2" name="status" id="status">
-                                <option value="0" {{ Request::get('status') == 0 ? 'selected' : '' }}>Any</option>
-                                <option value="2" {{ Request::get('status') == 2 ? 'selected' : '' }}>Paid</option>
-                                <option value="1" {{ Request::get('status') == 1 ? 'selected' : '' }}>Unpaid</option>
-                            </select>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="text-right">
-                                <button class="btn btn-primary">Search Result</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+{{--<div class="row mb-4">--}}
+{{--    <div class="col-md-12">--}}
+{{--        <div class="card text-left">--}}
+{{--            <div class="card-body">--}}
+{{--                <form action="{{ route('manager.invoice') }}" method="GET">--}}
+{{--                    <div class="row">--}}
+{{--                        <div class="col-md-3 form-group mb-3">--}}
+{{--                            <label for="package">Search Package</label>--}}
+{{--                            <input type="text" class="form-control" id="package" name="package" value="{{ Request::get('package') }}">--}}
+{{--                        </div>--}}
+{{--                        <div class="col-md-3 form-group mb-3">--}}
+{{--                            <label for="invoice">Search Invoice#</label>--}}
+{{--                            <input type="text" class="form-control" id="invoice" name="invoice" value="{{ Request::get('invoice') }}">--}}
+{{--                        </div>--}}
+{{--                        <div class="col-md-3 form-group mb-3">--}}
+{{--                            <label for="user">Search Name or Email</label>--}}
+{{--                            <input type="text" class="form-control" id="user" name="user" value="{{ Request::get('user') }}">--}}
+{{--                        </div>--}}
+{{--                        <div class="col-md-3 form-group mb-3">--}}
+{{--                            <label for="status">Select Status</label>--}}
+{{--                            <select class="form-control select2" name="status" id="status">--}}
+{{--                                <option value="0" {{ Request::get('status') == 0 ? 'selected' : '' }}>Any</option>--}}
+{{--                                <option value="2" {{ Request::get('status') == 2 ? 'selected' : '' }}>Paid</option>--}}
+{{--                                <option value="1" {{ Request::get('status') == 1 ? 'selected' : '' }}>Unpaid</option>--}}
+{{--                            </select>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-md-12">--}}
+{{--                            <div class="text-right">--}}
+{{--                                <button class="btn btn-primary">Search Result</button>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </form>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--</div>--}}
 
 <div class="row">
     <div class="col-md-12">
         <div class="card text-left">
             <div class="card-body">
-                <h4 class="card-title mb-3">Invoice Details</h4>
+                <h4 class="card-title mb-3">Sales Sheet</h4>
                 <div class="table-responsive">
                     <table class="display table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Invoice number</th>
-                                <th>Package Name</th>
-                                <th>User</th>
-                                <th>Agent</th>
-                                <th>Brand</th>
+                                <th>SR No</th>
+                                <th>Client ID</th>
+                                <th>Client Name</th>
+                                <th>Email</th>
                                 <th>Service</th>
-                                <th>Status</th>
                                 <th>Amount</th>
+                                <th>Recurring</th>
                                 <th>Date</th>
-                                <th>Create Login</th>
-                                <th>Active</th>
+                                <th>Salesperson</th>
+                                <th>Sale/Upsell</th>
+                                <th>Brand</th>
+                                <th>Merchant</th>
+                                <th>Invoice number</th>
+                                <th>Refund/CB</th>
+                                <th>Refund/CB Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -73,22 +76,12 @@
                                 <td>
                                     <span class="btn btn-sm btn-dark">{{ $datas->id }}</span>
                                 </td>
-                                <td>
-                                    <span class="btn btn-sm btn-dark">#{{ $datas->invoice_number }}</span>
-                                </td>
-                                <td>
-                                    @if($datas->package == 0)
-                                    {{ $datas->custom_package }}
-                                    @else
-                                    {{ $datas->package }}
-                                    @endif
-                                </td>
-                                <td>{{ $datas->name }}<br>{{ $datas->email }}</td>
-                                <td>{{ $datas->sale->name ?? '' }} {{ $datas->sale->last_name ?? '' }}</td>
-                                <td><span class="btn btn-primary btn-sm">{{ $datas->brands->name }}</span></td>
+                                <td>{{$datas->client->id}}</td>
+                                <td>{{$datas->client->name}}</td>
+                                <td>{{$datas->client->email}}</td>
                                 <td>
                                     @php
-                                      $service_list = explode(',', $datas->service);
+                                        $service_list = explode(',', $datas->service);
                                     @endphp
                                     @for($i = 0; $i < count($service_list); $i++)
                                         @if($service_list[$i])
@@ -99,72 +92,46 @@
                                             @endphp
                                             @for($j = 0; $j < count($words); $j++)
                                                 @php
-                                                $service_list_name .= $words[$j][0];
+                                                    $service_list_name .= ' ' . $words[$j];
                                                 @endphp
                                             @endfor
                                             <span class="btn btn-info btn-sm mb-1">{{ $service_list_name }}</span>
                                         @endif
                                     @endfor
                                 </td>
-                                <td>
-{{--                                    <span class="btn btn-{{ App\Models\Invoice::STATUS_COLOR[$datas->payment_status] }} btn-sm">--}}
-                                    <span class="">
-                                        {{ App\Models\Invoice::PAYMENT_STATUS[$datas->payment_status] }}
-                                        @if($datas->payment_status == 1)
-                                        <form method="post" action="{{ route('manager.invoice.paid', $datas->id) }}">
-                                            @csrf
-                                            <button type="submit" class="btn btn-danger">Mark As Paid</button>
-                                        </form>
-                                        @endif
-                                    </span>
-                                </td>
                                 <td>{{ $datas->currency_show->sign }}{{ $datas->amount }}</td>
                                 <td>
+                                    @if(!is_null($datas->recurring))
+                                        {{ $datas->currency_show->sign }}{{ $datas->recurring }}
+                                    @endif
+                                </td><td>
                                     <button class="btn btn-sm btn-secondary mb-1">{{ date('g:i a', strtotime($datas->created_at)) }}</button>
                                     <button class="btn btn-sm btn-secondary">{{ date('d M, Y', strtotime($datas->created_at)) }}</button>
                                 </td>
+                                <td>{{ $datas->sale->name ?? '' }} {{ $datas->sale->last_name ?? '' }}</td>
+                                <td>{{ $datas->sale->sale_or_upsell ?? '' }}</td>
+                                <td><span class="btn btn-primary btn-sm">{{ $datas->brands->name }}</span></td>
+                                @php
+                                    $merchant = \App\Models\Merchant::find($datas->merchant_id);
+                                @endphp
+                                <td>{{ $merchant->name ?? '' }}</td>
                                 <td>
-                                    @if($datas->payment_status == 2)
-                                    <a href="javascript:;" class="btn btn-{{ $datas->client->user == null ? 'primary' : 'success' }} btn-sm auth-create" data-id="{{ $datas->client->id }}" data-auth="{{ $datas->client->user == null ? 0 : 1 }}" data-password="{{ $datas->client->user == null ? '' : $datas->client->user->password }}">{{ $datas->client->user == null ? 'Click Here' : 'Reset Pass' }}</a>
-                                    @else
-                                    <span class="btn btn-info btn-sm">Payment Pending</span>
-                                    @endif
-
+                                    <span class="btn btn-sm btn-dark">#{{ $datas->invoice_number }}</span>
                                 </td>
-                                <td>
-                                    <div>
-                                        @if($datas->payment_status == 1)
-                                        <a href="{{ route('manager.invoice.edit', $datas->id) }}" class="mb-2 btn btn-primary btn-icon btn-sm mr-1">
-                                            <span class="ul-btn__icon"><i class="i-Edit"></i></span>
-                                            <span class="ul-btn__text">Edit</span>
-                                        </a>
-                                        @endif
-                                        <a href="{{ route('manager.link', $datas->id) }}" class="btn btn-info btn-icon btn-sm">
-                                            <span class="ul-btn__icon"><i class="i-Eye-Visible"></i></span>
-                                            <span class="ul-btn__text">View</span>
-                                        </a>
-                                    </div>
+                                <td class="text-danger">
+                                    @if(!is_null($datas->refunded_cb))
+                                        {{ $datas->currency_show->sign }}{{ $datas->refunded_cb }}
+                                    @endif
+                                </td>
+                                <td class="text-danger">
+                                    @if(!is_null($datas->refund_cb_date))
+                                        {{\Carbon\Carbon::parse($datas->refund_cb_date)->format('d F, Y')}}
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
 
                         </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>ID</th>
-                                <th>Invoice number</th>
-                                <th>Package Name</th>
-                                <th>User Name</th>
-                                <th>Agent</th>
-                                <th>Brand</th>
-                                <th>Service</th>
-                                <th>Status</th>
-                                <th>Amount</th>
-                                <th>Date</th>
-                                <th>Create Login</th>
-                                <th>Active</th>
-                            </tr>
-                        </tfoot>
                     </table>
                     {{ $data->links("pagination::bootstrap-4") }}
                 </div>

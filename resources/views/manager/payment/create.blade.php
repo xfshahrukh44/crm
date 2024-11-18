@@ -109,12 +109,25 @@
                             </div>
 
                             <div class="col-md-4 form-group mb-3">
-                                <label for="sales_agent_id">Specify agent <span>(Optional)</span></label>
+                                <label for="sales_agent_id">Transfer by</label>
                                 <select name="sales_agent_id" id="sales_agent_id" class="form-control select2">
                                     <option value="">Select sales agent</option>
                                     @foreach($sale_agents as $sale_agent)
                                         <option value="{{ $sale_agent->id }}">{{$sale_agent->name}} {{$sale_agent->last_name}}</option>
                                     @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-md-4 form-group mb-3">
+                                <label for="recurring">Recurring amount</label>
+                                <input step=".01" type="number" id="recurring" class="form-control" value="0.00" placeholder="Recurring amount" name="recurring" min="1">
+                            </div>
+
+                            <div class="col-md-4 form-group mb-3">
+                                <label for="sale_or_upsell">Sale/Upsell</label>
+                                <select name="sale_or_upsell" id="sale_or_upsell" class="form-control select2">
+                                    <option value="Sale" selected>Sale</option>
+                                    <option value="Upsell">Upsell</option>
                                 </select>
                             </div>
 

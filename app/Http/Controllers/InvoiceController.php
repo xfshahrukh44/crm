@@ -941,6 +941,8 @@ class InvoiceController extends Controller
         $invoice->client_id = $request->client_id;
         $invoice->invoice_number = $nextInvoiceNumber;
         $invoice->sales_agent_id = $request->has('sales_agent_id') && $request->get('sales_agent_id') != '' ? $request->get('sales_agent_id') : Auth()->user()->id;
+        $invoice->recurring = $request->get('recurring');
+        $invoice->sale_or_upsell = $request->get('sale_or_upsell');
         $invoice->discription = $request->discription;
         $invoice->amount = $request->amount;
         $invoice->payment_status = '1';
@@ -1093,6 +1095,8 @@ class InvoiceController extends Controller
         $invoice->client_id = $request->client_id;
         $invoice->invoice_number = $nextInvoiceNumber;
         $invoice->sales_agent_id = $request->has('sales_agent_id') && $request->get('sales_agent_id') != '' ? $request->get('sales_agent_id') : Auth()->user()->id;
+        $invoice->recurring = $request->get('recurring');
+        $invoice->sale_or_upsell = $request->get('sale_or_upsell');
         $invoice->discription = $request->discription;
         $invoice->amount = $request->amount;
         $invoice->payment_status = '1';
@@ -2022,5 +2026,71 @@ class InvoiceController extends Controller
 		$invoice->merchant_id = $request->merchant;
         $invoice->save();
         return redirect()->route('sale.link',($invoice->id));
+    }
+
+    public function managerRefundCB (Request $request)
+    {
+        $refund_cb_invoices = Invoice::whereIn('brand', auth()->user()->brand_list())->whereNotNull('refund_cb_date')->paginate(10);
+
+        return view('manager.invoice.refund', compact('refund_cb_invoices'));
+    }
+
+    public function managerRefundCBSubmit (Request $request)
+    {
+        $request->validate([
+            'invoice_id' => 'required',
+            'refunded_cb' => 'required',
+            'refund_cb_date' => 'required',
+        ]);
+
+        if (!$invoice = Invoice::whereIn('brand', auth()->user()->brand_list())->where('id', $request->get('invoice_id'))->first()) {
+            return redirect()->back()->with('error', 'Invalid Invoice ID');
+        }
+
+        $invoice->refunded_cb = $request->get('refunded_cb');
+        $invoice->refund_cb_date = $request->get('refund_cb_date');
+        $invoice->save();
+
+        return redirect()->back()->with('success', 'Refund/CB entry added.');
+    }
+
+    public function managerSalesSheet (Request $request)
+    {
+        $data = Invoice::whereIn('brand', auth()->user()->brand_list())->paginate(10);
+
+        return view('manager.invoice.sales-sheet', compact('data'));
+    }
+
+    public function adminRefundCB (Request $request)
+    {
+        $refund_cb_invoices = Invoice::whereNotNull('refund_cb_date')->paginate(10);
+
+        return view('admin.invoice.refund', compact('refund_cb_invoices'));
+    }
+
+    public function adminRefundCBSubmit (Request $request)
+    {
+        $request->validate([
+            'invoice_id' => 'required',
+            'refunded_cb' => 'required',
+            'refund_cb_date' => 'required',
+        ]);
+
+        if (!$invoice = Invoice::where('id', $request->get('invoice_id'))->first()) {
+            return redirect()->back()->with('error', 'Invalid Invoice ID');
+        }
+
+        $invoice->refunded_cb = $request->get('refunded_cb');
+        $invoice->refund_cb_date = $request->get('refund_cb_date');
+        $invoice->save();
+
+        return redirect()->back()->with('success', 'Refund/CB entry added.');
+    }
+
+    public function adminSalesSheet (Request $request)
+    {
+        $data = Invoice::paginate(10);
+
+        return view('admin.invoice.sales-sheet', compact('data'));
     }
 }

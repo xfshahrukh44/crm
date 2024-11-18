@@ -57,7 +57,7 @@
                     </div>
                 </a>
                 @if($loop->last)
-                    
+
                 @endif
                 @php
                     $k++;
@@ -143,6 +143,21 @@
                 <a class="nav-item-hold" href="{{ route('admin.invoice') }}">
                     <i class="nav-icon i-Credit-Card"></i>
                     <span class="nav-text">Invoices</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
+
+            <li class="nav-item {{ (request()->routeIs('admin.refund.cb')) ? 'active' : '' }}">
+                <a class="nav-item-hold" href="{{ route('admin.refund.cb') }}">
+                    <i class="nav-icon i-Credit-Card text-danger"></i>
+                    <span class="nav-text text-danger">Refund/CB</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
+            <li class="nav-item {{ (request()->routeIs('admin.sales.sheet')) ? 'active' : '' }}">
+                <a class="nav-item-hold" href="{{ route('admin.sales.sheet') }}">
+                    <i class="nav-icon i-Credit-Card text-success"></i>
+                    <span class="nav-text text-success">Sales Sheet</span>
                 </a>
                 <div class="triangle"></div>
             </li>

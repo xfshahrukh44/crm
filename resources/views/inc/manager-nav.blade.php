@@ -23,34 +23,34 @@
                 </a>
             </span>
         @endif
-        
+
         <?php if(auth()->user()->id == "2260"){ ?>
-        
+
             <a href="javascript:;" class="brands-list" style="margin-top: 3px;">
                 <span> All Brands For QA Team </span>
             </a>
-        
-        
+
+
         <?php }else if(auth()->user()->id == "2314"){ ?>
-        
+
             <a href="javascript:;" class="brands-list" style="margin-top: 3px;">
                 <span> All Brands For QA Team </span>
             </a>
-        
+
         <?php }else if(auth()->user()->id == "1314"){ ?>
-            
+
              <a href="javascript:;" class="brands-list" style="margin-top: 3px;">
                 <span> All Brands For QA Team </span>
             </a>
-            
+
         <?php }else if(auth()->user()->id == "3088"){ ?>
-            
+
              <a href="javascript:;" class="brands-list" style="margin-top: 3px;">
                 <span> All Brands For QA Team </span>
             </a>
-        
+
         <?php }else{ ?>
-        
+
             <!--<a href="javascript:;" class="brands-list" style="margin-top: 3px;">-->
             <!--    @foreach(Auth::user()->brands as $brands)-->
             <!--    <span>{{ implode('', array_map(function($v) { return $v[0]; }, explode(' ', $brands->name))) }}</span>-->
@@ -65,9 +65,9 @@
 {{--                    <option value="{{$brands->id}}" {!! $brands->id == \Illuminate\Support\Facades\Request::get('brand_id') ? 'selected' : '' !!}>{{$brands->name}}</option>--}}
 {{--                @endforeach--}}
 {{--            </select>--}}
-        
+
         <?php } ?>
-        
+
     </div>
     <div style="margin: auto"></div>
     <div class="header-part-right">
@@ -230,6 +230,20 @@
                 <a class="nav-item-hold" href="{{ route('manager.invoice') }}">
                     <i class="nav-icon i-Credit-Card"></i>
                     <span class="nav-text">Invoices</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
+            <li class="nav-item {{ (request()->routeIs('manager.refund.cb')) ? 'active' : '' }}">
+                <a class="nav-item-hold" href="{{ route('manager.refund.cb') }}">
+                    <i class="nav-icon i-Credit-Card text-danger"></i>
+                    <span class="nav-text text-danger">Refund/CB</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
+            <li class="nav-item {{ (request()->routeIs('manager.sales.sheet')) ? 'active' : '' }}">
+                <a class="nav-item-hold" href="{{ route('manager.sales.sheet') }}">
+                    <i class="nav-icon i-Credit-Card text-success"></i>
+                    <span class="nav-text text-success">Sales Sheet</span>
                 </a>
                 <div class="triangle"></div>
             </li>
