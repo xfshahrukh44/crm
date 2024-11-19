@@ -76,21 +76,21 @@
         <!-- Grid menu Dropdown -->
         <!-- Notificaiton -->
         <div class="dropdown">
+            @php
+                $k = 0;
+                $notification = auth()->user()->unreadnotifications()
+                //for qa manager accounts
+                ->when(in_array(auth()->id(), [3839, 3838, 3837]), function ($q) {
+                    return $q->where('type', 'App\Notifications\MessageNotification');
+                })
+                ->latest()->take(10)->get();
+            @endphp
             <div class="badge-top-container" role="button" id="dropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="badge badge-primary">{{count(auth()->user()->unreadNotifications)}}</span>
+                <span class="badge badge-primary">{{count($notification)}}</span>
                 <i class="i-Bell text-muted header-icon"></i>
             </div>
             <!-- Lead Notification dropdown -->
             <div class="dropdown-menu dropdown-menu-right notification-dropdown rtl-ps-none" aria-labelledby="dropdownNotification" data-perfect-scrollbar data-suppress-scroll-x="true">
-                @php
-                    $k = 0;
-                    $notification = auth()->user()->unreadnotifications()
-                    //for qa manager accounts
-                    ->when(in_array(auth()->id(), [3839, 3838, 3837]), function ($q) {
-                        return $q->where('type', 'App\Notifications\MessageNotification');
-                    })
-                    ->latest()->take(10)->get();
-                @endphp
                 @foreach($notification as $notifications)
                     @if($notifications->type == 'App\Notifications\LeadNotification')
                     <a href="{{ route('admin.client.shownotification', ['client' => $notifications->data['id'], 'id' => $notifications->id] ) }}" class="unread_notification_nav dropdown-item d-flex" data-id="{{$notifications->id}}">

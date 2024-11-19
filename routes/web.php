@@ -476,8 +476,28 @@ Route::get('redirect-to-livewire', function (Request $request) {
 Route::post('stripe-invoice-paid', [StripeController::class, 'stripe_invoice_paid'])->name('stripe.invoice.paid')->withoutMiddleware('verify.csrf.token');
 
 Route::get('temp', function () {
-    $date = Carbon::parse('31 December 2023');
-    dump(DB::table('notifications')->whereDate('created_at', '<=', $date)->count());
+    $ids = [9445, 10673, 9906, 9422, 9636, 9657, 10040, 10108, 10352, 10629, 10394, 10525, 10662, 10576, 10577, 10578, 10303, 10534, 10396, 10302, 10302, 10580, 10371, 10395, 10419, 10420, 10441, 10442, 10468];
+    $notifications = \App\Models\CRMNotification::where('type', 'App\Notifications\TaskNotification')
+        ->where('notifiable_id', 1733)
+        ->get();
+    $affected_count= 0;
+
+    foreach ($notifications as $notification) {
+        $data = json_decode($notification->data);
+
+        if (in_array($data->task_id, $ids)) {
+            $notification->notifiable_id = 2565;
+            $notification->save();
+
+            $affected_count += 1;
+        }
+    }
+
+    dd('done! affected count: ' . $affected_count);
+
+
+//    $date = Carbon::parse('31 December 2023');
+//    dump(DB::table('notifications')->whereDate('created_at', '<=', $date)->count());
 //    \App\Models\Client::whereHas('user', function ($q) {
 //        return $q->whereHas('projects', function ($q) {
 //            return $q->whereHas('tasks', function ($q) {

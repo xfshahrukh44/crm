@@ -16,8 +16,12 @@ class CRMNotification extends Model
         'notifiable_type',
         'notifiable_id',
         'client_user_id',
-        'data',
+//        'data',
         'read_at',
         'created_at',
+    ];
+
+    protected $casts = [
+        'data'
     ];
 }
