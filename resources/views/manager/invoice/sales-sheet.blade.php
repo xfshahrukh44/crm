@@ -111,6 +111,7 @@
                                 <th>Client ID</th>
                                 <th>Client Name</th>
                                 <th>Email</th>
+                                <th>Phone</th>
                                 <th>Service</th>
                                 <th>Amount</th>
                                 <th>Recurring</th>
@@ -139,6 +140,7 @@
                                     <td>{{$datas->client->id}}</td>
                                     <td>{{$datas->client->name}}</td>
                                     <td>{{$datas->client->email}}</td>
+                                    <td>{{$datas->client->contact}}</td>
                                     <td>
                                         @php
                                             $service_list = explode(',', $datas->service);

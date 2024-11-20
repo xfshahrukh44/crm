@@ -91,7 +91,7 @@
 
 <body class="text-left">
     <div class="app-admin-wrap layout-sidebar-large">
-        <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <div class="main-content-wrap d-flex flex-column">
             <div class="main-content">
                 <!-- Main Content -->
                 <div class="breadcrumb">
