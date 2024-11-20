@@ -1581,6 +1581,22 @@ function get_authorize_keys ($merchant_id) {
         5 => [
             'login_id' => '9GeNn93MCpVn',
             'transaction_key' => '5Q3xv7WGvF939axv',
+        ],
+        7 => [
+            'login_id' => '7HaWx27h',
+            'transaction_key' => '3N5DcFd49PB3um3g',
+        ],
+        8 => [
+            'login_id' => '4uBtJ26yL',
+            'transaction_key' => '4p2b4KQb5836U2hq',
+        ],
+        9 => [
+            'login_id' => '3ZY6f2nX',
+            'transaction_key' => '63Ya68h6SC87tkRt',
+        ],
+        10 => [
+            'login_id' => '8EyHx4tG2tP2',
+            'transaction_key' => '8gk77wQQ2UY3398V',
         ]
     ];
 

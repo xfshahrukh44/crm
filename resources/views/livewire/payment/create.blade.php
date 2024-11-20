@@ -137,7 +137,7 @@
 
                                 <div class="col-md-4 form-group mb-3">
                                     <label for="recurring">Recurring amount</label>
-                                    <input step=".01" type="number" id="recurring" class="form-control" value="0.00" placeholder="Recurring amount" wire:model="client_payment_create_recurring" min="1">
+                                    <input step=".01" type="number" id="recurring" class="form-control" value="0.00" placeholder="Recurring amount" wire:model="client_payment_create_recurring">
                                 </div>
 
                                 <div class="col-md-4 form-group mb-3">
