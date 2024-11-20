@@ -229,7 +229,21 @@
             </div>
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="{{ asset('newglobal/js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('newglobal/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('newglobal/js/perfect-scrollbar.min.js') }}"></script>
+    <script src="{{ asset('newglobal/js/script.min.js') }}"></script>
+    <script src="{{ asset('newglobal/js/sidebar.large.script.min.js') }}"></script>
+    <script src="{{ asset('newglobal/js/echarts.min.js') }}"></script>
+    <script src="{{ asset('newglobal/js/echart.options.min.js') }}"></script>
+    <script src="{{ asset('newglobal/js/datatables.min.js') }}"></script>
+    <script src="{{ asset('newglobal/js/toastr.min.js') }}"></script>
+    <script src="{{ asset('newglobal/js/select2.min.js') }}"></script>
+    <script src="{{ asset('newglobal/js/Chart.min.js') }}"></script>
+    <script src="{{ asset('newglobal/js/sweetalert2.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/intro.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     @if(session()->has('success'))
         <script>
             toastr.success("{{session()->get('success')}}");
