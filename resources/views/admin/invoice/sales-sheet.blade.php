@@ -57,6 +57,19 @@
                             </select>
                         </div>
 
+                        <div class="col-md-3 form-group mb-3">
+                            <label for="merchant">Merchants</label>
+                            <select class="form-control select2" name="merchant" id="merchant">
+                                @php
+                                    $get_merchants = \App\Models\Merchant::get();
+                                @endphp
+                                <option value="">Select merchant</option>
+                                @foreach($get_merchants as $merchant)
+                                    <option value="{{$merchant->id}}" {!! request()->get('merchant') == $merchant->id ? 'selected' : '' !!}>{{ $merchant->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
                         <div class="col-md-12">
                             <div class="text-right">
                                 <button class="btn btn-primary">Search Result</button>
@@ -187,6 +200,12 @@
 
 @push('scripts')
 <script>
+    $(document).ready(function () {
+        $('form select').on('change', function () {
+            $(this).parent().parent().parent().submit();
+        });
+    });
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')

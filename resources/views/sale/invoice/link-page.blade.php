@@ -93,9 +93,15 @@
                                                 </td>
                                                 <td>{{ $_getInvoiceData->payment_type_show() }}</td>
                                                 <td>{{$_getInvoiceData->currency_show->sign}} {{ $_getInvoiceData->amount }}</td>
-                                                <td>
-                                                    <a href="{{ route('client.paynow', $id) }}" target="_blank" class="btn btn-primary btn-sm">Invoice Link</a>
-                                                </td>
+                                                @if($_getInvoiceData->payment_status == 1 && $_getInvoiceData->is_authorize)
+                                                    <td>
+                                                        <a href="#" class="btn btn-warning btn-sm btn_copy_authorize_link" data-link="{{ route('client.pay.with.authorize', $_getInvoiceData->id) }}">Invoice Link</a>
+                                                    </td>
+                                                @else
+                                                    <td>
+                                                        <a href="{{ route('client.paynow', $id) }}" target="_blank" class="btn btn-primary btn-sm">Invoice Link</a>
+                                                    </td>
+                                                @endif
                                             </tr>
                                         </tbody>
                                     </table>
@@ -139,6 +145,17 @@
             printWindow.document.close();
             printWindow.print();
         }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('.btn_copy_authorize_link').on('click', function () {
+                navigator.clipboard.writeText($(this).data('link')).then(() => {
+                    toastr.success('Invoice link copied to clipboard!');
+                }).catch(err => {
+                    console.error('Error copying invoice link: ', err);
+                });
+            });
+        });
     </script>
 
 @endpush

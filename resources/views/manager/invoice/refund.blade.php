@@ -24,10 +24,10 @@
                                 <input type="text" id="invoice_number" class="form-control" placeholder="Enter Invoice Number" name="invoice_number" min="1" required>
                             </div>
 
-                            <div class="col-md-3 form-group mb-3">
+                            <diwev class="col-md-3 form-group mb-3">
                                 <label for="refunded_cb">Refunded CB</label>
                                 <input step=".01" type="number" id="refunded_cb" class="form-control" value="0.00" placeholder="Refunded CB" name="refunded_cb" min="1" required>
-                            </div>
+                            </diwev>
                             <div class="col-md-3 form-group mb-3">
                                 <label for="refund_cb_date">Refunded CB date</label>
                                 <input type="date" id="refund_cb_date" class="form-control" placeholder="Refunded CB date" name="refund_cb_date" required>

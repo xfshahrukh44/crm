@@ -119,8 +119,8 @@ Route::group(['middleware' => 'auth'], function () {
 
         //invoices
         Route::get('/client/invoice', [ClientInvoiceController::class, 'getInvoiceByUserId'])->name('client.invoice');
-        Route::get('/client/pay-with-authorize/{id}', [ClientInvoiceController::class, 'payWithAuthorize'])->name('client.pay.with.authorize');
-        Route::post('/client/pay-with-authorize-submit/{id}', [ClientInvoiceController::class, 'payWithAuthorizeSubmit'])->name('client.pay.with.authorize.submit');
+        Route::get('/client/pay-with-authorize/{id}', [ClientInvoiceController::class, 'payWithAuthorize'])->name('client.pay.with.authorize')->withoutMiddleware(['auth', 'is_client']);
+        Route::post('/client/pay-with-authorize-submit/{id}', [ClientInvoiceController::class, 'payWithAuthorizeSubmit'])->name('client.pay.with.authorize.submit')->withoutMiddleware(['auth', 'is_client']);
     });
 });
 Route::group(['middleware' => 'auth'], function () {

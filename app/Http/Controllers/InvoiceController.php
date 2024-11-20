@@ -2057,7 +2057,7 @@ class InvoiceController extends Controller
     public function managerSalesSheet (Request $request)
     {
         $selected_month = ($request->has('month') && $request->get('month') != '') ? $request->get('month') : Carbon::now()->month;
-        $request->replace(['month' => $selected_month]);
+        $request->merge(['month' => $selected_month]);
 
         $data = Invoice::whereIn('brand', auth()->user()->brand_list())
             ->when($selected_month, function ($q) use($selected_month) {
@@ -2068,6 +2068,9 @@ class InvoiceController extends Controller
             })
             ->when($request->has('agent') && $request->get('agent') != '', function ($q) use($request) {
                 return $q->where('sales_agent_id', '=', $request->get('agent'));
+            })
+            ->when($request->has('merchant') && $request->get('merchant') != '', function ($q) use($request) {
+                return $q->where('merchant_id', '=', $request->get('merchant'));
             })
             ->whereYear('created_at', '=', Carbon::now()->year)
             ->orderBy('created_at', 'DESC')
@@ -2113,7 +2116,7 @@ class InvoiceController extends Controller
     public function adminSalesSheet (Request $request)
     {
         $selected_month = ($request->has('month') && $request->get('month') != '') ? $request->get('month') : Carbon::now()->month;
-        $request->replace(['month' => $selected_month]);
+        $request->merge(['month' => $selected_month]);
 
         $data = Invoice::orderBy('created_at', 'DESC')
             ->when($selected_month, function ($q) use($selected_month) {
@@ -2124,6 +2127,9 @@ class InvoiceController extends Controller
             })
             ->when($request->has('agent') && $request->get('agent') != '', function ($q) use($request) {
                 return $q->where('sales_agent_id', '=', $request->get('agent'));
+            })
+            ->when($request->has('merchant') && $request->get('merchant') != '', function ($q) use($request) {
+                return $q->where('merchant_id', '=', $request->get('merchant'));
             })
             ->whereYear('created_at', '=', Carbon::now()->year)
             ->orderBy('created_at', 'DESC')
