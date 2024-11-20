@@ -13,6 +13,7 @@ use App\Models\CRMNotification;
 use App\Models\Invoice;
 use App\Models\Isbnform;
 use App\Models\LogoForm;
+use App\Models\Merchant;
 use App\Models\Message;
 use App\Models\NewSMM;
 use App\Models\NoForm;
@@ -2005,4 +2006,52 @@ function get_clients_priority_badge ($client_id, $small = false) {
 function get_month_name($monthNumber) {
     $monthName = Carbon::createFromFormat('m', $monthNumber)->format('F');
     return $monthName;
+}
+
+function buh_merchant_map () {
+    return [
+        33 => [5, 6],
+        18 => [7, 6],
+        1169 => [8, 6],
+        7 => [3, 9, 10, 6],
+        //testing
+        //3425 => [1, 2, 3, 4],
+    ];
+}
+
+function get_my_buh () {
+    $buh_ids = User::where('is_employee', 6)->pluck('id')->toArray();
+
+    $buh_ids_array = DB::table('brand_users')
+        ->whereIn('user_id', $buh_ids)
+        ->whereIn('brand_id', auth()->user()->brand_list())
+        ->pluck('user_id')->toArray();
+
+    $buh_count_map = [];
+    foreach ($buh_ids_array as $buh_id) {
+        if (!isset($buh_count_map[$buh_id])) {
+            $buh_count_map[$buh_id] = 0;
+        }
+
+        $buh_count_map[$buh_id] += 1;
+    }
+
+    $max_count = max($buh_count_map);
+    $buh_id_with_max_count = array_keys($buh_count_map, $max_count);
+
+    return $buh_id_with_max_count[0] ?? null;
+}
+
+function get_my_merchants () {
+    $my_buh_id = get_my_buh();
+    if (is_null($my_buh_id)) {
+        return Merchant::where('id', 6)->get();
+    }
+
+    $map = buh_merchant_map();
+    if (!isset($map[$my_buh_id])) {
+        return Merchant::where('id', 6)->get();
+    }
+
+    return Merchant::whereIn('id', $map[$my_buh_id])->get();
 }

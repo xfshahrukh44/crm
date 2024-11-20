@@ -404,7 +404,7 @@ class BrandDashboard extends Component
         $services = Service::all();
         $currencies =  Currency::all();
 //        $merchant = Merchant::where('status', 1)->orderBy('id', 'desc')->get();
-        $merchant = Merchant::all();
+        $merchant = get_my_merchants();
 
         $sale_agents = User::whereIn('is_employee', [0, 4, 6])
             ->whereIn('id', array_unique(DB::table('brand_users')->where('brand_id', $user->brand_id)->pluck('user_id')->toArray()))

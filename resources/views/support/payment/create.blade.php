@@ -91,7 +91,7 @@
                                 <label for="merchant">Merchant<span>*</span></label>
                                 <select name="merchant" id="merchant" class="form-control" required>
                                     <option value="">Select Merchant</option>
-                                    @foreach($merchant as $merchants)
+                                    @foreach(get_my_merchants() as $merchants)
                                     <option value="{{ $merchants->id }}">{{ $merchants->name }}</option>
                                     @endforeach
                                 </select>
