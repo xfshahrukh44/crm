@@ -86,10 +86,10 @@
 @endpush
 @section('content')
 
-<div class="breadcrumb">
-    <h1 class="mr-2">Messages</h1>
-    <button class="btn btn-primary ml-auto" id="write-message" data-intro='Send us a message.' data-step='3'>Write A Message</button>
-</div>
+{{--<div class="breadcrumb">--}}
+{{--    <h1 class="mr-2">Messages</h1>--}}
+{{--    <button class="btn btn-primary ml-auto" id="write-message" data-intro='Send us a message.' data-step='3'>Write A Message</button>--}}
+{{--</div>--}}
 <div class="separator-breadcrumb border-top"></div>
 
 <section id="basic-form-layouts">
@@ -151,37 +151,37 @@
             </div>
             @endforeach
         </div>
+
+        <div class="col-md-12">
+            <div class="left-message-box mt-0">
+                <form class="form" action="{{ route('client.send.messages') }}" enctype="multipart/form-data" method="post">
+                    @csrf
+                    <input type="hidden" name="task_id" value="">
+                    <div class="form-body">
+                        <div class="form-group mb-0">
+                            <h1>Write A Message <span id="close-message-left"><i class="nav-icon i-Close-Window"></i></span></h1>
+                            <textarea id="message" rows="8" class="form-control border-primary" name="message" required placeholder="Write a Message">{{old('message')}}</textarea>
+                            <table>
+                                <tr>
+                                    <td colspan="3" style="vertical-align:middle; text-align:left;">
+                                        <div id="h_ItemAttachments"></div>
+                                        <input type="button" id="h_btnAddFileUploadControl" value="Add Attachment" onclick="Clicked_h_btnAddFileUploadControl()" class="btn btn-info btn_Standard" />
+                                        <div id="h_ItemAttachmentControls"></div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="form-actions pb-0">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="la la-check-square-o"></i> Send Message
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </section>
-
-<div class="left-message-box-wrapper">
-    <div class="left-message-box">
-        <form class="form" action="{{ route('client.send.messages') }}" enctype="multipart/form-data" method="post">
-            @csrf
-            <input type="hidden" name="task_id" value="">
-            <div class="form-body">
-                <div class="form-group mb-0">
-                    <h1>Write A Message <span id="close-message-left"><i class="nav-icon i-Close-Window"></i></span></h1>
-                    <textarea id="message" rows="8" class="form-control border-primary" name="message" required placeholder="Write a Message">{{old('message')}}</textarea>
-                    <table>
-                        <tr>
-                            <td colspan="3" style="vertical-align:middle; text-align:left;">
-                                <div id="h_ItemAttachments"></div>
-                                <input type="button" id="h_btnAddFileUploadControl" value="Add Attachment" onclick="Clicked_h_btnAddFileUploadControl()" class="btn btn-info btn_Standard" />
-                                <div id="h_ItemAttachmentControls"></div>
-                            </td>
-                        </tr>
-                    </table>
-                    <div class="form-actions pb-0">
-                        <button type="submit" class="btn btn-primary w-100">
-                        <i class="la la-check-square-o"></i> Send Message
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>        
-</div>
 @endsection
 
 @push('scripts')
@@ -238,7 +238,7 @@
                 $.ajax({
                     type: "POST",
                     url: action,
-                    data: { description:description, task_id:task_id, duedate:duedate}, 
+                    data: { description:description, task_id:task_id, duedate:duedate},
                     success: function(response) {
                         var duedate = '';
                         if(response.duedate != null){
@@ -371,10 +371,10 @@
                     }
                 }
             });
-            
+
         }, function (dismiss) {
             if (dismiss === 'cancel') {
-                
+
             }
         });
     })
@@ -384,7 +384,7 @@
 g_FileUploadControlCounter = 0;
 
     function Clicked_h_btnAddFileUploadControl() {
-    var v_btnFileUploadControl = document.getElementById("h_btnAddFileUploadControl");  
+    var v_btnFileUploadControl = document.getElementById("h_btnAddFileUploadControl");
         v_btnFileUploadControl.value = "Add Another Attachment";
 
     var n="h_Item_Attachments_FileInput[]";
