@@ -83,6 +83,7 @@
                 ->when(in_array(auth()->id(), [3839, 3838, 3837]), function ($q) {
                     return $q->where('type', 'App\Notifications\MessageNotification');
                 })
+                ->where('type', '!=', 'App\Notifications\MessageNotification')
                 ->latest()->take(10)->get();
             @endphp
             <div class="badge-top-container" role="button" id="dropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -148,6 +149,83 @@
                         </p>
                     </div>
                 </a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            @php
+                $k = 0;
+                $notification = auth()->user()->unreadnotifications()
+                //for qa manager accounts
+                ->when(in_array(auth()->id(), [3839, 3838, 3837]), function ($q) {
+                    return $q->where('type', 'App\Notifications\MessageNotification');
+                })
+                ->where('type', '=', 'App\Notifications\MessageNotification')
+                ->latest()->take(10)->get();
+            @endphp
+            <div class="badge-top-container" role="button" id="dropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="badge badge-primary">{{count($notification)}}</span>
+                <i class="i-Speach-Bubble-3 text-muted header-icon"></i>
+            </div>
+            <!-- Lead Notification dropdown -->
+            <div class="dropdown-menu dropdown-menu-right notification-dropdown rtl-ps-none" aria-labelledby="dropdownNotification" data-perfect-scrollbar data-suppress-scroll-x="true">
+                @foreach($notification as $notifications)
+                    @if($notifications->type == 'App\Notifications\LeadNotification')
+                        <a href="{{ route('admin.client.shownotification', ['client' => $notifications->data['id'], 'id' => $notifications->id] ) }}" class="unread_notification_nav dropdown-item d-flex" data-id="{{$notifications->id}}">
+                            @elseif($notifications->type == 'App\Notifications\PaymentNotification')
+                                <a href="" class="unread_notification_nav dropdown-item d-flex" data-id="{{$notifications->id}}">
+                                    @elseif($notifications->type == 'App\Notifications\MessageNotification')
+                                        <a href="{{ route('manager.message.show', ['id' => $notifications->data['id'], 'name' => $notifications->data['name']]) }}" class="unread_notification_nav dropdown-item d-flex" data-id="{{$notifications->id}}">
+                                            @else
+                                                <a href="" class="unread_notification_nav dropdown-item d-flex" data-id="{{$notifications->id}}">
+                                                    @endif
+                                                    <div class="notification-icon">
+                                                        @if($notifications->type == 'App\Notifications\LeadNotification')
+                                                            <i class="i-Checked-User text-primary mr-1"></i>
+                                                        @elseif($notifications->type == 'App\Notifications\PaymentNotification')
+                                                            <i class="i-Money-Bag text-success mr-1"></i>
+                                                        @else
+                                                            <i class="i-Blinklist text-info mr-1"></i>
+                                                        @endif
+                                                    </div>
+                                                    <div class="notification-details flex-grow-1">
+                                                        <p class="m-0 d-flex align-items-center">
+                                                            <span class="lead-heading">{{$notifications->data['text']}}</span>
+                                                            <span class="flex-grow-1"></span>
+                                                            <span class="text-small text-muted ml-3">{{ $notifications->created_at->diffForHumans() }}</span>
+                                                        </p>
+                                                        <p class="text-small text-muted m-0">Name: {{$notifications->data['name']}}</p>
+                                                    </div>
+                                                </a>
+                                                @if($loop->last)
+
+                                                @endif
+                                                @php
+                                                    $k++;
+                                                @endphp
+                                                @endforeach
+                                                <a href="{{ route('notification.all.read') }}" class="dropdown-item d-flex">
+                                                    <div class="notification-icon">
+                                                        <i class="i-Check text-primary mr-1"></i>
+                                                    </div>
+                                                    <div class="notification-details flex-grow-1">
+                                                        <p class="m-0 d-flex align-items-center">
+                                                            <span class="lead-heading">Mark All As Read</span>
+                                                            <span class="flex-grow-1"></span>
+                                                        </p>
+                                                    </div>
+                                                </a>
+                                                <a href="{{ route('manager.my-notifications') }}" class="dropdown-item d-flex">
+                                                    <div class="notification-icon">
+                                                        <i class="i-Check text-primary mr-1"></i>
+                                                    </div>
+                                                    <div class="notification-details flex-grow-1">
+                                                        <p class="m-0 d-flex align-items-center">
+                                                            <span class="lead-heading">View all</span>
+                                                            <span class="flex-grow-1"></span>
+                                                        </p>
+                                                    </div>
+                                                </a>
             </div>
         </div>
         <!-- Notificaiton End -->

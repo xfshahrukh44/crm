@@ -27,7 +27,7 @@
         <!--    <span>{{ implode('', array_map(function($v) { return $v[0]; }, explode(' ', $brands->name))) }}</span>-->
         <!--    @endforeach -->
         <!--</a>-->
-        
+
          &nbsp;&nbsp;&nbsp;&nbsp;
         <label style="margin-bottom: 0px !important;font-weight: bold;font-size: 17px;margin-right: 10px;"> Brands </label>
         <select class="form-control" style="width: 50%;">
@@ -35,7 +35,7 @@
             <option> {{ implode('', array_map(function($v) { return $v[0]; }, explode(' ', $brands->name))) }} </option>
             @endforeach
         </select>
-        
+
     </div>
     <div style="margin: auto"></div>
     <div class="header-part-right">
@@ -46,7 +46,7 @@
 {{--        <div class="dropdown" {!! auth() ->user()->is_support_head ? '' : 'hidden'!!}>--}}
         <div class="dropdown">
             <div class="badge-top-container" role="button" id="dropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="badge badge-primary">{{count(auth()->user()->unreadNotifications)}}</span>
+                <span class="badge badge-primary">{{auth()->user()->unreadNotifications()->where('type', '!=', 'App\Notifications\MessageNotification')->count()}}</span>
                 <i class="i-Bell text-muted header-icon"></i>
             </div>
             <!-- Lead Notification dropdown -->
@@ -54,7 +54,7 @@
                 @php
                 $k = 0;
                 @endphp
-                @foreach(auth()->user()->unreadnotifications()->latest()->take(10)->get() as $notifications)
+                @foreach(auth()->user()->unreadnotifications()->where('type', '!=', 'App\Notifications\MessageNotification')->latest()->take(10)->get() as $notifications)
                 @if($notifications->type == 'App\Notifications\AssignProjectNotification')
                 <a href="{{ route('create.task.by.project.id', ['id' => $notifications->data['project_id'], 'name' => $notifications->data['text'], 'notify' => $notifications->id]) }}" class="unread_notification_nav dropdown-item d-flex" data-id="{{$notifications->id}}">
                 @elseif($notifications->type == 'App\Notifications\TaskNotification')
@@ -113,6 +113,77 @@
                         </p>
                     </div>
                 </a>
+                <a href="{{ route('support.my-notifications') }}" class="dropdown-item d-flex">
+                    <div class="notification-icon">
+                        <i class="i-Check text-primary mr-1"></i>
+                    </div>
+                    <div class="notification-details flex-grow-1">
+                        <p class="m-0 d-flex align-items-center">
+                            <span class="lead-heading">View all</span>
+                            <span class="flex-grow-1"></span>
+                        </p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <div class="badge-top-container" role="button" id="dropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="badge badge-primary">{{auth()->user()->unreadNotifications()->where('type', '=', 'App\Notifications\MessageNotification')->count()}}</span>
+                <i class="i-Speach-Bubble-3 text-muted header-icon"></i>
+            </div>
+            <!-- Lead Notification dropdown -->
+            <div class="dropdown-menu dropdown-menu-prright notification-dropdown rtl-ps-none" aria-labelledby="dropdownNotification" data-perfect-scrollbar data-suppress-scroll-x="true">
+                @php
+                    $k = 0;
+                @endphp
+                @foreach(auth()->user()->unreadnotifications()->where('type', '=', 'App\Notifications\MessageNotification')->latest()->take(10)->get() as $notifications)
+                    @if($notifications->type == 'App\Notifications\AssignProjectNotification')
+                        <a href="{{ route('create.task.by.project.id', ['id' => $notifications->data['project_id'], 'name' => $notifications->data['text'], 'notify' => $notifications->id]) }}" class="unread_notification_nav dropdown-item d-flex" data-id="{{$notifications->id}}">
+                    @elseif($notifications->type == 'App\Notifications\TaskNotification')
+                        <a href="{{ route('support.task.show', ['id' => $notifications->data['task_id'], 'notify' => $notifications->id]) }}" class="unread_notification_nav dropdown-item d-flex" data-id="{{$notifications->id}}">
+                    @elseif($notifications->type == 'App\Notifications\MessageNotification')
+                        @php
+                            $client_user_id = $notifications->data['id'];
+                            $name = $notifications->data['name'];
+                        @endphp
+                        <a href="{{ route('support.message.show.id', ['id' => $client_user_id, 'name' => $name]) }}" class="unread_notification_nav dropdown-item d-flex" data-id="{{$notifications->id}}">
+                    @else
+                        @php
+                            $task_id = 0;
+                            $project = \App\Models\Project::where('client_id', $notifications->data['id'])->first();
+                            if($project != null){
+                                if(count($project->tasks) != 0){
+                                    $task_id = $project->tasks[0]->id;
+                                }
+                            }
+                        @endphp
+                        <a href="{{ route('support.task.show', ['id' => $task_id, 'notify' => $notifications->id]) }}" class="dropdown-item d-flex">
+                            @endif
+                            <div class="notification-icon">
+                                @if($notifications->type == 'App\Notifications\LeadNotification')
+                                    <i class="i-Checked-User text-primary mr-1"></i>
+                                @elseif($notifications->type == 'App\Notifications\PaymentNotification')
+                                    <i class="i-Money-Bag text-success mr-1"></i>
+                                @else
+                                    <i class="i-Blinklist text-info mr-1"></i>
+                                @endif
+                            </div>
+                            <div class="notification-details flex-grow-1">
+                                <p class="m-0 d-flex align-items-center">
+                                    <span class="lead-heading">{{ strip_tags($notifications->data['text']) }}</span>
+                                    <span class="flex-grow-1"></span>
+                                    <span class="text-small text-muted ml-3">{{ $notifications->created_at->diffForHumans() }}</span>
+                                </p>
+                                <p class="text-small text-muted m-0">Name: {{$notifications->data['name']}}</p>
+                            </div>
+                        </a>
+                        @if($loop->last)
+
+                    @endif
+                            @php
+                                $k++;
+                            @endphp
+                @endforeach
                 <a href="{{ route('support.my-notifications') }}" class="dropdown-item d-flex">
                     <div class="notification-icon">
                         <i class="i-Check text-primary mr-1"></i>
