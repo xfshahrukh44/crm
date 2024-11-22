@@ -28,13 +28,13 @@
                             </div>
                             <button class="btn btn-rounded btn-primary btn-block mt-2" type="submit">Sign In</button>
                         </form>
-                        <div class="mt-3 text-center">
-                            @if (Route::has('password.request'))
-                            <a href="{{ route('password.request') }}" class="text-muted">
-                                <u>Forgot Password?</u>
-                            </a>
-                            @endif
-                        </div>
+{{--                        <div class="mt-3 text-center">--}}
+{{--                            @if (Route::has('password.request'))--}}
+{{--                            <a href="{{ route('password.request') }}" class="text-muted">--}}
+{{--                                <u>Forgot Password?</u>--}}
+{{--                            </a>--}}
+{{--                            @endif--}}
+{{--                        </div>--}}
                     </div>
                 </div>
             </div>
