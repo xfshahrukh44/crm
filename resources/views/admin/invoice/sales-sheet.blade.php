@@ -11,6 +11,7 @@
         <div class="card text-left">
             <div class="card-body">
                 <form action="{{ route('admin.sales.sheet') }}" method="GET">
+                    <input type="hidden" name="all" id="input_all" value="{{request()->get('all')}}">
                     <div class="row">
                         <div class="col-md-3 form-group mb-3">
                             <label for="brand">Brands</label>
@@ -38,7 +39,20 @@
                             </select>
                         </div>
 
-                        <div class="col-md-3 form-group mb-3">
+                        <div class="col-md-2 form-group mb-3">
+                            <label for="merchant">Merchants</label>
+                            <select class="form-control select2" name="merchant" id="merchant">
+                                @php
+                                    $get_merchants = \App\Models\Merchant::get();
+                                @endphp
+                                <option value="">Select merchant</option>
+                                @foreach($get_merchants as $merchant)
+                                    <option value="{{$merchant->id}}" {!! request()->get('merchant') == $merchant->id ? 'selected' : '' !!}>{{ $merchant->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md-2 form-group mb-3">
                             <label for="month">Month</label>
                             <select class="form-control select2" name="month" id="month">
                                 <option value="">Select month</option>
@@ -57,16 +71,17 @@
                             </select>
                         </div>
 
-                        <div class="col-md-3 form-group mb-3">
-                            <label for="merchant">Merchants</label>
-                            <select class="form-control select2" name="merchant" id="merchant">
-                                @php
-                                    $get_merchants = \App\Models\Merchant::get();
-                                @endphp
-                                <option value="">Select merchant</option>
-                                @foreach($get_merchants as $merchant)
-                                    <option value="{{$merchant->id}}" {!! request()->get('merchant') == $merchant->id ? 'selected' : '' !!}>{{ $merchant->name }}</option>
-                                @endforeach
+                        <div class="col-md-2 form-group mb-3">
+                            <label for="year">Year</label>
+                            <select class="form-control select2" name="year" id="year">
+                                <option value="">Select year</option>
+                                <option value="2019" {!! request()->get('year') == '2019' ? 'selected' : '' !!}>2019</option>
+                                <option value="2020" {!! request()->get('year') == '2020' ? 'selected' : '' !!}>2020</option>
+                                <option value="2021" {!! request()->get('year') == '2021' ? 'selected' : '' !!}>2021</option>
+                                <option value="2022" {!! request()->get('year') == '2022' ? 'selected' : '' !!}>2022</option>
+                                <option value="2023" {!! request()->get('year') == '2023' ? 'selected' : '' !!}>2023</option>
+                                <option value="2024" {!! request()->get('year') == '2024' ? 'selected' : '' !!}>2024</option>
+                                <option value="2025" {!! request()->get('year') == '2025' ? 'selected' : '' !!}>2025</option>
                             </select>
                         </div>
 
@@ -86,9 +101,22 @@
     <div class="col-md-12">
         <div class="card text-left">
             <div class="card-body">
-                @if(request()->has('month'))
-                    <h4 class="card-title mb-3">Sales Sheet for {{get_month_name(request()->get('month'))}}</h4>
+                @if(request()->get('month') != null || request()->get('year') != null)
+                    <h4 class="card-title mb-3">Sales Sheet for{{ (request()->get('month') != null) ? (' ' . get_month_name(request()->get('month'))) : '' }} {{ (request()->get('year') != null) ? (' ' . request()->get('year')) : '' }}</h4>
                 @endif
+
+                @if(request()->get('all') == '0')
+                    <a href="#" class="badge badge-primary" id="btn_show_all">
+                        Show all
+                    </a>
+                @endif
+
+                @if(request()->get('all') == '1')
+                    <a href="#" class="badge badge-danger" id="btn_show_less">
+                        Show less
+                    </a>
+                @endif
+
                 <div class="table-responsive">
                     <div class="row pt-2" style="border: 1px solid #e6e6e6;">
                         <div class="col text-center">
@@ -101,7 +129,7 @@
                             <h6 class="text-success">Net: ${{$net}}</h6>
                         </div>
                     </div>
-                    <table class="display table table-striped table-bordered">
+                    <table class="display table table-striped table-bordered" {!! (request()->get('all') == '0') ? 'id="zero_configuration_table"' : '' !!}>
                         <thead>
                             <tr>
                                 <th>SR No</th>
@@ -205,6 +233,18 @@
     $(document).ready(function () {
         $('form select').on('change', function () {
             $(this).parent().parent().parent().submit();
+        });
+
+        $('#btn_show_all').on('click', function () {
+            $('#input_all').val(1);
+
+            $('form').submit();
+        });
+
+        $('#btn_show_less').on('click', function () {
+            $('#input_all').val(0);
+
+            $('form').submit();
         });
     });
 

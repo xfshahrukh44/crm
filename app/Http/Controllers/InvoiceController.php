@@ -2056,12 +2056,21 @@ class InvoiceController extends Controller
 
     public function managerSalesSheet (Request $request)
     {
-        $selected_month = ($request->has('month') && $request->get('month') != '') ? $request->get('month') : Carbon::now()->month;
+        $selected_month = $request->get('month') ?? null;
         $request->merge(['month' => $selected_month]);
+
+        $selected_year = $request->get('year') ?? null;
+        $request->merge(['year' => $selected_year]);
+
+        $show_all = $request->get('all') ?? '0';
+        $request->merge(['all' => $show_all]);
 
         $data = Invoice::whereIn('brand', auth()->user()->brand_list())
             ->when($selected_month, function ($q) use($selected_month) {
                 return $q->whereMonth('created_at', '=', $selected_month);
+            })
+            ->when($selected_year, function ($q) use($selected_year) {
+                return $q->whereYear('created_at', '=', $selected_year);
             })
             ->when($request->has('brand') && $request->get('brand') != '', function ($q) use($request) {
                 return $q->where('brand', '=', $request->get('brand'));
@@ -2115,12 +2124,22 @@ class InvoiceController extends Controller
 
     public function adminSalesSheet (Request $request)
     {
-        $selected_month = ($request->has('month') && $request->get('month') != '') ? $request->get('month') : Carbon::now()->month;
+//        $selected_month = ($request->has('month') && $request->get('month') != '') ? $request->get('month') : Carbon::now()->month;
+        $selected_month = $request->get('month') ?? null;
         $request->merge(['month' => $selected_month]);
+//        $selected_year = ($request->has('year') && $request->get('year') != '') ? $request->get('year') : Carbon::now()->year;
+        $selected_year = $request->get('year') ?? null;
+        $request->merge(['year' => $selected_year]);
+
+        $show_all = $request->get('all') ?? '0';
+        $request->merge(['all' => $show_all]);
 
         $data = Invoice::orderBy('created_at', 'DESC')
             ->when($selected_month, function ($q) use($selected_month) {
                 return $q->whereMonth('created_at', '=', $selected_month);
+            })
+            ->when($selected_year, function ($q) use($selected_year) {
+                return $q->whereYear('created_at', '=', $selected_year);
             })
             ->when($request->has('brand') && $request->get('brand') != '', function ($q) use($request) {
                 return $q->where('brand', '=', $request->get('brand'));
