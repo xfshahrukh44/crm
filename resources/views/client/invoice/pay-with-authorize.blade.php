@@ -170,7 +170,7 @@
                                                         <div class="row mt-4">
                                                             <div class="col-md-12 form-group">
                                                                 <label for="">Card number</label>
-                                                                <input class="form-control" type="text" name="card_number" required>
+                                                                <input class="form-control" type="text" name="card_number" maxlength="16" required>
                                                             </div>
                                                             <div class="col-md-4 form-group">
                                                                 <label for="">Expiration month</label>
