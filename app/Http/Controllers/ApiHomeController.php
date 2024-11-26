@@ -77,7 +77,7 @@ class ApiHomeController extends Controller{
                 $this->sendLeadNotification($client->id, 2);
                 return response()->json(['status' => true, 'message' => $client->id]);
             }else{
-                return response()->json(['status' => false, 'message' => $get_client->id]);   
+                return response()->json(['status' => false, 'message' => $get_client->id]);
             }
         }else{
             return response()->json(['status' => false, 'message' => 'Error has been Occured']);

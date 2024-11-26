@@ -112,7 +112,7 @@
                                     <div class="ul-widget3-body">
                                         <p>{!! nl2br($message->message) !!}</p>
                                         <span class="ul-widget3-status text-success t-font-bolder">
-                                            {{ \Carbon\Carbon::parse($message->created_at)->setTimezone('America/New_York')->format('d M Y h:i A') }}
+                                            {{ \Carbon\Carbon::parse($message->created_at)->setTimezone('America/New_York')->format('d M Y h:i A') }} (EST)
                                         </span>
                                     </div>
                                     <div class="file-wrapper">
@@ -318,6 +318,8 @@
                 responsive: true,
             })
         });
+
+        $("html, body").animate({ scrollTop: document.body.scrollHeight }, "slow");
     });
 
     $('#sendmessage').submit(function(e){
