@@ -171,6 +171,7 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
+//        dd($request->all());
         try {
             $validated = $request->validate([
                 'name' => 'required',
@@ -182,6 +183,26 @@ class InvoiceController extends Controller
                 'amount' => 'required',
                 'payment_type' => 'required'
             ]);
+
+            if ($request->has('show_service_forms')) {
+                $client = Client::find($request->client_id);
+                $client_show_service_forms = explode(',', $client->show_service_forms) ?? [];
+
+                foreach (($request->get('show_service_forms')['on'] ?? []) as $item) {
+                    $client_show_service_forms []= $item;
+                }
+
+                foreach (($request->get('show_service_forms')['off'] ?? []) as $item) {
+                    $search_key = array_search($item, $client_show_service_forms);
+                    if (array_key_exists($search_key, $client_show_service_forms)) {
+                        unset($client_show_service_forms[$search_key]);
+                    }
+                }
+                unset($client_show_service_forms[""]);
+
+                $client->show_service_forms = implode(',', array_unique($client_show_service_forms));
+                $client->save();
+            }
 
 
             $latest = Invoice::latest()->first();
@@ -914,6 +935,27 @@ class InvoiceController extends Controller
             'payment_type' => 'required',
             'merchant' => 'required'
         ]);
+
+        if ($request->has('show_service_forms')) {
+            $client = Client::find($request->client_id);
+            $client_show_service_forms = explode(',', $client->show_service_forms) ?? [];
+
+            foreach (($request->get('show_service_forms')['on'] ?? []) as $item) {
+                $client_show_service_forms []= $item;
+            }
+
+            foreach (($request->get('show_service_forms')['off'] ?? []) as $item) {
+                $search_key = array_search($item, $client_show_service_forms);
+                if (array_key_exists($search_key, $client_show_service_forms)) {
+                    unset($client_show_service_forms[$search_key]);
+                }
+            }
+            unset($client_show_service_forms[""]);
+
+            $client->show_service_forms = implode(',', array_unique($client_show_service_forms));
+            $client->save();
+        }
+
         $latest = Invoice::latest()->first();
         if (! $latest) {
             $nextInvoiceNumber = date('Y').'-1';
@@ -1068,6 +1110,27 @@ class InvoiceController extends Controller
             'payment_type' => 'required',
             'merchant' => 'required'
         ]);
+
+        if ($request->has('show_service_forms')) {
+            $client = Client::find($request->client_id);
+            $client_show_service_forms = explode(',', $client->show_service_forms) ?? [];
+
+            foreach (($request->get('show_service_forms')['on'] ?? []) as $item) {
+                $client_show_service_forms []= $item;
+            }
+
+            foreach (($request->get('show_service_forms')['off'] ?? []) as $item) {
+                $search_key = array_search($item, $client_show_service_forms);
+                if (array_key_exists($search_key, $client_show_service_forms)) {
+                    unset($client_show_service_forms[$search_key]);
+                }
+            }
+            unset($client_show_service_forms[""]);
+
+            $client->show_service_forms = implode(',', array_unique($client_show_service_forms));
+            $client->save();
+        }
+
         $latest = Invoice::latest()->first();
         if (! $latest) {
             $nextInvoiceNumber = date('Y').'-1';

@@ -49,6 +49,17 @@
                                 </select>
                             </div>
                             <div class="col-md-4 form-group mb-3">
+                                <label>
+                                    <b>Select which forms the client will see</b>
+                                </label>
+                                <div class="row form-group" id="show_service_form_checkboxes">
+
+                                </div>
+                                <div id="tickboxes_wrapper">
+
+                                </div>
+                            </div>
+                            <div class="col-md-4 form-group mb-3">
                                 <label for="package">Package <span>*</span></label>
                                 <select name="package" id="package" class="form-control" required>
                                     <option value="">Select Package</option>
@@ -142,21 +153,40 @@
 
 @push('scripts')
 <script>
-    // $( "#brand" ).change(function() {
-    //     if($(this).val() != ''){
-    //         $.getJSON("{{ url('service-list') }}/"+ $(this).val(), function(jsonData){
-    //             console.log(jsonData);
-    //             select = '';
-    //             $.each(jsonData, function(i,data)
-    //             {
-    //                 select +='<option value="'+data.id+'">'+data.name+'</option>';
-    //             });
-    //             $("#service").html(select);
-    //         });
-    //     }else{
-    //         $("#service").html('');
-    //     }
-    // });
+    $(document).ready(function () {
+        let service_map = {};
+        @foreach($services as $service)
+            service_map['{{$service->id}}'] = '{{$service->name}}';
+        @endforeach
+
+        $('#service').on('change', function () {
+            $('#show_service_form_checkboxes').html('');
+            $('#tickboxes_wrapper').html('');
+            let service_ids = $(this).val();
+
+            for (const service_id of service_ids) {
+                $('#show_service_form_checkboxes').append(`<div class="col-md-12">
+                                                                <input type="checkbox" data-id="`+service_id+`" data-name="`+service_map[service_id]+`" class="service_tickbox" value="`+service_id+`" checked>
+                                                                <label for="service_`+service_id+`">`+service_map[service_id]+`</label>
+                                                            </div>`);
+
+                $('#tickboxes_wrapper').append(`<input type="hidden" name="show_service_forms[on][]" value="`+service_id+`">`);
+            }
+        });
+
+        $('body').on('change', '.service_tickbox', function () {
+            $('#tickboxes_wrapper').html('');
+
+            $('.service_tickbox').each((i, item) => {
+                if ($(item).is(':checked')) {
+                    $('#tickboxes_wrapper').append(`<input type="hidden" name="show_service_forms[on][]" value="`+$(item).data('id')+`">`);
+                } else {
+                    $('#tickboxes_wrapper').append(`<input type="hidden" name="show_service_forms[off][]" value="`+$(item).data('id')+`">`);
+                }
+            });
+
+        });
+    });
 </script>
 
 <script>

@@ -2036,6 +2036,10 @@ function get_my_buh () {
         $buh_count_map[$buh_id] += 1;
     }
 
+    if ($buh_count_map == [] && auth()->id() == 1) {
+        $buh_count_map[3425] = 1;
+    }
+
     $max_count = max($buh_count_map);
     $buh_id_with_max_count = array_keys($buh_count_map, $max_count);
 
@@ -2043,6 +2047,10 @@ function get_my_buh () {
 }
 
 function get_my_merchants () {
+    if (auth()->id() == 1) {
+        return Merchant::all();
+    }
+
     $my_buh_id = get_my_buh();
     if (is_null($my_buh_id)) {
         return Merchant::where('id', 6)->get();
@@ -2066,4 +2074,18 @@ function populate_clients_show_service_forms (Client $client) {
 
     $client->show_service_forms = implode(',', array_unique($invoice_services));
     $client->save();
+}
+
+function get_clients_show_service_forms ($client_id) {
+    $return = [];
+
+    if ($client = Client::find($client_id)) {
+        $return = explode(',', $client->show_service_forms) ?? [];
+    }
+
+    return $return;
+}
+
+function get_clients_show_service_form_types ($client_id) {
+    return array_unique(Service::whereIn('id', get_clients_show_service_forms($client_id))->pluck('form')->toArray());
 }

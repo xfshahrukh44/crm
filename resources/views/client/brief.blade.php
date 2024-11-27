@@ -44,19 +44,23 @@
         <div class="card text-left">
             <div class="card-body">
                 <h4 class="card-title mb-3">Brief Pending Info</h4>
-                
-            
-                
+
+
+
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     @php
-                    $count = 0;
+                        $count = 0;
+                        $show_service_forms = get_clients_show_service_form_types(auth()->user()->client_id);
                     @endphp
                     @foreach($data as $key => $forms)
-                    <li class="nav-item {{ (($forms->option == '') || ($forms->option == null) ? 'active' : '') }}">
-                        <a class="nav-link {{ $count==0 ? 'active' : ''}}" id="form-brief-tab-{{$forms->invoice->invoice_number}}-{{$key}}" data-toggle="tab" href="#form-brief-{{$forms->invoice->invoice_number}}-{{$key}}" role="tab" aria-controls="form-brief-{{$forms->invoice->invoice_number}}-{{$key}}" aria-selected="true">
-                            {{$forms->form_name}} Brief <span>INV#{{$forms->invoice->invoice_number}}</span>
-                        </a>
-                    </li>
+                        @if(!in_array($forms->form_type, $show_service_forms))
+                            @continue
+                        @endif
+                        <li class="nav-item {{ (($forms->option == '') || ($forms->option == null) ? 'active' : '') }}">
+                            <a class="nav-link {{ $count==0 ? 'active' : ''}}" id="form-brief-tab-{{$forms->invoice->invoice_number}}-{{$key}}" data-toggle="tab" href="#form-brief-{{$forms->invoice->invoice_number}}-{{$key}}" role="tab" aria-controls="form-brief-{{$forms->invoice->invoice_number}}-{{$key}}" aria-selected="true">
+                                {{$forms->form_name}} Brief <span>INV#{{$forms->invoice->invoice_number}}</span>
+                            </a>
+                        </li>
                     @php
                     $count++;
                     @endphp
@@ -64,10 +68,14 @@
                 </ul>
                 <div class="tab-content pr-0 pl-0" id="myTabContent">
                     @php
-                    $count = 0;
+                      $count = 0;
                     @endphp
                     @foreach($data as $key => $forms)
                     <div class="tab-pane fade {{ $count == 0 ? 'show active' : '' }}" id="form-brief-{{$forms->invoice->invoice_number}}-{{$key}}" role="tabpanel" aria-labelledby="form-brief-tab-{{$forms->invoice->invoice_number}}-{{$key}}">
+                        @if(!in_array($forms->form_type, $show_service_forms))
+                            @continue
+                        @endif
+
                         @if($forms->form_type == 1)
                         <!-- Logo Form -->
                         <form class="col-md-12 brief-form p-0" method="post" action="{{ route('client.logo.form.update', $forms->id) }}" enctype="multipart/form-data">
@@ -471,7 +479,7 @@
                                     <div class="card-title mb-3">What is the purpose of this site?</div>
                                     <div class="row">
                                         <div class="col-lg-3">
-                                            <label for="products_service"> 
+                                            <label for="products_service">
                                                 <div class="formCheck purpose-box">
                                                     <div class="form-check">
                                                         <input type="checkbox" class="form-check-input" id="products_service" name="purpose[]" value="Explain your products and services" @if($purpose != null) {{ in_array('Explain your products and services', $purpose) ? ' checked' : '' }} @endif>Explain your products and services
@@ -810,7 +818,7 @@
                                         @php
                                         $going_to_need = json_decode($forms->going_to_need);
                                         @endphp
-                                        
+
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Are you going to need?</label>
@@ -1223,7 +1231,7 @@
                                             <input class="form-control" name="gmail_password_youtube" id="gmail_password_youtube" type="text" value="{{ old('gmail_password_youtube', $forms->gmail_password_youtube) }}" required/>
                                         </div>
 
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -1310,7 +1318,7 @@
                                             <label for="competitors">Share pages of your competitors or other brands you are most inspired by</label>
                                             <textarea class="form-control" name="competitors" id="competitors">{{ old('competitors', $forms->competitors) }}</textarea>
                                         </div> -->
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -1624,7 +1632,7 @@
                                     @endphp
                                     <div class="row">
                                         <div class="col-lg-2">
-                                            <label for="amazon_kdp" class="w-100"> 
+                                            <label for="amazon_kdp" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
                                                         <input type="checkbox" class="form-check-input" id="amazon_kdp" name="publish_your_book[]" value="Amazon KDP" @if($publish_your_book != null) {{ in_array('Amazon KDP', $publish_your_book) ? ' checked' : '' }} @endif data-value="Where do you want to?" data-name="required">Amazon KDP
@@ -1642,7 +1650,7 @@
                                             </label>
                                         </div>
                                         <div class="col-lg-2">
-                                            <label for="google_books" class="w-100"> 
+                                            <label for="google_books" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
                                                         <input type="checkbox" class="form-check-input" id="google_books" name="publish_your_book[]" value="Google Books" @if($publish_your_book != null) {{ in_array('Google Books', $publish_your_book) ? ' checked' : '' }} @endif>Google Books
@@ -1651,7 +1659,7 @@
                                             </label>
                                         </div>
                                         <div class="col-lg-2">
-                                            <label for="kobo" class="w-100"> 
+                                            <label for="kobo" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
                                                         <input type="checkbox" class="form-check-input" id="kobo" name="publish_your_book[]" value="Kobo" @if($publish_your_book != null) {{ in_array('Kobo', $publish_your_book) ? ' checked' : '' }} @endif>Kobo
@@ -1660,7 +1668,7 @@
                                             </label>
                                         </div>
                                         <div class="col-lg-2">
-                                            <label for="ingram_spark" class="w-100"> 
+                                            <label for="ingram_spark" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
                                                         <input type="checkbox" class="form-check-input" id="ingram_spark" name="publish_your_book[]" value="Ingram Spark" @if($publish_your_book != null) {{ in_array('Ingram Spark', $publish_your_book) ? ' checked' : '' }} @endif>Ingram Spark
@@ -1675,7 +1683,7 @@
                                     @endphp
                                     <div class="row">
                                         <div class="col-lg-2">
-                                            <label for="ebook" class="w-100"> 
+                                            <label for="ebook" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
                                                         <input type="checkbox" class="form-check-input" id="ebook" name="book_formatted[]" value="eBook" @if($book_formatted != null) {{ in_array('eBook', $book_formatted) ? ' checked' : '' }} @endif data-value="Which formats do you want your book to be formatted on?" data-name="required">eBook
@@ -1684,7 +1692,7 @@
                                             </label>
                                         </div>
                                         <div class="col-lg-2">
-                                            <label for="paperback" class="w-100"> 
+                                            <label for="paperback" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
                                                         <input type="checkbox" class="form-check-input" id="paperback" name="book_formatted[]" value="Paperback" @if($book_formatted != null) {{ in_array('Paperback', $book_formatted) ? ' checked' : '' }} @endif>Paperback
@@ -1693,7 +1701,7 @@
                                             </label>
                                         </div>
                                         <div class="col-lg-2">
-                                            <label for="hardcover" class="w-100"> 
+                                            <label for="hardcover" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
                                                         <input type="checkbox" class="form-check-input" id="hardcover" name="book_formatted[]" value="Hardcover" @if($book_formatted != null) {{ in_array('Hardcover', $book_formatted) ? ' checked' : '' }} @endif>Hardcover
@@ -1763,166 +1771,166 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                            
-                            
+
+
+
                             <div class="card mb-4">
                                 <div class="card-body">
                                     <div class="card-title mb-3">Author/Publisher Information</div>
-                                   
-                                    
+
+
                                     <p> Do you already have a publishing account setup on any of the platforms? (Yes/No) </p>
-                                    
+
                                     <p> Note: If Yes mention the name of the platforms and provide its credentials as in email address and password. If you do not have an account just provide an email address that we can use to sign up your account on Amazon KDP or other platforms. </p>
-                                    
+
                                     <div class="row">
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_title"> Email Address: </label>
                                             <input class="form-control" name="auth_pub_email" id="book_title" type="text" value="{{ old('auth_pub_email', $forms->auth_pub_email) }}" required/>
                                         </div>
-                                        
+
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> Password (Leave blank if you do not already have an account): </label>
                                             <input class="form-control" name="auth_pub_password" id="book_subtitle" type="text" value="{{ old('auth_pub_password', $forms->auth_pub_password) }}"/>
                                         </div>
-                                        
-                                        
-                                        
+
+
+
                                     </div>
-                                    
+
                                     <h4 class="mb-3 mt-3"> Fill in the following information </h4>
-                                    
+
                                     <div class="row">
-                                        
+
                                         <div class="col-md-4 form-group mb-3">
                                             <label for="book_subtitle"> Full Name </label>
                                             <input class="form-control" name="auth_pub_full_name" id="book_subtitle" type="text" value="{{ old('auth_pub_full_name', $forms->auth_pub_full_name) }}"/>
                                         </div>
-                                        
+
                                          <div class="col-md-4 form-group mb-3">
                                             <label for="book_subtitle"> Date of birth (YYYY-MM-DD) </label>
                                             <input class="form-control" name="auth_pub_dob" id="book_subtitle" type="date" value="{{ old('auth_pub_dob', $forms->auth_pub_dob) }}"/>
                                         </div>
-                                        
+
                                          <div class="col-md-4 form-group mb-3">
                                             <label for="book_subtitle"> Country or Region </label>
                                             <input class="form-control" name="auth_pub_country" id="book_subtitle" type="text" value="{{ old('auth_pub_country', $forms->auth_pub_country) }}"/>
                                         </div>
-                                        
+
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> Address Line 1 </label>
                                             <textarea class="form-control" name="auth_pub_address_1" id="genre_book" rows="5" >{{ old('auth_pub_address_1', $forms->auth_pub_address_1) }}</textarea>
                                         </div>
-                                        
+
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> Address Line 2 (Optional) </label>
                                             <textarea class="form-control" name="auth_pub_address_2" id="genre_book" rows="5" >{{ old('auth_pub_address_2', $forms->auth_pub_address_2) }}</textarea>
                                         </div>
-                                        
-                                        
+
+
                                          <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> City </label>
                                             <input class="form-control" name="auth_pub_city" id="book_subtitle" type="text" value="{{ old('auth_pub_city', $forms->auth_pub_city) }}"/>
                                         </div>
-                                        
+
                                          <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> State/Province/Region </label>
                                             <input class="form-control" name="auth_pub_state" id="book_subtitle" type="text" value="{{ old('auth_pub_state', $forms->auth_pub_state) }}"/>
                                         </div>
-                                        
+
                                          <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> Postal Code </label>
                                             <input class="form-control" name="auth_pub_postalcode" id="book_subtitle" type="text" value="{{ old('auth_pub_postalcode', $forms->auth_pub_postalcode) }}"/>
                                         </div>
-                                        
+
                                          <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> Cell Phone Number </label>
                                             <input class="form-control" name="auth_pub_phone" id="book_subtitle" type="text" value="{{ old('auth_pub_phone', $forms->auth_pub_phone) }}"/>
                                         </div>
-                                        
+
                                          <div class="col-md-12 form-group mb-3">
                                             <label for="book_subtitle"> Would you like the book to have headers, footers, or page numbers? If yes, please provide any specific instructions. </label>
                                             <textarea class="form-control" name="auth_pub_have_header_footer" id="genre_book" rows="5" >{{ old('auth_pub_have_header_footer', $forms->auth_pub_have_header_footer) }}</textarea>
                                         </div>
-                                        
+
                                     </div>
-                                    
+
                                     <hr>
-                                    
+
                                     <h4 class="mb-3 mt-3"> Getting Paid </h4>
-                                    
+
                                     <p> (Provide your bank information to receive electronic royalty payments. Tell us about your bank) </p>
-                                    
+
                                     <div class="row">
-                                        
+
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> Your Bank Name </label>
                                             <input class="form-control" name="gp_bank_name" id="gp_bank_name" type="text" value="{{ old('gp_bank_name', $forms->gp_bank_name) }}"/>
                                         </div>
-                                        
+
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> Bank Location/Address </label>
                                             <input class="form-control" name="gp_bank_location" id="gp_bank_location" type="text" value="{{ old('gp_bank_location', $forms->gp_bank_location) }}"/>
                                         </div>
-                                        
-                                        
+
+
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> Routing number </label>
                                             <input class="form-control" name="gp_routing_no" id="gp_routing_no" type="text" value="{{ old('gp_routing_no', $forms->gp_routing_no) }}"/>
                                         </div>
-                                        
+
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> Account Number </label>
                                             <input class="form-control" name="gp_account_no" id="gp_account_no" type="text" value="{{ old('gp_account_no', $forms->gp_account_no) }}"/>
                                         </div>
-                                        
-                                         
+
+
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> Account holder name </label>
                                             <input class="form-control" name="gp_ac_holder_name" id="gp_ac_holder_name" type="text" value="{{ old('gp_ac_holder_name', $forms->gp_ac_holder_name) }}"/>
                                         </div>
-                                        
+
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> Type of account (Checking/Savings) </label>
                                             <input class="form-control" name="gp_type_of_acc" id="gp_type_of_acc" type="text" value="{{ old('gp_type_of_acc', $forms->gp_type_of_acc) }}"/>
                                         </div>
-                                        
-                                        
+
+
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> IBAN number (Leave blank if this does apply to your country standards) </label>
                                             <input class="form-control" name="gp_iban_no" id="gp_iban_no" type="text" value="{{ old('gp_iban_no', $forms->gp_iban_no) }}"/>
                                         </div>
-                                        
+
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> BIC/SWIFT code (Leave blank if this does apply to your country standards) </label>
                                             <input class="form-control" name="gp_swift_code" id="gp_swift_code" type="text" value="{{ old('gp_swift_code', $forms->gp_swift_code) }}"/>
                                         </div>
-                                        
-                                        
+
+
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> Bank Code (Leave blank if this does apply to your country standards) </label>
                                             <input class="form-control" name="gp_bank_code" id="gp_bank_code" type="text" value="{{ old('gp_bank_code', $forms->gp_bank_code) }}"/>
                                         </div>
-                                        
+
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> Branch Code (Leave blank if this does apply to your country standards) </label>
                                             <input class="form-control" name="gp_branch_code" id="gp_branch_code" type="text" value="{{ old('gp_branch_code', $forms->gp_branch_code) }}"/>
                                         </div>
-                                        
-                                        
+
+
                                     </div>
-                                    
+
                                     <hr>
-                                    
+
                                     <h4 class="mb-3 mt-3"> Tax Identity Information </h4>
-                                    
+
                                     <p> <b> Please provide the following information accurately as this information is verified through different processes. Submission of incorrect information may result in account suspension. </b> </p>
-                                    
+
                                     <p for="genre"> What is your tax classification (Individual/Business)? </p>
                                     <p> "Individual" includes Sole Proprietors or Single-Member LLCs where the owner is an individual </p>
-                                            
+
                                     <div class="row">
-                                        
+
                                         <div class="col-lg-2">
                                             <div class="formCheck font-box">
                                                 <div class="form-check pl-0">
@@ -1939,79 +1947,79 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
-                                    
-                                    
+
+
                                     <div class="row">
-                                       
-                                       
+
+
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> Full name (As per your registered tax details) </label>
                                             <input class="form-control" name="tax_iden_full_name" id="tax_iden_full_name" type="text" value="{{ old('tax_iden_full_name', $forms->tax_iden_full_name) }}"/>
                                         </div>
-                                        
+
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> Country of citizenship </label>
                                             <input class="form-control" name="tax_iden_citizenship" id="tax_iden_citizenship" type="text" value="{{ old('tax_iden_citizenship', $forms->tax_iden_citizenship) }}"/>
                                         </div>
-                                        
-                                        
+
+
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> Permanent address (As registered in your tax details) </label>
                                             <input class="form-control" name="tax_iden_permanent_address" id="tax_iden_permanent_address" type="text" value="{{ old('tax_iden_permanent_address', $forms->tax_iden_permanent_address) }}"/>
                                         </div>
-                                        
+
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> Mailing address </label>
                                             <input class="form-control" name="tax_iden_mailing_address" id="tax_iden_mailing_address" type="text" value="{{ old('tax_iden_mailing_address', $forms->tax_iden_mailing_address) }}"/>
                                         </div>
-                                        
+
                                     </div>
-                                    
+
                                      <p> <b> Provide one of the following as per your tax information filled in the form above </b> </p>
-                                    
+
                                      <div class="row">
-                                        
+
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> SSN Number </label>
                                             <input class="form-control" name="tax_iden_ssn_no" id="tax_iden_ssn_no" type="text" value="{{ old('tax_iden_ssn_no', $forms->tax_iden_ssn_no) }}"/>
                                         </div>
-                                        
+
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> EIN Number </label>
                                             <input class="form-control" name="tax_iden_ein_no" id="tax_iden_ein_no" type="text" value="{{ old('tax_iden_ein_no', $forms->tax_iden_ein_no) }}"/>
                                         </div>
-                                        
+
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> TIN Number </label>
                                             <input class="form-control" name="tax_iden_tin_no" id="tax_iden_tin_no" type="text" value="{{ old('tax_iden_tin_no', $forms->tax_iden_tin_no) }}"/>
                                         </div>
-                                        
+
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> Other </label>
                                             <input class="form-control" name="tax_iden_other" id="tax_iden_other" type="text" value="{{ old('tax_iden_other', $forms->tax_iden_other) }}"/>
                                         </div>
-                                        
+
                                     </div>
-                                    
+
                                     <hr>
-                                    
+
                                     <h4 class="mb-3 mt-3"> Book Details </h4>
-                                    
+
                                     <div class="row">
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label for="book_subtitle"> Please provide the Book Description that is to be published with your book </label>
                                             <textarea class="form-control" name="bd_book_description" id="bd_book_description" rows="5" >{{ old('bd_book_description', $forms->bd_book_description) }}</textarea>
                                         </div>
-                                        
+
                                     </div>
-                                    
+
                                     <p> Do you own the copyright and hold necessary publishing rights to publish this book as your own? (Yes/No) </p>
-                                    
+
                                     <div class="row">
-                                        
+
                                         <div class="col-lg-2">
                                             <div class="formCheck font-box">
                                                 <div class="form-check pl-0">
@@ -2028,14 +2036,14 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
-                                    
-                                    
+
+
                                     <p> What is the Genre of your Book? (Fiction/Non Fiction) </p>
-                                    
+
                                     <div class="row">
-                                        
+
                                         <div class="col-lg-2">
                                             <div class="formCheck font-box">
                                                 <div class="form-check pl-0">
@@ -2052,511 +2060,511 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
-                                        
+
                                     <div class="row">
-                                           
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label for="book_subtitle"> Please mention 7 or more keywords that are relevant your book. </label>
                                             <textarea class="form-control" name="bd_keywords" id="bd_keywords" rows="5" >{{ old('bd_keywords', $forms->bd_keywords) }}</textarea>
                                         </div>
-                                        
+
                                     </div>
-                                    
+
                                     <hr>
-                                    
+
                                     <p> Would you like to use Free Platform assigned ISBN number or Paid ISBN Numbers to be used at the time of publishing your book. </p>
-                                    
+
                                     <p><b> Note: If you already have purchased ISBN Numbers for your book please share the ISBN numbers with their imprint name </b></p>
-                                    
+
                                     <div class="row">
-                                           
+
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> ISBN eBook </label>
                                             <input class="form-control" name="bd_isbn_book" id="bd_isbn_book" type="text" value="{{ old('bd_isbn_book', $forms->bd_isbn_book) }}"/>
                                         </div>
-                                        
+
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> ISBN Paperback </label>
                                             <input class="form-control" name="bd_isbn_paperback" id="bd_isbn_paperback" type="text" value="{{ old('bd_isbn_paperback', $forms->bd_isbn_paperback) }}"/>
                                         </div>
-                                        
+
                                          <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> ISBN Hardcover </label>
                                             <input class="form-control" name="bd_isbn_hardcover" id="bd_isbn_hardcover" type="text" value="{{ old('bd_isbn_hardcover', $forms->bd_isbn_hardcover) }}"/>
-                                        </div> 
-                                        
+                                        </div>
+
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> Imprint Name </label>
                                             <input class="form-control" name="bd_imprint_name" id="bd_imprint_name" type="text" value="{{ old('bd_imprint_name', $forms->bd_imprint_name) }}"/>
-                                        </div> 
-                                        
-                                        
+                                        </div>
+
+
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> At what price do you want to sell your eBook? </label>
                                             <input class="form-control" name="bd_sell_your_ebook" id="bd_sell_your_ebook" type="text" value="{{ old('bd_sell_your_ebook', $forms->bd_sell_your_ebook) }}"/>
-                                        </div> 
-                                        
+                                        </div>
+
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="book_subtitle"> At what price do you want to sell your print book? (Mention price for paperback and hardcover) </label>
                                             <input class="form-control" name="bd_print_book" id="bd_print_book" type="text" value="{{ old('bd_print_book', $forms->bd_print_book) }}"/>
-                                        </div> 
-                                        
+                                        </div>
+
                                     </div>
-                                    
-                                    
+
+
                                     <p> Mention at least 3 categories that best suits your book in the box below </p>
                                     @php
                                     $best_suits_your_book = json_decode($forms->best_suits_your_book);
                                     @endphp
                                     <div class="row">
-                                        
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book1" class="w-100"> 
+                                            <label for="best_suits_your_book1" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book1" name="best_suits_your_book[]" value="Arts & Photography" @if($best_suits_your_book != null) {{ in_array('Arts & Photography', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book1" name="best_suits_your_book[]" value="Arts & Photography" @if($best_suits_your_book != null) {{ in_array('Arts & Photography', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Arts & Photography
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
+
                                          <div class="col-lg-3">
-                                            <label for="best_suits_your_book2" class="w-100"> 
+                                            <label for="best_suits_your_book2" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book2" name="best_suits_your_book[]" value="Engineering & Transportation" @if($best_suits_your_book != null) {{ in_array('Engineering & Transportation', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book2" name="best_suits_your_book[]" value="Engineering & Transportation" @if($best_suits_your_book != null) {{ in_array('Engineering & Transportation', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Engineering & Transportation
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
-                                        
+
+
                                        <div class="col-lg-3">
-                                            <label for="best_suits_your_book3" class="w-100"> 
+                                            <label for="best_suits_your_book3" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book3" name="best_suits_your_book[]" value="Politics & Social Sciences" @if($best_suits_your_book != null) {{ in_array('Politics & Social Sciences', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book3" name="best_suits_your_book[]" value="Politics & Social Sciences" @if($best_suits_your_book != null) {{ in_array('Politics & Social Sciences', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Politics & Social Sciences
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book4" class="w-100"> 
+                                            <label for="best_suits_your_book4" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book4" name="best_suits_your_book[]" value="Biographies & Memoirs" @if($best_suits_your_book != null) {{ in_array('Biographies & Memoirs', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book4" name="best_suits_your_book[]" value="Biographies & Memoirs" @if($best_suits_your_book != null) {{ in_array('Biographies & Memoirs', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Biographies & Memoirs
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book5" class="w-100"> 
+                                            <label for="best_suits_your_book5" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book5" name="best_suits_your_book[]" value="Reference" @if($best_suits_your_book != null) {{ in_array('Reference', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book5" name="best_suits_your_book[]" value="Reference" @if($best_suits_your_book != null) {{ in_array('Reference', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Reference
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book6" class="w-100"> 
+                                            <label for="best_suits_your_book6" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book6" name="best_suits_your_book[]" value="Health, Fitness & Dieting" @if($best_suits_your_book != null) {{ in_array('Health, Fitness & Dieting', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book6" name="best_suits_your_book[]" value="Health, Fitness & Dieting" @if($best_suits_your_book != null) {{ in_array('Health, Fitness & Dieting', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Health, Fitness & Dieting
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book7" class="w-100"> 
+                                            <label for="best_suits_your_book7" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book7" name="best_suits_your_book[]" value="Business & Money" @if($best_suits_your_book != null) {{ in_array('Business & Money', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book7" name="best_suits_your_book[]" value="Business & Money" @if($best_suits_your_book != null) {{ in_array('Business & Money', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Business & Money
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book8" class="w-100"> 
+                                            <label for="best_suits_your_book8" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book8" name="best_suits_your_book[]" value="History" @if($best_suits_your_book != null) {{ in_array('History', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book8" name="best_suits_your_book[]" value="History" @if($best_suits_your_book != null) {{ in_array('History', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         History
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book9" class="w-100"> 
+                                            <label for="best_suits_your_book9" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book9" name="best_suits_your_book[]" value="Religion & Spirituality" @if($best_suits_your_book != null) {{ in_array('Religion & Spirituality', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book9" name="best_suits_your_book[]" value="Religion & Spirituality" @if($best_suits_your_book != null) {{ in_array('Religion & Spirituality', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Religion & Spirituality
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book10" class="w-100"> 
+                                            <label for="best_suits_your_book10" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book10" name="best_suits_your_book[]" value="Calendars" @if($best_suits_your_book != null) {{ in_array('Calendars', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book10" name="best_suits_your_book[]" value="Calendars" @if($best_suits_your_book != null) {{ in_array('Calendars', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Calendars
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book11" class="w-100"> 
+                                            <label for="best_suits_your_book11" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book11" name="best_suits_your_book[]" value="Romance" @if($best_suits_your_book != null) {{ in_array('Romance', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book11" name="best_suits_your_book[]" value="Romance" @if($best_suits_your_book != null) {{ in_array('Romance', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Romance
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
-                                        
+
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book12" class="w-100"> 
+                                            <label for="best_suits_your_book12" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book12" name="best_suits_your_book[]" value="Humor & Entertainment" @if($best_suits_your_book != null) {{ in_array('Humor & Entertainment', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book12" name="best_suits_your_book[]" value="Humor & Entertainment" @if($best_suits_your_book != null) {{ in_array('Humor & Entertainment', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Humor & Entertainment
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book13" class="w-100"> 
+                                            <label for="best_suits_your_book13" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book13" name="best_suits_your_book[]" value="Christian Books & Bibles" @if($best_suits_your_book != null) {{ in_array('Christian Books & Bibles', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book13" name="best_suits_your_book[]" value="Christian Books & Bibles" @if($best_suits_your_book != null) {{ in_array('Christian Books & Bibles', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Christian Books & Bibles
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book14" class="w-100"> 
+                                            <label for="best_suits_your_book14" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book14" name="best_suits_your_book[]" value="Law" @if($best_suits_your_book != null) {{ in_array('Law', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book14" name="best_suits_your_book[]" value="Law" @if($best_suits_your_book != null) {{ in_array('Law', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Law
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book15" class="w-100"> 
+                                            <label for="best_suits_your_book15" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book15" name="best_suits_your_book[]" value="Science & Math" @if($best_suits_your_book != null) {{ in_array('Science & Math', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book15" name="best_suits_your_book[]" value="Science & Math" @if($best_suits_your_book != null) {{ in_array('Science & Math', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Science & Math
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                         
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book16" class="w-100"> 
+                                            <label for="best_suits_your_book16" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book16" name="best_suits_your_book[]" value="Comics & Graphic Novels" @if($best_suits_your_book != null) {{ in_array('Comics & Graphic Novels', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book16" name="best_suits_your_book[]" value="Comics & Graphic Novels" @if($best_suits_your_book != null) {{ in_array('Comics & Graphic Novels', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Comics & Graphic Novels
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                          
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book17" class="w-100"> 
+                                            <label for="best_suits_your_book17" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book17" name="best_suits_your_book[]" value="LGBTQ+ Books" @if($best_suits_your_book != null) {{ in_array('LGBTQ+ Books', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book17" name="best_suits_your_book[]" value="LGBTQ+ Books" @if($best_suits_your_book != null) {{ in_array('LGBTQ+ Books', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         LGBTQ+ Books
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                          
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book18" class="w-100"> 
+                                            <label for="best_suits_your_book18" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book18" name="best_suits_your_book[]" value="Science Fiction & Fantasy" @if($best_suits_your_book != null) {{ in_array('Science Fiction & Fantasy', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book18" name="best_suits_your_book[]" value="Science Fiction & Fantasy" @if($best_suits_your_book != null) {{ in_array('Science Fiction & Fantasy', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Science Fiction & Fantasy
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                          
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book19" class="w-100"> 
+                                            <label for="best_suits_your_book19" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book19" name="best_suits_your_book[]" value="Computers & Technology" @if($best_suits_your_book != null) {{ in_array('Computers & Technology', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book19" name="best_suits_your_book[]" value="Computers & Technology" @if($best_suits_your_book != null) {{ in_array('Computers & Technology', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Computers & Technology
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                           
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book20" class="w-100"> 
+                                            <label for="best_suits_your_book20" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book20" name="best_suits_your_book[]" value="Literature & Fiction" @if($best_suits_your_book != null) {{ in_array('Literature & Fiction', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book20" name="best_suits_your_book[]" value="Literature & Fiction" @if($best_suits_your_book != null) {{ in_array('Literature & Fiction', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Literature & Fiction
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book21" class="w-100"> 
+                                            <label for="best_suits_your_book21" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book21" name="best_suits_your_book[]" value="Self-Help" @if($best_suits_your_book != null) {{ in_array('Self-Help', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book21" name="best_suits_your_book[]" value="Self-Help" @if($best_suits_your_book != null) {{ in_array('Self-Help', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Self-Help
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
-                                        
+
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book22" class="w-100"> 
+                                            <label for="best_suits_your_book22" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book22" name="best_suits_your_book[]" value="Cookbooks, Food & Wine" @if($best_suits_your_book != null) {{ in_array('Cookbooks, Food & Wine', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book22" name="best_suits_your_book[]" value="Cookbooks, Food & Wine" @if($best_suits_your_book != null) {{ in_array('Cookbooks, Food & Wine', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Cookbooks, Food & Wine
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book23" class="w-100"> 
+                                            <label for="best_suits_your_book23" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book23" name="best_suits_your_book[]" value="Medical Books" @if($best_suits_your_book != null) {{ in_array('Medical Books', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book23" name="best_suits_your_book[]" value="Medical Books" @if($best_suits_your_book != null) {{ in_array('Medical Books', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Medical Books
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book24" class="w-100"> 
+                                            <label for="best_suits_your_book24" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book24" name="best_suits_your_book[]" value="Sports & Outdoors" @if($best_suits_your_book != null) {{ in_array('Sports & Outdoors', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book24" name="best_suits_your_book[]" value="Sports & Outdoors" @if($best_suits_your_book != null) {{ in_array('Sports & Outdoors', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Sports & Outdoors
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book25" class="w-100"> 
+                                            <label for="best_suits_your_book25" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book25" name="best_suits_your_book[]" value="Crafts, Hobbies & Home" @if($best_suits_your_book != null) {{ in_array('Crafts, Hobbies & Home', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book25" name="best_suits_your_book[]" value="Crafts, Hobbies & Home" @if($best_suits_your_book != null) {{ in_array('Crafts, Hobbies & Home', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Crafts, Hobbies & Home
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
+
                                         <div class="col-lg-3">
-                                            <label for="best_suits_your_book26" class="w-100"> 
+                                            <label for="best_suits_your_book26" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book26" name="best_suits_your_book[]" value="Mystery, Thriller & Suspense" @if($best_suits_your_book != null) {{ in_array('Mystery, Thriller & Suspense', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book26" name="best_suits_your_book[]" value="Mystery, Thriller & Suspense" @if($best_suits_your_book != null) {{ in_array('Mystery, Thriller & Suspense', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Mystery, Thriller & Suspense
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
+
                                         <div class="col-lg-3">
-                                            <label for="best_suits_your_book27" class="w-100"> 
+                                            <label for="best_suits_your_book27" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book27" name="best_suits_your_book[]" value="Teen & Young Adult" @if($best_suits_your_book != null) {{ in_array('Teen & Young Adult', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book27" name="best_suits_your_book[]" value="Teen & Young Adult" @if($best_suits_your_book != null) {{ in_array('Teen & Young Adult', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Teen & Young Adult
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book28" class="w-100"> 
+                                            <label for="best_suits_your_book28" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book28" name="best_suits_your_book[]" value="Education & Teaching" @if($best_suits_your_book != null) {{ in_array('Education & Teaching', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book28" name="best_suits_your_book[]" value="Education & Teaching" @if($best_suits_your_book != null) {{ in_array('Education & Teaching', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Education & Teaching
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book29" class="w-100"> 
+                                            <label for="best_suits_your_book29" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book29" name="best_suits_your_book[]" value="Parenting & Relationships" @if($best_suits_your_book != null) {{ in_array('Parenting & Relationships', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book29" name="best_suits_your_book[]" value="Parenting & Relationships" @if($best_suits_your_book != null) {{ in_array('Parenting & Relationships', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Parenting & Relationships
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book30" class="w-100"> 
+                                            <label for="best_suits_your_book30" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book30" name="best_suits_your_book[]" value="Science & Math" @if($best_suits_your_book != null) {{ in_array('Science & Math', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book30" name="best_suits_your_book[]" value="Science & Math" @if($best_suits_your_book != null) {{ in_array('Science & Math', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Science & Math
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book31" class="w-100"> 
+                                            <label for="best_suits_your_book31" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book31" name="best_suits_your_book[]" value="Science Fiction & Fantasy" @if($best_suits_your_book != null) {{ in_array('Science Fiction & Fantasy', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book31" name="best_suits_your_book[]" value="Science Fiction & Fantasy" @if($best_suits_your_book != null) {{ in_array('Science Fiction & Fantasy', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Science Fiction & Fantasy
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book32" class="w-100"> 
+                                            <label for="best_suits_your_book32" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book32" name="best_suits_your_book[]" value="Test Preparation" @if($best_suits_your_book != null) {{ in_array('Test Preparation', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book32" name="best_suits_your_book[]" value="Test Preparation" @if($best_suits_your_book != null) {{ in_array('Test Preparation', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Test Preparation
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
+
                                         <div class="col-lg-2">
-                                            <label for="best_suits_your_book33" class="w-100"> 
+                                            <label for="best_suits_your_book33" class="w-100">
                                                 <div class="formCheck purpose-box font-box">
                                                     <div class="form-check ml-0 pl-0">
-                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book33" name="best_suits_your_book[]" value="Travel" @if($best_suits_your_book != null) {{ in_array('Travel', $best_suits_your_book) ? ' checked' : '' }} @endif > 
+                                                        <input type="checkbox" class="form-check-input" id="best_suits_your_book33" name="best_suits_your_book[]" value="Travel" @if($best_suits_your_book != null) {{ in_array('Travel', $best_suits_your_book) ? ' checked' : '' }} @endif >
                                                         Travel
                                                     </div>
                                                 </div>
                                             </label>
                                         </div>
-                                        
-                                        
-                                        
+
+
+
                                     </div>
-                                    
-                                    
+
+
                                     <div class="row">
-                                           
+
                                         <div class="col-md-4 form-group mb-3">
                                             <label for="book_subtitle"> Category 1 </label>
                                             <input class="form-control" name="bd_category1" id="bd_category1" type="text" value="{{ old('bd_category1', $forms->bd_category1) }}"/>
                                         </div>
-                                        
+
                                         <div class="col-md-4 form-group mb-3">
                                             <label for="book_subtitle"> Category 2 </label>
                                             <input class="form-control" name="bd_category2" id="bd_category2" type="text" value="{{ old('bd_category2', $forms->bd_category2) }}"/>
                                         </div>
-                                        
+
                                         <div class="col-md-4 form-group mb-3">
                                             <label for="book_subtitle"> Category 3 </label>
                                             <input class="form-control" name="bd_category3" id="bd_category3" type="text" value="{{ old('bd_category3', $forms->bd_category3) }}"/>
                                         </div>
-                                        
-                                        
+
+
                                         <!--Formating-->
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label for="book_subtitle"> Are there any special elements in your book that require formatting (e.g., illustrations, tables, graphs, etc.)? </label>
                                             <input class="form-control" name="bd_special_elements" id="bd_special_elements" type="text" value="{{ old('bd_special_elements', $forms->bd_special_elements) }}"/>
                                         </div>
-                                        
+
                                          <div class="col-md-12 form-group mb-3">
                                             <label for="book_subtitle"> Do you have any specific preferences or requirements for the book's margins, line spacing, paragraph spacing or spacing in general? </label>
                                             <input class="form-control" name="bd_any_specific_preferences" id="bd_any_specific_preferences" type="text" value="{{ old('bd_any_specific_preferences', $forms->bd_any_specific_preferences) }}"/>
                                         </div>
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label for="book_subtitle"> Will your book have any special formatting needs for quotations, citations, or references? </label>
                                             <input class="form-control" name="bd_any_special_formatting" id="bd_any_special_formatting" type="text" value="{{ old('bd_any_special_formatting', $forms->bd_any_special_formatting) }}"/>
                                         </div>
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label for="book_subtitle"> Are there any specific design elements or styles you would like to incorporate into the book (e.g., drop caps, special fonts, etc.)? </label>
                                             <input class="form-control" name="bd_any_specific_design" id="bd_any_specific_design" type="text" value="{{ old('bd_any_specific_design', $forms->bd_any_specific_design) }}"/>
                                         </div>
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label for="book_subtitle"> Do you have any specific instructions regarding the placement and formatting of images or illustrations? </label>
                                             <input class="form-control" name="bd_any_specific_instructions" id="bd_any_specific_instructions" type="text" value="{{ old('bd_any_specific_instructions', $forms->bd_any_specific_instructions) }}"/>
                                         </div>
-                                         
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label for="book_subtitle"> Will your book include any special formatting for footnotes, endnotes, or glossaries? </label>
                                             <input class="form-control" name="bd_any_endnotes_or_glossaries" id="bd_any_endnotes_or_glossaries" type="text" value="{{ old('bd_any_endnotes_or_glossaries', $forms->bd_any_endnotes_or_glossaries) }}"/>
                                         </div>
-                                         
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label for="book_subtitle"> Do you have any specific requirements for the font style and font size of headings, paragraphs, etc? </label>
                                             <input class="form-control" name="bd_any_style_and_font" id="bd_any_style_and_font" type="text" value="{{ old('bd_any_style_and_font', $forms->bd_any_style_and_font) }}"/>
                                         </div>
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label for="book_subtitle"> Does your book have images or fonts that are to be printed in color or black and white? (Please specify) </label>
                                             <input class="form-control" name="bd_color_black_and_white" id="bd_color_black_and_white" type="text" value="{{ old('bd_color_black_and_white', $forms->bd_color_black_and_white) }}"/>
                                         </div>
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label for="book_subtitle"> Is your manuscript completely edited in terms of grammar, spellings, punctuations, sentence structure, etc. and the content is finalized and approved for it to be moved to the formatting and publishing phase? </label>
                                             <input class="form-control" name="bd_formatting_and_pub_phase" id="bd_formatting_and_pub_phase" type="text" value="{{ old('bd_formatting_and_pub_phase', $forms->bd_formatting_and_pub_phase) }}"/>
                                         </div>
-                                        
-                                        
+
+
                                     </div>
-                                    
-                                    
-                                    
+
+
+
                                 </div>
                             </div>
-                            
-                            
+
+
 
                             <div class="card mb-4">
                                 <div class="card-body">
@@ -3053,7 +3061,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="card mb-4">
                                 <div class="card-body">
                                     <div class="card-title mb-3">What a typical homepage for an author website include?</div>
@@ -3457,71 +3465,71 @@
                             <div class="card mb-4">
                                 <div class="card-body mb-4">
                                     <div class="card-title mb-3">{{ $forms->form_name }}</div>
-                                    
+
                                     <h3>Preassigned Control Number (PCN) Enrollment Questionnaire for Authors and Self-Publishers </h3>
-                                    
+
                                     <br>
-                                    
+
                                     <h4>Personal Information</h4>
-                                    
+
                                     <div class="row">
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
                                              <label>Full Name</label>
                                              <input type="text" class="form-control"  name="pi_fullname" value="{{ old('pi_fullname', $forms->pi_fullname) }}" required>
                                         </div>
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label>Email Address</label>
                                             <input type="email" class="form-control" name="pi_email" value="{{ old('pi_email', $forms->pi_email) }}" >
                                         </div>
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label>Phone Number</label>
                                             <input type="tel" class="form-control" name="pi_phone" value="{{ old('pi_phone', $forms->pi_phone) }}" >
                                         </div>
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label>Mailing Address</label>
                                             <input type="text" class="form-control" name="pi_mailing_address" value="{{ old('pi_mailing_address', $forms->pi_mailing_address) }}" >
                                         </div>
-                                        
-                                       
-                                        
+
+
+
                                         <div class="col-md-12 form-group mb-3">
-                                            
+
                                              <h4 class="mt-3 mb-3">Book Information </h4>
-                                             
+
                                             <label>Title of the Book</label>
                                             <input type="text" class="form-control" name="bi_titlebook" value="{{ old('bi_titlebook', $forms->bi_titlebook) }}" >
                                         </div>
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label>Subtitle (if any)</label>
                                             <input type="text" class="form-control" name="bi_subtitle" value="{{ old('bi_subtitle', $forms->bi_subtitle) }}" >
                                         </div>
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label for="exampleFormControlSelect1">Author(s) Name(s)</label>
                                             <textarea class="form-control" name="bi_authorname" value="{{ old('bi_authorname', $forms->bi_authorname) }}" >  </textarea>
                                         </div>
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label for="exampleFormControlSelect1">Editor(s) Name(s)</label>
                                             <textarea class="form-control" name="bi_editorname"  id="about" rows="5" > {{ old('bi_editorname', $forms->bi_editorname) }} </textarea>
                                         </div>
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
                                              <label>Publisher's Name</label>
                                             <input type="text" class="form-control" name="bi_publishername" value="{{ old('bi_publishername', $forms->bi_publishername) }}" >
                                         </div>
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label>Projected Publication Date</label>
                                             <input type="date" class="form-control" name="bi_projectpublication" value="{{ old('bi_projectpublication', $forms->bi_projectpublication) }}" >
                                         </div>
-                                        
-                                        
+
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label for="genre">Is this book part of a series?</label>
                                             <div class="row">
@@ -3551,9 +3559,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                        
-                                        
+
+
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label for="genre">Book Format</label>
                                             <div class="row">
@@ -3599,38 +3607,38 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                        
-                                           
+
+
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label>Estimated Number of Pages</label>
                                             <input type="number" class="form-control" name="bi_est_no_page" value="{{ old('bi_est_no_page', $forms->bi_est_no_page) }}" >
                                         </div>
-                                        
-                                        
+
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label>ISBN (if already assigned)</label>
                                             <input type="text" class="form-control" name="isbn_assign" value="{{ old('isbn_assign', $forms->isbn_assign) }}" >
                                         </div>
-                                        
-                                        
+
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label>Book Categories/Genres</label>
                                             <input type="text" class="form-control" name="bi_bookcategory" value="{{ old('bi_bookcategory', $forms->bi_bookcategory) }}" >
                                         </div>
-                                        
-                                        
+
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label>Brief Summary of the Book</label>
                                             <textarea class="form-control" name="bi_bri_summaryofbook"  id="about" rows="5" > {{ old('bi_bri_summaryofbook', $forms->bi_bri_summaryofbook) }} </textarea>
                                         </div>
-                                        
-                                       
-                                        
-                                        
+
+
+
+
                                         <div class="col-md-12 form-group mb-3">
                                              <h4 class="mt-3 mb-3">Additional Information</h4>
-                                             
+
                                             <label for="genre">Will the book include illustrations?</label>
                                             <div class="row">
                                                 <div class="col-lg-2">
@@ -3659,8 +3667,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                        
+
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label for="genre">Will the book include a preface or introduction?</label>
                                             <div class="row">
@@ -3682,8 +3690,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                        
+
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label for="genre">Does the book have a table of contents?</label>
                                             <div class="row">
@@ -3705,8 +3713,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                        
+
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label for="genre">Do you intend to distribute this book to libraries?</label>
                                             <div class="row">
@@ -3728,104 +3736,104 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                        
-                                       
-                                        
+
+
+
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label>Any other information or special instructions?</label>
                                             <textarea class="form-control" id="about" rows="5" name="special_instruction"  > {{ old('special_instruction', $forms->special_instruction) }} </textarea>
                                         </div>
-                                        
-                                        
-                                         
-                                        
-                                        
+
+
+
+
+
                                         <div class="col-md-12 form-group mb-3">
-                                            
+
                                             <p><i>Please fill out this questionnaire and return it to us to proceed with the PCN enrollment process for your book. Thank you!</i></p>
-                                            
+
                                             <h3 class="mt-3 mb-3">Bowker ISBN Registration Form</h3>
-                                            
+
                                             <h4 class="mt-3 mb-3">Title Information</h4>
-                                            
+
                                             <label>Book Title</label>
                                             <input type="text" class="form-control" name="irf_booktitle" value="{{ old('irf_booktitle', $forms->irf_booktitle) }}" >
-                                            
+
                                         </div>
-                                        
-                                        
+
+
                                          <div class="col-md-12 form-group mb-3">
                                              <label>Subtitle</label>
                                             <input type="text" class="form-control" name="irf_booksubtitle" value="{{ old('irf_booksubtitle', $forms->irf_booksubtitle) }}" >
                                         </div>
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
                                              <label>Describe your book (0 of 350 words)</label>
                                              <textarea class="form-control" name="irf_describebook" id="about" rows="5" > {{ old('irf_describebook', $forms->irf_describebook) }} </textarea>
                                         </div>
-                                        
-                                        
+
+
                                         <div class="col-md-12 form-group mb-3">
-                                            
+
                                              <h4 class="mt-3 mb-3">Subjects & Genres</h4>
-                                            
+
                                              <label>First Genre:</label>
                                              <input type="text" class="form-control" name="gen_firstgenre" value="{{ old('gen_firstgenre', $forms->gen_firstgenre) }}" >
-                                             
+
                                         </div>
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label>Second Genre</label>
                                             <input type="text" class="form-control" name="gen_secondgenre" value="{{ old('gen_secondgenre', $forms->gen_secondgenre) }}" >
                                         </div>
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
-                                            
+
                                              <h4 class="mt-3 mb-3">Authors & Contributors</h4>
- 
+
                                             <label>First Name</label>
                                             <input type="text" class="form-control" name="ac_firstname" value="{{ old('ac_firstname', $forms->ac_firstname) }}" >
-                                          
+
                                         </div>
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
                                           <label>Last Name</label>
                                           <input type="text" class="form-control" name="ac_lastname" value="{{ old('ac_lastname', $forms->ac_lastname) }}" >
                                         </div>
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label>Suffix</label>
                                             <input type="text" class="form-control" name="ac_suffix" value="{{ old('ac_suffix', $forms->ac_suffix) }}" >
                                         </div>
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label>Biography (0 of 350 words)</label>
                                             <textarea class="form-control" name="ac_biography"  id="about" rows="5" > {{ old('ac_biography', $forms->ac_biography) }} </textarea>
                                         </div>
-                                        
-                                        
+
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label>Function (Author, Writer, Illustrator, etc)</label>
                                             <textarea class="form-control" name="ac_function" id="about" rows="5" > {{ old('ac_function', $forms->ac_function) }} </textarea>
                                         </div>
-                                        
-                                        
+
+
                                         <div class="col-md-12 form-group mb-3">
-                                             
+
                                             <h4 class="mt-3 mb-3">Sales & Pricing</h4>
-                                             
+
                                             <label>Publisher</label>
                                             <input type="text" class="form-control" name="sp_publisher" value="{{ old('sp_publisher', $forms->sp_publisher) }}" >
                                         </div>
-                                        
-                                        
+
+
                                          <div class="col-md-12 form-group mb-3">
                                             <label>Publication Date</label>
                                             <input type="date" class="form-control" name="sp_publicationdate" value="{{ old('sp_publicationdate', $forms->sp_publicationdate) }}" >
                                         </div>
-                                            
-                                            
+
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label for="genre">Target Audience</label>
                                             <div class="row">
@@ -3869,7 +3877,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
+
                                                  <div class="col-lg-2 mt-3" >
                                                     <div class="formCheck font-box mb-0">
                                                         <div class="form-check pl-0">
@@ -3878,7 +3886,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div class="col-lg-2 mt-3" >
                                                     <div class="formCheck font-box mb-0">
                                                         <div class="form-check pl-0">
@@ -3887,7 +3895,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div class="col-lg-3 mt-3" >
                                                     <div class="formCheck font-box mb-0">
                                                         <div class="form-check pl-0">
@@ -3896,7 +3904,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div class="col-lg-2 mt-3" >
                                                     <div class="formCheck font-box mb-0">
                                                         <div class="form-check pl-0">
@@ -3905,7 +3913,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div class="col-lg-3 mt-3" >
                                                     <div class="formCheck font-box mb-0">
                                                         <div class="form-check pl-0">
@@ -3914,23 +3922,23 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
-                                                
+
+
                                             </div>
                                         </div>
-                                        
-                                        
+
+
                                         <div class="col-md-12 form-group mb-3">
-                                             
+
                                             <h4 class="mt-3 mb-3">Book Price</h4>
-                                             
+
                                             <label>Set Dollar Amount</label>
                                             <input type="text" class="form-control" name="dollar_amount" value="{{ old('dollar_amount', $forms->dollar_amount) }}" >
-                                        
+
                                         </div>
-                                        
-                                        
-                                            
+
+
+
                                     </div>
                                 </div>
                             </div>
@@ -3974,52 +3982,52 @@
                                 <div class="card-body mb-4">
                                     <div class="card-title mb-3">{{ $forms->form_name }}</div>
                                     <div class="row">
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label for="title"> What is the title of the book </label>
                                             <input type="text" name="title" class="form-control" value="{{ old('title', $forms->title) }}" required>
                                         </div>
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label for="title"> Do you need the printed copies to be in paperback and hardcover format ? </label>
                                             <input type="text" name="need_the_printed" class="form-control" value="{{ old('need_the_printed', $forms->need_the_printed) }}" >
                                         </div>
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label for="title"> How many printed copies do you require? </label>
                                             <input type="text" name="printed_copies" class="form-control" value="{{ old('printed_copies', $forms->printed_copies) }}" >
                                         </div>
-                                        
-                                        
+
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label for="title"> Which trim size do you want your book to be formatted on? (e.g 5x8 , 5.25x8 5.5x8.5 , 6x9 , 8x10 , 8.5x11 , 8.5x8.5 etc) </label>
                                             <label for="title"> Note: Please Fill The box below for the required trim size of the pages in the book. If you required trim size is not specified please mention the trim size you want in the box below. </label>
                                             <input type="text" name="trim_size_of_the_pages" class="form-control" value="{{ old('trim_size_of_the_pages', $forms->trim_size_of_the_pages) }}" >
                                         </div>
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label for="title"> If you have selected other please specify the trim size you want for the printed copies (Optional) </label>
                                             <input type="text" name="trim_size_you_want" class="form-control" value="{{ old('trim_size_you_want', $forms->trim_size_you_want) }}" >
                                         </div>
-                                        
+
                                          <div class="col-md-12 form-group mb-3">
                                             <label for="title"> What is your full name? </label>
                                             <input type="text" name="full_name" class="form-control" value="{{ old('full_name', $forms->full_name) }}" >
                                         </div>
-                                        
+
                                         <div class="col-md-12 form-group mb-3">
                                             <label for="title"> What is your phone number ? </label>
                                             <label for="title"> (We will share this information with the shipping company for contacting your if you needed) </label>
                                             <input type="text" name="phone_number" class="form-control" value="{{ old('phone_number', $forms->phone_number) }}" >
                                         </div>
-                                        
-                                         
+
+
                                          <div class="col-md-12 form-group mb-3">
                                             <label for="title"> What is your your complete address? </label>
                                             <label for="title"> (Your printed copies will be delivered on this address so please make sure that the information is accurate) </label>
                                             <input type="text" name="address" class="form-control" value="{{ old('address', $forms->address) }}" >
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -4044,7 +4052,7 @@
                             <!--        </div>-->
                             <!--    </div>-->
                             <!--</div>-->
-                            
+
 
                             <div class="card mb-4">
                                 <div class="card-body">
@@ -4058,9 +4066,9 @@
                                 </div>
                             </div>
                         </form>
-                        
+
                         @endif
-                        
+
                     </div>
                     @php
                     $count++;
