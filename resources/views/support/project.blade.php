@@ -65,9 +65,9 @@
                                     @endif
                                 </td>
                                 <td>
-                                    {{$datas->client->name}} {{$datas->client->last_name}}<br>
-                                    {{$datas->client->email}}  <br>
-                                    {{$datas->client->contact}}
+                                    {{$datas->client->name ?? ''}} {{$datas->client->last_name ?? ''}}<br>
+                                    {{$datas->client->email ?? ''}}  <br>
+                                    {{$datas->client->contact ?? ''}}
                                 </td>
                                 <td>
                                     <button class="btn btn-info btn-sm">{{$datas->brand->name}}</button>
@@ -102,7 +102,7 @@
                                 </td>
                             </tr>
                             @endforeach
-                            
+
                         </tbody>
                         <tfoot>
                             <tr>
