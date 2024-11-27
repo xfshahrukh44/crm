@@ -476,6 +476,10 @@ Route::get('redirect-to-livewire', function (Request $request) {
 Route::post('stripe-invoice-paid', [StripeController::class, 'stripe_invoice_paid'])->name('stripe.invoice.paid')->withoutMiddleware('verify.csrf.token');
 
 Route::get('temp', function () {
+    foreach (\App\Models\Client::all() as $client) {
+        populate_clients_show_service_forms($client);
+    }
+
 //    $ids = [9445, 10673, 9906, 9422, 9636, 9657, 10040, 10108, 10352, 10629, 10394, 10525, 10662, 10576, 10577, 10578, 10303, 10534, 10396, 10302, 10302, 10580, 10371, 10395, 10419, 10420, 10441, 10442, 10468];
 //    $notifications = \App\Models\CRMNotification::where('type', 'App\Notifications\TaskNotification')
 //        ->where('notifiable_id', 1733)

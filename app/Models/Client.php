@@ -9,7 +9,7 @@ class Client extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'last_name', 'email', 'contact', 'user_id', 'status', 'brand_id', 'assign_id', 'stripe_customer_id', 'priority'];
+    protected $fillable = ['name', 'last_name', 'email', 'contact', 'user_id', 'status', 'brand_id', 'assign_id', 'stripe_customer_id', 'priority', 'show_service_forms'];
 
     public function brand(){
         return $this->hasOne(Brand::class, 'id', 'brand_id');

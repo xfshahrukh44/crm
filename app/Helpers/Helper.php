@@ -2055,3 +2055,15 @@ function get_my_merchants () {
 
     return Merchant::whereIn('id', $map[$my_buh_id])->get();
 }
+
+function populate_clients_show_service_forms (Client $client) {
+    $invoice_services = [];
+
+    foreach (Invoice::where('client_id', $client->id)->get() as $invoice) {
+        $inv_services = explode(',', $invoice->service);
+        $invoice_services = array_merge($invoice_services, $inv_services);
+    }
+
+    $client->show_service_forms = implode(',', array_unique($invoice_services));
+    $client->save();
+}
