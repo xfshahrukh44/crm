@@ -70,7 +70,7 @@
                                     {{$datas->client->contact ?? ''}}
                                 </td>
                                 <td>
-                                    <button class="btn btn-info btn-sm">{{$datas->brand->name}}</button>
+                                    <button class="btn btn-info btn-sm">{{$datas->brand->name ?? ''}}</button>
                                 </td>
                                 <td>
                                     @if($datas->status == 1)
