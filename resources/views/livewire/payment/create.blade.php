@@ -55,12 +55,30 @@
                                     </select>
                                     @error('client_payment_create_service') <span class="error text-danger">{{ $message }}</span> @enderror
                                 </div>
-                                <div class="col-md-4 form-group mb-3" wire:ignore>
+                                <div class="col-md-4 form-group mb-3">
                                     <label>
                                         <b>Select which forms the client will see</b>
                                     </label>
                                     <div class="row form-group" id="show_service_form_checkboxes">
+                                        @foreach($show_service_forms['on'] ?? [] as $service_id)
+                                            @php
+                                                $loaded_service = \App\Models\Service::find($service_id);
+                                            @endphp
+                                            <div class="col-md-12">
+                                                <input type="checkbox" id="service_{{$service_id}}" data-id="{{$service_id}}" data-name="{{$loaded_service->name}}" class="service_tickbox" value="{{$service_id}}" checked>
+                                                <label for="service_{{$service_id}}">{{$loaded_service->name}}</label>
+                                            </div>
+                                        @endforeach
 
+                                        @foreach($show_service_forms['off'] ?? [] as $service_id)
+                                            @php
+                                                $loaded_service = \App\Models\Service::find($service_id);
+                                            @endphp
+                                            <div class="col-md-12">
+                                                <input type="checkbox" id="service_{{$service_id}}" data-id="{{$service_id}}" data-name="{{$loaded_service->name}}" class="service_tickbox" value="{{$service_id}}">
+                                                <label for="service_{{$service_id}}">{{$loaded_service->name}}</label>
+                                            </div>
+                                        @endforeach
                                     </div>
                                     <div id="tickboxes_wrapper">
 

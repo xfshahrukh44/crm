@@ -411,6 +411,8 @@ class BrandDashboard extends Component
             ->whereIn('id', array_unique(DB::table('brand_users')->where('brand_id', $user->brand_id)->pluck('user_id')->toArray()))
             ->get();
 
+        $show_service_forms = $this->client_payment_create_show_service_forms;
+
         $this->client_payment_create_client_id = $client_id;
         $this->client_payment_create_name = $user->name . ' ' . $user->last_name;
         $this->client_payment_create_email = $user->email;
@@ -421,7 +423,7 @@ class BrandDashboard extends Component
         $this->emit('emit_select2', ['selector' => '#currency', 'name' => 'client_payment_create_currency' ]);
         $this->emit('emit_select2', ['selector' => '#sales_agent_id', 'name' => 'client_payment_create_sales_agent_id' ]);
 
-        return view('livewire.payment.create', compact('user', 'brands', 'currencies', 'services', 'merchant', 'sale_agents'))->extends($this->layout);
+        return view('livewire.payment.create', compact('user', 'brands', 'currencies', 'services', 'merchant', 'sale_agents', 'show_service_forms'))->extends($this->layout);
     }
 
     public function client_payment_save ()
