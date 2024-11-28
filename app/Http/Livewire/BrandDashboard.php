@@ -91,6 +91,7 @@ class BrandDashboard extends Component
     public $client_payment_create_sales_agent_id = '';
     public $client_payment_create_recurring = 0.00;
     public $client_payment_create_sale_or_upsell = '';
+    public $client_payment_create_show_service_forms = [];
 
     public $message_client_client_id = '';
     public $message_client_message = '';
@@ -436,6 +437,26 @@ class BrandDashboard extends Component
             'client_payment_create_payment_type' => 'required',
             'client_payment_create_merchant' => 'required'
         ]);
+
+        if ($this->client_payment_create_show_service_forms) {
+            $client = Client::find($this->client_payment_create_client_id);
+            $client_show_service_forms = explode(',', $client->show_service_forms) ?? [];
+
+            foreach (($this->client_payment_create_show_service_forms['on'] ?? []) as $item) {
+                $client_show_service_forms []= $item;
+            }
+
+            foreach (($this->client_payment_create_show_service_forms['off'] ?? []) as $item) {
+                $search_key = array_search($item, $client_show_service_forms);
+                if (array_key_exists($search_key, $client_show_service_forms)) {
+                    unset($client_show_service_forms[$search_key]);
+                }
+            }
+            unset($client_show_service_forms[""]);
+
+            $client->show_service_forms = implode(',', array_unique($client_show_service_forms));
+            $client->save();
+        }
 
         $latest = Invoice::latest()->first();
         if (! $latest) {

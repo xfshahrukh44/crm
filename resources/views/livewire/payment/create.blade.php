@@ -55,6 +55,17 @@
                                     </select>
                                     @error('client_payment_create_service') <span class="error text-danger">{{ $message }}</span> @enderror
                                 </div>
+                                <div class="col-md-4 form-group mb-3" wire:ignore>
+                                    <label>
+                                        <b>Select which forms the client will see</b>
+                                    </label>
+                                    <div class="row form-group" id="show_service_form_checkboxes">
+
+                                    </div>
+                                    <div id="tickboxes_wrapper">
+
+                                    </div>
+                                </div>
                                 <div class="col-md-4 form-group mb-3">
                                     <label for="package">Package <span>*</span></label>
                                     <select wire:model="client_payment_create_package" id="package" class="form-control">

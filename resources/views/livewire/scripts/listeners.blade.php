@@ -229,6 +229,64 @@
         $('#assignModel').modal('show');
     }
 
+    @php
+        $services = \App\Models\Service::all();
+    @endphp
+    @if($services)
+        let service_map = {};
+        @foreach($services as $service)
+            service_map['{{$service->id}}'] = '{{$service->name}}';
+        @endforeach
+
+        let tickbox_array = {};
+
+        $('body').on('change', '#service', function () {
+            $('#show_service_form_checkboxes').html('');
+            $('#tickboxes_wrapper').html('');
+            tickbox_array = {};
+            let service_ids = $(this).val();
+
+            tickbox_array['on'] = [];
+            for (const service_id of service_ids) {
+                $('#show_service_form_checkboxes').append(`<div class="col-md-12">
+                                                                <input type="checkbox" data-id="`+service_id+`" data-name="`+service_map[service_id]+`" class="service_tickbox" value="`+service_id+`" checked>
+                                                                <label for="service_`+service_id+`">`+service_map[service_id]+`</label>
+                                                            </div>`);
+
+                tickbox_array['on'].push(service_id);
+                $('#tickboxes_wrapper').append(`<input type="hidden" wire:model="client_payment_create_show_service_forms[on][]" value="`+service_id+`">`);
+            }
+
+            Livewire.emit('mutate', {
+                name: 'client_payment_create_show_service_forms',
+                value: tickbox_array,
+            });
+        });
+
+        $('body').on('change', '.service_tickbox', function () {
+            $('#tickboxes_wrapper').html('');
+            tickbox_array = {};
+            tickbox_array['on'] = [];
+            tickbox_array['off'] = [];
+
+            $('.service_tickbox').each((i, item) => {
+                if ($(item).is(':checked')) {
+                    tickbox_array['on'].push($(item).data('id'));
+                    $('#tickboxes_wrapper').append(`<input type="hidden" wire:model="client_payment_create_show_service_forms[on][]" value="`+$(item).data('id')+`">`);
+                } else {
+                    tickbox_array['off'].push($(item).data('id'));
+                    $('#tickboxes_wrapper').append(`<input type="hidden" wire:model="client_payment_create_show_service_forms[off][]" value="`+$(item).data('id')+`">`);
+                }
+            });
+
+            Livewire.emit('mutate', {
+                name: 'client_payment_create_show_service_forms',
+                value: tickbox_array,
+            });
+
+        });
+    @endif
+
     $('body').on('click', '.auth_create', function () {
         var id = $(this).data('id');
         var pass = generatePassword();
