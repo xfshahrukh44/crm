@@ -11,7 +11,7 @@
             <div class="card-body">
                 <div class="card-title mb-3">Service Form</div>
                 <form class="form" action="{{route('service.store')}}" method="POST" enctype="multipart/form-data">
-                    @csrf   
+                    @csrf
                     <div class="form-body">
                         <div class="row">
                             <div class="col-md-4 form-group mb-3">
@@ -108,7 +108,7 @@
                                     <span class="btn btn-dark btn-sm">Book Printing Form</span>
                                     @elseif($datas->form == 13)
                                     <span class="btn btn-primary btn-sm">SEO Form</span>
-                                    @endif
+{{--                                    @endif--}}
                                     @elseif($datas->form == 14)
                                     <span class="btn btn-primary btn-sm">Book Marketing</span>
                                     @elseif($datas->form == 15)
