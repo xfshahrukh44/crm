@@ -41,6 +41,14 @@
             </h5>
         </div>
     @endif
+
+    @if(in_array(auth()->user()->is_employee, [0, 2, 4, 6]))
+        <div class="breadcrumb">
+            <h5>
+                <a href="#" wire:click="set_active_page('client_create-0')" class="badge badge-info">Create client</a>
+            </h5>
+        </div>
+    @endif
     <div class="separator-breadcrumb border-top"></div>
     <div class="row mb-4">
         <div class="col-md-12">
