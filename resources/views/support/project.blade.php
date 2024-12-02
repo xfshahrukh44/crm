@@ -88,9 +88,11 @@
                                     </a>
                                 </td>
                                 <td>
+                                    @if($datas->client)
                                     <a href="{{ route('support.message.show.id', ['id' => $datas->client->id ,'name' => $datas->client->name]) }}" class="btn btn-secondary btn-sm">
                                         Message
                                     </a>
+                                    @endif
                                     @if($datas->form_checker != 0)
                                     <a href="{{ route('support.form', [ 'form_id' => $datas->form_id , 'check' => $datas->form_checker, 'id' => $datas->id]) }}" class="btn btn-primary btn-icon btn-sm">
                                         View Form

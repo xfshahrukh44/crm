@@ -2100,7 +2100,7 @@ class InvoiceController extends Controller
 
     public function managerRefundCBSubmit (Request $request)
     {
-        $request->validate([
+        $request->validate([s
             'invoice_number' => 'required',
             'refunded_cb' => 'required',
             'refund_cb_date' => 'required',
