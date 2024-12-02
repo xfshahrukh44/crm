@@ -98,7 +98,7 @@
                                         View Form
                                     </a>
                                     @endif
-                                    @if($datas && $datas->id)
+                                    @if($datas && $datas->id && $datas->name)
                                     <a href="{{ route('create.task.by.project.id', ['id' => $datas->id, 'name' => preg_replace('/[^A-Za-z0-9\-]/', '', strtolower(str_replace(' ', '-', $datas->name))) ]) }}" class="btn btn-dark btn-icon btn-sm">
                                         Create Task
                                     </a>
