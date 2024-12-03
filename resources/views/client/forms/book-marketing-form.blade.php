@@ -47,19 +47,19 @@
                 </div>
                 <div class="col-md-12 form-group mb-3">
                     <label for="desired_results" class="mr-2">Increase in Page Likes/Followers</label>
-                    <input class="" name="desired_results[]" value="Increase in Page Likes/Followers" type="checkbox" {!! in_array('Increase in Page Likes/Followers', (json_decode($forms->desired_results) ?? []])) ? 'checked' : '' !!}/>
+                    <input class="" name="desired_results[]" value="Increase in Page Likes/Followers" type="checkbox" {!! in_array('Increase in Page Likes/Followers', (json_decode($forms->desired_results) ?? [])) ? 'checked' : '' !!}/>
                     <br>
 
                     <label for="desired_results" class="mr-2">Targeted Advertisement</label>
-                    <input class="" name="desired_results[]" value="Targeted Advertisement" type="checkbox" {!! in_array('Targeted Advertisement', (json_decode($forms->desired_results) ?? []])) ? 'checked' : '' !!}/>
+                    <input class="" name="desired_results[]" value="Targeted Advertisement" type="checkbox" {!! in_array('Targeted Advertisement', (json_decode($forms->desired_results) ?? [])) ? 'checked' : '' !!}/>
                     <br>
 
                     <label for="desired_results" class="mr-2">Social Media Management</label>
-                    <input class="" name="desired_results[]" value="Social Media Management" type="checkbox" {!! in_array('Social Media Management', (json_decode($forms->desired_results) ?? []])) ? 'checked' : '' !!}/>
+                    <input class="" name="desired_results[]" value="Social Media Management" type="checkbox" {!! in_array('Social Media Management', (json_decode($forms->desired_results) ?? [])) ? 'checked' : '' !!}/>
                     <br>
 
                     <label for="desired_results" class="mr-2">Brand Awareness</label>
-                    <input class="" name="desired_results[]" value="Brand Awareness" type="checkbox" {!! in_array('Brand Awareness', (json_decode($forms->desired_results) ?? []])) ? 'checked' : '' !!}/>
+                    <input class="" name="desired_results[]" value="Brand Awareness" type="checkbox" {!! in_array('Brand Awareness', (json_decode($forms->desired_results) ?? [])) ? 'checked' : '' !!}/>
                     <br>
 
                 </div>
@@ -186,19 +186,19 @@
                 </div>
                 <div class="col-md-12 form-group mb-3">
                     <label for="social_media_platforms" class="mr-2">Facebook</label>
-                    <input class="" name="social_media_platforms[]" value="Facebook" type="checkbox" {!! in_array('Facebook', (json_decode($forms->social_media_platforms) ?? []])) ? 'checked' : '' !!}/>
+                    <input class="" name="social_media_platforms[]" value="Facebook" type="checkbox" {!! in_array('Facebook', (json_decode($forms->social_media_platforms) ?? [])) ? 'checked' : '' !!}/>
                     <br>
 
                     <label for="social_media_platforms" class="mr-2">Twitter</label>
-                    <input class="" name="social_media_platforms[]" value="Twitter" type="checkbox" {!! in_array('Twitter', (json_decode($forms->social_media_platforms) ?? []])) ? 'checked' : '' !!}/>
+                    <input class="" name="social_media_platforms[]" value="Twitter" type="checkbox" {!! in_array('Twitter', (json_decode($forms->social_media_platforms) ?? [])) ? 'checked' : '' !!}/>
                     <br>
 
                     <label for="social_media_platforms" class="mr-2">Instagram</label>
-                    <input class="" name="social_media_platforms[]" value="Instagram" type="checkbox" {!! in_array('Instagram', (json_decode($forms->social_media_platforms) ?? []])) ? 'checked' : '' !!}/>
+                    <input class="" name="social_media_platforms[]" value="Instagram" type="checkbox" {!! in_array('Instagram', (json_decode($forms->social_media_platforms) ?? [])) ? 'checked' : '' !!}/>
                     <br>
 
                     <label for="social_media_platforms" class="mr-2">Pinterest</label>
-                    <input class="" name="social_media_platforms[]" value="Pinterest" type="checkbox" {!! in_array('Pinterest', (json_decode($forms->social_media_platforms) ?? []])) ? 'checked' : '' !!}/>
+                    <input class="" name="social_media_platforms[]" value="Pinterest" type="checkbox" {!! in_array('Pinterest', (json_decode($forms->social_media_platforms) ?? [])) ? 'checked' : '' !!}/>
                     <br>
 
                     <label for="social_media_platforms" class="mr-2">Youtube</label>
