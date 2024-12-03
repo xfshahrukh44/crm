@@ -117,7 +117,7 @@ class AuthorWebsiteController extends Controller
                         $form_files->name = $file_name;
                         $form_files->path = $name;
                         $form_files->logo_form_id = $author_website_form->id;
-                        $form_files->form_code = 6;
+                        $form_files->form_code = 8;
                         $form_files->save();
                     }
                 }
