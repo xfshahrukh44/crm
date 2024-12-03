@@ -237,7 +237,7 @@ class BrandDashboard extends Component
                 });
             })
             ->orderBy('created_at', 'DESC')
-            ->paginate(30);
+            ->paginate(36);
 
         return view('livewire.brand-dashboard', compact('brands'))->extends($this->layout);
     }
