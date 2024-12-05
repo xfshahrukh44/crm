@@ -119,6 +119,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         //invoices
         Route::get('/client/invoice', [ClientInvoiceController::class, 'getInvoiceByUserId'])->name('client.invoice');
+        Route::get('/client/invoice-detail/{id}', [ClientInvoiceController::class, 'invoiceDetail'])->name('client.invoice-detail');
         Route::get('/client/pay-with-authorize/{id}', [ClientInvoiceController::class, 'payWithAuthorize'])->name('client.pay.with.authorize')->withoutMiddleware(['auth', 'is_client']);
         Route::post('/client/pay-with-authorize-submit/{id}', [ClientInvoiceController::class, 'payWithAuthorizeSubmit'])->name('client.pay.with.authorize.submit')->withoutMiddleware(['auth', 'is_client']);
     });
@@ -476,6 +477,7 @@ Route::get('redirect-to-livewire', function (Request $request) {
 Route::post('stripe-invoice-paid', [StripeController::class, 'stripe_invoice_paid'])->name('stripe.invoice.paid')->withoutMiddleware('verify.csrf.token');
 
 Route::get('temp', function () {
+    return view('client.new-invoice-list');
 //    foreach (\App\Models\Client::all() as $client) {
 //        populate_clients_show_service_forms($client);
 //    }

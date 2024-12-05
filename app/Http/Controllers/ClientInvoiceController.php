@@ -17,7 +17,15 @@ class ClientInvoiceController extends Controller
         $data = $data->orderBy('id', 'desc')->where('client_id', auth()->user()->client_id)->where('brand', $user_client->brand_id);
         $data = $data->paginate(10);
 
-        return view('client.invoice.index', compact('data'));
+//        return view('client.invoice.index', compact('data'));
+        return view('client.new-invoice-list', compact('data'));
+    }
+    public function invoiceDetail (Request $request, $id){
+        if (!$invoice = Invoice::find($id)) {
+            return redirect()->back()->with('error', 'Invoice not found.');
+        }
+
+        return view('client.invoice-detail', compact('invoice'));
     }
 
     public function payWithAuthorize (Request $request, $id){
