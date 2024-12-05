@@ -23,10 +23,10 @@ class AdminController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        
-     
+
+
     }
-    
+
     public function dashboard()
     {
         try {
@@ -85,13 +85,13 @@ class AdminController extends Controller
     public function verifyCode(Request $request){
         $user = DB::table('users')->where('email', Auth::user()->email)->where('verfication_code', $request->code)->first();
         if($user == null){
-            return redirect()->back()->with('error', 'No Code Found in this Email.');   
+            return redirect()->back()->with('error', 'No Code Found in this Email.');
         }else{
             $now_date = date('Y-m-d h:i:s');
             $verfication_code = date('Y-m-d H:i:s', strtotime($user->verfication_datetime . ' +1 day'));
             if ($verfication_code < $now_date) {
                 // Vericiation Expire
-                return redirect()->back()->with('error', 'Vericiation Expire.');   
+                return redirect()->back()->with('error', 'Vericiation Expire.');
             }else{
                 Session::put('valid_user', true);
                 if(Auth::user()->is_employee == 2){
@@ -104,9 +104,11 @@ class AdminController extends Controller
                     return redirect()->route('production.dashboard');
                 }else if(Auth::user()->is_employee == 5){
                     return redirect()->route('member.dashboard');
+                }else if(Auth::user()->is_employee == 7){
+                    return redirect()->route('qa.dashboard');
                 }
             }
-            
+
         }
     }
 
