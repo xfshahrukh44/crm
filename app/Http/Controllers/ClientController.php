@@ -234,7 +234,7 @@ class ClientController extends Controller
      */
 
     public function managerClientUpdate(Request $request, Client $client)
-    {  
+    {
         $request->validate([
             'name' => 'required',
             'status' => 'required'
@@ -426,9 +426,9 @@ class ClientController extends Controller
                 array_push($data, $bookcover);
             }
         }
-        
+
         // Add two New Form
-        
+
         if(count(Auth()->user()->isbnForm) != 0){
             foreach(Auth()->user()->isbnForm as $isbnform){
                 $isbnform = Isbnform::whereHas('invoice')->find($isbnform->id);
@@ -441,8 +441,8 @@ class ClientController extends Controller
                 array_push($data, $isbnform);
             }
         }
-        
-        
+
+
         if(count(Auth()->user()->bookPrintingForm) != 0){
             foreach(Auth()->user()->bookPrintingForm as $bookprinting){
                 $bookprinting = Bookprinting::whereHas('invoice')->find($bookprinting->id);
@@ -491,12 +491,13 @@ class ClientController extends Controller
                 array_push($data, $new_smm_form);
             }
         }
-        
-        
-        
-        return view('client.brief', compact('data'));
+
+
+
+//        return view('client.brief', compact('data'));
+        return view('client.brief-forms', compact('data'));
     }
-    
+
     public function getAssignedClient(){
         $data = Client::where('assign_id', Auth()->user()->id)->get();
         return view('sale.client.assigned', compact('data'));

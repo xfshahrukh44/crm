@@ -83,7 +83,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item" data-step='1'>
-                                    <a class="nav-link" href="brief-form.php">
+                                    <a class="nav-link" href="{{route('client.brief')}}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#0076c2"
                                              class="bi bi-card-text" viewBox="0 0 16 16">
                                             <path
