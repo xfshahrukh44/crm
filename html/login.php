@@ -39,11 +39,10 @@
                         <p>Please enter your information here to view details</p>
                     </div>
                     <div class="log-in-foam">
-                        <form class="form-horizontal form-simple"  action="{{ route('login') }}" method="post">
-                            @csrf
+                        <form>
                             <div class="cridentials">
                                 <label for="exampleInputEmail1" class="form-label">E-Email</label>
-                                <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" placeholder="Enter your email address" value="{{ old('email') }}" autofocus
+                                <input type="email" class="form-control" placeholder="Enter your email address"
                                        id="exampleInputEmail1" aria-describedby="emailHelp">
                                 <span class="icons">
                                     <img src="{{asset('images/icon-1.png')}}" class="img-fluid" alt="">
@@ -51,25 +50,21 @@
                             </div>
                             <div class="cridentials">
                                 <label for="exampleInputPassword1" class="form-label">Password</label>
-                                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Enter your password " id="exampleInputPassword1">
+                                <input type="password" class="form-control" placeholder="Enter your password "
+                                       id="exampleInputPassword1">
                                 <span class="icons">
                                     <img src="{{asset('images/icon-2.png')}}" class="img-fluid" alt="">
                                 </span>
-                                @if (\Session::has('error'))
-                                    <span class="invalid-feedback d-block" role="alert">
-                                        <strong>{!! \Session::get('error') !!}</strong>
-                                    </span>
-                                @endif
                             </div>
-{{--                            <div class="cridentials-check form-check">--}}
-{{--                                <span>--}}
-{{--                                    <input type="checkbox" class="form-check-input" id="exampleCheck1">--}}
-{{--                                    <label class="form-check-label" for="exampleCheck1">Remeber me</label>--}}
-{{--                                </span>--}}
-{{--                                <span class="forget-pass">--}}
-{{--                                    <a href="javascript:;">Forget Password</a>--}}
-{{--                                </span>--}}
-{{--                            </div>--}}
+                            <div class="cridentials-check form-check">
+                                <span>
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                    <label class="form-check-label" for="exampleCheck1">Remeber me</label>
+                                </span>
+                                <span class="forget-pass">
+                                    <a href="javascript:;">Forget Password</a>
+                                </span>
+                            </div>
                             <button type="submit" class="btn custom-btn-login">Submit</button>
 
 
@@ -139,4 +134,3 @@
 </body>
 
 </html>
-
