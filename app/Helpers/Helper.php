@@ -40,6 +40,10 @@ use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\controller as AnetController;
 
 function mail_notification ($from, $to, $subject, $html, $for_admin = false) {
+    if(env('APP_URL') == 'http://localhost/crm/public') {
+        return true;
+    }
+
     try {
         $mails = $to;
 

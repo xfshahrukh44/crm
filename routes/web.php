@@ -477,7 +477,7 @@ Route::get('redirect-to-livewire', function (Request $request) {
 Route::post('stripe-invoice-paid', [StripeController::class, 'stripe_invoice_paid'])->name('stripe.invoice.paid')->withoutMiddleware('verify.csrf.token');
 
 Route::get('temp', function () {
-    return view('client.new-invoice-list');
+//    return view('client.messages');
 //    foreach (\App\Models\Client::all() as $client) {
 //        populate_clients_show_service_forms($client);
 //    }

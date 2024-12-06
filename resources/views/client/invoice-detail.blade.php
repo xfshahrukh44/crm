@@ -7,7 +7,22 @@
 
 @section('content')
     <section class="invoice-listing invoice">
-        <div class="container bg-colored">
+        <div id="loading-screen" style="
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            text-align: center;
+            color: white;
+            font-size: 20px;
+            line-height: 100vh;">
+            Generating PDF, please wait...
+        </div>
+        <div class="container bg-colored" id="selector">
             <div class="row align-items-start invoice-listing-select-bar">
                 <div class="col-lg-7">
                     <div class="invoice-header">
@@ -20,10 +35,10 @@
                             </p>
                         </div>
                         <div class="right-invoice-header">
-                            <button>
-                                <img src="{{asset('images/eye.png')}}" class="img-fluid" alt="">
-                            </button>
-                            <button>
+{{--                            <button>--}}
+{{--                                <img src="{{asset('images/eye.png')}}" class="img-fluid" alt="">--}}
+{{--                            </button>--}}
+                            <button id="generate-pdf">
                                 <img src="{{asset('images/document-downloa.png')}}" class="img-fluid" alt="">
                             </button>
                         </div>
@@ -166,6 +181,52 @@
     </section>
 @endsection
 
-@section('scripts')
+@section('script')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(document).ready(function () {
+                $('#generate-pdf').on('click', function () {
+                    $('#loading-screen').show(); // Show loading screen
 
+                    const element = $('#selector')[0]; // Get the DOM element
+
+                    html2canvas(element, {
+                        scale: 2, // Lower scale reduces resolution (try 2 for a balance of quality and size)
+                        width: 1920, // Simulate large desktop width
+                        height: element.scrollHeight, // Use the element's full height
+                        windowWidth: 1920, // Force the canvas to render at desktop width
+                    }).then((canvas) => {
+                        const imgData = canvas.toDataURL('image/jpeg', 0.75); // Use JPEG format with 75% quality
+
+                        // Initialize jsPDF in landscape mode
+                        const pdf = new jspdf.jsPDF('landscape', 'mm', 'a4'); // A4 size in mm
+
+                        // Get A4 dimensions in jsPDF
+                        const pageWidth = pdf.internal.pageSize.getWidth();
+                        const pageHeight = pdf.internal.pageSize.getHeight();
+
+                        // Scale the image to fit the PDF page while maintaining aspect ratio
+                        const imgWidth = pageWidth;
+                        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                        if (imgHeight > pageHeight) {
+                            // If the image height exceeds the page height, adjust width and height proportionally
+                            const ratio = pageHeight / imgHeight;
+                            pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth * ratio, pageHeight);
+                        } else {
+                            // Otherwise, center the image vertically
+                            const yOffset = (pageHeight - imgHeight) / 2;
+                            pdf.addImage(imgData, 'JPEG', 0, yOffset, imgWidth, imgHeight);
+                        }
+
+                        pdf.save('download.pdf'); // Save the PDF
+                    }).finally(() => {
+                        $('#loading-screen').hide(); // Hide loading screen
+                    });
+                });
+            });
+        });
+    </script>
 @endsection

@@ -36,7 +36,7 @@ class ClientChatController extends Controller
         $this->middleware('auth');
     }
 
-    
+
     public function clientHome(){
         return view('client.home');
     }

@@ -2,7 +2,11 @@
 @section('title', 'Brief forms')
 
 @section('css')
-
+    <style>
+        input[type="file"] {
+            display: block !important;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -4024,6 +4028,77 @@
     </section>
 @endsection
 
-@section('scripts')
+@section('script')
 
+    <script>
+        $(document).ready(function(){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $('.delete-file').click(function(){
+                var id = $(this).data('id');
+                var e = $(this);
+                swal({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#0CC27E',
+                    cancelButtonColor: '#FF586B',
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    confirmButtonClass: 'btn btn-success mr-5',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false
+                }).then(function () {
+                    $.ajax({
+                        type:'POST',
+                        url:"{{ route('client.logo.form.file.delete') }}",
+                        data:{id:id},
+                        success:function(data){
+                            if(data.success == true){
+                                swal({
+                                    type: 'success',
+                                    title: 'Success!',
+                                    text: data.message,
+                                    timer: 2000,
+                                    showCancelButton: false,
+                                    showConfirmButton: false
+                                });
+                                $(e).parents('.col-md-3').remove();
+                            }else{
+                                swal({
+                                    type: 'error',
+                                    title: 'Error!',
+                                    text: data.message,
+                                    timer: 2000,
+                                    showCancelButton: false,
+                                    showConfirmButton: false
+                                });
+                            }
+                        }
+                    });
+                }, function (dismiss) {
+                    if (dismiss === 'cancel') {
+                        swal('Cancelled', 'Your imaginary file is safe :)', 'error');
+                    }
+                });
+            })
+        });
+
+        $('.brief-form').submit(function(e){
+            $error = 0;
+            $(this).find('[data-name]').each(function(){
+                if($('input[name="'+$(this).attr('name')+'"]:checked').length == 0){
+                    toastr.error('Select Atleast One', $(this).data('value'));
+                    $error++;
+                }
+            });
+            if($error != 0){
+                e.preventDefault();
+            }
+        })
+    </script>
 @endsection

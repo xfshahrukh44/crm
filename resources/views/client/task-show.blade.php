@@ -117,30 +117,30 @@
                                     </div>
                                     <div class="file-wrapper">
                                         @if(count($message->sended_client_files) != 0)
-                                        @foreach($message->sended_client_files as $key => $client_file)
-                                        <ul>
-                                            <li>
-                                                <button class="btn btn-dark btn-sm">{{++$key}}</button>
-                                            </li>
-                                            <li>
-                                                @if(($client_file->get_extension() == 'jpg') || ($client_file->get_extension() == 'png') || (($client_file->get_extension() == 'jpeg')))
-                                                <a href="{{asset('files/'.$client_file->path)}}" target="_blank">
-                                                    <img src="{{asset('files/'.$client_file->path)}}" alt="{{$client_file->name}}" width="40">
-                                                </a>
-                                                @else
-                                                <a href="{{asset('files/'.$client_file->path)}}" target="_blank">
-                                                    {{$client_file->name}}.{{$client_file->get_extension()}}
-                                                </a>
-                                                @endif
-                                            </li>
-                                            <li>
-                                                <a href="{{asset('files/'.$client_file->path)}}" target="_blank">{{$client_file->name}}</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{asset('files/'.$client_file->path)}}" download>Download</a>
-                                            </li>
-                                        </ul>
-                                        @endforeach
+                                            @foreach($message->sended_client_files as $key => $client_file)
+                                                <ul>
+                                                    <li>
+                                                        <button class="btn btn-dark btn-sm">{{++$key}}</button>
+                                                    </li>
+                                                    <li>
+                                                        @if(($client_file->get_extension() == 'jpg') || ($client_file->get_extension() == 'png') || (($client_file->get_extension() == 'jpeg')))
+                                                        <a href="{{asset('files/'.$client_file->path)}}" target="_blank">
+                                                            <img src="{{asset('files/'.$client_file->path)}}" alt="{{$client_file->name}}" width="40">
+                                                        </a>
+                                                        @else
+                                                        <a href="{{asset('files/'.$client_file->path)}}" target="_blank">
+                                                            {{$client_file->name}}.{{$client_file->get_extension()}}
+                                                        </a>
+                                                        @endif
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{asset('files/'.$client_file->path)}}" target="_blank">{{$client_file->name}}</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{asset('files/'.$client_file->path)}}" download>Download</a>
+                                                    </li>
+                                                </ul>
+                                            @endforeach
                                         @endif
                                     </div>
                                 </div>

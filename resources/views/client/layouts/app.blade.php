@@ -71,7 +71,7 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center custom-menu">
                                 <li class="nav-item" data-step='2'>
-                                    <a class="nav-link" aria-current="page" href="messages.php">
+                                    <a class="nav-link" aria-current="page" href="{{route('client.fetch.messages')}}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#0076c2"
                                              class="bi bi-chat-left" viewBox="0 0 16 16">
                                             <path
@@ -110,39 +110,48 @@
                                         </span>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="login.php">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#0076c2"
-                                             class="bi bi-box-arrow-right" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd"
-                                                  d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
-                                            <path fill-rule="evenodd"
-                                                  d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
-                                        </svg>
-                                        <span>
-            Logout
-        </span>
-                                    </a>
-                                </li>
+{{--                                <li class="nav-item">--}}
+{{--                                    <a class="nav-link" href="login.php">--}}
+{{--                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#0076c2"--}}
+{{--                                             class="bi bi-box-arrow-right" viewBox="0 0 16 16">--}}
+{{--                                            <path fill-rule="evenodd"--}}
+{{--                                                  d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>--}}
+{{--                                            <path fill-rule="evenodd"--}}
+{{--                                                  d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>--}}
+{{--                                        </svg>--}}
+{{--                                        <span>--}}
+{{--                                            Logout--}}
+{{--                                        </span>--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
                             </ul>
                             <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
                                 <div class="profile-detail">
-                                    <a href="setup-profile.php">
-                                        <img src="{{asset('images/profile-pic.png')}}" class="img-fluid" alt="">
+                                    <a href="#">
+                                        <img src="{{asset(auth()->user()->image ?? 'images/avatar.png')}}" class="img-fluid" alt="">
                                     </a>
                                 </div>
                                 <li class="nav-item dropdown profile-drop-down">
                                     <a class="nav-link dropdown-toggle" href="setup-profile.php" role="button"
                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        Jason Martin
+                                        {{auth()->user()->name . ' ' . auth()->user()->last_name}}
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Action</a></li>
-                                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                                        <li><a class="dropdown-item" href="#">Profile</a></li>
+{{--                                        <li><a class="dropdown-item" href="#">Another action</a></li>--}}
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+
+                                        <li>
+                                            <a class="dropdown-item" href="#"
+                                               onclick="event.preventDefault();
+                                               document.getElementById('logout-form').submit();"
+                                            >Logout</a>
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                @csrf
+                                            </form>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>
@@ -239,7 +248,7 @@
 
 </script>
 
-<script src="{{ asset('newglobal/js/jquery-3.3.1.min.js') }}"></script>
+{{--<script src="{{ asset('newglobal/js/jquery-3.3.1.min.js') }}"></script>--}}
 <script src="{{ asset('newglobal/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('newglobal/js/perfect-scrollbar.min.js') }}"></script>
 <script src="{{ asset('newglobal/js/script.min.js') }}"></script>
@@ -288,7 +297,7 @@
 </script>
 @yield('script')
 
-@stack('scripts')
+{{--@stack('scripts')--}}
 @if(session()->has('success'))
     <script>
         var timerInterval;
@@ -316,5 +325,3 @@
     @endforeach
     @endif
 </script>
-
-@yield('script')

@@ -711,7 +711,7 @@ span.chat-data {
     bottom: 30px;
     left: 20px;
     right: 0;
-    width: 94%;
+    width: 98%;
     /* background: #e7ebee; */
     background-color: rgb(231, 235, 238);
     height: auto;
@@ -1173,7 +1173,7 @@ input[type="file"] {
 .log-in-foam .cridentials input:-webkit-autofill {
     background-color: rgb(135, 135, 135) !important;  /* Change background color */
     transition: background-color 5000s ease-in-out 0s !important;  /* Prevent transition effect when autofilled */
-    color: rgb(135, 135, 135) !important;  /* Optional: Change text color 
+    color: rgb(135, 135, 135) !important;  /* Optional: Change text color
 }
 
 /* For Firefox */
