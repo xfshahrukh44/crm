@@ -12,6 +12,21 @@
                 ->get();
     @endphp
     <section class="dashboard my">
+        <div id="loading-screen" style="
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            text-align: center;
+            color: white;
+            font-size: 20px;
+            line-height: 100vh;">
+            Please wait...
+        </div>
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-12">
@@ -130,6 +145,14 @@
         $(document).ready(function () {
             var chatContainer = $('.conversions');
             chatContainer.scrollTop(chatContainer.prop('scrollHeight'));
+
+            $('#file-upload').on('change', function () {
+                toastr.success('File attached');
+            });
+
+            $('.form').on('submit', function (e) {
+                $('#loading-screen').show();
+            });
         });
 
         document.addEventListener("DOMContentLoaded", function () {
