@@ -70,6 +70,16 @@
                         </button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center custom-menu">
+                                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+                                @if(session()->has('coming-from-admin'))
+                                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+                                    <span>
+                                        <a href="{{route('admin.back_to_admin')}}" class="btn btn-info">
+                                            <i class="fas fa-arrow-left"></i>
+                                            Back to admin
+                                        </a>
+                                    </span>
+                                @endif
                                 <li class="nav-item" data-step='2'>
                                     <a class="nav-link" aria-current="page" href="{{route('client.fetch.messages')}}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#0076c2"

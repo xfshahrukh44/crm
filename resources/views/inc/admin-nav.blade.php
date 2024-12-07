@@ -161,6 +161,13 @@
                 </a>
                 <div class="triangle"></div>
             </li>
+            <li class="nav-item {{ (request()->routeIs('admin.sales.sheet')) ? 'active' : '' }}">
+                <a class="nav-item-hold" href="{{ route('admin.sales.sheet') }}">
+                    <i class="nav-icon i-Credit-Card"></i>
+                    <span class="nav-text">Admin Invoices</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
 
             <li class="nav-item {{ (request()->routeIs('admin.brief.pending')) || (request()->routeIs('admin.brief.pending') ) ? 'active' : '' }}">
                 <a class="nav-item-hold" href="{{ route('admin.brief.pending') }}">
