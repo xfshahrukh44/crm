@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminInvoiceController;
 use App\Http\Controllers\ClientInvoiceController;
 use App\Http\Controllers\Manager\ManagerUserController;
 use App\Http\Controllers\QAController;
@@ -187,11 +188,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/admin/invoice/refund', [InvoiceController::class, 'adminRefundCBSubmit'])->name('admin.refund.cb.submit');
         Route::get('/admin/invoice/sheet', [InvoiceController::class, 'adminSalesSheet'])->name('admin.sales.sheet');
 
-
         Route::get('message/edit/{id}', [SupportController::class, 'editMessageByAdminClientId'])->name('admin.message.edit');
         Route::post('message/update', [SupportController::class, 'updateAdminMessage'])->name('admin.message.update');
         Route::get('message', [SupportController::class, 'getMessageByAdmin'])->name('admin.message');
         Route::get('message/{id}/{name}/show', [SupportController::class, 'getMessageByAdminClientId'])->name('admin.message.show');
+
+        Route::get('admin-invoices', [AdminInvoiceController::class, 'index'])->name('admin.admin-invoice.index');
+        Route::get('admin-invoices/create', [AdminInvoiceController::class, 'create'])->name('admin.admin-invoice.create');
+        Route::post('admin-invoices/create', [AdminInvoiceController::class, 'store'])->name('admin.admin-invoice.store');
 
         Route::get('login-bypass', function () {
             session()->put('coming-from-admin', true);

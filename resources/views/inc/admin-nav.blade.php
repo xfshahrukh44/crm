@@ -161,8 +161,8 @@
                 </a>
                 <div class="triangle"></div>
             </li>
-            <li class="nav-item {{ (request()->routeIs('admin.sales.sheet')) ? 'active' : '' }}">
-                <a class="nav-item-hold" href="{{ route('admin.sales.sheet') }}">
+            <li class="nav-item {{ (request()->routeIs('admin.admin-invoice.index')) ? 'active' : '' }}">
+                <a class="nav-item-hold" href="{{ route('admin.admin-invoice.index') }}">
                     <i class="nav-icon i-Credit-Card"></i>
                     <span class="nav-text">Admin Invoices</span>
                 </a>
