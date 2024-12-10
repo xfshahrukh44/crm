@@ -28,7 +28,14 @@ class AdminInvoice extends Model
         'payment_id',
         'invoice_number',
         'refund_cb',
-        'refund_cb_date'
+        'refund_cb_date',
+        'date',
+        'service_name',
+        'sales_person_name',
+        'transfer_by_name',
+        'brand_name',
+        'merchant_name',
+        'sr_no',
     ];
 
     public function sale(){

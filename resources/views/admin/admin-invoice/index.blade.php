@@ -2,15 +2,26 @@
 
 @section('content')
 <div class="breadcrumb row">
-    <div class="col-md-8">
+    <div class="col-md-10">
         <h1>Admin Invoice List</h1>
         <ul>
             <li><a href="#">Admin Invoice</a></li>
             <li>Admin Invoice List</li>
         </ul>
     </div>
-    <div class="col-md-4 text-right">
-        <a href="{{ route('admin.admin-invoice.create') }}" class="btn btn-primary">Create Admin Invoice</a>
+{{--    <div class="col-md-2 text-right">--}}
+{{--        <a href="{{ route('admin.admin-invoice.create') }}" class="btn btn-primary btn-block">Create</a>--}}
+{{--    </div>--}}
+    <div class="col-md-2 text-right">
+        <a href="#" class="btn btn-success btn-block" id="btn_import">
+            <i class="fas fa-file-excel"></i>
+            IMPORT
+        </a>
+        <span id="error-message" style="color: red; display: none;">Only .xlsx files are allowed!</span>
+        <form action="{{route('admin.admin-invoice.import')}}" method="POST" id="form_import" enctype="multipart/form-data" hidden>
+            @csrf
+            <input name="file" type="file" id="input_file" accept=".xlsx, .xls">
+        </form>
     </div>
 </div>
 <div class="separator-breadcrumb border-top"></div>
@@ -49,44 +60,25 @@
                         <tbody>
                             @foreach($admin_invoices as $admin_invoice)
                                 <tr>
-                                    <td>{{$admin_invoice->id}}</td>
+                                    <td>{{$admin_invoice->sr_no}}</td>
                                     <td>{{$admin_invoice->client_id ?? 'N/A'}}</td>
                                     <td>{{$admin_invoice->client_name ?? 'N/A'}}</td>
                                     <td>{{$admin_invoice->client_email ?? 'N/A'}}</td>
                                     <td>{{$admin_invoice->client_phone ?? 'N/A'}}</td>
-                                    <td>
-                                        @php
-                                            $service_list = explode(',', $admin_invoice->service);
-                                        @endphp
-                                        @for($i = 0; $i < count($service_list); $i++)
-                                            @if($service_list[$i])
-                                                @php
-                                                    $service_list_name = '';
-                                                    $var_check = $admin_invoice->services($service_list[$i]);
-                                                    $words = $var_check ? explode(" ", $var_check->name) : [];
-                                                @endphp
-                                                @for($j = 0; $j < count($words); $j++)
-                                                    @php
-                                                        $service_list_name .= $words[$j][0];
-                                                    @endphp
-                                                @endfor
-                                                <span class="btn btn-info btn-sm mb-1">{{ $service_list_name }}</span>
-                                            @endif
-                                        @endfor
-                                    </td>
+                                    <td>{{$admin_invoice->service_name ?? 'N/A'}}</td>
                                     <td>{{ $admin_invoice->currency_show->sign }}{{ $admin_invoice->amount }}</td>
                                     <td>{{ $admin_invoice->currency_show->sign }}{{ $admin_invoice->recurring }}</td>
                                     <td>
-                                        <button class="btn btn-sm btn-secondary mb-1">{{ date('g:i a', strtotime($admin_invoice->created_at)) }}</button>
-                                        <button class="btn btn-sm btn-secondary">{{ date('d M, Y', strtotime($admin_invoice->created_at)) }}</button>
+                                        <button class="btn btn-sm btn-secondary mb-1">{{ date('g:i a', strtotime($admin_invoice->date)) }}</button>
+                                        <button class="btn btn-sm btn-secondary">{{ date('d M, Y', strtotime($admin_invoice->date)) }}</button>
                                     </td>
-                                    <td>{{ $admin_invoice->sale->name ?? '' }} {{ $admin_invoice->sale->last_name ?? '' }}</td>
+                                    <td>{{ $admin_invoice->sales_person_name ?? '' }}</td>
                                     <td>{{$admin_invoice->sale_upsell ?? 'N/A'}}</td>
-                                    <td>{{ $admin_invoice->transfer->name ?? '' }} {{ $admin_invoice->transfer->last_name ?? '' }}</td>
+                                    <td>{{ $admin_invoice->transfer_by_name ?? '' }}</td>
                                     <td>{{$admin_invoice->department ?? 'N/A'}}</td>
-                                    <td><span class="btn btn-primary btn-sm">{{ $admin_invoice->brands->name ?? 'N/a' }}</span></td>
+                                    <td>{{ $admin_invoice->brand_name ?? 'N/A' }}</td>
                                     <td>{{$admin_invoice->type ?? 'N/A'}}</td>
-                                    <td><span class="btn btn-primary btn-sm">{{ $admin_invoice->merchant->name ?? 'N/a' }}</span></td>
+                                    <td>{{ $admin_invoice->merchant_name ?? 'N/A' }}</td>
                                     <td>{{$admin_invoice->payment_id ?? 'N/A'}}</td>
                                     <td><span class="btn btn-primary btn-sm">#{{ $admin_invoice->invoice_number }}</span></td>
                                     <td>{{ $admin_invoice->currency_show->sign }}{{ $admin_invoice->refund_cb }}</td>
@@ -115,6 +107,29 @@
                     order: [[0, "desc"]]
                 });
             }
+
+            $('#btn_import').on('click', function () {
+                $('#input_file').click();
+            });
+
+            $('#input_file').on('change', function () {
+                const fileInput = $(this)[0];
+                const file = fileInput.files[0];
+                const errorMessage = $('#error-message');
+
+                if (file) {
+                    const fileName = file.name;
+                    const extension = fileName.split('.').pop().toLowerCase();
+
+                    if (extension !== 'xlsx') {
+                        errorMessage.show();
+                        $(this).val(''); // Clear the input
+                    } else {
+                        errorMessage.hide();
+                        $('#form_import').submit();
+                    }
+                }
+            });
         });
     </script>
 

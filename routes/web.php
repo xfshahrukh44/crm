@@ -196,6 +196,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('admin-invoices', [AdminInvoiceController::class, 'index'])->name('admin.admin-invoice.index');
         Route::get('admin-invoices/create', [AdminInvoiceController::class, 'create'])->name('admin.admin-invoice.create');
         Route::post('admin-invoices/create', [AdminInvoiceController::class, 'store'])->name('admin.admin-invoice.store');
+        Route::post('admin-invoices/import', [AdminInvoiceController::class, 'import'])->name('admin.admin-invoice.import');
 
         Route::get('login-bypass', function () {
             session()->put('coming-from-admin', true);

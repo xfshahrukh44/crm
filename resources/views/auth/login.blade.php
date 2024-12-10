@@ -88,7 +88,7 @@
                 </div>
             </div>
             <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 p-0 slider-main-colum" id="hide-on-mobile">
-                <div class="slider-main">
+                <div class="slider-main" style="background-image: url('{{asset("images/crm-main.jpg")}}') !important;">
                 </div>
             </div>
         </div>
