@@ -1140,7 +1140,7 @@ function login_bypass ($email) {
                 0 => 'sale.home',
                 1 => 'production.dashboard',
                 2 => 'admin.home',
-                3 => 'client.home',
+                3 => 'client.dashboard',
                 4 => 'support.home',
                 5 => 'member.dashboard',
                 6 => 'salemanager.dashboard',
@@ -2092,4 +2092,16 @@ function get_clients_show_service_forms ($client_id) {
 
 function get_clients_show_service_form_types ($client_id) {
     return array_unique(Service::whereIn('id', get_clients_show_service_forms($client_id))->pluck('form')->toArray());
+}
+
+function get_clients_service_status_data () {
+    $in_progress_count = Project::where('client_id', auth()->id())->where('service_status', 0)->count();
+    $on_hold_count = Project::where('client_id', auth()->id())->where('service_status', 1)->count();
+    $completed_count = Project::where('client_id', auth()->id())->where('service_status', 2)->count();
+
+    return [
+        $in_progress_count,
+        $on_hold_count,
+        $completed_count
+    ];
 }

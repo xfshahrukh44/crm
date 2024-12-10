@@ -38,7 +38,7 @@ class LoginController extends Controller
      *
      * @return void
      */
-     
+
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
@@ -46,8 +46,8 @@ class LoginController extends Controller
 
 
     public function login(Request $request)
-    {   
-        
+    {
+
         $input = $request->all();
         $this->validate($request, [
             'email' => 'required|email',
@@ -67,7 +67,7 @@ class LoginController extends Controller
                 $data = $this->checkUserValid($request);
                 return redirect()->to($data);
             }elseif(auth()->user()->is_employee == 3){
-                return redirect()->route('client.home');
+                return redirect()->route('client.dashboard');
             }elseif(auth()->user()->is_employee == 4){
                 $data = $this->checkUserValid($request);
                 return redirect()->to($data);
@@ -152,7 +152,7 @@ class LoginController extends Controller
             DB::table('users')
             ->where('id', auth()->user()->id)
             ->update(['verfication_code' => $bytes, 'verfication_datetime' => date('Y-m-d H:i:s')]);
-            
+
             $details = [
                 'title' => 'Verfication Code',
                 'body' => 'Your one time use Verfication code for email ' . auth()->user()->email . ' is ' . $bytes
@@ -179,5 +179,5 @@ class LoginController extends Controller
             // return redirect()->route('salemanager.verify');
         }
     }
-    
+
 }

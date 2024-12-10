@@ -60,6 +60,7 @@ class BrandDashboard extends Component
         'assign_pending' => 'assign_pending',
         'reassign_pending' => 'reassign_pending',
         'set_client_priority' => 'set_client_priority',
+        'set_project_priority' => 'set_project_priority',
     ];
 
     public $brand_name;
@@ -1216,6 +1217,18 @@ class BrandDashboard extends Component
             $client->save();
 
             $this->emit('success', "Client's priority updated!");
+        }
+
+        $this->render();
+    }
+
+    public function set_project_priority ($data)
+    {
+        if ($project = Project::find($data['project_id'])) {
+            $project->service_status = $data['value'];
+            $project->save();
+
+            $this->emit('success', "Service status updated!");
         }
 
         $this->render();

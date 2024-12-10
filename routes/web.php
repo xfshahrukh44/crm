@@ -86,6 +86,7 @@ Route::get('/send-notification/{task_id}/{role}', [TaskController::class, 'sendT
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'is_client'], function(){
         Route::get('client/home', [ClientController::class, 'clientTaskshow'])->name('client.home');
+        Route::get('client/dashboard', [ClientController::class, 'dashboard'])->name('client.dashboard');
         Route::get('client/chat', [ClientChatController::class, 'clientChat'])->name('client.chat');
         Route::get('client/messages', [ClientController::class, 'clientTaskshow'])->name('client.fetch.messages');
         Route::post('client/messages', [ClientChatController::class, 'sendMessage'])->name('client.send.messages');

@@ -539,4 +539,9 @@ class ClientController extends Controller
             return redirect()->back();
         }
     }
+
+    public function dashboard (Request $request)
+    {
+        return view('client.dashboard');
+    }
 }

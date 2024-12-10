@@ -60,7 +60,7 @@
             <div class="col-lg-12">
                 <nav class="navbar navbar-expand-lg">
                     <div class="container-fluid p-0">
-                        <a class="navbar-brand" href="index.php">
+                        <a class="navbar-brand" href="{{route('client.dashboard')}}">
                             <img src="{{asset('images/sidebarlogo.png')}}" class="img-fluid" alt="">
                         </a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -237,12 +237,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
 
 <script>
-    const rand = () =>
-        Array.from({length: 10}, () => Math.floor(Math.random() * 100));
-
-    // let data = rand();
-    const checkingData = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, .0, 0.0];
-    const savingsData = [300.27, 500.27, 150.27, 430.27, 170.27, 287.27, 100.27, 287.27, 500.27, 245.27];
+    // const rand = () =>
+    //     Array.from({length: 10}, () => Math.floor(Math.random() * 100));
+    //
+    // // let data = rand();
+    // const checkingData = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, .0, 0.0];
+    // const savingsData = [300.27, 500.27, 150.27, 430.27, 170.27, 287.27, 100.27, 287.27, 500.27, 245.27];
 
     // function addData(chart, data) {
     //   chart.data.datasets.forEach(dataset => {

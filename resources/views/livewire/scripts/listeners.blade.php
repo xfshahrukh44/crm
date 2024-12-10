@@ -337,6 +337,25 @@
             value: value
         });
     });
+
+    $('body').on('click', '.span_client_project_status_badge', function () {
+        let dropdown = $('#project_statusDropdown');
+        dropdown.css('display', dropdown.css('display') === "none" ? "block" : "none");
+    });
+
+    document.addEventListener("click", function (event) {
+        $('#project_statusDropdown').css('display', dropdown.css('display') === "none" ? "block" : "none");
+    });
+
+    $('body').on('click', '.badge_select_project_status', function () {
+        let project_id = $(this).data('project');
+        let value = $(this).data('value');
+
+        Livewire.emit('set_project_priority', {
+            project_id: project_id,
+            value: value
+        });
+    });
 </script>
 
 <script>

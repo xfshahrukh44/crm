@@ -19,6 +19,31 @@
         }
 
         a {text-decoration: none; color: black;}   /* Mouse over link */
+
+        .span_client_project_status_badge {
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            background-color: #e6e6e6;
+            min-width: 100px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border: 1px solid #ddd;
+            top: 104%;
+            right: 35%;
+        }
+
+        .dropdown-content a {
+            color: black;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
     </style>
 
     <div class="breadcrumb">
@@ -36,6 +61,24 @@
                     <div class="row text-center mb-4">
                         <div class="col-md-8 offset-md-2">
                             <h2>{{$project->name}}</h2>
+
+                            <div class="col-12">
+                                <b>Service status</b>:
+                            {!! $project->service_status_badge() !!}
+
+                            <!-- Invisible Dropdown -->
+                                <div id="project_statusDropdown" class="dropdown-content" style="display: none;">
+                                    <a href="#">
+                                        <span class="badge badge-primary badge_select_project_status" data-project="{{$project->id}}" data-value="0">In progress</span>
+                                    </a>
+                                    <a href="#">
+                                        <span class="badge badge-info badge_select_project_status" data-project="{{$project->id}}" data-value="1">On hold</span>
+                                    </a>
+                                    <a href="#">
+                                        <span class="badge badge-success badge_select_project_status" data-project="{{$project->id}}" data-value="2">Completed</span>
+                                    </a>
+                                </div>
+                            </div>
 
                             <div class="col-12">
                                 <b>Client: </b>
