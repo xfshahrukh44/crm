@@ -11,11 +11,12 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class AdminInvoiceController extends Controller
 {
     public function index (Request $request) {
-        $admin_invoices = AdminInvoice::all();
+        $admin_invoices = AdminInvoice::orderBy('date', 'DESC')->get();
 
         return view('admin.admin-invoice.index', compact('admin_invoices'));
     }
@@ -74,14 +75,13 @@ class AdminInvoiceController extends Controller
 
         $raw_data = Excel::toArray([], $request->file('file'));
 
-//        dump($raw_data[0][0]);
-//        dump($raw_data[0][1]);
-//        dd($raw_data[0][2]);
         foreach ($raw_data[0] as $key => $item) {
             if ($key == 0) {
                 continue;
             }
 
+//            dump($item);
+//            continue;
             if (is_null($item[0])) {
                 AdminInvoice::create([
                     'sr_no' => $item[0] ?? null,
@@ -92,7 +92,7 @@ class AdminInvoiceController extends Controller
                     'service_name' => $item[5] ?? null,
                     'amount' => floatval(preg_replace('/[^0-9.]/', '', $item[6])) ?? null,
                     'recurring' => floatval(preg_replace('/[^0-9.]/', '', $item[7])) ?? null,
-                    'date' => Carbon::parse($item[8]) ?? null,
+                    'date' => Carbon::parse(Date::excelToDateTimeObject($item[8])->format('d-M-y')) ?? null,
                     'sales_person_name' => $item[9] ?? null,
                     'sale_upsell' => $item[10] ?? null,
                     'transfer_by_name' => $item[11] ?? null,
@@ -103,7 +103,7 @@ class AdminInvoiceController extends Controller
                     'payment_id' => $item[16] ?? null,
                     'invoice_number' => $item[17] ?? null,
                     'refund_cb' => floatval(preg_replace('/[^0-9.]/', '', $item[18])) ?? null,
-                    'refund_cb_date' => Carbon::parse($item[19]) ?? null,
+                    'refund_cb_date' => Carbon::parse(Date::excelToDateTimeObject($item[19])->format('d-M-y')) ?? null,
                     'currency' => 1
                 ]);
             } else {
@@ -117,7 +117,7 @@ class AdminInvoiceController extends Controller
                     'service_name' => $item[5] ?? null,
                     'amount' => floatval(preg_replace('/[^0-9.]/', '', $item[6])) ?? null,
                     'recurring' => floatval(preg_replace('/[^0-9.]/', '', $item[7])) ?? null,
-                    'date' => Carbon::parse($item[8]) ?? null,
+                    'date' => Carbon::parse(Date::excelToDateTimeObject($item[8])->format('d-M-y')) ?? null,
                     'sales_person_name' => $item[9] ?? null,
                     'sale_upsell' => $item[10] ?? null,
                     'transfer_by_name' => $item[11] ?? null,
@@ -128,7 +128,7 @@ class AdminInvoiceController extends Controller
                     'payment_id' => $item[16] ?? null,
                     'invoice_number' => $item[17] ?? null,
                     'refund_cb' => floatval(preg_replace('/[^0-9.]/', '', $item[18])) ?? null,
-                    'refund_cb_date' => Carbon::parse($item[19]) ?? null,
+                    'refund_cb_date' => Carbon::parse(Date::excelToDateTimeObject($item[19])->format('d-M-y')) ?? null,
                     'currency' => 1
                 ]);
             }
