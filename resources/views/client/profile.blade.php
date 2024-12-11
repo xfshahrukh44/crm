@@ -8,6 +8,9 @@
             max-width: 300px;
             max-height: 300px;
             border: 5px solid #01abea;
+            min-width: 300px;
+            min-height: 300px;
+            object-fit: cover;
         }
     </style>
 @endsection

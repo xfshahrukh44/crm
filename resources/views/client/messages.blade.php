@@ -2,7 +2,17 @@
 @section('title', 'Messages')
 
 @section('css')
-
+    <style>
+        #profile_image {
+            border-radius: 100%;
+            border: 2px solid #01abea;
+            height: 46px;
+            min-height: 46px;
+            width: 46px;
+            min-width: 46px;
+            object-fit: cover;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -35,7 +45,7 @@
                             <div class="chat-profile">
                                 <div class="profile-detail">
                                     <button>
-                                        <img src="{{asset(auth()->user()->client->brand->logo ?? 'images/sidebarlogo.png')}}" class="img-fluid" alt="" style="max-width: 50px;">
+                                        <img id="profile_image" src="{{asset(auth()->user()->client->brand->logo ?? 'images/sidebarlogo.png')}}" class="img-fluid" alt="" style="max-width: 50px;">
                                     </button>
                                 </div>
                                 <a class="nav-link" href="#" role="button">
@@ -69,7 +79,7 @@
                                     @endphp
                                     <div class="messages {{ $bubble_class }}">
                                         <button>
-                                            <img src="{{asset($profile_image)}}" class="img-fluid" alt="">
+                                            <img src="{{asset($profile_image)}}" id="profile_image" class="img-fluid" alt="">
                                         </button>
                                         <div class="text-area">
                                             <p>{!! nl2br($message->message) !!}</p>

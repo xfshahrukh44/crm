@@ -46,6 +46,14 @@
         a.introjs-button {
             padding: 2%;
         }
+
+        #profile_image {
+            border-radius: 100%;
+            border: 2px solid #01abea;
+            height: 46px;
+            width: 46px;
+            object-fit: cover;
+        }
     </style>
 
     @yield('css')
@@ -138,7 +146,7 @@
                             <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
                                 <div class="profile-detail">
                                     <a href="#">
-                                        <img src="{{asset(auth()->user()->image ?? 'images/avatar.png')}}" style="border-radius: 100%; border: 2px solid #01abea;" class="img-fluid" alt="">
+                                        <img id="profile_image" src="{{asset(auth()->user()->image ?? 'images/avatar.png')}}" class="img-fluid" alt="">
                                     </a>
                                 </div>
                                 <li class="nav-item dropdown profile-drop-down">
