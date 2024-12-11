@@ -138,7 +138,7 @@
                             <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
                                 <div class="profile-detail">
                                     <a href="#">
-                                        <img src="{{asset(auth()->user()->image ?? 'images/avatar.png')}}" class="img-fluid" alt="">
+                                        <img src="{{asset(auth()->user()->image ?? 'images/avatar.png')}}" style="border-radius: 100%; border: 2px solid #01abea;" class="img-fluid" alt="">
                                     </a>
                                 </div>
                                 <li class="nav-item dropdown profile-drop-down">
@@ -147,7 +147,7 @@
                                         {{auth()->user()->name . ' ' . auth()->user()->last_name}}
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                                        <li><a class="dropdown-item" href="{{route('client.profile')}}">Profile</a></li>
 {{--                                        <li><a class="dropdown-item" href="#">Another action</a></li>--}}
                                         <li>
                                             <hr class="dropdown-divider">
@@ -325,6 +325,19 @@
             timeOut: "50000"
         });
     </script> -->
+@endif
+@if(session()->has('error'))
+    <script>
+        var timerInterval;
+        swal({
+            type: 'error',
+            title: 'Error!',
+            text: '{{ session()->get("error") }}',
+            timer: 2000,
+            showCancelButton: false,
+            showConfirmButton: false
+        });
+    </script>
 @endif
 <script>
     @if(count($errors) > 0)

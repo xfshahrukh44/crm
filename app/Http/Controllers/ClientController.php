@@ -544,4 +544,45 @@ class ClientController extends Controller
     {
         return view('client.dashboard');
     }
+
+    public function profile (Request $request)
+    {
+        return view('client.profile');
+    }
+
+    public function updateProfile (Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'last_name' => 'required',
+            'contact' => 'nullable',
+            'alternate_email' => 'email|nullable',
+        ]);
+
+        if (!$user = User::find(auth()->id())) {
+            return redirect()->back()->with('error', "Couldn't update profile.");
+        }
+
+        $user->update($request->all());
+
+        return redirect()->back()->with('success', 'Profile updated!');
+    }
+
+    public function updateProfilePicture (Request $request)
+    {
+//        dd($request->all());
+        if (!$request->has('profile_picture')) {
+            return redirect()->back()->with('error', 'Invalid image file');
+        }
+
+        $file = $request->file('profile_picture');
+        $file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $name = strtolower(str_replace(' ', '-', $file_name)) . '_' .time().'.'.$file->extension();
+        $file->move(public_path().'/uploads/users', $name);
+        $user = User::find(auth()->id());
+        $user->image = '/uploads/users/' . $name;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Profile picture updated!');
+    }
 }

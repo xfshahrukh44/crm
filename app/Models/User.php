@@ -31,7 +31,8 @@ class User extends Authenticatable
         'image',
         'verfication_code',
         'verfication_datetime',
-        'is_support_head'
+        'is_support_head',
+        'alternate_email'
     ];
 
     /**
@@ -199,13 +200,13 @@ class User extends Authenticatable
     public function authorWesbiteForm(){
         return $this->hasMany(AuthorWebsite::class, 'user_id', 'id');
     }
-    
-    
+
+
     public function isbnForm(){
         return $this->hasMany(Isbnform::class, 'user_id', 'id');
     }
-    
-    
+
+
     public function bookPrintingForm(){
         return $this->hasMany(Bookprinting::class, 'user_id', 'id');
     }
@@ -217,13 +218,13 @@ class User extends Authenticatable
     public function newSMMs(){
         return $this->hasMany(NewSMM::class, 'user_id', 'id');
     }
-    
-    
+
+
 
     public function getClient(){
         return $this->hasMany(Client::class, 'user_id', 'id')->select('id', 'name', 'last_name');
     }
-    
+
     public function getBriefPendingCount(){
         $count = 0;
         $logoForms = Auth()->user()->logoForm;
@@ -284,24 +285,24 @@ class User extends Authenticatable
                 $count++;
             }
         }
-        
-        
+
+
         $isbnforms = Auth()->user()->isbnForm;
         foreach($isbnforms as $isbnform){
             if(($isbnform->title == null) || ($isbnform->title == '')){
                 $count++;
             }
         }
-        
-        
+
+
         $bookprintings = Auth()->user()->bookPrintingForm;
         foreach($bookprintings as $bookprinting){
             if(($bookprinting->title == null) || ($bookprinting->title == '')){
                 $count++;
             }
         }
-        
-        
+
+
 
        return $count;
     }
