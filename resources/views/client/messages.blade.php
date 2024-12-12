@@ -103,7 +103,7 @@
                                                                 <tr>
                                                                     <td class="text-center">
                                                                         <a href="{{asset('files/'.$client_file->path)}}" download="" title="{{$client_file->name}}">
-                                                                            {{substr($client_file->name, 0, 27)}}
+                                                                            {{substr($client_file->name, 0, 21) . '...'}}
                                                                         </a>
                                                                     </td>
                                                                 </tr>
