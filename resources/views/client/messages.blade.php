@@ -12,6 +12,10 @@
             min-width: 46px;
             object-fit: cover;
         }
+
+        .file-wrapper {
+            max-width: 270px;
+        }
     </style>
 @endsection
 
