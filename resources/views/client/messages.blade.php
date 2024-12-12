@@ -102,7 +102,9 @@
                                                             @foreach($message->sended_client_files as $key => $client_file)
                                                                 <tr>
                                                                     <td class="text-center">
-                                                                        <a href="{{asset('files/'.$client_file->path)}}" download="">{{$client_file->name}}</a>
+                                                                        <a href="{{asset('files/'.$client_file->path)}}" download="" title="{{$client_file->name}}">
+                                                                            {{substr($client_file->name, 0, 27)}}
+                                                                        </a>
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
