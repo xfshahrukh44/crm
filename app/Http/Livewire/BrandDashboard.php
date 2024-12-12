@@ -958,6 +958,13 @@ class BrandDashboard extends Component
             'assign_pending_form' => 'required'
         ]);
 
+
+        $project_check = Project::where('form_id', $this->assign_pending_id)->first();
+        if ($project_check) {
+//            $this->emit('success', $user->name . ' ' . $user->last_name . ' Assigned Successfully');
+            $this->render();
+        }
+
         $agent_id  = $this->assign_pending_agent_id;
         $form_id  = $this->assign_pending_id;
         $form_checker  = $this->assign_pending_form;
@@ -1124,6 +1131,18 @@ class BrandDashboard extends Component
             $description = $seo_form->company_name;
         }
 
+//        $project = Project::firstOrCreate([
+//            'form_id' => $form_id
+//        ], [
+//            'name' => $name,
+//            'description' => $description,
+//            'status' => 1,
+//            'user_id' => $agent_id,
+//            'client_id' => $client_id,
+//            'brand_id' => $brand_id,
+//            'form_id' => $form_id,
+//            'form_checker' => $form_checker,
+//        ]);
         $project = new Project();
         $project->name = $name;
         $project->description = $description;

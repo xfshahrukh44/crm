@@ -145,12 +145,14 @@
         assign_pending_id = id;
         assign_pending_form = form;
 
+        $('#agent-name-wrapper-2').off();
         $('#agent-name-wrapper-2').on('change', function () {
             if ($(this).val() != '') {
                 assign_pending_agent_id = $(this).val();
             }
         });
 
+        $('#btn_assignPendingModel').off();
         $('#btn_assignPendingModel').on('click', function () {
             if (assign_pending_id ==  '') {
                 return false;
@@ -200,12 +202,14 @@
 
         reassign_pending_project_id = id;
 
+        $('#agent-name-wrapper').off();
         $('#agent-name-wrapper').on('change', function () {
             if ($(this).val() != '') {
                 reassign_pending_agent_id = $(this).val();
             }
         });
 
+        $('#btn_assignModel').off();
         $('#btn_assignModel').on('click', function () {
             if (reassign_pending_agent_id ==  '') {
                 return false;
