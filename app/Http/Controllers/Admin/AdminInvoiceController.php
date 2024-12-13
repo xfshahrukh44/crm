@@ -16,7 +16,17 @@ use PhpOffice\PhpSpreadsheet\Shared\Date;
 class AdminInvoiceController extends Controller
 {
     public function index (Request $request) {
-        $admin_invoices = AdminInvoice::orderBy('date', 'DESC')->get();
+        $selected_month = $request->get('month') ?? null;
+        $request->merge(['month' => $selected_month]);
+
+        $admin_invoices = AdminInvoice::orderBy('date', 'DESC')
+            ->when($request->has('brand_name') && $request->get('brand_name') != '', function ($q) use ($request) {
+                return $q->where('brand_name', $request->get('brand_name'));
+            })
+            ->when($selected_month, function ($q) use($selected_month) {
+                return $q->whereMonth('date', '=', $selected_month);
+            })
+            ->get();
 
         return view('admin.admin-invoice.index', compact('admin_invoices'));
     }

@@ -28,6 +28,53 @@
 
 <div class="row">
     <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title mb-3">
+                    Filter invoices
+                </div>
+                <form action="{{route('admin.admin-invoice.index')}}" method="GET">
+                    <div class="row">
+                        <div class="col-md-3 form-group">
+                            <label for="">Brand</label>
+                            <select class="form-control select2" name="brand_name">
+                                <option value="">Select brand</option>
+                                @foreach(\App\Models\Brand::all() as $brand)
+                                    <option value="{{$brand->name}}" {!! request()->get('brand_name') == $brand->name ? 'selected' : '' !!}>{{$brand->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <label for="">Month</label>
+                            <select class="form-control select2" name="month" id="month">
+                                <option value="">Select month</option>
+                                <option value="1" {!! request()->get('month') == '1' ? 'selected' : '' !!}>January</option>
+                                <option value="2" {!! request()->get('month') == '2' ? 'selected' : '' !!}>February</option>
+                                <option value="3" {!! request()->get('month') == '3' ? 'selected' : '' !!}>March</option>
+                                <option value="4" {!! request()->get('month') == '4' ? 'selected' : '' !!}>April</option>
+                                <option value="5" {!! request()->get('month') == '5' ? 'selected' : '' !!}>May</option>
+                                <option value="6" {!! request()->get('month') == '6' ? 'selected' : '' !!}>June</option>
+                                <option value="7" {!! request()->get('month') == '7' ? 'selected' : '' !!}>July</option>
+                                <option value="8" {!! request()->get('month') == '8' ? 'selected' : '' !!}>August</option>
+                                <option value="9" {!! request()->get('month') == '9' ? 'selected' : '' !!}>September</option>
+                                <option value="10" {!! request()->get('month') == '10' ? 'selected' : '' !!}>October</option>
+                                <option value="11" {!! request()->get('month') == '11' ? 'selected' : '' !!}>November</option>
+                                <option value="12" {!! request()->get('month') == '12' ? 'selected' : '' !!}>December</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <button class="btn btn-block btn-primary" type="submit">
+                                Filter
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
         <div class="card text-left">
             <div class="card-body">
                 <h4 class="card-title mb-3">Admin Invoice Details</h4>
