@@ -325,6 +325,13 @@
                 </a>
                 <div class="triangle"></div>
             </li>
+            <li class="nav-item {{ (request()->routeIs('manager.admin-invoice.index')) ? 'active' : '' }}">
+                <a class="nav-item-hold" href="{{ route('manager.admin-invoice.index') }}">
+                    <i class="nav-icon i-Credit-Card"></i>
+                    <span class="nav-text">Admin Invoices</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
             <li class="nav-item {{ (request()->routeIs('manager.brief.pending')) ? 'active' : '' }}">
                 <a class="nav-item-hold" href="{{ route('manager.brief.pending') }}">
                     <i class="nav-icon i-Folder-Close"></i>
