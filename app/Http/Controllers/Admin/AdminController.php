@@ -106,6 +106,8 @@ class AdminController extends Controller
                     return redirect()->route('member.dashboard');
                 }else if(Auth::user()->is_employee == 7){
                     return redirect()->route('qa.dashboard');
+                }else if(Auth::user()->is_employee == 8){
+                    return redirect()->route('billing.client.index');
                 }
             }
 
