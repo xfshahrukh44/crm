@@ -1145,6 +1145,7 @@ function login_bypass ($email) {
                 5 => 'member.dashboard',
                 6 => 'salemanager.dashboard',
                 7 => 'qa.dashboard',
+                8 => 'billing.dashboard',
             ];
 
             return redirect()->route($route_map[auth()->user()->is_employee]);

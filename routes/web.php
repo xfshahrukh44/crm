@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminInvoiceController;
+use App\Http\Controllers\BillingClientController;
+use App\Http\Controllers\BillingController;
 use App\Http\Controllers\ClientInvoiceController;
 use App\Http\Controllers\Manager\ManagerUserController;
 use App\Http\Controllers\ManagerAdminInvoiceController;
@@ -394,6 +396,52 @@ Route::group(['middleware' => 'auth'], function () {
 
         //notifications
         Route::get('/qa/my-notifications', function () { return view('qa.my-notifications'); })->name('qa.my-notifications');
+    });
+});
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::group(['middleware' => 'is_billing'], function(){
+        Route::get('/billing/dashboard', [BillingController::class, 'billingDashboard'])->name('billing.dashboard');
+
+        Route::get('/billing/clients', [BillingController::class, 'billingClient'])->name('billing.client.index');
+        Route::get('/billing/clients/create', [BillingController::class, 'billingClientCreate'])->name('billing.client.create');
+        Route::get('/billing/payment-link/{id}', [BillingController::class, 'billingPaymentLink'])->name('billing.generate.payment');
+        Route::get('/billing/clients/edit/{id}', [BillingController::class, 'billingClientEdit'])->name('billing.client.edit');
+        Route::post('/billing/clients/create', [BillingController::class, 'billingClientStore'])->name('billing.client.store');
+        Route::post('/billing/invoice', [BillingController::class, 'billingStore'])->name('billing.invoice.create');
+        Route::patch('/billing/clients/update/{id}', [BillingController::class, 'billingClientUpdate'])->name('billing.client.update');
+        Route::any('/billing/invoice/generated/{id}', [BillingController::class, 'linkPageBilling'])->name('billing.link');
+
+        Route::get('/billing/invoice', [BillingController::class, 'getInvoiceByBilling'])->name('billing.invoice');
+        Route::get('/billing/invoice/edit/{id}', [BillingController::class, 'editInvoiceBilling'])->name('billing.invoice.edit');
+        Route::post('/billing/invoice/paid/{id}', [BillingController::class, 'invoicePaidByIdBilling'])->name('billing.invoice.paid');
+        Route::post('/billing/create_auth/', [BillingController::class, 'createAuthBilling'])->name('billing.client.createauth');
+        Route::post('/billing/update_auth/', [BillingController::class, 'updateAuthBilling'])->name('billing.client.updateauth');
+        Route::post('/billing/invoice/update', [BillingController::class, 'billingUpdateManager'])->name('billing.invoice.update');
+
+
+//        Route::get('/qa/home', [TaskController::class, 'qaHome'])->name('qa.home');
+//        Route::get('/qa/task/{id}/{notify?}', [TaskController::class, 'qaShow'])->name('qa.task.show');
+//        Route::post('/qa/updatetask/{id}', [TaskController::class, 'qaUpdateTask'])->name('qa.update.task');
+//        Route::get('qa/{form_id}/projects/{check}/form/{id}', [SupportController::class, 'getFormByQA'])->name('qa.form');
+//        Route::get('qa/delete-file/{id}', [TaskController::class, 'deleteQaFile'])->name('qa.delete.file');
+//        Route::get('qa/delete-feedback/{id}', [TaskController::class, 'deleteQaFeedback'])->name('qa.delete.feedback');
+//
+//        //member create
+//        Route::get('qa/user', [QAController::class, 'getUserQA'])->name('qa.user.qa');
+//        Route::get('qa/user/create', [QAController::class, 'createUserQA'])->name('qa.user.qa.create');
+//        Route::post('qa/user', [QAController::class, 'storeUserQA'])->name('qa.user.qa.store');
+//        Route::get('qa/user/edit/{id}', [QAController::class, 'editUserQA'])->name('qa.user.qa.edit');
+//        Route::post('qa/user/update/{id}', [QAController::class, 'updateUserQA'])->name('qa.user.qa.update');
+//
+//        //assign task to member
+//        Route::post('qa/assign-task-to-member', [QAController::class, 'assignTaskToMember'])->name('qa.assign.task.to.member');
+//
+//        //completed tasks
+//        Route::get('/qa/completed-tasks', [TaskController::class, 'completedTasks'])->name('qa.completed_tasks');
+//
+//        //notifications
+//        Route::get('/qa/my-notifications', function () { return view('qa.my-notifications'); })->name('qa.my-notifications');
     });
 });
 

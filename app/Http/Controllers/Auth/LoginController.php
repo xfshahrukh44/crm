@@ -116,6 +116,9 @@ class LoginController extends Controller
             }else if (auth()->user()->is_employee == 7){
                 $data = $this->checkUserValid($request);
                 return redirect()->to($data);
+            } else if (auth()->user()->is_employee == 8){
+                $data = $this->checkUserValid($request);
+                return redirect()->to($data);
             } else {
                 $data = $this->checkUserValid($request);
                 return redirect()->to($data);
@@ -146,6 +149,10 @@ class LoginController extends Controller
                 return route('member.dashboard');
             }else if(auth()->user()->is_employee == 7){
                 return route('qa.dashboard');
+            }else if(auth()->user()->is_employee == 7){
+                return route('qa.dashboard');
+            }else if(auth()->user()->is_employee == 8){
+                return route('billing.dashboard');
             }
         }else{
             $bytes = bin2hex(random_bytes(3));

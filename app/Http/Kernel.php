@@ -65,6 +65,7 @@ class Kernel extends HttpKernel
         'is_production' => \App\Http\Middleware\IsProduction::class,
         'is_member' => \App\Http\Middleware\IsMember::class,
         'is_qa' => \App\Http\Middleware\IsQA::class,
+        'is_billing' => \App\Http\Middleware\IsBilling::class,
         'is_sale' => \App\Http\Middleware\IsSale::class,
         'is_support' => \App\Http\Middleware\IsSupport::class,
         'is_admin' => \App\Http\Middleware\IsAdmin::class,
