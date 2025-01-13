@@ -978,7 +978,7 @@ class BrandDashboard extends Component
             if($no_form->name != null){
                 $name = $no_form->name . ' - ' . $client->name;
             }else{
-                $name = $no_form->name . ' - ' . $client->name;
+                $name = $no_form->user->name . ' - ' . $client->name;
             }
             $client_id = $no_form->user->id;
             $brand_id = $no_form->invoice->brand;

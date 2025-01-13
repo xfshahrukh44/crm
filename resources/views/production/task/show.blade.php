@@ -47,9 +47,9 @@
         </ul>
         <br>
         <div class="member-wrapper mt-2">
-            
+
             <!--<a href="javascript:;" class="btn btn-info btn-sm add-member" data-task="{{ $task->id }}" data-category="{{ $task->category->id }}">Add Member</a>-->
-            
+
             <ul id="member-box">
                 @foreach($task->member_list as $key => $value)
                 <li>
@@ -530,7 +530,7 @@
             success: function(response) {
                 if(response.success == true){
                     $('.files').DataTable().row('.file-tr-'+id).remove().draw(false);
-                    toastr.success(response.data, 'Success', {timeOut: 5000})   
+                    toastr.success(response.data, 'Success', {timeOut: 5000})
                 }else{
                     toastr.error('Please Contact your Administrator', 'Error Occured', {timeOut: 5000})
                 }
@@ -583,7 +583,7 @@
                 data: $(this).serialize(),
                 success: function(response) {
                     if(response.success == true){
-                        toastr.success(response.data, 'Success', {timeOut: 5000})   
+                        toastr.success(response.data, 'Success', {timeOut: 5000})
                     }else{
                         toastr.error('Please Contact your Administrator', 'Error Occured', {timeOut: 5000})
                     }
@@ -601,7 +601,7 @@
                 $.ajax({
                     type: "POST",
                     url: action,
-                    data: { description:description, task_id:task_id, duedate:duedate}, 
+                    data: { description:description, task_id:task_id, duedate:duedate},
                     success: function(response) {
                         var duedate = '';
                         if(response.duedate != null){
@@ -756,10 +756,10 @@
                     }
                 }
             });
-            
+
         }, function (dismiss) {
             if (dismiss === 'cancel') {
-                
+
             }
         });
     }
@@ -799,10 +799,10 @@
                     }
                 }
             });
-            
+
         }, function (dismiss) {
             if (dismiss === 'cancel') {
-                
+
             }
         });
     });
@@ -940,10 +940,10 @@
                     }
                 }
             });
-            
+
         }, function (dismiss) {
             if (dismiss === 'cancel') {
-                
+
             }
         });
     }
