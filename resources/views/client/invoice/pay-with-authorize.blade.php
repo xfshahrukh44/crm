@@ -163,6 +163,13 @@
                                                             <label for=""><h5>Amount</h5></label>
                                                             <h6>{{$invoice->currency_show->sign}} {{ $invoice->amount }}</h6>
                                                         </div>
+
+                                                        @if($invoice->discription)
+                                                            <div class="col-md-12 form-group">
+                                                                <label for=""><h5>Description</h5></label>
+                                                                <p>{!! $invoice->discription !!}</p>
+                                                            </div>
+                                                        @endif
                                                     </div>
 
                                                     <form action="{{route('client.pay.with.authorize.submit', $invoice->id)}}" method="POST">
