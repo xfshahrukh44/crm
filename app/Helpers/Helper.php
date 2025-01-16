@@ -2106,3 +2106,13 @@ function get_clients_service_status_data () {
         $completed_count
     ];
 }
+
+function lead_status_color_class_map ($status) {
+    $map = [
+        'Closed' => 'danger',
+        'On Discussion' => 'warning',
+        'Onboarded' => 'success',
+    ];
+
+    return $map[$status] ?? 'info';
+}

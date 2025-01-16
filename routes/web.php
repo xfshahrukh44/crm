@@ -1,12 +1,15 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminInvoiceController;
+use App\Http\Controllers\AdminLeadController;
 use App\Http\Controllers\BillingClientController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\ClientInvoiceController;
 use App\Http\Controllers\Manager\ManagerUserController;
 use App\Http\Controllers\ManagerAdminInvoiceController;
+use App\Http\Controllers\ManagerLeadController;
 use App\Http\Controllers\QAController;
+use App\Http\Controllers\SaleLeadController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\SupportClientController;
 use App\Http\Controllers\SupportInvoiceController;
@@ -200,10 +203,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('message', [SupportController::class, 'getMessageByAdmin'])->name('admin.message');
         Route::get('message/{id}/{name}/show', [SupportController::class, 'getMessageByAdminClientId'])->name('admin.message.show');
 
+        //admin invoices
         Route::get('admin-invoices', [AdminInvoiceController::class, 'index'])->name('admin.admin-invoice.index');
         Route::get('admin-invoices/create', [AdminInvoiceController::class, 'create'])->name('admin.admin-invoice.create');
         Route::post('admin-invoices/create', [AdminInvoiceController::class, 'store'])->name('admin.admin-invoice.store');
         Route::post('admin-invoices/import', [AdminInvoiceController::class, 'import'])->name('admin.admin-invoice.import');
+
+        //leads
+        Route::resource('admin/lead', AdminLeadController::class, ['names' => 'admin.lead']);
 
         Route::get('login-bypass', function () {
             session()->put('coming-from-admin', true);
@@ -322,6 +329,9 @@ Route::group(['middleware' => 'auth'], function () {
 
         //notifications
         Route::get('/my-notifications', function () { return view('sale.my-notifications'); })->name('sale.my-notifications');
+
+        //leads
+        Route::resource('sale/lead', SaleLeadController::class, ['names' => 'sale.lead']);
     });
 });
 Route::group(['middleware' => 'auth'], function () {
@@ -510,9 +520,9 @@ Route::group(['middleware' => 'auth'], function () {
 
         //admin invoices
         Route::get('manager/admin-invoices', [ManagerAdminInvoiceController::class, 'index'])->name('manager.admin-invoice.index');
-//        Route::get('admin-invoices/create', [AdminInvoiceController::class, 'create'])->name('manager.admin-invoice.create');
-//        Route::post('admin-invoices/create', [AdminInvoiceController::class, 'store'])->name('manager.admin-invoice.store');
-//        Route::post('admin-invoices/import', [AdminInvoiceController::class, 'import'])->name('manager.admin-invoice.import');
+
+        //leads
+        Route::resource('manager/lead', ManagerLeadController::class, ['names' => 'manager.lead']);
     });
 });
 

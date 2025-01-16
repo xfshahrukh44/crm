@@ -332,6 +332,16 @@
                 </a>
                 <div class="triangle"></div>
             </li>
+
+
+            <li class="nav-item {{ (request()->routeIs('manager.lead.index')) ? 'active' : '' }}">
+                <a class="nav-item-hold text-warning" href="{{ route('manager.lead.index') }}">
+                    <i class="nav-icon i-Administrator"></i>
+                    <span class="nav-text">Leads</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
+
             <li class="nav-item {{ (request()->routeIs('manager.brief.pending')) ? 'active' : '' }}">
                 <a class="nav-item-hold" href="{{ route('manager.brief.pending') }}">
                     <i class="nav-icon i-Folder-Close"></i>

@@ -251,6 +251,13 @@
                 </a>
                 <div class="triangle"></div>
             </li>
+            <li class="nav-item {{ (request()->routeIs('sale.lead.index')) ? 'active' : '' }}">
+                <a class="nav-item-hold text-warning" href="{{ route('sale.lead.index') }}">
+                    <i class="nav-icon i-Administrator"></i>
+                    <span class="nav-text">Leads</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
             <li class="nav-item {{ (request()->routeIs('sale.invoice')) || (request()->routeIs('sale.single.invoice') || request()->routeIs('sale.link')) ? 'active' : '' }}">
                 <a class="nav-item-hold" href="{{ route('sale.invoice') }}">
                     <i class="nav-icon i-Credit-Card"></i>

@@ -70,7 +70,7 @@
                                 <th>Agent Name</th>
                                 <th>Brand</th>
                                 <th>Amount</th>
-                                <th>Status</th> 
+                                <th>Status</th>
                                 <th>Date</th>
                                 <th>Active</th>
                             </tr>
@@ -97,7 +97,7 @@
                                     From Website
                                 @endif
                                 </td>
-                                <td><button class="btn btn-sm btn-secondary">{{ $datas->brands->name }}</button></td>
+                                <td><button class="btn btn-sm btn-secondary">{{ $datas->brands->name ?? '' }}</button></td>
                                 <td>{{ $datas->currency_show->sign }}{{ $datas->amount }}</td>
                                 <td>
 {{--                                    <span class="btn btn-{{ App\Models\Invoice::STATUS_COLOR[$datas->payment_status] }} btn-sm">--}}
@@ -122,7 +122,7 @@
                                 </td>
                             </tr>
                             @endforeach
-                            
+
                         </tbody>
                         <tfoot>
                             <tr>
@@ -156,7 +156,7 @@
     $(window).scroll(function() {
         if($(window).scrollTop() + $(window).height() >= $(document).height() - 1) {
             page++;
-            load_more(page); //load content   
+            load_more(page); //load content
         }
     });
     function load_more(page){

@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- <title>{{ config('app.name', 'Kamay Backoffice') }}</title> -->
-    <title>{{ config('app.name') }} - @yield('title')</title> 
+    <title>{{ config('app.name') }} - @yield('title')</title>
     <!-- Scripts -->
     <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('global/img/apple-icon-57x57.png') }}">
     <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('global/img/apple-icon-60x60.png') }}">
@@ -82,7 +82,7 @@
             </div>
         </div>
     </div>
-   
+
     <script src="{{ asset('newglobal/js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ asset('newglobal/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('newglobal/js/perfect-scrollbar.min.js') }}"></script>
@@ -221,26 +221,26 @@
     @yield('script')
 
     @stack('scripts')
-    @if(session()->has('success'))
-    <script>
-        var timerInterval;
-        swal({
-            type: 'success',
-            title: 'Success!',
-            text: "{{ session()->get('success') }}",
-            buttonsStyling: false,
-            confirmButtonClass: 'btn btn-lg btn-success',
-            timer: 2000
-        });
-    </script>
-    @endif
-    @if(session()->has('success'))
-    <script>
-        toastr.success("", "{{ session()->get('success') }}", {
-            timeOut: "50000"
-        });
-    </script>
-    @endif
+{{--    @if(session()->has('success'))--}}
+{{--    <script>--}}
+{{--        var timerInterval;--}}
+{{--        swal({--}}
+{{--            type: 'success',--}}
+{{--            title: 'Success!',--}}
+{{--            text: "{{ session()->get('success') }}",--}}
+{{--            buttonsStyling: false,--}}
+{{--            confirmButtonClass: 'btn btn-lg btn-success',--}}
+{{--            timer: 2000--}}
+{{--        });--}}
+{{--    </script>--}}
+{{--    @endif--}}
+{{--    @if(session()->has('success'))--}}
+{{--    <script>--}}
+{{--        toastr.success("", "{{ session()->get('success') }}", {--}}
+{{--            timeOut: "50000"--}}
+{{--        });--}}
+{{--    </script>--}}
+{{--    @endif--}}
     <script>
         @if(count($errors) > 0)
             @foreach($errors->all() as $error)

@@ -93,7 +93,7 @@
                                     <a href="javascript:;" class="btn btn-{{ $datas->user_id == null ? 'primary' : 'success' }} btn-sm auth-create" data-id="{{ $datas->id }}" data-auth="{{ $datas->user_id == null ? 0 : 1 }}" data-password="{{ $datas->user_id == null ? '' : '' }}">{{ $datas->user_id == null ? 'Click Here' : 'Reset Pass' }}</a>
                                 </td>
                                 <td>
-                                    <button class="btn btn-info btn-sm">{{$datas->brand->name}}</button>
+                                    <button class="btn btn-info btn-sm">{{$datas->brand->name ?? ''}}</button>
                                     @if($datas->url != null)
                                     <button class="btn btn-secondary btn-sm">From Website</button>
                                     @endif
@@ -130,7 +130,7 @@
                                 </td>
                             </tr>
                             @endforeach
-                            
+
                         </tbody>
                     </table>
                     {{ $data->appends(['name' => Request::get('name'), 'email' => Request::get('email'), 'brand' => Request::get('brand'), 'status' => Request::get('status')])->links("pagination::bootstrap-4") }}
@@ -168,7 +168,7 @@
         }, 1000)
     })
     function getAgent(){
-        
+
     }
 
     function assignAgent(id){
@@ -300,7 +300,7 @@
                         'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
                     }
                 });
-                
+
                 $.ajax({
                     type:'POST',
                     url: "{{ route('admin.client.updateauth') }}",

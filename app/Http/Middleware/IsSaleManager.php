@@ -40,7 +40,7 @@ class IsSaleManager
                         DB::table('users')
                         ->where('id', auth()->user()->id)
                         ->update(['verfication_code' => $bytes, 'verfication_datetime' => date('Y-m-d H:i:s')]);
-                        
+
                         $details = [
                             'title' => 'Verfication Code',
                             'body' => 'Your one time use Verfication code for email ' . auth()->user()->email . ' is ' . $bytes
@@ -73,7 +73,7 @@ class IsSaleManager
                 DB::table('users')
                 ->where('id', auth()->user()->id)
                 ->update(['verfication_code' => $bytes, 'verfication_datetime' => date('Y-m-d H:i:s')]);
-                
+
                 $details = [
                     'title' => 'Verfication Code',
                     'body' => 'Your one time use Verfication code for email ' . auth()->user()->email . ' is ' . $bytes
@@ -98,7 +98,7 @@ class IsSaleManager
             }
             return $next($request);
         }
-   
+
         return redirect()->back()->with("error","You don't have admin access.");
     }
 }
