@@ -315,6 +315,7 @@
                                                         <thead>
                                                         <tr>
                                                             <th>Brief Pending</th>
+                                                            <th>Invoice ID</th>
                                                             <th>Actions</th>
                                                         </tr>
                                                         </thead>
@@ -331,7 +332,17 @@
                                                                 }
                                                             @endphp
                                                             <tr>
-                                                                <td>{{$pending_project['project_type']}}</td>
+                                                                <td>
+                                                                    {{$pending_project['project_type']}}
+{{--                                                                    <span class="badge badge-info badge-sm">--}}
+{{--                                                                        INV #1234--}}
+{{--                                                                    </span>--}}
+                                                                </td>
+                                                                <td>
+                                                                    <span class="badge badge-info badge-sm">
+                                                                        #{{$pending_project['invoice_id']}}
+                                                                    </span>
+                                                                </td>
                                                                 <td>
                                                                     <a href="javascript:;" class="badge badge-primary badge-icon badge-sm" onclick="assignAgentToPending({{$pending_project['id']}}, {{$pending_project['form_number']}}, {{$pending_project['brand_id']}})">
                                                                         <span class="ul-badge__icon"><i class="i-Checked-User"></i></span>

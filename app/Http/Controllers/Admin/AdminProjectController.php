@@ -55,6 +55,26 @@ class AdminProjectController extends Controller
             })->get();
             $categorys = Category::all();
 
+            //filter by invoice id
+            if (isset($_GET['invoice_id'])) {
+                $data = $data->filter(function ($data_item) {
+                    $check = false;
+
+                    $form_checker_check = form_checker_model_map($data_item->form_checker);
+                    if ($form_checker_check) {
+                        $query = new $form_checker_check;
+                        $query = $query->where('invoice_id', $_GET['invoice_id'])->first();
+
+                        if ($query) {
+                            $check = true;
+                        }
+                    }
+
+                    return $check;
+                });
+
+            }
+
             // dd($data);
 
             return view('manager.project.index', compact('data', 'brands', 'clients', 'users', 'categorys'));

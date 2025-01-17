@@ -876,6 +876,7 @@ function get_pending_projects ($client_user_id) {
             'id' => $item->id,
             'form_number' => 1,
             'brand_id' => $item->invoice->brands->id,
+            'invoice_id' => $item->invoice_id
         ];
     }
 
@@ -892,6 +893,7 @@ function get_pending_projects ($client_user_id) {
             'id' => $item->id,
             'form_number' => 2,
             'brand_id' => $item->invoice->brands->id,
+            'invoice_id' => $item->invoice_id
         ];
     }
 
@@ -908,6 +910,7 @@ function get_pending_projects ($client_user_id) {
             'id' => $item->id,
             'form_number' => 3,
             'brand_id' => $item->invoice->brands->id,
+            'invoice_id' => $item->invoice_id
         ];
     }
 
@@ -924,6 +927,7 @@ function get_pending_projects ($client_user_id) {
             'id' => $item->id,
             'form_number' => 4,
             'brand_id' => $item->invoice->brands->id,
+            'invoice_id' => $item->invoice_id
         ];
     }
 
@@ -940,6 +944,7 @@ function get_pending_projects ($client_user_id) {
             'id' => $item->id,
             'form_number' => 5,
             'brand_id' => $item->invoice->brands->id,
+            'invoice_id' => $item->invoice_id
         ];
     }
 
@@ -956,6 +961,7 @@ function get_pending_projects ($client_user_id) {
             'id' => $item->id,
             'form_number' => 6,
             'brand_id' => $item->invoice->brands->id,
+            'invoice_id' => $item->invoice_id
         ];
     }
 
@@ -972,6 +978,7 @@ function get_pending_projects ($client_user_id) {
             'id' => $item->id,
             'form_number' => 7,
             'brand_id' => $item->invoice->brands->id,
+            'invoice_id' => $item->invoice_id
         ];
     }
 
@@ -988,6 +995,7 @@ function get_pending_projects ($client_user_id) {
             'id' => $item->id,
             'form_number' => 8,
             'brand_id' => $item->invoice->brands->id,
+            'invoice_id' => $item->invoice_id
         ];
     }
 
@@ -1004,6 +1012,7 @@ function get_pending_projects ($client_user_id) {
             'id' => $item->id,
             'form_number' => 9,
             'brand_id' => $item->invoice->brands->id,
+            'invoice_id' => $item->invoice_id
         ];
     }
 
@@ -1020,6 +1029,7 @@ function get_pending_projects ($client_user_id) {
             'id' => $item->id,
             'form_number' => 10,
             'brand_id' => $item->invoice->brands->id,
+            'invoice_id' => $item->invoice_id
         ];
     }
 
@@ -1036,6 +1046,7 @@ function get_pending_projects ($client_user_id) {
             'id' => $item->id,
             'form_number' => 11,
             'brand_id' => $item->invoice->brands->id,
+            'invoice_id' => $item->invoice_id
         ];
     }
 
@@ -1052,6 +1063,7 @@ function get_pending_projects ($client_user_id) {
             'id' => $item->id,
             'form_number' => 12,
             'brand_id' => $item->invoice->brands->id,
+            'invoice_id' => $item->invoice_id
         ];
     }
 
@@ -1073,6 +1085,7 @@ function get_pending_projects ($client_user_id) {
             'id' => $item->id,
             'form_number' => 0,
             'brand_id' => $item->invoice->brands->id,
+            'invoice_id' => $item->invoice_id
         ];
     }
 
@@ -1089,6 +1102,7 @@ function get_pending_projects ($client_user_id) {
             'id' => $item->id,
             'form_number' => 13,
             'brand_id' => $item->invoice->brands->id,
+            'invoice_id' => $item->invoice_id
         ];
     }
 
@@ -1105,6 +1119,7 @@ function get_pending_projects ($client_user_id) {
             'id' => $item->id,
             'form_number' => 14,
             'brand_id' => $item->invoice->brands->id,
+            'invoice_id' => $item->invoice_id
         ];
     }
 
@@ -1121,6 +1136,7 @@ function get_pending_projects ($client_user_id) {
             'id' => $item->id,
             'form_number' => 15,
             'brand_id' => $item->invoice->brands->id,
+            'invoice_id' => $item->invoice_id
         ];
     }
 
@@ -2115,4 +2131,25 @@ function lead_status_color_class_map ($status) {
     ];
 
     return $map[$status] ?? 'info';
+}
+
+function form_checker_model_map ($form_checker) {
+    $map = [
+        0 => NoForm::class,
+        1 => LogoForm::class,
+        2 => WebForm::class,
+        3 => SmmForm::class,
+        4 => ContentWritingForm::class,
+        5 => SeoForm::class,
+        6 => BookFormatting::class,
+        7 => BookWriting::class,
+        8 => AuthorWebsite::class,
+        9 => Proofreading::class,
+        10 => BookCover::class,
+        11 => Isbnform::class,
+        12 => Bookprinting::class,
+        13 => SeoBrief::class
+    ];
+
+    return $map[$form_checker] ?? false;
 }

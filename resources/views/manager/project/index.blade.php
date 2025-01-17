@@ -1,5 +1,5 @@
 @extends('layouts.app-manager')
-   
+
 @section('content')
 <div class="breadcrumb">
     <h1 class="mr-2">Projects</h1>
@@ -46,6 +46,9 @@
                                 </select>
                             </div>
                             <div class="col-md-3 col-lg form-group mb-0">
+                                <input type="number" name="invoice_id" id="" class="form-control" placeholder="Invoice ID" value="{{$_GET['invoice_id'] ?? ''}}">
+                            </div>
+                            <div class="col-md-3 col-lg form-group mb-0">
                                 <button class="btn btn-primary btn-block" type="submit">Search</button>
                             </div>
                         </div>
@@ -66,6 +69,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+{{--                                <th>Invoice ID</th>--}}
                                 <th>Name</th>
                                 <th>Client</th>
                                 <th>Assigned To</th>
@@ -79,10 +83,11 @@
                             @foreach($data as $datas)
                             <tr>
                                 <td>{{$datas->id}}</td>
+{{--                                <td>{{$datas->invoice->id ?? 'N/A'}}</td>--}}
                                 <td>{{$datas->name}}</td>
                                 <td>
                                     {{$datas->client->name}} {{$datas->client->last_name}}<br>
-                                    {{$datas->client->email}}                                    
+                                    {{$datas->client->email}}
                                 </td>
                                 <td>
                                     {{$datas->added_by->name}} {{$datas->added_by->last_name}} <br>
@@ -132,7 +137,7 @@
                                 </td>
                             </tr>
                             @endforeach
-                            
+
                         </tbody>
                         <tfoot>
                             <tr>
