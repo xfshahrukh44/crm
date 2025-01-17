@@ -46,7 +46,7 @@
                             @endphp
                             <div class="col-md-4 form-group mb-3">
                                 <label for="service">Service <span>*</span></label>
-                                <select name="service[]" id="service" class="form-control select2" required>
+                                <select name="service[]" id="service" class="form-control select2" required multiple>
                                     @foreach($services as $service)
                                     <option {{ in_array($service->id, $get_service) ? 'selected' : ' ' }} value="{{ $service->id }}">{{ $service->name }}</option>
                                     @endforeach
