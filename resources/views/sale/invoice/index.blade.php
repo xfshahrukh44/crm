@@ -86,7 +86,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $datas->name }}<br>{{ $datas->email }}</td>
-                                <td>{{ $datas->brands->name }}</td>
+                                <td>{{ $datas->brands->name ?? ''}}</td>
                                 <td>
                                     @php
                                       $service_list = explode(',', $datas->service);
