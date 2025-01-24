@@ -154,8 +154,6 @@
                                 <tr class="file-tr-{{$client_files->id}}">
                                     <td>
                                         {{$client_files->id}}
-                                        <br>
-                                        <button class="btn btn-info btn-sm">{{$client_files->created_at->format('d F Y, h:i A') }}</button>
                                     </td>
                                     <td>
                                         @php
@@ -171,6 +169,8 @@
                                             {{limitTextAtWord($client_files->name, 20)}}.{{$extension}}
                                         </a>
                                         @endif
+                                        <br>
+                                        <button class="btn btn-info btn-sm">{{$client_files->created_at->format('d F Y, h:i A') }}</button>
                                     </td>
                                     <td>
                                         <button class="btn btn-dark btn-sm">{{$client_files->name}}</button>
