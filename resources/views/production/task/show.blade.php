@@ -152,7 +152,11 @@
                             <tbody>
                             @foreach($task->client_files as $client_files)
                                 <tr class="file-tr-{{$client_files->id}}">
-                                    <td>{{$client_files->id}}</td>
+                                    <td>
+                                        {{$client_files->id}}
+                                        <br>
+                                        <button class="btn btn-info btn-sm">{{$client_files->created_at->format('d F Y, h:i A') }}</button>
+                                    </td>
                                     <td>
                                         @php
                                             $temp= explode('.',$client_files->path);

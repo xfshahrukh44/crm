@@ -168,38 +168,38 @@ class BrandDashboard extends Component
     public function render()
     {
         if ($this->active_page == 'brands_dashboard') {
-            $view = $this->brands_dashboard();
+            return $this->brands_dashboard();
         } else if (str_contains($this->active_page, 'brands_detail')) {
             $brand_id = intval(str_replace('brands_detail-', '', $this->active_page));
-            $view = $this->brands_detail($brand_id);
+            return $this->brands_detail($brand_id);
         } else if (str_contains($this->active_page, 'manager_notification')) {
             $brand_id = intval(str_replace('manager_notification-', '', $this->active_page));
-            $view = $this->manager_notification($brand_id);
+            return $this->manager_notification($brand_id);
         } else if (str_contains($this->active_page, 'brief_pending')) {
             $brand_id = intval(str_replace('brief_pending-', '', $this->active_page));
-            $view = $this->brief_pending($brand_id);
+            return $this->brief_pending($brand_id);
         } else if (str_contains($this->active_page, 'client_create')) {
             $brand_id = intval(str_replace('client_create-', '', $this->active_page));
-            $view = $this->client_create($brand_id);
+            return $this->client_create($brand_id);
         } else if (str_contains($this->active_page, 'clients_detail')) {
             $client_id = intval(str_replace('clients_detail-', '', $this->active_page));
-            $view = $this->clients_detail($client_id);
+            return $this->clients_detail($client_id);
         } else if (str_contains($this->active_page, 'projects_detail')) {
             $project_id = intval(str_replace('projects_detail-', '', $this->active_page));
-            $view = $this->projects_detail($project_id);
+            return $this->projects_detail($project_id);
         } else if (str_contains($this->active_page, 'client_payment_link')) {
             $client_id = intval(str_replace('client_payment_link-', '', $this->active_page));
-            $view = $this->client_payment_link($client_id);
+            return $this->client_payment_link($client_id);
         } else if (str_contains($this->active_page, 'client_message_show')) {
             $client_user_id = intval(str_replace('client_message_show-', '', $this->active_page));
-            $view = $this->client_message_show($client_user_id);
+            return $this->client_message_show($client_user_id);
         } else if (str_contains($this->active_page, 'admin_sales_report')) {
-            $view = $this->admin_sales_report();
+            return $this->admin_sales_report();
         } else if (str_contains($this->active_page, 'manager_sales_report')) {
-            $view = $this->manager_sales_report();
+            return $this->manager_sales_report();
+        } else {
+            return redirect()->route('login');
         }
-
-        return $view;
     }
 
     public function mutate ($data)
@@ -402,7 +402,8 @@ class BrandDashboard extends Component
     public function client_payment_link ($client_id)
     {
         $user = Client::find($client_id);
-        $brands = Brand::whereIn('id', [$user->brand_id])->get();
+//        $brands = Brand::whereIn('id', [$user->brand_id])->get();
+        $brands = Brand::whereIn('id', auth()->user()->brand_list())->get();
         $services = Service::all();
         $currencies =  Currency::all();
 //        $merchant = Merchant::where('status', 1)->orderBy('id', 'desc')->get();
