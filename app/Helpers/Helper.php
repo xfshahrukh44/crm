@@ -2153,3 +2153,11 @@ function form_checker_model_map ($form_checker) {
 
     return $map[$form_checker] ?? false;
 }
+
+function limitTextAtWord($text, $limit = 100, $ellipsis = '...') {
+    if (strlen($text) > $limit) {
+        $text = wordwrap($text, $limit);
+        $text = substr($text, 0, strpos($text, "\n")) . $ellipsis;
+    }
+    return $text;
+}

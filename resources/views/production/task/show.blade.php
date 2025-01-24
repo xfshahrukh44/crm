@@ -168,7 +168,7 @@
                                         </a>
                                         @else
                                         <a href="{{asset('files/'.$client_files->path)}}" target="_blank">
-                                            {{$client_files->name}}.{{$extension}}
+                                            {{limitTextAtWord($client_files->name, 20)}}.{{$extension}}
                                         </a>
                                         @endif
                                     </td>
