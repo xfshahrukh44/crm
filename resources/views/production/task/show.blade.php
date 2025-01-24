@@ -173,7 +173,9 @@
                                         <button class="btn btn-info btn-sm">{{$client_files->created_at->format('d F Y, h:i A') }}</button>
                                     </td>
                                     <td>
-                                        <button class="btn btn-dark btn-sm">{{$client_files->name}}</button>
+                                        <button class="btn btn-dark btn-sm">
+                                            {{limitTextAtWord($client_files->name, 20)}}
+                                        </button>
                                     </td>
                                     <td>
                                         <button class="btn btn-secondary btn-sm">{{$client_files->user->name}} {{$client_files->user->last_name}}</button><br>
