@@ -14,10 +14,10 @@
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-body">
-                <div class="card-title mb-3">Sales / Support Agent Form</div> 
-                
+                <div class="card-title mb-3">Sales / Support Agent Form</div>
+
                 <form class="form" action="{{route('admin.user.sales.update', $data->id)}}" method="POST" enctype="multipart/form-data">
-                    
+
                     @csrf
                     <div class="row">
                         <div class="col-md-6 form-group mb-3">
@@ -54,20 +54,20 @@
                         <div class="col-md-6 form-group mb-3">
                             <label for="role">Role <span>*</span></label>
                             <select name="is_employee" id="role" class="form-control">
-                                <option value="4" {{ ($data->is_employee == 4 && $data->is_support_head == false) ? 'selected' : '' }}>Customer Support</option>
-                                <option value="0" {{ $data->is_employee == 0 ? 'selected' : '' }}>Sale Agent</option>
-                                <option value="6" {{ $data->is_employee == 6 ? 'selected' : '' }}>Sales Manager</option>
-                                <option value="8" {{ ($data->is_employee == 4 && $data->is_support_head == true) ? 'selected' : '' }}>Support Head</option>
+                                <option value="4" {{ ($data->is_employee == 4 && $data->is_support_head == false) ? 'selected' : '' }}>Customer Support (PROJECT MANAGER)</option>
+                                <option value="0" {{ $data->is_employee == 0 ? 'selected' : '' }}>Sale Agent (FRONT SALES)</option>
+                                <option value="6" {{ $data->is_employee == 6 ? 'selected' : '' }}>Sales Manager (BUH)</option>
+                                <option value="8" {{ ($data->is_employee == 4 && $data->is_support_head == true) ? 'selected' : '' }}>Support Head (PM HEAD)</option>
                             </select>
                         </div>
-                        
-                        
+
+
                         <!--<div class="col-md-6 form-group mb-3">-->
                         <!--    <label for="name"> Verification Code <span>*</span></label>-->
                         <!--    <input type="text" class="form-control" value="{{ $data->verfication_code}}" readonly>-->
                         <!--</div>-->
-                        
-                        
+
+
                         <div class="col-md-12">
                             <button class="btn btn-primary" type="submit">Update Sale Agent</button>
                         </div>

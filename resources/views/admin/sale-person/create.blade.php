@@ -60,10 +60,10 @@
                         <div class="col-md-6 form-group mb-3">
                             <label for="role">Role <span>*</span></label>
                             <select name="is_employee" id="role" class="form-control">
-                                <option value="4">Customer Support</option>
-                                <option value="0">Sale Agent</option>
-                                <option value="6">Sales Manager</option>
-                                <option value="8">Support Head</option>
+                                <option value="4">Customer Support (PROJECT MANAGER)</option>
+                                <option value="0">Sale Agent (FRONT SALES)</option>
+                                <option value="6">Sales Manager (BUH)</option>
+                                <option value="8">Support Head (PM HEAD)</option>
                             </select>
                         </div>
                         <div class="col-md-12">
@@ -99,7 +99,7 @@
             document.execCommand("copy");
             M.toast({
                 html: 'Password Copied'
-            }) 
+            })
             // alert("Copied the text: " + copyText.value);
         }
         $('#contact').keypress(function(event){
