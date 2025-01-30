@@ -105,6 +105,9 @@
                                     @foreach(get_my_merchants() as $merchants)
                                     <option value="{{ $merchants->id }}">{{ $merchants->name }}</option>
                                     @endforeach
+                                    @if(auth()->id() == 4670)
+                                        <option value="7">Redline Animation LLC (Payarc) Authorize.net API</option>
+                                    @endif
                                 </select>
                             </div>
                             <div class="col-md-3 form-group mb-3">

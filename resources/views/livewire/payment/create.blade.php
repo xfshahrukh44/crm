@@ -136,6 +136,9 @@
                                         @foreach($merchant as $merchants)
                                             <option value="{{ $merchants->id }}" selected>{{ $merchants->name }}</option>
                                         @endforeach
+                                        @if(auth()->id() == 4670)
+                                            <option value="7">Redline Animation LLC (Payarc) Authorize.net API</option>
+                                        @endif
                                     </select>
                                     @error('client_payment_create_merchant') <span class="error text-danger">{{ $message }}</span> @enderror
                                 </div>
