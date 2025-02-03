@@ -81,7 +81,7 @@
                             <option value="2" {{($task->status == 2) ? 'selected' : ''}}>On Hold</option>
                             <option value="6" {{($task->status == 6) ? 'selected' : ''}}>Incomplete Brief</option>
                             <option value="5" {{($task->status == 5) ? 'selected' : ''}}>Sent for Approval</option>
-                            <option value="7" {{($task->status == 7) ? 'selected' : ''}}>Sent for QA</option>
+{{--                            <option value="7" {{($task->status == 7) ? 'selected' : ''}}>Sent for QA</option>--}}
                             {{--testing--}}
                             <option value="3" {{($task->status == 3) ? 'selected' : ''}}>Completed</option>
                         </select>
