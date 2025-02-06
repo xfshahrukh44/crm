@@ -254,8 +254,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('support/subtask/store', [TaskController::class, 'supportTaskStore'])->name('support.subtask.store');
         Route::post('support/files/{id}', [TaskController::class, 'insertFiles'])->name('support.insert.sale.files');
         Route::post('support/files/show/client', [TaskController::class, 'showFilesToClient'])->name('support.client.file.show');
-        Route::get('support/message/{id}/{name}/show', [SupportController::class, 'getMessageBySupportClientId'])->name('support.
-        .id');
+        Route::get('support/message/{id}/{name}/show', [SupportController::class, 'getMessageBySupportClientId'])->name('support.message.show.id');
         Route::get('/support/message/edit/{id}', [SupportController::class, 'editMessageBySupportClientId'])->name('support.message.edit');
         Route::post('/support/message/update', [SupportController::class, 'updateSupportMessage'])->name('support.message.update');
 

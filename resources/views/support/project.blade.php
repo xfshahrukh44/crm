@@ -89,7 +89,7 @@
                                 </td>
                                 <td>
                                     @if($datas->client)
-                                    <a href="{{ route('support.message.show', ['id' => $datas->client->id ,'name' => $datas->client->name]) }}" class="btn btn-secondary btn-sm">
+                                    <a href="{{ route('support.message.show.id', ['id' => $datas->client->id ,'name' => $datas->client->name]) }}" class="btn btn-secondary btn-sm">
                                         Message
                                     </a>
                                     @endif
