@@ -54,10 +54,18 @@
         }
 
         @if(auth()->user()->is_employee == 4)
-            .support_sensitive {
+        .support_sensitive {
             color: white !important;
         }
         @endif
+
+        .rounded-buttons {
+            font-size: 20px;
+            border: solid #0076c2 2px;
+            border-radius: 60%;
+            max-width: 42px;
+            height: 42px;
+        }
     </style>
 
     <div class="breadcrumb">
@@ -78,6 +86,12 @@
                             {{--                        <p style="font-size: medium;">--}}
                             {{--                        @if(in_array(auth()->user()->is_employee, [0, 2, 6]))--}}
 
+                            @if($client->brand)
+                                <div class="col-12">
+                                    <b>Brand</b>: {{$client->brand->name}}
+                                </div>
+                            @endif
+
                             <div class="col-12">
                                 <b>Priority</b>:
                                 {!! $client->priority_badge() !!}
@@ -96,27 +110,59 @@
                                 </div>
                             </div>
 
-                            @if($client->contact)
-                                <div class="col-12">
-                                    <i class="fas fa-phone text-primary support_sensitive"></i>
-                                    <a class="support_sensitive" href="tel:{{$client->contact}}">{{$client->contact}}</a>
-                                </div>
-                            @endif
+                            <div class="col-md-4 offset-md-4">
+                                <div class="row py-3 justify-content-center">
+                                    @if($client->contact)
+                                        <div class="col rounded-buttons px-0 mx-2 d-flex align-items-center justify-content-center">
+                                            <a class="" href="tel:{{$client->contact}}" style="line-height: 10px;">
+                                                <i class="fas fa-phone text-primary "></i>
+                                            </a>
+                                        </div>
+                                    @endif
 
-                            @if($client->email)
-                                <div class="col-12">
-                                    <i class="fas fa-envelope text-primary support_sensitive"></i>
-                                    <a class="support_sensitive" href="mailto:{{$client->email}}">{{$client->email}}</a>
+                                    @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [6, 4]))
+                                        @php
+                                            $client_user = \App\Models\User::where('client_id', $client->id)->first();
+                                            if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
+                                                $message_url = 'manager.message.show';
+                                            } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4) {
+                                                $message_url = 'support.message.show.id';
+                                            }
+                                        @endphp
+                                        @if($client_user)
+                                            <div class="col rounded-buttons px-0 mx-2 d-flex align-items-center justify-content-center">
+                                                <a class="" href="{{route($message_url, ['id' => $client_user->id ,'name' => $client->name])}}" style="line-height: 10px;">
+                                                    <i class="fas fa-message text-primary "></i>
+                                                </a>
+                                            </div>
+                                        @endif
+                                    @endif
+
+                                    @if($client->email)
+                                        <div class="col rounded-buttons px-0 mx-2 d-flex align-items-center justify-content-center">
+                                            <a class="" href="mailto:{{$client->email}}" style="line-height: 10px;">
+                                                <i class="fas fa-envelope text-primary "></i>
+                                            </a>
+                                        </div>
+                                    @endif
                                 </div>
-                            @endif
+                            </div>
+
+{{--                            @if($client->contact)--}}
+{{--                                <div class="col-12">--}}
+{{--                                    <i class="fas fa-phone text-primary support_sensitive"></i>--}}
+{{--                                    <a class="support_sensitive" href="tel:{{$client->contact}}">{{$client->contact}}</a>--}}
+{{--                                </div>--}}
+{{--                            @endif--}}
+
+{{--                            @if($client->email)--}}
+{{--                                <div class="col-12">--}}
+{{--                                    <i class="fas fa-envelope text-primary support_sensitive"></i>--}}
+{{--                                    <a class="support_sensitive" href="mailto:{{$client->email}}">{{$client->email}}</a>--}}
+{{--                                </div>--}}
+{{--                            @endif--}}
                             {{--                        </p>--}}
                             {{--                        @endif--}}
-
-                            @if($client->brand)
-                                <div class="col-12">
-                                    <b>Brand</b>: {{$client->brand->name}}
-                                </div>
-                            @endif
 
 
                             <div class="row mt-4">
@@ -132,27 +178,27 @@
                                     </div>
                                 @endif
 
-                                @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [6, 4]))
-                                    @php
-                                        $client_user = \App\Models\User::where('client_id', $client->id)->first();
-                                        if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {
-                                            $message_url = 'manager.message.show';
-                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4) {
-                                            $message_url = 'support.message.show.id';
-                                        }
-                                    @endphp
-                                    @if($client_user)
-                                        <div class="col">
-                                            <p style="font-size: medium;">
-                                                <a href="{{route($message_url, ['id' => $client_user->id ,'name' => $client->name])}}">
-                                                    <i class="i-Speach-Bubble-3 text-warning"></i>
-                                                    <br />
-                                                    Message
-                                                </a>
-                                            </p>
-                                        </div>
-                                    @endif
-                                @endif
+{{--                                @if (in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [6, 4]))--}}
+{{--                                    @php--}}
+{{--                                        $client_user = \App\Models\User::where('client_id', $client->id)->first();--}}
+{{--                                        if (\Illuminate\Support\Facades\Auth::user()->is_employee == 6) {--}}
+{{--                                            $message_url = 'manager.message.show';--}}
+{{--                                        } else if (\Illuminate\Support\Facades\Auth::user()->is_employee == 4) {--}}
+{{--                                            $message_url = 'support.message.show.id';--}}
+{{--                                        }--}}
+{{--                                    @endphp--}}
+{{--                                    @if($client_user)--}}
+{{--                                        <div class="col">--}}
+{{--                                            <p style="font-size: medium;">--}}
+{{--                                                <a href="{{route($message_url, ['id' => $client_user->id ,'name' => $client->name])}}">--}}
+{{--                                                    <i class="i-Speach-Bubble-3 text-warning"></i>--}}
+{{--                                                    <br />--}}
+{{--                                                    Message--}}
+{{--                                                </a>--}}
+{{--                                            </p>--}}
+{{--                                        </div>--}}
+{{--                                    @endif--}}
+{{--                                @endif--}}
                             </div>
 
 
