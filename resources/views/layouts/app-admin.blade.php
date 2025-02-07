@@ -280,7 +280,7 @@
             });
         }, 1200000)
     </script>
-    @if(\Illuminate\Support\Facades\Route::is('brands.dashboard.v3'))
+    @if(\Illuminate\Support\Facades\Route::is('brands.dashboard.v3') || \Illuminate\Support\Facades\Route::is('revenue'))
         @livewireScripts
         @include('livewire.scripts.listeners')
     @endif

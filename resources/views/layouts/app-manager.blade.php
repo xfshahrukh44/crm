@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name') }} - @yield('title')</title> 
+    <title>{{ config('app.name') }} - @yield('title')</title>
     <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('global/img/apple-icon-57x57.png') }}">
     <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('global/img/apple-icon-60x60.png') }}">
     <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('global/img/apple-icon-72x72.png') }}">
@@ -333,7 +333,7 @@
             {{--});--}}
         });
     </script>
-    @if(\Illuminate\Support\Facades\Route::is('brands.dashboard.v3'))
+    @if(\Illuminate\Support\Facades\Route::is('brands.dashboard.v3') || \Illuminate\Support\Facades\Route::is('revenue'))
         @livewireScripts
         @include('livewire.scripts.listeners')
     @endif
