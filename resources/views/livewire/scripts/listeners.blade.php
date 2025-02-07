@@ -27,6 +27,21 @@
             })
         });
 
+        Livewire.on('copy_link', function (data) {
+            // Create a temporary textarea to hold the link
+            var tempInput = document.createElement("textarea");
+            tempInput.value = data; // Assign the link to the textarea
+            document.body.appendChild(tempInput); // Append textarea to body (temporarily)
+
+            tempInput.select(); // Select the text
+            tempInput.setSelectionRange(0, 99999); // For mobile devices
+            document.execCommand("copy"); // Copy to clipboard
+
+            document.body.removeChild(tempInput); // Remove the temporary textarea
+
+            toastr.success('Link copied to clipboard!');
+        });
+
         Livewire.on('emit_init_tiny_mce', function (data) {
             initTinyMCE(data['selector']);
 
