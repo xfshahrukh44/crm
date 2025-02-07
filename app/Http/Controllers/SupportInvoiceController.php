@@ -246,10 +246,13 @@ class SupportInvoiceController extends Controller
         if($request->invoice != ''){
             $data = $data->where('invoice_number', 'LIKE', "%$request->invoice%");
         }
-        if($request->user != 0){
-            $data = $data->where('name', 'LIKE', "%$request->user%");
-            $data = $data->orWhere('email', 'LIKE', "%$request->user%");
+        if($request->user != ''){
+            $data = $data->where('name', 'LIKE', "%$request->user%")->orWhere('email', 'LIKE', "%$request->user%");
         }
+//        if($request->user != 0){
+//            $data = $data->where('name', 'LIKE', "%$request->user%");
+//            $data = $data->orWhere('email', 'LIKE', "%$request->user%");
+//        }
         if($request->status != 0){
             $data = $data->where('payment_status', $request->status);
         }
