@@ -217,7 +217,7 @@ class BillingController extends Controller
             $stripe_invoice_res = create_stripe_invoice($invoice->id, $currency_map[$request->get('currency') ?? 1]);
         }
 
-        if (in_array($request->get('merchant'), [3, 5, 7, 8, 9, 10])) {
+        if (in_array($request->get('merchant'), [3, 5, 7, 8, 9, 10, 11])) {
             $invoice->is_authorize = true;
             $invoice->save();
         }
