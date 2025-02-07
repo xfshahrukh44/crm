@@ -290,6 +290,11 @@
                                                                             Mark as paid
                                                                         </a>
                                                                     @endif
+                                                                    @if($invoice->is_authorize)
+                                                                        <a href="#" wire:click="copy_authorize_link('{{route('client.pay.with.authorize', $invoice->id)}}')" class="badge badge-warning badge-icon badge-sm mr-1">
+                                                                            <span class="ul-btn__text"><b>Payment link</b></span>
+                                                                        </a>
+                                                                    @endif
                                                                 </span>
                                                             </td>
                                                             <td style="vertical-align: middle;">

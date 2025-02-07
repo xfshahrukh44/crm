@@ -403,7 +403,11 @@ class BrandDashboard extends Component
     {
         $user = Client::find($client_id);
 //        $brands = Brand::whereIn('id', [$user->brand_id])->get();
-        $brands = Brand::whereIn('id', auth()->user()->brand_list())->get();
+        if (auth()->id() == 1) {
+            $brands = Brand::all();
+        } else{
+            $brands = Brand::whereIn('id', auth()->user()->brand_list())->get();
+        }
         $services = Service::all();
         $currencies =  Currency::all();
 //        $merchant = Merchant::where('status', 1)->orderBy('id', 'desc')->get();
@@ -1394,5 +1398,12 @@ class BrandDashboard extends Component
         $this->emit('emit_select2', ['selector' => '#agent_id', 'name' => 'manager_sales_report_agent_id' ]);
 
         return view('livewire.manager.sales-report', compact('agents', 'report'))->extends($this->layout);
+    }
+
+    public function copy_authorize_link ($url) {
+//        dd($url);
+        $this->emit('copy_link', $url);
+//        $this->emit('success', 'asd');
+        $this->render();
     }
 }
