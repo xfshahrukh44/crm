@@ -1262,7 +1262,7 @@ class BrandDashboard extends Component
     {
         $buh_users = User::where('is_employee', 6)->orderBy('name', 'ASC')
             //restricted buhs
-            ->whereIn('id', [7, 1169, 33, 18,])
+            ->whereIn('id', [7, 1169, 33, 18, 4191, 4491])
             ->get();
         $selected_buh = ($this->admin_sales_report_buh_id != '') ? User::find($this->admin_sales_report_buh_id) : null;
 

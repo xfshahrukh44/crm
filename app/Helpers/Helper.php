@@ -1186,6 +1186,32 @@ function get_invoice_totals ($invoice_ids) {
     return $invoice_totals;
 }
 
+function get_invoice_totals_in_usd ($invoice_ids) {
+    $invoice_totals = [];
+    $total = 0.00;
+
+    foreach (
+        Invoice::whereIn('id', $invoice_ids)->get() as $invoice
+    ) {
+        $total += $invoice->amount;
+    }
+
+    return $total;
+}
+
+function get_invoice_refunds_totals_in_usd ($invoice_ids) {
+    $invoice_totals = [];
+    $total = 0.00;
+
+    foreach (
+        Invoice::whereIn('id', $invoice_ids)->whereNotNull('refunded_cb')->get() as $invoice
+    ) {
+        $total += $invoice->refunded_cb;
+    }
+
+    return $total;
+}
+
 function generateRandomString($length = 10) {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
@@ -2039,6 +2065,8 @@ function buh_merchant_map () {
         18 => [7, 6, 11],
         1169 => [8, 6, 11],
         7 => [3, 9, 10, 6, 11],
+        4191 => [11],
+        4491 => [11],
         //testing
         //3425 => [1, 2, 3, 4],
     ];

@@ -1,0 +1,150 @@
+<div>
+{{--    @include('livewire.loader')--}}
+    <style>
+        .table h5 {
+            margin: 0px !important;
+            line-height: 33px !important;
+        }
+    </style>
+
+    <div class="breadcrumb">
+        <h1 class="mr-2">Revenue</h1>
+    </div>
+
+    <div class="separator-breadcrumb border-top"></div>
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <!-- CARD ICON-->
+            <div class="row">
+{{--                @foreach($brands as $brand)--}}
+{{--                    <div class="col-lg-2 col-md-6 col-sm-6">--}}
+
+{{--                        <a wire:click="set_active_page('brands_detail-{{$brand->id}}')">--}}
+{{--                            <div class="card card-icon mb-4 brand-card" style="height: 180px;">--}}
+{{--                                <div class="card-body text-center">--}}
+{{--                                    <div class="preview">--}}
+{{--                                        <img style="" src="{{asset($brand->logo)}}" alt="">--}}
+{{--                                    </div>--}}
+{{--                                    <p class="text-muted mt-2 mb-2">{{$brand->name}}</p>--}}
+{{--                                    <small class="text-muted mt-2 mb-2">Clients: {{count($brand->clients)}} | Projects: {{count($brand->projects)}}</small>--}}
+{{--                                    --}}{{--                                <p class="text-primary text-24 line-height-1 m-0">{{$brand->name}}</p>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </a>--}}
+
+{{--                    </div>--}}
+{{--                @endforeach--}}
+{{--            </div>--}}
+{{--            {{ $brands->links() }}--}}
+                <div class="col-md-12 text-center">
+                    <h3>Today</h3>
+                </div>
+                <div class="col-md-12 text-center">
+                    <div class="row">
+                        <div class="col-md-8 offset-md-2">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        Stats 12 February 2025
+                                    </tr>
+                                    <tr style="background-color: #ffff0044;">
+                                        <th>
+                                            <h5><b>ASSOCIATE</b></h5>
+                                        </th>
+                                        <th>
+                                            <h5><b>TARGET</b></h5>
+                                        </th>
+                                        <th>
+                                            <h5><b>Net Achieved</b></h5>
+                                        </th>
+                                        <th>
+                                            <h5><b>Printing Cost</b></h5>
+                                        </th>
+                                        <th>
+                                            <h5><b>Refunds</b></h5>
+                                        </th>
+                                        <th>
+                                            <h5><b>Achieved</b></h5>
+                                        </th>
+                                        <th>
+                                            <h5><b>Target Achieved in %</b></h5>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $total_daily_target = 0.00;
+                                        $total_daily_net_achieved = 0.00;
+                                        $total_daily_printing_costs = 0.00;
+                                        $total_daily_refunds = 0.00;
+                                        $total_daily_achieved = 0.00;
+                                        $total_daily_target_achieved_in_percentage = 0.00;
+                                    @endphp
+                                    @foreach($daily_data as $daily_data_item)
+                                        @php
+                                            $total_daily_target += $daily_data_item['daily_target'];
+                                            $total_daily_net_achieved += $daily_data_item['daily_net_achieved'];
+                                            $total_daily_printing_costs += $daily_data_item['daily_printing_costs'];
+                                            $total_daily_refunds += $daily_data_item['daily_refunds'];
+                                            $total_daily_achieved += $daily_data_item['daily_achieved'];
+                                            $total_daily_target_achieved_in_percentage += $daily_data_item['daily_target_achieved_in_percentage'];
+                                        @endphp
+                                        <tr>
+                                            <td>
+                                                <h5><b>{{$daily_data_item['user_body']->name . ' ' , $daily_data_item['user_body']->last_name}}</b></h5>
+                                            </td>
+                                            <td>
+                                                <input class="form-control" type="number" name="" id="" value="{{$daily_data_item['daily_target']}}" step=".01">
+                                            </td>
+                                            <td>
+                                                <h5><b>${{$daily_data_item['daily_net_achieved']}}</b></h5>
+                                            </td>
+                                            <td>
+                                                <input class="form-control" type="number" name="" id="" value="{{$daily_data_item['daily_printing_costs']}}" step=".01">
+                                            </td>
+                                            <td>
+                                                <h5><b>${{$daily_data_item['daily_refunds']}}</b></h5>
+                                            </td>
+                                            <td style="background-color: {!! $daily_data_item['daily_achieved'] < $daily_data_item['daily_target'] ? '#ff000044' : '#90ee9044' !!};">
+                                                <h5><b>${{$daily_data_item['daily_achieved']}}</b></h5>
+                                            </td>
+                                            <td>
+                                                <h5><b>{{$daily_data_item['daily_target_achieved_in_percentage']}}%</b></h5>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    @php
+                                        $total_daily_target_achieved_in_percentage = number_format($total_daily_target_achieved_in_percentage / count($daily_data), 2);
+                                    @endphp
+                                    <tr style="background-color: #add8e644;">
+                                        <td>
+                                            <h5><b>TOTAL</b></h5>
+                                        </td>
+                                        <td>
+                                            <h5><b>${{$total_daily_target}}</b></h5>
+                                        </td>
+                                        <td>
+                                            <h5><b>${{$total_daily_net_achieved}}</b></h5>
+                                        </td>
+                                        <td>
+                                            <h5><b>${{$total_daily_printing_costs}}</b></h5>
+                                        </td>
+                                        <td>
+                                            <h5><b>${{$total_daily_refunds}}</b></h5>
+                                        </td>
+                                        <td>
+                                            <h5><b>${{$total_daily_achieved}}</b></h5>
+                                        </td>
+                                        <td>
+                                            <h5><b>{{$total_daily_target_achieved_in_percentage}}%</b></h5>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>

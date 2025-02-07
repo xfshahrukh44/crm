@@ -361,4 +361,8 @@ class User extends Authenticatable
         return $this->hasMany(Invoice::class, 'sales_agent_id', 'id')->where('payment_status', 2);
     }
 
+    public function finances ()
+    {
+        return $this->hasOne(UserFinance::class, 'user_id');
+    }
 }
