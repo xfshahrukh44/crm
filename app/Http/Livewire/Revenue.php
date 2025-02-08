@@ -48,7 +48,8 @@ class Revenue extends Component
             return $this->admin_render();
         } else {
             $my_user_ids = DB::table('brand_users')->where('brand_id', auth()->user()->brand_list())->pluck('user_id')->toArray();
-            $buh_users = User::whereIn('is_employee', [0, 4, 6])->whereIn('id', $my_user_ids)->orderBy('name', 'ASC')
+            dd($my_user_ids);
+            $buh_users = User::whereIn('is_employee', [0, 4])->whereIn('id', $my_user_ids)->orderBy('name', 'ASC')
                 ->get();
         }
 
@@ -110,7 +111,7 @@ class Revenue extends Component
         $buh_data = [];
         foreach ($buh_users as $buh_user) {
             $my_user_ids = DB::table('brand_users')->where('brand_id', $buh_user->brand_list())->pluck('user_id')->toArray();
-            $sale_agents = User::whereIn('is_employee', [0, 4, 6])->whereIn('id', $my_user_ids)->orderBy('name', 'ASC')
+            $sale_agents = User::whereIn('is_employee', [0, 4])->whereIn('id', $my_user_ids)->orderBy('name', 'ASC')
                 ->get();
 
             $daily_data = [];
