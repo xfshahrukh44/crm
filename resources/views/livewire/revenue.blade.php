@@ -72,7 +72,7 @@
                                         @endphp
                                         <tr>
                                             <td>
-                                                <h5><b>{{$daily_data_item['user_body']->name . ' ' , $daily_data_item['user_body']->last_name}}</b></h5>
+                                                <h5><b>{{$daily_data_item['user_body']->name}}</b></h5>
                                             </td>
                                             <td>
                                                 <input class="form-control daily_target" wire:keyup="update_daily_target({{$daily_data_item['user_body']->id}}, $event.target.value)" type="number" name="" value="{{$daily_data_item['daily_target']}}" step=".01">
@@ -181,7 +181,7 @@
                                         @endphp
                                         <tr>
                                             <td>
-                                                <h5><b>{{$monthly_data_item['user_body']->name . ' ' , $monthly_data_item['user_body']->last_name}}</b></h5>
+                                                <h5><b>{{$monthly_data_item['user_body']->name}}</b></h5>
                                             </td>
                                             <td>
                                                 <input class="form-control daily_target" wire:keyup="update_daily_target({{$monthly_data_item['user_body']->id}}, $event.target.value)" type="number" name="" value="{{$monthly_data_item['monthly_target']}}" step=".01">
