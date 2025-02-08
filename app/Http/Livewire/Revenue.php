@@ -55,6 +55,10 @@ class Revenue extends Component
         $daily_data = [];
         $monthly_data = [];
         foreach ($buh_users as $buh_user) {
+            if ($buh_user->is_employee == 4 && $buh_user->is_support_head == 0) {
+                continue;
+            }
+
             $todays_invoice_ids = DB::table('invoices')->whereIn('brand', $buh_user->brand_list())
                 ->whereDate('created_at', '=', Carbon::today())->pluck('id')->toArray();
             $todays_invoice_totals = get_invoice_totals_in_usd($todays_invoice_ids);
@@ -116,6 +120,9 @@ class Revenue extends Component
             $daily_data = [];
             $monthly_data = [];
             foreach ($sale_agents as $sale_agent) {
+                if ($sale_agent->is_employee == 4 && $sale_agent->is_support_head == 0) {
+                    continue;
+                }
                 $todays_invoice_ids = DB::table('invoices')->whereIn('brand', $sale_agent->brand_list())
                     ->whereDate('created_at', '=', Carbon::today())->pluck('id')->toArray();
                 $todays_invoice_totals = get_invoice_totals_in_usd($todays_invoice_ids);

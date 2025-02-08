@@ -5,6 +5,18 @@
             margin: 0px !important;
             line-height: 33px !important;
         }
+
+        tbody {
+            display: block;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        thead, tbody tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
     </style>
 
     <div class="breadcrumb">
