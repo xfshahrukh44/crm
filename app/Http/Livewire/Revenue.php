@@ -50,6 +50,8 @@ class Revenue extends Component
             $my_user_ids = DB::table('brand_users')->where('brand_id', auth()->user()->brand_list())->pluck('user_id')->toArray();
             $buh_users = User::whereIn('is_employee', [0, 4])->whereIn('id', $my_user_ids)->orderBy('name', 'ASC')
                 ->get();
+            dump('auth()->user()->brand_list()', auth()->user()->brand_list());
+            dd('$my_user_ids', $my_user_ids);
         }
 
         $daily_data = [];
