@@ -140,13 +140,15 @@
                                                                     <h5><b>TOTAL</b></h5>
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control daily_target" wire:keyup="update_daily_target({{$buh_data_item['buh_id']}}, $event.target.value)" type="number" name="" value="{{$total_daily_target}}" step=".01">
+{{--                                                                    <input class="form-control daily_target" wire:keyup="update_daily_target({{$buh_data_item['buh_id']}}, $event.target.value)" type="number" name="" value="{{$total_daily_target}}" step=".01">--}}
+                                                                    <h5><b>${{$total_daily_target}}</b></h5>
                                                                 </td>
                                                                 <td>
                                                                     <h5><b>${{$total_daily_net_achieved}}</b></h5>
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control" wire:keyup="update_daily_printing_costs({{$buh_data_item['buh_id']}}, $event.target.value)" type="number" name="" id="" value="{{$total_daily_printing_costs}}" step=".01">
+{{--                                                                    <input class="form-control" wire:keyup="update_daily_printing_costs({{$buh_data_item['buh_id']}}, $event.target.value)" type="number" name="" id="" value="{{$total_daily_printing_costs}}" step=".01">--}}
+                                                                    <h5><b>${{$total_daily_printing_costs}}</b></h5>
                                                                 </td>
                                                                 <td>
                                                                     <h5><b>${{$total_daily_refunds}}</b></h5>
@@ -251,13 +253,13 @@
                                                                     <h5><b>TOTAL</b></h5>
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control daily_target" wire:keyup="update_daily_target({{$buh_data_item['buh_id']}}, $event.target.value)" type="number" name="" value="{{$total_monthly_target}}" step=".01">
+                                                                    <h5><b>${{$total_monthly_target}}</b></h5>
                                                                 </td>
                                                                 <td>
                                                                     <h5><b>${{$total_monthly_net_achieved}}</b></h5>
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control" wire:keyup="update_daily_printing_costs({{$buh_data_item['buh_id']}}, $event.target.value)" type="number" name="" id="" value="{{$total_monthly_printing_costs}}" step=".01">
+                                                                    <h5><b>${{$total_monthly_printing_costs}}</b></h5>
                                                                 </td>
                                                                 <td>
                                                                     <h5><b>${{$total_monthly_refunds}}</b></h5>
