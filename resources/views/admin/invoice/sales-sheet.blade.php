@@ -151,11 +151,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                        @if($datas->payment_status == 2)
                             @php
                                 $key = 0;
                             @endphp
                             @foreach($data as $datas)
+                                @if($datas->payment_status == 2)
                                 @php
                                     $key += 1;
                                 @endphp
@@ -217,8 +217,8 @@
                                         @endif
                                     </td>
                                 </tr>
+                                @endif
                             @endforeach
-                        @endif
 
                         </tbody>
                     </table>
