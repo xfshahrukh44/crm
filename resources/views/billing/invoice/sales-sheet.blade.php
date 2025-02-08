@@ -154,72 +154,74 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @php
-                                $key = 0;
-                            @endphp
-                            @foreach($data as $datas)
+                            @if($datas->payment_status == 2)
                                 @php
-                                    $key += 1;
+                                    $key = 0;
                                 @endphp
-                                <tr>
-                                    <td>
-                                        <span class="btn btn-sm btn-dark">{{ $key }}</span>
-                                    </td>
-                                    <td>{{$datas->client->id}}</td>
-                                    <td>{{$datas->client->name}}</td>
-                                    <td>{{$datas->client->email}}</td>
-                                    <td>{{$datas->client->contact}}</td>
-                                    <td>
-                                        @php
-                                            $service_list = explode(',', $datas->service);
-                                        @endphp
-                                        @for($i = 0; $i < count($service_list); $i++)
-                                            @if($service_list[$i])
-                                                @php
-                                                    $service_list_name = '';
-                                                    $var_check = $datas->services($service_list[$i]);
-                                                    $words = $var_check ? explode(" ", $var_check->name) : [];
-                                                @endphp
-                                                @for($j = 0; $j < count($words); $j++)
-                                                    @php
-                                                        $service_list_name .= ' ' . $words[$j];
-                                                    @endphp
-                                                @endfor
-                                                <span class="btn btn-info btn-sm mb-1">{{ $service_list_name }}</span>
-                                            @endif
-                                        @endfor
-                                    </td>
-                                    <td>{{ $datas->currency_show->sign }}{{ $datas->amount }}</td>
-                                    <td>
-                                        @if(!is_null($datas->recurring))
-                                            {{ $datas->currency_show->sign }}{{ $datas->recurring }}
-                                        @endif
-                                    </td><td>
-                                        <button class="btn btn-sm btn-secondary mb-1">{{ date('g:i a', strtotime($datas->created_at)) }}</button>
-                                        <button class="btn btn-sm btn-secondary">{{ date('d M, Y', strtotime($datas->created_at)) }}</button>
-                                    </td>
-                                    <td>{{ $datas->sale->name ?? '' }} {{ $datas->sale->last_name ?? '' }}</td>
-                                    <td>{{ $datas->sale->sale_or_upsell ?? '' }}</td>
-                                    <td><span class="btn btn-primary btn-sm">{{ $datas->brands->name }}</span></td>
+                                @foreach($data as $datas)
                                     @php
-                                        $merchant = \App\Models\Merchant::find($datas->merchant_id);
+                                        $key += 1;
                                     @endphp
-                                    <td>{{ $merchant->name ?? '' }}</td>
-                                    <td>
-                                        <span class="btn btn-sm btn-dark">#{{ $datas->invoice_number }}</span>
-                                    </td>
-                                    <td class="text-danger">
-                                        @if(!is_null($datas->refunded_cb))
-                                            {{ $datas->currency_show->sign }}{{ $datas->refunded_cb }}
-                                        @endif
-                                    </td>
-                                    <td class="text-danger">
-                                        @if(!is_null($datas->refund_cb_date))
-                                            {{\Carbon\Carbon::parse($datas->refund_cb_date)->format('d F, Y')}}
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
+                                    <tr>
+                                        <td>
+                                            <span class="btn btn-sm btn-dark">{{ $key }}</span>
+                                        </td>
+                                        <td>{{$datas->client->id}}</td>
+                                        <td>{{$datas->client->name}}</td>
+                                        <td>{{$datas->client->email}}</td>
+                                        <td>{{$datas->client->contact}}</td>
+                                        <td>
+                                            @php
+                                                $service_list = explode(',', $datas->service);
+                                            @endphp
+                                            @for($i = 0; $i < count($service_list); $i++)
+                                                @if($service_list[$i])
+                                                    @php
+                                                        $service_list_name = '';
+                                                        $var_check = $datas->services($service_list[$i]);
+                                                        $words = $var_check ? explode(" ", $var_check->name) : [];
+                                                    @endphp
+                                                    @for($j = 0; $j < count($words); $j++)
+                                                        @php
+                                                            $service_list_name .= ' ' . $words[$j];
+                                                        @endphp
+                                                    @endfor
+                                                    <span class="btn btn-info btn-sm mb-1">{{ $service_list_name }}</span>
+                                                @endif
+                                            @endfor
+                                        </td>
+                                        <td>{{ $datas->currency_show->sign }}{{ $datas->amount }}</td>
+                                        <td>
+                                            @if(!is_null($datas->recurring))
+                                                {{ $datas->currency_show->sign }}{{ $datas->recurring }}
+                                            @endif
+                                        </td><td>
+                                            <button class="btn btn-sm btn-secondary mb-1">{{ date('g:i a', strtotime($datas->created_at)) }}</button>
+                                            <button class="btn btn-sm btn-secondary">{{ date('d M, Y', strtotime($datas->created_at)) }}</button>
+                                        </td>
+                                        <td>{{ $datas->sale->name ?? '' }} {{ $datas->sale->last_name ?? '' }}</td>
+                                        <td>{{ $datas->sale->sale_or_upsell ?? '' }}</td>
+                                        <td><span class="btn btn-primary btn-sm">{{ $datas->brands->name }}</span></td>
+                                        @php
+                                            $merchant = \App\Models\Merchant::find($datas->merchant_id);
+                                        @endphp
+                                        <td>{{ $merchant->name ?? '' }}</td>
+                                        <td>
+                                            <span class="btn btn-sm btn-dark">#{{ $datas->invoice_number }}</span>
+                                        </td>
+                                        <td class="text-danger">
+                                            @if(!is_null($datas->refunded_cb))
+                                                {{ $datas->currency_show->sign }}{{ $datas->refunded_cb }}
+                                            @endif
+                                        </td>
+                                        <td class="text-danger">
+                                            @if(!is_null($datas->refund_cb_date))
+                                                {{\Carbon\Carbon::parse($datas->refund_cb_date)->format('d F, Y')}}
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
 
                         </tbody>
                     </table>

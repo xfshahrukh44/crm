@@ -151,6 +151,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                        @if($datas->payment_status == 2)
                             @php
                                 $key = 0;
                             @endphp
@@ -217,6 +218,7 @@
                                     </td>
                                 </tr>
                             @endforeach
+                        @endif
 
                         </tbody>
                     </table>
