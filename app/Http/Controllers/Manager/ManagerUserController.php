@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\UserCategory;
+use App\Models\UserFinance;
 use Illuminate\Http\Request;
 use Hash;
 use Illuminate\Support\Facades\Auth;
@@ -40,7 +41,7 @@ class ManagerUserController extends Controller
     	$user = User::find($user_id);
     	$user->status = $status;
     	$user->save();
-    	return redirect()->back()->with('success', 'Status Updated');   
+    	return redirect()->back()->with('success', 'Status Updated');
     }
 
     public function updateSalePassword(Request $request){
@@ -48,7 +49,7 @@ class ManagerUserController extends Controller
         $user = User::find($user_id);
         $user->password = Hash::make($request->input('password'));
         $user->save();
-        return redirect()->back()->with('success', 'Password Updated Successfully ( ID: ' . $user_id . ' )');   
+        return redirect()->back()->with('success', 'Password Updated Successfully ( ID: ' . $user_id . ' )');
     }
 
     public function getUserSale(){
@@ -132,16 +133,22 @@ class ManagerUserController extends Controller
 //            ]);
         }
 
+        UserFinance::updateOrCreate([
+            'user_id' => $id,
+        ], [
+            'daily_target' => $request->get('daily_target')
+        ]);
+
         $user = User::find($id);
         $user->name = $request->input('name');
         $user->last_name = $request->input('last_name');
         $user->email = $request->input('email');
-        
+
         if($request->input('password') != "")
         {
             $user->password = Hash::make($request->input('password'));
         }
-        
+
         $user->contact = $request->input('contact');
         $user->status = $request->input('status');
         $user->is_employee = ($request->input('is_employee') == 8) ? 4 : $request->input('is_employee');

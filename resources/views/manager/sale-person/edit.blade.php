@@ -14,10 +14,10 @@
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-body">
-                <div class="card-title mb-3">Sales / Support Agent Form</div> 
-                
+                <div class="card-title mb-3">Sales / Support Agent Form</div>
+
                 <form class="form" action="{{route('manager.user.sales.update', $data->id)}}" method="POST" enctype="multipart/form-data">
-                    
+
                     @csrf
                     <div class="row">
                         <div class="col-md-6 form-group mb-3">
@@ -60,14 +60,18 @@
                                 <option value="8" {{ ($data->is_employee == 4 && $data->is_support_head == true) ? 'selected' : '' }}>Support Head</option>
                             </select>
                         </div>
-                        
-                        
+                        <div class="col-md-6 form-group mb-3">
+                            <label for="status">Target</label>
+                            <input class="form-control" type="number" name="daily_target" id="" min="0" value="{{$data->finances->daily_target ?? 1000.00}}">
+                        </div>
+
+
                         <!--<div class="col-md-6 form-group mb-3">-->
                         <!--    <label for="name"> Verification Code <span>*</span></label>-->
                         <!--    <input type="text" class="form-control" value="{{ $data->verfication_code}}" readonly>-->
                         <!--</div>-->
-                        
-                        
+
+
                         <div class="col-md-12">
                             <button class="btn btn-primary" type="submit">Update Sale Agent</button>
                         </div>
