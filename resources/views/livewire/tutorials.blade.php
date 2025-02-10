@@ -20,7 +20,7 @@
     </style>
 
     <div class="breadcrumb">
-        <h1 class="mr-2">Revenue</h1>
+        <h1 class="mr-2">Tutorials | DesignCRM</h1>
     </div>
 
     <div class="separator-breadcrumb border-top"></div>
