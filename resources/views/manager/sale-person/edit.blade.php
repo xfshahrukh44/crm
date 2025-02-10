@@ -61,8 +61,12 @@
                             </select>
                         </div>
                         <div class="col-md-6 form-group mb-3">
-                            <label for="status">Target</label>
+                            <label for="daily_target">Target</label>
                             <input class="form-control" type="number" name="daily_target" id="" min="0" value="{{$data->finances->daily_target ?? 1000.00}}">
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label for="daily_printing_costs">Printing costs</label>
+                            <input class="form-control" type="number" name="daily_printing_costs" id="" min="0" value="{{$data->finances->daily_printing_costs ?? 0.00}}">
                         </div>
                         <div class="col-md-6 form-group mb-3">
                             <label for="pseudo_name">Alternative name</label>

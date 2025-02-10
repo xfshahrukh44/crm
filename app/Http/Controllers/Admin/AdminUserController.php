@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\UserCategory;
+use App\Models\UserFinance;
 use Illuminate\Http\Request;
 use Hash;
 
@@ -153,6 +154,13 @@ class AdminUserController extends Controller
 //                'category' => 'required',
 //            ]);
             }
+
+            UserFinance::updateOrCreate([
+                'user_id' => $id,
+            ], [
+                'daily_target' => $request->get('daily_target'),
+                'daily_printing_costs' => $request->get('daily_printing_costs'),
+            ]);
 
             $user = User::find($id);
             $user->name = $request->input('name');

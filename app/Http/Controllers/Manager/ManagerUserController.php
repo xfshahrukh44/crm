@@ -136,7 +136,8 @@ class ManagerUserController extends Controller
         UserFinance::updateOrCreate([
             'user_id' => $id,
         ], [
-            'daily_target' => $request->get('daily_target')
+            'daily_target' => $request->get('daily_target'),
+            'daily_printing_costs' => $request->get('daily_printing_costs'),
         ]);
 
         $user = User::find($id);
