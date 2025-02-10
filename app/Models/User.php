@@ -33,7 +33,8 @@ class User extends Authenticatable
         'verfication_datetime',
         'is_support_head',
         'alternate_email',
-        'pseudo_name'
+        'pseudo_name',
+        'is_upsell'
     ];
 
     /**

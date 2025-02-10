@@ -159,6 +159,7 @@ class AdminUserController extends Controller
             $user->last_name = $request->input('last_name');
             $user->email = $request->input('email');
             $user->pseudo_name = $request->input('pseudo_name');
+            $user->is_upsell = $request->input('is_upsell');
 
             if($request->input('password') != "")
             {

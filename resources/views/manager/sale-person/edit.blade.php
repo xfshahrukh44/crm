@@ -68,6 +68,13 @@
                             <label for="pseudo_name">Alternative name</label>
                             <input type="text" id="pseudo_name" class="form-control" value="{{old('pseudo_name', $data->pseudo_name)}}" placeholder="Pseudo name" name="pseudo_name">
                         </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label for="role">Is upsell?</label>
+                            <select name="is_upsell" id="role" class="form-control">
+                                <option value="1" {{ ($data->is_upsell == 1) ? 'selected' : '' }}>Yes</option>
+                                <option value="0" {{ ($data->is_upsell == 0) ? 'selected' : '' }}>No</option>
+                            </select>
+                        </div>
 
 
                         <!--<div class="col-md-6 form-group mb-3">-->
