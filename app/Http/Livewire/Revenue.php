@@ -80,7 +80,7 @@ class Revenue extends Component
 
             $this_months_invoice_ids = DB::table('invoices')->whereIn('brand', $buh_user->brand_list())
                 ->whereDate('created_at', '>=', Carbon::today()->firstOfMonth())
-                ->whereDate('created_at', '<=', Carbon::today()->lastOfMonth())->pluck('id')
+                ->whereDate('created_at', '<=', Carbon::today()->lastOfMonth())
                 ->where('sales_agent_id', $buh_user->id)
                 ->where('payment_status', 2)->toArray();
             $this_months_invoice_totals = get_invoice_totals_in_usd($this_months_invoice_ids);
