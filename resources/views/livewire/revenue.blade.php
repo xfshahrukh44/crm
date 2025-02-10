@@ -84,7 +84,7 @@
                                         @endphp
                                         <tr>
                                             <td>
-                                                <h5><b>{{$daily_data_item['user_body']->name . ' ' . $daily_data_item['user_body']->name}}</b></h5>
+                                                <h5><b>{{$daily_data_item['user_body']->pseudo_name ?? ($daily_data_item['user_body']->name . ' ' . $daily_data_item['user_body']->last_name)}}</b></h5>
                                             </td>
                                             <td>
                                                 <h5><b>${{$daily_data_item['daily_target']}}</b></h5>
@@ -195,7 +195,7 @@
                                         @endphp
                                         <tr>
                                             <td>
-                                                <h5><b>{{$monthly_data_item['user_body']->name}}</b></h5>
+                                                <h5><b>{{$monthly_data_item['user_body']->pseudo_name ?? ($monthly_data_item['user_body']->name . ' ' . $monthly_data_item['user_body']->last_name)}}</b></h5>
                                             </td>
                                             <td>
                                                 <h5><b>${{$monthly_data_item['monthly_target']}}</b></h5>

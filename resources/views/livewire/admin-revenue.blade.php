@@ -37,7 +37,7 @@
                             <div class="card-header" id="headingOne_{{$key}}" data-toggle="collapse" data-target="#collapseOne_{{$key}}" aria-expanded="true" aria-controls="collapseOne_{{$key}}" style="cursor: pointer;">
                                 <h5 class="mb-0">
                                     <button class="btn btn-link">
-                                        <h4>{{$buh_data_item['team_name']}}</h4>
+                                        <h4>{{$buh_data_item['buh']->pseudo_name ?? ($buh_data_item['buh']->name . ' ' . $buh_data_item['buh']->last_name)}}</h4>
                                     </button>
                                 </h5>
                             </div>
@@ -110,7 +110,7 @@
                                                                 @endphp
                                                                 <tr>
                                                                     <td>
-                                                                        <h5><b>{{$daily_data_item['user_body']->name}}</b></h5>
+                                                                        <h5><b>{{$daily_data_item['user_body']->pseudo_name ?? ($daily_data_item['user_body']->name . ' ' . $daily_data_item['user_body']->last_name)}}</b></h5>
                                                                     </td>
                                                                     <td>
                                                                         <h5><b>${{$daily_data_item['daily_target']}}</b></h5>
@@ -225,7 +225,7 @@
                                                                 @endphp
                                                                 <tr>
                                                                     <td>
-                                                                        <h5><b>{{$monthly_data_item['user_body']->name}}</b></h5>
+                                                                        <h5><b>{{$monthly_data_item['user_body']->pseudo_name ?? ($monthly_data_item['user_body']->name . ' ' . $monthly_data_item['user_body']->last_name)}}</b></h5>
                                                                     </td>
                                                                     <td>
                                                                         <h5><b>${{$monthly_data_item['monthly_target']}}</b></h5>

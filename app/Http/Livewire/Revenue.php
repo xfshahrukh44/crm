@@ -173,6 +173,7 @@ class Revenue extends Component
             $buh_data []= [
                 'team_name' => $buh_user->name,
                 'buh_id' => $buh_user->id,
+                'buh' => $buh_user,
                 'daily_data' => $daily_data,
                 'monthly_data' => $monthly_data,
             ];

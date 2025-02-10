@@ -158,6 +158,7 @@ class AdminUserController extends Controller
             $user->name = $request->input('name');
             $user->last_name = $request->input('last_name');
             $user->email = $request->input('email');
+            $user->pseudo_name = $request->input('pseudo_name');
 
             if($request->input('password') != "")
             {

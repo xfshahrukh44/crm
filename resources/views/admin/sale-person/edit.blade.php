@@ -60,6 +60,10 @@
                                 <option value="8" {{ ($data->is_employee == 4 && $data->is_support_head == true) ? 'selected' : '' }}>Support Head (PM HEAD)</option>
                             </select>
                         </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label for="pseudo_name">Alternative name</label>
+                            <input type="text" id="pseudo_name" class="form-control" value="{{old('pseudo_name', $data->pseudo_name)}}" placeholder="Pseudo name" name="pseudo_name">
+                        </div>
 
 
                         <!--<div class="col-md-6 form-group mb-3">-->

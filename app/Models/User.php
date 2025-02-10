@@ -32,7 +32,8 @@ class User extends Authenticatable
         'verfication_code',
         'verfication_datetime',
         'is_support_head',
-        'alternate_email'
+        'alternate_email',
+        'pseudo_name'
     ];
 
     /**

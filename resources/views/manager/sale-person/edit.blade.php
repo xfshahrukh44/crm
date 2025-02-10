@@ -64,6 +64,10 @@
                             <label for="status">Target</label>
                             <input class="form-control" type="number" name="daily_target" id="" min="0" value="{{$data->finances->daily_target ?? 1000.00}}">
                         </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label for="pseudo_name">Alternative name</label>
+                            <input type="text" id="pseudo_name" class="form-control" value="{{old('pseudo_name', $data->pseudo_name)}}" placeholder="Pseudo name" name="pseudo_name">
+                        </div>
 
 
                         <!--<div class="col-md-6 form-group mb-3">-->
