@@ -54,7 +54,13 @@ class Revenue extends Component
         foreach ($buh_users as $buh_user) {
             //front, support head, upsell
             if ($buh_user->is_employee == 4) {
-                if ($buh_user->is_support_head != 1 && $buh_user->is_upsell != 1 ) {
+                if ($buh_user->is_support_head != 1 && $buh_user->is_upsell != 1) {
+                    continue;
+                }
+            }
+
+            if ($buh_user->is_employee == 6) {
+                if (!in_array($buh_user->id, [7, 1169, 33, 18, 4191, 4491])) {
                     continue;
                 }
             }
@@ -124,11 +130,19 @@ class Revenue extends Component
             $daily_data = [];
             $monthly_data = [];
             foreach ($sale_agents as $sale_agent) {
+                //front, support head, upsell
                 if ($sale_agent->is_employee == 4) {
-                    if ($sale_agent->is_support_head != 1 && $sale_agent->is_upsell != 1 ) {
+                    if ($sale_agent->is_support_head != 1 && $sale_agent->is_upsell != 1) {
                         continue;
                     }
                 }
+
+                if ($buh_user->is_employee == 6) {
+                    if (!in_array($buh_user->id, [7, 1169, 33, 18, 4191, 4491])) {
+                        continue;
+                    }
+                }
+
                 $todays_invoice_ids = DB::table('invoices')->whereIn('brand', $sale_agent->brand_list())
                     ->whereDate('created_at', '=', Carbon::today())->pluck('id')
                     ->where('sales_agent_id', $sale_agent->id)
