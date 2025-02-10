@@ -137,8 +137,8 @@ class Revenue extends Component
                     }
                 }
 
-                if ($buh_user->is_employee == 6) {
-                    if (!in_array($buh_user->id, [7, 1169, 33, 18, 4191, 4491])) {
+                if ($sale_agent->is_employee == 6) {
+                    if (!in_array($sale_agent->id, [7, 1169, 33, 18, 4191, 4491])) {
                         continue;
                     }
                 }
