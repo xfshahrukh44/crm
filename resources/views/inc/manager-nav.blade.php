@@ -285,6 +285,13 @@
                 </a>
                 <div class="triangle"></div>
             </li>
+            <li class="nav-item {{ (request()->routeIs('tutorials')) ? 'active' : '' }}">
+                <a class="nav-item-hold" href="{{ route('tutorials') }}">
+                    <i class="nav-icon fas fa-play"></i>
+                    <span class="nav-text">Tutorials</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
             <li class="nav-item {{ request()->routeIs('manager.message') || request()->routeIs('manager.message.show') ? 'active' : '' }}">
                 <a class="nav-item-hold" href="{{ route('manager.message') }}">
                     <i class="nav-icon i-Speach-Bubble-3"></i>

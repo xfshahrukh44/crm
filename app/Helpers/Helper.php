@@ -2197,3 +2197,14 @@ function limitTextAtWord($text, $limit = 100, $ellipsis = '...') {
     }
     return $text;
 }
+
+function get_crm_tutorials () {
+    return [
+        [
+            'title' => 'How to add client on DesignCRM',
+            'src' => asset('video/how-to-add-client-on-DesignCRM.mp4'),
+        ],
+    ];
+}
+
+

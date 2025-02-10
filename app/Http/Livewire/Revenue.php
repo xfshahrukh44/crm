@@ -2,12 +2,9 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Brand;
-use App\Models\Invoice;
 use App\Models\User;
 use App\Models\UserFinance;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
