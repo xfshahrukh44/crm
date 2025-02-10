@@ -82,7 +82,7 @@ class Revenue extends Component
                 ->whereDate('created_at', '>=', Carbon::today()->firstOfMonth())
                 ->whereDate('created_at', '<=', Carbon::today()->lastOfMonth())
                 ->where('sales_agent_id', $buh_user->id)
-                ->where('payment_status', 2)->toArray();
+                ->where('payment_status', 2)->pluck('id')->toArray();
             $this_months_invoice_totals = get_invoice_totals_in_usd($this_months_invoice_ids);
             $this_months_invoice_refunds = get_invoice_refunds_totals_in_usd($this_months_invoice_ids);
             $monthly_target = $buh_user->finances->daily_target ?? 1000.00;
