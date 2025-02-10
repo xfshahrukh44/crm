@@ -14,7 +14,7 @@ class ClientInvoiceController extends Controller
         $user_client = Client::find(auth()->user()->client_id);
 
         $data = new Invoice;
-        $data = $data->orderBy('id', 'desc')->where('client_id', auth()->user()->client_id)->where('brand', $user_client->brand_id);
+        $data = $data->where('payment_status', 2)->orderBy('id', 'desc')->where('client_id', auth()->user()->client_id)->where('brand', $user_client->brand_id);
         $data = $data->paginate(10);
 
 //        return view('client.invoice.index', compact('data'));
