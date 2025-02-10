@@ -124,13 +124,6 @@
                 </a>
                 <div class="triangle"></div>
             </li>
-            <li class="nav-item {{ (request()->routeIs('tutorials')) ? 'active' : '' }}">
-                <a class="nav-item-hold" href="{{ route('tutorials') }}">
-                    <i class="nav-icon fas fa-play"></i>
-                    <span class="nav-text">Tutorials</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
             <li class="nav-item {{ request()->routeIs('admin.merchant.index') || request()->routeIs('admin.merchant.edit') || request()->routeIs('admin.merchant.create') ? 'active' : '' }}">
                 <a class="nav-item-hold" href="{{ route('admin.merchant.index') }}">
                     <i class="nav-icon i-ID-Card"></i>
@@ -276,6 +269,13 @@
                 <a class="nav-item-hold" href="{{ route('admin.user.qa') }}">
                     <i class="nav-icon i-Administrator"></i>
                     <span class="nav-text">QA</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
+            <li class="nav-item {{ (request()->routeIs('tutorials')) ? 'active' : '' }}">
+                <a class="nav-item-hold" href="{{ route('tutorials') }}">
+                    <i class="nav-icon fas fa-play"></i>
+                    <span class="nav-text">Tutorials</span>
                 </a>
                 <div class="triangle"></div>
             </li>

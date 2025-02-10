@@ -244,13 +244,6 @@
                 </a>
                 <div class="triangle"></div>
             </li>
-            <li class="nav-item {{ (request()->routeIs('tutorials')) ? 'active' : '' }}">
-                <a class="nav-item-hold" href="{{ route('tutorials') }}">
-                    <i class="nav-icon fas fa-play"></i>
-                    <span class="nav-text">Tutorials</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
             <li class="nav-item {{ ( request()->routeIs('client.index') || request()->routeIs('client.edit') || request()->routeIs('client.generate.payment') || request()->routeIs('client.create')) ? 'active' : '' }}">
                 <a class="nav-item-hold" href="{{ route('client.index') }}">
                     <i class="nav-icon i-Add-User"></i>
@@ -283,6 +276,13 @@
                 <a class="nav-item-hold" href="{{ route('sale.project') }}">
                     <i class="nav-icon i-Suitcase"></i>
                     <span class="nav-text">All Projects</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
+            <li class="nav-item {{ (request()->routeIs('tutorials')) ? 'active' : '' }}">
+                <a class="nav-item-hold" href="{{ route('tutorials') }}">
+                    <i class="nav-icon fas fa-play"></i>
+                    <span class="nav-text">Tutorials</span>
                 </a>
                 <div class="triangle"></div>
             </li>

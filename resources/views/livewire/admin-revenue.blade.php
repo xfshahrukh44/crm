@@ -113,13 +113,15 @@
                                                                         <h5><b>{{$daily_data_item['user_body']->name}}</b></h5>
                                                                     </td>
                                                                     <td>
-                                                                        <input class="form-control daily_target" type="number" name="" value="{{$daily_data_item['daily_target']}}" step=".01">
+                                                                        <h5><b>${{$daily_data_item['daily_target']}}</b></h5>
+{{--                                                                        <input class="form-control daily_target" type="number" name="" value="{{$daily_data_item['daily_target']}}" step=".01">--}}
                                                                     </td>
                                                                     <td>
                                                                         <h5><b>${{$daily_data_item['daily_net_achieved']}}</b></h5>
                                                                     </td>
                                                                     <td>
-                                                                        <input class="form-control" type="number" name="" id="" value="{{$daily_data_item['daily_printing_costs']}}" step=".01">
+                                                                        <h5><b>${{$daily_data_item['daily_printing_costs']}}</b></h5>
+{{--                                                                        <input class="form-control" type="number" name="" id="" value="{{$daily_data_item['daily_printing_costs']}}" step=".01">--}}
                                                                     </td>
                                                                     <td>
                                                                         <h5><b>${{$daily_data_item['daily_refunds']}}</b></h5>
@@ -226,13 +228,15 @@
                                                                         <h5><b>{{$monthly_data_item['user_body']->name}}</b></h5>
                                                                     </td>
                                                                     <td>
-                                                                        <input class="form-control daily_target" type="number" name="" value="{{$monthly_data_item['monthly_target']}}" step=".01">
+                                                                        <h5><b>${{$monthly_data_item['monthly_target']}}</b></h5>
+{{--                                                                        <input class="form-control daily_target" type="number" name="" value="{{$monthly_data_item['monthly_target']}}" step=".01">--}}
                                                                     </td>
                                                                     <td>
                                                                         <h5><b>${{$monthly_data_item['monthly_net_achieved']}}</b></h5>
                                                                     </td>
                                                                     <td>
-                                                                        <input class="form-control" type="number" name="" id="" value="{{$monthly_data_item['monthly_printing_costs']}}" step=".01">
+                                                                        <h5><b>${{$monthly_data_item['monthly_printing_costs']}}</b></h5>
+{{--                                                                        <input class="form-control" type="number" name="" id="" value="{{$monthly_data_item['monthly_printing_costs']}}" step=".01">--}}
                                                                     </td>
                                                                     <td>
                                                                         <h5><b>${{$monthly_data_item['monthly_refunds']}}</b></h5>
