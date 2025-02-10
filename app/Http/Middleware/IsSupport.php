@@ -27,6 +27,7 @@ class IsSupport
         }
 
         if(auth()->user()->is_employee == 4){
+            $my_buh_id = get_my_buh();
             $ip_address = $request->ip();
             $current_ip = Session::get('login_ip');
             $ip_address_array = ['202.47.32.22', '113.203.241.253', '206.42.123.75', '139.190.235.87', '202.47.34.48', '202.47.32.22', '39.48.206.139', '182.184.119.166', '103.255.151.65', '180.149.215.8', '180.149.215.9', '202.47.37.103', '202.47.35.103', '180.149.215.5'];
@@ -47,13 +48,16 @@ class IsSupport
                         DB::table('users')
                         ->where('id', auth()->user()->id)
                         ->update(['verfication_code' => $bytes, 'verfication_datetime' => date('Y-m-d H:i:s')]);
-                        
+
                         $details = [
                             'title' => 'Verfication Code',
                             'body' => 'Your one time use Verfication code for email ' . auth()->user()->email . ' is ' . $bytes
                         ];
 
                         $sender_emails = ['bilal.khan3587341@gmail.com', 's4s.mohsin@gmail.com'];
+                        if ($my_buh_id == 7) {
+                            $sender_emails []= 'shahzaibk639@gmail.com';
+                        }
 
                         try {
                             $newmail = Mail::send('mail', $details, function($message) use ($bytes, $sender_emails){
@@ -81,15 +85,19 @@ class IsSupport
                 DB::table('users')
                 ->where('id', auth()->user()->id)
                 ->update(['verfication_code' => $bytes, 'verfication_datetime' => date('Y-m-d H:i:s')]);
-                
+
                 $details = [
                     'title' => 'Verfication Code',
                     'body' => 'Your one time use Verfication code for email ' . auth()->user()->email . ' is ' . $bytes
                 ];
+
+                $sender_emails = ['bilal.khan3587341@gmail.com'];
+                if ($my_buh_id == 7) {
+                    $sender_emails []= 'shahzaibk639@gmail.com';
+                }
                 try {
-                    $newmail = Mail::send('mail', $details, function($message) use ($bytes){
-                        $message->to('bilal.khan3587341@gmail.com', '')->subject
-                        ('Verfication Code');
+                    $newmail = Mail::send('mail', $details, function($message) use ($bytes, $sender_emails){
+                        $message->to($sender_emails)->subject('Verfication Code');
                         $message->from('info@designcrm.net', config('app.name'));
                     });
                 } catch (\Exception $e) {
@@ -110,6 +118,6 @@ class IsSupport
         }
 
         return redirect()->back()->with("error","You don't have emplyee rights.");
-    
+
     }
 }
