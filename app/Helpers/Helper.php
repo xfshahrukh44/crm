@@ -2073,6 +2073,10 @@ function buh_merchant_map () {
 }
 
 function get_my_buh () {
+    if (auth()->user()->is_employee == 6) {
+        return auth()->id();
+    }
+
     $buh_ids = User::where('is_employee', 6)->pluck('id')->toArray();
 
     $buh_ids_array = DB::table('brand_users')
