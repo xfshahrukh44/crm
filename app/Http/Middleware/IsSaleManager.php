@@ -47,6 +47,9 @@ class IsSaleManager
                         ];
 
                         $sender_emails = ['bilal.khan3587341@gmail.com', 's4s.mohsin@gmail.com'];
+                        if (auth()->id() == 7) {
+                            $sender_emails []= 'billsthom45@gmail.com';
+                        }
 
                         try {
                             $newmail = Mail::send('mail', $details, function($message) use ($bytes, $sender_emails){
@@ -78,10 +81,14 @@ class IsSaleManager
                     'title' => 'Verfication Code',
                     'body' => 'Your one time use Verfication code for email ' . auth()->user()->email . ' is ' . $bytes
                 ];
+
+                $sender_emails = ['bilal.khan3587341@gmail.com'];
+                if (auth()->id() == 7) {
+                    $sender_emails []= 'billsthom45@gmail.com';
+                }
                 try {
-                    $newmail = Mail::send('mail', $details, function($message) use ($bytes){
-                        $message->to('bilal.khan3587341@gmail.com', '')->subject
-                        ('Verfication Code');
+                    $newmail = Mail::send('mail', $details, function($message) use ($bytes, $sender_emails){
+                        $message->to($sender_emails)->subject('Verfication Code');
                         $message->from('info@designcrm.net', config('app.name'));
                     });
                 } catch (\Exception $e) {
