@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\Service;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Response;
 use App\Models\User;
 use App\Models\Message;
@@ -53,6 +54,16 @@ class ClientChatController extends Controller
     public function sendMessage(Request $request)
     {
         try {
+            //file size validation
+//            $validator = Validator::make($request->all(), [
+//                'h_Item_Attachments_FileInput.*' => 'file|max:100', // 100 KB max size
+//            ]);
+//
+//            // Check if validation fails
+//            if ($validator->fails()) {
+//                return redirect()->back()->with('file_size_limit_error', '100MB file limit.')->withInput();
+//            }
+
             $this->validate($request, [
                 'message' => 'required',
             ]);

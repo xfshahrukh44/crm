@@ -60,6 +60,39 @@
 
 </head>
 
+<div class="modal fade" id="modal_file_size" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Error uploading file(s)</h5>
+                <button type="button" class="close btn_close_modal" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    The file you are trying to upload exceeds the maximum allowed size of 100MB. Please select a smaller file.
+                </p>
+
+                <p>
+                    You can try these websites for large file uploads.
+                </p>
+                <ul>
+                    <li>
+                        <a target="_blank" href="https://wetransfer.com/">WeTransfer</a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://www.transfernow.net/en">TransferNow</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn_close_modal" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <body>
 
 <header>

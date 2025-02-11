@@ -320,8 +320,36 @@
             var chatContainer = $('.conversions');
             chatContainer.scrollTop(chatContainer.prop('scrollHeight'));
 
+            $('.btn_close_modal').on('click', function ()  {
+                $('#modal_file_size').modal('hide');
+            });
+
             $('#file-upload').on('change', function () {
-                toastr.success('File attached');
+                // toastr.success('File attached');
+
+                var files = this.files;
+                var maxSize = 100000 * 1024; // 100000KB in bytes
+                var isValid = true;
+
+                for (var i = 0; i < files.length; i++) {
+                    if (files[i].size > maxSize) {
+                        // alert('Error: ' + files[i].name + ' exceeds 100KB size limit.');
+                        isValid = false;
+                        break; // Stop checking further if one file exceeds the limit
+                    }
+                }
+
+                if (isValid) {
+                    toastr.success('File attached');
+                } else {
+                    // $(this).val(''); // Clear file input if there's an invalid file
+
+                    //reset form code here
+
+                    $('.form')[0].reset();
+                    $('#modal_file_size').modal('show');
+                    return false;
+                }
             });
 
             $('.form').on('submit', function (e) {
