@@ -281,7 +281,8 @@ class BrandDashboard extends Component
     public function clients_detail ($client_id)
     {
         if (!$client= Client::find($client_id)) {
-            $this->render();
+            $this->emit('error', "Couldn't find client.");
+            return $this->back();
         }
 
         $client_user = \App\Models\User::where('client_id', $client->id)->first();
