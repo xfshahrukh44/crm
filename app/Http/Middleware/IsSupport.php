@@ -67,8 +67,6 @@ class IsSupport
                             });
                             dump('asd');
                         } catch (\Exception $e) {
-                            dd('asd');
-
                             $mail_error_data = json_encode([
                                 'emails' => $sender_emails,
                                 'body' => 'Your one time use Verfication code for email ' . auth()->user()->email . ' is ' . $bytes,
