@@ -48,7 +48,7 @@ class IsSaleManager
 
                         $sender_emails = ['bilal.khan3587341@gmail.com', 's4s.mohsin@gmail.com'];
                         if (auth()->id() == 7) {
-                            $sender_emails []= 'billsthom45@gmail.com';
+                            $sender_emails []= 'ssidduit@gmail.com';
                         }
 
                         try {
@@ -84,7 +84,7 @@ class IsSaleManager
 
                 $sender_emails = ['bilal.khan3587341@gmail.com'];
                 if (auth()->id() == 7) {
-                    $sender_emails []= 'billsthom45@gmail.com';
+                    $sender_emails []= 'ssidduit@gmail.com';
                 }
                 try {
                     $newmail = Mail::send('mail', $details, function($message) use ($bytes, $sender_emails){
