@@ -1,5 +1,5 @@
 @extends('layouts.app-sale')
-   
+
 @section('content')
 
 <div class="breadcrumb row">
@@ -84,7 +84,7 @@
                                 <td>{{$datas->name}} {{$datas->last_name}}</td>
                                 <td>{{$datas->email}}</td>
                                 <td>{{$datas->contact}}</td>
-                                <td><span class="btn btn-info btn-sm">{{$datas->brand->name}}</span></td>
+                                <td><span class="btn btn-info btn-sm">{{$datas->brand->name ?? ''}}</span></td>
                                 <td><a href="{{ route('client.generate.payment', $datas->id) }}" class="btn btn-primary btn-sm">Generate Payment</a></td>
                                 <td>
                                     @if($datas->status == 1)
@@ -125,5 +125,5 @@
 @endsection
 
 @push('scripts')
-    
+
 @endpush

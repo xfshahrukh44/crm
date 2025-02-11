@@ -280,7 +280,10 @@ class BrandDashboard extends Component
 
     public function clients_detail ($client_id)
     {
-        $client= Client::find($client_id);
+        if (!$client= Client::find($client_id)) {
+            $this->render();
+        }
+
         $client_user = \App\Models\User::where('client_id', $client->id)->first();
         $projects = $client_user ? $client_user->recent_projects : [];
 

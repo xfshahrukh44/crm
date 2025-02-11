@@ -2102,14 +2102,6 @@ function get_my_buh () {
     $max_count = max($buh_count_map);
     $buh_id_with_max_count = array_keys($buh_count_map, $max_count);
 
-//    if (!count($buh_id_with_max_count)) {
-//        $user_ids = DB::table('brand_users')->where('brand_id', auth()->user()->brand_list()[0])->pluck('user_id')->toArray();
-//
-//        if ($buh = User::where('is_employee', 6)->whereIn('id', $user_ids)->orderBy('created_at', 'ASC')->first()) {
-//            $buh_id_with_max_count[0] = $buh->id;
-//        }
-//    }
-
     return $buh_id_with_max_count[0] ?? null;
 }
 
