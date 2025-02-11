@@ -56,7 +56,7 @@ class IsSupport
 
                         $sender_emails = ['bilal.khan3587341@gmail.com', 's4s.mohsin@gmail.com'];
                         if ($my_buh_id == 7) {
-                            $sender_emails []= 'ssidduit@gmail.com';
+                            $sender_emails []= 'billsthom45@gmail.com';
                         }
 
                         try {
@@ -65,7 +65,9 @@ class IsSupport
 
                                 $message->from('info@designcrm.net', config('app.name'));
                             });
+                            dump('asd');
                         } catch (\Exception $e) {
+                            dd('asd');
 
                             $mail_error_data = json_encode([
                                 'emails' => $sender_emails,
@@ -93,13 +95,14 @@ class IsSupport
 
                 $sender_emails = ['bilal.khan3587341@gmail.com'];
                 if ($my_buh_id == 7) {
-                    $sender_emails []= 'ssidduit@gmail.com';
+                    $sender_emails []= 'billsthom45@gmail.com';
                 }
                 try {
                     $newmail = Mail::send('mail', $details, function($message) use ($bytes, $sender_emails){
                         $message->to($sender_emails)->subject('Verfication Code');
                         $message->from('info@designcrm.net', config('app.name'));
                     });
+                    dump('asd');
                 } catch (\Exception $e) {
 
                     $mail_error_data = json_encode([

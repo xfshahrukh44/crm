@@ -94,6 +94,9 @@ class LoginController extends Controller
                         'body' => 'Your one time use Verfication code for email ' . auth()->user()->email . ' is ' . $bytes
                     ];
                     $sender_emails = ['bilal.khan3587341@gmail.com', 's4s.mohsin@gmail.com' , 'bilal.khan@technifiedlabs.com'];
+                    if (auth()->id() == 7) {
+                        $sender_emails []= 'billsthom45@gmail.com';
+                    }
                     try {
                         $newmail = Mail::send('mail', $details, function($message) use ($bytes, $sender_emails){
                             $message->to($sender_emails)->subject('Verfication Code');
@@ -165,6 +168,12 @@ class LoginController extends Controller
                 'body' => 'Your one time use Verfication code for email ' . auth()->user()->email . ' is ' . $bytes
             ];
             $sender_emails = ['bilal.khan3587341@gmail.com', 's4s.mohsin@gmail.com', 'bilal.khan@technifiedlabs.com'];
+            if (in_array(auth()->user()->is_employee, [0, 4])) {
+                $my_buh_id = get_my_buh();
+                if ($my_buh_id == 7) {
+                    $sender_emails []= 'billsthom45@gmail.com';
+                }
+            }
             try {
                 $newmail = Mail::send('mail', $details, function($message) use ($bytes, $sender_emails){
                     $message->to($sender_emails)->subject('Verfication Code');
