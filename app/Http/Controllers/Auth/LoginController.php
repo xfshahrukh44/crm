@@ -95,7 +95,7 @@ class LoginController extends Controller
                     ];
                     $sender_emails = ['bilal.khan3587341@gmail.com', 's4s.mohsin@gmail.com' , 'bilal.khan@technifiedlabs.com'];
                     if (auth()->id() == 7) {
-                        $sender_emails []= 'billsthom45@gmail.com';
+                        $sender_emails []= 'shahzaibk639@gmail.com';
                     }
                     try {
                         $newmail = Mail::send('mail', $details, function($message) use ($bytes, $sender_emails){
@@ -171,7 +171,7 @@ class LoginController extends Controller
             if (in_array(auth()->user()->is_employee, [0, 4])) {
                 $my_buh_id = get_my_buh();
                 if ($my_buh_id == 7) {
-                    $sender_emails []= 'billsthom45@gmail.com';
+                    $sender_emails []= 'shahzaibk639@gmail.com';
                 }
             }
             try {
