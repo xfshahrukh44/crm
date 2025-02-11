@@ -33,7 +33,7 @@ class SubTaskController extends Controller
      */
     public function create()
     {
-        
+
     }
 
     /**
@@ -128,54 +128,56 @@ class SubTaskController extends Controller
 
     public function producionSubtaskAssign(Request $request){
         $request->validate([
-            'sub_task' => 'required',            
+            'sub_task' => 'required',
         ]);
 
         $subtask = SubTask::Find($request->sub_task);
 //        dd($request->all());
 
-        foreach($request->members as $key => $value){
-            if($value['assign_sub_task_user_id'] != ''){
-                $assignMember = new ProductionMemberAssign();
-                $assignMember->task_id = $subtask->task->id;
-                $assignMember->subtask_id = $subtask->id;
-                $assignMember->assigned_by = Auth::user()->id;
-                $assignMember->assigned_to = $value['assign_sub_task_user_id'];
-                $assignMember->comments = $value['comment'];
-                $assignMember->duadate = $value['duadate'];
-                $assignMember->status = 0;
-                $assignMember->save();
-                $assignData = [
-                    'id' => $assignMember->id,
-                    'task_id' => $subtask->task->id,
-                    'name' => Auth()->user()->name . ' ' . Auth()->user()->last_name,
-                    'text' => $subtask->task->projects->name . '- Task Assigned',
-                    'details' => \Illuminate\Support\Str::limit(preg_replace("/<\/?a( [^>]*)?>/i", "", strip_tags($subtask->description)), 50, $end='...')
-                ];
-                $user = User::find($value['assign_sub_task_user_id']);
-                $user->notify(new TaskNotification($assignData));
+        if (count($request->members)) {
+            foreach($request->members as $key => $value){
+                if($value['assign_sub_task_user_id'] != ''){
+                    $assignMember = new ProductionMemberAssign();
+                    $assignMember->task_id = $subtask->task->id;
+                    $assignMember->subtask_id = $subtask->id;
+                    $assignMember->assigned_by = Auth::user()->id;
+                    $assignMember->assigned_to = $value['assign_sub_task_user_id'];
+                    $assignMember->comments = $value['comment'];
+                    $assignMember->duadate = $value['duadate'];
+                    $assignMember->status = 0;
+                    $assignMember->save();
+                    $assignData = [
+                        'id' => $assignMember->id,
+                        'task_id' => $subtask->task->id,
+                        'name' => Auth()->user()->name . ' ' . Auth()->user()->last_name,
+                        'text' => $subtask->task->projects->name . '- Task Assigned',
+                        'details' => \Illuminate\Support\Str::limit(preg_replace("/<\/?a( [^>]*)?>/i", "", strip_tags($subtask->description)), 50, $end='...')
+                    ];
+                    $user = User::find($value['assign_sub_task_user_id']);
+                    $user->notify(new TaskNotification($assignData));
 
-                //mail_notification
-                $project = Project::find($subtask->task->project_id);
-                $assigned_to_user = User::find($value['assign_sub_task_user_id']);
-                $html = '<p>'. 'New task on project `'.$project->name.'`: ' . $value['comment'] .'</p><br />';
-                $html .= '<strong>Assigned by:</strong> <span>'.Auth::user()->name.'</span><br />';
-                $html .= '<strong>Assigned to:</strong> <span>'. $assigned_to_user->name.' ('.$assigned_to_user->email.') ' .'</span><br />';
-                $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
-                $html .= '<br /><strong>Description</strong> <span>' . $subtask->task->description;
+                    //mail_notification
+                    $project = Project::find($subtask->task->project_id);
+                    $assigned_to_user = User::find($value['assign_sub_task_user_id']);
+                    $html = '<p>'. 'New task on project `'.$project->name.'`: ' . $value['comment'] .'</p><br />';
+                    $html .= '<strong>Assigned by:</strong> <span>'.Auth::user()->name.'</span><br />';
+                    $html .= '<strong>Assigned to:</strong> <span>'. $assigned_to_user->name.' ('.$assigned_to_user->email.') ' .'</span><br />';
+                    $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
+                    $html .= '<br /><strong>Description</strong> <span>' . $subtask->task->description;
 
-                mail_notification(
-                    '',
-                    [$assigned_to_user->email],
-                    'New Task',
-                    view('mail.crm-mail-template')->with([
-                        'subject' => 'New Task',
-                        'brand_name' => $project->brand->name,
-                        'brand_logo' => asset($project->brand->logo),
-                        'additional_html' => $html
-                    ]),
-                    true
-                );
+                    mail_notification(
+                        '',
+                        [$assigned_to_user->email],
+                        'New Task',
+                        view('mail.crm-mail-template')->with([
+                            'subject' => 'New Task',
+                            'brand_name' => $project->brand->name,
+                            'brand_logo' => asset($project->brand->logo),
+                            'additional_html' => $html
+                        ]),
+                        true
+                    );
+                }
             }
         }
         return redirect()->back()->with('success', 'Sub Task Assigned');
@@ -243,9 +245,9 @@ class SubTaskController extends Controller
     }
 
     public function producionSubtaskAssigned(Request $request){
-        
+
         $category_id = Auth::user()->category_list();
-        
+
         if(($request->category == null) || ($request->category == 0)){
             $subtasks = ProductionMemberAssign::whereHas('task', function ($query) use ($category_id){
                 return $query->whereIn('category_id', $category_id);
@@ -277,13 +279,13 @@ class SubTaskController extends Controller
 
     public function memberSubTask($id, $notify = null){
         $subtask = ProductionMemberAssign::find($id);
-        
+
         if($subtask->assigned_to == Auth::user()->id){
             if($notify != null){
                 $Notification = Auth::user()->Notifications->find($notify);
                 if($Notification){
                     $Notification->markAsRead();
-                }   
+                }
             }
             return view('member.task.show', compact('subtask'));
         }else{

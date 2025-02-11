@@ -117,13 +117,13 @@ class TaskController extends Controller
             $Notification = Auth::user()->Notifications->find($notify);
             if($Notification){
                 $Notification->markAsRead();
-            }   
+            }
         }
 
         $subtask = ProductionMemberAssign::find($id);
         return view('production.subtask.show', compact('subtask'));
         // if($subtask->assigned_by == Auth::user()->id){
-            
+
         // }else{
         //     return redirect()->back();
         // }
@@ -150,15 +150,18 @@ class TaskController extends Controller
             $Notification = Auth::user()->Notifications->find($notify);
             if($Notification){
                 $Notification->markAsRead();
-            }   
+            }
         }
         $task = Task::find($id);
         $members = User::where('is_employee', 5)->where('status','1')->whereHas('category', function ($query) use ($task){
-            return $query->where('category_id', '=', $task->category_id);
+//            return $query->where('category_id', '=', $task->category_id);
+            return $query->when($task, function ($q) use ($task) {
+                return $q->where('category_id', '=', $task->category_id);
+            });
         })->get();
-        
+
         // dump($members[0]->name);
-        
+
         return view('production.task.show', compact('task', 'members'));
     }
 
@@ -498,7 +501,7 @@ class TaskController extends Controller
             $Notification = Auth::user()->Notifications->find($notify);
             if($Notification){
                 $Notification->markAsRead();
-            }   
+            }
         }
         // $project = Project::where('status', 1)->where('user_id', Auth()->user()->id)->where('brand_id', Auth()->user()->brand_list())->where('id', $id)->first();
         $cat_array = array();
@@ -537,7 +540,7 @@ class TaskController extends Controller
         ]);
         $validate_task = Task::where('project_id', $request->project)->where('category_id', $request->category)->first();
         if($validate_task != null){
-           
+
         }
         $get_product = Project::where('status', 1)->whereIn('brand_id', Auth()->user()->brand_list())->where('id', $request->project)->first();
         $category = $request->category;
@@ -689,7 +692,7 @@ class TaskController extends Controller
         $notification_task = Auth()->user()->unreadnotifications->where('type', 'App\Notifications\TaskNotification')->all();
         foreach($notification_task as $notification_tasks){
             array_push($task_array, $notification_tasks['data']['task_id']);
-        
+
         }
         $brand_id = Auth()->user()->brand_list();
 
@@ -730,7 +733,7 @@ class TaskController extends Controller
         });
 
         $data = $data->whereNotIn('id', $task_array)->orderBy('id', 'desc')->paginate(20);
-        
+
         $notify_data = Task::whereIn('brand_id', Auth()->user()->brand_list())
 //            //hide tasks in QA
 //            ->where('status', '!=', 7)
@@ -741,9 +744,9 @@ class TaskController extends Controller
             })
             ->whereIn('id', $task_array)->orderBy('id', 'desc')->get();
         $brands =  Brand::whereIn('id', Auth()->user()->brand_list())->get();
-        
+
         $date_now = new DateTime();
-        
+
 
 
         $expected_delivery_today = Task::whereIn('brand_id', Auth()->user()->brand_list())
@@ -753,7 +756,7 @@ class TaskController extends Controller
 
         //Modified
 
-        
+
         $mainquery = SubTask::select(DB::raw('*, max(duedate)'))->whereNotNull('duedate')->orderBy('duedate','desc')
                             ->groupBy('task_id')->whereHas('task',function($query){
                                     $query->where('user_id','=',Auth()->user()->id)->whereIn('brand_id', Auth()->user()->brand_list())->whereIn('status', [0, 1, 4])->whereHas('projects',  function($project_query){
@@ -769,28 +772,28 @@ class TaskController extends Controller
         //         $project_query->where('user_id', '=', Auth()->user()->id);
         //     });
         // })->with('task')->get();
-        
+
         $example_today = $mainquery->whereDate('duedate',date('Y-m-d'))->get();
 
-        
+
         //End Modified
-            
+
         $expected_delivery_duedate = Task::whereIn('brand_id', Auth()->user()->brand_list())
             ->whereHas('projects', function ($q) {
                 $q->where('user_id', '=', Auth()->user()->id);
             })->whereHas('sub_tasks', function($q) use ($date_now){
                 $q->whereDate('duedate', '<', $date_now->format('Y-m-d'));
             })->whereIn('status', [0, 1, 4])->orderBy('id', 'desc')->get();
-            
+
         //Modified
         // $example_delivery_duedate = SubTask::orderBy('duedate','desc')->where('duedate','<',date('Y-m-d'))->whereHas('task',function($query){
         //     $query->where('user_id','=',Auth()->user()->id)->whereIn('brand_id', Auth()->user()->brand_list())->whereIn('status', [0, 1, 4])->whereHas('projects',  function($project_query){
         //         $project_query->where('user_id', '=', Auth()->user()->id);
         //     });
         // })->with('task')->get();
-        
+
         $example_delivery_duedate = $mainquery->whereDate('duedate','>',date('Y-m-d'))->get();
-        
+
 
         $yesterday_date = $date_now->modify('+1 day');
 
@@ -799,14 +802,14 @@ class TaskController extends Controller
         })->whereHas('sub_tasks', function($query) use ($yesterday_date){
             return $query->whereNotNull('duedate')->whereDate('duedate', $yesterday_date)->orderBy('id', 'desc')->whereIn('status', [0, 1, 4]);
         })->whereIn('status', [0, 1, 4])->orderBy('id', 'desc')->get();
-        
+
         //Modified
         // $example_deliverly_yesterday = SubTask::whereDate('duedate',date("Y-m-d", strtotime( '-1 days' ) ))->whereHas('task',function($query){
         //     $query->where('user_id','=',Auth()->user()->id)->whereIn('brand_id', Auth()->user()->brand_list())->whereIn('status', [0, 1, 4])->whereHas('projects',  function($project_query){
         //         $project_query->where('user_id', '=', Auth()->user()->id);
         //     });
-        // })->with('task')->get(); 
-        
+        // })->with('task')->get();
+
         $example_deliverly_yesterday = $mainquery->whereDate('duedate',date("Y-m-d", strtotime( '-1 days' ) ))->get();
 
         //EndModified
@@ -816,10 +819,10 @@ class TaskController extends Controller
             'today_date' => $example_today,
             'yesterday_date' => $example_deliverly_yesterday,
             'due_date_sub_task' => $example_delivery_duedate
-        ]; 
+        ];
         // MyDataEndModified
-        
-        
+
+
 
         return view('support.task.index', compact('data', 'notify_data', 'brands', 'categorys', 'expected_delivery_today', 'expected_delivery_duedate', 'expected_delivery_yesterday','myData'));
     }
@@ -837,7 +840,7 @@ class TaskController extends Controller
             $Notification = Auth::user()->Notifications->find($notify);
             if($Notification){
                 $Notification->markAsRead();
-            }   
+            }
         }
         if (
             !$task = Task::where('id', $id)
