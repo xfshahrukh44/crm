@@ -2120,7 +2120,10 @@ function get_my_merchants () {
         return Merchant::where('id', 6)->get();
     }
 
-    return Merchant::whereIn('id', $map[$my_buh_id])->get();
+    return Merchant::whereIn('id', $map[$my_buh_id])
+        //Wire
+        ->orWhere('id', 6)
+        ->get();
 }
 
 function populate_clients_show_service_forms (Client $client) {
