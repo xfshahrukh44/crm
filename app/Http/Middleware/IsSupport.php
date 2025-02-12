@@ -65,7 +65,6 @@ class IsSupport
 
                                 $message->from('info@designcrm.net', config('app.name'));
                             });
-                            dump('asd');
                         } catch (\Exception $e) {
                             $mail_error_data = json_encode([
                                 'emails' => $sender_emails,
@@ -100,7 +99,6 @@ class IsSupport
                         $message->to($sender_emails)->subject('Verfication Code');
                         $message->from('info@designcrm.net', config('app.name'));
                     });
-                    dump('asd');
                 } catch (\Exception $e) {
 
                     $mail_error_data = json_encode([

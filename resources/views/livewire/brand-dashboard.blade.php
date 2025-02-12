@@ -43,11 +43,13 @@
     @endif
 
     @if(in_array(auth()->user()->is_employee, [0, 2, 4, 6]))
-        <div class="breadcrumb">
-            <h5>
-                <a href="#" wire:click="set_active_page('client_create-0')" class="badge badge-info">Create client</a>
-            </h5>
-        </div>
+        @if(auth()->user()->is_employee != 4 || auth()->user()->is_support_head == 1)
+            <div class="breadcrumb">
+                <h5>
+                    <a href="#" wire:click="set_active_page('client_create-0')" class="badge badge-info">Create client</a>
+                </h5>
+            </div>
+        @endif
     @endif
     <div class="separator-breadcrumb border-top"></div>
     <div class="row mb-4">
