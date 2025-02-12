@@ -74,17 +74,17 @@
                     The file you are trying to upload exceeds the maximum allowed size of 100MB. Please select a smaller file.
                 </p>
 
-                <p>
-                    You can try these websites for large file uploads.
-                </p>
-                <ul>
-                    <li>
-                        <a target="_blank" href="https://wetransfer.com/">WeTransfer</a>
-                    </li>
-                    <li>
-                        <a target="_blank" href="https://www.transfernow.net/en">TransferNow</a>
-                    </li>
-                </ul>
+{{--                <p>--}}
+{{--                    You can try these websites for large file uploads.--}}
+{{--                </p>--}}
+{{--                <ul>--}}
+{{--                    <li>--}}
+{{--                        <a target="_blank" href="https://wetransfer.com/">WeTransfer</a>--}}
+{{--                    </li>--}}
+{{--                    <li>--}}
+{{--                        <a target="_blank" href="https://www.transfernow.net/en">TransferNow</a>--}}
+{{--                    </li>--}}
+{{--                </ul>--}}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary btn_close_modal" data-dismiss="modal">Close</button>

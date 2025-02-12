@@ -2083,7 +2083,7 @@ function get_my_buh () {
         ->whereIn('user_id', $buh_ids)
         ->whereIn('brand_id', auth()->user()->brand_list())
         //exclude QA BUHs
-        ->whereNotIn('user_id', [2260, 3837, 3839, 3838])
+        ->whereNotIn('user_id', [2260, 3837, 3839, 3838, 4192])
         ->pluck('user_id')->toArray();
 
     $buh_count_map = [];

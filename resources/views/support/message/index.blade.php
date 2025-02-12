@@ -199,37 +199,37 @@
         </div>
     </div>
 </section>
-<div class="left-message-box-wrapper">
-    <div class="left-message-box">
-        <form class="form" action="{{ route('support.message.send') }}" enctype="multipart/form-data" method="post" id="message-post">
-            @csrf
-            <input type="hidden" name="client_id" value="{{ $user->id }}">
-            <div class="form-body">
-                <div class="form-group mb-0">
-                    <h1>Write A Message <span id="close-message-left"><i class="nav-icon i-Close-Window"></i></span></h1>
-                    <textarea id="message" rows="8" class="form-control border-primary" name="message" placeholder="Write a Message">{{old('message')}}</textarea>
-                    <div class="input-field">
-                        <div class="input-images" style="padding-top: .5rem;"></div>
-                    </div>
-                    <!-- <table>
-                        <tr>
-                            <td colspan="3" style="vertical-align:middle; text-align:left;">
-                                <div id="h_ItemAttachments"></div>
-                                <input type="button" id="h_btnAddFileUploadControl" value="Add Attachment" onclick="Clicked_h_btnAddFileUploadControl()" class="btn btn-info btn_Standard" />
-                                <div id="h_ItemAttachmentControls"></div>
-                            </td>
-                        </tr>
-                    </table> -->
-                    <div class="form-actions pb-0">
-                        <button type="submit" class="btn btn-primary w-100">
-                        <i class="la la-check-square-o"></i> Send Message
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>        
-</div>
+{{--<div class="left-message-box-wrapper">--}}
+{{--    <div class="left-message-box">--}}
+{{--        <form class="form" action="{{ route('support.message.send') }}" enctype="multipart/form-data" method="post" id="message-post">--}}
+{{--            @csrf--}}
+{{--            <input type="hidden" name="client_id" value="{{ $user->id }}">--}}
+{{--            <div class="form-body">--}}
+{{--                <div class="form-group mb-0">--}}
+{{--                    <h1>Write A Message <span id="close-message-left"><i class="nav-icon i-Close-Window"></i></span></h1>--}}
+{{--                    <textarea id="message" rows="8" class="form-control border-primary" name="message" placeholder="Write a Message">{{old('message')}}</textarea>--}}
+{{--                    <div class="input-field">--}}
+{{--                        <div class="input-images" style="padding-top: .5rem;"></div>--}}
+{{--                    </div>--}}
+{{--                    <!-- <table>--}}
+{{--                        <tr>--}}
+{{--                            <td colspan="3" style="vertical-align:middle; text-align:left;">--}}
+{{--                                <div id="h_ItemAttachments"></div>--}}
+{{--                                <input type="button" id="h_btnAddFileUploadControl" value="Add Attachment" onclick="Clicked_h_btnAddFileUploadControl()" class="btn btn-info btn_Standard" />--}}
+{{--                                <div id="h_ItemAttachmentControls"></div>--}}
+{{--                            </td>--}}
+{{--                        </tr>--}}
+{{--                    </table> -->--}}
+{{--                    <div class="form-actions pb-0">--}}
+{{--                        <button type="submit" class="btn btn-primary w-100">--}}
+{{--                        <i class="la la-check-square-o"></i> Send Message--}}
+{{--                        </button>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </form>--}}
+{{--    </div>--}}
+{{--</div>--}}
 <!--  Modal -->
 <div class="modal fade" id="exampleModalMessageEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle-2" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -242,13 +242,45 @@
                 @csrf
                 <input type="hidden" name="message_id" id="message_id">
                 <div class="modal-body">
-                    <textarea name="editmessage" id="editmessage" cols="30" rows="10" class="form-control"></textarea> 
+                    <textarea name="editmessage" id="editmessage" cols="30" rows="10" class="form-control"></textarea>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
                     <button class="btn btn-primary ml-2" type="submit">Update changes</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal_file_size" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Error uploading file(s)</h5>
+                <button type="button" class="close btn_close_modal" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    The file you are trying to upload exceeds the maximum allowed size of 100MB. Please select a smaller file.
+                </p>
+
+                {{--                <p>--}}
+                {{--                    You can try these websites for large file uploads.--}}
+                {{--                </p>--}}
+                {{--                <ul>--}}
+                {{--                    <li>--}}
+                {{--                        <a target="_blank" href="https://wetransfer.com/">WeTransfer</a>--}}
+                {{--                    </li>--}}
+                {{--                    <li>--}}
+                {{--                        <a target="_blank" href="https://www.transfernow.net/en">TransferNow</a>--}}
+                {{--                    </li>--}}
+                {{--                </ul>--}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn_close_modal" data-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>
@@ -320,7 +352,7 @@
 g_FileUploadControlCounter = 0;
 
 function Clicked_h_btnAddFileUploadControl() {
-    var v_btnFileUploadControl = document.getElementById("h_btnAddFileUploadControl");  
+    var v_btnFileUploadControl = document.getElementById("h_btnAddFileUploadControl");
         v_btnFileUploadControl.value = "Add Another Attachment";
 
     var n="h_Item_Attachments_FileInput[]";
