@@ -42,6 +42,7 @@ class ProductionDashboard extends Component
 
     public function construct()
     {
+        return redirect()->route('login');
         if (!auth()->check() || !in_array(auth()->user()->is_employee, [1])) {
             return false;
         }
