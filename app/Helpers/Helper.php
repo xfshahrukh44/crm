@@ -1658,6 +1658,7 @@ function get_authorize_keys ($merchant_id) {
 function authorize_charge ($card_number, $exp_month, $exp_year, $cvv, $invoice_id) {
     try {
         $invoice = Invoice::find($invoice_id);
+        $currency = strtoupper($invoice->_currency->short_name ?? 'usd');
         $client = Client::find($invoice->client_id);
 
         $keys = get_authorize_keys($invoice->merchant_id);
@@ -1727,6 +1728,12 @@ function authorize_charge ($card_number, $exp_month, $exp_year, $cvv, $invoice_i
         $transactionRequestType->setBillTo($customerAddress);
         $transactionRequestType->setCustomer($customerData);
         $transactionRequestType->addToTransactionSettings($duplicateWindowSetting);
+
+        // Add currency code setting
+        $currencySetting = new AnetAPI\SettingType();
+        $currencySetting->setSettingName("currencyCode");
+        $currencySetting->setSettingValue($currency);
+        $transactionRequestType->addToTransactionSettings($currencySetting); // Add currency setting
 //        $transactionRequestType->addToUserFields($merchantDefinedField1);
 //        $transactionRequestType->addToUserFields($merchantDefinedField2);
 
