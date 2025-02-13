@@ -58,7 +58,7 @@
                     </div>
                 </a>
                 @if($loop->last)
-                    
+
                 @endif
                 @php
                     $k++;
@@ -121,42 +121,51 @@
     <div class="sidebar-left open rtl-ps-none" data-perfect-scrollbar="" data-suppress-scroll-x="true">
         <ul class="navigation-left">
             @if(Auth::user()->status == 0)
-            <li class="nav-item active">
-                <a class="nav-item-hold" href="#">
-                    <i class="nav-icon i-Bar-Chart"></i>
-                    <span class="nav-text">No Option Available</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
-            @else
-            <li class="nav-item {{ (request()->routeIs('production.dashboard'))? 'active' : '' }}">
-                <a class="nav-item-hold" href="{{ route('production.dashboard') }}">
-                    <i class="nav-icon i-Bar-Chart"></i>
-                    <span class="nav-text">Dashboard</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
-            <li class="nav-item {{ (request()->routeIs('production.notification'))? 'active' : '' }}">
-                <a class="nav-item-hold" href="{{ route('production.notification') }}">
-                    <i class="nav-icon i-Bell"></i>
-                    <span class="nav-text">Notification</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
-            <li class="nav-item {{ ( request()->routeIs('production.home') || request()->routeIs('production.task.show') )? 'active' : '' }}">
-                <a class="nav-item-hold" href="{{ route('production.home') }}">
-                    <i class="nav-icon i-Suitcase"></i>
-                    <span class="nav-text">Tasks</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
-            <li class="nav-item {{ ( request()->routeIs('production.subtask.assigned') || request()->routeIs('production.subtask.show') ) ? 'active' : '' }}">
-                <a class="nav-item-hold" href="{{ route('production.subtask.assigned') }}">
-                    <i class="nav-icon i-Receipt-4"></i>
-                    <span class="nav-text">Sub Tasks</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
+                <li class="nav-item active">
+                    <a class="nav-item-hold" href="#">
+                        <i class="nav-icon i-Bar-Chart"></i>
+                        <span class="nav-text">No Option Available</span>
+                    </a>
+                    <div class="triangle"></div>
+                </li>
+                @else
+                <li class="nav-item {{ (request()->routeIs('production.dashboard'))? 'active' : '' }}">
+                    <a class="nav-item-hold" href="{{ route('production.dashboard') }}">
+                        <i class="nav-icon i-Bar-Chart"></i>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                    <div class="triangle"></div>
+                </li>
+                <li class="nav-item {{ (request()->routeIs('production.notification'))? 'active' : '' }}">
+                    <a class="nav-item-hold" href="{{ route('production.notification') }}">
+                        <i class="nav-icon i-Bell"></i>
+                        <span class="nav-text">Notification</span>
+                    </a>
+                    <div class="triangle"></div>
+                </li>
+                <li class="nav-item {{ ( request()->routeIs('production.home') || request()->routeIs('production.task.show') )? 'active' : '' }}">
+                    <a class="nav-item-hold" href="{{ route('production.home') }}">
+                        <i class="nav-icon i-Suitcase"></i>
+                        <span class="nav-text">Tasks</span>
+                    </a>
+                    <div class="triangle"></div>
+                </li>
+                <li class="nav-item {{ ( request()->routeIs('production.subtask.assigned') || request()->routeIs('production.subtask.show') ) ? 'active' : '' }}">
+                    <a class="nav-item-hold" href="{{ route('production.subtask.assigned') }}">
+                        <i class="nav-icon i-Receipt-4"></i>
+                        <span class="nav-text">Sub Tasks</span>
+                    </a>
+                    <div class="triangle"></div>
+                </li>
+                @if(env('PRODUCTION_LIVEWIRE') == true)
+                    <li class="nav-item {{ ( request()->routeIs('production.dashboard.v2') ) ? 'active' : '' }}">
+                        <a class="nav-item-hold" href="{{ route('production.dashboard.v2') }}">
+                            <i class="nav-icon i-Bar-Chart"></i>
+                            <span class="nav-text">Dashboard</span>
+                        </a>
+                        <div class="triangle"></div>
+                    </li>
+                @endif
             @endif
         </ul>
     </div>

@@ -1729,11 +1729,11 @@ function authorize_charge ($card_number, $exp_month, $exp_year, $cvv, $invoice_i
         $transactionRequestType->setCustomer($customerData);
         $transactionRequestType->addToTransactionSettings($duplicateWindowSetting);
 
-        // Add currency code setting
-        $currencySetting = new AnetAPI\SettingType();
-        $currencySetting->setSettingName("currencyCode");
-        $currencySetting->setSettingValue($currency);
-        $transactionRequestType->addToTransactionSettings($currencySetting); // Add currency setting
+//        // Add currency code setting
+//        $currencySetting = new AnetAPI\SettingType();
+//        $currencySetting->setSettingName("currencyCode");
+//        $currencySetting->setSettingValue($currency);
+//        $transactionRequestType->addToTransactionSettings($currencySetting); // Add currency setting
 //        $transactionRequestType->addToUserFields($merchantDefinedField1);
 //        $transactionRequestType->addToUserFields($merchantDefinedField2);
 
@@ -2219,4 +2219,12 @@ function get_crm_tutorials () {
     ];
 }
 
+function get_my_members_by_category ($category_id) {
+    if (!auth()->check() || auth()->user()->is_employee != 1) {
+        return [];
+    }
 
+    return User::select('id', 'name', 'email', 'last_name')->where('is_employee', 5)->whereHas('category', function ($query) use ($category_id){
+        return $query->where('category_id', '=', $category_id);
+    })->get();
+}

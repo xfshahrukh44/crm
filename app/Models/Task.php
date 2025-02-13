@@ -109,6 +109,10 @@ class Task extends Model
         return $this->hasMany(SubTask::class, 'task_id', 'id')->where('sub_task_id', 0)->orderBy('id', 'desc');
     }
 
+    public function sub_tasks_default_order(){
+        return $this->hasMany(SubTask::class, 'task_id', 'id')->where('sub_task_id', 0)->orderBy('id', 'ASC');
+    }
+
     public function messages(){
         return $this->hasMany(Message::class, 'task_id', 'id')->orderBy('id', 'desc');
     }
@@ -129,7 +133,7 @@ class Task extends Model
                 $date2 = new DateTime(date('d-m-Y', strtotime($this->duedate)));
                 $date_string = $this->duedate;
             }
-            
+
             // if($this->subtaskDueDate != null){
             //     if($this->subtaskDueDate->duedateChange != null){
             //         $date2 = new DateTime(date('d-m-Y', strtotime($this->subtaskDueDate->duedateChange->duadate)));
@@ -143,7 +147,7 @@ class Task extends Model
             //     $date_string = $this->duedate;
             // }
         }
-        
+
         $button = '';
         if ($date_now > $date2){
             $button.= '<button class="btn btn-danger btn-sm">';
@@ -155,7 +159,7 @@ class Task extends Model
         return $button;
     }
     public function todaySubtask(){
-  
+
         return $this->hasMany(SubTask::class, 'task_id', 'id')->whereNotNull('duedate')->where('sub_task_id', 0)->where('duedate', date('Y-m-d'));
     }
 

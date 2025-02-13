@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- <title>{{ config('app.name', 'Kamay Backoffice') }}</title> -->
-    <title>{{ config('app.name') }} - @yield('title')</title> 
+    <title>{{ config('app.name') }} - @yield('title')</title>
     <!-- Scripts -->
     <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('global/img/apple-icon-57x57.png') }}">
     <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('global/img/apple-icon-60x60.png') }}">
@@ -34,6 +34,7 @@
     <link href="{{ asset('newglobal/css/select2.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('newglobal/css/sweetalert2.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('global/css/qa.css') }}" rel="stylesheet" />
+{{--    <link href="{{ asset('css/style.css') }}" rel="stylesheet" />--}}
     <style type="text/css">
         .file {
               visibility: hidden;
@@ -48,6 +49,9 @@
               height: 500px;
             }
     </style>
+    @if(env('PRODUCTION_LIVEWIRE') == true)
+        @livewireStyles
+    @endif
     @stack('styles')
 </head>
 <body class="text-left">
@@ -71,7 +75,7 @@
                 </div>
                 @else
                 @yield('content')
-                @endif    
+                @endif
             </div>
             <div class="flex-grow-1"></div>
             <div class="app-footer">
@@ -88,7 +92,7 @@
             </div>
         </div>
     </div>
-<!--     
+<!--
     <script src="{{ asset('global/js/vendors.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('global/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('global/js/app-menu.js') }}" type="text/javascript"></script>
@@ -197,5 +201,11 @@
             });
         }, 1200000)
     </script>
+    @if(env('PRODUCTION_LIVEWIRE') == true)
+{{--        @if(\Illuminate\Support\Facades\Route::is('brands.dashboard.v3'))--}}
+            @livewireScripts
+            @include('livewire.production.listeners')
+{{--        @endif--}}
+    @endif
 </body>
 </html>

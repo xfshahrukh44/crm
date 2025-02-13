@@ -14,6 +14,7 @@ use App\Http\Controllers\StripeController;
 use App\Http\Controllers\SupportClientController;
 use App\Http\Controllers\SupportInvoiceController;
 use App\Http\Livewire\BrandDashboard;
+use App\Http\Livewire\ProductionDashboard;
 use App\Http\Livewire\Revenue;
 use App\Http\Livewire\Tutorials;
 use App\Models\User;
@@ -539,6 +540,8 @@ Route::group(['middleware' => 'auth'], function () {
 Route::get('brands-dashboard', BrandDashboard::class)->name('brands.dashboard.v3');
 Route::get('revenue', Revenue::class)->name('revenue');
 Route::get('tutorials', Tutorials::class)->name('tutorials');
+
+Route::get('production-dashboard', ProductionDashboard::class)->name('production.dashboard.v2');
 
 Route::get('get-invoices', [GeneralBrandController::class, 'get_invoices'])->middleware('auth')->name('get-invoices');
 Route::get('get-support-agents', [GeneralBrandController::class, 'get_support_agents'])->middleware('auth')->name('get-support-agents');
