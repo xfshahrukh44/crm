@@ -339,7 +339,9 @@ class BrandDashboard extends Component
             return $q->whereIn('id', auth()->user()->brand_list());
         })->get();
 
-        $this->client_create_brand_id = $brand_id;
+        if ($brand_id != 0) {
+            $this->client_create_brand_id = $brand_id;
+        }
 
         return view('livewire.client.create', compact('brands'))->extends($this->layout);
     }

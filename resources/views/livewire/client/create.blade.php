@@ -47,7 +47,7 @@
                                     <select name="brand_id" wire:model="client_create_brand_id" id="brand" class="form-control">
                                         <option value="">Select Brand</option>
                                         @foreach($brands as $brand)
-                                            <option value="{{ $brand->id }}" {!! $client_create_brand_id && $client_create_brand_id == $brand->id ? 'selected' : '' !!}>{{ $brand->name }}</option>
+                                            <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                                         @endforeach
                                     </select>
                                     @error('client_create_brand_id') <span class="error text-danger">{{ $message }}</span> @enderror
