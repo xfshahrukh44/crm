@@ -11,6 +11,16 @@ class ProductionMemberAssign extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'task_id',
+        'subtask_id',
+        'assigned_by',
+        'assigned_to',
+        'comments',
+        'duadate',
+        'status',
+    ];
+
     public function assigned_by_user(){
         return $this->hasOne(User::class, 'id', 'assigned_by');
     }
@@ -38,8 +48,8 @@ class ProductionMemberAssign extends Model
             return "<button class='btn btn-warning btn-sm'>Incomplete Brief</button>";
         }
     }
-    
-    
+
+
     // public function getDueDate(){
     //     $date_string = '';
     //     $date_now = new DateTime();
@@ -56,7 +66,7 @@ class ProductionMemberAssign extends Model
     //             $date2 = new DateTime(date('d-m-Y', strtotime($this->duedate)));
     //             $date_string = $this->duedate;
     //         }
-            
+
     //         // if($this->subtaskDueDate != null){
     //         //     if($this->subtaskDueDate->duedateChange != null){
     //         //         $date2 = new DateTime(date('d-m-Y', strtotime($this->subtaskDueDate->duedateChange->duadate)));
@@ -70,7 +80,7 @@ class ProductionMemberAssign extends Model
     //         //     $date_string = $this->duedate;
     //         // }
     //     }
-        
+
     //     $button = '';
     //     if ($date_now > $date2){
     //         $button.= '<button class="btn btn-danger btn-sm">';
@@ -81,7 +91,7 @@ class ProductionMemberAssign extends Model
     //     $button .= date('d-m-Y', strtotime($date_string)) . '</button>';
     //     return $button;
     // }
-    
+
 
     public function task(){
         return $this->hasOne(Task::class, 'id', 'task_id');
@@ -94,6 +104,6 @@ class ProductionMemberAssign extends Model
     public function sub_tasks_message(){
         return $this->hasMany(ProductionMessage::class, 'production_member_assigns_id', 'id')->orderBy('id', 'desc');
     }
-    
-    
+
+
 }

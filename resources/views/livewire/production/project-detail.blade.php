@@ -191,14 +191,14 @@
                                                 <div class="col-md-8">
                                                     <div class="row my-2 py-2" style="border: 2px solid orange; border-radius: 10px; background-color: #ffa50044;">
                                                         <div class="col-md-12 text-left" style="font-weight: 800; font-size: 14px;">
-                                                            Production
+                                                            {{($message->user->name ?? '') . ' ' . ($message->user->last_name ?? '')}}
                                                             <span class="float-right" style="font-weight: 400; font-size: 10px; color: #161676; margin-top: 1px;">
-                                                        08 Aug 2024, 04:07 AM
-                                                    </span>
+                                                                {{\Carbon\Carbon::parse($message->created_at)->format('d F Y, h:i A')}}
+                                                            </span>
                                                         </div>
                                                         <div class="col-md-12 text-left" style="font-weight: 400; font-size: 12px;">
-                                                            Check the link provided in the asdasd jaj shdjk asd ashd asgdj....
-                                                            <span data-fancybox data-src="#fancybox-content" class="btn_read_more badge badge-primary badge-sm" style="cursor: pointer;">
+                                                            {{ (strlen(strip_tags($message->description)) > 33) ? (substr(strip_tags($message->description), 0, 33) . '...') : strip_tags($message->description) }}
+                                                            <span data-fancybox data-src="#fancybox-content" data-text="{{$message->description}}" class="btn_read_more badge badge-primary badge-sm" style="cursor: pointer;">
                                                                 Read more
                                                             </span>
                                                         </div>
@@ -220,68 +220,69 @@
 
                             <hr>
 
-                            <div class="row">
-                                <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
-                                    Files
+                            @if(count($project->client_files))
+                                <div class="row">
+                                    <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
+                                        Files
+                                    </div>
+                                    <div class="col-md-12 px-0" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
+                                        <table class="table table-bordered table-striped table-sm mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="3">
+                                                        <span type="button" class="badge badge-success badge-sm" id="btn_download_all_files" style="cursor: pointer;">
+                                                            <i class="fas fa-download"></i>
+                                                            Download all files
+                                                        </span>
+                                                        <span id="btn_upload" type="button" class="badge badge-dark badge-sm" style="cursor: pointer;">
+                                                            <i class="fas fa-upload"></i>
+                                                            Upload
+                                                        </span>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th>File</th>
+                                                    <th>Uploader</th>
+                                                    <th>Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($project->client_files as $client_files)
+                                                    @php
+                                                        $color = 'black';
+                                                        if (in_array($message->user->is_employee, [0, 2, 4, 6])) {
+                                                            $color = 'lightblue';
+                                                        } else if (in_array($message->user->is_employee, [1, 5])) {
+                                                            $color = '#FFA500';
+                                                        }
+
+                                                        $temp = explode('.',$client_files->path);
+                                                        $extension = end($temp);
+                                                    @endphp
+                                                    <tr>
+                                                        <td>
+                                                            <a class="anchor_test" href="{{asset('files/'.$client_files->path)}}" download>
+                                                                <span class="badge badge-dark badge-sm">#{{$client_files->id}}</span>
+                                                                {{limitTextAtWord($client_files->name, 20)}}.{{$extension}}
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <span style="color: {{$color}};">
+                                                                {{($client_files->user->name ?? '') . ' ' . ($client_files->user->last_name ?? '')}}
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                        <span class="badge badge-primary badge-sm">
+                                                            {{\Carbon\Carbon::parse($client_files->created_at)->format('d F Y, h:i A')}}
+                                                        </span>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                                <div class="col-md-12 px-0" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
-                                    <table class="table table-bordered table-striped table-sm mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="3">
-                                                    <span type="button" class="badge badge-success badge-sm btn_download_all_files" style="cursor: pointer;">
-                                                        <i class="fas fa-download"></i>
-                                                        Download all files
-                                                    </span>
-                                                    <span type="button" class="badge badge-dark badge-sm btn_download_all_files" style="cursor: pointer;">
-                                                        <i class="fas fa-upload"></i>
-                                                        Upload
-                                                    </span>
-                                                </th>
-                                            </tr>
-                                            <tr>
-                                                <th>File</th>
-                                                <th>Uploader</th>
-                                                <th>Date</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <a href="#">
-                                                        <span class="badge badge-dark badge-sm">#123456</span>
-                                                        ASD.docx
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    <span style="color: #FFA500;">Production</span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-primary badge-sm">
-                                                        13 February 2025, 05:43 AM
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <a href="#">
-                                                        <span class="badge badge-dark badge-sm">#123456</span>
-                                                        ASD123.docx
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    <span style="color: lightblue;">Sales</span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-primary badge-sm">
-                                                        13 February 2025, 05:43 AM
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                            @endif
 
                         </div>
                     </div>
@@ -401,6 +402,18 @@
                     comment: comment,
                 });
                 return false;
+            });
+
+            $('#btn_download_all_files').on('click', function () {
+                $('.anchor_test').each((i, item) => {
+                    item.click();
+                });
+            });
+
+            $('#btn_upload').on('click', function () {
+                // $('.anchor_test').each((i, item) => {
+                //     item.click();
+                // });
             });
 
 

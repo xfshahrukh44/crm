@@ -49,9 +49,7 @@
               height: 500px;
             }
     </style>
-    @if(env('PRODUCTION_LIVEWIRE') == true)
-        @livewireStyles
-    @endif
+    @livewireStyles
     @stack('styles')
 </head>
 <body class="text-left">
@@ -201,11 +199,9 @@
             });
         }, 1200000)
     </script>
-    @if(env('PRODUCTION_LIVEWIRE') == true)
 {{--        @if(\Illuminate\Support\Facades\Route::is('brands.dashboard.v3'))--}}
-            @livewireScripts
-            @include('livewire.production.listeners')
+        @livewireScripts
+        @include('livewire.production.listeners')
 {{--        @endif--}}
-    @endif
 </body>
 </html>
