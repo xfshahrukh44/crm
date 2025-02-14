@@ -900,6 +900,7 @@ class TaskController extends Controller
             'id' => Auth()->user()->id,
             'name' => 'Task Assigned by ' . Auth()->user()->name . ' ' . Auth()->user()->last_name,
             'task_id' => $sub_task->task->id,
+            'sub_task_id' => $sub_task->id,
             'text' => 'Task Assigned by ' . Auth()->user()->name . ' ' . Auth()->user()->last_name . ' (' . $sub_task->task->category->name . ')',
             'details' => Str::limit(filter_var($request->description, FILTER_SANITIZE_STRING), 40 ),
         ];
@@ -911,6 +912,7 @@ class TaskController extends Controller
             'id' => Auth()->user()->id,
             'name' => 'Task Assigned by ' . Auth()->user()->name . ' ' . Auth()->user()->last_name . ' (' . $sub_task->task->category->name . ')',
             'task_id' => $sub_task->task->id,
+            'sub_task_id' => $sub_task->id,
             'text' => 'Task Assigned by ' . Auth()->user()->name . ' ' . Auth()->user()->last_name . ' (' . $sub_task->task->category->name . ')',
             'details' => Str::limit(filter_var($request->description, FILTER_SANITIZE_STRING), 40 ),
         ];
@@ -940,6 +942,7 @@ class TaskController extends Controller
             'id' => Auth()->user()->id,
             'name' => 'Task Assigned by ' . Auth()->user()->name . ' ' . Auth()->user()->last_name,
             'task_id' => $sub_task->task->id,
+            'sub_task_id' => $sub_task->id,
             'text' => 'Task Assigned by ' . Auth()->user()->name . ' ' . Auth()->user()->last_name . ' (' . $sub_task->task->category->name . ')',
             'details' => Str::limit(filter_var($request->description, FILTER_SANITIZE_STRING), 40 ),
         ];
@@ -951,6 +954,7 @@ class TaskController extends Controller
             'id' => Auth()->user()->id,
             'name' => 'Task Assigned by ' . Auth()->user()->name . ' ' . Auth()->user()->last_name . ' (' . $sub_task->task->category->name . ')',
             'task_id' => $sub_task->task->id,
+            'sub_task_id' => $sub_task->id,
             'text' => 'Task Assigned by ' . Auth()->user()->name . ' ' . Auth()->user()->last_name . ' (' . $sub_task->task->category->name . ')',
             'details' => Str::limit(filter_var($request->description, FILTER_SANITIZE_STRING), 40 ),
         ];
@@ -1014,6 +1018,7 @@ class TaskController extends Controller
         $taskData = [
             'name' => 'Task Assigned by ' . Auth()->user()->name . ' ' . Auth()->user()->last_name,
             'task_id' => $sub_task->task->id,
+            'sub_task_id' => $sub_task->id,
             'text' => 'Task Assigned by ' . Auth()->user()->name . ' ' . Auth()->user()->last_name . ' (' . $sub_task->task->category->name . ')',
             'details' => Str::limit(filter_var($request->description, FILTER_SANITIZE_STRING), 40 ),
         ];
@@ -1024,6 +1029,7 @@ class TaskController extends Controller
         $adminTaskData = [
             'name' => 'Task Assigned by ' . Auth()->user()->name . ' ' . Auth()->user()->last_name . ' (' . $sub_task->task->category->name . ')',
             'task_id' => $sub_task->task->id,
+            'sub_task_id' => $sub_task->id,
             'text' => 'Task Assigned by ' . Auth()->user()->name . ' ' . Auth()->user()->last_name . ' (' . $sub_task->task->category->name . ')',
             'details' => Str::limit(filter_var($request->description, FILTER_SANITIZE_STRING), 40 ),
         ];

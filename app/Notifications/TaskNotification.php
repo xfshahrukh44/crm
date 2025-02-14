@@ -58,6 +58,7 @@ class TaskNotification extends Notification
         return [
             'id' => $this->taskData['id'],
             'task_id' => $this->taskData['task_id'],
+            'sub_task_id' => $this->taskData['sub_task_id'] ?? '',
             'name' => $this->taskData['name'],
             'text' => $this->taskData['text'],
             'details' => $this->taskData['details']

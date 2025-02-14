@@ -148,8 +148,8 @@
                                     <a href="#" wire:click="back">
                                         <span class="badge badge-dark badge-sm">
                                             <i class="fas fa-arrow-left"></i>
+                                            Back
                                         </span>
-                                        Back
                                     </a>
                                 </div>
                             </div>
@@ -192,6 +192,9 @@
                                                     <div class="row my-2 py-2" style="border: 2px solid lightblue; border-radius: 10px; background-color: #add8e644;">
                                                         <div class="col-md-12 text-left" style="font-weight: 800; font-size: 14px;">
                                                             {{($message->user->name ?? '') . ' ' . ($message->user->last_name ?? '')}}
+                                                            @if(in_array($message->id, $notification_subtask_ids))
+                                                                <i class="fas fa-bell text-danger btn_clear_subtask_notification" style="cursor: pointer" data-notification="{{$notification_notification_ids[$message->id]}}"></i>
+                                                            @endif
                                                             <span class="float-right" style="font-weight: 400; font-size: 10px; color: #161676; margin-top: 1px;">
                                                                 {{\Carbon\Carbon::parse($message->created_at)->format('d F Y, h:i A')}}
                                                             </span>
@@ -262,10 +265,9 @@
                             <hr>
 
                             <div class="row">
-                                <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
+                                <div class="col-md-12 py-1" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
                                     Files
-                                </div>
-                                <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
+                                    <hr style="margin: 4px 0px 4px 0px !important;">
                                     @if(count($project->client_files))
                                         <span type="button" class="badge badge-success badge-sm" id="btn_download_all_files" style="cursor: pointer;">
                                             <i class="fas fa-download"></i>
@@ -279,7 +281,7 @@
                                 </div>
                                 @if(count($project->client_files))
                                     <div class="col-md-12 px-0" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
-                                        <div class="row m-0 px-4 py-2"
+                                        <div class="row m-0 px-3 py-2"
                                              style="display: flex; flex-wrap: nowrap; /* Prevents wrapping to the next line */ overflow-x: auto; /* Enables horizontal scrolling */ gap: 10px; /* Adds spacing between items */ padding-bottom: 10px;"
                                         >
                                             @foreach($project->client_files as $client_files)
@@ -392,7 +394,7 @@
     <div class="modal fade" id="fancybox_modal" tabindex="-1" role="dialog" style="width: 80% !important; margin: auto !important;">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-body" id="fancybox-content" style="cursor: text!important;">
+                <div class="modal-body" id="fancybox-content" style="cursor: text!important; display: flex; flex-wrap: wrap;">
                 </div>
             </div>
         </div>

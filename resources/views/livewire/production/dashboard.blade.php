@@ -149,11 +149,11 @@
                                                                 #{{ $project->id }}
                                                             </span>
 
-                                                            <span class="badge badge-primary badge-sm mx-1">
+                                                            <span class="badge badge-dark badge-sm mx-1">
                                                                 {{ $project->brand->name }}
                                                             </span>
 
-                                                            <span class="badge badge-dark badge-sm mx-1">
+                                                            <span class="badge badge-dark badge-sm">
                                                                 {{ implode('', array_map(function($v) { return $v[0]; }, explode(' ', $project->category->name))) }}
                                                             </span>
                                                         </div>

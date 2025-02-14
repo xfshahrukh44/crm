@@ -117,6 +117,16 @@
             });
         });
 
+        $('body').on('click', '.btn_clear_subtask_notification', function () {
+            let val = $(this).data('notification');
+
+            Livewire.emit('clear_subtask_notification', {
+                notification_id: val
+            });
+
+            return false;
+        });
+
         $('body').on('click', '#btn_upload', function () {
             // $('.anchor_test').each((i, item) => {
             //     item.click();

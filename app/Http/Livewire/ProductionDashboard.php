@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\CRMNotification;
 use App\Models\ProductionMemberAssign;
 use App\Models\Project;
 use App\Models\SubTask;
@@ -39,6 +40,7 @@ class ProductionDashboard extends Component
         'set_select2_field_value' => 'set_select2_field_value',
         'assign_subtask' => 'assign_subtask',
         'send_message' => 'send_message',
+        'clear_subtask_notification' => 'clear_subtask_notification',
     ];
 
     public function construct()
@@ -126,7 +128,7 @@ class ProductionDashboard extends Component
             'notifiable_id' => auth()->id(),
         ])->get() as $item) {
             $data = json_decode($item->data);
-            if ($data->task_id && $data->task_id != null && $data->task_id != '') {
+            if (isset($data->task_id) && $data->task_id && $data->task_id != null && $data->task_id != '') {
                 $notification_project_ids []= $data->task_id;
             }
         }
@@ -147,8 +149,21 @@ class ProductionDashboard extends Component
     public function project_detail ($project_id) {
         $project = Task::find($project_id);
 
+        $notification_subtask_ids = [];
+        $notification_notification_ids = [];
+        foreach (DB::table('notifications')->whereNull('read_at')->where([
+            'type' => 'App\Notifications\TaskNotification',
+            'notifiable_id' => auth()->id(),
+        ])->get() as $item) {
+            $data = json_decode($item->data);
+            if (isset($data->sub_task_id) && $data->sub_task_id && $data->sub_task_id != null && $data->sub_task_id != '') {
+                $notification_subtask_ids []= $data->sub_task_id;
+                $notification_notification_ids[$data->sub_task_id] = $item->id;
+            }
+        }
+
         $this->emit('scroll_to_bottom', 'chat_bubbles_wrapper');
-        return view('livewire.production.project-detail', compact('project'))->extends($this->layout);
+        return view('livewire.production.project-detail', compact('project', 'notification_subtask_ids', 'notification_notification_ids'))->extends($this->layout);
     }
 
     public function set_project_status ($project_id, $status) {
@@ -279,6 +294,18 @@ class ProductionDashboard extends Component
         $task->user->notify(new TaskNotification($assignData));
 
         $this->emit('success', 'Message sent!');
+        return $this->render();
+    }
+
+    public function clear_subtask_notification ($data) {
+        if($record = DB::table('notifications')->where('id', $data['notification_id'])->first()) {
+            if($record = CRMNotification::where('id', $data['notification_id'])->first()) {
+                $record->read_at = Carbon::now();
+                $record->save();
+            }
+        }
+
+        $this->emit('success', 'Notification cleared!');
         return $this->render();
     }
 
