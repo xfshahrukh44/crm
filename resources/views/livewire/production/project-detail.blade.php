@@ -257,61 +257,36 @@
                                         Files
                                     </div>
                                     <div class="col-md-12 px-0" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
-                                        <table class="table table-bordered table-striped table-sm mb-0">
-                                            <thead>
-                                                <tr>
-                                                    <th colspan="3">
-                                                        <span type="button" class="badge badge-success badge-sm" id="btn_download_all_files" style="cursor: pointer;">
-                                                            <i class="fas fa-download"></i>
-                                                            Download all files
-                                                        </span>
-                                                        <span id="btn_upload" type="button" class="badge badge-dark badge-sm" style="cursor: pointer;">
-                                                            <i class="fas fa-upload"></i>
-                                                            Upload
-                                                        </span>
-                                                    </th>
-                                                </tr>
-                                                <tr>
-                                                    <th>File</th>
-                                                    <th>Uploader</th>
-                                                    <th>Date</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach($project->client_files as $client_files)
-                                                    @php
-                                                        $color = 'black';
-                                                        if (in_array($client_files->user->is_employee, [0, 2, 4, 6])) {
-                                                            $color = 'lightblue';
-                                                        } else if (in_array($client_files->user->is_employee, [1, 5])) {
-                                                            $color = '#FFA500';
-                                                        }
+                                        <div class="row m-0">
+                                            @foreach($project->client_files as $client_files)
+                                                @php
+                                                    $color = 'black';
+                                                    if (in_array($client_files->user->is_employee, [0, 2, 4, 6])) {
+                                                        $color = 'lightblue';
+                                                    } else if (in_array($client_files->user->is_employee, [1, 5])) {
+                                                        $color = '#FFA500';
+                                                    }
 
-                                                        $temp = explode('.',$client_files->path);
-                                                        $extension = end($temp);
-                                                    @endphp
-                                                    <tr>
-                                                        <td>
-                                                            <a class="anchor_test" href="{{asset('files/'.$client_files->path)}}" download>
-                                                                <span class="badge badge-dark badge-sm">#{{$client_files->id}}</span>
-                                                                <br>
-                                                                {{limitTextAtWord($client_files->name, 20)}}.{{$extension}}
-                                                            </a>
-                                                        </td>
-                                                        <td>
-                                                            <span style="color: {{$color}};">
-                                                                {{($client_files->user->name ?? '') . ' ' . ($client_files->user->last_name ?? '')}}
-                                                            </span>
-                                                        </td>
-                                                        <td>
+                                                    $temp = explode('.',$client_files->path);
+                                                    $extension = end($temp);
+                                                @endphp
+                                                <div class="col-3 py-2">
+                                                    <a class="anchor_test" href="{{asset('files/'.$client_files->path)}}" download>
+                                                        <span class="badge badge-dark badge-sm">#{{$client_files->id}}</span>
+                                                        <br>
+                                                        {{limitTextAtWord($client_files->name, 20)}}.{{$extension}}
+                                                        <br>
+                                                        <span style="color: {{$color}};">
+                                                            {{($client_files->user->name ?? '') . ' ' . ($client_files->user->last_name ?? '')}}
+                                                        </span>
+                                                        <br>
                                                         <span class="badge badge-primary badge-sm">
                                                             {{\Carbon\Carbon::parse($client_files->created_at)->format('d F Y, h:i A')}}
                                                         </span>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
+                                                    </a>
+                                                </div>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 </div>
                             @endif
