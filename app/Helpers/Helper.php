@@ -1655,7 +1655,7 @@ function get_authorize_keys ($merchant_id) {
     return $keys_map[$merchant_id];
 }
 
-function authorize_charge ($card_number, $exp_month, $exp_year, $cvv, $invoice_id) {
+function authorize_charge ($card_number, $exp_month, $exp_year, $cvv, $zip, $invoice_id) {
     try {
         $invoice = Invoice::find($invoice_id);
         $currency = strtoupper($invoice->_currency->short_name ?? 'usd');
@@ -1695,7 +1695,7 @@ function authorize_charge ($card_number, $exp_month, $exp_year, $cvv, $invoice_i
 //        $customerAddress->setAddress("14 Main Street");
 //        $customerAddress->setCity("Pecan Springs");
 //        $customerAddress->setState("TX");
-//        $customerAddress->setZip("44628");
+        $customerAddress->setZip($zip);
         $customerAddress->setCountry("USA");
 
         // Set the customer's identifying information
@@ -2075,7 +2075,7 @@ function buh_merchant_map () {
         4191 => [11],
         4491 => [11],
         //testing
-        //3425 => [1, 2, 3, 4],
+        3425 => [1, 2, 3, 4],
     ];
 }
 
@@ -2227,4 +2227,8 @@ function get_my_members_by_category ($category_id) {
     return User::select('id', 'name', 'email', 'last_name')->where('is_employee', 5)->whereHas('category', function ($query) use ($category_id){
         return $query->where('category_id', '=', $category_id);
     })->get();
+}
+
+function get_authorize_merchant_ids () {
+    return [3, 5, 7, 8, 9, 10, 11];
 }

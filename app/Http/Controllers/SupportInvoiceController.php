@@ -46,7 +46,9 @@ class SupportInvoiceController extends Controller
             'merchant' => 'required'
         ]);
 
-        if ($request->has('show_service_forms')) {
+        $is_closing_payment = $request->get('is_closing_payment') ?? 0;
+
+        if ($request->has('show_service_forms') && $is_closing_payment != 1) {
             $client = Client::find($request->client_id);
             $client_show_service_forms = explode(',', $client->show_service_forms) ?? [];
 
@@ -103,6 +105,7 @@ class SupportInvoiceController extends Controller
         $service = implode(",",$request->service);
         $invoice->service = $service;
         $invoice->merchant_id = $request->merchant;
+        $invoice->is_closing_payment = $is_closing_payment;
 
         $invoice->save();
 
@@ -117,7 +120,7 @@ class SupportInvoiceController extends Controller
             $stripe_invoice_res = create_stripe_invoice($invoice->id, $currency_map[$request->get('currency') ?? 1]);
         }
 
-        if (in_array($request->get('merchant'), [3, 5, 7, 8, 9, 10, 11])) {
+        if (in_array($request->get('merchant'), get_authorize_merchant_ids())) {
             $invoice->is_authorize = true;
             $invoice->save();
         }
@@ -289,7 +292,7 @@ class SupportInvoiceController extends Controller
             $user = Client::where('email', $invoice->client->email)->first();
         }
         $user_client = User::where('client_id', $user->id)->first();
-        if($user_client != null || $user->user){
+        if(($user_client != null || $user->user) && $invoice->is_closing_payment != 1){
             $service_array = explode(',', $invoice->service);
             for($i = 0; $i < count($service_array); $i++){
                 if (!$service = Service::find($service_array[$i])) {

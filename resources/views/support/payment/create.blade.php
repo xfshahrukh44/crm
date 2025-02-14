@@ -16,6 +16,13 @@
                 <div class="card-title mb-3">Payment Details Form</div>
                 <form class="form" action="{{route('support.invoice.create')}}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    <div class="align-items-center mb-2" style="display: flex; font-size: 15px;">
+                        <input type="hidden" name="is_closing_payment" id="input_is_closing_payment_hidden" value="0">
+                        <input type="checkbox" id="input_is_closing_payment">
+                        <label class="m-0 pl-1" for="input_is_closing_payment" style="cursor: pointer;">
+                            <b>Is recurring payment</b>
+                        </label>
+                    </div>
                     <input type="hidden" name="client_id" value="{{$user->id}}">
                     <div class="form-body">
                         <div class="row">
@@ -165,6 +172,29 @@
         @foreach($services as $service)
             service_map['{{$service->id}}'] = '{{$service->name}}';
         @endforeach
+
+        $('#input_is_closing_payment').on('change', function () {
+            if ($(this).is(':checked')) {
+                $('#input_is_closing_payment_hidden').val('1');
+
+                let client_service_ids = '{{$user->show_service_forms}}';
+                $('#service').val(client_service_ids.split(',')).trigger('change');
+                $('.service_tickbox').each((i, item) => {
+                    $(item).is(':checked', false);
+                });
+                $('#show_service_form_checkboxes').prop('hidden', true);
+
+                $('#createform').val('0').trigger('change');
+                $('#createform').prop('disabled', true);
+            } else {
+                $('#input_is_closing_payment_hidden').val('0');
+                $('#service').val([]).trigger('change');
+                $('#show_service_form_checkboxes').prop('hidden', false);
+
+                $('#createform').val('').trigger('change');
+                $('#createform').prop('disabled', false);
+            }
+        });
 
         $('#service').on('change', function () {
             $('#show_service_form_checkboxes').html('');

@@ -42,14 +42,15 @@ class ClientInvoiceController extends Controller
             'card_number' => 'required',
             'exp_month' => 'required',
             'exp_year' => 'required',
-            'cvv' => 'required'
+            'cvv' => 'required',
+            'zip' => 'required',
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->with('error', $validator->errors()->first());
         }
 
-        $authorize_charge_res = authorize_charge($request->get('card_number'), $request->get('exp_month'), $request->get('exp_year'), $request->get('cvv'), $id);
+        $authorize_charge_res = authorize_charge($request->get('card_number'), $request->get('exp_month'), $request->get('exp_year'), $request->get('cvv'), $request->get('zip'), $id);
         if ($authorize_charge_res['success'] == true) {
             $invoice->authorize_transaction_id = $authorize_charge_res['data']['transaction_id'];
             $invoice->payment_status = 2;

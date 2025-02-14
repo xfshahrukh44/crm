@@ -17,6 +17,12 @@
                     <div class="card-title mb-3">Payment Details Form</div>
                     <form class="form" action="#" wire:submit.prevent="client_payment_save" enctype="multipart/form-data">
                         @csrf
+                        <div class="align-items-center mb-2" style="display: flex; font-size: 15px;">
+                            <input type="checkbox" id="input_is_closing_payment" wire:model="client_payment_create_is_closing_payment">
+                            <label class="m-0 pl-1" for="input_is_closing_payment" style="cursor: pointer;">
+                                <b>Is recurring payment</b>
+                            </label>
+                        </div>
                         <input type="hidden" wire:model="client_payment_create_client_id">
                         <div class="form-body">
                             <div class="row">
@@ -59,30 +65,32 @@
                                     <label>
                                         <b>Select which forms the client will see</b>
                                     </label>
-                                    <div class="row form-group" id="show_service_form_checkboxes">
-                                        @foreach($show_service_forms['on'] ?? [] as $service_id)
-                                            @php
-                                                $loaded_service = \App\Models\Service::find($service_id);
-                                            @endphp
-                                            <div class="col-md-12">
-                                                <input type="checkbox" id="service_{{$service_id}}" data-id="{{$service_id}}" data-name="{{$loaded_service->name}}" class="service_tickbox" value="{{$service_id}}" checked>
-                                                <label for="service_{{$service_id}}">{{$loaded_service->name}}</label>
-                                            </div>
-                                        @endforeach
+                                    @if($client_payment_create_is_closing_payment != 1)
+                                        <div class="row form-group" id="show_service_form_checkboxes">
+                                            @foreach($show_service_forms['on'] ?? [] as $service_id)
+                                                @php
+                                                    $loaded_service = \App\Models\Service::find($service_id);
+                                                @endphp
+                                                <div class="col-md-12">
+                                                    <input type="checkbox" id="service_{{$service_id}}" data-id="{{$service_id}}" data-name="{{$loaded_service->name}}" class="service_tickbox" value="{{$service_id}}" checked>
+                                                    <label for="service_{{$service_id}}">{{$loaded_service->name}}</label>
+                                                </div>
+                                            @endforeach
 
-                                        @foreach($show_service_forms['off'] ?? [] as $service_id)
-                                            @php
-                                                $loaded_service = \App\Models\Service::find($service_id);
-                                            @endphp
-                                            <div class="col-md-12">
-                                                <input type="checkbox" id="service_{{$service_id}}" data-id="{{$service_id}}" data-name="{{$loaded_service->name}}" class="service_tickbox" value="{{$service_id}}">
-                                                <label for="service_{{$service_id}}">{{$loaded_service->name}}</label>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                    <div id="tickboxes_wrapper">
+                                            @foreach($show_service_forms['off'] ?? [] as $service_id)
+                                                @php
+                                                    $loaded_service = \App\Models\Service::find($service_id);
+                                                @endphp
+                                                <div class="col-md-12">
+                                                    <input type="checkbox" id="service_{{$service_id}}" data-id="{{$service_id}}" data-name="{{$loaded_service->name}}" class="service_tickbox" value="{{$service_id}}">
+                                                    <label for="service_{{$service_id}}">{{$loaded_service->name}}</label>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        <div id="tickboxes_wrapper">
 
-                                    </div>
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="col-md-4 form-group mb-3">
                                     <label for="package">Package <span>*</span></label>
@@ -94,7 +102,7 @@
                                 </div>
                                 <div class="col-md-3 form-group mb-3">
                                     <label for="createform">Create form of Service <span>*</span></label>
-                                    <select wire:model="client_payment_create_createform" id="createform" class="form-control">
+                                    <select wire:model="client_payment_create_createform" id="createform" class="form-control" {!! $client_payment_create_is_closing_payment == 1 ? 'disabled' : '' !!}>
                                         <option value="">Select Option</option>
                                         <option value="1">YES</option>
                                         <option value="0">NO</option>

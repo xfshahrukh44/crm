@@ -93,6 +93,7 @@ class BrandDashboard extends Component
     public $client_payment_create_recurring = 0.00;
     public $client_payment_create_sale_or_upsell = '';
     public $client_payment_create_show_service_forms = [];
+    public $client_payment_create_is_closing_payment = 0;
 
     public $message_client_client_id = '';
     public $message_client_message = '';
@@ -408,6 +409,12 @@ class BrandDashboard extends Component
     public function client_payment_link ($client_id)
     {
         $user = Client::find($client_id);
+        if ($this->client_payment_create_is_closing_payment == 1) {
+            $arr = $this->client_payment_create_service == "" ? [] : $this->client_payment_create_service;
+            $this->client_payment_create_service = array_merge($arr, explode(',', $user->show_service_forms));
+
+            $this->client_payment_create_createform = '0';
+        }
 //        $brands = Brand::whereIn('id', [$user->brand_id])->get();
         if (auth()->id() == 1) {
             $brands = Brand::all();
@@ -452,7 +459,7 @@ class BrandDashboard extends Component
             'client_payment_create_merchant' => 'required'
         ]);
 
-        if ($this->client_payment_create_show_service_forms) {
+        if ($this->client_payment_create_show_service_forms && $this->client_payment_create_is_closing_payment != 1) {
             $client = Client::find($this->client_payment_create_client_id);
             $client_show_service_forms = explode(',', $client->show_service_forms) ?? [];
 
@@ -513,6 +520,7 @@ class BrandDashboard extends Component
         }
         $invoice->service = $service;
         $invoice->merchant_id = $this->client_payment_create_merchant;
+        $invoice->is_closing_payment = $this->client_payment_create_is_closing_payment;
         $invoice->save();
 
         //create stripe invoice
@@ -526,7 +534,7 @@ class BrandDashboard extends Component
             $stripe_invoice_res = create_stripe_invoice($invoice->id, $currency_map[$this->client_payment_create_currency ?? 1]);
         }
 
-        if (in_array($this->client_payment_create_merchant, [3, 5, 7, 8, 9, 10, 11])) {
+        if (in_array($this->client_payment_create_merchant, get_authorize_merchant_ids())) {
             $invoice->is_authorize = true;
             $invoice->save();
         }
@@ -605,7 +613,8 @@ class BrandDashboard extends Component
         $user_client = User::where('client_id', $user->id)->first();
         $service_array = explode(',', $invoice->service);
 
-        if($user_client != null || $user->user){
+        if(($user_client != null || $user->user) && $invoice->is_closing_payment != 1){
+//        if($user_client != null || $user->user){
             foreach ($service_array as $service_id) {
                 $service = Service::find($service_id);
                 if($service->form == 0){

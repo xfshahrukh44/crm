@@ -179,7 +179,7 @@
                                                                 <label for="">Card number</label>
                                                                 <input class="form-control" type="text" name="card_number" maxlength="16" required>
                                                             </div>
-                                                            <div class="col-md-4 form-group">
+                                                            <div class="col-md-3 form-group">
                                                                 <label for="">Expiration month</label>
                                                                 <select class="form-control" name="exp_month" id="" required>
                                                                     <option value="1">1</option>
@@ -196,13 +196,17 @@
                                                                     <option value="12">12</option>
                                                                 </select>
                                                             </div>
-                                                            <div class="col-md-4 form-group">
+                                                            <div class="col-md-3 form-group">
                                                                 <label for="">Expiration year</label>
                                                                 <input class="form-control" type="number" name="exp_year" min="{{\Carbon\Carbon::now()->format('Y')}}" value="{{\Carbon\Carbon::now()->format('Y')}}" required>
                                                             </div>
-                                                            <div class="col-md-4 form-group">
+                                                            <div class="col-md-3 form-group">
                                                                 <label for="">CVV</label>
                                                                 <input class="form-control" type="number" name="cvv" required>
+                                                            </div>
+                                                            <div class="col-md-3 form-group">
+                                                                <label for="">Zip</label>
+                                                                <input class="form-control" type="number" name="zip" required>
                                                             </div>
                                                             <div class="col-md-12 form-group mt-2">
                                                                 <button type="submit" class="btn btn-primary btn-block">
