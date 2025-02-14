@@ -157,7 +157,7 @@
                     </a>
                     <div class="triangle"></div>
                 </li>
-                @if(auth()->id() == 3117)
+{{--                @if(auth()->id() == 3117)--}}
                     <li class="nav-item {{ ( request()->routeIs('production.dashboard.v2') ) ? 'active' : '' }}">
                         <a class="nav-item-hold" href="{{ route('production.dashboard.v2') }}">
                             <i class="nav-icon i-Bar-Chart"></i>
@@ -165,7 +165,7 @@
                         </a>
                         <div class="triangle"></div>
                     </li>
-                @endif
+{{--                @endif--}}
             @endif
         </ul>
     </div>

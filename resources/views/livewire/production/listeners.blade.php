@@ -52,110 +52,69 @@
 
             toastr.success('Link copied to clipboard!');
         });
-    });
 
+        // -------------------------project detail scripts-------------------------
+        $('.btn_read_more').on('click', function () {
+            $('#fancybox-content').html($(this).data('text'));
+        });
 
-    function generatePassword() {
-        var length = 16,
-            charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-            retVal = "";
-        for (var i = 0, n = charset.length; i < length; ++i) {
-            retVal += charset.charAt(Math.floor(Math.random() * n));
-        }
-        return retVal;
-    }
+        let subtask_id = '';
+        $('.btn_assign_subtask').on('click', function () {
+            subtask_id = $(this).data('subtask');
+            $('#exampleModalCenter').modal('show');
+        });
 
-    @php
-        $services = \App\Models\Service::all();
-    @endphp
-    @if($services)
-        let service_map = {};
-        @foreach($services as $service)
-            service_map['{{$service->id}}'] = '{{$service->name}}';
-        @endforeach
-
-        let tickbox_array = {};
-
-        $('body').on('change', '#service', function () {
-            $('#show_service_form_checkboxes').html('');
-            $('#tickboxes_wrapper').html('');
-            tickbox_array = {};
-            let service_ids = $(this).val();
-
-            tickbox_array['on'] = [];
-            for (const service_id of service_ids) {
-                $('#show_service_form_checkboxes').append(`<div class="col-md-12">
-                                                                <input type="checkbox" data-id="`+service_id+`" data-name="`+service_map[service_id]+`" class="service_tickbox" value="`+service_id+`" checked>
-                                                                <label for="service_`+service_id+`">`+service_map[service_id]+`</label>
-                                                            </div>`);
-
-                tickbox_array['on'].push(service_id);
-                $('#tickboxes_wrapper').append(`<input type="hidden" wire:model="client_payment_create_show_service_forms[on][]" value="`+service_id+`">`);
+        $('#btn_save_changes_assign_subtask').on('click', function () {
+            let val = $('#assign_subtask_user_id').val();
+            let comment = $('#assign_subtask_comment').val() ?? '';
+            if (val == '') {
+                alert('Please select a valid option');
+                return false;
             }
 
-            Livewire.emit('mutate', {
-                name: 'client_payment_create_show_service_forms',
-                value: tickbox_array,
+            $('#exampleModalCenter').modal('hide');
+            $('#assign_subtask_user_id').val('');
+            $('#assign_subtask_comment').val('');
+
+            Livewire.emit('assign_subtask', {
+                subtask_id: subtask_id,
+                member_id: val,
+                comment: comment,
+            });
+            return false;
+        });
+
+        $('body').on('click', '#btn_send_message', function () {
+            if (typeof Livewire !== 'undefined' && Livewire.emit) {
+                let val = $('#textarea_send_message').val();
+                if (val === '') return false;
+
+                Livewire.emit('send_message', {
+                    task_id: $(this).data('project'),
+                    message: val
+                });
+
+                $('#textarea_send_message').val('');
+            } else {
+                setTimeout(() => {
+                    alert('agn');
+                    $(this).trigger('click');
+                }, 500);
+            }
+        });
+
+        $('#btn_download_all_files').on('click', function () {
+            $('.anchor_test').each((i, item) => {
+                item.click();
             });
         });
 
-        $('body').on('change', '.service_tickbox', function () {
-            $('#tickboxes_wrapper').html('');
-            tickbox_array = {};
-            tickbox_array['on'] = [];
-            tickbox_array['off'] = [];
-
-            $('.service_tickbox').each((i, item) => {
-                if ($(item).is(':checked')) {
-                    tickbox_array['on'].push($(item).data('id'));
-                    $('#tickboxes_wrapper').append(`<input type="hidden" wire:model="client_payment_create_show_service_forms[on][]" value="`+$(item).data('id')+`">`);
-                } else {
-                    tickbox_array['off'].push($(item).data('id'));
-                    $('#tickboxes_wrapper').append(`<input type="hidden" wire:model="client_payment_create_show_service_forms[off][]" value="`+$(item).data('id')+`">`);
-                }
-            });
-
-            Livewire.emit('mutate', {
-                name: 'client_payment_create_show_service_forms',
-                value: tickbox_array,
-            });
-
+        $('#btn_upload').on('click', function () {
+            // $('.anchor_test').each((i, item) => {
+            //     item.click();
+            // });
         });
-    @endif
-
-    $('body').on('click', '.auth_create', function () {
-        var id = $(this).data('id');
-        var pass = generatePassword();
-
-        var userInput = prompt("Enter Password", pass);
-
-        // Check if the user clicked "Cancel" or entered an empty value
-        if (userInput === null) {
-
-        } else if (userInput === "") {
-            console.log("Please enter a password");
-        } else {
-            Livewire.emit('client_auth_create', {id: id, pass:userInput});
-        }
-    });
-
-    $('body').on('click', '.span_client_project_status_badge', function () {
-        let dropdown = $('#project_statusDropdown');
-        dropdown.css('display', dropdown.css('display') === "none" ? "block" : "none");
-    });
-
-    document.addEventListener("click", function (event) {
-        $('#project_statusDropdown').css('display', dropdown.css('display') === "none" ? "block" : "none");
-    });
-
-    $('body').on('click', '.badge_select_project_status', function () {
-        let project_id = $(this).data('project');
-        let value = $(this).data('value');
-
-        Livewire.emit('set_project_priority', {
-            project_id: project_id,
-            value: value
-        });
+        // -------------------------project detail scripts-------------------------
     });
 </script>
 

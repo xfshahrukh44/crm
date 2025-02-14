@@ -243,7 +243,7 @@
                                     <textarea class="form-control" name="" id="textarea_send_message" cols="30" rows="1" placeholder="Type message..."></textarea>
                                 </div>
                                 <div class="col-md-12 px-0">
-                                    <button class="btn btn-block btn-primary" id="btn_send_message">
+                                    <button class="btn btn-block btn-primary" id="btn_send_message" data-project="{{$project->id}}">
                                         Send
                                     </button>
                                 </div>
@@ -320,7 +320,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">Assign subtask</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span>&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
@@ -395,63 +395,6 @@
     </script>
     <script>
         $(document).ready(function(){
-            $('.btn_read_more').on('click', function () {
-                $('#fancybox-content').html($(this).data('text'));
-            });
-
-            let subtask_id = '';
-            $('.btn_assign_subtask').on('click', function () {
-                subtask_id = $(this).data('subtask');
-                $('#exampleModalCenter').modal('show');
-            });
-
-            $('#btn_save_changes_assign_subtask').on('click', function () {
-               let val = $('#assign_subtask_user_id').val();
-               let comment = $('#assign_subtask_comment').val() ?? '';
-               if (val == '') {
-                   alert('Please select a valid option');
-                   return false;
-               }
-
-                $('#exampleModalCenter').modal('hide');
-                $('#assign_subtask_user_id').val('');
-                $('#assign_subtask_comment').val('');
-
-                Livewire.emit('assign_subtask', {
-                    subtask_id: subtask_id,
-                    member_id: val,
-                    comment: comment,
-                });
-                return false;
-            });
-
-            $('#btn_send_message').on('click', function () {
-                let val = $('#textarea_send_message').val();
-                if (val == '') {
-                   return false;
-                }
-
-                $('#textarea_send_message').val('');
-
-                Livewire.emit('send_message', {
-                    task_id: {{$project->id}},
-                    message: val
-                });
-                return false;
-            });
-
-            $('#btn_download_all_files').on('click', function () {
-                $('.anchor_test').each((i, item) => {
-                    item.click();
-                });
-            });
-
-            $('#btn_upload').on('click', function () {
-                // $('.anchor_test').each((i, item) => {
-                //     item.click();
-                // });
-            });
-
 
             $('#header1').on('click', () => {
                 $('#wrapper1').prop('hidden', !($('#wrapper1').prop('hidden')));
