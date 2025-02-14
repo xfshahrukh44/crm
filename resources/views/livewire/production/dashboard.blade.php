@@ -82,31 +82,6 @@
                 <div class="col-md-8 offset-md-2">
                     <div class="row text-center mb-4">
                         <div class="col-md-8 offset-md-2">
-                            {{--                            <h2>John doe</h2>--}}
-
-                            {{--                            <div class="col-12">--}}
-                            {{--                                <b>Brand</b>: Test--}}
-                            {{--                            </div>--}}
-
-                            {{--                            <div class="col-12">--}}
-                            {{--                                <b>Priority</b>:--}}
-                            {{--                                <span class="span_client_priority_badge badge badge-sm">priority</span>--}}
-
-                            {{--                            <!-- Invisible Dropdown -->--}}
-                            {{--                                <div id="priorityDropdown" class="dropdown-content" style="display: none;">--}}
-                            {{--                                    <a href="#">--}}
-                            {{--                                        <span class="badge badge-danger badge_select_priority" data-client="1" data-value="1">HIGH</span>--}}
-                            {{--                                    </a>--}}
-                            {{--                                    <a href="#">--}}
-                            {{--                                        <span class="badge badge-warning badge_select_priority" data-client="1" data-value="2">MEDIUM</span>--}}
-                            {{--                                    </a>--}}
-                            {{--                                    <a href="#">--}}
-                            {{--                                        <span class="badge badge-info badge_select_priority" data-client="1" data-value="3">LOW</span>--}}
-                            {{--                                    </a>--}}
-                            {{--                                </div>--}}
-                            {{--                            </div>--}}
-
-
                             <div class="row my-4">
                                 <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
                                     <div class="row">
@@ -246,43 +221,4 @@
             </div>
         </div>
     </div>
-
-    <script>
-        $('form').on('submit', function () {
-            $(this).find('button[type="submit"]').prop('disabled', true);
-        });
-    </script>
-    <script>
-        $(document).ready(function(){
-            function generatePassword() {
-                var length = 16,
-                    charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-                    retVal = "";
-                for (var i = 0, n = charset.length; i < length; ++i) {
-                    retVal += charset.charAt(Math.floor(Math.random() * n));
-                }
-                return retVal;
-            }
-
-            for (var i = 1; i < 6; i++) {
-                $('#header' + i).css('cursor', 'pointer');
-            }
-
-            $('#header1').on('click', () => {
-                $('#wrapper1').prop('hidden', !($('#wrapper1').prop('hidden')));
-            });
-            $('#header2').on('click', () => {
-                $('#wrapper2').prop('hidden', !($('#wrapper2').prop('hidden')));
-            });
-            $('#header3').on('click', () => {
-                $('#wrapper3').prop('hidden', !($('#wrapper3').prop('hidden')));
-            });
-            $('#header4').on('click', () => {
-                $('#wrapper4').prop('hidden', !($('#wrapper4').prop('hidden')));
-            });
-            $('#header5').on('click', () => {
-                $('#wrapper5').prop('hidden', !($('#wrapper5').prop('hidden')));
-            });
-        });
-    </script>
 </div>

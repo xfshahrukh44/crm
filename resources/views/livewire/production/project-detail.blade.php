@@ -69,9 +69,9 @@
     </style>
 
     <div class="breadcrumb">
-        <a href="#" class="btn btn-info btn-sm mr-2" wire:click="back">
-            <i class="fas fa-arrow-left"></i>
-        </a>
+{{--        <a href="#" class="btn btn-info btn-sm mr-2" wire:click="back">--}}
+{{--            <i class="fas fa-arrow-left"></i>--}}
+{{--        </a>--}}
         <h1 class="mr-2">Project detail</h1>
     </div>
     <div class="separator-breadcrumb border-top"></div>
@@ -143,6 +143,16 @@
 
                             <hr>
 
+                            <div class="row mt-2 text-center m-0">
+                                <div class="col">
+                                    <a href="#" wire:click="back">
+                                        <span class="badge badge-dark badge-sm">
+                                            <i class="fas fa-arrow-left"></i>
+                                        </span>
+                                        Back
+                                    </a>
+                                </div>
+                            </div>
                             <div class="row mt-2">
                                 <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
                                     Conversation
@@ -193,7 +203,7 @@
                                                             ? (substr(strip_tags(html_entity_decode($message->description)), 0, 33) . '...')
                                                             : strip_tags(html_entity_decode($message->description)) }}
 
-                                                            <span data-fancybox data-src="#fancybox-content" data-text="{{$message->description}}" class="btn_read_more badge badge-primary badge-sm" style="cursor: pointer;">
+                                                            <span data-text="{{$message->description}}" class="btn_read_more badge badge-primary badge-sm" style="cursor: pointer;">
                                                                 Read more
                                                             </span>
                                                             <br>
@@ -229,7 +239,7 @@
                                                             {{ (strlen(strip_tags(html_entity_decode($message->description))) > 33)
                                                             ? (substr(strip_tags(html_entity_decode($message->description)), 0, 33) . '...')
                                                             : strip_tags(html_entity_decode($message->description)) }}
-                                                            <span data-fancybox data-src="#fancybox-content" data-text="{{$message->description}}" class="btn_read_more badge badge-primary badge-sm" style="cursor: pointer;">
+                                                            <span data-text="{{$message->description}}" class="btn_read_more badge badge-primary badge-sm" style="cursor: pointer;">
                                                                 Read more
                                                             </span>
                                                         </div>
@@ -251,21 +261,23 @@
 
                             <hr>
 
-                            @if(count($project->client_files))
-                                <div class="row">
-                                    <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
-                                        Files
-                                    </div>
-                                    <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
+                            <div class="row">
+                                <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
+                                    Files
+                                </div>
+                                <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
+                                    @if(count($project->client_files))
                                         <span type="button" class="badge badge-success badge-sm" id="btn_download_all_files" style="cursor: pointer;">
                                             <i class="fas fa-download"></i>
                                             Download all files
                                         </span>
-                                        <span id="btn_upload" type="button" class="badge badge-dark badge-sm" style="cursor: pointer;">
-                                            <i class="fas fa-upload"></i>
-                                            Upload
-                                        </span>
-                                    </div>
+                                    @endif
+                                    <span id="btn_upload" type="button" class="badge badge-dark badge-sm" style="cursor: pointer;">
+                                        <i class="fas fa-upload"></i>
+                                        Upload
+                                    </span>
+                                </div>
+                                @if(count($project->client_files))
                                     <div class="col-md-12 px-0" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
                                         <div class="row m-0 px-4 py-2"
                                              style="display: flex; flex-wrap: nowrap; /* Prevents wrapping to the next line */ overflow-x: auto; /* Enables horizontal scrolling */ gap: 10px; /* Adds spacing between items */ padding-bottom: 10px;"
@@ -302,8 +314,8 @@
                                             @endforeach
                                         </div>
                                     </div>
-                                </div>
-                            @endif
+                                @endif
+                            </div>
 
                         </div>
                     </div>
@@ -377,40 +389,12 @@
         </div>
     </div>
 
-    <div id="fancybox-content" style="display: none; cursor: text!important;">
-{{--        <div class="p-5">--}}
-{{--            asdsadasd--}}
-{{--        </div>--}}
+    <div class="modal fade" id="fancybox_modal" tabindex="-1" role="dialog" style="width: 80% !important; margin: auto !important;">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body" id="fancybox-content" style="cursor: text!important;">
+                </div>
+            </div>
+        </div>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <!-- Fancybox CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css">
-    <!-- Fancybox JS -->
-    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
-    <script>
-        $('form').on('submit', function () {
-            $(this).find('button[type="submit"]').prop('disabled', true);
-        });
-    </script>
-    <script>
-        $(document).ready(function(){
-
-            $('#header1').on('click', () => {
-                $('#wrapper1').prop('hidden', !($('#wrapper1').prop('hidden')));
-            });
-            $('#header2').on('click', () => {
-                $('#wrapper2').prop('hidden', !($('#wrapper2').prop('hidden')));
-            });
-            $('#header3').on('click', () => {
-                $('#wrapper3').prop('hidden', !($('#wrapper3').prop('hidden')));
-            });
-            $('#header4').on('click', () => {
-                $('#wrapper4').prop('hidden', !($('#wrapper4').prop('hidden')));
-            });
-            $('#header5').on('click', () => {
-                $('#wrapper5').prop('hidden', !($('#wrapper5').prop('hidden')));
-            });
-        });
-    </script>
 </div>

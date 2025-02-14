@@ -54,17 +54,25 @@
         });
 
         // -------------------------project detail scripts-------------------------
-        $('.btn_read_more').on('click', function () {
+        $('body').on('click', '.btn_read_more', function () {
             $('#fancybox-content').html($(this).data('text'));
+            // $('#fancybox_modal').modal('show');
+            $('#fancybox_modal').modal('show');
         });
+        // $('body').on('keydown', function(event) {
+        //     if (event.key === "Escape") {
+        //         alert();
+        //         $('#fancybox_modal').hide();
+        //     }
+        // });
 
         let subtask_id = '';
-        $('.btn_assign_subtask').on('click', function () {
+        $('body').on('click', '.btn_assign_subtask', function () {
             subtask_id = $(this).data('subtask');
             $('#exampleModalCenter').modal('show');
         });
 
-        $('#btn_save_changes_assign_subtask').on('click', function () {
+        $('body').on('click', '#btn_save_changes_assign_subtask', function () {
             let val = $('#assign_subtask_user_id').val();
             let comment = $('#assign_subtask_comment').val() ?? '';
             if (val == '') {
@@ -103,13 +111,13 @@
             }
         });
 
-        $('#btn_download_all_files').on('click', function () {
+        $('body').on('click', '#btn_download_all_files', function () {
             $('.anchor_test').each((i, item) => {
                 item.click();
             });
         });
 
-        $('#btn_upload').on('click', function () {
+        $('body').on('click', '#btn_upload', function () {
             // $('.anchor_test').each((i, item) => {
             //     item.click();
             // });
