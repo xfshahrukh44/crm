@@ -281,9 +281,9 @@
                                                 @foreach($project->client_files as $client_files)
                                                     @php
                                                         $color = 'black';
-                                                        if (in_array($message->user->is_employee, [0, 2, 4, 6])) {
+                                                        if (in_array($client_files->user->is_employee, [0, 2, 4, 6])) {
                                                             $color = 'lightblue';
-                                                        } else if (in_array($message->user->is_employee, [1, 5])) {
+                                                        } else if (in_array($client_files->user->is_employee, [1, 5])) {
                                                             $color = '#FFA500';
                                                         }
 
