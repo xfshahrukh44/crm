@@ -38,11 +38,13 @@ class ProductionDashboard extends Component
         'mutate' => 'mutate',
         'set_select2_field_value' => 'set_select2_field_value',
         'assign_subtask' => 'assign_subtask',
+        'send_message' => 'send_message',
     ];
 
     public function construct()
     {
         if (!auth()->check() || !in_array(auth()->user()->is_employee, [1]) || auth()->id() != 3117) {
+//        if (!auth()->check() || !in_array(auth()->user()->is_employee, [1])) {
             return false;
         }
 
@@ -245,6 +247,27 @@ class ProductionDashboard extends Component
         );
 
         $this->emit('success', 'Subtask assigned!');
+        return $this->render();
+    }
+
+    public function send_message ($data) {
+        $task = Task::find($data['task_id']);
+        $sub_task = SubTask::create([
+            'task_id' => $data['task_id'],
+            'created_at' => Carbon::now(),
+            'description' => $data['message'],
+            'user_id' => auth()->id(),
+        ]);
+        $assignData = [
+            'id' => auth()->id(),
+            'task_id' => $data['task_id'],
+            'name' => auth()->user()->name . ' ' . auth()->user()->last_name,
+            'text' => \Illuminate\Support\Str::limit(preg_replace("/<\/?a( [^>]*)?>/i", "", strip_tags($data['message'])), 25, $end='...'),
+            'details' => '',
+        ];
+        $task->user->notify(new TaskNotification($assignData));
+
+        $this->emit('success', 'Message sent!');
         return $this->render();
     }
 

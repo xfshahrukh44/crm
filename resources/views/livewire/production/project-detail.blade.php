@@ -148,6 +148,33 @@
                                     Conversation
                                 </div>
                                 <div class="col-md-12 px-4" style="border: 1px solid #b7b7b7; max-height: 450px; overflow-y: scroll;" id="chat_bubbles_wrapper">
+                                    {{--first message--}}
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="row my-2 py-2" style="border: 2px solid lightblue; border-radius: 10px; background-color: #add8e644;">
+                                                <div class="col-md-12 text-left" style="font-weight: 800; font-size: 14px;">
+                                                    {{($project->user->name ?? '') . ' ' . ($project->user->last_name ?? '')}}
+                                                    <span class="float-right" style="font-weight: 400; font-size: 10px; color: #161676; margin-top: 1px;">
+                                                        {{\Carbon\Carbon::parse($project->created_at)->format('d F Y, h:i A')}}
+                                                    </span>
+                                                    {{--                                                    <br>--}}
+                                                    {{--                                                    <span class="badge badge-danger badge-sm float-right">Today</span>--}}
+                                                </div>
+                                                <div class="col-md-12 text-left" style="font-weight: 400; font-size: 12px">
+                                                    {{ (strlen(strip_tags(html_entity_decode($project->description))) > 33)
+                                                    ? (substr(strip_tags(html_entity_decode($project->description)), 0, 33) . '...')
+                                                    : strip_tags(html_entity_decode($project->description)) }}
+
+                                                    <span data-fancybox data-src="#fancybox-content" data-text="{{$project->description}}" class="btn_read_more badge badge-primary badge-sm" style="cursor: pointer;">
+                                                        Read more
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4"></div>
+                                    </div>
+                                    {{--end first message--}}
+
                                     @foreach($project->sub_tasks_default_order as $message)
                                         @if(in_array($message->user->is_employee, [0, 2, 4, 6]))
                                             <div class="row">
@@ -162,7 +189,9 @@
                                                             {{--                                                    <span class="badge badge-danger badge-sm float-right">Today</span>--}}
                                                         </div>
                                                         <div class="col-md-12 text-left" style="font-weight: 400; font-size: 12px">
-                                                            {{ (strlen(strip_tags($message->description)) > 33) ? (substr(strip_tags($message->description), 0, 33) . '...') : strip_tags($message->description) }}
+                                                            {{ (strlen(strip_tags(html_entity_decode($message->description))) > 33)
+                                                            ? (substr(strip_tags(html_entity_decode($message->description)), 0, 33) . '...')
+                                                            : strip_tags(html_entity_decode($message->description)) }}
 
                                                             <span data-fancybox data-src="#fancybox-content" data-text="{{$message->description}}" class="btn_read_more badge badge-primary badge-sm" style="cursor: pointer;">
                                                                 Read more
@@ -197,7 +226,9 @@
                                                             </span>
                                                         </div>
                                                         <div class="col-md-12 text-left" style="font-weight: 400; font-size: 12px;">
-                                                            {{ (strlen(strip_tags($message->description)) > 33) ? (substr(strip_tags($message->description), 0, 33) . '...') : strip_tags($message->description) }}
+                                                            {{ (strlen(strip_tags(html_entity_decode($message->description))) > 33)
+                                                            ? (substr(strip_tags(html_entity_decode($message->description)), 0, 33) . '...')
+                                                            : strip_tags(html_entity_decode($message->description)) }}
                                                             <span data-fancybox data-src="#fancybox-content" data-text="{{$message->description}}" class="btn_read_more badge badge-primary badge-sm" style="cursor: pointer;">
                                                                 Read more
                                                             </span>
@@ -209,10 +240,10 @@
                                     @endforeach
                                 </div>
                                 <div class="col-md-12 px-0" style="border: 1px solid #b7b7b7;">
-                                    <textarea class="form-control" name="" id="" cols="30" rows="1" placeholder="Type message..."></textarea>
+                                    <textarea class="form-control" name="" id="textarea_send_message" cols="30" rows="1" placeholder="Type message..."></textarea>
                                 </div>
                                 <div class="col-md-12 px-0">
-                                    <button class="btn btn-block btn-primary">
+                                    <button class="btn btn-block btn-primary" id="btn_send_message">
                                         Send
                                     </button>
                                 </div>
@@ -263,6 +294,7 @@
                                                         <td>
                                                             <a class="anchor_test" href="{{asset('files/'.$client_files->path)}}" download>
                                                                 <span class="badge badge-dark badge-sm">#{{$client_files->id}}</span>
+                                                                <br>
                                                                 {{limitTextAtWord($client_files->name, 20)}}.{{$extension}}
                                                             </a>
                                                         </td>
@@ -356,7 +388,7 @@
         </div>
     </div>
 
-    <div id="fancybox-content" style="display: none;">
+    <div id="fancybox-content" style="display: none; cursor: text!important;">
 {{--        <div class="p-5">--}}
 {{--            asdsadasd--}}
 {{--        </div>--}}
@@ -400,6 +432,21 @@
                     subtask_id: subtask_id,
                     member_id: val,
                     comment: comment,
+                });
+                return false;
+            });
+
+            $('#btn_send_message').on('click', function () {
+                let val = $('#textarea_send_message').val();
+                if (val == '') {
+                   return false;
+                }
+
+                $('#textarea_send_message').val('');
+
+                Livewire.emit('send_message', {
+                    task_id: {{$project->id}},
+                    message: val
                 });
                 return false;
             });
