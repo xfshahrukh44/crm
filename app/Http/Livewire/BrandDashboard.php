@@ -411,7 +411,7 @@ class BrandDashboard extends Component
         $user = Client::find($client_id);
         if ($this->client_payment_create_is_closing_payment == 1) {
             $arr = $this->client_payment_create_service == "" ? [] : $this->client_payment_create_service;
-            $this->client_payment_create_service = array_merge($arr, explode(',', $user->show_service_forms));
+            $this->client_payment_create_service = array_unique(array_merge($arr, explode(',', $user->show_service_forms)));
 
             $this->client_payment_create_createform = '0';
         }
