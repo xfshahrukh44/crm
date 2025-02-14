@@ -256,8 +256,20 @@
                                     <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
                                         Files
                                     </div>
+                                    <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
+                                        <span type="button" class="badge badge-success badge-sm" id="btn_download_all_files" style="cursor: pointer;">
+                                            <i class="fas fa-download"></i>
+                                            Download all files
+                                        </span>
+                                        <span id="btn_upload" type="button" class="badge badge-dark badge-sm" style="cursor: pointer;">
+                                            <i class="fas fa-upload"></i>
+                                            Upload
+                                        </span>
+                                    </div>
                                     <div class="col-md-12 px-0" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
-                                        <div class="row m-0">
+                                        <div class="row m-0 px-4 py-2"
+                                             style="display: flex; flex-wrap: nowrap; /* Prevents wrapping to the next line */ overflow-x: auto; /* Enables horizontal scrolling */ gap: 10px; /* Adds spacing between items */ padding-bottom: 10px;"
+                                        >
                                             @foreach($project->client_files as $client_files)
                                                 @php
                                                     $color = 'black';
@@ -270,17 +282,19 @@
                                                     $temp = explode('.',$client_files->path);
                                                     $extension = end($temp);
                                                 @endphp
-                                                <div class="col-3 py-2">
+                                                <div class="">
                                                     <a class="anchor_test" href="{{asset('files/'.$client_files->path)}}" download>
                                                         <span class="badge badge-dark badge-sm">#{{$client_files->id}}</span>
                                                         <br>
-                                                        {{limitTextAtWord($client_files->name, 20)}}.{{$extension}}
+                                                        <span style="font-size: 10px;">
+                                                            {{limitTextAtWord($client_files->name, 20)}}.{{$extension}}
+                                                        </span>
                                                         <br>
-                                                        <span style="color: {{$color}};">
+                                                        <span style="color: {{$color}}; font-size: 10px;">
                                                             {{($client_files->user->name ?? '') . ' ' . ($client_files->user->last_name ?? '')}}
                                                         </span>
                                                         <br>
-                                                        <span class="badge badge-primary badge-sm">
+                                                        <span class="badge badge-primary badge-sm" style="font-size: 10px;">
                                                             {{\Carbon\Carbon::parse($client_files->created_at)->format('d F Y, h:i A')}}
                                                         </span>
                                                     </a>
