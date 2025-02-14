@@ -43,8 +43,8 @@ class ProductionDashboard extends Component
 
     public function construct()
     {
-//        if (!auth()->check() || !in_array(auth()->user()->is_employee, [1]) || auth()->id() != 3117) {
-        if (!auth()->check() || !in_array(auth()->user()->is_employee, [1])) {
+        if (!auth()->check() || !in_array(auth()->user()->is_employee, [1]) || auth()->id() != 3117) {
+//        if (!auth()->check() || !in_array(auth()->user()->is_employee, [1])) {
             return false;
         }
 
@@ -120,6 +120,17 @@ class ProductionDashboard extends Component
             }
         }
 
+        $notification_project_ids = [];
+        foreach (DB::table('notifications')->whereNull('read_at')->where([
+            'type' => 'App\Notifications\TaskNotification',
+            'notifiable_id' => auth()->id(),
+        ])->get() as $item) {
+            $data = json_decode($item->data);
+            if ($data->task_id && $data->task_id != null && $data->task_id != '') {
+                $notification_project_ids []= $data->task_id;
+            }
+        }
+
         $current_projects = Task::with('sub_tasks')
         ->whereIn('category_id', $user_category_ids)
         ->whereIn('status', $status_in_array)
@@ -130,7 +141,7 @@ class ProductionDashboard extends Component
 //        ->orderBy('status', 'ASC')
         ->paginate(12);
 
-        return view('livewire.production.dashboard', compact('current_projects'))->extends($this->layout);
+        return view('livewire.production.dashboard', compact('current_projects', 'notification_project_ids'))->extends($this->layout);
     }
 
     public function project_detail ($project_id) {

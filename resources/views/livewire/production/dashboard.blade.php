@@ -195,6 +195,12 @@
 
                                                         <div class="row justify-content-center mt-2">
                                                             {!! $project->project_status_badge() !!}
+
+                                                            @if(in_array($project->id, $notification_project_ids))
+                                                                <span class="badge badge-danger badge-sm mx-1">
+                                                                    <i class="fas fa-bell"></i>
+                                                                </span>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 @endforeach
