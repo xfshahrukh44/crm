@@ -390,9 +390,10 @@
     </div>
 
     <div class="modal fade" id="fancybox_modal" tabindex="-1" role="dialog" style="width: 80% !important; margin: auto !important;">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-xxl modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-body" id="fancybox-content" style="cursor: text!important; display: flex; flex-wrap: wrap;">
+{{--                <div class="modal-body" id="fancybox-content" style="cursor: text!important; display: flex; flex-wrap: wrap;">--}}
+                <div class="modal-body" id="fancybox-content" style="cursor: text!important;">
                 </div>
             </div>
         </div>
