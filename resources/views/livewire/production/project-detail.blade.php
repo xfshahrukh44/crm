@@ -106,42 +106,7 @@
                                 </span>
                             </div>
 
-                            <div class="row mt-2">
-                                <div class="col-md-6 offset-md-3">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <b>STATUS</b>
-                                        </div>
-                                        <div class="col">
-                                            <label class='badge badge-danger' wire:click="set_project_status({{$project->id}}, 0)" style="cursor: pointer; {!! $project->status == 0 ? 'border: 3px solid #00aeef; border-radius: 50px;' : '' !!}">
-                                                Open
-                                            </label>
-
-                                            <label class='badge badge-primary' wire:click="set_project_status({{$project->id}}, 1)" style="cursor: pointer; {!! $project->status == 1 ? 'border: 3px solid #00aeef; border-radius: 50px;' : '' !!}">
-                                                Reopen
-                                            </label>
-
-                                            <label class='badge badge-warning' wire:click="set_project_status({{$project->id}}, 4)" style="cursor: pointer; {!! $project->status == 4 ? 'border: 3px solid #00aeef; border-radius: 50px;' : '' !!}">
-                                                In Progress
-                                            </label>
-
-                                            <label class='badge badge-info' wire:click="set_project_status({{$project->id}}, 2)" style="cursor: pointer; {!! $project->status == 2 ? 'border: 3px solid #00aeef; border-radius: 50px;' : '' !!}">
-                                                Hold
-                                            </label>
-
-                                            <label class='badge badge-warning' wire:click="set_project_status({{$project->id}}, 6)" style="cursor: pointer; {!! $project->status == 6 ? 'border: 3px solid #00aeef; border-radius: 50px;' : '' !!}">
-                                                Incomplete Brief
-                                            </label>
-
-                                            <label class='badge badge-success' wire:click="set_project_status({{$project->id}}, 3)" style="cursor: pointer; {!! $project->status == 3 ? 'border: 3px solid #00aeef; border-radius: 50px;' : '' !!}">
-                                                Completed
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <hr>
+                            <hr style="margin: 14px 0px 12px 0px !important;">
 
                             <div class="row mt-2 text-center m-0">
                                 <div class="col">
@@ -153,9 +118,42 @@
                                     </a>
                                 </div>
                             </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-12 py-1" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
+                                    <h6 class="mb-0"><b>STATUS</b></h6>
+                                    <hr style="margin: 4px 0px 4px 0px !important;">
+                                    <label class='badge badge-danger' wire:click="set_project_status({{$project->id}}, 0)" style="cursor: pointer; {!! $project->status == 0 ? 'border: 3px solid #00aeef; border-radius: 50px;' : '' !!}">
+                                        Open
+                                    </label>
+
+                                    <label class='badge badge-primary' wire:click="set_project_status({{$project->id}}, 1)" style="cursor: pointer; {!! $project->status == 1 ? 'border: 3px solid #00aeef; border-radius: 50px;' : '' !!}">
+                                        Reopen
+                                    </label>
+
+                                    <label class='badge badge-warning' wire:click="set_project_status({{$project->id}}, 4)" style="cursor: pointer; {!! $project->status == 4 ? 'border: 3px solid #00aeef; border-radius: 50px;' : '' !!}">
+                                        In Progress
+                                    </label>
+
+                                    <label class='badge badge-info' wire:click="set_project_status({{$project->id}}, 2)" style="cursor: pointer; {!! $project->status == 2 ? 'border: 3px solid #00aeef; border-radius: 50px;' : '' !!}">
+                                        Hold
+                                    </label>
+
+                                    <label class='badge badge-warning' wire:click="set_project_status({{$project->id}}, 6)" style="cursor: pointer; {!! $project->status == 6 ? 'border: 3px solid #00aeef; border-radius: 50px;' : '' !!}">
+                                        Incomplete Brief
+                                    </label>
+
+                                    <label class='badge badge-success' wire:click="set_project_status({{$project->id}}, 3)" style="cursor: pointer; {!! $project->status == 3 ? 'border: 3px solid #00aeef; border-radius: 50px;' : '' !!}">
+                                        Completed
+                                    </label>
+                                </div>
+                            </div>
+
+                            <hr style="margin: 14px 0px 12px 0px !important;">
+
                             <div class="row mt-2">
                                 <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
-                                    Conversation
+                                    <h6 class="my-1 mb-1"><b>CONVERSATION</b></h6>
                                 </div>
                                 <div class="col-md-12 px-4" style="border: 1px solid #b7b7b7; max-height: 450px; overflow-y: scroll;" id="chat_bubbles_wrapper">
                                     {{--first message--}}
@@ -262,11 +260,11 @@
                                 </div>
                             </div>
 
-                            <hr>
+                            <hr style="margin: 14px 0px 12px 0px !important;">
 
                             <div class="row">
                                 <div class="col-md-12 py-1" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
-                                    Files
+                                    <h6 class="my-1 mb-1"><b>FILES</b></h6>
                                     <hr style="margin: 4px 0px 4px 0px !important;">
                                     @if(count($project->client_files))
                                         <span type="button" class="badge badge-success badge-sm" id="btn_download_all_files" style="cursor: pointer;">
