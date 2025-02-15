@@ -200,13 +200,15 @@
                                                             {{--                                                    <span class="badge badge-danger badge-sm float-right">Today</span>--}}
                                                         </div>
                                                         <div class="col-md-12 text-left" style="font-weight: 400; font-size: 12px">
-                                                            {{ (strlen(strip_tags(html_entity_decode($message->description))) > 33)
-                                                            ? (substr(strip_tags(html_entity_decode($message->description)), 0, 33) . '...')
-                                                            : strip_tags(html_entity_decode($message->description)) }}
-
-                                                            <span data-text="{{$message->description}}" class="btn_read_more badge badge-primary badge-sm" style="cursor: pointer;">
-                                                                Read more
-                                                            </span>
+                                                            @php
+                                                                $string = strip_tags(html_entity_decode($message->description));
+                                                            @endphp
+                                                            {{ (strlen($string) > 44) ? (substr($string, 0, 44) . '...') : $string }}
+                                                            @if(strlen($string) > 44)
+                                                                <span data-text="{{$message->description}}" class="btn_read_more badge badge-primary badge-sm" style="cursor: pointer;">
+                                                                    Read more
+                                                                </span>
+                                                            @endif
                                                             <br>
 
                                                             <hr style="margin: 4px 0px 4px 0px !important;">
@@ -237,12 +239,15 @@
                                                             </span>
                                                         </div>
                                                         <div class="col-md-12 text-left" style="font-weight: 400; font-size: 12px;">
-                                                            {{ (strlen(strip_tags(html_entity_decode($message->description))) > 33)
-                                                            ? (substr(strip_tags(html_entity_decode($message->description)), 0, 33) . '...')
-                                                            : strip_tags(html_entity_decode($message->description)) }}
-                                                            <span data-text="{{$message->description}}" class="btn_read_more badge badge-primary badge-sm" style="cursor: pointer;">
-                                                                Read more
-                                                            </span>
+                                                            @php
+                                                                $string = strip_tags(html_entity_decode($message->description));
+                                                            @endphp
+                                                            {{ (strlen($string) > 44) ? (substr($string, 0, 44) . '...') : $string }}
+                                                            @if(strlen($string) > 44)
+                                                                <span data-text="{{$message->description}}" class="btn_read_more badge badge-primary badge-sm" style="cursor: pointer;">
+                                                                    Read more
+                                                                </span>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
