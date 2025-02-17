@@ -158,8 +158,8 @@ class AdminUserController extends Controller
             UserFinance::updateOrCreate([
                 'user_id' => $id,
             ], [
-                'daily_target' => $request->get('daily_target'),
-                'daily_printing_costs' => $request->get('daily_printing_costs'),
+                'daily_target' => $request->get('daily_target') ?? 1000.00,
+                'daily_printing_costs' => $request->get('daily_printing_costs') ?? 0.00,
             ]);
 
             $user = User::find($id);
