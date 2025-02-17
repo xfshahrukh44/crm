@@ -66,9 +66,9 @@ class Revenue extends Component
             }
 
             $todays_invoice_ids = DB::table('invoices')->whereIn('brand', $buh_user->brand_list())
-                ->whereDate('created_at', '=', Carbon::today())->pluck('id')
+                ->whereDate('created_at', '=', Carbon::today())
                 ->where('sales_agent_id', $buh_user->id)
-                ->where('payment_status', 2)->toArray();
+                ->where('payment_status', 2)->pluck('id')->toArray();
             $todays_invoice_totals = get_invoice_totals_in_usd($todays_invoice_ids);
             $todays_invoice_refunds = get_invoice_refunds_totals_in_usd($todays_invoice_ids);
             $daily_target = $buh_user->finances->daily_target ?? 1000.00;
@@ -125,7 +125,8 @@ class Revenue extends Component
         foreach ($buh_users as $buh_user) {
             $my_user_ids = DB::table('brand_users')->whereIn('brand_id', $buh_user->brand_list())->pluck('user_id')->toArray();
             $my_user_ids []= $buh_user->id;
-            
+            $my_user_ids = array_unique($my_user_ids);
+
             $sale_agents = User::whereIn('is_employee', [0, 4, 6])->whereIn('id', $my_user_ids)->orderBy('name', 'ASC')
                 ->get();
 
@@ -146,9 +147,9 @@ class Revenue extends Component
                 }
 
                 $todays_invoice_ids = DB::table('invoices')->whereIn('brand', $sale_agent->brand_list())
-                    ->whereDate('created_at', '=', Carbon::today())->pluck('id')
+                    ->whereDate('created_at', '=', Carbon::today())
                     ->where('sales_agent_id', $sale_agent->id)
-                    ->where('payment_status', 2)->toArray();
+                    ->where('payment_status', 2)->pluck('id')->toArray();
                 $todays_invoice_totals = get_invoice_totals_in_usd($todays_invoice_ids);
                 $todays_invoice_refunds = get_invoice_refunds_totals_in_usd($todays_invoice_ids);
                 $daily_target = $sale_agent->finances->daily_target ?? 1000.00;
