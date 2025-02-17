@@ -314,7 +314,7 @@
                                     <div class="ul-widget3-item">
                                         <div class="ul-widget3-header">
                                             <div class="ul-widget3-img">
-                                            @if($sub_tasks->user->image != '')
+                                            @if($sub_tasks->user && $sub_tasks->user->image != '')
                                                 <img id="userDropdown" src="{{ asset($sub_tasks->user->image) }}" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             @else
                                                 <img id="userDropdown" src="{{ asset('global/img/user.png') }}" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -322,7 +322,7 @@
                                             </div>
                                             <div class="ul-widget3-info">
                                                 <a class="__g-widget-username" href="#">
-                                                    <span class="t-font-bolder">{{ $sub_tasks->user->name }} {{ $sub_tasks->user->last_name }}</span>
+                                                    <span class="t-font-bolder">{{ $sub_tasks->user->name ?? '' }} {{ $sub_tasks->user->last_name ?? '' }}</span>
                                                 </a>
                                                 <br>
                                                 <span class="ul-widget-notification-item-time">
@@ -368,6 +368,7 @@
                                         <div class="ul-widget3-body">
                                             {!! $sub_tasks->description !!}
                                         </div>
+                                        @if($sub_tasks->user)
                                         @if(($sub_tasks->user->is_employee != 1) && ($sub_tasks->user->is_employee != 5))
                                         <hr>
                                         <div class="assign-wrapper">
@@ -461,6 +462,7 @@
                                                 </div>
                                             </form>
                                         </div> -->
+                                        @endif
                                         @endif
                                     </div>
                                     @if(count($sub_tasks->subtask_message) != 0)
