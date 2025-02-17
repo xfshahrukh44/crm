@@ -35,12 +35,15 @@ class ProductionDashboard extends Component
         6 => 1,
     ];
 
+    public $project_detail_search_message_query = '';
+
     protected $listeners = [
         'mutate' => 'mutate',
         'set_select2_field_value' => 'set_select2_field_value',
         'assign_subtask' => 'assign_subtask',
         'send_message' => 'send_message',
         'clear_subtask_notification' => 'clear_subtask_notification',
+        'set_search_message_query' => 'set_search_message_query',
     ];
 
     public function construct()
@@ -149,6 +152,20 @@ class ProductionDashboard extends Component
     public function project_detail ($project_id) {
         $project = Task::find($project_id);
 
+        //subtask - messages
+        if ($this->project_detail_search_message_query != '') {
+            $sub_task_messages = SubTask::where([
+                'task_id' => $project->id,
+                'sub_task_id' => 0,
+            ])->where('description', 'LIKE', '%'.$this->project_detail_search_message_query.'%')
+            ->orderBy('id', 'ASC')->get();
+        } else {
+            $sub_task_messages = SubTask::where([
+                'task_id' => $project->id,
+                'sub_task_id' => 0,
+            ])->orderBy('id', 'ASC')->get();
+        }
+
         $notification_subtask_ids = [];
         $notification_notification_ids = [];
         foreach (DB::table('notifications')->whereNull('read_at')->where([
@@ -163,11 +180,15 @@ class ProductionDashboard extends Component
         }
 
         $this->emit('scroll_to_bottom', 'chat_bubbles_wrapper');
-        return view('livewire.production.project-detail', compact('project', 'notification_subtask_ids', 'notification_notification_ids'))->extends($this->layout);
+        return view('livewire.production.project-detail', compact('project', 'sub_task_messages', 'notification_subtask_ids', 'notification_notification_ids'))->extends($this->layout);
     }
 
     public function set_project_status ($project_id, $status) {
         $task = Task::find($project_id);
+        if ($task->status == $status) {
+            return $this->render();
+        }
+
         $user = $task->user;
 
         //if task status changed create logs
@@ -306,6 +327,12 @@ class ProductionDashboard extends Component
         }
 
         $this->emit('success', 'Notification cleared!');
+        return $this->render();
+    }
+
+    public function set_search_message_query ($data) {
+        $this->project_detail_search_message_query = $data;
+
         return $this->render();
     }
 

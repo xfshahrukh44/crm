@@ -92,7 +92,7 @@
                                 </span>
 
                                 <span class="badge badge-dark badge-sm mx-1">
-                                    {{ implode('', array_map(function($v) { return $v[0]; }, explode(' ', $project->category->name))) }}
+                                    {{ implode('', array_map(function($v) { return $v[0] . '.'; }, explode(' ', $project->category->name))) }}
                                 </span>
                             </div>
                             <div class="row justify-content-center" style="letter-spacing: 2px; font-weight: 100;">
@@ -116,6 +116,12 @@
                                             Back
                                         </span>
                                     </a>
+                                    <a href="{{ route('production.form', [ 'form_id' => $project->projects->form_id , 'check' => $project->projects->form_checker, 'id' => $project->projects->id]) }}" target="_blank">
+                                        <span class="badge badge-info badge-sm">
+                                            <i class="fas fa-list"></i>
+                                            View form
+                                        </span>
+                                    </a>
                                 </div>
                             </div>
 
@@ -123,29 +129,43 @@
                                 <div class="col-md-12 py-1" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
                                     <h6 class="mb-0"><b>STATUS</b></h6>
                                     <hr style="margin: 4px 0px 4px 0px !important;">
-                                    <label class='badge badge-danger' wire:click="set_project_status({{$project->id}}, 0)" style="cursor: pointer; {!! $project->status == 0 ? 'border: 3px solid #00aeef; border-radius: 50px;' : '' !!}">
-                                        Open
-                                    </label>
+                                    <div class="row m-0 justify-content-center">
+                                        <p class="mb-0 mx-1" style="font-size: 14px;">
+                                            <label class='badge badge{!! $project->status != 0 ? '-outline' : '' !!}-danger' wire:click="set_project_status({{$project->id}}, 0)" style="cursor: pointer;">
+                                                Open
+                                            </label>
+                                        </p>
 
-                                    <label class='badge badge-primary' wire:click="set_project_status({{$project->id}}, 1)" style="cursor: pointer; {!! $project->status == 1 ? 'border: 3px solid #00aeef; border-radius: 50px;' : '' !!}">
-                                        Reopen
-                                    </label>
+                                        <p class="mb-0 mx-1" style="font-size: 14px;">
+                                            <label class='badge badge{!! $project->status != 1 ? '-outline' : '' !!}-primary' wire:click="set_project_status({{$project->id}}, 1)" style="cursor: pointer;">
+                                                Reopen
+                                            </label>
+                                        </p>
 
-                                    <label class='badge badge-warning' wire:click="set_project_status({{$project->id}}, 4)" style="cursor: pointer; {!! $project->status == 4 ? 'border: 3px solid #00aeef; border-radius: 50px;' : '' !!}">
-                                        In Progress
-                                    </label>
+                                        <p class="mb-0 mx-1" style="font-size: 14px;">
+                                            <label class='badge badge{!! $project->status != 4 ? '-outline' : '' !!}-warning' wire:click="set_project_status({{$project->id}}, 4)" style="cursor: pointer;">
+                                                In Progress
+                                            </label>
+                                        </p>
 
-                                    <label class='badge badge-info' wire:click="set_project_status({{$project->id}}, 2)" style="cursor: pointer; {!! $project->status == 2 ? 'border: 3px solid #00aeef; border-radius: 50px;' : '' !!}">
-                                        Hold
-                                    </label>
+                                        <p class="mb-0 mx-1" style="font-size: 14px;">
+                                            <label class='badge badge{!! $project->status != 2 ? '-outline' : '' !!}-info' wire:click="set_project_status({{$project->id}}, 2)" style="cursor: pointer;">
+                                                Hold
+                                            </label>
+                                        </p>
 
-                                    <label class='badge badge-warning' wire:click="set_project_status({{$project->id}}, 6)" style="cursor: pointer; {!! $project->status == 6 ? 'border: 3px solid #00aeef; border-radius: 50px;' : '' !!}">
-                                        Incomplete Brief
-                                    </label>
+                                        <p class="mb-0 mx-1" style="font-size: 14px;">
+                                            <label class='badge badge{!! $project->status != 6 ? '-outline' : '' !!}-warning' wire:click="set_project_status({{$project->id}}, 6)" style="cursor: pointer;">
+                                                Incomplete Brief
+                                            </label>
+                                        </p>
 
-                                    <label class='badge badge-success' wire:click="set_project_status({{$project->id}}, 3)" style="cursor: pointer; {!! $project->status == 3 ? 'border: 3px solid #00aeef; border-radius: 50px;' : '' !!}">
-                                        Completed
-                                    </label>
+                                        <p class="mb-0 mx-1" style="font-size: 14px;">
+                                            <label class='badge badge{!! $project->status != 3 ? '-outline' : '' !!}-success' wire:click="set_project_status({{$project->id}}, 3)" style="cursor: pointer;">
+                                                Completed
+                                            </label>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
 
@@ -153,37 +173,26 @@
 
                             <div class="row mt-2">
                                 <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
-                                    <h6 class="my-1 mb-1"><b>CONVERSATION</b></h6>
+                                    <h6 class="my-1 mb-1">
+                                        <b>CONVERSATION</b>
+
+                                        <span id="btn_search_messages" class="badge badge-dark badge-sm" style="cursor: pointer;">
+                                            <i class="fas fa-search"></i>
+                                        </span>
+                                    </h6>
                                 </div>
                                 <div class="col-md-12 px-4" style="border: 1px solid #b7b7b7; max-height: 450px; overflow-y: scroll;" id="chat_bubbles_wrapper">
-                                    {{--first message--}}
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <div class="row my-2 py-2" style="border: 2px solid lightblue; border-radius: 10px; background-color: #add8e644;">
-                                                <div class="col-md-12 text-left" style="font-weight: 800; font-size: 14px;">
-                                                    {{($project->user->name ?? '') . ' ' . ($project->user->last_name ?? '')}}
-                                                    <span class="float-right" style="font-weight: 400; font-size: 10px; color: #161676; margin-top: 1px;">
-                                                        {{\Carbon\Carbon::parse($project->created_at)->format('d F Y, h:i A')}}
-                                                    </span>
-                                                    {{--                                                    <br>--}}
-                                                    {{--                                                    <span class="badge badge-danger badge-sm float-right">Today</span>--}}
-                                                </div>
-                                                <div class="col-md-12 text-left" style="font-weight: 400; font-size: 12px">
-                                                    {{ (strlen(strip_tags(html_entity_decode($project->description))) > 33)
-                                                    ? (substr(strip_tags(html_entity_decode($project->description)), 0, 33) . '...')
-                                                    : strip_tags(html_entity_decode($project->description)) }}
-
-                                                    <span data-fancybox data-src="#fancybox-content" data-text="{{$project->description}}" class="btn_read_more badge badge-primary badge-sm" style="cursor: pointer;">
-                                                        Read more
-                                                    </span>
-                                                </div>
-                                            </div>
+                                    {{--no messages info--}}
+                                    @if(count($sub_task_messages) == 0)
+                                        <div class="row py-4 justify-content-center">
+                                            <h6>
+                                                No messages
+                                            </h6>
                                         </div>
-                                        <div class="col-md-4"></div>
-                                    </div>
-                                    {{--end first message--}}
+                                    @endif
+                                    {{--end no messages info--}}
 
-                                    @foreach($project->sub_tasks_default_order as $message)
+                                    @foreach($sub_task_messages as $message)
                                         @if(in_array($message->user->is_employee, [0, 2, 4, 6]))
                                             <div class="row">
                                                 <div class="col-md-8">
@@ -203,13 +212,17 @@
                                                             @php
                                                                 $string = strip_tags(html_entity_decode($message->description));
                                                             @endphp
-                                                            {{ (strlen($string) > 44) ? (substr($string, 0, 44) . '...') : $string }}
-                                                            @if(strlen($string) > 44)
-                                                                <span data-text="{{$message->description}}" class="btn_read_more badge badge-primary badge-sm" style="cursor: pointer;">
-                                                                    Read more
-                                                                </span>
-                                                            @endif
-                                                            <br>
+                                                            <p class="mb-0" style="word-wrap: break-word;">
+                                                                {{ (strlen($string) > 100) ? (substr($string, 0, 100) . '...') : $string }}
+                                                                @if(strlen($string) > 100)
+                                                                    <span data-text="{{$message->description}}" class="btn_read_more badge badge-primary badge-sm"
+                                                                          data-user="{{($message->user->name ?? '') . ' ' . ($message->user->last_name ?? '')}}"
+                                                                          data-time="{{\Carbon\Carbon::parse($message->created_at)->format('d F Y, h:i A')}}"
+                                                                          style="cursor: pointer;">
+                                                                        more
+                                                                    </span>
+                                                                @endif
+                                                            </p>
 
                                                             <hr style="margin: 4px 0px 4px 0px !important;">
 
@@ -243,23 +256,44 @@
                                                             @php
                                                                 $string = strip_tags(html_entity_decode($message->description));
                                                             @endphp
-                                                            {{ (strlen($string) > 44) ? (substr($string, 0, 44) . '...') : $string }}
-                                                            @if(strlen($string) > 44)
-                                                                <span data-text="{{$message->description}}" class="btn_read_more badge badge-primary badge-sm" style="cursor: pointer;">
-                                                                    Read more
-                                                                </span>
-                                                            @endif
+                                                            <p class="mb-0" style="word-wrap: break-word;">
+                                                                {{ (strlen($string) > 100) ? (substr($string, 0, 100) . '...') : $string }}
+                                                                @if(strlen($string) > 100)
+                                                                    <span data-text="{{$message->description}}" class="btn_read_more badge badge-primary badge-sm"
+                                                                          data-user="{{($message->user->name ?? '') . ' ' . ($message->user->last_name ?? '')}}"
+                                                                          data-time="{{\Carbon\Carbon::parse($message->created_at)->format('d F Y, h:i A')}}"
+                                                                          style="cursor: pointer;">
+                                                                        more
+                                                                    </span>
+                                                                @endif
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         @endif
                                     @endforeach
+
+                                    {{--search message info--}}
+                                    @if($project_detail_search_message_query != '')
+                                        @php
+                                            $string = strip_tags(html_entity_decode($project_detail_search_message_query));
+                                        @endphp
+                                        <div class="row py-4 justify-content-center">
+                                            <h6>
+                                                Searched for "{{ (strlen($string) > 50) ? (substr($string, 0, 50) . '...') : $string }}"
+                                                <a href="" class="text-danger" wire:click="$emit('set_search_message_query', '')">
+                                                    clear
+                                                </a>
+                                            </h6>
+                                        </div>
+                                    @endif
+                                    {{--end search message info--}}
                                 </div>
-                                <div class="col-md-12 px-0" style="border: 1px solid #b7b7b7;">
+                                <div class="col-md-11 px-0" style="border: 1px solid #b7b7b7;">
                                     <textarea class="form-control" name="" id="textarea_send_message" cols="30" rows="1" placeholder="Type message..."></textarea>
                                 </div>
-                                <div class="col-md-12 px-0">
+                                <div class="col-md-1 px-0" style="background-color: #0076c2">
                                     <button class="btn btn-block btn-primary" id="btn_send_message" data-project="{{$project->id}}">
                                         Send
                                     </button>
@@ -275,7 +309,7 @@
                                     @if(count($project->client_files))
                                         <span type="button" class="badge badge-success badge-sm" id="btn_download_all_files" style="cursor: pointer;">
                                             <i class="fas fa-download"></i>
-                                            Download all files
+                                            Download all
                                         </span>
                                     @endif
                                     <span id="btn_upload" type="button" class="badge badge-dark badge-sm" style="cursor: pointer;">
@@ -395,11 +429,35 @@
         </div>
     </div>
 
+    <!--  Message modal -->
     <div class="modal fade" id="fancybox_modal" tabindex="-1" role="dialog" style="width: 80% !important; margin: auto !important;">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="fancybox_modal_user_name">
+
+                    </h5>
+                    <p class="m-0" id="fancybox_modal_message_date">
+
+                    </p>
+                </div>
 {{--                <div class="modal-body" id="fancybox-content" style="cursor: text!important; display: flex; flex-wrap: wrap;">--}}
                 <div class="modal-body" id="fancybox-content" style="cursor: text!important;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--  Search messages modal -->
+    <div class="modal fade" id="search_messages_modal" tabindex="-1" role="dialog" style="width: 80% !important; margin: auto !important;">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <div class="row m-0 p-0">
+                        <div class="col-md-12 form-group p-0 m-0">
+                            <input type="text" class="form-control form-control-lg" id="input_search_messages" placeholder="Press enter to search" autocomplete="off">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

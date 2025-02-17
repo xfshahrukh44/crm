@@ -56,15 +56,11 @@
         // -------------------------project detail scripts-------------------------
         $('body').on('click', '.btn_read_more', function () {
             $('#fancybox-content').html($(this).data('text'));
-            // $('#fancybox_modal').modal('show');
             $('#fancybox_modal').modal('show');
+
+            $('#fancybox_modal_user_name').html($(this).data('user'));
+            $('#fancybox_modal_message_date').html($(this).data('time'));
         });
-        // $('body').on('keydown', function(event) {
-        //     if (event.key === "Escape") {
-        //         alert();
-        //         $('#fancybox_modal').hide();
-        //     }
-        // });
 
         let subtask_id = '';
         $('body').on('click', '.btn_assign_subtask', function () {
@@ -123,6 +119,29 @@
             Livewire.emit('clear_subtask_notification', {
                 notification_id: val
             });
+
+            return false;
+        });
+
+        $('body').on('click', '#btn_search_messages', function () {
+            $('#input_search_messages').val('');
+            $('#search_messages_modal').modal('show');
+        });
+
+        $('body').on('shown.bs.modal', '#search_messages_modal', function () {
+            $('#input_search_messages').focus();
+        });
+
+        $('body').on('keyup', '#input_search_messages', function (e) {
+            let val = $(this).val();
+            if ((e.key === "Enter" || e.keyCode === 13) && val !== '') {
+                if(val === '') {
+                    return false;
+                }
+
+                $('#search_messages_modal').modal('hide');
+                Livewire.emit('set_search_message_query', val);
+            }
 
             return false;
         });
