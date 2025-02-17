@@ -87,7 +87,7 @@
                                     #{{ $project->id }}
                                 </span>
 
-                                <span class="badge badge-primary badge-sm mx-1">
+                                <span class="badge badge-dark badge-sm mx-1">
                                     {{ $project->brand->name }}
                                 </span>
 
@@ -219,7 +219,7 @@
                                                                 Assign
                                                             </span>
 
-                                                            <span class="text-primary btn_read_more float-right" style="cursor: pointer; font-weight: 100;"
+                                                            <span class="text-dark btn_read_more float-right" style="cursor: pointer; font-weight: 100;"
                                                                   data-text="{{$message->description}}"
                                                                   data-user="{{($message->user->name ?? '') . ' ' . ($message->user->last_name ?? '')}}"
                                                                   data-time="{{\Carbon\Carbon::parse($message->created_at)->format('d F Y, h:i A')}}">
@@ -258,7 +258,7 @@
 
                                                             <hr style="margin: 4px 0px 4px 0px !important;">
 
-                                                            <span class="text-primary btn_read_more float-right" style="cursor: pointer; font-weight: 100;"
+                                                            <span class="text-dark btn_read_more float-right" style="cursor: pointer; font-weight: 100;"
                                                                   data-text="{{$message->description}}"
                                                                   data-user="{{($message->user->name ?? '') . ' ' . ($message->user->last_name ?? '')}}"
                                                                   data-time="{{\Carbon\Carbon::parse($message->created_at)->format('d F Y, h:i A')}}">

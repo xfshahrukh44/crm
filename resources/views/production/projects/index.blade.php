@@ -1,4 +1,4 @@
-@dd('layouts.app-production')
+@extends('layouts.app-production')
 @section('title', 'Home')
 @push('styles')
 <style>
