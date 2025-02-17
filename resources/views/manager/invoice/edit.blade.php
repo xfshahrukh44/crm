@@ -86,7 +86,7 @@
                             <div class="col-md-3 form-group mb-3">
                                 <label for="merchant">Merchant<span>*</span></label>
                                 <select name="merchant" id="merchant" class="form-control" required>
-                                    @foreach($merchant as $merchants)
+                                    @foreach(get_my_merchants() as $merchants)
                                     <option value="{{ $merchants->id }}" {{ $merchants->id == $invoice->merchant_id ? 'selected' : '' }}>{{ $merchants->name }}</option>
                                     @endforeach
                                 </select>
