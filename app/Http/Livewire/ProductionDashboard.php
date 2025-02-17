@@ -154,13 +154,15 @@ class ProductionDashboard extends Component
 
         //subtask - messages
         if ($this->project_detail_search_message_query != '') {
-            $sub_task_messages = SubTask::where([
+            $sub_task_messages = SubTask::whereHas('user')
+            ->where([
                 'task_id' => $project->id,
                 'sub_task_id' => 0,
             ])->where('description', 'LIKE', '%'.$this->project_detail_search_message_query.'%')
             ->orderBy('id', 'ASC')->get();
         } else {
-            $sub_task_messages = SubTask::where([
+            $sub_task_messages = SubTask::whereHas('user')
+            ->where([
                 'task_id' => $project->id,
                 'sub_task_id' => 0,
             ])->orderBy('id', 'ASC')->get();
