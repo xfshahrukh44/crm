@@ -34,6 +34,7 @@ class ProductionDashboard extends Component
         5 => 1,
         6 => 1,
     ];
+    public $dashboard_category_id = 'All';
 
     public $project_detail_search_message_query = '';
 
@@ -137,14 +138,17 @@ class ProductionDashboard extends Component
         }
 
         $current_projects = Task::with('sub_tasks')
-        ->whereIn('category_id', $user_category_ids)
-        ->whereIn('status', $status_in_array)
-        ->addSelect(['latest_subtask_created_at' => SubTask::selectRaw('MAX(created_at)')
-            ->whereColumn('task_id', 'tasks.id')
-        ])
-        ->orderByDesc('latest_subtask_created_at')
-//        ->orderBy('status', 'ASC')
-        ->paginate(12);
+            ->when($this->dashboard_category_id !== 'All', function ($q) {
+                return $q->where('category_id', $this->dashboard_category_id);
+            })
+            ->whereIn('category_id', $user_category_ids)
+            ->whereIn('status', $status_in_array)
+            ->addSelect(['latest_subtask_created_at' => SubTask::selectRaw('MAX(created_at)')
+                ->whereColumn('task_id', 'tasks.id')
+            ])
+            ->orderByDesc('latest_subtask_created_at')
+    //        ->orderBy('status', 'ASC')
+            ->paginate(12);
 
         return view('livewire.production.dashboard', compact('current_projects', 'notification_project_ids'))->extends($this->layout);
     }

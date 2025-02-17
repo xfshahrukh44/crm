@@ -143,6 +143,16 @@
                                                     </label>
                                                 </p>
                                             </div>
+                                            <div class="row justify-content-center mx-2">
+                                                <div class="m-0 p-0 col-md-8 offset-md-2">
+                                                    <select name="" id="" class.old="form-control" wire:model="dashboard_category_id" style="width: 100%; font-size: 12px;">
+                                                        <option value="All">All departments</option>
+                                                        @foreach(Auth()->user()->category as $category)
+                                                            <option value="{{ $category->id }}" @if(request()->get('category') != null) {{ (request()->get('category') == $category->id ? 'selected' : ' ') }} @endif>{{ $category->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="row p-2 pt-0">

@@ -202,32 +202,28 @@
                                                             @if(in_array($message->id, $notification_subtask_ids))
                                                                 <i class="fas fa-bell text-danger btn_clear_subtask_notification" style="cursor: pointer" data-notification="{{$notification_notification_ids[$message->id]}}"></i>
                                                             @endif
-                                                            <span class="float-right" style="font-weight: 400; font-size: 10px; color: #161676; margin-top: 1px;">
+                                                            <span class="float-right" style="font-weight: 400; font-size: 10px; margin-top: 1px;">
                                                                 {{\Carbon\Carbon::parse($message->created_at)->format('d F Y, h:i A')}}
                                                             </span>
                                                             {{--                                                    <br>--}}
                                                             {{--                                                    <span class="badge badge-danger badge-sm float-right">Today</span>--}}
                                                         </div>
                                                         <div class="col-md-12 text-left" style="font-weight: 400; font-size: 12px">
-                                                            @php
-                                                                $string = strip_tags(html_entity_decode($message->description));
-                                                            @endphp
                                                             <p class="mb-0" style="word-wrap: break-word;">
-                                                                {{ (strlen($string) > 100) ? (substr($string, 0, 100) . '...') : $string }}
-                                                                @if(strlen($string) > 100)
-                                                                    <span data-text="{{$message->description}}" class="btn_read_more badge badge-primary badge-sm"
-                                                                          data-user="{{($message->user->name ?? '') . ' ' . ($message->user->last_name ?? '')}}"
-                                                                          data-time="{{\Carbon\Carbon::parse($message->created_at)->format('d F Y, h:i A')}}"
-                                                                          style="cursor: pointer;">
-                                                                        more
-                                                                    </span>
-                                                                @endif
+                                                                {{ strip_tags(html_entity_decode($message->description)) }}
                                                             </p>
 
                                                             <hr style="margin: 4px 0px 4px 0px !important;">
 
                                                             <span class="badge badge-success badge-sm btn_assign_subtask" style="cursor: pointer;" data-subtask="{{$message->id}}">
                                                                 Assign
+                                                            </span>
+
+                                                            <span class="text-primary btn_read_more float-right" style="cursor: pointer; font-weight: 100;"
+                                                                  data-text="{{$message->description}}"
+                                                                  data-user="{{($message->user->name ?? '') . ' ' . ($message->user->last_name ?? '')}}"
+                                                                  data-time="{{\Carbon\Carbon::parse($message->created_at)->format('d F Y, h:i A')}}">
+                                                                <i class="fas fa-expand"></i>
                                                             </span>
 
                                                             @if(count($message->assign_members))
@@ -248,7 +244,7 @@
                                                     <div class="row my-2 py-2" style="border: 2px solid orange; border-radius: 10px; background-color: #ffa50044;">
                                                         <div class="col-md-12 text-left" style="font-weight: 800; font-size: 14px;">
                                                             {{($message->user->name ?? '') . ' ' . ($message->user->last_name ?? '')}}
-                                                            <span class="float-right" style="font-weight: 400; font-size: 10px; color: #161676; margin-top: 1px;">
+                                                            <span class="float-right" style="font-weight: 400; font-size: 10px; margin-top: 1px;">
                                                                 {{\Carbon\Carbon::parse($message->created_at)->format('d F Y, h:i A')}}
                                                             </span>
                                                         </div>
@@ -257,16 +253,17 @@
                                                                 $string = strip_tags(html_entity_decode($message->description));
                                                             @endphp
                                                             <p class="mb-0" style="word-wrap: break-word;">
-                                                                {{ (strlen($string) > 100) ? (substr($string, 0, 100) . '...') : $string }}
-                                                                @if(strlen($string) > 100)
-                                                                    <span data-text="{{$message->description}}" class="btn_read_more badge badge-primary badge-sm"
-                                                                          data-user="{{($message->user->name ?? '') . ' ' . ($message->user->last_name ?? '')}}"
-                                                                          data-time="{{\Carbon\Carbon::parse($message->created_at)->format('d F Y, h:i A')}}"
-                                                                          style="cursor: pointer;">
-                                                                        more
-                                                                    </span>
-                                                                @endif
+                                                                {{ strip_tags(html_entity_decode($message->description)) }}
                                                             </p>
+
+                                                            <hr style="margin: 4px 0px 4px 0px !important;">
+
+                                                            <span class="text-primary btn_read_more float-right" style="cursor: pointer; font-weight: 100;"
+                                                                  data-text="{{$message->description}}"
+                                                                  data-user="{{($message->user->name ?? '') . ' ' . ($message->user->last_name ?? '')}}"
+                                                                  data-time="{{\Carbon\Carbon::parse($message->created_at)->format('d F Y, h:i A')}}">
+                                                                <i class="fas fa-expand"></i>
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -1,4 +1,4 @@
-@extends('layouts.app-production')
+@dd('layouts.app-production')
 @section('title', 'Home')
 @push('styles')
 <style>
@@ -193,7 +193,7 @@
                                 </td>
                             </tr>
                             @endforeach
-                            
+
                         </tbody>
                         <tfoot>
                             <tr>
