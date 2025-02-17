@@ -29,6 +29,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Models\Currency;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class ClientController extends Controller
 {
@@ -552,18 +553,29 @@ class ClientController extends Controller
 
     public function updateProfile (Request $request)
     {
-        $request->validate([
+        $validator_arr = [
             'name' => 'required',
             'last_name' => 'required',
             'contact' => 'nullable',
             'alternate_email' => 'email|nullable',
-        ]);
+        ];
+
+        if ($request->has('password') && !is_null($request->get('password'))) {
+            $validator_arr['password'] = 'required|confirmed';
+        }
+
+        $request->validate($validator_arr);
 
         if (!$user = User::find(auth()->id())) {
             return redirect()->back()->with('error', "Couldn't update profile.");
         }
 
         $user->update($request->all());
+
+        if(array_key_exists('password', $validator_arr)) {
+            $user->password = Hash::make($request->get('password'));
+            $user->save();
+        }
 
         return redirect()->back()->with('success', 'Profile updated!');
     }

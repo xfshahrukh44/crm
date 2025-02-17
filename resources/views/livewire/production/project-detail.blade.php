@@ -214,11 +214,12 @@
                                                             <hr style="margin: 4px 0px 4px 0px !important;">
 
                                                             <span class="badge badge-success badge-sm btn_assign_subtask" style="cursor: pointer;" data-subtask="{{$message->id}}">
-                                                                Assign subtask
+                                                                Assign
                                                             </span>
 
                                                             @if(count($message->assign_members))
-                                                                <span class="badge badge-danger badge-sm">
+                                                                <span class="badge badge-info badge-sm">
+                                                                    <i class="fas fa-users"></i>
                                                                     {{count($message->assign_members)}}
                                                                 </span>
                                                             @endif
@@ -395,7 +396,7 @@
     </div>
 
     <div class="modal fade" id="fancybox_modal" tabindex="-1" role="dialog" style="width: 80% !important; margin: auto !important;">
-        <div class="modal-dialog modal-xxl modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
 {{--                <div class="modal-body" id="fancybox-content" style="cursor: text!important; display: flex; flex-wrap: wrap;">--}}
                 <div class="modal-body" id="fancybox-content" style="cursor: text!important;">

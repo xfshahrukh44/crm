@@ -1685,7 +1685,8 @@ function authorize_charge ($card_number, $exp_month, $exp_year, $cvv, $zip, $inv
         // Create order information
         $order = new AnetAPI\OrderType();
         $order->setInvoiceNumber($invoice_id);
-        $order->setDescription($invoice->discription);
+//        $order->setDescription($invoice->discription);
+        $order->setDescription('DesignCRM | Invoice');
 
         // Set the customer's Bill To address
         $customerAddress = new AnetAPI\CustomerAddressType();

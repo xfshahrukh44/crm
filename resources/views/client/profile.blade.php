@@ -108,6 +108,25 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    <div class="col-lg-6">
+                                        <h6>Change password</h6>
+                                        <div class="mb-3">
+                                            <label for="password" class="form-label">New password</label>
+                                            <input type="password" class="form-control" id="password" name="password">
+                                            @error('password')
+                                                <span class="text-danger" style="font-size: 12px;">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <h6>&nbsp;</h6>
+                                        <div class="mb-3">
+                                            <label for="password_confirmation" class="form-label">Confirm password</label>
+                                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
+                                        </div>
+                                    </div>
                                     <div class="col-lg-12">
                                         <div class="profile-details-save-btn">
                                             <button class="btn custom-btn blue">
