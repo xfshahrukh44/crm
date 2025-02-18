@@ -169,6 +169,14 @@ class ProductionDashboard extends Component
                             ->orWhere('last_name', 'LIKE', "%".$this->dashboard_search."%")
                             ->orWhere('email', 'LIKE', "%".$this->dashboard_search."%")
                             ->orWhere('contact', 'LIKE', "%".$this->dashboard_search."%");
+                    })->orWhereHas('sub_tasks_default_order', function ($q) {
+                        return $q->whereHas('user', function ($q) {
+                            return $q->where(DB::raw('concat(name," ",last_name)'), 'like', '%'.$this->dashboard_search.'%')
+                                ->orWhere('name', 'LIKE', "%".$this->dashboard_search."%")
+                                ->orWhere('last_name', 'LIKE', "%".$this->dashboard_search."%")
+                                ->orWhere('email', 'LIKE', "%".$this->dashboard_search."%")
+                                ->orWhere('contact', 'LIKE', "%".$this->dashboard_search."%");
+                        });
                     })->orWhere('description', 'LIKE', "%".$this->dashboard_search."%");
                 });
             })
