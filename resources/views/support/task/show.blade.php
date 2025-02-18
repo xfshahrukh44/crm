@@ -370,7 +370,7 @@
                                                         <div class="ul-widget3-item">
                                                             <div class="ul-widget3-header">
                                                                 <div class="ul-widget3-img">
-                                                                    @if($sub_tasks->user->image != '')
+                                                                    @if($sub_tasks->user && $sub_tasks->user->image != '')
                                                                         <img id="userDropdown"
                                                                              src="{{ asset($sub_tasks->user->image) }}"
                                                                              alt="" data-toggle="dropdown"
@@ -384,14 +384,14 @@
                                                                 </div>
                                                                 <div class="ul-widget3-info">
                                                                     <a class="__g-widget-username" href="#">
-                                                                        <span class="t-font-bolder">{{ $sub_tasks->user->name }} {{ $sub_tasks->user->last_name }}</span>
+                                                                        <span class="t-font-bolder">{{ $sub_tasks->user->name ?? '' }} {{ $sub_tasks->user->last_name ?? '' }}</span>
                                                                     </a>
                                                                     <br>
                                                                     <span class="ul-widget-notification-item-time d-block">
-                                                            @if($sub_tasks->created_at != null)
+                                                                        @if($sub_tasks->created_at != null)
                                                                             {{ $sub_tasks->created_at->diffForHumans() }}
                                                                         @endif
-                                                            </span>
+                                                                    </span>
                                                                     @if($sub_tasks->created_at != null)
                                                                         <strong class="badge badge-info">{{ $sub_tasks->created_at->format('d M, y - h:i:s A') }}</strong>
                                                                     @endif

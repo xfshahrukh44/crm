@@ -195,7 +195,7 @@
                                     @foreach($sub_task_messages as $message)
                                         @if(in_array($message->user->is_employee, [0, 2, 4, 6]))
                                             <div class="row">
-                                                <div class="col-md-8">
+                                                <div class="col-md-9">
                                                     <div class="row my-2 py-2" style="border: 2px solid lightblue; border-radius: 10px; background-color: #add8e644;">
                                                         <div class="col-md-12 text-left" style="font-weight: 800; font-size: 14px;">
                                                             {{($message->user->name ?? '') . ' ' . ($message->user->last_name ?? '')}}
@@ -235,12 +235,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4"></div>
+                                                <div class="col-md-3"></div>
                                             </div>
                                         @elseif(in_array($message->user->is_employee, [1, 5]))
                                             <div class="row">
-                                                <div class="col-md-4"></div>
-                                                <div class="col-md-8">
+                                                <div class="col-md-3"></div>
+                                                <div class="col-md-9">
                                                     <div class="row my-2 py-2" style="border: 2px solid orange; border-radius: 10px; background-color: #ffa50044;">
                                                         <div class="col-md-12 text-left" style="font-weight: 800; font-size: 14px;">
                                                             {{($message->user->name ?? '') . ' ' . ($message->user->last_name ?? '')}}
