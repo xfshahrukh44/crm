@@ -35,6 +35,7 @@ class ProductionDashboard extends Component
         6 => 1,
     ];
     public $dashboard_category_id = 'All';
+    public $dashboard_search = '';
     public $dashboard_current_page = null;
 
     public $project_detail_search_message_query = '';
@@ -46,7 +47,8 @@ class ProductionDashboard extends Component
         'send_message' => 'send_message',
         'clear_subtask_notification' => 'clear_subtask_notification',
         'set_search_message_query' => 'set_search_message_query',
-        'pagination:updated' => 'test',
+        'set_dashboard_search' => 'set_dashboard_search',
+        'test' => 'test',
     ];
 
     public function construct()
@@ -148,6 +150,28 @@ class ProductionDashboard extends Component
             ->when($this->dashboard_category_id !== 'All', function ($q) {
                 return $q->where('category_id', $this->dashboard_category_id);
             })
+            ->when($this->dashboard_search !== '', function ($q) {
+                return $q->where(function ($q) {
+                    return $q->whereHas('projects', function ($q) {
+                        return $q->where('name', 'LIKE', '%'.$this->dashboard_search.'%')
+                            ->orWhere('description', 'LIKE', '%'.$this->dashboard_search.'%')
+                            ->orWhereHas('added_by', function ($q) {
+                                return $q->where(DB::raw('concat(name," ",last_name)'), 'like', '%'.$this->dashboard_search.'%')
+                                    ->orWhere('name', 'LIKE', "%".$this->dashboard_search."%")
+                                    ->orWhere('last_name', 'LIKE', "%".$this->dashboard_search."%")
+                                    ->orWhere('email', 'LIKE', "%".$this->dashboard_search."%")
+                                    ->orWhere('contact', 'LIKE', "%".$this->dashboard_search."%");
+                            });
+
+                    })->orWhereHas('user', function ($q) {
+                        return $q->where(DB::raw('concat(name," ",last_name)'), 'like', '%'.$this->dashboard_search.'%')
+                            ->orWhere('name', 'LIKE', "%".$this->dashboard_search."%")
+                            ->orWhere('last_name', 'LIKE', "%".$this->dashboard_search."%")
+                            ->orWhere('email', 'LIKE', "%".$this->dashboard_search."%")
+                            ->orWhere('contact', 'LIKE', "%".$this->dashboard_search."%");
+                    })->orWhere('description', 'LIKE', "%".$this->dashboard_search."%");
+                });
+            })
             ->whereIn('category_id', $user_category_ids)
             ->whereIn('status', $status_in_array)
             ->addSelect(['latest_subtask_created_at' => SubTask::selectRaw('MAX(created_at)')
@@ -155,7 +179,7 @@ class ProductionDashboard extends Component
             ])
             ->orderByDesc('latest_subtask_created_at')
     //        ->orderBy('status', 'ASC')
-            ->paginate(12);
+            ->paginate(8);
 
         //persistent pagination
         $this->setPage((!is_null($this->dashboard_current_page) ? $this->dashboard_current_page : 1), 'page');
@@ -343,6 +367,12 @@ class ProductionDashboard extends Component
 
     public function set_search_message_query ($data) {
         $this->project_detail_search_message_query = $data;
+
+        return $this->render();
+    }
+
+    public function set_dashboard_search ($data) {
+        $this->dashboard_search = $data;
 
         return $this->render();
     }

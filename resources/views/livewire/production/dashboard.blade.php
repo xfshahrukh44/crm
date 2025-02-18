@@ -85,7 +85,7 @@
                             <div class="row my-4">
                                 <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
                                     <div class="row">
-                                        <div class="col-md-12" style="border: 1px solid #b7b7b7; font-size: 16px;" id="header2">
+                                        <div class="col-md-12" style="font-size: 18px;" id="header2">
 {{--                                            <a href="#" wire:click="back">--}}
 {{--                                                <i class="fas fa-arrow-left"></i>--}}
 {{--                                            </a>--}}
@@ -145,7 +145,7 @@
                                             </div>
                                             <div class="row justify-content-center mx-2">
                                                 <div class="m-0 p-0 col-md-8 offset-md-2">
-                                                    <select name="" id="" class.old="form-control" wire:model="dashboard_category_id" style="width: 100%; font-size: 12px;">
+                                                    <select name="" id="" class.old="form-control" wire:model="dashboard_search" style="width: 100%; font-size: 12px;">
                                                         <option value="All">All departments</option>
                                                         @foreach(Auth()->user()->category as $category)
                                                             <option value="{{ $category->id }}" @if(request()->get('category') != null) {{ (request()->get('category') == $category->id ? 'selected' : ' ') }} @endif>{{ $category->name }}</option>
@@ -153,14 +153,31 @@
                                                     </select>
                                                 </div>
                                             </div>
+                                            <div class="row justify-content-center mx-2 my-1">
+                                                <div class="m-0 p-0 col-md-8 offset-md-2">
+                                                    <div class="row m-0 p-0">
+                                                        <div class="col-md-12 m-0 p-0">
+                                                            <input id="input_dashboard_search" type="text" placeholder="Press enter to search" style="width: 100%; font-size: 12px;" value="{{$dashboard_search}}">
+                                                        </div>
+                                                        @if($dashboard_search !== '')
+                                                            <div class="col-md-1 m-0 p-0" style="position: absolute; right: 0px;">
+{{--                                                            <i id="btn_dashboard_search" class="fas fa-search mt-2" style="font-size: 12px; cursor: pointer;"></i>--}}
+                                                                <i class="fas fa-x mt-2 text-danger"
+                                                                   style="font-size: 12px; cursor: pointer;"
+                                                                   wire:click="$emit('set_dashboard_search', '')">
+                                                                </i>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-md-12">
-                                            <div class="row p-2 pt-0">
-                                                @foreach($current_projects as $project)
-                                                    <div class="col-md-4 p-3 my-2"
-                                                         style="border: 1px solid #b7b7b7; cursor: pointer;"
-                                                         wire:click="set_active_page('project_detail-{{$project->id}}-{{$current_projects->currentPage()}}')">
-                                                        <div class="row justify-content-center">
+                                        <div class="col-md-10 offset-md-1 mt-4 mb-4">
+                                            @foreach($current_projects as $project)
+                                                <div class="row p-1 my-2 pt-2 px-2" style="border: 1px solid #b7b7b7; border-radius: 10px; cursor: pointer;"
+                                                     wire:click="set_active_page('project_detail-{{$project->id}}-{{$current_projects->currentPage()}}')">
+                                                    <div class="col-md-10">
+                                                        <div class="row justify-content-start">
                                                             <span class="badge badge-sm badge-dark text-uppercase">
                                                                 #{{ $project->id }}
                                                             </span>
@@ -172,35 +189,78 @@
                                                             <span class="badge badge-dark badge-sm">
                                                                 {{ implode('', array_map(function($v) { return $v[0] . '.'; }, explode(' ', $project->category->name))) }}
                                                             </span>
+
+                                                            @if(in_array($project->id, $notification_project_ids))
+                                                                <i class="fas fa-bell text-danger ml-2"></i>
+                                                            @endif
                                                         </div>
-                                                        <div class="row justify-content-center mt-2" style="letter-spacing: 2px; font-weight: 100; line-height: 12px;">
+                                                        <div class="row text-left mt-2" style="letter-spacing: 2px; font-weight: 100; line-height: 12px;">
                                                             {{$project->projects->name}}
                                                         </div>
-                                                        <div class="row justify-content-center">
+                                                        <div class="row justify-content-start">
                                                             <span class="">
                                                                 <b style="font-weight: 800; font-size: 10px;">
                                                                     {{ $project->projects->added_by->name ?? '' }} {{ $project->projects->added_by->last_name ?? '' }}
                                                                 </b>
                                                             </span>
                                                         </div>
-
-                                                        <div class="row justify-content-center mt-2">
+                                                    </div>
+                                                    <div class="col-md-2 d-flex align-items-center">
+                                                        <div class="row m-auto">
                                                             {!! $project->project_status_badge() !!}
-
-                                                            @if(in_array($project->id, $notification_project_ids))
-                                                                <span class="badge badge-danger badge-sm mx-1">
-                                                                    <i class="fas fa-bell"></i>
-                                                                </span>
-                                                            @endif
                                                         </div>
                                                     </div>
-                                                @endforeach
-                                            </div>
+                                                </div>
+                                            @endforeach
+
+{{--                                            <div class="row p-2 pt-0">--}}
+{{--                                                @foreach($current_projects as $project)--}}
+{{--                                                    <div class="col-md-4 p-3 my-2"--}}
+{{--                                                         style="border: 1px solid #b7b7b7; cursor: pointer;"--}}
+{{--                                                         wire:click="set_active_page('project_detail-{{$project->id}}-{{$current_projects->currentPage()}}')">--}}
+{{--                                                        <div class="row justify-content-center">--}}
+{{--                                                            <span class="badge badge-sm badge-dark text-uppercase">--}}
+{{--                                                                #{{ $project->id }}--}}
+{{--                                                            </span>--}}
+
+{{--                                                            <span class="badge badge-dark badge-sm mx-1">--}}
+{{--                                                                {{ $project->brand->name }}--}}
+{{--                                                            </span>--}}
+
+{{--                                                            <span class="badge badge-dark badge-sm">--}}
+{{--                                                                {{ implode('', array_map(function($v) { return $v[0] . '.'; }, explode(' ', $project->category->name))) }}--}}
+{{--                                                            </span>--}}
+{{--                                                        </div>--}}
+{{--                                                        <div class="row justify-content-center mt-2" style="letter-spacing: 2px; font-weight: 100; line-height: 12px;">--}}
+{{--                                                            {{$project->projects->name}}--}}
+{{--                                                        </div>--}}
+{{--                                                        <div class="row justify-content-center">--}}
+{{--                                                            <span class="">--}}
+{{--                                                                <b style="font-weight: 800; font-size: 10px;">--}}
+{{--                                                                    {{ $project->projects->added_by->name ?? '' }} {{ $project->projects->added_by->last_name ?? '' }}--}}
+{{--                                                                </b>--}}
+{{--                                                            </span>--}}
+{{--                                                        </div>--}}
+
+{{--                                                        <div class="row justify-content-center mt-2">--}}
+{{--                                                            {!! $project->project_status_badge() !!}--}}
+
+{{--                                                            @if(in_array($project->id, $notification_project_ids))--}}
+{{--                                                                <span class="badge badge-danger badge-sm mx-1">--}}
+{{--                                                                    <i class="fas fa-bell"></i>--}}
+{{--                                                                </span>--}}
+{{--                                                            @endif--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                @endforeach--}}
+{{--                                            </div>--}}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            {{ $current_projects->links() }}
+                            <div class="row justify-content-center">
+                                {{ $current_projects->links() }}
+                            </div>
 
                             <hr>
 

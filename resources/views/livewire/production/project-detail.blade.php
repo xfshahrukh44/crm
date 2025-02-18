@@ -181,7 +181,7 @@
                                         </span>
                                     </h6>
                                 </div>
-                                <div class="col-md-12 px-4" style="border: 1px solid #b7b7b7; max-height: 450px; overflow-y: scroll;" id="chat_bubbles_wrapper">
+                                <div class="col-md-12 px-4 py-1" style="border: 1px solid #b7b7b7; max-height: 450px; overflow-y: scroll;" id="chat_bubbles_wrapper">
                                     {{--no messages info--}}
                                     @if(count($sub_task_messages) == 0)
                                         <div class="row py-4 justify-content-center">

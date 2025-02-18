@@ -184,6 +184,17 @@
             $('#modal_assigned_members').modal('show');
         });
 
+        $('body').on('keyup', '#input_dashboard_search', function (e) {
+            let val = $(this).val();
+            if ((e.key === "Enter" || e.keyCode === 13) && val !== '') {
+                if(val === '') {
+                    return false;
+                }
+
+                Livewire.emit('set_dashboard_search', val);
+            }
+        });
+
         $('body').on('click', '#btn_upload', function () {
             // $('.anchor_test').each((i, item) => {
             //     item.click();
