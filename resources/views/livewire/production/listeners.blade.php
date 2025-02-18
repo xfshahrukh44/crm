@@ -146,6 +146,44 @@
             return false;
         });
 
+        function get_status(status) {
+            if(status == 0){
+                return "<span class='badge badge-danger badge-sm'>Open</span>";
+            }else if(status == 1){
+                return "<span class='badge badge-primary badge-sm'>Re Open</span>";
+            }else if(status == 2){
+                return "<span class='badge badge-info badge-sm'>Hold</span>";
+            }else if(status == 3){
+                return "<span class='badge badge-success badge-sm'>Completed</span>";
+            }else if(status == 4){
+                return "<span class='badge badge-warning badge-sm'>In Progress</span>";
+            }else if(status == 5){
+                return "<span class='badge badge-info badge-sm'>Sent for Approval</span>";
+            }else if(status == 6){
+                return "<span class='badge badge-warning badge-sm'>Incomplete Brief</span>";
+            }
+        }
+
+        $('body').on('click', '.btn_view_assigned_members', function () {
+            let members = $(this).data('members') ?? [];
+
+            $('#modal_tbody_assigned_members').html('');
+
+            for (const member of members) {
+                let name = member.assigned_to_user.name + ' ' + member.assigned_to_user.last_name;
+                let status = get_status(member.status);
+
+                $('#modal_tbody_assigned_members').append(`<tr>
+                                                                <td>`+name+`</td>
+                                                                <td>
+                                                                    `+status+`
+                                                                </td>
+                                                            </tr>`);
+            }
+
+            $('#modal_assigned_members').modal('show');
+        });
+
         $('body').on('click', '#btn_upload', function () {
             // $('.anchor_test').each((i, item) => {
             //     item.click();

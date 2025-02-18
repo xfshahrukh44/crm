@@ -35,6 +35,7 @@ class ProductionDashboard extends Component
         6 => 1,
     ];
     public $dashboard_category_id = 'All';
+    public $dashboard_current_page = null;
 
     public $project_detail_search_message_query = '';
 
@@ -45,6 +46,7 @@ class ProductionDashboard extends Component
         'send_message' => 'send_message',
         'clear_subtask_notification' => 'clear_subtask_notification',
         'set_search_message_query' => 'set_search_message_query',
+        'pagination:updated' => 'test',
     ];
 
     public function construct()
@@ -106,7 +108,12 @@ class ProductionDashboard extends Component
         if ($this->active_page == 'production_dashboard') {
             return $this->production_dashboard();
         } else if (str_contains($this->active_page, 'project_detail')) {
-            $project_id = intval(str_replace('project_detail-', '', $this->active_page));
+            $slug = explode('-', str_replace('project_detail-', '', $this->active_page));
+
+            //persistent pagination
+            $this->dashboard_current_page = (intval($slug[1]) != 1) ? intval($slug[1]) : null;
+
+            $project_id = intval($slug[0]);
             return $this->project_detail($project_id);
         } else {
             return redirect()->route('login');
@@ -150,6 +157,10 @@ class ProductionDashboard extends Component
     //        ->orderBy('status', 'ASC')
             ->paginate(12);
 
+        //persistent pagination
+        $this->setPage((!is_null($this->dashboard_current_page) ? $this->dashboard_current_page : 1), 'page');
+        $this->dashboard_current_page = !is_null($this->dashboard_current_page) ? null : 1;
+
         return view('livewire.production.dashboard', compact('current_projects', 'notification_project_ids'))->extends($this->layout);
     }
 
@@ -157,20 +168,14 @@ class ProductionDashboard extends Component
         $project = Task::find($project_id);
 
         //subtask - messages
-        if ($this->project_detail_search_message_query != '') {
-            $sub_task_messages = SubTask::whereHas('user')
+        $sub_task_messages = SubTask::with('assign_members.assigned_to_user')->whereHas('user')
             ->where([
                 'task_id' => $project->id,
                 'sub_task_id' => 0,
-            ])->where('description', 'LIKE', '%'.$this->project_detail_search_message_query.'%')
+            ])->when($this->project_detail_search_message_query != '', function ($q) {
+                return $q->where('description', 'LIKE', '%'.$this->project_detail_search_message_query.'%');
+            })
             ->orderBy('id', 'ASC')->get();
-        } else {
-            $sub_task_messages = SubTask::whereHas('user')
-            ->where([
-                'task_id' => $project->id,
-                'sub_task_id' => 0,
-            ])->orderBy('id', 'ASC')->get();
-        }
 
         $notification_subtask_ids = [];
         $notification_notification_ids = [];
@@ -248,7 +253,7 @@ class ProductionDashboard extends Component
             true
         );
 
-        $this->emit('success', 'Status changed successfully!');
+        $this->emit('success', 'Status updated.');
         return $this->render();
     }
 
@@ -299,7 +304,7 @@ class ProductionDashboard extends Component
             true
         );
 
-        $this->emit('success', 'Subtask assigned!');
+        $this->emit('success', 'Subtask assigned.');
         return $this->render();
     }
 
@@ -320,7 +325,7 @@ class ProductionDashboard extends Component
         ];
         $task->user->notify(new TaskNotification($assignData));
 
-        $this->emit('success', 'Message sent!');
+        $this->emit('success', 'Message sent.');
         return $this->render();
     }
 
@@ -332,7 +337,7 @@ class ProductionDashboard extends Component
             }
         }
 
-        $this->emit('success', 'Notification cleared!');
+        $this->emit('success', 'Notification cleared.');
         return $this->render();
     }
 

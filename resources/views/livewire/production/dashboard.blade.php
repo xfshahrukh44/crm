@@ -159,7 +159,7 @@
                                                 @foreach($current_projects as $project)
                                                     <div class="col-md-4 p-3 my-2"
                                                          style="border: 1px solid #b7b7b7; cursor: pointer;"
-                                                         wire:click="set_active_page('project_detail-{{$project->id}}')">
+                                                         wire:click="set_active_page('project_detail-{{$project->id}}-{{$current_projects->currentPage()}}')">
                                                         <div class="row justify-content-center">
                                                             <span class="badge badge-sm badge-dark text-uppercase">
                                                                 #{{ $project->id }}

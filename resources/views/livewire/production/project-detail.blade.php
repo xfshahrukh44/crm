@@ -227,7 +227,7 @@
                                                             </span>
 
                                                             @if(count($message->assign_members))
-                                                                <span class="badge badge-info badge-sm">
+                                                                <span class="badge badge-info badge-sm btn_view_assigned_members" style="cursor: pointer;" data-members="{{$message->assign_members}}">
                                                                     <i class="fas fa-users"></i>
                                                                     {{count($message->assign_members)}}
                                                                 </span>
@@ -440,6 +440,37 @@
                 </div>
 {{--                <div class="modal-body" id="fancybox-content" style="cursor: text!important; display: flex; flex-wrap: wrap;">--}}
                 <div class="modal-body" id="fancybox-content" style="cursor: text!important;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--  Message modal -->
+    <div class="modal fade" id="modal_assigned_members" tabindex="-1" role="dialog" style="width: 80% !important; margin: auto !important;">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        Assigned members
+                    </h5>
+                </div>
+                <div class="modal-body" style="cursor: text!important;">
+                    <table class="table table-striped table-sm">
+                        <thead>
+                            <tr>
+                                <th>Member</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modal_tbody_assigned_members">
+{{--                            <tr>--}}
+{{--                                <td>Joh Doe</td>--}}
+{{--                                <td>--}}
+{{--                                    <span class="badge badge-sm badge-danger">Open</span>--}}
+{{--                                </td>--}}
+{{--                            </tr>--}}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
