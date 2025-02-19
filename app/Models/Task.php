@@ -113,6 +113,11 @@ class Task extends Model
         return $this->hasMany(SubTask::class, 'task_id', 'id')->where('sub_task_id', 0)->orderBy('id', 'ASC');
     }
 
+    public function latest_subtask_time(){
+        $record = $this->hasMany(SubTask::class, 'task_id', 'id')->where('sub_task_id', 0)->orderBy('created_at', 'DESC')->first();
+        return \Carbon\Carbon::parse($record->created_at)->shortAbsoluteDiffForHumans();
+    }
+
     public function messages(){
         return $this->hasMany(Message::class, 'task_id', 'id')->orderBy('id', 'desc');
     }

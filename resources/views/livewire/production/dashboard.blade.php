@@ -187,8 +187,12 @@
                                                                 {{ $project->brand->name }}
                                                             </span>
 
-                                                            <span class="badge badge-dark badge-sm">
+                                                            <span class="badge badge-dark badge-sm mr-1">
                                                                 {{ implode('', array_map(function($v) { return $v[0] . '.'; }, explode(' ', $project->category->name))) }}
+                                                            </span>
+
+                                                            <span class="badge badge-outline-dark badge-sm">
+                                                                {{ $project->latest_subtask_time() }}
                                                             </span>
 
                                                             @if(in_array($project->id, $notification_project_ids))
