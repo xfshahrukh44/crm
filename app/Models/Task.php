@@ -114,7 +114,11 @@ class Task extends Model
     }
 
     public function latest_subtask_time(){
-        $record = $this->hasMany(SubTask::class, 'task_id', 'id')->where('sub_task_id', 0)->orderBy('created_at', 'DESC')->first();
+        if (!$record = $this->hasMany(SubTask::class, 'task_id', 'id')
+            ->where('sub_task_id', 0)
+            ->orderBy('created_at', 'DESC')->first()) {
+            return 'N/A';
+        }
         return \Carbon\Carbon::parse($record->created_at)->shortAbsoluteDiffForHumans() ?? 'N/A';
     }
 
