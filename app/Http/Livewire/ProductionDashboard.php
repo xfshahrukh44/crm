@@ -177,7 +177,7 @@ class ProductionDashboard extends Component
                                 ->orWhere('email', 'LIKE', "%".$this->dashboard_search."%")
                                 ->orWhere('contact', 'LIKE', "%".$this->dashboard_search."%");
                         });
-                    })->orWhere('description', 'LIKE', "%".$this->dashboard_search."%");
+                    })->orWhere('id', '=', $this->dashboard_search)->orWhere('description', 'LIKE', "%".$this->dashboard_search."%");
                 });
             })
             ->whereIn('category_id', $user_category_ids)
