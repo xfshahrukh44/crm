@@ -1697,7 +1697,7 @@ function authorize_charge ($card_number, $exp_month, $exp_year, $cvv, $zip, $inv
 //        $customerAddress->setCity("Pecan Springs");
 //        $customerAddress->setState("TX");
         $customerAddress->setZip($zip);
-        $customerAddress->setCountry("USA");
+//        $customerAddress->setCountry("USA");
 
         // Set the customer's identifying information
         $customerData = new AnetAPI\CustomerDataType();
