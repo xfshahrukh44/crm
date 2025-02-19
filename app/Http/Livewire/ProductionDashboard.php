@@ -357,18 +357,23 @@ class ProductionDashboard extends Component
     }
 
     public function send_message ($data) {
-        $task = Task::find($data['task_id']);
+        if (!$task = Task::find($data['task_id'])) {
+            return $this->render();
+        }
+
+        $description = str_replace("\n", '&nbsp;<br>', $data['message']);
+
         $sub_task = SubTask::create([
             'task_id' => $data['task_id'],
             'created_at' => Carbon::now(),
-            'description' => $data['message'],
+            'description' => $description,
             'user_id' => auth()->id(),
         ]);
         $assignData = [
             'id' => auth()->id(),
             'task_id' => $data['task_id'],
             'name' => auth()->user()->name . ' ' . auth()->user()->last_name,
-            'text' => \Illuminate\Support\Str::limit(preg_replace("/<\/?a( [^>]*)?>/i", "", strip_tags($data['message'])), 25, $end='...'),
+            'text' => \Illuminate\Support\Str::limit(preg_replace("/<\/?a( [^>]*)?>/i", "", strip_tags($description)), 25, $end='...'),
             'details' => '',
         ];
         $task->user->notify(new TaskNotification($assignData));

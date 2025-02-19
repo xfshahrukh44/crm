@@ -259,7 +259,7 @@
                                                                 $string = strip_tags(html_entity_decode($message->description));
                                                             @endphp
                                                             <p class="mb-0" style="word-wrap: break-word;">
-                                                                {{ strip_tags(html_entity_decode($message->description)) }}
+                                                                {!! $string !!}
                                                             </p>
 
                                                             <hr style="margin: 4px 0px 4px 0px !important;">

@@ -72,33 +72,28 @@
             let task_id = data['task_id'];
             let selector = data['selector'];
             let m_sel = data['modal_selector'];
-            let url = "{{ route('insert.files', 'temp') }}";
-            url = url.replace('temp', task_id);
+            let url = "{{ route('insert.files', 'temp') }}".replace('temp', task_id);
 
-            $(selector).fileinput({
+            // Remove previous event listeners to prevent duplication
+            $(selector).off('fileuploaded');
+
+            $(selector).fileinput('destroy').fileinput({
                 showUpload: true,
                 theme: 'fa',
-                dropZoneEnabled : true,
+                dropZoneEnabled: true,
                 uploadUrl: url,
                 overwriteInitial: false,
-                maxFileSize:20000000,
+                maxFileSize: 20000000,
                 maxFilesNum: 20,
-                // uploadExtraData: function() {
-                //     return {
-                //         created_at: $('.created_at').val()
-                //     };
-                // }
             });
 
-            // $(data['modal_selector']).off();
-            $(selector).on('fileuploaded', function(event, data, previewId, index, fileId) {
+            $(selector).on('fileuploaded', function (event, data, previewId, index, fileId) {
                 $(this).fileinput('refresh');
                 $(this).fileinput('reset');
 
                 $(m_sel).modal('hide');
                 Livewire.emit('success', 'Uploaded!');
-                Livewire.emit('mutate', {name: 'project_detail_search_message_query', value: ''});
-                // Livewire.emit('init_file_uploader', {selector: '#input_upload_files', task_id: task_id, modal_selector: m_sel});
+                Livewire.emit('refresh');
             });
 
             file_uploader_init_check = true;

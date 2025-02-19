@@ -115,7 +115,7 @@
 
 <section id="basic-form-layouts">
     <div class="row mb-4">
-        <div class="col-md-12">                        
+        <div class="col-md-12">
             <div class="card text-left mb-4">
                 <div class="card-body">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -129,7 +129,7 @@
                             <a class="nav-link" id="notes-tab" data-toggle="tab" href="#notes-show" role="tab" aria-controls="notes-show" aria-selected="false">Notes</a>
                         </li>
                     </ul>
-                </div>    
+                </div>
             </div>
             <div class="" id="myTabContent">
                 <div class="tab-pane fade show active" id="task-overview" role="tabpanel" aria-labelledby="task-overview-tab">
@@ -258,7 +258,7 @@
                                                 <div class="ul-widget3-item">
                                                     <div class="ul-widget3-header">
                                                         <div class="ul-widget3-img">
-                                                        @if($sub_tasks->user->image != '')
+                                                        @if($sub_tasks->user && $sub_tasks->user->image != '')
                                                             <img id="userDropdown" src="{{ asset($sub_tasks->user->image) }}" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                         @else
                                                             <img id="userDropdown" src="{{ asset('global/img/user.png') }}" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -266,7 +266,7 @@
                                                         </div>
                                                         <div class="ul-widget3-info">
                                                             <a class="__g-widget-username" href="#">
-                                                                <span class="t-font-bolder">{{ $sub_tasks->user->name }} {{ $sub_tasks->user->last_name }}</span>
+                                                                <span class="t-font-bolder">{{ $sub_tasks->user->name ?? '' }} {{ $sub_tasks->user->last_name ?? '' }}</span>
                                                             </a>
                                                             <br>
                                                             <span class="ul-widget-notification-item-time">{{ $sub_tasks->created_at ? $sub_tasks->created_at->diffForHumans() : '' }}</span>
@@ -404,14 +404,14 @@
                                         </div>
                                     </form>
                                 <div>
-                            <div>            
+                            <div>
                         <div>
-                    </div>        
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
 </section>
 
 
@@ -445,7 +445,7 @@
                 </div>
             </div>
         </form>
-    </div>        
+    </div>
 </div>
 
 @endsection
@@ -539,7 +539,7 @@
                 $.ajax({
                     type: "POST",
                     url: action,
-                    data: { description:description, task_id:task_id, duedate:duedate}, 
+                    data: { description:description, task_id:task_id, duedate:duedate},
                     success: function(response) {
                         var duedate = '';
                         if(response.duedate != null){
@@ -635,7 +635,7 @@
     });
     $(function(){
         var dtToday = new Date();
-        
+
         var month = dtToday.getMonth() + 1;
         var day = dtToday.getDate() + 1;
         var year = dtToday.getFullYear();
@@ -643,7 +643,7 @@
             month = '0' + month.toString();
         if(day < 10)
             day = '0' + day.toString();
-        
+
         var maxDate = year + '-' + month + '-' + day;
         $('#duedate').attr('min', maxDate);
     });
@@ -712,10 +712,10 @@
     //                 }
     //             }
     //         });
-            
+
     //     }, function (dismiss) {
     //         if (dismiss === 'cancel') {
-                
+
     //         }
     //     });
     // })
@@ -755,10 +755,10 @@
                     }
                 }
             });
-            
+
         }, function (dismiss) {
             if (dismiss === 'cancel') {
-                
+
             }
         });
     });
@@ -768,7 +768,7 @@
 g_FileUploadControlCounter = 0;
 
 function Clicked_h_btnAddFileUploadControl() {
-    var v_btnFileUploadControl = document.getElementById("h_btnAddFileUploadControl");  
+    var v_btnFileUploadControl = document.getElementById("h_btnAddFileUploadControl");
         v_btnFileUploadControl.value = "Add Another Attachment";
 
     var n="h_Item_Attachments_FileInput[]";
