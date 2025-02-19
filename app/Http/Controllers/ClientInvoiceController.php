@@ -56,7 +56,11 @@ class ClientInvoiceController extends Controller
             $invoice->payment_status = 2;
             $invoice->save();
 
-            return redirect()->route('client.invoice')->with('success', 'Invoice paid successfully!');
+            if (auth()->check() && auth()->user()->is_employee == 3) {
+                return redirect()->route('client.invoice')->with('success', 'Invoice paid successfully!');
+            } else {
+                return redirect()->back()->with('success', 'Invoice paid successfully!');
+            }
         } else {
             return redirect()->back()->with('error', $authorize_charge_res['message']);
         }
