@@ -206,7 +206,7 @@
                                                             </div>
                                                             <div class="col-md-3 form-group">
                                                                 <label for="">Zip</label>
-                                                                <input class="form-control" type="number" name="zip" required>
+                                                                <input class="form-control" type="text" name="zip" required>
                                                             </div>
                                                             <div class="col-md-12 form-group mt-2">
                                                                 <button type="submit" class="btn btn-primary btn-block">
