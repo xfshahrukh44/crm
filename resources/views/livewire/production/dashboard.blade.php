@@ -191,7 +191,7 @@
                                                                 {{ implode('', array_map(function($v) { return $v[0] . '.'; }, explode(' ', $project->category->name))) }}
                                                             </span>
 
-                                                            <span class="badge badge-outline-dark badge-sm">
+                                                            <span class="badge badge-outline-dark badge-sm mr-1">
                                                                 {{ $project->latest_subtask_time() }}
                                                             </span>
 
