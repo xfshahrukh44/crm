@@ -116,6 +116,12 @@
                                             Back
                                         </span>
                                     </a>
+                                    <a href="#" wire:click="refresh">
+                                        <span class="badge badge-success badge-sm">
+                                            <i class="fas fa-arrows-rotate"></i>
+                                            Refresh
+                                        </span>
+                                    </a>
                                     <a href="{{ route('production.form', [ 'form_id' => $project->projects->form_id , 'check' => $project->projects->form_checker, 'id' => $project->projects->id]) }}" target="_blank">
                                         <span class="badge badge-info badge-sm">
                                             <i class="fas fa-list"></i>
@@ -279,7 +285,7 @@
                                         <div class="row py-4 justify-content-center">
                                             <h6>
                                                 Searched for "{{ (strlen($string) > 50) ? (substr($string, 0, 50) . '...') : $string }}"
-                                                <a href="" class="text-danger" wire:click="$emit('set_search_message_query', '')">
+                                                <a href="" class="text-danger" wire:click="$emit('mutate', {name: 'project_detail_search_message_query', value: ''})">
                                                     clear
                                                 </a>
                                             </h6>
@@ -490,4 +496,24 @@
             </div>
         </div>
     </div>
+
+    <!--  Upload files modal -->
+    <div class="modal fade" id="upload_files_modal" tabindex="-1" role="dialog" style="width: 80% !important; margin: auto !important;">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <div class="row m-0 p-0">
+                        <div class="col-md-12 form-group p-4 m-0">
+                            <input id="input_upload_files" type="file" name="images[]" multiple data-browse-on-zone-click="true">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let el3 = document.getElementById('chat_bubbles_wrapper');
+        if (el3) el3.scrollTop = el3.scrollHeight;
+    </script>
 </div>

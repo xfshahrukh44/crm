@@ -42,12 +42,11 @@ class ProductionDashboard extends Component
 
     protected $listeners = [
         'mutate' => 'mutate',
+        'refresh' => 'refresh',
         'set_select2_field_value' => 'set_select2_field_value',
         'assign_subtask' => 'assign_subtask',
         'send_message' => 'send_message',
         'clear_subtask_notification' => 'clear_subtask_notification',
-        'set_search_message_query' => 'set_search_message_query',
-        'set_dashboard_search' => 'set_dashboard_search',
         'test' => 'test',
     ];
 
@@ -122,6 +121,16 @@ class ProductionDashboard extends Component
         }
     }
 
+    public function mutate ($data)
+    {
+        $property = $data['name'];
+        $this->$property = $data['value'];
+    }
+
+    public function refresh () {
+        $this->render();
+    }
+
     public function production_dashboard () {
         $user_category_ids = array();
         foreach(auth()->user()->category as $category){
@@ -193,6 +202,11 @@ class ProductionDashboard extends Component
         $this->setPage((!is_null($this->dashboard_current_page) ? $this->dashboard_current_page : 1), 'page');
         $this->dashboard_current_page = !is_null($this->dashboard_current_page) ? null : 1;
 
+        //focus search input
+        if ($this->dashboard_search !== '') {
+            $this->emit('focus_input', '#input_dashboard_search');
+        }
+
         return view('livewire.production.dashboard', compact('current_projects', 'notification_project_ids'))->extends($this->layout);
     }
 
@@ -223,6 +237,8 @@ class ProductionDashboard extends Component
         }
 
         $this->emit('scroll_to_bottom', 'chat_bubbles_wrapper');
+        $this->emit('init_file_uploader', ['selector' => '#input_upload_files', 'task_id' => $project_id, 'modal_selector' => '#upload_files_modal']);
+
         return view('livewire.production.project-detail', compact('project', 'sub_task_messages', 'notification_subtask_ids', 'notification_notification_ids'))->extends($this->layout);
     }
 
@@ -370,18 +386,6 @@ class ProductionDashboard extends Component
         }
 
         $this->emit('success', 'Notification cleared.');
-        return $this->render();
-    }
-
-    public function set_search_message_query ($data) {
-        $this->project_detail_search_message_query = $data;
-
-        return $this->render();
-    }
-
-    public function set_dashboard_search ($data) {
-        $this->dashboard_search = $data;
-
         return $this->render();
     }
 

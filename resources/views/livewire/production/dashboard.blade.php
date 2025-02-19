@@ -157,14 +157,15 @@
                                                 <div class="m-0 p-0 col-md-8 offset-md-2">
                                                     <div class="row m-0 p-0">
                                                         <div class="col-md-12 m-0 p-0">
+{{--                                                            <input id="input_dashboard_search" type="text" placeholder="Press enter to search" style="width: 100%; font-size: 12px;" value="{{$dashboard_search}}" {!! $dashboard_search !== '' ? 'autofocus' : '' !!}>--}}
                                                             <input id="input_dashboard_search" type="text" placeholder="Press enter to search" style="width: 100%; font-size: 12px;" value="{{$dashboard_search}}">
                                                         </div>
                                                         @if($dashboard_search !== '')
-                                                            <div class="col-md-1 m-0 p-0" style="position: absolute; right: 0px;">
+                                                            <div class="col-md-1 m-0 p-0" style="position: absolute; right: -9px;">
 {{--                                                            <i id="btn_dashboard_search" class="fas fa-search mt-2" style="font-size: 12px; cursor: pointer;"></i>--}}
                                                                 <i class="fas fa-x mt-2 text-danger"
                                                                    style="font-size: 12px; cursor: pointer;"
-                                                                   wire:click="$emit('set_dashboard_search', '')">
+                                                                   wire:click="$emit('mutate', {name: 'dashboard_search', val: ''})">
                                                                 </i>
                                                             </div>
                                                         @endif

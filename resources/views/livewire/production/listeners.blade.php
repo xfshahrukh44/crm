@@ -1,6 +1,11 @@
 <!-- Place the first <script> tag in your HTML's <head> -->
 <script src="https://cdn.tiny.cloud/1/v342h96m9l2d2xvl69w2yxp6fwd33xvey1c4h3do99vwwpt2/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+
 <script src="{{ asset('newglobal/js/image-uploader-2.min.js') }}"></script>
+
+<link rel="stylesheet" type="text/css" href="{{ asset('global/css/fileinput.css') }}">
+<script src="{{ asset('global/js/fileinput.js') }}"></script>
+<script src="{{ asset('global/js/fileinput-theme.js') }}"></script>
 
 <script>
     document.addEventListener('livewire:load', function () {
@@ -51,6 +56,52 @@
             document.body.removeChild(tempInput); // Remove the temporary textarea
 
             toastr.success('Link copied to clipboard!');
+        });
+
+        Livewire.on('focus_input', function (selector) {
+            $(selector).focus();
+        });
+
+        let file_uploader_init_check = false;
+        Livewire.on('init_file_uploader', function (data) {
+            if (file_uploader_init_check) {
+                file_uploader_init_check = false;
+                return false;
+            }
+
+            let task_id = data['task_id'];
+            let selector = data['selector'];
+            let m_sel = data['modal_selector'];
+            let url = "{{ route('insert.files', 'temp') }}";
+            url = url.replace('temp', task_id);
+
+            $(selector).fileinput({
+                showUpload: true,
+                theme: 'fa',
+                dropZoneEnabled : true,
+                uploadUrl: url,
+                overwriteInitial: false,
+                maxFileSize:20000000,
+                maxFilesNum: 20,
+                // uploadExtraData: function() {
+                //     return {
+                //         created_at: $('.created_at').val()
+                //     };
+                // }
+            });
+
+            // $(data['modal_selector']).off();
+            $(selector).on('fileuploaded', function(event, data, previewId, index, fileId) {
+                $(this).fileinput('refresh');
+                $(this).fileinput('reset');
+
+                $(m_sel).modal('hide');
+                Livewire.emit('success', 'Uploaded!');
+                Livewire.emit('mutate', {name: 'project_detail_search_message_query', value: ''});
+                // Livewire.emit('init_file_uploader', {selector: '#input_upload_files', task_id: task_id, modal_selector: m_sel});
+            });
+
+            file_uploader_init_check = true;
         });
 
         // -------------------------project detail scripts-------------------------
@@ -140,7 +191,7 @@
                 }
 
                 $('#search_messages_modal').modal('hide');
-                Livewire.emit('set_search_message_query', val);
+                Livewire.emit('mutate', {name: 'project_detail_search_message_query', value: val});
             }
 
             return false;
@@ -186,20 +237,18 @@
 
         $('body').on('keyup', '#input_dashboard_search', function (e) {
             let val = $(this).val();
-            if ((e.key === "Enter" || e.keyCode === 13) && val !== '') {
-                if(val === '') {
-                    return false;
-                }
-
-                Livewire.emit('set_dashboard_search', val);
+            if (e.key === "Enter" || e.keyCode === 13) {
+                Livewire.emit('mutate', {name: 'dashboard_search', value: val});
             }
         });
 
         $('body').on('click', '#btn_upload', function () {
-            // $('.anchor_test').each((i, item) => {
-            //     item.click();
-            // });
+            $('#upload_files_modal').modal('show');
         });
+
+        // document.addEventListener('test', (data) => {
+        //    alert(data);
+        // });
         // -------------------------project detail scripts-------------------------
     });
 </script>
