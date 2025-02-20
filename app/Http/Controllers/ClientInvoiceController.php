@@ -32,9 +32,9 @@ class ClientInvoiceController extends Controller
         $invoice = Invoice::find($id);
         $brand = Brand::find($invoice->brand);
 
-        $token = get_authorize_token($id);
+//        $token = get_authorize_token($id);
 
-//        $token = '';
+        $token = '';
 
         return view('client.invoice.pay-with-authorize', compact('invoice', 'token', 'brand'));
     }
