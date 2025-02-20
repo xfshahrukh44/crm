@@ -1894,8 +1894,6 @@ function get_authorize_token ($invoice_id) {
 }
 
 function get_authorize_token_response ($invoice_id) {
-    $token = '';
-    try {
         $invoice = Invoice::find($invoice_id);
         $keys = get_authorize_keys($invoice->merchant_id);
         $loginID = $keys['login_id'];
@@ -1953,9 +1951,6 @@ function get_authorize_token_response ($invoice_id) {
         // Use this token to display the hosted payment page
 //        echo json_encode(["token" => $token]);
         return $responseData;
-    } catch (\Exception $e) {
-        return '';
-    }
 }
 
 function mark_invoice_as_paid ($invoice_id) {
