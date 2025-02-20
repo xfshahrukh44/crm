@@ -125,14 +125,15 @@
                                     <h4>Invoice #{{$invoice->invoice_number}} has been paid.</h4>
                                 </div>
                             @else
-{{--                                <div class="col-md-12 text-center">--}}
-{{--                                    @dump($token_resp)--}}
-{{--                                </div>--}}
-{{--                                @if($token !== '')--}}
-{{--                                    <div class="col-md-12 text-center">--}}
-{{--                                        <iframe id="paymentFrame" name="paymentFrame" width="100%" height="600px"></iframe>--}}
-{{--                                    </div>--}}
-{{--                                @endif--}}
+                                <div class="col-md-12 text-center">
+                                    @dump($token)
+                                </div>
+                                @if($token !== '')
+                                    <form id="paymentForm" method="POST" action="https://accept.authorize.net/payment/payment">
+                                        <input type="hidden" name="token" value="{{ $token }}">
+                                        <button type="submit">Submit</button>
+                                    </form>
+                                @endif
                                 <ul class="nav nav-tabs justify-content-end mb-4" id="myTab" role="tablist">
                                     <li class="nav-item"><a class="nav-link active" id="invoice-tab" data-toggle="tab" href="#invoice" role="tab" aria-controls="invoice" aria-selected="true">Invoice</a></li>
                                 </ul>

@@ -1829,128 +1829,62 @@ function authorize_charge ($card_number, $exp_month, $exp_year, $cvv, $zip, $inv
 }
 
 function get_authorize_token ($invoice_id) {
-    $token = '';
-    try {
-        $invoice = Invoice::find($invoice_id);
-        $keys = get_authorize_keys($invoice->merchant_id);
-        $loginID = $keys['login_id'];
-        $transactionKey = $keys['transaction_key'];
-//        $endpoint = "https://apitest.authorize.net/xml/v1/request.api"; // Use the live endpoint for production
-        $endpoint = "https://api.authorize.net/xml/v1/request.api"; // Use the live endpoint for production
+    $invoice = Invoice::find($invoice_id);
+    $keys = get_authorize_keys($invoice->merchant_id);
+    $loginID = $keys['login_id'];
+    $transactionKey = $keys['transaction_key'];
 
-        // Create the request payload
-        $request = [
-            "getHostedPaymentPageRequest" => [
-                "merchantAuthentication" => [
-                    "name" => $loginID,
-                    "transactionKey" => $transactionKey
-                ],
-                "transactionRequest" => [
-                    "transactionType" => "authCaptureTransaction",
-                    "amount" => $invoice->amount,
-                    "currencyCode" => "USD"
-                ],
-                "hostedPaymentSettings" => [
-                    "setting" => [
-                        [
-                            "settingName" => "hostedPaymentReturnOptions",
-                            "settingValue" => json_encode([
-                                "showReceipt" => false,
-                                "url" => route('confirm.authorize.payment', $invoice_id),
-                                "urlText" => "Continue",
-                                "cancelUrl" => route('client.pay.with.authorize', $invoice_id),
-                                "cancelUrlText" => "Cancel"
-                            ])
-                        ],
-                        [
-                            "settingName" => "hostedPaymentButtonOptions",
-                            "settingValue" => json_encode(["text" => "Pay Now"])
-                        ]
-                    ]
-                ]
-            ]
-        ];
+    /* Create a merchantAuthenticationType object with authentication details
+       retrieved from the constants file */
+    $merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
+    $merchantAuthentication->setName($loginID);
+    $merchantAuthentication->setTransactionKey($transactionKey);
 
-        // Send API request
-        $ch = curl_init($endpoint);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-Type: application/json"]);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($request));
+    // Set the transaction's refId
+    $refId = 'ref' . time();
 
-        $response = curl_exec($ch);
-        curl_close($ch);
+    //create a transaction
+    $transactionRequestType = new AnetAPI\TransactionRequestType();
+    $transactionRequestType->setTransactionType("authCaptureTransaction");
+    $transactionRequestType->setAmount($invoice->amount);
 
-        // Decode and get the token
-        $responseData = json_decode($response, true);
-        $token = $responseData['token'] ?? null;
+    // Set Hosted Form options
+    $setting1 = new AnetAPI\SettingType();
+    $setting1->setSettingName("hostedPaymentButtonOptions");
+    $setting1->setSettingValue("{\"text\": \"Pay\"}");
 
-        // Use this token to display the hosted payment page
-//        echo json_encode(["token" => $token]);
-        return $token;
-    } catch (\Exception $e) {
-        return '';
+    $setting2 = new AnetAPI\SettingType();
+    $setting2->setSettingName("hostedPaymentOrderOptions");
+    $setting2->setSettingValue("{\"show\": false}");
+
+    $setting3 = new AnetAPI\SettingType();
+    $setting3->setSettingName("hostedPaymentReturnOptions");
+    $setting3->setSettingValue(
+        "{\"url\": \"".route('confirm.authorize.payment', $invoice_id)."\", \"cancelUrl\": \"".route('client.pay.with.authorize', $invoice_id)."\", \"showReceipt\": true}"
+    );
+
+    // Build transaction request
+    $request = new AnetAPI\GetHostedPaymentPageRequest();
+    $request->setMerchantAuthentication($merchantAuthentication);
+    $request->setRefId($refId);
+    $request->setTransactionRequest($transactionRequestType);
+
+    $request->addToHostedPaymentSettings($setting1);
+    $request->addToHostedPaymentSettings($setting2);
+    $request->addToHostedPaymentSettings($setting3);
+
+    //execute request
+    $controller = new AnetController\GetHostedPaymentPageController($request);
+    $response = $controller->executeWithApiResponse(\net\authorize\api\constants\ANetEnvironment::PRODUCTION);
+
+    if (($response != null) && ($response->getMessages()->getResultCode() == "Ok")) {
+        echo $response->getToken()."\n";
+    } else {
+        echo "ERROR :  Failed to get hosted payment page token\n";
+        $errorMessages = $response->getMessages()->getMessage();
+        echo "RESPONSE : " . $errorMessages[0]->getCode() . "  " .$errorMessages[0]->getText() . "\n";
     }
-}
-
-function get_authorize_token_response ($invoice_id) {
-        $invoice = Invoice::find($invoice_id);
-        $keys = get_authorize_keys($invoice->merchant_id);
-        $loginID = $keys['login_id'];
-        $transactionKey = $keys['transaction_key'];
-//        $endpoint = "https://apitest.authorize.net/xml/v1/request.api"; // Use the live endpoint for production
-        $endpoint = "https://api.authorize.net/xml/v1/request.api"; // Use the live endpoint for production
-
-        // Create the request payload
-        $request = [
-            "getHostedPaymentPageRequest" => [
-                "merchantAuthentication" => [
-                    "name" => $loginID,
-                    "transactionKey" => $transactionKey
-                ],
-                "transactionRequest" => [
-                    "transactionType" => "authCaptureTransaction",
-                    "amount" => $invoice->amount,
-                    "currencyCode" => "USD"
-                ],
-                "hostedPaymentSettings" => [
-                    "setting" => [
-                        [
-                            "settingName" => "hostedPaymentReturnOptions",
-                            "settingValue" => json_encode([
-                                "showReceipt" => false,
-                                "url" => route('confirm.authorize.payment', $invoice_id),
-                                "urlText" => "Continue",
-                                "cancelUrl" => route('client.pay.with.authorize', $invoice_id),
-                                "cancelUrlText" => "Cancel"
-                            ])
-                        ],
-                        [
-                            "settingName" => "hostedPaymentButtonOptions",
-                            "settingValue" => json_encode(["text" => "Pay Now"])
-                        ]
-                    ]
-                ]
-            ]
-        ];
-
-        // Send API request
-        $ch = curl_init($endpoint);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-Type: application/json"]);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($request));
-
-        $response = curl_exec($ch);
-        curl_close($ch);
-
-        // Decode and get the token
-        $responseData = json_decode($response, true);
-        $token = $responseData['token'] ?? null;
-
-        // Use this token to display the hosted payment page
-//        echo json_encode(["token" => $token]);
-        return $responseData;
+    return $response->getToken() ?? '';
 }
 
 function mark_invoice_as_paid ($invoice_id) {
