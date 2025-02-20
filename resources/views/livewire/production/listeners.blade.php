@@ -1,11 +1,18 @@
 <!-- Place the first <script> tag in your HTML's <head> -->
 <script src="https://cdn.tiny.cloud/1/v342h96m9l2d2xvl69w2yxp6fwd33xvey1c4h3do99vwwpt2/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 
+{{--image uploader--}}
 <script src="{{ asset('newglobal/js/image-uploader-2.min.js') }}"></script>
 
 <link rel="stylesheet" type="text/css" href="{{ asset('global/css/fileinput.css') }}">
 <script src="{{ asset('global/js/fileinput.js') }}"></script>
 <script src="{{ asset('global/js/fileinput-theme.js') }}"></script>
+
+{{--fancybox--}}
+<link rel="stylesheet" href="{{asset('plugins/fancybox/css/lc_lightbox.min.css')}}">
+<link rel="stylesheet" href="{{asset('plugins/fancybox/skins/dark.css')}}">
+<script src="{{asset('plugins/fancybox/js/lc_lightbox.lite.min.js')}}"></script>
+<script src="{{asset('plugins/fancybox/lib/AlloyFinger/alloy_finger.min.js')}}"></script>
 
 <script>
     document.addEventListener('livewire:load', function () {
@@ -241,9 +248,22 @@
             $('#upload_files_modal').modal('show');
         });
 
-        // document.addEventListener('test', (data) => {
-        //    alert(data);
-        // });
+        //fancybox images
+        lc_lightbox('.anchor_view_image', {
+            wrap_class: 'lcl_fade_oc',
+            gallery : false,
+            thumb_attr: 'data-lcl-thumb',
+            skin: 'dark',
+            gallery_hook: false,
+            live_elements: true,
+            preload_all: true,
+            carousel: true,
+            fullscreen: true,
+            download: true,
+            touchswipe: true,
+            // rclick_prevent: true,
+            // more options here
+        });
         // -------------------------project detail scripts-------------------------
     });
 </script>

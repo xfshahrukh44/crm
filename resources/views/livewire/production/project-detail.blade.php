@@ -328,32 +328,48 @@
                                         <div class="row m-0 px-3 py-2"
                                              style="display: flex; flex-wrap: nowrap; /* Prevents wrapping to the next line */ overflow-x: auto; /* Enables horizontal scrolling */ gap: 10px; /* Adds spacing between items */ padding-bottom: 10px;"
                                         >
-                                            @foreach($files as $client_files)
+                                            @foreach($files as $client_file)
                                                 @php
                                                     $color = 'black';
-                                                    if (in_array($client_files->user->is_employee, [0, 2, 4, 6])) {
+                                                    if (in_array($client_file->user->is_employee, [0, 2, 4, 6])) {
                                                         $color = 'lightblue';
-                                                    } else if (in_array($client_files->user->is_employee, [1, 5])) {
+                                                    } else if (in_array($client_file->user->is_employee, [1, 5])) {
                                                         $color = '#FFA500';
                                                     }
 
-                                                    $temp = explode('.',$client_files->path);
+                                                    $temp = explode('.',$client_file->path);
                                                     $extension = end($temp);
+
+                                                    $file_src = asset('files/'.$client_file->path);
+                                                    $file_name = (limitTextAtWord($client_file->name, 20)) . '.' . $extension;
+                                                    $file_name = (substr($client_file->name, 0, 15)) . '....' . $extension;
+                                                    $actual_file_name = ($client_file->name) . '.' . $extension;
+                                                    $file_author = ($client_file->user->name ?? '') . ' ' . ($client_file->user->last_name ?? '');
+                                                    $file_timestamp = \Carbon\Carbon::parse($client_file->created_at)->format('d F Y, h:i A');
                                                 @endphp
                                                 <div class="">
-                                                    <a class="anchor_test" href="{{asset('files/'.$client_files->path)}}" download>
-                                                        <span class="badge badge-dark badge-sm">#{{$client_files->id}}</span>
+                                                    <a href="{{$file_src}}"
+                                                       @if(in_array($extension, ['jpeg', 'jpg', 'png', 'webp', 'gif', 'avif', 'bmp']))
+                                                            class="anchor_test anchor_view_image"
+                                                            data-lcl-txt="{{$actual_file_name}}"
+                                                            data-lcl-author="{{$file_author}} at {{$file_timestamp}}"
+                                                            data-lcl-thumb="{{$file_src}}"
+                                                       @else
+                                                            class="anchor_test" download
+                                                       @endif
+                                                    >
+                                                        <span class="badge badge-dark badge-sm">#{{$client_file->id}}</span>
                                                         <br>
                                                         <span style="font-size: 10px;">
-                                                            {{limitTextAtWord($client_files->name, 20)}}.{{$extension}}
+                                                            {{$file_name}}
                                                         </span>
                                                         <br>
                                                         <span style="color: {{$color}}; font-size: 10px;">
-                                                            {{($client_files->user->name ?? '') . ' ' . ($client_files->user->last_name ?? '')}}
+                                                            {{$file_author}}
                                                         </span>
                                                         <br>
                                                         <span class="badge badge-primary badge-sm" style="font-size: 10px;">
-                                                            {{\Carbon\Carbon::parse($client_files->created_at)->format('d F Y, h:i A')}}
+                                                            {{$file_timestamp}}
                                                         </span>
                                                     </a>
                                                 </div>

@@ -196,7 +196,7 @@
                                                             </span>
 
                                                             @if(in_array($project->id, $notification_project_ids))
-                                                                <i class="fas fa-bell text-danger ml-2"></i>
+                                                                <i class="fas fa-bell text-danger"></i>
                                                             @endif
                                                         </div>
                                                         <div class="row text-left mt-2" style="letter-spacing: 2px; font-weight: 100; line-height: 12px;">
