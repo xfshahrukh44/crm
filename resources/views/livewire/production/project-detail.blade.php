@@ -68,13 +68,13 @@
         }
     </style>
 
-    <div class="breadcrumb">
+{{--    <div class="breadcrumb">--}}
 {{--        <a href="#" class="btn btn-info btn-sm mr-2" wire:click="back">--}}
 {{--            <i class="fas fa-arrow-left"></i>--}}
 {{--        </a>--}}
-        <h1 class="mr-2">Project detail</h1>
-    </div>
-    <div class="separator-breadcrumb border-top"></div>
+{{--        <h1 class="mr-2">Project detail</h1>--}}
+{{--    </div>--}}
+{{--    <div class="separator-breadcrumb border-top"></div>--}}
     <div class="row">
         <div class="col-lg-12 col-md-12">
             {{--brand detail--}}
@@ -305,11 +305,14 @@
 
                             <hr style="margin: 14px 0px 12px 0px !important;">
 
+                            @php
+                                $files = $project->client_files()->whereHas('user')->get();
+                            @endphp
                             <div class="row">
                                 <div class="col-md-12 py-1" style="border: 1px solid #b7b7b7; border-radius: 8px 8px 0px 0px; background-color: #F3F3F3;">
                                     <h6 class="my-1 mb-1"><b>FILES</b></h6>
                                     <hr style="margin: 4px 0px 4px 0px !important;">
-                                    @if(count($project->client_files))
+                                    @if(count($files))
                                         <span type="button" class="badge badge-success badge-sm" id="btn_download_all_files" style="cursor: pointer;">
                                             <i class="fas fa-download"></i>
                                             Download all
@@ -320,12 +323,12 @@
                                         Upload
                                     </span>
                                 </div>
-                                @if(count($project->client_files))
+                                @if(count($files))
                                     <div class="col-md-12 px-0" style="border: 1px solid #b7b7b7; border-radius: 0px 0px 8px 8px; background-color: #F3F3F3;">
                                         <div class="row m-0 px-3 py-2"
                                              style="display: flex; flex-wrap: nowrap; /* Prevents wrapping to the next line */ overflow-x: auto; /* Enables horizontal scrolling */ gap: 10px; /* Adds spacing between items */ padding-bottom: 10px;"
                                         >
-                                            @foreach($project->client_files as $client_files)
+                                            @foreach($files as $client_files)
                                                 @php
                                                     $color = 'black';
                                                     if (in_array($client_files->user->is_employee, [0, 2, 4, 6])) {

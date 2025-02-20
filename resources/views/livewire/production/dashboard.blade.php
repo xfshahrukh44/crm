@@ -68,13 +68,13 @@
         }
     </style>
 
-    <div class="breadcrumb">
+{{--    <div class="breadcrumb">--}}
 {{--        <a href="#" class="btn btn-info btn-sm mr-2" wire:click="back">--}}
 {{--            <i class="fas fa-arrow-left"></i>--}}
 {{--        </a>--}}
-        <h1 class="mr-2">Production Dashboard</h1>
-    </div>
-    <div class="separator-breadcrumb border-top"></div>
+{{--        <h1 class="mr-2">Production Dashboard</h1>--}}
+{{--    </div>--}}
+{{--    <div class="separator-breadcrumb border-top"></div>--}}
     <div class="row">
         <div class="col-lg-12 col-md-12">
             {{--brand detail--}}
@@ -175,7 +175,7 @@
                                         </div>
                                         <div class="col-md-10 offset-md-1 mt-4 mb-4">
                                             @foreach($current_projects as $project)
-                                                <div class="row p-1 my-2 pt-2 px-2" style="border: 1px solid #b7b7b7; border-radius: 10px; cursor: pointer;"
+                                                <div class="row p-1 my-2 pt-2 px-2" style="border: 1px solid #b7b7b7; border-radius: 8px; cursor: pointer;"
                                                      wire:click="set_active_page('project_detail-{{$project->id}}-{{$current_projects->currentPage()}}')">
                                                     <div class="col-md-10">
                                                         <div class="row justify-content-start">

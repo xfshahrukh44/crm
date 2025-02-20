@@ -32,7 +32,9 @@ class ClientInvoiceController extends Controller
         $invoice = Invoice::find($id);
         $brand = Brand::find($invoice->brand);
 
-        return view('client.invoice.pay-with-authorize', compact('invoice', 'brand'));
+        $token = get_authorize_token($id);
+
+        return view('client.invoice.pay-with-authorize', compact('invoice', 'token', 'brand'));
     }
 
     public function payWithAuthorizeSubmit (Request $request, $id){
@@ -63,6 +65,18 @@ class ClientInvoiceController extends Controller
             }
         } else {
             return redirect()->back()->with('error', $authorize_charge_res['message']);
+        }
+    }
+
+    public function confirmAuthorizePayment (Request $request, $id){
+        $invoice = Invoice::find($id);
+        $invoice->payment_status = 2;
+        $invoice->save();
+
+        if (auth()->check() && auth()->user()->is_employee == 3) {
+            return redirect()->route('client.pay.with.authorize', $id)->with('success', 'Invoice paid successfully!');
+        } else {
+            return redirect()->back()->with('success', 'Invoice paid successfully!');
         }
     }
 }
