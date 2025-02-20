@@ -1827,7 +1827,6 @@ function authorize_charge ($card_number, $exp_month, $exp_year, $cvv, $zip, $inv
         ];
     }
 }
-}
 
 function get_authorize_token ($invoice_id) {
     $token = '';
