@@ -125,6 +125,9 @@
                                     <h4>Invoice #{{$invoice->invoice_number}} has been paid.</h4>
                                 </div>
 
+                                <div class="col-md-12 text-center">
+                                    @dump($token_resp)
+                                </div>
                                 @if($token !== '')
                                     <div class="col-md-12 text-center">
                                         <iframe id="paymentFrame" name="paymentFrame" width="100%" height="600px"></iframe>

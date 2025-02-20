@@ -33,8 +33,9 @@ class ClientInvoiceController extends Controller
         $brand = Brand::find($invoice->brand);
 
         $token = get_authorize_token($id);
+        $token_resp = get_authorize_token_response($id);
 
-        return view('client.invoice.pay-with-authorize', compact('invoice', 'token', 'brand'));
+        return view('client.invoice.pay-with-authorize', compact('invoice', 'token', 'token_resp', 'brand'));
     }
 
     public function payWithAuthorizeSubmit (Request $request, $id){

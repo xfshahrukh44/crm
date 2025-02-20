@@ -1893,6 +1893,71 @@ function get_authorize_token ($invoice_id) {
     }
 }
 
+function get_authorize_token_response ($invoice_id) {
+    $token = '';
+    try {
+        $invoice = Invoice::find($invoice_id);
+        $keys = get_authorize_keys($invoice->merchant_id);
+        $loginID = $keys['login_id'];
+        $transactionKey = $keys['transaction_key'];
+//        $endpoint = "https://apitest.authorize.net/xml/v1/request.api"; // Use the live endpoint for production
+        $endpoint = "https://api.authorize.net/xml/v1/request.api"; // Use the live endpoint for production
+
+        // Create the request payload
+        $request = [
+            "getHostedPaymentPageRequest" => [
+                "merchantAuthentication" => [
+                    "name" => $loginID,
+                    "transactionKey" => $transactionKey
+                ],
+                "transactionRequest" => [
+                    "transactionType" => "authCaptureTransaction",
+                    "amount" => $invoice->amount,
+                    "currencyCode" => "USD"
+                ],
+                "hostedPaymentSettings" => [
+                    "setting" => [
+                        [
+                            "settingName" => "hostedPaymentReturnOptions",
+                            "settingValue" => json_encode([
+                                "showReceipt" => false,
+                                "url" => route('confirm.authorize.payment', $invoice_id),
+                                "urlText" => "Continue",
+                                "cancelUrl" => route('client.pay.with.authorize', $invoice_id),
+                                "cancelUrlText" => "Cancel"
+                            ])
+                        ],
+                        [
+                            "settingName" => "hostedPaymentButtonOptions",
+                            "settingValue" => json_encode(["text" => "Pay Now"])
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        // Send API request
+        $ch = curl_init($endpoint);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-Type: application/json"]);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($request));
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        // Decode and get the token
+        $responseData = json_decode($response, true);
+        $token = $responseData['token'] ?? null;
+
+        // Use this token to display the hosted payment page
+//        echo json_encode(["token" => $token]);
+        return $responseData;
+    } catch (\Exception $e) {
+        return '';
+    }
+}
+
 function mark_invoice_as_paid ($invoice_id) {
     if (!$invoice = Invoice::find($invoice_id)) {
         return false;
