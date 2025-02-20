@@ -132,7 +132,7 @@
                             </div>
 
                             <div class="row mt-2">
-                                <div class="col-md-12 py-1" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
+                                <div class="col-md-12 py-1" style="border: 1px solid #b7b7b7; border-radius: 8px; background-color: #F3F3F3;">
                                     <h6 class="mb-0"><b>STATUS</b></h6>
                                     <hr style="margin: 4px 0px 4px 0px !important;">
                                     <div class="row m-0 justify-content-center">
@@ -178,7 +178,7 @@
                             <hr style="margin: 14px 0px 12px 0px !important;">
 
                             <div class="row mt-2">
-                                <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
+                                <div class="col-md-12" style="border: 1px solid #b7b7b7; border-radius: 8px 8px 0px 0px; background-color: #F3F3F3;">
                                     <h6 class="my-1 mb-1">
                                         <b>CONVERSATION</b>
 
@@ -202,7 +202,7 @@
                                         @if(in_array($message->user->is_employee, [0, 2, 4, 6]))
                                             <div class="row">
                                                 <div class="col-md-9">
-                                                    <div class="row my-2 py-2" style="border: 2px solid lightblue; border-radius: 10px; background-color: #add8e644;">
+                                                    <div class="row my-2 py-2" style="border: 2px solid lightblue; border-radius: 8px; background-color: #add8e644;">
                                                         <div class="col-md-12 text-left" style="font-weight: 800; font-size: 14px;">
                                                             {{($message->user->name ?? '') . ' ' . ($message->user->last_name ?? '')}}
                                                             @if(in_array($message->id, $notification_subtask_ids))
@@ -247,7 +247,7 @@
                                             <div class="row">
                                                 <div class="col-md-3"></div>
                                                 <div class="col-md-9">
-                                                    <div class="row my-2 py-2" style="border: 2px solid orange; border-radius: 10px; background-color: #ffa50044;">
+                                                    <div class="row my-2 py-2" style="border: 2px solid orange; border-radius: 8px; background-color: #ffa50044;">
                                                         <div class="col-md-12 text-left" style="font-weight: 800; font-size: 14px;">
                                                             {{($message->user->name ?? '') . ' ' . ($message->user->last_name ?? '')}}
                                                             <span class="float-right" style="font-weight: 400; font-size: 10px; margin-top: 1px;">
@@ -293,10 +293,10 @@
                                     @endif
                                     {{--end search message info--}}
                                 </div>
-                                <div class="col-md-11 px-0" style="border: 1px solid #b7b7b7;">
+                                <div class="col-md-11 px-0" style="border: 1px solid #b7b7b7; border-radius: 0px 0px 0px 8px;">
                                     <textarea class="form-control" name="" id="textarea_send_message" cols="30" rows="1" placeholder="Type message..."></textarea>
                                 </div>
-                                <div class="col-md-1 px-0" style="background-color: #0076c2">
+                                <div class="col-md-1 px-0" style="background-color: #0076c2; border-radius: 0px 0px 8px 0px;">
                                     <button class="btn btn-block btn-primary" id="btn_send_message" data-project="{{$project->id}}">
                                         Send
                                     </button>
@@ -306,7 +306,7 @@
                             <hr style="margin: 14px 0px 12px 0px !important;">
 
                             <div class="row">
-                                <div class="col-md-12 py-1" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
+                                <div class="col-md-12 py-1" style="border: 1px solid #b7b7b7; border-radius: 8px 8px 0px 0px; background-color: #F3F3F3;">
                                     <h6 class="my-1 mb-1"><b>FILES</b></h6>
                                     <hr style="margin: 4px 0px 4px 0px !important;">
                                     @if(count($project->client_files))
@@ -321,7 +321,7 @@
                                     </span>
                                 </div>
                                 @if(count($project->client_files))
-                                    <div class="col-md-12 px-0" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
+                                    <div class="col-md-12 px-0" style="border: 1px solid #b7b7b7; border-radius: 0px 0px 8px 8px; background-color: #F3F3F3;">
                                         <div class="row m-0 px-3 py-2"
                                              style="display: flex; flex-wrap: nowrap; /* Prevents wrapping to the next line */ overflow-x: auto; /* Enables horizontal scrolling */ gap: 10px; /* Adds spacing between items */ padding-bottom: 10px;"
                                         >

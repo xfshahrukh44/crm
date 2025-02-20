@@ -83,7 +83,7 @@
                     <div class="row text-center mb-4">
                         <div class="col-md-8 offset-md-2">
                             <div class="row my-4">
-                                <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
+                                <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3; border-radius: 8px;">
                                     <div class="row">
                                         <div class="col-md-12" style="font-size: 18px;" id="header2">
 {{--                                            <a href="#" wire:click="back">--}}
