@@ -251,7 +251,7 @@
         //fancybox images
         lc_lightbox('.anchor_view_image', {
             wrap_class: 'lcl_fade_oc',
-            gallery : false,
+            gallery : true,
             thumb_attr: 'data-lcl-thumb',
             skin: 'dark',
             gallery_hook: false,
@@ -261,7 +261,7 @@
             fullscreen: true,
             download: true,
             touchswipe: true,
-            // rclick_prevent: true,
+            rclick_prevent: true,
             // more options here
         });
         // -------------------------project detail scripts-------------------------
