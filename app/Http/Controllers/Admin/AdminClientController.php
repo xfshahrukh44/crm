@@ -6,6 +6,7 @@ use App\Models\BookMarketing;
 use App\Models\Client;
 use App\Models\Brand;
 use App\Models\NewSMM;
+use App\Models\PressReleaseForm;
 use App\Models\SeoBrief;
 use App\Models\User;
 use App\Models\Invoice;
@@ -364,6 +365,14 @@ class AdminClientController extends Controller
                             $new_smm_form->agent_id = $invoice->sales_agent_id;
                             $new_smm_form->save();
                         }
+                    }elseif($service->form == 16){
+                        if($invoice->createform == 1){
+                            $new_smm_form = new PressReleaseForm();
+                            $new_smm_form->invoice_id = $invoice->id;
+                            $new_smm_form->user_id = $user->id;
+                            $new_smm_form->agent_id = $invoice->sales_agent_id;
+                            $new_smm_form->save();
+                        }
                     }
 
 
@@ -540,6 +549,14 @@ class AdminClientController extends Controller
                     }elseif($service->form == 15){
                         if($invoice->createform == 1){
                             $new_smm_form = new NewSMM();
+                            $new_smm_form->invoice_id = $invoice->id;
+                            $new_smm_form->user_id = $user->id;
+                            $new_smm_form->agent_id = $invoice->sales_agent_id;
+                            $new_smm_form->save();
+                        }
+                    }elseif($service->form == 16){
+                        if($invoice->createform == 1){
+                            $new_smm_form = new PressReleaseForm();
                             $new_smm_form->invoice_id = $invoice->id;
                             $new_smm_form->user_id = $user->id;
                             $new_smm_form->agent_id = $invoice->sales_agent_id;
@@ -722,6 +739,14 @@ class AdminClientController extends Controller
                     }elseif($service->form == 15){
                         if($invoice->createform == 1){
                             $new_smm_form = new NewSMM();
+                            $new_smm_form->invoice_id = $invoice->id;
+                            $new_smm_form->user_id = $user->id;
+                            $new_smm_form->agent_id = $invoice->sales_agent_id;
+                            $new_smm_form->save();
+                        }
+                    }elseif($service->form == 16){
+                        if($invoice->createform == 1){
+                            $new_smm_form = new PressReleaseForm();
                             $new_smm_form->invoice_id = $invoice->id;
                             $new_smm_form->user_id = $user->id;
                             $new_smm_form->agent_id = $invoice->sales_agent_id;
@@ -942,10 +967,10 @@ class AdminClientController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-    
-    
-    
-    
+
+
+
+
     public function reassignSupportManagerTaskID(Request $request){
         try {
 
@@ -965,13 +990,13 @@ class AdminClientController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
-        
+
     }
-    
-    
-    
-    
-    
+
+
+
+
+
 
     public function assignSupportManager(Request $request){
         try {
@@ -1145,6 +1170,38 @@ class AdminClientController extends Controller
                 $client_id = $seo_form->user->id;
                 $brand_id = $seo_form->invoice->brand;
                 $description = $seo_form->company_name;
+            }elseif($form_checker == 14){
+                $book_marketing_form = BookMarketing::find($form_id);
+                if($book_marketing_form->company_name != null){
+                    $name = $book_marketing_form->company_name . ' - Book Marketing';
+                }else{
+                    $name = $book_marketing_form->user->name . ' - Book Marketing';
+                }
+                $client_id = $book_marketing_form->user->id;
+                $brand_id = $book_marketing_form->invoice->brand;
+                $description = $book_marketing_form->company_name;
+            }elseif($form_checker == 15){
+                $new_smm_form = NewSMM::find($form_id);
+                if($new_smm_form->client_name != null){
+                    $name = $new_smm_form->client_name . ' - SMM(new)';
+                }else{
+                    $name = $new_smm_form->user->name . ' - SMM(new)';
+                }
+                $client_id = $new_smm_form->user->id;
+                $brand_id = $new_smm_form->invoice->brand;
+                $description = $new_smm_form->client_name;
+
+            }elseif($form_checker == 16){
+                $press_release_form = PressReleaseForm::find($form_id);
+                if($press_release_form->book_title != null){
+                    $name = $press_release_form->book_title . ' - Press Release';
+                }else{
+                    $name = $press_release_form->user->name . ' - Press Release';
+                }
+                $client_id = $press_release_form->user->id;
+                $brand_id = $press_release_form->invoice->brand;
+                $description = $press_release_form->book_title;
+
             }
 
             $project = new Project();
@@ -1192,7 +1249,7 @@ class AdminClientController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-    
+
 
     public function assignSupport(Request $request){
         try {
@@ -1294,6 +1351,38 @@ class AdminClientController extends Controller
                 $client_id = $seo_form->user->id;
                 $brand_id = $seo_form->invoice->brand;
                 $description = $seo_form->company_name;
+            }elseif($form_checker == 14){
+                $book_marketing_form = BookMarketing::find($form_id);
+                if($book_marketing_form->company_name != null){
+                    $name = $book_marketing_form->company_name . ' - Book Marketing';
+                }else{
+                    $name = $book_marketing_form->user->name . ' - Book Marketing';
+                }
+                $client_id = $book_marketing_form->user->id;
+                $brand_id = $book_marketing_form->invoice->brand;
+                $description = $book_marketing_form->company_name;
+            }elseif($form_checker == 15){
+                $new_smm_form = NewSMM::find($form_id);
+                if($new_smm_form->client_name != null){
+                    $name = $new_smm_form->client_name . ' - SMM(new)';
+                }else{
+                    $name = $new_smm_form->user->name . ' - SMM(new)';
+                }
+                $client_id = $new_smm_form->user->id;
+                $brand_id = $new_smm_form->invoice->brand;
+                $description = $new_smm_form->client_name;
+
+            }elseif($form_checker == 16){
+                $press_release_form = PressReleaseForm::find($form_id);
+                if($press_release_form->book_title != null){
+                    $name = $press_release_form->book_title . ' - Press Release';
+                }else{
+                    $name = $press_release_form->user->name . ' - Press Release';
+                }
+                $client_id = $press_release_form->user->id;
+                $brand_id = $press_release_form->invoice->brand;
+                $description = $press_release_form->book_title;
+
             }
             $project = new Project();
             $project->name = $name;

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BookMarketing;
 use App\Models\NewSMM;
+use App\Models\PressReleaseForm;
 use App\Models\SeoBrief;
 use App\Models\SeoForm;
 use Illuminate\Http\Request;
@@ -162,6 +163,21 @@ class SeoFormController extends Controller
             if($new_smm_form->user_id == Auth::user()->id){
                 $new_smm_form->update($request->all());
                 return redirect()->back()->with('success', 'Social Media Marketing Form Created');
+            }else{
+                return redirect()->back();
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function updatePressRelease(Request $request, $id)
+    {
+        try {
+            $press_release_form = PressReleaseForm::find($id);
+            if($press_release_form->user_id == Auth::user()->id){
+                $press_release_form->update($request->all());
+                return redirect()->back()->with('success', 'Press Release Form Created');
             }else{
                 return redirect()->back();
             }

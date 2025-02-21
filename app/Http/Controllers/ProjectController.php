@@ -17,7 +17,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $data = Project::whereIn('brand_id', Auth()->user()->brand_list())->get();
+        $data = Project::whereHas('client')->whereIn('brand_id', Auth()->user()->brand_list())->get();
         return view('sale.project.index', compact('data'));
     }
 
@@ -71,7 +71,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        
+
     }
 
     /**

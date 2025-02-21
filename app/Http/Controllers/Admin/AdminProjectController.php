@@ -17,7 +17,7 @@ class AdminProjectController extends Controller
     {
         try {
             $data = new Project();
-            $data = $data->select('id', 'name', 'status', 'product_status', 'user_id', 'client_id', 'brand_id', 'created_at');
+            $data = $data->whereHas('client')->select('id', 'name', 'status', 'product_status', 'user_id', 'client_id', 'brand_id', 'created_at');
             if($request->brand != null){
                 $data = $data->where('brand_id', $request->brand);
             }
@@ -45,7 +45,7 @@ class AdminProjectController extends Controller
     public function indexManager()
     {
         try {
-            $data = Project::whereIn('brand_id', Auth()->user()->brand_list())->get();
+            $data = Project::whereHas('client')->whereIn('brand_id', Auth()->user()->brand_list())->get();
             $brands = Brand::whereIn('id', Auth()->user()->brand_list())->get();
             $clients = User::where('is_employee', 3)->whereHas('client', function ($query){
                 return $query->whereIn('brand_id', Auth()->user()->brand_list());

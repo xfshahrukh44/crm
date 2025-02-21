@@ -1625,6 +1625,8 @@
                             @include('client.forms.book-marketing-form')
                         @elseif($forms->form_type == 15)
                             @include('client.forms.new-smm-form')
+                        @elseif($forms->form_type == 16)
+                            @include('client.forms.press-release-form')
                         @elseif($forms->form_type == 6)
                             <form class="col-md-12 brief-form p-0" method="post" action="{{ route('client.bookformatting.form.update', $forms->id) }}" enctype="multipart/form-data">
                                 @csrf

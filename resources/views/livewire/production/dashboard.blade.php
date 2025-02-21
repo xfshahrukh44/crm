@@ -165,7 +165,7 @@
 {{--                                                            <i id="btn_dashboard_search" class="fas fa-search mt-2" style="font-size: 12px; cursor: pointer;"></i>--}}
                                                                 <i class="fas fa-x mt-2 text-danger"
                                                                    style="font-size: 12px; cursor: pointer;"
-                                                                   wire:click="$emit('mutate', {name: 'dashboard_search', val: ''})">
+                                                                   wire:click="$emit('mutate', {name: 'dashboard_search', value: ''})">
                                                                 </i>
                                                             </div>
                                                         @endif

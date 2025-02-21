@@ -12,7 +12,7 @@
                 <div class="card-title mb-3">Service Update</div>
                 <form class="form" action="{{route('service.update',$data->id)}}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    @method('PATCH')  
+                    @method('PATCH')
                     <div class="form-body">
                         <div class="row">
                             <div class="col-md-4 form-group mb-3">
@@ -25,7 +25,7 @@
                                     <option value="">Select Brand</option>
                                     @foreach($brands as $brand)
                                     <option value="{{ $brand->id }}" {{ ($brand->id == $data->brand_id ? 'selected' : '') }}>{{ $brand->name }}</option>
-                                    @endforeach 
+                                    @endforeach
                                 </select>
                             </div> -->
                             <div class="col-md-4 form-group mb-3">
@@ -44,9 +44,10 @@
                                     <option value="10" {{ $data->form == 10 ? 'selected' : '' }}>Book Cover Design</option>
                                     <option value="11" {{ $data->form == 11 ? 'selected' : '' }}>ISBN Form</option>
                                     <option value="12" {{ $data->form == 12 ? 'selected' : '' }}>Book Printing Form</option>
-                                    <option value="12" {{ $data->form == 13 ? 'selected' : '' }}>SEO Form</option>
-                                    <option value="12" {{ $data->form == 14 ? 'selected' : '' }}>Book Marketing Form</option>
-                                    <option value="12" {{ $data->form == 15 ? 'selected' : '' }}>Social Media Marketing Form (NEW)</option>
+                                    <option value="13" {{ $data->form == 13 ? 'selected' : '' }}>SEO Form</option>
+                                    <option value="14" {{ $data->form == 14 ? 'selected' : '' }}>Book Marketing Form</option>
+                                    <option value="15" {{ $data->form == 15 ? 'selected' : '' }}>Social Media Marketing Form (NEW)</option>
+                                    <option value="16" {{ $data->form == 16 ? 'selected' : '' }}>Press Release Form</option>
                                 </select>
                             </div>
                             <div class="col-md-12">

@@ -5,6 +5,7 @@ use App\Models\BookMarketing;
 use App\Models\Invoice;
 use App\Models\NewSMM;
 use App\Models\NoForm;
+use App\Models\PressReleaseForm;
 use App\Models\Project;
 use App\Models\LogoForm;
 use App\Models\SeoBrief;
@@ -75,7 +76,7 @@ class SupportController extends Controller
                 return $query->where('name', 'LIKE', "%$user%")->orWhere('email', 'LIKE', "%$user%");
             });
         }
-       
+
         $data = $data->paginate(10);
         return view('support.project', compact('data'));
     }
@@ -155,9 +156,12 @@ class SupportController extends Controller
         }elseif($check == 12){
             $data = Bookprinting::find($form_id);
             return view('production.form.bookprinting', compact('data'));
+        } elseif($check == 16){
+            $data = PressReleaseForm::find($form_id);
+            return view('production.press-release', compact('data'));
         }
-         
-        
+
+
     }
 
     public function getFormByMember($form_id, $check, $id){
@@ -196,11 +200,14 @@ class SupportController extends Controller
         }elseif($check == 10){
             $data = BookCover::find($form_id);
             return view('member.form.bookcover', compact('data'));
+        }elseif($check == 16){
+            $data = PressReleaseForm::find($form_id);
+            return view('member.form.press-release-form', compact('data'));
         }
     }
 
     public function getForm($form_id, $check, $id){
-        
+
         if(!$project = Project::find($id)) {
             return redirect()->back();
         }
@@ -245,8 +252,24 @@ class SupportController extends Controller
                 $data = Bookprinting::find($form_id);
                 return view('support.bookprinting', compact('data'));
             }
-            
-            
+//            elseif($check == 13){
+//                $data = SeoBrief::find($form_id);
+//                return view('support.seoform', compact('data'));
+//            }
+//            elseif($check == 14){
+//                $data = BookMarketing::find($form_id);
+//                return view('support.bookprinting', compact('data'));
+//            }
+//            elseif($check == 15){
+//                $data = Bookprinting::find($form_id);
+//                return view('support.bookprinting', compact('data'));
+//            }
+            elseif($check == 16){
+                $data = PressReleaseForm::find($form_id);
+                return view('support.press-release-form', compact('data'));
+            }
+
+
         // }else{
         //     return redirect()->back();
         // }
@@ -287,6 +310,9 @@ class SupportController extends Controller
             }elseif($check == 10){
                 $data = BookCover::find($form_id);
                 return view('manager.form.bookcoverform', compact('data'));
+            }elseif($check == 16){
+                $data = PressReleaseForm::find($form_id);
+                return view('manager.form.press-release-form', compact('data'));
             }
         // }else{
         //     return redirect()->back();
@@ -330,7 +356,7 @@ class SupportController extends Controller
             'new_password' => ['required'],
             'new_confirm_password' => ['same:new_password'],
         ]);
-   
+
         User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
         return redirect()->back()->with('success', 'Password Change Successfully.');
     }
@@ -511,7 +537,7 @@ class SupportController extends Controller
         $message->save();
 
         if($request->hasfile('images')){
-            $i = 0; 
+            $i = 0;
             foreach($request->file('images') as $file)
             {
                 $file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
@@ -675,7 +701,7 @@ class SupportController extends Controller
     }
 
     public function getMessageByManager(Request $request){
-        
+
 //        $messages = Message::select('messages.*', DB::raw('MAX(messages.id) as max_id'))
 //                    ->join('users', 'users.id', '=', 'messages.client_id')
 //                    ->join('clients', 'users.client_id', '=', 'clients.id')
@@ -1169,6 +1195,9 @@ class SupportController extends Controller
         }elseif($form == 15){
             $new_smm_form = NewSMM::find($id);
             return view('support.brief.new-smm', compact('new_smm_form'));
+        }elseif($form == 16){
+            $press_release_form = NewSMM::find($id);
+            return view('support.brief.press-release', compact('press_release_form'));
         }
 
 
@@ -1345,6 +1374,38 @@ class SupportController extends Controller
             $client_id = $seo_form->user->id;
             $brand_id = $seo_form->invoice->brand;
             $description = $seo_form->company_name;
+        }elseif($form_checker == 14){
+            $book_marketing_form = BookMarketing::find($form_id);
+            if($book_marketing_form->company_name != null){
+                $name = $book_marketing_form->company_name . ' - Book Marketing';
+            }else{
+                $name = $book_marketing_form->user->name . ' - Book Marketing';
+            }
+            $client_id = $book_marketing_form->user->id;
+            $brand_id = $book_marketing_form->invoice->brand;
+            $description = $book_marketing_form->company_name;
+        }elseif($form_checker == 15){
+            $new_smm_form = NewSMM::find($form_id);
+            if($new_smm_form->client_name != null){
+                $name = $new_smm_form->client_name . ' - SMM(new)';
+            }else{
+                $name = $new_smm_form->user->name . ' - SMM(new)';
+            }
+            $client_id = $new_smm_form->user->id;
+            $brand_id = $new_smm_form->invoice->brand;
+            $description = $new_smm_form->client_name;
+
+        }elseif($form_checker == 16){
+            $press_release_form = PressReleaseForm::find($form_id);
+            if($press_release_form->book_title != null){
+                $name = $press_release_form->book_title . ' - Press Release';
+            }else{
+                $name = $press_release_form->user->name . ' - Press Release';
+            }
+            $client_id = $press_release_form->user->id;
+            $brand_id = $press_release_form->invoice->brand;
+            $description = $press_release_form->book_title;
+
         }
 
         $project = new Project();
@@ -1476,6 +1537,9 @@ class SupportController extends Controller
         }elseif($check == 12){
             $data = Bookprinting::find($form_id);
             return view('qa.form.bookprinting', compact('data'));
+        }elseif($check == 16){
+            $data = Bookprinting::find($form_id);
+            return view('qa.form.press-release-form', compact('data'));
         }
 
 

@@ -124,7 +124,7 @@ class LogoFormController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-     
+
     public function destroy(Request $request)
     {
         try {
@@ -142,7 +142,7 @@ class LogoFormController extends Controller
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
     }
-    
+
 
     public function getBriefPending(Request $request){
 //        $logo_form = LogoForm::where('logo_name', '')->groupBy('user_id')
@@ -230,7 +230,7 @@ class LogoFormController extends Controller
 //        return view('sale.brief.pending', compact('client_users_with_brief_pendings', 'logo_form', 'web_form', 'smm_form', 'content_writing_form', 'seo_form'));
         return view('sale.brief.pending', compact('client_users_with_brief_pendings'));
     }
-    
+
     public function getBriefPendingByIdManager(Request $request){
 //        $logo_form = LogoForm::where('logo_name', '')->whereHas('invoice', function ($query) {
 //                        return $query->where('brand', Auth::user()->brand_list());
@@ -326,7 +326,7 @@ class LogoFormController extends Controller
 
         //change
         $client_users_with_brief_pendings = User::whereIn('id', get_brief_client_user_ids($request))->get();
-        
+
 //        return view('manager.brief.pending', compact('client_users_with_brief_pendings', 'logo_form', 'web_form', 'smm_form', 'content_writing_form', 'seo_form', 'book_formatting_form', 'book_writing_form', 'author_website_form', 'no_form', 'proofreading_form', 'bookcover_form', 'isbn_form', 'bookprinting_form'));
         return view('manager.brief.pending', compact('client_users_with_brief_pendings'));
     }
@@ -478,7 +478,7 @@ class LogoFormController extends Controller
         $client_users_with_pending_projects = User::whereIn('id', get_project_client_user_ids())->when($request->has('user_id'), function ($q) use ($request) {
             return $q->where('id', $request->get('user_id'));
         })->get();
-        
+
 //        return view('manager.brief.fill', compact('client_users_with_pending_projects', 'logo_form', 'web_form', 'smm_form', 'content_writing_form', 'seo_form', 'book_formatting_form', 'book_writing_form', 'author_website_form', 'no_form', 'proofreading_form', 'bookcover_form', 'isbn_form', 'bookprinting_form'));
         return view('manager.brief.fill', compact('client_users_with_pending_projects'));
     }
@@ -529,9 +529,12 @@ class LogoFormController extends Controller
         }elseif($form == 15){
             $new_smm_form = NewSMM::find($id);
             return view('manager.brief.new-smm', compact('new_smm_form'));
+        }elseif($form == 16){
+            $press_release_form = NewSMM::find($id);
+            return view('manager.brief.press-release', compact('press_release_form'));
         }
-        
-        
+
+
     }
 
     public function getPendingProjectbyId($id, $form){
@@ -581,10 +584,13 @@ class LogoFormController extends Controller
             }elseif($form == 15){
                 $new_smm_form = NewSMM::find($id);
                 return view('manager.brief.new-smm', compact('new_smm_form'));
+            }elseif($form == 16){
+                $press_release_form = NewSMM::find($id);
+                return view('manager.brief.press-release', compact('press_release_form'));
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-    
+
 }

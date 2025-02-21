@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BookMarketing;
 use App\Models\NewSMM;
+use App\Models\PressReleaseForm;
 use App\Models\SeoBrief;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\Invoice;
@@ -1526,6 +1527,16 @@ class InvoiceController extends Controller
                     $new_smm_form->agent_id = $invoice->sales_agent_id;
                     $new_smm_form->save();
                 }
+                elseif($service->form == 16){
+                    $press_release_form = new PressReleaseForm();
+                    $press_release_form->invoice_id = $invoice->id;
+                    if($user_client != null){
+                        $press_release_form->user_id = $user_client->id;
+                    }
+                    $press_release_form->client_id = $user->id;
+                    $press_release_form->agent_id = $invoice->sales_agent_id;
+                    $press_release_form->save();
+                }
 
 
             }
@@ -1759,6 +1770,16 @@ class InvoiceController extends Controller
                     $new_smm_form->agent_id = $invoice->sales_agent_id;
                     $new_smm_form->save();
                 }
+                elseif($service->form == 16){
+                    $press_release_form = new PressReleaseForm();
+                    $press_release_form->invoice_id = $invoice->id;
+                    if($user_client != null){
+                        $press_release_form->user_id = $user_client->id;
+                    }
+                    $press_release_form->client_id = $user->id;
+                    $press_release_form->agent_id = $invoice->sales_agent_id;
+                    $press_release_form->save();
+                }
 
 
             }
@@ -1989,6 +2010,16 @@ class InvoiceController extends Controller
                     }
                     elseif($service->form == 15){
                         $new_smm_form = new NewSMM();
+                        $new_smm_form->invoice_id = $invoice->id;
+                        if($user_client != null){
+                            $new_smm_form->user_id = $user_client->id;
+                        }
+                        $new_smm_form->client_id = $user->id;
+                        $new_smm_form->agent_id = $invoice->sales_agent_id;
+                        $new_smm_form->save();
+                    }
+                    elseif($service->form == 16){
+                        $new_smm_form = new PressReleaseForm();
                         $new_smm_form->invoice_id = $invoice->id;
                         if($user_client != null){
                             $new_smm_form->user_id = $user_client->id;

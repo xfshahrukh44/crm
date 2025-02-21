@@ -20,6 +20,7 @@ use App\Models\Merchant;
 use App\Models\Message;
 use App\Models\NewSMM;
 use App\Models\NoForm;
+use App\Models\PressReleaseForm;
 use App\Models\Project;
 use App\Models\Proofreading;
 use App\Models\SeoBrief;
@@ -787,7 +788,7 @@ class BrandDashboard extends Component
                     $seo_form->save();
                 }
                 elseif($service->form == 14){
-                    $book_marketing_form = new BookMarketing();
+                    $book_marketing_form = BookMarketing::find($form_id);
                     $book_marketing_form->invoice_id = $invoice->id;
                     if($user_client != null){
                         $book_marketing_form->user_id = $user_client->id;
@@ -797,7 +798,7 @@ class BrandDashboard extends Component
                     $book_marketing_form->save();
                 }
                 elseif($service->form == 15){
-                    $new_smm_form = new NewSMM();
+                    $new_smm_form = NewSMM::find($form_id);
                     $new_smm_form->invoice_id = $invoice->id;
                     if($user_client != null){
                         $new_smm_form->user_id = $user_client->id;
@@ -805,6 +806,16 @@ class BrandDashboard extends Component
                     $new_smm_form->client_id = $user->id;
                     $new_smm_form->agent_id = $invoice->sales_agent_id;
                     $new_smm_form->save();
+                }
+                elseif($service->form == 16){
+                    $press_release_form = PressReleaseForm::find($form_id);
+                    $press_release_form->invoice_id = $invoice->id;
+                    if($user_client != null){
+                        $press_release_form->user_id = $user_client->id;
+                    }
+                    $press_release_form->client_id = $user->id;
+                    $press_release_form->agent_id = $invoice->sales_agent_id;
+                    $press_release_form->save();
                 }
             }
         }
@@ -1149,6 +1160,38 @@ class BrandDashboard extends Component
             $client_id = $seo_form->user->id;
             $brand_id = $seo_form->invoice->brand;
             $description = $seo_form->company_name;
+        }elseif($form_checker == 14){
+            $book_marketing_form = BookMarketing::find($form_id);
+            if($book_marketing_form->company_name != null){
+                $name = $book_marketing_form->company_name . ' - Book Marketing';
+            }else{
+                $name = $book_marketing_form->user->name . ' - Book Marketing';
+            }
+            $client_id = $book_marketing_form->user->id;
+            $brand_id = $book_marketing_form->invoice->brand;
+            $description = $book_marketing_form->company_name;
+        }elseif($form_checker == 15){
+            $new_smm_form = NewSMM::find($form_id);
+            if($new_smm_form->client_name != null){
+                $name = $new_smm_form->client_name . ' - SMM(new)';
+            }else{
+                $name = $new_smm_form->user->name . ' - SMM(new)';
+            }
+            $client_id = $new_smm_form->user->id;
+            $brand_id = $new_smm_form->invoice->brand;
+            $description = $new_smm_form->client_name;
+
+        }elseif($form_checker == 16){
+            $press_release_form = PressReleaseForm::find($form_id);
+            if($press_release_form->book_title != null){
+                $name = $press_release_form->book_title . ' - Press Release';
+            }else{
+                $name = $press_release_form->user->name . ' - Press Release';
+            }
+            $client_id = $press_release_form->user->id;
+            $brand_id = $press_release_form->invoice->brand;
+            $description = $press_release_form->book_title;
+
         }
 
 //        $project = Project::firstOrCreate([

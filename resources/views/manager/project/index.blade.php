@@ -129,6 +129,8 @@
                                     <a href="{{ route('manager.form', ['form_id' => $datas->form_id, 'check' => $datas->form_checker, 'id' => $datas->id]) }}" class="btn btn-secondary btn-sm">ISBN</a>
                                     @elseif($datas->form_checker == 12)
                                     <a href="{{ route('manager.form', ['form_id' => $datas->form_id, 'check' => $datas->form_checker, 'id' => $datas->id]) }}" class="btn btn-secondary btn-sm">Book Printing</a>
+                                    @elseif($datas->form_checker == 16)
+                                    <a href="{{ route('manager.form', ['form_id' => $datas->form_id, 'check' => $datas->form_checker, 'id' => $datas->id]) }}" class="btn btn-secondary btn-sm">Press Release</a>
                                     @endif
                                     <!-- <a href="{{ route('manager.project.edit', $datas->id) }}" class="btn btn-primary btn-icon btn-sm">
                                         <span class="ul-btn__icon"><i class="i-Edit"></i></span>

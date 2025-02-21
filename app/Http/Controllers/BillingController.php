@@ -18,6 +18,7 @@ use App\Models\LogoForm;
 use App\Models\Merchant;
 use App\Models\NewSMM;
 use App\Models\NoForm;
+use App\Models\PressReleaseForm;
 use App\Models\Proofreading;
 use App\Models\SeoBrief;
 use App\Models\SeoForm;
@@ -564,6 +565,14 @@ class BillingController extends Controller
                     $new_smm_form->client_id = $user->id;
                     $new_smm_form->agent_id = $invoice->sales_agent_id;
                     $new_smm_form->save();
+                }elseif($service->form == 16){
+                    if($invoice->createform == 1){
+                        $new_smm_form = new PressReleaseForm();
+                        $new_smm_form->invoice_id = $invoice->id;
+                        $new_smm_form->user_id = $user->id;
+                        $new_smm_form->agent_id = $invoice->sales_agent_id;
+                        $new_smm_form->save();
+                    }
                 }
 
 
@@ -751,6 +760,14 @@ class BillingController extends Controller
                     }elseif($service->form == 15){
                         if($invoice->createform == 1){
                             $new_smm_form = new NewSMM();
+                            $new_smm_form->invoice_id = $invoice->id;
+                            $new_smm_form->user_id = $user->id;
+                            $new_smm_form->agent_id = $invoice->sales_agent_id;
+                            $new_smm_form->save();
+                        }
+                    }elseif($service->form == 16){
+                        if($invoice->createform == 1){
+                            $new_smm_form = new PressReleaseForm();
                             $new_smm_form->invoice_id = $invoice->id;
                             $new_smm_form->user_id = $user->id;
                             $new_smm_form->agent_id = $invoice->sales_agent_id;

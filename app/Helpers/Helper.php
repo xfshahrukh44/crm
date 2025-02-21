@@ -17,6 +17,7 @@ use App\Models\Merchant;
 use App\Models\Message;
 use App\Models\NewSMM;
 use App\Models\NoForm;
+use App\Models\PressReleaseForm;
 use App\Models\Project;
 use App\Models\Proofreading;
 use App\Models\SeoBrief;
@@ -512,6 +513,21 @@ function get_brief_client_user_ids (Request $request = null, $brand_id = null) {
         ->groupBy('user_id')->pluck('user_id')->toArray();
     $client_user_ids = array_merge($res, $client_user_ids);
 
+    $res = PressReleaseForm::where('book_title', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->whereIn('brand', Auth::user()->brand_list());
+            });
+        })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+        ->when($brand_id, function ($q) use ($brand_id) {
+            return $q->whereHas('invoice', function ($q) use ($brand_id) {
+                return $q->where('brand', $brand_id);
+            });
+        })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
     return array_unique($client_user_ids);
 }
 
@@ -689,6 +705,17 @@ function get_briefs_pending ($client_user_id) {
         $briefs_pending_array []= 'Social Media Marketing (NEW)';
     }
 
+    if ((PressReleaseForm::where('book_title', null)
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->whereIn('brand', Auth::user()->brand_list());
+            });
+        })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+        ->where('user_id', $client_user_id)->count()) > 0) {
+        $briefs_pending_array []= 'Press Release';
+    }
+
     return $briefs_pending_array;
 }
 
@@ -846,6 +873,16 @@ function get_project_client_user_ids () {
     $client_user_ids = array_merge($res, $client_user_ids);
 
     $res = NewSMM::with('project')->doesntHave('project')
+        ->when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereHas('invoice', function ($query) {
+                return $query->whereIn('brand', Auth::user()->brand_list());
+            });
+        })
+        ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+        ->groupBy('user_id')->pluck('user_id')->toArray();
+    $client_user_ids = array_merge($res, $client_user_ids);
+
+    $res = PressReleaseForm::with('project')->doesntHave('project')
         ->when(auth()->user()->is_employee != 2, function ($q) {
             return $q->whereHas('invoice', function ($query) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
@@ -1135,6 +1172,23 @@ function get_pending_projects ($client_user_id) {
             'project_type' => 'Social Media Marketing (NEW)',
             'id' => $item->id,
             'form_number' => 15,
+            'brand_id' => $item->invoice->brands->id,
+            'invoice_id' => $item->invoice_id
+        ];
+    }
+
+    foreach (PressReleaseForm::with('project')->doesntHave('project')
+                 ->when(auth()->user()->is_employee != 2, function ($q) {
+                     return $q->whereHas('invoice', function ($query) {
+                         return $query->whereIn('brand', Auth::user()->brand_list());
+                     });
+                 })
+                 ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
+                 ->where('user_id', $client_user_id)->get() as $item) {
+        $pending_projects []= [
+            'project_type' => 'Press Release',
+            'id' => $item->id,
+            'form_number' => 16,
             'brand_id' => $item->invoice->brands->id,
             'invoice_id' => $item->invoice_id
         ];
@@ -2092,6 +2146,16 @@ function mark_invoice_as_paid ($invoice_id) {
                 $new_smm_form->client_id = $user->id;
                 $new_smm_form->agent_id = $invoice->sales_agent_id;
                 $new_smm_form->save();
+            }
+            elseif($service->form == 16){
+                $press_release_form = new PressReleaseForm();
+                $press_release_form->invoice_id = $invoice->id;
+                if($user_client != null){
+                    $press_release_form->user_id = $user_client->id;
+                }
+                $press_release_form->client_id = $user->id;
+                $press_release_form->agent_id = $invoice->sales_agent_id;
+                $press_release_form->save();
             }
 
 

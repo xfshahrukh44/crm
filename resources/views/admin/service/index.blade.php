@@ -113,6 +113,8 @@
                                     <span class="btn btn-primary btn-sm">Book Marketing</span>
                                     @elseif($datas->form == 15)
                                     <span class="btn btn-primary btn-sm">Social Media Marketing Form (NEW)</span>
+                                    @elseif($datas->form == 16)
+                                    <span class="btn btn-primary btn-sm">Press Release Form</span>
                                     @endif
                                 </td>
                                 <td>

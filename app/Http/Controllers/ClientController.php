@@ -6,6 +6,7 @@ use App\Models\BookMarketing;
 use App\Models\Client;
 use App\Models\Brand;
 use App\Models\NewSMM;
+use App\Models\PressReleaseForm;
 use App\Models\SeoBrief;
 use App\Models\Task;
 use App\Models\Category;
@@ -489,6 +490,18 @@ class ClientController extends Controller
                 $new_smm_form->option = $new_smm_form->client_name;
                 $new_smm_form->form_type = 15;
                 $new_smm_form->form_name = 'Social Media Marketing (NEW)';
+                array_push($data, $new_smm_form);
+            }
+        }
+        if(count(Auth()->user()->press_releases) != 0){
+            foreach(Auth()->user()->press_releases as $press_release){
+                $new_smm_form = PressReleaseForm::whereHas('invoice')->find($press_release->id);
+                if (!$new_smm_form) {
+                    continue;
+                }
+                $new_smm_form->option = $new_smm_form->client_name;
+                $new_smm_form->form_type = 16;
+                $new_smm_form->form_name = 'Press Release';
                 array_push($data, $new_smm_form);
             }
         }

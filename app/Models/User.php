@@ -221,6 +221,10 @@ class User extends Authenticatable
         return $this->hasMany(NewSMM::class, 'user_id', 'id');
     }
 
+    public function press_releases(){
+        return $this->hasMany(PressReleaseForm::class, 'user_id', 'id');
+    }
+
 
 
     public function getClient(){
