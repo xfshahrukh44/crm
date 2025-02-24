@@ -41,6 +41,7 @@ class ProductionDashboard extends Component
     public $project_detail_search_message_query = '';
 
     protected $listeners = [
+        'back' => 'back',
         'mutate' => 'mutate',
         'refresh' => 'refresh',
         'set_select2_field_value' => 'set_select2_field_value',
@@ -94,6 +95,12 @@ class ProductionDashboard extends Component
     }
 
     public function back () {
+        if ($this->history === ['production_dashboard']) {
+            $this->active_page = 'production_dashboard';
+            $this->resetPage();
+            return $this->render();
+        }
+
         array_pop($this->history);
         $this->active_page = end($this->history);
 

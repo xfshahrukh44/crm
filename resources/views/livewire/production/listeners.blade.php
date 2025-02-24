@@ -248,6 +248,13 @@
             $('#upload_files_modal').modal('show');
         });
 
+        //backspace
+        $('body').on('keyup', function(event) {
+            if (event.key === 'Backspace' || event.keyCode === 8) {
+                Livewire.emit('back');
+            }
+        });
+
         //fancybox images
         lc_lightbox('.anchor_view_image', {
             wrap_class: 'lcl_fade_oc',
