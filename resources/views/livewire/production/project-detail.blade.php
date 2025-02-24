@@ -68,13 +68,6 @@
         }
     </style>
 
-{{--    <div class="breadcrumb">--}}
-{{--        <a href="#" class="btn btn-info btn-sm mr-2" wire:click="back">--}}
-{{--            <i class="fas fa-arrow-left"></i>--}}
-{{--        </a>--}}
-{{--        <h1 class="mr-2">Project detail</h1>--}}
-{{--    </div>--}}
-{{--    <div class="separator-breadcrumb border-top"></div>--}}
     <div class="row">
         <div class="col-lg-12 col-md-12">
             {{--brand detail--}}
@@ -361,10 +354,7 @@
                                                                 download
                                                             @endif
                                                     >
-                                                        <img
-                                                            src="{{$image_src}}"
-                                                            alt="" height="64">
-{{--                                                        <span class="badge badge-dark badge-sm">.format</span>--}}
+                                                        <img src="{{$image_src}}" alt="" height="64">
                                                     </a>
                                                     <br>
                                                     <a href="{{$file_src}}" download>
