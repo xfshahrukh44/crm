@@ -349,10 +349,10 @@
                                                            data-lcl-txt="{{$actual_file_name}}"
                                                            data-lcl-author="{{$file_author}} at {{$file_timestamp}}"
                                                            data-lcl-thumb="{{$file_src}}"
-                                                            @else
-                                                                class="anchor_view_image"
-                                                                download
-                                                            @endif
+                                                        @else
+                                                            class=""
+                                                            download
+                                                        @endif
                                                     >
                                                         <img src="{{$image_src}}" alt="" height="64">
                                                     </a>
