@@ -342,7 +342,7 @@
                                                     $extension_check = in_array($extension, ['jpeg', 'jpg', 'png', 'webp', 'gif', 'avif', 'bmp']);
 
                                                     $file_src = asset('files/'.$client_file->path);
-                                                    $image_src = ($extension_check && file_exists($file_src)) ? $file_src : asset('images/file-transparent.png');
+                                                    $image_src = $extension_check ? $file_src : asset('images/file-transparent.png');
                                                     $file_name = (limitTextAtWord($client_file->name, 20)) . '.' . $extension;
                                                     $file_name = (substr($client_file->name, 0, 15)) . '....' . $extension;
                                                     $actual_file_name = ($client_file->name) . '.' . $extension;
@@ -351,14 +351,15 @@
                                                 @endphp
                                                 <div class="">
                                                     <a href="{{$file_src}}"
-                                                       @if($extension_check && file_exists($file_src))
+                                                       @if($extension_check)
                                                            class="anchor_view_image"
                                                            data-lcl-txt="{{$actual_file_name}}"
                                                            data-lcl-author="{{$file_author}} at {{$file_timestamp}}"
                                                            data-lcl-thumb="{{$file_src}}"
-                                                        @else
-                                                            download
-                                                        @endif
+                                                            @else
+                                                                class="anchor_view_image"
+                                                                download
+                                                            @endif
                                                     >
                                                         <img
                                                             src="{{$image_src}}"
