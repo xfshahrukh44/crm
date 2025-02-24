@@ -96,49 +96,49 @@
                                             <div class="row justify-content-center">
                                                 <input id="status_0" type="checkbox" wire:model="dashboard_project_status.0" hidden>
                                                 <p class="mb-0 mx-1 my-2" style="font-size: 14px;">
-                                                    <label class='badge badge{!! $dashboard_project_status[0] == 0 ? '-outline' : '' !!}-danger badge-sm' for="status_0" style="cursor: pointer;">
+                                                    <label class='badge badge{!! $dashboard_project_status[0] == 0 ? '-outline' : '' !!}-danger badge-sm {!! $dashboard_project_status[0] == 0 ? '' : ' text-white' !!}' for="status_0" style="cursor: pointer;">
                                                         Open
                                                     </label>
                                                 </p>
 
                                                 <input id="status_1" type="checkbox" wire:model="dashboard_project_status.1" hidden>
                                                 <p class="mb-0 mx-1 my-2" style="font-size: 14px;">
-                                                    <label class='badge badge{!! $dashboard_project_status[1] == 0 ? '-outline' : '' !!}-primary badge-sm' for="status_1" style="cursor: pointer;">
+                                                    <label class='badge badge{!! $dashboard_project_status[1] == 0 ? '-outline' : '' !!}-primary badge-sm {!! $dashboard_project_status[1] == 0 ? '' : ' text-white' !!}' for="status_1" style="cursor: pointer;">
                                                         Re Open
                                                     </label>
                                                 </p>
 
                                                 <input id="status_2" type="checkbox" wire:model="dashboard_project_status.2" hidden>
                                                 <p class="mb-0 mx-1 my-2" style="font-size: 14px;">
-                                                    <label class='badge badge{!! $dashboard_project_status[2] == 0 ? '-outline' : '' !!}-info badge-sm' for="status_2" style="cursor: pointer;">
+                                                    <label class='badge badge{!! $dashboard_project_status[2] == 0 ? '-outline' : '' !!}-info badge-sm {!! $dashboard_project_status[2] == 0 ? '' : ' text-white' !!}' for="status_2" style="cursor: pointer;">
                                                         Hold
                                                     </label>
                                                 </p>
 
                                                 <input id="status_3" type="checkbox" wire:model="dashboard_project_status.3" hidden>
                                                 <p class="mb-0 mx-1 my-2" style="font-size: 14px;">
-                                                    <label class='badge badge{!! $dashboard_project_status[3] == 0 ? '-outline' : '' !!}-success badge-sm' for="status_3" style="cursor: pointer;">
+                                                    <label class='badge badge{!! $dashboard_project_status[3] == 0 ? '-outline' : '' !!}-success badge-sm {!! $dashboard_project_status[3] == 0 ? '' : ' text-white' !!}' for="status_3" style="cursor: pointer;">
                                                         Completed
                                                     </label>
                                                 </p>
 
                                                 <input id="status_4" type="checkbox" wire:model="dashboard_project_status.4" hidden>
                                                 <p class="mb-0 mx-1 my-2" style="font-size: 14px;">
-                                                    <label class='badge badge{!! $dashboard_project_status[4] == 0 ? '-outline' : '' !!}-warning badge-sm' for="status_4" style="cursor: pointer;">
+                                                    <label class='badge badge{!! $dashboard_project_status[4] == 0 ? '-outline' : '' !!}-warning badge-sm {!! $dashboard_project_status[4] == 0 ? '' : ' text-white' !!}' for="status_4" style="cursor: pointer;">
                                                         In Progress
                                                     </label>
                                                 </p>
 
                                                 <input id="status_5" type="checkbox" wire:model="dashboard_project_status.5" hidden>
                                                 <p class="mb-0 mx-1 my-2" style="font-size: 14px;">
-                                                    <label class='badge badge{!! $dashboard_project_status[5] == 0 ? '-outline' : '' !!}-info badge-sm' for="status_5" style="cursor: pointer;">
+                                                    <label class='badge badge{!! $dashboard_project_status[5] == 0 ? '-outline' : '' !!}-info badge-sm {!! $dashboard_project_status[5] == 0 ? '' : ' text-white' !!}' for="status_5" style="cursor: pointer;">
                                                         Sent for Approval
                                                     </label>
                                                 </p>
 
                                                 <input id="status_6" type="checkbox" wire:model="dashboard_project_status.6" hidden>
                                                 <p class="mb-0 mx-1 my-2" style="font-size: 14px;">
-                                                    <label class='badge badge{!! $dashboard_project_status[6] == 0 ? '-outline' : '' !!}-warning badge-sm' for="status_6" style="cursor: pointer;">
+                                                    <label class='badge badge{!! $dashboard_project_status[6] == 0 ? '-outline' : '' !!}-warning badge-sm {!! $dashboard_project_status[6] == 0 ? '' : ' text-white' !!}' for="status_6" style="cursor: pointer;">
                                                         Incomplete Brief
                                                     </label>
                                                 </p>

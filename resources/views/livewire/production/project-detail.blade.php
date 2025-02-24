@@ -137,37 +137,37 @@
                                     <hr style="margin: 4px 0px 4px 0px !important;">
                                     <div class="row m-0 justify-content-center">
                                         <p class="mb-0 mx-1" style="font-size: 14px;">
-                                            <label class='badge badge{!! $project->status != 0 ? '-outline' : '' !!}-danger' wire:click="set_project_status({{$project->id}}, 0)" style="cursor: pointer;">
+                                            <label class='badge badge{!! $project->status != 0 ? '-outline' : '' !!}-danger {!! $project->status != 0 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 0)" style="cursor: pointer;">
                                                 Open
                                             </label>
                                         </p>
 
                                         <p class="mb-0 mx-1" style="font-size: 14px;">
-                                            <label class='badge badge{!! $project->status != 1 ? '-outline' : '' !!}-primary' wire:click="set_project_status({{$project->id}}, 1)" style="cursor: pointer;">
+                                            <label class='badge badge{!! $project->status != 1 ? '-outline' : '' !!}-primary {!! $project->status != 1 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 1)" style="cursor: pointer;">
                                                 Reopen
                                             </label>
                                         </p>
 
                                         <p class="mb-0 mx-1" style="font-size: 14px;">
-                                            <label class='badge badge{!! $project->status != 4 ? '-outline' : '' !!}-warning' wire:click="set_project_status({{$project->id}}, 4)" style="cursor: pointer;">
+                                            <label class='badge badge{!! $project->status != 4 ? '-outline' : '' !!}-warning {!! $project->status != 4 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 4)" style="cursor: pointer;">
                                                 In Progress
                                             </label>
                                         </p>
 
                                         <p class="mb-0 mx-1" style="font-size: 14px;">
-                                            <label class='badge badge{!! $project->status != 2 ? '-outline' : '' !!}-info' wire:click="set_project_status({{$project->id}}, 2)" style="cursor: pointer;">
+                                            <label class='badge badge{!! $project->status != 2 ? '-outline' : '' !!}-info {!! $project->status != 2 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 2)" style="cursor: pointer;">
                                                 Hold
                                             </label>
                                         </p>
 
                                         <p class="mb-0 mx-1" style="font-size: 14px;">
-                                            <label class='badge badge{!! $project->status != 6 ? '-outline' : '' !!}-warning' wire:click="set_project_status({{$project->id}}, 6)" style="cursor: pointer;">
+                                            <label class='badge badge{!! $project->status != 6 ? '-outline' : '' !!}-warning {!! $project->status != 6 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 6)" style="cursor: pointer;">
                                                 Incomplete Brief
                                             </label>
                                         </p>
 
                                         <p class="mb-0 mx-1" style="font-size: 14px;">
-                                            <label class='badge badge{!! $project->status != 3 ? '-outline' : '' !!}-success' wire:click="set_project_status({{$project->id}}, 3)" style="cursor: pointer;">
+                                            <label class='badge badge{!! $project->status != 3 ? '-outline' : '' !!}-success {!! $project->status != 3 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 3)" style="cursor: pointer;">
                                                 Completed
                                             </label>
                                         </p>
@@ -339,8 +339,10 @@
 
                                                     $temp = explode('.',$client_file->path);
                                                     $extension = end($temp);
+                                                    $extension_check = in_array($extension, ['jpeg', 'jpg', 'png', 'webp', 'gif', 'avif', 'bmp']);
 
                                                     $file_src = asset('files/'.$client_file->path);
+                                                    $image_src = ($extension_check && file_exists($file_src)) ? $file_src : asset('images/file-transparent.png');
                                                     $file_name = (limitTextAtWord($client_file->name, 20)) . '.' . $extension;
                                                     $file_name = (substr($client_file->name, 0, 15)) . '....' . $extension;
                                                     $actual_file_name = ($client_file->name) . '.' . $extension;
@@ -349,26 +351,34 @@
                                                 @endphp
                                                 <div class="">
                                                     <a href="{{$file_src}}"
-                                                       @if(in_array($extension, ['jpeg', 'jpg', 'png', 'webp', 'gif', 'avif', 'bmp']))
-                                                            class="anchor_test anchor_view_image"
-                                                            data-lcl-txt="{{$actual_file_name}}"
-                                                            data-lcl-author="{{$file_author}} at {{$file_timestamp}}"
-                                                            data-lcl-thumb="{{$file_src}}"
-                                                       @else
-                                                            class="anchor_test" download
-                                                       @endif
+                                                       @if($extension_check && file_exists($file_src))
+                                                           class="anchor_view_image"
+                                                           data-lcl-txt="{{$actual_file_name}}"
+                                                           data-lcl-author="{{$file_author}} at {{$file_timestamp}}"
+                                                           data-lcl-thumb="{{$file_src}}"
+                                                        @else
+                                                            download
+                                                        @endif
                                                     >
+                                                        <img
+                                                            src="{{$image_src}}"
+                                                            alt="" height="64">
+{{--                                                        <span class="badge badge-dark badge-sm">.format</span>--}}
+                                                    </a>
+                                                    <br>
+                                                    <a href="{{$file_src}}" download>
                                                         <span class="badge badge-dark badge-sm">#{{$client_file->id}}</span>
                                                         <br>
                                                         <span style="font-size: 10px;">
                                                             {{$file_name}}
                                                         </span>
                                                         <br>
-                                                        <span style="color: {{$color}}; font-size: 10px;">
+{{--                                                        <span style="color: {{$color}}; font-size: 10px;">--}}
+                                                        <span style="font-size: 10px;">
                                                             {{$file_author}}
                                                         </span>
                                                         <br>
-                                                        <span class="badge badge-primary badge-sm" style="font-size: 10px;">
+                                                        <span class="badge badge-primary badge-sm" style="font-size: 10px; background-color: {{$color}};">
                                                             {{$file_timestamp}}
                                                         </span>
                                                     </a>

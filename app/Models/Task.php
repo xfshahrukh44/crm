@@ -71,21 +71,21 @@ class Task extends Model
         // 4 for in_progress
         $status = $this->status;
         if($status == 0){
-            return "<span class='badge badge-danger badge-sm'>Open</span>";
+            return "<span class='badge badge-danger badge-sm text-white'>Open</span>";
         }else if($status == 1){
-            return "<span class='badge badge-primary badge-sm'>Re Open</span>";
+            return "<span class='badge badge-primary badge-sm text-white'>Re Open</span>";
         }else if($status == 2){
-            return "<span class='badge badge-info badge-sm'>Hold</span>";
+            return "<span class='badge badge-info badge-sm text-white'>Hold</span>";
         }else if($status == 3){
-            return "<span class='badge badge-success badge-sm'>Completed</span>";
+            return "<span class='badge badge-success badge-sm text-white'>Completed</span>";
         }else if($status == 4){
-            return "<span class='badge badge-warning badge-sm'>In Progress</span>";
+            return "<span class='badge badge-warning badge-sm text-white'>In Progress</span>";
         }else if($status == 5){
-            return "<span class='badge badge-info badge-sm'>Sent for Approval</span>";
+            return "<span class='badge badge-info badge-sm text-white'>Sent for Approval</span>";
         }else if($status == 6){
-            return "<span class='badge badge-warning badge-sm'>Incomplete Brief</span>";
+            return "<span class='badge badge-warning badge-sm text-white'>Incomplete Brief</span>";
         }else if($status == 7){
-            return "<span class='badge badge-info badge-sm'>Sent for QA</span>";
+            return "<span class='badge badge-info badge-sm text-white'>Sent for QA</span>";
         }
     }
 
