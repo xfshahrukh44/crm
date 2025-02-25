@@ -847,7 +847,7 @@ class SupportController extends Controller
 
     public function getMessageBySupportClientId($id, $name){
         $user = User::find($id);
-        $messages = Message::where('client_id', $id)->orderBy('id', 'asc');
+        $messages = Message::where('client_id', $id)->orderBy('created_at', 'asc');
 
         $messages->update([
             'is_read' => Carbon::now()
@@ -859,7 +859,7 @@ class SupportController extends Controller
 
     public function getMessageByManagerClientId($id, $name){
         $user = User::find($id);
-        $messages = Message::where('client_id', $id)->orderBy('id', 'asc');
+        $messages = Message::where('client_id', $id)->orderBy('created_at', 'asc');
 
         $messages->update([
             'is_read' => Carbon::now()
