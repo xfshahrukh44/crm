@@ -101,7 +101,7 @@
 
                 <div class="main-content">
                     <div class="row">
-                        <div class="col-md-12 text-center">
+                        <div class="col-md-12 text-center" style="background-color: #5fccf699;">
                             @php
                                 $brand = \App\Models\Brand::find($invoice->brand);
                             @endphp
