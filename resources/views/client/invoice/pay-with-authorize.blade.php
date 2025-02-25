@@ -7,6 +7,7 @@
     <!-- CSRF Token -->
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="google-site-verification" content="ztvhppa4266dY22ykOfFHz9Q7KMt_Mth3-UI6VWWwcU" />
 <!-- <title>{{ config('app.name', 'Kamay Backoffice') }}</title> -->
     <title>{{ config('app.name') }} - @yield('title')</title>
     <!-- Scripts -->
