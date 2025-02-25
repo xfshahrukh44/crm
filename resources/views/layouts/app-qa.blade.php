@@ -7,8 +7,9 @@
     <!-- CSRF Token -->
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="google-site-verification" content="ztvhppa4266dY22ykOfFHz9Q7KMt_Mth3-UI6VWWwcU" />
     <!-- <title>{{ config('app.name', 'Kamay Backoffice') }}</title> -->
-    <title>{{ config('app.name') }} - @yield('title')</title> 
+    <title>{{ config('app.name') }} - @yield('title')</title>
     <!-- Scripts -->
     <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('global/img/apple-icon-57x57.png') }}">
     <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('global/img/apple-icon-60x60.png') }}">
@@ -71,7 +72,7 @@
                 </div>
                 @else
                 @yield('content')
-                @endif    
+                @endif
             </div>
             <div class="flex-grow-1"></div>
             <div class="app-footer">
@@ -88,7 +89,7 @@
             </div>
         </div>
     </div>
-<!--     
+<!--
     <script src="{{ asset('global/js/vendors.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('global/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('global/js/app-menu.js') }}" type="text/javascript"></script>

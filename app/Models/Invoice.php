@@ -68,4 +68,9 @@ class Invoice extends Model
     public function merchant(){
         return $this->hasOne(Merchant::class, 'id', 'merchant_id');
     }
+
+    public function client_billing_info ()
+    {
+        return $this->hasOne(ClientBillingInfo::class);
+    }
 }

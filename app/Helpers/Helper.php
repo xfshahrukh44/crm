@@ -1709,9 +1709,9 @@ function get_authorize_keys ($merchant_id) {
     return $keys_map[$merchant_id];
 }
 
-function authorize_charge ($card_number, $exp_month, $exp_year, $cvv, $zip, $invoice_id) {
+function authorize_charge ($data) {
     try {
-        $invoice = Invoice::find($invoice_id);
+        $invoice = Invoice::find($data['invoice_id']);
         $currency = strtoupper($invoice->_currency->short_name ?? 'usd');
         $client = Client::find($invoice->client_id);
 
@@ -1728,9 +1728,9 @@ function authorize_charge ($card_number, $exp_month, $exp_year, $cvv, $zip, $inv
 
         // Create the payment data for a credit card
         $creditCard = new AnetAPI\CreditCardType();
-        $creditCard->setCardNumber($card_number);
-        $creditCard->setExpirationDate($exp_year . "-" . $exp_month);
-        $creditCard->setCardCode($cvv);
+        $creditCard->setCardNumber($data['card_number']);
+        $creditCard->setExpirationDate($data['exp_year'] . "-" . $data['exp_month']);
+        $creditCard->setCardCode($data['cvv']);
 
         // Add the payment data to a paymentType object
         $paymentOne = new AnetAPI\PaymentType();
@@ -1738,7 +1738,7 @@ function authorize_charge ($card_number, $exp_month, $exp_year, $cvv, $zip, $inv
 
         // Create order information
         $order = new AnetAPI\OrderType();
-        $order->setInvoiceNumber($invoice_id);
+        $order->setInvoiceNumber($data['invoice_id']);
 //        $order->setDescription($invoice->discription);
         $order->setDescription('DesignCRM | Invoice');
 
@@ -1747,11 +1747,20 @@ function authorize_charge ($card_number, $exp_month, $exp_year, $cvv, $zip, $inv
         $customerAddress->setFirstName($client->name);
         $customerAddress->setLastName($client->last_name);
         $customerAddress->setCompany("company");
-//        $customerAddress->setAddress("14 Main Street");
-//        $customerAddress->setCity("Pecan Springs");
-//        $customerAddress->setState("TX");
-        $customerAddress->setZip($zip);
-//        $customerAddress->setCountry("USA");
+        $customerAddress->setAddress($data['address']);
+        $customerAddress->setCity($data['city']);
+        $customerAddress->setState($data['state']);
+        $customerAddress->setZip($data['zip']);
+        $customerAddress->setCountry($data['country']);
+
+        \App\Models\ClientBillingInfo::create([
+            'invoice_id' => $invoice->id,
+            'country' => $data['country'],
+            'city' => $data['city'],
+            'state' => $data['state'],
+            'address' => $data['address'],
+            'zip_code' => $data['zip'],
+        ]);
 
         // Set the customer's identifying information
         $customerData = new AnetAPI\CustomerDataType();

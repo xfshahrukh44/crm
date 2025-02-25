@@ -3,12 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-site-verification" content="ztvhppa4266dY22ykOfFHz9Q7KMt_Mth3-UI6VWWwcU" />
 
     <!-- CSRF Token -->
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- <title>{{ config('app.name', 'Kamay Backoffice') }}</title> -->
-    <title>{{ config('app.name') }} - @yield('title')</title> 
+    <title>{{ config('app.name') }} - @yield('title')</title>
     <!-- Scripts -->
     <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('global/img/apple-icon-57x57.png') }}">
     <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('global/img/apple-icon-60x60.png') }}">
@@ -109,9 +110,9 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
-   
+
     <script src="{{ asset('newglobal/js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ asset('newglobal/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('newglobal/js/perfect-scrollbar.min.js') }}"></script>

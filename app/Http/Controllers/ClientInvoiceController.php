@@ -48,13 +48,29 @@ class ClientInvoiceController extends Controller
             'exp_year' => 'required',
             'cvv' => 'required',
             'zip' => 'required',
+            'address' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'country' => 'required',
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->with('error', $validator->errors()->first());
         }
 
-        $authorize_charge_res = authorize_charge($request->get('card_number'), $request->get('exp_month'), $request->get('exp_year'), $request->get('cvv'), $request->get('zip'), $id);
+        $authorize_charge_res = authorize_charge([
+            'card_number' => $request->get('card_number'),
+            'exp_month' => $request->get('exp_month'),
+            'exp_year' => $request->get('exp_year'),
+            'cvv' => $request->get('cvv'),
+            'zip' => $request->get('zip'),
+            'invoice_id' => $id,
+            'address' => $request->get('address'),
+            'city' => $request->get('city'),
+            'state' => $request->get('state'),
+            'country' => $request->get('country')
+        ]);
+
         if ($authorize_charge_res['success'] == true) {
             $invoice->authorize_transaction_id = $authorize_charge_res['data']['transaction_id'];
             $invoice->payment_status = 2;
