@@ -6,6 +6,11 @@
         input[type="file"] {
             display: block !important;
         }
+
+        button.nav-link {
+            border: 1px solid #2977c4 !important;
+            border-radius: 0px !important;
+        }
     </style>
 @endsection
 
@@ -25,7 +30,7 @@
                         @if(!in_array($forms->form_type, $show_service_forms))
                             @continue
                         @endif
-                        <button class="nav-link {{ $count==0 ? 'active' : ''}}" id="form-brief-tab-{{$forms->invoice->invoice_number}}-{{$key}}"
+                        <button class="nav-link mx-1 {{ $count==0 ? 'active' : ''}}" id="form-brief-tab-{{$forms->invoice->invoice_number}}-{{$key}}"
                                 data-bs-toggle="tab" data-bs-target="#form-brief-{{$forms->invoice->invoice_number}}-{{$key}}" type="button" role="tab" aria-controls="form-brief-{{$forms->invoice->invoice_number}}-{{$key}}"
                                 aria-selected="true">{{$forms->form_name}} Brief INV#{{$forms->invoice->invoice_number}}
                         </button>
