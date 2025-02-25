@@ -22,7 +22,7 @@
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="invoice" role="tabpanel" aria-labelledby="invoice-tab">
                         <div class="d-sm-flex mb-5" data-view="print">
-                            <img src="{{ asset($_getBrand->logo) }}" width="150"/>
+                            <img style="background-color: #5fccf699;" src="{{ asset($_getBrand->logo) }}" width="150"/>
                             <span class="m-auto"></span>
                             <button class="btn btn-primary mb-sm-0 mb-3 print-invoice" onclick="window.print()">Print Invoice</button>
                         </div>
