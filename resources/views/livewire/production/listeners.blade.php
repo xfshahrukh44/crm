@@ -250,7 +250,7 @@
 
         //backspace
         $('body').on('keyup', function(event) {
-            if (event.key === 'Backspace' || event.keyCode === 8) {
+            if ((event.key === 'Backspace' || event.keyCode === 8) && $(":focus").length == 0) {
                 Livewire.emit('back');
             }
         });
