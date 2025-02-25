@@ -317,7 +317,7 @@
                                     </span>
                                 </div>
                                 @if(count($files))
-                                    <div class="col-md-12 px-0" style="border: 1px solid #b7b7b7; border-radius: 0px 0px 8px 8px; background-color: #F3F3F3;">
+                                    <div class="col-md-12 px-0" style="border: 1px solid #b7b7b7; border-radius: 0px 0px 8px 8px;">
                                         <div class="row m-0 px-3 py-2"
                                              style="display: flex; flex-wrap: nowrap; /* Prevents wrapping to the next line */ overflow-x: auto; /* Enables horizontal scrolling */ gap: 10px; /* Adds spacing between items */ padding-bottom: 10px;"
                                         >

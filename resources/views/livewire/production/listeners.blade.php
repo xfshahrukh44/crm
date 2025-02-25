@@ -255,6 +255,24 @@
             }
         });
 
+        //reload
+        $('body').keydown(function(event) {
+            if (event.ctrlKey && (event.key === 'r' || event.key === 'R')) {
+                event.preventDefault(); // Prevents the default refresh action
+
+                Livewire.emit('refresh');
+            }
+        });
+
+        //ctrl_f
+        $('body').keydown(function(event) {
+            if (event.ctrlKey && (event.key === 'f' || event.key === 'F')) {
+                event.preventDefault(); // Prevents the default refresh action
+
+                $('.ctrl_f').focus();
+            }
+        });
+
         //fancybox images
         lc_lightbox('.anchor_view_image', {
             wrap_class: 'lcl_fade_oc',

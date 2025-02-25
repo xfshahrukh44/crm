@@ -158,7 +158,7 @@
                                                     <div class="row m-0 p-0">
                                                         <div class="col-md-12 m-0 p-0">
 {{--                                                            <input id="input_dashboard_search" type="text" placeholder="Press enter to search" style="width: 100%; font-size: 12px;" value="{{$dashboard_search}}" {!! $dashboard_search !== '' ? 'autofocus' : '' !!}>--}}
-                                                            <input id="input_dashboard_search" type="text" placeholder="Press enter to search" style="width: 100%; font-size: 12px;" value="{{$dashboard_search}}">
+                                                            <input id="input_dashboard_search" class="ctrl_f" type="text" placeholder="Press enter to search" style="width: 100%; font-size: 12px;" value="{{$dashboard_search}}" autocomplete="false">
                                                         </div>
                                                         @if($dashboard_search !== '')
                                                             <div class="col-md-1 m-0 p-0" style="position: absolute; right: -9px;">
