@@ -101,11 +101,11 @@
 
                 <div class="main-content">
                     <div class="row">
-                        <div class="col-md-12 text-center" style="background-color: #5fccf699;">
+                        <div class="col-md-12 text-center">
                             @php
                                 $brand = \App\Models\Brand::find($invoice->brand);
                             @endphp
-                            <img style="max-width: 300px !important;" src="{{asset($brand->logo)}}" alt="">
+                            <img style="max-width: 300px !important; background-color: #5fccf699; padding: 10px 0px; border-radius: 10px;" src="{{asset($brand->logo)}}" alt="">
                         </div>
                         <div class="col-md-12">
                             @if($invoice->payment_status == 2)
