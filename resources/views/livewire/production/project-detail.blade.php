@@ -70,6 +70,14 @@
         .file_wrapper:hover {
             background-color: #F3F3F3;
         }
+
+        .hover_box_shadow {
+            transition: box-shadow 0.2s ease-in;
+        }
+
+        .hover_box_shadow:hover {
+            box-shadow: 0px 0px 5px 1px #b7b7b7;
+        }
     </style>
 
     <div class="row">
@@ -107,20 +115,20 @@
 
                             <div class="row mt-2 text-center m-0">
                                 <div class="col">
-                                    <a href="#" wire:click="back">
-                                        <span class="badge badge-dark badge-sm">
+                                    <a href="javascript:void(0);" wire:click="back">
+                                        <span class="badge badge-dark badge-sm hover_box_shadow">
                                             <i class="fas fa-arrow-left"></i>
                                             Back
                                         </span>
                                     </a>
-                                    <a href="#" wire:click="refresh">
-                                        <span class="badge badge-success badge-sm">
+                                    <a href="javascript:void(0);" wire:click="refresh">
+                                        <span class="badge badge-success badge-sm hover_box_shadow">
                                             <i class="fas fa-arrows-rotate"></i>
                                             Refresh
                                         </span>
                                     </a>
                                     <a href="{{ route('production.form', [ 'form_id' => $project->projects->form_id , 'check' => $project->projects->form_checker, 'id' => $project->projects->id]) }}" target="_blank">
-                                        <span class="badge badge-info badge-sm">
+                                        <span class="badge badge-info badge-sm hover_box_shadow">
                                             <i class="fas fa-list"></i>
                                             View form
                                         </span>
@@ -134,37 +142,37 @@
                                     <hr style="margin: 4px 0px 4px 0px !important;">
                                     <div class="row m-0 justify-content-center">
                                         <p class="mb-0 mx-1" style="font-size: 14px;">
-                                            <label class='badge badge{!! $project->status != 0 ? '-outline' : '' !!}-danger {!! $project->status != 0 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 0)" style="cursor: pointer;">
+                                            <label class='hover_box_shadow badge badge{!! $project->status != 0 ? '-outline' : '' !!}-danger {!! $project->status != 0 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 0)" style="cursor: pointer;">
                                                 Open
                                             </label>
                                         </p>
 
                                         <p class="mb-0 mx-1" style="font-size: 14px;">
-                                            <label class='badge badge{!! $project->status != 1 ? '-outline' : '' !!}-primary {!! $project->status != 1 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 1)" style="cursor: pointer;">
+                                            <label class='hover_box_shadow badge badge{!! $project->status != 1 ? '-outline' : '' !!}-primary {!! $project->status != 1 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 1)" style="cursor: pointer;">
                                                 Reopen
                                             </label>
                                         </p>
 
                                         <p class="mb-0 mx-1" style="font-size: 14px;">
-                                            <label class='badge badge{!! $project->status != 4 ? '-outline' : '' !!}-warning {!! $project->status != 4 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 4)" style="cursor: pointer;">
+                                            <label class='hover_box_shadow badge badge{!! $project->status != 4 ? '-outline' : '' !!}-warning {!! $project->status != 4 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 4)" style="cursor: pointer;">
                                                 In Progress
                                             </label>
                                         </p>
 
                                         <p class="mb-0 mx-1" style="font-size: 14px;">
-                                            <label class='badge badge{!! $project->status != 2 ? '-outline' : '' !!}-info {!! $project->status != 2 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 2)" style="cursor: pointer;">
+                                            <label class='hover_box_shadow badge badge{!! $project->status != 2 ? '-outline' : '' !!}-info {!! $project->status != 2 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 2)" style="cursor: pointer;">
                                                 Hold
                                             </label>
                                         </p>
 
                                         <p class="mb-0 mx-1" style="font-size: 14px;">
-                                            <label class='badge badge{!! $project->status != 6 ? '-outline' : '' !!}-warning {!! $project->status != 6 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 6)" style="cursor: pointer;">
+                                            <label class='hover_box_shadow badge badge{!! $project->status != 6 ? '-outline' : '' !!}-warning {!! $project->status != 6 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 6)" style="cursor: pointer;">
                                                 Incomplete Brief
                                             </label>
                                         </p>
 
                                         <p class="mb-0 mx-1" style="font-size: 14px;">
-                                            <label class='badge badge{!! $project->status != 3 ? '-outline' : '' !!}-success {!! $project->status != 3 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 3)" style="cursor: pointer;">
+                                            <label class='hover_box_shadow badge badge{!! $project->status != 3 ? '-outline' : '' !!}-success {!! $project->status != 3 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 3)" style="cursor: pointer;">
                                                 Completed
                                             </label>
                                         </p>
