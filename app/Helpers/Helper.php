@@ -1787,6 +1787,7 @@ function authorize_charge ($data) {
         $transactionRequestType = new AnetAPI\TransactionRequestType();
         $transactionRequestType->setTransactionType("authCaptureTransaction");
         $transactionRequestType->setAmount($invoice->amount);
+        $transactionRequestType->setCustomerIP($data['end_user_ip']);
         $transactionRequestType->setOrder($order);
         $transactionRequestType->setPayment($paymentOne);
         $transactionRequestType->setBillTo($customerAddress);

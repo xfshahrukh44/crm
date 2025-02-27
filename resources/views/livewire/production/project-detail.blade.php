@@ -346,7 +346,7 @@
                                                     $file_author = ($client_file->user->name ?? '') . ' ' . ($client_file->user->last_name ?? '');
                                                     $file_timestamp = \Carbon\Carbon::parse($client_file->created_at)->format('d F Y, h:i A');
                                                 @endphp
-                                                <div class=" file_wrapper">
+                                                <div class="file_wrapper">
                                                     <a href="{{$file_src}}"
                                                        @if($extension_check)
                                                            class="anchor_view_image"

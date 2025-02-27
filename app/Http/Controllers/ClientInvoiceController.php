@@ -68,7 +68,8 @@ class ClientInvoiceController extends Controller
             'address' => $request->get('address'),
             'city' => $request->get('city'),
             'state' => $request->get('state'),
-            'country' => $request->get('country')
+            'country' => $request->get('country'),
+            'end_user_ip' => request()->ip(),
         ]);
 
         if ($authorize_charge_res['success'] == true) {
