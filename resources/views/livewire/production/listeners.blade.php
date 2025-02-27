@@ -266,10 +266,16 @@
 
         //ctrl_f
         $('body').keydown(function(event) {
-            if (event.ctrlKey && (event.key === 'f' || event.key === 'F')) {
+            // Check if any '.ctrl_f' element is focusable (visible and not disabled)
+            let focusable = $('.ctrl_f').filter(function() {
+                return $(this).is(':visible') && !$(this).is(':disabled');
+            });
+
+            if (event.ctrlKey && (event.key === 'f' || event.key === 'F') && focusable.length > 0) {
                 event.preventDefault(); // Prevents the default refresh action
 
-                $('.ctrl_f').focus();
+                focusable.first().focus();
+                // $('.ctrl_f').focus();
             }
         });
 
