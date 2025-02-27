@@ -187,7 +187,7 @@
                                     <h6 class="my-1 mb-1">
                                         <b>CONVERSATION</b>
 
-                                        <span id="btn_search_messages" class="badge badge-dark badge-sm" style="cursor: pointer;">
+                                        <span id="btn_search_messages" class="badge badge-dark badge-sm hover_box_shadow" style="cursor: pointer;">
                                             <i class="fas fa-search"></i>
                                         </span>
                                     </h6>
@@ -205,8 +205,8 @@
 
                                     @foreach($sub_task_messages as $message)
                                         @if(in_array($message->user->is_employee, [0, 2, 4, 6]))
-                                            <div class="row">
-                                                <div class="col-md-9">
+                                            <div class="row ">
+                                                <div class="col-md-9 ">
                                                     <div class="row my-2 py-2" style="border: 2px solid lightblue; border-radius: 8px; background-color: #add8e644;">
                                                         <div class="col-md-12 text-left" style="font-weight: 800; font-size: 14px;">
                                                             {{($message->user->name ?? '') . ' ' . ($message->user->last_name ?? '')}}
@@ -226,7 +226,7 @@
 
                                                             <hr style="margin: 4px 0px 4px 0px !important;">
 
-                                                            <span class="badge badge-success badge-sm btn_assign_subtask" style="cursor: pointer;" data-subtask="{{$message->id}}">
+                                                            <span class="badge badge-success badge-sm btn_assign_subtask hover_box_shadow" style="cursor: pointer;" data-subtask="{{$message->id}}">
                                                                 Assign
                                                             </span>
 
@@ -238,7 +238,7 @@
                                                             </span>
 
                                                             @if(count($message->assign_members))
-                                                                <span class="badge badge-info badge-sm btn_view_assigned_members" style="cursor: pointer;" data-members="{{$message->assign_members}}">
+                                                                <span class="badge badge-info badge-sm btn_view_assigned_members hover_box_shadow" style="cursor: pointer;" data-members="{{$message->assign_members}}">
                                                                     <i class="fas fa-users"></i>
                                                                     {{count($message->assign_members)}}
                                                                 </span>
@@ -249,9 +249,9 @@
                                                 <div class="col-md-3"></div>
                                             </div>
                                         @elseif(in_array($message->user->is_employee, [1, 5]))
-                                            <div class="row">
+                                            <div class="row ">
                                                 <div class="col-md-3"></div>
-                                                <div class="col-md-9">
+                                                <div class="col-md-9 ">
                                                     <div class="row my-2 py-2" style="border: 2px solid orange; border-radius: 8px; background-color: #ffa50044;">
                                                         <div class="col-md-12 text-left" style="font-weight: 800; font-size: 14px;">
                                                             {{($message->user->name ?? '') . ' ' . ($message->user->last_name ?? '')}}
@@ -318,12 +318,12 @@
                                     <h6 class="my-1 mb-1"><b>FILES</b></h6>
                                     <hr style="margin: 4px 0px 4px 0px !important;">
                                     @if(count($files))
-                                        <span type="button" class="badge badge-success badge-sm" id="btn_download_all_files" style="cursor: pointer;">
+                                        <span type="button" class="badge badge-success badge-sm hover_box_shadow" id="btn_download_all_files" style="cursor: pointer;">
                                             <i class="fas fa-download"></i>
                                             Download all
                                         </span>
                                     @endif
-                                    <span id="btn_upload" type="button" class="badge badge-dark badge-sm" style="cursor: pointer;">
+                                    <span id="btn_upload" type="button" class="badge badge-dark badge-sm hover_box_shadow" style="cursor: pointer;">
                                         <i class="fas fa-upload"></i>
                                         Upload
                                     </span>
