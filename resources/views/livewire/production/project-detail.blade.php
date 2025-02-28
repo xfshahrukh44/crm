@@ -78,6 +78,11 @@
         .hover_box_shadow:hover {
             box-shadow: 0px 0px 5px 1px #b7b7b7;
         }
+
+        .badge-sm {
+            border-radius: 0px;
+            padding: 4px 4px;
+        }
     </style>
 
     <div class="row">
@@ -96,7 +101,7 @@
                                     {{ $project->brand->name }}
                                 </span>
 
-                                <span class="badge badge-dark badge-sm mx-1">
+                                <span class="badge badge-dark badge-sm">
                                     {{ implode('', array_map(function($v) { return $v[0] . '.'; }, explode(' ', $project->category->name))) }}
                                 </span>
                             </div>
@@ -137,42 +142,42 @@
                             </div>
 
                             <div class="row mt-2">
-                                <div class="col-md-12 py-1" style="border: 1px solid #b7b7b7; border-radius: 8px; background-color: #F3F3F3;">
+                                <div class="col-md-12 py-1" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
                                     <h6 class="mb-0"><b>STATUS</b></h6>
                                     <hr style="margin: 4px 0px 4px 0px !important;">
                                     <div class="row m-0 justify-content-center">
                                         <p class="mb-0 mx-1" style="font-size: 14px;">
-                                            <label class='hover_box_shadow badge badge{!! $project->status != 0 ? '-outline' : '' !!}-danger {!! $project->status != 0 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 0)" style="cursor: pointer;">
+                                            <label class='hover_box_shadow badge badge-sm badge{!! $project->status != 0 ? '-outline' : '' !!}-danger {!! $project->status != 0 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 0)" style="cursor: pointer;">
                                                 Open
                                             </label>
                                         </p>
 
                                         <p class="mb-0 mx-1" style="font-size: 14px;">
-                                            <label class='hover_box_shadow badge badge{!! $project->status != 1 ? '-outline' : '' !!}-primary {!! $project->status != 1 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 1)" style="cursor: pointer;">
+                                            <label class='hover_box_shadow badge badge-sm badge{!! $project->status != 1 ? '-outline' : '' !!}-primary {!! $project->status != 1 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 1)" style="cursor: pointer;">
                                                 Reopen
                                             </label>
                                         </p>
 
                                         <p class="mb-0 mx-1" style="font-size: 14px;">
-                                            <label class='hover_box_shadow badge badge{!! $project->status != 4 ? '-outline' : '' !!}-warning {!! $project->status != 4 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 4)" style="cursor: pointer;">
+                                            <label class='hover_box_shadow badge badge-sm badge{!! $project->status != 4 ? '-outline' : '' !!}-warning {!! $project->status != 4 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 4)" style="cursor: pointer;">
                                                 In Progress
                                             </label>
                                         </p>
 
                                         <p class="mb-0 mx-1" style="font-size: 14px;">
-                                            <label class='hover_box_shadow badge badge{!! $project->status != 2 ? '-outline' : '' !!}-info {!! $project->status != 2 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 2)" style="cursor: pointer;">
+                                            <label class='hover_box_shadow badge badge-sm badge{!! $project->status != 2 ? '-outline' : '' !!}-info {!! $project->status != 2 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 2)" style="cursor: pointer;">
                                                 Hold
                                             </label>
                                         </p>
 
                                         <p class="mb-0 mx-1" style="font-size: 14px;">
-                                            <label class='hover_box_shadow badge badge{!! $project->status != 6 ? '-outline' : '' !!}-warning {!! $project->status != 6 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 6)" style="cursor: pointer;">
+                                            <label class='hover_box_shadow badge badge-sm badge{!! $project->status != 6 ? '-outline' : '' !!}-warning {!! $project->status != 6 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 6)" style="cursor: pointer;">
                                                 Incomplete Brief
                                             </label>
                                         </p>
 
                                         <p class="mb-0 mx-1" style="font-size: 14px;">
-                                            <label class='hover_box_shadow badge badge{!! $project->status != 3 ? '-outline' : '' !!}-success {!! $project->status != 3 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 3)" style="cursor: pointer;">
+                                            <label class='hover_box_shadow badge badge-sm badge{!! $project->status != 3 ? '-outline' : '' !!}-success {!! $project->status != 3 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 3)" style="cursor: pointer;">
                                                 Completed
                                             </label>
                                         </p>
@@ -183,12 +188,12 @@
                             <hr style="margin: 14px 0px 12px 0px !important;">
 
                             <div class="row mt-2">
-                                <div class="col-md-12" style="border: 1px solid #b7b7b7; border-radius: 8px 8px 0px 0px; background-color: #F3F3F3;">
+                                <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
                                     <h6 class="my-1 mb-1">
                                         <b>CONVERSATION</b>
 
                                         <span id="btn_search_messages" class="badge badge-dark badge-sm hover_box_shadow" style="cursor: pointer;">
-                                            <i class="fas fa-search"></i>
+                                            <i class="fas fa-search m-auto"></i>
                                         </span>
                                     </h6>
                                 </div>
@@ -298,10 +303,10 @@
                                     @endif
                                     {{--end search message info--}}
                                 </div>
-                                <div class="col-md-11 px-0" style="border: 1px solid #b7b7b7; border-radius: 0px 0px 0px 8px;">
+                                <div class="col-md-11 px-0" style="border: 1px solid #b7b7b7;">
                                     <textarea class="form-control" name="" id="textarea_send_message" cols="30" rows="1" placeholder="Type message..."></textarea>
                                 </div>
-                                <div class="col-md-1 px-0" style="background-color: #0076c2; border-radius: 0px 0px 8px 0px;">
+                                <div class="col-md-1 px-0" style="background-color: #0076c2;">
                                     <button class="btn btn-block btn-primary" id="btn_send_message" data-project="{{$project->id}}">
                                         Send
                                     </button>
@@ -314,22 +319,22 @@
                                 $files = $project->client_files()->whereHas('user')->get();
                             @endphp
                             <div class="row">
-                                <div class="col-md-12 py-1" style="border: 1px solid #b7b7b7; border-radius: 8px 8px 0px 0px; background-color: #F3F3F3;">
+                                <div class="col-md-12 py-1" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
                                     <h6 class="my-1 mb-1"><b>FILES</b></h6>
                                     <hr style="margin: 4px 0px 4px 0px !important;">
                                     @if(count($files))
-                                        <span type="button" class="badge badge-success badge-sm hover_box_shadow" id="btn_download_all_files" style="cursor: pointer;">
+                                        <span type="button" class="badge badge-success badge-sm hover_box_shadow" id="btn_download_all_files" style="cursor: pointer; margin: 2px 0px;">
                                             <i class="fas fa-download"></i>
                                             Download all
                                         </span>
                                     @endif
-                                    <span id="btn_upload" type="button" class="badge badge-dark badge-sm hover_box_shadow" style="cursor: pointer;">
+                                    <span id="btn_upload" type="button" class="badge badge-dark badge-sm hover_box_shadow" style="cursor: pointer; margin: 2px 0px;">
                                         <i class="fas fa-upload"></i>
                                         Upload
                                     </span>
                                 </div>
                                 @if(count($files))
-                                    <div class="col-md-12 px-0" style="border: 1px solid #b7b7b7; border-radius: 0px 0px 8px 8px;">
+                                    <div class="col-md-12 px-0" style="border: 1px solid #b7b7b7;">
                                         <div class="row m-0 px-3 py-2"
                                              style="display: flex; flex-wrap: nowrap; /* Prevents wrapping to the next line */ overflow-x: auto; /* Enables horizontal scrolling */ gap: 10px; /* Adds spacing between items */ padding-bottom: 10px;"
                                         >

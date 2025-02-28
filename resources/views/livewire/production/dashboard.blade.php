@@ -74,6 +74,11 @@
         .hover_box_shadow:hover {
             box-shadow: 0px 0px 5px 1px #b7b7b7;
         }
+
+        .badge-sm {
+            border-radius: 0px;
+            padding: 4px 4px;
+        }
     </style>
 
 {{--    <div class="breadcrumb">--}}
@@ -91,7 +96,7 @@
                     <div class="row text-center mb-4">
                         <div class="col-md-8 offset-md-2">
                             <div class="row my-4">
-                                <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3; border-radius: 8px;">
+                                <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
                                     <div class="row">
                                         <div class="col-md-12" style="font-size: 18px;" id="header2">
 {{--                                            <a href="#" wire:click="back">--}}
@@ -103,49 +108,49 @@
                                         <div class="col-md-12" style="font-size: 16px;">
                                             <div class="row justify-content-center">
                                                 <input id="status_0" type="checkbox" wire:model="dashboard_project_status.0" hidden>
-                                                <p class="mb-0 mx-1 my-2" style="font-size: 14px;">
+                                                <p class="mb-0 my-2" style="font-size: 14px; margin: 0px 2px;">
                                                     <label class='hover_box_shadow badge badge{!! $dashboard_project_status[0] == 0 ? '-outline' : '' !!}-danger badge-sm {!! $dashboard_project_status[0] == 0 ? '' : ' text-white' !!}' for="status_0" style="cursor: pointer;">
                                                         Open
                                                     </label>
                                                 </p>
 
                                                 <input id="status_1" type="checkbox" wire:model="dashboard_project_status.1" hidden>
-                                                <p class="mb-0 mx-1 my-2" style="font-size: 14px;">
+                                                <p class="mb-0 my-2" style="font-size: 14px; margin: 0px 2px;">
                                                     <label class='hover_box_shadow badge badge{!! $dashboard_project_status[1] == 0 ? '-outline' : '' !!}-primary badge-sm {!! $dashboard_project_status[1] == 0 ? '' : ' text-white' !!}' for="status_1" style="cursor: pointer;">
                                                         Re Open
                                                     </label>
                                                 </p>
 
                                                 <input id="status_2" type="checkbox" wire:model="dashboard_project_status.2" hidden>
-                                                <p class="mb-0 mx-1 my-2" style="font-size: 14px;">
+                                                <p class="mb-0 my-2" style="font-size: 14px; margin: 0px 2px;">
                                                     <label class='hover_box_shadow badge badge{!! $dashboard_project_status[2] == 0 ? '-outline' : '' !!}-info badge-sm {!! $dashboard_project_status[2] == 0 ? '' : ' text-white' !!}' for="status_2" style="cursor: pointer;">
                                                         Hold
                                                     </label>
                                                 </p>
 
                                                 <input id="status_3" type="checkbox" wire:model="dashboard_project_status.3" hidden>
-                                                <p class="mb-0 mx-1 my-2" style="font-size: 14px;">
+                                                <p class="mb-0 my-2" style="font-size: 14px; margin: 0px 2px;">
                                                     <label class='hover_box_shadow badge badge{!! $dashboard_project_status[3] == 0 ? '-outline' : '' !!}-success badge-sm {!! $dashboard_project_status[3] == 0 ? '' : ' text-white' !!}' for="status_3" style="cursor: pointer;">
                                                         Completed
                                                     </label>
                                                 </p>
 
                                                 <input id="status_4" type="checkbox" wire:model="dashboard_project_status.4" hidden>
-                                                <p class="mb-0 mx-1 my-2" style="font-size: 14px;">
+                                                <p class="mb-0 my-2" style="font-size: 14px; margin: 0px 2px;">
                                                     <label class='hover_box_shadow badge badge{!! $dashboard_project_status[4] == 0 ? '-outline' : '' !!}-warning badge-sm {!! $dashboard_project_status[4] == 0 ? '' : ' text-white' !!}' for="status_4" style="cursor: pointer;">
                                                         In Progress
                                                     </label>
                                                 </p>
 
                                                 <input id="status_5" type="checkbox" wire:model="dashboard_project_status.5" hidden>
-                                                <p class="mb-0 mx-1 my-2" style="font-size: 14px;">
+                                                <p class="mb-0 my-2" style="font-size: 14px; margin: 0px 2px;">
                                                     <label class='hover_box_shadow badge badge{!! $dashboard_project_status[5] == 0 ? '-outline' : '' !!}-info badge-sm {!! $dashboard_project_status[5] == 0 ? '' : ' text-white' !!}' for="status_5" style="cursor: pointer;">
                                                         Sent for Approval
                                                     </label>
                                                 </p>
 
                                                 <input id="status_6" type="checkbox" wire:model="dashboard_project_status.6" hidden>
-                                                <p class="mb-0 mx-1 my-2" style="font-size: 14px;">
+                                                <p class="mb-0 my-2" style="font-size: 14px; margin: 0px 2px;">
                                                     <label class='hover_box_shadow badge badge{!! $dashboard_project_status[6] == 0 ? '-outline' : '' !!}-warning badge-sm {!! $dashboard_project_status[6] == 0 ? '' : ' text-white' !!}' for="status_6" style="cursor: pointer;">
                                                         Incomplete Brief
                                                     </label>
@@ -153,7 +158,7 @@
                                             </div>
                                             <div class="row justify-content-center mx-2">
                                                 <div class="m-0 p-0 col-md-8 offset-md-2">
-                                                    <select name="" id="" class.old="form-control" wire:model="dashboard_category_id" style="width: 100%; font-size: 12px;">
+                                                    <select name="" id="" class.old="form-control" wire:model="dashboard_category_id" style="width: 100%; font-size: 12px; border-radius: 0px;">
                                                         <option value="All">All departments</option>
                                                         @foreach(Auth()->user()->category as $category)
                                                             <option value="{{ $category->id }}" @if(request()->get('category') != null) {{ (request()->get('category') == $category->id ? 'selected' : ' ') }} @endif>{{ $category->name }}</option>
@@ -166,7 +171,7 @@
                                                     <div class="row m-0 p-0">
                                                         <div class="col-md-12 m-0 p-0">
 {{--                                                            <input id="input_dashboard_search" type="text" placeholder="Press enter to search" style="width: 100%; font-size: 12px;" value="{{$dashboard_search}}" {!! $dashboard_search !== '' ? 'autofocus' : '' !!}>--}}
-                                                            <input id="input_dashboard_search" class="ctrl_f" type="text" placeholder="Press enter to search" style="width: 100%; font-size: 12px;" value="{{$dashboard_search}}" autocomplete="false">
+                                                            <input id="input_dashboard_search" class="ctrl_f" type="text" placeholder="Press enter to search" style="width: 100%; font-size: 12px; border-radius: 0px; border: 1px solid grey;" value="{{$dashboard_search}}" autocomplete="false">
                                                         </div>
                                                         @if($dashboard_search !== '')
                                                             <div class="col-md-1 m-0 p-0" style="position: absolute; right: -9px;">
@@ -181,9 +186,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-10 offset-md-1 mt-4 mb-4">
+                                        <div class="col-md-10 offset-md-1 mt-2 mb-4">
                                             @foreach($current_projects as $project)
-                                                <div class="row p-1 my-2 pt-2 px-2 hover_box_shadow" style="border: 1px solid #b7b7b7; border-radius: 8px; cursor: pointer;"
+                                                <div class="row my-2 hover_box_shadow" style="border: 1px solid #b7b7b7; cursor: pointer; padding: 8px; padding-bottom: 6px; padding-top: 12px;"
                                                      wire:click="set_active_page('project_detail-{{$project->id}}-{{$current_projects->currentPage()}}')">
                                                     <div class="col-md-10">
                                                         <div class="row justify-content-start">
