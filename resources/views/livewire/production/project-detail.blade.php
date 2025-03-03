@@ -375,7 +375,7 @@
                                                     <br>
 {{--                                                    <a href="{{$file_src}}" download>--}}
                                                         <span class="badge badge-dark badge-sm">#{{$client_file->id}}</span>
-                                                        <a href="{{$file_src}}">
+                                                        <a href="{{$file_src}}" download>
                                                             <span class="badge badge-success badge-sm" style="font-size: 10px; cursor: pointer;">
                                                                 <i class="fas fa-download"></i>
                                                             </span>
