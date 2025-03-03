@@ -2,12 +2,8 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\CRMNotification;
-use App\Models\ProductionMemberAssign;
-use App\Models\Project;
 use App\Models\SubTask;
 use App\Models\Task;
-use App\Models\TaskStatusChangedLog;
 use App\Models\User;
 use App\Notifications\TaskNotification;
 use Carbon\Carbon;
@@ -37,6 +33,7 @@ class ProductionDashboard extends Component
     public $dashboard_category_id = 'All';
     public $dashboard_search = '';
     public $dashboard_current_page = null;
+    public $dashboard_persistent_pagination = false;
 
     public $project_detail_search_message_query = '';
 
@@ -95,6 +92,9 @@ class ProductionDashboard extends Component
     }
 
     public function back () {
+        $this->dashboard_persistent_pagination = (bool) str_contains(end($this->history), 'project_detail');
+
+        //prevent back with one page in history
         if ($this->history === ['production_dashboard']) {
             $this->active_page = 'production_dashboard';
             $this->resetPage();
@@ -116,13 +116,7 @@ class ProductionDashboard extends Component
         if ($this->active_page == 'production_dashboard') {
             return $this->production_dashboard();
         } else if (str_contains($this->active_page, 'project_detail')) {
-            $slug = explode('-', str_replace('project_detail-', '', $this->active_page));
-
-            //persistent pagination
-            $this->dashboard_current_page = (intval($slug[1]) != 1) ? intval($slug[1]) : null;
-
-            $project_id = intval($slug[0]);
-            return $this->project_detail($project_id);
+            return $this->project_detail(intval(str_replace('project_detail-', '', $this->active_page)));
         } else {
             return redirect()->route('login');
         }
@@ -206,8 +200,11 @@ class ProductionDashboard extends Component
             ->paginate(8);
 
         //persistent pagination
-        $this->setPage((!is_null($this->dashboard_current_page) ? $this->dashboard_current_page : 1), 'page');
-        $this->dashboard_current_page = !is_null($this->dashboard_current_page) ? null : 1;
+        if ($this->dashboard_persistent_pagination) {
+            $this->setPage($this->dashboard_current_page, 'page');
+            $this->dashboard_persistent_pagination = false;
+        }
+        $this->dashboard_current_page = $current_projects->currentPage();
 
         //focus search input
         if ($this->dashboard_search !== '') {
@@ -250,16 +247,17 @@ class ProductionDashboard extends Component
     }
 
     public function set_project_status ($project_id, $status) {
-        $task = Task::find($project_id);
+        $task = DB::table('tasks')->where('id', $project_id)->first();
         if ($task->status == $status) {
             return $this->render();
         }
 
-        $user = $task->user;
+        $user = User::find($task->user_id);
+        $project = DB::table('projects')->where('id', $task->project_id)->first();
 
         //if task status changed create logs
         if ($task && $task->status != $status) {
-            TaskStatusChangedLog::create([
+            DB::table('task_status_changed_logs')->insert([
                 'task_id' => $task->id,
                 'user_id' => auth()->id() ?? null,
                 'column' => 'status',
@@ -268,13 +266,12 @@ class ProductionDashboard extends Component
             ]);
         }
 
-        $task->status = $status;
-        $task->save();
+        DB::table('tasks')->where('id', $project_id)->update(['status' => $status]);
         $assignData = [
             'id' => auth()->user()->id,
             'task_id' => $task->id,
             'name' => auth()->user()->name . ' ' . auth()->user()->last_name,
-            'text' => $task->projects->name . " Marked as " . $status,
+            'text' => $project->name . " Marked as " . $status,
             'details' => '',
         ];
 
@@ -288,10 +285,8 @@ class ProductionDashboard extends Component
         }
 
         //mail_notification
-        $project = Project::find($task->project_id);
         $assigned_agent_emails = [$user->email];
         $html = '<p>'. (auth()->user()->name) .' has updated task on project `'.$project->name.'`' .'</p><br />';
-        $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
         $html .= '<strong>Task status:</strong> <span>'.get_task_status_text($task->status).'</span><br />';
         $html .= '<br /><strong>Description</strong> <span>' . $task->description;
 
@@ -301,8 +296,6 @@ class ProductionDashboard extends Component
             'Task updated',
             view('mail.crm-mail-template')->with([
                 'subject' => 'Task updated',
-                'brand_name' => $project->brand->name,
-                'brand_logo' => asset($project->brand->logo),
                 'additional_html' => $html
             ]),
             true
@@ -313,11 +306,12 @@ class ProductionDashboard extends Component
     }
 
     public function assign_subtask ($data) {
-//        dd($data);
-        $subtask = SubTask::Find($data['subtask_id']);
+        $subtask = DB::table('sub_task')->where('id', $data['subtask_id'])->first();
+        $task = DB::table('tasks')->where('id', $subtask->task_id)->first();
+        $project = DB::table('projects')->where('id', $task->project_id)->first();
 
-        $record = ProductionMemberAssign::create([
-            'task_id' => $subtask->task->id,
+        $record_id = DB::table('production_member_assigns')->insertGetId([
+            'task_id' => $subtask->task_id,
             'subtask_id' => $subtask->id,
             'assigned_by' => auth()->user()->id,
             'assigned_to' => $data['member_id'],
@@ -327,10 +321,10 @@ class ProductionDashboard extends Component
         ]);
 
         $assignData = [
-            'id' => $record->id,
-            'task_id' => $subtask->task->id,
+            'id' => $record_id,
+            'task_id' => $task->id,
             'name' => auth()->user()->name . ' ' . auth()->user()->last_name,
-            'text' => $subtask->task->projects->name . '- Task Assigned',
+            'text' => $project->name . '- Task Assigned',
             'details' => \Illuminate\Support\Str::limit(preg_replace("/<\/?a( [^>]*)?>/i", "", strip_tags($subtask->description)), 50, $end='...')
         ];
 
@@ -338,22 +332,17 @@ class ProductionDashboard extends Component
         $user->notify(new TaskNotification($assignData));
 
         //mail_notification
-        $project = Project::find($subtask->task->project_id);
-        $assigned_to_user = $user;
         $html = '<p>'. 'New task on project `'.$project->name.'`: ' . $data['comment'] .'</p><br />';
         $html .= '<strong>Assigned by:</strong> <span>'.auth()->user()->name.'</span><br />';
-        $html .= '<strong>Assigned to:</strong> <span>'. $assigned_to_user->name.' ('.$assigned_to_user->email.') ' .'</span><br />';
-        $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
-        $html .= '<br /><strong>Description</strong> <span>' . $subtask->task->description;
+        $html .= '<strong>Assigned to:</strong> <span>'. $user->name.' ('.$user->email.') ' .'</span><br />';
+        $html .= '<br /><strong>Description</strong> <span>' . $task->description;
 
         mail_notification(
             '',
-            [$assigned_to_user->email],
+            [$user->email],
             'New Task',
             view('mail.crm-mail-template')->with([
                 'subject' => 'New Task',
-                'brand_name' => $project->brand->name,
-                'brand_logo' => asset($project->brand->logo),
                 'additional_html' => $html
             ]),
             true
@@ -364,13 +353,14 @@ class ProductionDashboard extends Component
     }
 
     public function send_message ($data) {
-        if (!$task = Task::find($data['task_id'])) {
+        if (!$task = DB::table('tasks')->where('id', $data['task_id'])->first()) {
             return $this->render();
         }
+        $task_user = User::find($task->user_id);
 
         $description = str_replace("\n", '&nbsp;<br>', $data['message']);
 
-        $sub_task = SubTask::create([
+        DB::table('sub_task')->insert([
             'task_id' => $data['task_id'],
             'created_at' => Carbon::now(),
             'description' => $description,
@@ -383,19 +373,16 @@ class ProductionDashboard extends Component
             'text' => \Illuminate\Support\Str::limit(preg_replace("/<\/?a( [^>]*)?>/i", "", strip_tags($description)), 25, $end='...'),
             'details' => '',
         ];
-        $task->user->notify(new TaskNotification($assignData));
+        $task_user->notify(new TaskNotification($assignData));
 
         $this->emit('success', 'Message sent.');
         return $this->render();
     }
 
     public function clear_subtask_notification ($data) {
-        if($record = DB::table('notifications')->where('id', $data['notification_id'])->first()) {
-            if($record = CRMNotification::where('id', $data['notification_id'])->first()) {
-                $record->read_at = Carbon::now();
-                $record->save();
-            }
-        }
+        DB::table('notifications')->where('id', $data['notification_id'])->update([
+            'read_at' => Carbon::now()
+        ]);
 
         $this->emit('success', 'Notification cleared.');
         return $this->render();

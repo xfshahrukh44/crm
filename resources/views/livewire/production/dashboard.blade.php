@@ -95,10 +95,10 @@
                 <div class="col-md-8 offset-md-2">
                     <div class="row text-center mb-4">
                         <div class="col-md-8 offset-md-2">
-                            <div class="row my-4">
+                            <div class="row mb-3">
                                 <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
                                     <div class="row">
-                                        <div class="col-md-12" style="font-size: 18px;" id="header2">
+                                        <div class="col-md-12 mt-2" style="font-size: 18px;" id="header2">
 {{--                                            <a href="#" wire:click="back">--}}
 {{--                                                <i class="fas fa-arrow-left"></i>--}}
 {{--                                            </a>--}}
@@ -108,49 +108,49 @@
                                         <div class="col-md-12" style="font-size: 16px;">
                                             <div class="row justify-content-center">
                                                 <input id="status_0" type="checkbox" wire:model="dashboard_project_status.0" hidden>
-                                                <p class="mb-0 my-2" style="font-size: 14px; margin: 0px 2px;">
+                                                <p class="mb-0 mb-2" style="font-size: 14px; margin: 0px 2px;">
                                                     <label class='hover_box_shadow badge badge{!! $dashboard_project_status[0] == 0 ? '-outline' : '' !!}-danger badge-sm {!! $dashboard_project_status[0] == 0 ? '' : ' text-white' !!}' for="status_0" style="cursor: pointer;">
                                                         Open
                                                     </label>
                                                 </p>
 
                                                 <input id="status_1" type="checkbox" wire:model="dashboard_project_status.1" hidden>
-                                                <p class="mb-0 my-2" style="font-size: 14px; margin: 0px 2px;">
+                                                <p class="mb-0 mb-2" style="font-size: 14px; margin: 0px 2px;">
                                                     <label class='hover_box_shadow badge badge{!! $dashboard_project_status[1] == 0 ? '-outline' : '' !!}-primary badge-sm {!! $dashboard_project_status[1] == 0 ? '' : ' text-white' !!}' for="status_1" style="cursor: pointer;">
                                                         Re Open
                                                     </label>
                                                 </p>
 
                                                 <input id="status_2" type="checkbox" wire:model="dashboard_project_status.2" hidden>
-                                                <p class="mb-0 my-2" style="font-size: 14px; margin: 0px 2px;">
+                                                <p class="mb-0 mb-2" style="font-size: 14px; margin: 0px 2px;">
                                                     <label class='hover_box_shadow badge badge{!! $dashboard_project_status[2] == 0 ? '-outline' : '' !!}-info badge-sm {!! $dashboard_project_status[2] == 0 ? '' : ' text-white' !!}' for="status_2" style="cursor: pointer;">
                                                         Hold
                                                     </label>
                                                 </p>
 
                                                 <input id="status_3" type="checkbox" wire:model="dashboard_project_status.3" hidden>
-                                                <p class="mb-0 my-2" style="font-size: 14px; margin: 0px 2px;">
+                                                <p class="mb-0 mb-2" style="font-size: 14px; margin: 0px 2px;">
                                                     <label class='hover_box_shadow badge badge{!! $dashboard_project_status[3] == 0 ? '-outline' : '' !!}-success badge-sm {!! $dashboard_project_status[3] == 0 ? '' : ' text-white' !!}' for="status_3" style="cursor: pointer;">
                                                         Completed
                                                     </label>
                                                 </p>
 
                                                 <input id="status_4" type="checkbox" wire:model="dashboard_project_status.4" hidden>
-                                                <p class="mb-0 my-2" style="font-size: 14px; margin: 0px 2px;">
+                                                <p class="mb-0 mb-2" style="font-size: 14px; margin: 0px 2px;">
                                                     <label class='hover_box_shadow badge badge{!! $dashboard_project_status[4] == 0 ? '-outline' : '' !!}-warning badge-sm {!! $dashboard_project_status[4] == 0 ? '' : ' text-white' !!}' for="status_4" style="cursor: pointer;">
                                                         In Progress
                                                     </label>
                                                 </p>
 
                                                 <input id="status_5" type="checkbox" wire:model="dashboard_project_status.5" hidden>
-                                                <p class="mb-0 my-2" style="font-size: 14px; margin: 0px 2px;">
+                                                <p class="mb-0 mb-2" style="font-size: 14px; margin: 0px 2px;">
                                                     <label class='hover_box_shadow badge badge{!! $dashboard_project_status[5] == 0 ? '-outline' : '' !!}-info badge-sm {!! $dashboard_project_status[5] == 0 ? '' : ' text-white' !!}' for="status_5" style="cursor: pointer;">
                                                         Sent for Approval
                                                     </label>
                                                 </p>
 
                                                 <input id="status_6" type="checkbox" wire:model="dashboard_project_status.6" hidden>
-                                                <p class="mb-0 my-2" style="font-size: 14px; margin: 0px 2px;">
+                                                <p class="mb-0 mb-2" style="font-size: 14px; margin: 0px 2px;">
                                                     <label class='hover_box_shadow badge badge{!! $dashboard_project_status[6] == 0 ? '-outline' : '' !!}-warning badge-sm {!! $dashboard_project_status[6] == 0 ? '' : ' text-white' !!}' for="status_6" style="cursor: pointer;">
                                                         Incomplete Brief
                                                     </label>
@@ -189,7 +189,7 @@
                                         <div class="col-md-10 offset-md-1 mt-2 mb-4">
                                             @foreach($current_projects as $project)
                                                 <div class="row my-2 hover_box_shadow" style="border: 1px solid #b7b7b7; cursor: pointer; padding: 8px; padding-bottom: 6px; padding-top: 12px;"
-                                                     wire:click="set_active_page('project_detail-{{$project->id}}-{{$current_projects->currentPage()}}')">
+                                                     wire:click="set_active_page('project_detail-{{$project->id}}')">
                                                     <div class="col-md-10">
                                                         <div class="row justify-content-start">
                                                             <span class="badge badge-sm badge-dark text-uppercase">
