@@ -360,22 +360,26 @@
                                                     $file_timestamp = \Carbon\Carbon::parse($client_file->created_at)->format('d F Y, h:i A');
                                                 @endphp
                                                 <div class="file_wrapper">
-                                                    <a href="{{$file_src}}"
-                                                       @if($extension_check)
+                                                    @if($extension_check)
+                                                        <a href="{{$file_src}}"
                                                            class="anchor_view_image"
                                                            data-lcl-txt="{{$actual_file_name}}"
                                                            data-lcl-author="{{$file_author}} at {{$file_timestamp}}"
                                                            data-lcl-thumb="{{$file_src}}"
-                                                        @else
-                                                            class=""
-                                                            download
-                                                        @endif
-                                                    >
+                                                        >
+                                                            <img src="{{$image_src}}" alt="" height="64">
+                                                        </a>
+                                                    @else
                                                         <img src="{{$image_src}}" alt="" height="64">
-                                                    </a>
+                                                    @endif
                                                     <br>
-                                                    <a href="{{$file_src}}" download>
+{{--                                                    <a href="{{$file_src}}" download>--}}
                                                         <span class="badge badge-dark badge-sm">#{{$client_file->id}}</span>
+                                                        <a href="{{$file_src}}">
+                                                            <span class="badge badge-success badge-sm" style="font-size: 10px; cursor: pointer;">
+                                                                <i class="fas fa-download"></i>
+                                                            </span>
+                                                        </a>
                                                         <br>
                                                         <span style="font-size: 10px;">
                                                             {{$file_name}}
@@ -389,7 +393,7 @@
                                                         <span class="badge badge-primary badge-sm" style="font-size: 10px; background-color: {{$color}};">
                                                             {{$file_timestamp}}
                                                         </span>
-                                                    </a>
+{{--                                                    </a>--}}
                                                 </div>
                                             @endforeach
                                         </div>
