@@ -248,21 +248,33 @@
             $('#upload_files_modal').modal('show');
         });
 
-        //backspace
+        //backspace & reload
         $('body').on('keyup', function(event) {
             if ((event.key === 'Backspace' || event.keyCode === 8) && $(":focus").length == 0) {
                 Livewire.emit('back');
             }
+
+            return true;
         });
 
-        //reload
-        $('body').keydown(function(event) {
-            if (event.ctrlKey && (event.key === 'r' || event.key === 'R')) {
+        $('body').on('keydown', function(event) {
+            if ((event.ctrlKey && (event.key === 'r' || event.key === 'R')) || event.keyCode === 116) {
                 event.preventDefault(); // Prevents the default refresh action
 
                 Livewire.emit('refresh');
             }
+
+            return true;
         });
+
+        //reload
+        // $('body').keydown(function(event) {
+        //     if (event.ctrlKey && (event.key === 'r' || event.key === 'R')) {
+        //         event.preventDefault(); // Prevents the default refresh action
+        //
+        //         Livewire.emit('refresh');
+        //     }
+        // });
 
         //ctrl_f
         $('body').keydown(function(event) {
