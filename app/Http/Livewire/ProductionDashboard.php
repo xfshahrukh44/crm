@@ -267,6 +267,7 @@ class ProductionDashboard extends Component
             DB::table('task_status_changed_logs')->insert([
                 'task_id' => $task->id,
                 'user_id' => auth()->id() ?? null,
+                'created_at' => Carbon::now(),
                 'column' => 'status',
                 'old' => $task->status,
                 'new' => $status,
@@ -324,6 +325,7 @@ class ProductionDashboard extends Component
             'assigned_to' => $data['member_id'],
             'comments' => $data['comment'] ?? '',
             'duadate' => Carbon::today(),
+            'created_at' => Carbon::now(),
             'status' => 0
         ]);
 
