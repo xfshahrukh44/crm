@@ -93,7 +93,9 @@
                         </li>
                         <li>
                             <div class="task_main_list-wrapper">
-                                <button class="btn btn-dark btn-sm">Created At: {{ $subtask->created_at->format('d M, y - h:i:s A') }}</button>
+                                @if(!is_null($subtask->created_at))
+                                    <button class="btn btn-dark btn-sm">Created At: {{ $subtask->created_at->format('d M, y - h:i:s A') }}</button>
+                                @endif
                                 <button class="btn btn-dark btn-sm">Due Date: {{ date('d M, y', strtotime($subtask->duadate)) }}</button>
                             </div>
                         </li>

@@ -21,6 +21,8 @@ class ProductionDashboard extends Component
     public $active_page = 'production_dashboard';
     public $history = ['production_dashboard'];
 
+    public $auth_category_ids = [];
+
     public $dashboard_project_status = [
         0 => 1,
         1 => 1,
@@ -61,6 +63,10 @@ class ProductionDashboard extends Component
 //
 //        $this->layout = $layout_map[auth()->user()->is_employee];
         $this->layout = 'layouts.app-production';
+
+        foreach(auth()->user()->category as $category){
+            array_push($this->auth_category_ids, $category->id);
+        }
 
         return true;
     }
@@ -133,11 +139,6 @@ class ProductionDashboard extends Component
     }
 
     public function production_dashboard () {
-        $user_category_ids = array();
-        foreach(auth()->user()->category as $category){
-            array_push($user_category_ids, $category->id);
-        }
-
         $status_in_array = [];
         foreach ($this->dashboard_project_status as $status => $state) {
             if ($state == 1) {
@@ -190,7 +191,7 @@ class ProductionDashboard extends Component
                     })->orWhere('id', '=', $this->dashboard_search)->orWhere('description', 'LIKE', "%".$this->dashboard_search."%");
                 });
             })
-            ->whereIn('category_id', $user_category_ids)
+            ->whereIn('category_id', $this->auth_category_ids)
             ->whereIn('status', $status_in_array)
             ->addSelect(['latest_subtask_created_at' => SubTask::selectRaw('MAX(created_at)')
                 ->whereColumn('task_id', 'tasks.id')
@@ -216,6 +217,12 @@ class ProductionDashboard extends Component
 
     public function project_detail ($project_id) {
         $project = Task::find($project_id);
+
+        //check for ownership
+        if (!in_array($project->category_id, $this->auth_category_ids)) {
+            $this->emit('error', 'Access denied.');
+            $this->back();
+        }
 
         //subtask - messages
         $sub_task_messages = SubTask::with('assign_members.assigned_to_user')->whereHas('user')

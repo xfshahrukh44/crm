@@ -68,7 +68,7 @@
         }
 
         .hover_box_shadow {
-            transition: box-shadow 0.2s ease-in;
+            transition: box-shadow 0.1s ease-in;
         }
 
         .hover_box_shadow:hover {
@@ -99,10 +99,20 @@
                                 <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
                                     <div class="row">
                                         <div class="col-md-12 mt-2" style="font-size: 18px;" id="header2">
-{{--                                            <a href="#" wire:click="back">--}}
-{{--                                                <i class="fas fa-arrow-left"></i>--}}
-{{--                                            </a>--}}
-                                            <b>Projects</b>
+                                            <b>
+                                                Projects
+                                            </b>
+                                            @php
+                                                $noti_count = count(auth()->user()->unreadNotifications);
+                                            @endphp
+                                            @if($noti_count)
+                                                <a href="{{ route('production.my-notifications') }}" class="text-danger">
+                                                    <i class="fas fa-bell mb-1" style="font-size: 20px;"></i>
+                                                    <span class="badge badge-dark" style="font-size: 8px; font-weight: 600; position: relative; top: -12px; left: -14px;">
+                                                        {{$noti_count}}
+                                                    </span>
+                                                </a>
+                                            @endif
                                             <br>
                                         </div>
                                         <div class="col-md-12" style="font-size: 16px;">

@@ -147,37 +147,37 @@
                                     <hr style="margin: 4px 0px 4px 0px !important;">
                                     <div class="row m-0 justify-content-center">
                                         <p class="mb-0 mx-1" style="font-size: 14px;">
-                                            <label class='hover_box_shadow badge badge-sm badge{!! $project->status != 0 ? '-outline' : '' !!}-danger {!! $project->status != 0 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 0)" style="cursor: pointer;">
+                                            <label class='hover_box_shadow badge badge-sm badge{!! $project->status != 0 ? '-outline' : '' !!}-danger {!! $project->status != 0 ? '' : 'text-white' !!}' wire:click="set_project_status({{$project->id}}, 0)" style="cursor: pointer;">
                                                 Open
                                             </label>
                                         </p>
 
                                         <p class="mb-0 mx-1" style="font-size: 14px;">
-                                            <label class='hover_box_shadow badge badge-sm badge{!! $project->status != 1 ? '-outline' : '' !!}-primary {!! $project->status != 1 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 1)" style="cursor: pointer;">
+                                            <label class='hover_box_shadow badge badge-sm badge{!! $project->status != 1 ? '-outline' : '' !!}-primary {!! $project->status != 1 ? '' : 'text-white' !!}' wire:click="set_project_status({{$project->id}}, 1)" style="cursor: pointer;">
                                                 Reopen
                                             </label>
                                         </p>
 
                                         <p class="mb-0 mx-1" style="font-size: 14px;">
-                                            <label class='hover_box_shadow badge badge-sm badge{!! $project->status != 4 ? '-outline' : '' !!}-warning {!! $project->status != 4 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 4)" style="cursor: pointer;">
+                                            <label class='hover_box_shadow badge badge-sm badge{!! $project->status != 4 ? '-outline' : '' !!}-warning {!! $project->status != 4 ? '' : 'text-white' !!}' wire:click="set_project_status({{$project->id}}, 4)" style="cursor: pointer;">
                                                 In Progress
                                             </label>
                                         </p>
 
                                         <p class="mb-0 mx-1" style="font-size: 14px;">
-                                            <label class='hover_box_shadow badge badge-sm badge{!! $project->status != 2 ? '-outline' : '' !!}-info {!! $project->status != 2 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 2)" style="cursor: pointer;">
+                                            <label class='hover_box_shadow badge badge-sm badge{!! $project->status != 2 ? '-outline' : '' !!}-info {!! $project->status != 2 ? '' : 'text-white' !!}' wire:click="set_project_status({{$project->id}}, 2)" style="cursor: pointer;">
                                                 Hold
                                             </label>
                                         </p>
 
                                         <p class="mb-0 mx-1" style="font-size: 14px;">
-                                            <label class='hover_box_shadow badge badge-sm badge{!! $project->status != 6 ? '-outline' : '' !!}-warning {!! $project->status != 6 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 6)" style="cursor: pointer;">
+                                            <label class='hover_box_shadow badge badge-sm badge{!! $project->status != 6 ? '-outline' : '' !!}-warning {!! $project->status != 6 ? '' : 'text-white' !!}' wire:click="set_project_status({{$project->id}}, 6)" style="cursor: pointer;">
                                                 Incomplete Brief
                                             </label>
                                         </p>
 
                                         <p class="mb-0 mx-1" style="font-size: 14px;">
-                                            <label class='hover_box_shadow badge badge-sm badge{!! $project->status != 3 ? '-outline' : '' !!}-success {!! $project->status != 3 ? '' : ' text-white' !!}' wire:click="set_project_status({{$project->id}}, 3)" style="cursor: pointer;">
+                                            <label class='hover_box_shadow badge badge-sm badge{!! $project->status != 3 ? '-outline' : '' !!}-success {!! $project->status != 3 ? '' : 'text-white' !!}' wire:click="set_project_status({{$project->id}}, 3)" style="cursor: pointer;">
                                                 Completed
                                             </label>
                                         </p>
@@ -211,7 +211,7 @@
                                     @foreach($sub_task_messages as $message)
                                         @if(in_array($message->user->is_employee, [0, 2, 4, 6]))
                                             <div class="row ">
-                                                <div class="col-md-9 ">
+                                                <div class="col-md-9 col-9">
                                                     <div class="row my-2 py-2" style="border: 2px solid lightblue; border-radius: 8px; background-color: #add8e644;">
                                                         <div class="col-md-12 text-left" style="font-weight: 800; font-size: 14px;">
                                                             {{($message->user->name ?? '') . ' ' . ($message->user->last_name ?? '')}}
@@ -251,12 +251,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3"></div>
+                                                <div class="col-md-3 col-3"></div>
                                             </div>
                                         @elseif(in_array($message->user->is_employee, [1, 5]))
                                             <div class="row ">
-                                                <div class="col-md-3"></div>
-                                                <div class="col-md-9 ">
+                                                <div class="col-md-3 col-3"></div>
+                                                <div class="col-md-9 col-9">
                                                     <div class="row my-2 py-2" style="border: 2px solid orange; border-radius: 8px; background-color: #ffa50044;">
                                                         <div class="col-md-12 text-left" style="font-weight: 800; font-size: 14px;">
                                                             {{($message->user->name ?? '') . ' ' . ($message->user->last_name ?? '')}}
