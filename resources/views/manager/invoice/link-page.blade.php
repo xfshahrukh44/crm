@@ -95,7 +95,7 @@
                                                 <td>{{$_getInvoiceData->currency_show->sign}} {{ $_getInvoiceData->amount }}</td>
                                                 @if($_getInvoiceData->payment_status == 1 && $_getInvoiceData->is_authorize)
                                                     <td>
-                                                        <a href="#" class="btn btn-warning btn-sm btn_copy_authorize_link" data-link="{{ route('client.pay.with.authorize', $_getInvoiceData->id) }}">Invoice Link</a>
+                                                        <a href="{{ route('client.pay.with.authorize', $_getInvoiceData->id) }}" class="btn btn-warning btn-sm btn_copy_authorize_link" data-link="{{ route('client.pay.with.authorize', $_getInvoiceData->id) }}">Invoice Link</a>
                                                     </td>
                                                 @else
                                                     <td>
