@@ -1678,7 +1678,8 @@ function get_authorize_keys ($merchant_id) {
     $keys_map = [
         3 => [
             'login_id' => '5vExY98p',
-            'transaction_key' => '6P7r37fD58pVLmRA',
+//            'transaction_key' => '6P7r37fD58pVLmRA',
+            'transaction_key' => '5W2q4ks2aME95DRT',
         ],
         5 => [
             'login_id' => '9GeNn93MCpVn',
