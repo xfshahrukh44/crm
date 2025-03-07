@@ -156,6 +156,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('user/status', [AdminUserController::class, 'updateStatus'])->name('update.user.status');
         Route::post('user/sale/password', [AdminUserController::class, 'updateSalePassword'])->name('update.user.update.password')->withoutMiddleware('is_admin');
 
+        //view forms
+        Route::get('admin/{form_id}/projects/{check}/form/{id}', [SupportController::class, 'getFormAdmin'])->name('admin.form');
+
         Route::get('user/sales', [AdminUserController::class, 'getUserSale'])->name('admin.user.sales');
         Route::post('user/sales', [AdminUserController::class, 'storeUserSale'])->name('admin.user.sales.store');
         Route::post('user/production', [AdminUserController::class, 'storeUserSale'])->name('admin.user.production.store');

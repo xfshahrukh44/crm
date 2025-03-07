@@ -506,6 +506,16 @@
                                                                     </a>
                                                                 </td>
                                                             @endif
+
+                                                            @if(\Illuminate\Support\Facades\Auth::user()->is_employee == 2)
+                                                                    @if($project->form_checker != 0)
+                                                                        <a href="{{ route('admin.form', [ 'form_id' => $project->form_id , 'check' => $project->form_checker, 'id' => $project->id]) }}" class="badge badge-info badge-icon badge-sm">
+                                                                            <i class="i-Receipt-4 mr-1"></i>
+                                                                            View Form
+                                                                        </a>
+                                                                    @endif
+                                                                </td>
+                                                            @endif
                                                         </tr>
                                                     @endforeach
                                                     </tbody>

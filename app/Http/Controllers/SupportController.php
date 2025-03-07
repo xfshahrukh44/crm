@@ -275,6 +275,75 @@ class SupportController extends Controller
         // }
     }
 
+    public function getFormAdmin($form_id, $check, $id){
+
+        if(!$project = Project::find($id)) {
+            return redirect()->back();
+        }
+
+        // if($project->user_id == Auth()->user()->id){
+        if($check == 1){
+            $logo_form = LogoForm::find($form_id);
+            return view('admin.form.logoform', compact('logo_form'));
+        }else if($check == 2){
+            $web_form = WebForm::find($form_id);
+            return view('admin.form.webform', compact('web_form'));
+        }elseif($check == 3){
+            $smm_form = SmmForm::find($form_id);
+            return view('admin.form.smmform', compact('smm_form'));
+        }elseif($check == 4){
+            $content_form = ContentWritingForm::find($form_id);
+            return view('admin.form.contentform', compact('content_form'));
+        }elseif($check == 5){
+            $seo_form = SeoForm::find($form_id);
+            return view('admin.form.seoform', compact('seo_form'));
+        }elseif($check == 6){
+            $data = BookFormatting::find($form_id);
+            return view('admin.form.bookformatting', compact('data'));
+        }elseif($check == 7){
+            $data = BookWriting::find($form_id);
+            return view('admin.form.bookwriting', compact('data'));
+        }elseif($check == 8){
+            $data = AuthorWebsite::find($form_id);
+            return view('admin.form.authorwesbite', compact('data'));
+        }elseif($check == 9){
+            $data = Proofreading::find($form_id);
+            return view('admin.form.proofreading', compact('data'));
+        }elseif($check == 10){
+            $data = BookCover::find($form_id);
+            return view('admin.form.bookcover', compact('data'));
+        }
+        elseif($check == 11){
+            $data = Isbnform::find($form_id);
+            return view('admin.form.isbnform', compact('data'));
+        }
+        elseif($check == 12){
+            $data = Bookprinting::find($form_id);
+            return view('admin.form.bookprinting', compact('data'));
+        }
+//            elseif($check == 13){
+//                $data = SeoBrief::find($form_id);
+//                return view('admin.form.seoform', compact('data'));
+//            }
+//            elseif($check == 14){
+//                $data = BookMarketing::find($form_id);
+//                return view('admin.form.bookprinting', compact('data'));
+//            }
+//            elseif($check == 15){
+//                $data = Bookprinting::find($form_id);
+//                return view('admin.form.bookprinting', compact('data'));
+//            }
+        elseif($check == 16){
+            $data = PressReleaseForm::find($form_id);
+            return view('admin.form.press-release-form', compact('data'));
+        }
+
+
+        // }else{
+        //     return redirect()->back();
+        // }
+    }
+
     public function getFormManager($form_id, $check, $id){
         if(!$project = Project::find($id)) {
             return redirect()->back();
