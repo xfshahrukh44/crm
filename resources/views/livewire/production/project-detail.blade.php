@@ -228,11 +228,12 @@
                                                             <p class="mb-0" style="word-wrap: break-word;">
                                                                 {{ strip_tags(html_entity_decode($message->description)) }}
                                                                 <br>
-                                                                <br>
-                                                                <b>
-                                                                    <i class="bi bi-alarm text-danger"></i>
-                                                                    {{\Carbon\Carbon::parse($message->duedate)->format('l | j M')}}
-                                                                </b>
+                                                                <span class="badge badge-sm badge-outline-dark mt-2 pl-0" style="border: 0px;">
+                                                                    <b class="{!! array_unique($message->assign_members->pluck('status')->toArray()) !== [3] && \Carbon\Carbon::today() >= $message->duedate ? 'text-danger' : '' !!}">
+                                                                        <i class="bi bi-alarm text-danger"></i>
+                                                                        {{\Carbon\Carbon::parse($message->duedate)->format('l j M')}}
+                                                                    </b>
+                                                                </span>
                                                             </p>
 {{--                                                            <p class="mb-0 mt-1" style="word-wrap: break-word;">--}}
 {{--                                                                <b>--}}
@@ -308,7 +309,9 @@
                                             <h6>
                                                 Searched for "{{ (strlen($string) > 50) ? (substr($string, 0, 50) . '...') : $string }}"
                                                 <a href="" class="text-danger" wire:click="$emit('mutate', {name: 'project_detail_search_message_query', value: ''})">
-                                                    clear
+                                                    <i class="bi bi-x-octagon mt-2 text-danger"
+                                                       style="font-size: 12px; cursor: pointer;">
+                                                    </i>
                                                 </a>
                                             </h6>
                                         </div>
