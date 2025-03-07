@@ -122,19 +122,19 @@
                                 <div class="col">
                                     <a href="javascript:void(0);" wire:click="back">
                                         <span class="badge badge-dark badge-sm hover_box_shadow">
-                                            <i class="fas fa-arrow-left"></i>
+                                            <i class="bi bi-arrow-left"></i>
                                             Back
                                         </span>
                                     </a>
                                     <a href="javascript:void(0);" wire:click="refresh">
                                         <span class="badge badge-success badge-sm hover_box_shadow">
-                                            <i class="fas fa-arrows-rotate"></i>
+                                            <i class="bi bi-arrow-repeat"></i>
                                             Refresh
                                         </span>
                                     </a>
                                     <a href="{{ route('production.form', [ 'form_id' => $project->projects->form_id , 'check' => $project->projects->form_checker, 'id' => $project->projects->id]) }}" target="_blank">
                                         <span class="badge badge-info badge-sm hover_box_shadow">
-                                            <i class="fas fa-list"></i>
+                                            <i class="bi bi-list-ul"></i>
                                             View form
                                         </span>
                                     </a>
@@ -193,7 +193,7 @@
                                         <b>CONVERSATION</b>
 
                                         <span id="btn_search_messages" class="badge badge-dark badge-sm hover_box_shadow" style="cursor: pointer;">
-                                            <i class="fas fa-search m-auto"></i>
+                                            <i class="bi bi-search m-0"></i>
                                         </span>
                                     </h6>
                                 </div>
@@ -216,7 +216,7 @@
                                                         <div class="col-md-12 text-left" style="font-weight: 800; font-size: 14px;">
                                                             {{($message->user->name ?? '') . ' ' . ($message->user->last_name ?? '')}}
                                                             @if(in_array($message->id, $notification_subtask_ids))
-                                                                <i class="fas fa-bell text-danger btn_clear_subtask_notification" style="cursor: pointer" data-notification="{{$notification_notification_ids[$message->id]}}"></i>
+                                                                <i class="bi bi-bell-fill text-danger btn_clear_subtask_notification" style="cursor: pointer" data-notification="{{$notification_notification_ids[$message->id]}}"></i>
                                                             @endif
                                                             <span class="float-right" style="font-weight: 400; font-size: 10px; margin-top: 1px;">
                                                                 {{\Carbon\Carbon::parse($message->created_at)->format('d F Y, h:i A')}}
@@ -227,7 +227,19 @@
                                                         <div class="col-md-12 text-left" style="font-weight: 400; font-size: 12px">
                                                             <p class="mb-0" style="word-wrap: break-word;">
                                                                 {{ strip_tags(html_entity_decode($message->description)) }}
+                                                                <br>
+                                                                <br>
+                                                                <b>
+                                                                    <i class="bi bi-alarm text-danger"></i>
+                                                                    {{\Carbon\Carbon::parse($message->duedate)->format('l | j M')}}
+                                                                </b>
                                                             </p>
+{{--                                                            <p class="mb-0 mt-1" style="word-wrap: break-word;">--}}
+{{--                                                                <b>--}}
+{{--                                                                    <i class="bi bi-hourglass-split"></i>--}}
+{{--                                                                    Monday 14 Jan--}}
+{{--                                                                </b>--}}
+{{--                                                            </p>--}}
 
                                                             <hr style="margin: 4px 0px 4px 0px !important;">
 
@@ -239,12 +251,12 @@
                                                                   data-text="{{$message->description}}"
                                                                   data-user="{{($message->user->name ?? '') . ' ' . ($message->user->last_name ?? '')}}"
                                                                   data-time="{{\Carbon\Carbon::parse($message->created_at)->format('d F Y, h:i A')}}">
-                                                                <i class="fas fa-expand"></i>
+                                                                <i class="bi bi-fullscreen"></i>
                                                             </span>
 
                                                             @if(count($message->assign_members))
                                                                 <span class="badge badge-info badge-sm btn_view_assigned_members hover_box_shadow" style="cursor: pointer;" data-members="{{$message->assign_members}}">
-                                                                    <i class="fas fa-users"></i>
+                                                                    <i class="bi bi-people-fill"></i>
                                                                     {{count($message->assign_members)}}
                                                                 </span>
                                                             @endif
@@ -278,7 +290,7 @@
                                                                   data-text="{{$message->description}}"
                                                                   data-user="{{($message->user->name ?? '') . ' ' . ($message->user->last_name ?? '')}}"
                                                                   data-time="{{\Carbon\Carbon::parse($message->created_at)->format('d F Y, h:i A')}}">
-                                                                <i class="fas fa-expand"></i>
+                                                                <i class="bi bi-fullscreen"></i>
                                                             </span>
                                                         </div>
                                                     </div>

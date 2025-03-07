@@ -35,6 +35,7 @@
     <link href="{{ asset('newglobal/css/select2.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('newglobal/css/sweetalert2.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('global/css/qa.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 {{--    <link href="{{ asset('css/style.css') }}" rel="stylesheet" />--}}
     <style type="text/css">
         .file {

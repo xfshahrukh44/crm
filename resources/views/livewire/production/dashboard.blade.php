@@ -107,7 +107,7 @@
                                             @endphp
                                             @if($noti_count)
                                                 <a href="{{ route('production.my-notifications') }}" class="text-danger">
-                                                    <i class="fas fa-bell mb-1" style="font-size: 20px;"></i>
+                                                    <i class="bi bi-bell-fill mb-1" style="font-size: 20px;"></i>
                                                     <span class="badge badge-dark" style="font-size: 8px; font-weight: 600; position: relative; top: -12px; left: -14px;">
                                                         {{$noti_count}}
                                                     </span>
@@ -184,9 +184,9 @@
                                                             <input id="input_dashboard_search" class="ctrl_f" type="text" placeholder="Press enter to search" style="width: 100%; font-size: 12px; border-radius: 0px; border: 1px solid grey;" value="{{$dashboard_search}}" autocomplete="false">
                                                         </div>
                                                         @if($dashboard_search !== '')
-                                                            <div class="col-md-1 m-0 p-0" style="position: absolute; right: -9px;">
+                                                            <div class="col-md-1 m-0 p-0" style="position: absolute; right: -6px; top: 1px;">
 {{--                                                            <i id="btn_dashboard_search" class="fas fa-search mt-2" style="font-size: 12px; cursor: pointer;"></i>--}}
-                                                                <i class="fas fa-x mt-2 text-danger"
+                                                                <i class="bi bi-x-octagon mt-2 text-danger"
                                                                    style="font-size: 12px; cursor: pointer;"
                                                                    wire:click="$emit('mutate', {name: 'dashboard_search', value: ''})">
                                                                 </i>
@@ -219,7 +219,7 @@
                                                             </span>
 
                                                             @if(in_array($project->id, $notification_project_ids))
-                                                                <i class="fas fa-bell text-danger"></i>
+                                                                <i class="bi bi-bell-fill text-danger"></i>
                                                             @endif
                                                         </div>
                                                         <div class="row text-left mt-2" style="letter-spacing: 2px; font-weight: 100; line-height: 12px;">
@@ -275,7 +275,7 @@
 
 {{--                                                            @if(in_array($project->id, $notification_project_ids))--}}
 {{--                                                                <span class="badge badge-danger badge-sm mx-1">--}}
-{{--                                                                    <i class="fas fa-bell"></i>--}}
+{{--                                                                    <i class="bi bi-bell-fill"></i>--}}
 {{--                                                                </span>--}}
 {{--                                                            @endif--}}
 {{--                                                        </div>--}}

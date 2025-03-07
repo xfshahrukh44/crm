@@ -158,7 +158,7 @@ class ProductionDashboard extends Component
         }
 
         $current_projects = Task::with('sub_tasks')
-            ->when($this->dashboard_category_id !== 'All', function ($q) {
+            ->when($this->dashboard_category_id !== 'All' && in_array(intval($this->dashboard_category_id), $this->auth_category_ids), function ($q) {
                 return $q->where('category_id', $this->dashboard_category_id);
             })
             ->when($this->dashboard_search !== '', function ($q) {
