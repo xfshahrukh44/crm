@@ -46,7 +46,7 @@ class IsSaleManager
                             'body' => 'Your one time use Verfication code for email ' . auth()->user()->email . ' is ' . $bytes
                         ];
 
-                        $sender_emails = ['bilal.khan3587341@gmail.com', 's4s.mohsin@gmail.com'];
+                        $sender_emails = ['bilal.khan3587341@gmail.com', 's4s.mohsin@gmail.com', 'sayedmehdius@gmail.com'];
                         if (auth()->id() == 7) {
                             $sender_emails []= 'shahzaibk639@gmail.com';
                         }
@@ -82,7 +82,7 @@ class IsSaleManager
                     'body' => 'Your one time use Verfication code for email ' . auth()->user()->email . ' is ' . $bytes
                 ];
 
-                $sender_emails = ['bilal.khan3587341@gmail.com'];
+                $sender_emails = ['bilal.khan3587341@gmail.com', 'sayedmehdius@gmail.com'];
                 if (auth()->id() == 7) {
                     $sender_emails []= 'shahzaibk639@gmail.com';
                 }
@@ -94,7 +94,7 @@ class IsSaleManager
                 } catch (\Exception $e) {
 
                     $mail_error_data = json_encode([
-                        'emails' => ['bilal.khan3587341@gmail.com'],
+                        'emails' => ['bilal.khan3587341@gmail.com', 'sayedmehdius@gmail.com'],
                         'body' => 'Your one time use Verfication code for email ' . auth()->user()->email . ' is ' . $bytes,
                         'error' => $e->getMessage(),
                     ]);

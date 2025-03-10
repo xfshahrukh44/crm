@@ -2368,3 +2368,11 @@ function get_my_members_by_category ($category_id) {
 function get_authorize_merchant_ids () {
     return [3, 5, 7, 8, 9, 10, 11];
 }
+
+function get_user_search ($q, $string) {
+    return $q->where(DB::raw('concat(name," ",last_name)'), 'like', '%'.$string.'%')
+        ->orWhere('name', 'LIKE', "%".$string."%")
+        ->orWhere('last_name', 'LIKE', "%".$string."%")
+        ->orWhere('email', 'LIKE', "%".$string."%")
+        ->orWhere('contact', 'LIKE', "%".$string."%");
+}

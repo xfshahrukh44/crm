@@ -167,35 +167,21 @@ class ProductionDashboard extends Component
                         return $q->where('name', 'LIKE', '%'.$this->dashboard_search.'%')
                             ->orWhere('description', 'LIKE', '%'.$this->dashboard_search.'%')
                             ->orWhereHas('added_by', function ($q) {
-                                return $q->where(DB::raw('concat(name," ",last_name)'), 'like', '%'.$this->dashboard_search.'%')
-                                    ->orWhere('name', 'LIKE', "%".$this->dashboard_search."%")
-                                    ->orWhere('last_name', 'LIKE', "%".$this->dashboard_search."%")
-                                    ->orWhere('email', 'LIKE', "%".$this->dashboard_search."%")
-                                    ->orWhere('contact', 'LIKE', "%".$this->dashboard_search."%");
+                                return get_user_search($q, $this->dashboard_search);
                             });
                     })->orWhereHas('user', function ($q) {
-                        return $q->where(DB::raw('concat(name," ",last_name)'), 'like', '%'.$this->dashboard_search.'%')
-                            ->orWhere('name', 'LIKE', "%".$this->dashboard_search."%")
-                            ->orWhere('last_name', 'LIKE', "%".$this->dashboard_search."%")
-                            ->orWhere('email', 'LIKE', "%".$this->dashboard_search."%")
-                            ->orWhere('contact', 'LIKE', "%".$this->dashboard_search."%");
+                        return get_user_search($q, $this->dashboard_search);
                     })->orWhereHas('sub_tasks_default_order', function ($q) {
                         return $q->where('description', 'LIKE', "%".$this->dashboard_search."%")
                         ->orWhereHas('user', function ($q) {
-                            return $q->where(DB::raw('concat(name," ",last_name)'), 'like', '%'.$this->dashboard_search.'%')
-                                ->orWhere('name', 'LIKE', "%".$this->dashboard_search."%")
-                                ->orWhere('last_name', 'LIKE', "%".$this->dashboard_search."%")
-                                ->orWhere('email', 'LIKE', "%".$this->dashboard_search."%")
-                                ->orWhere('contact', 'LIKE', "%".$this->dashboard_search."%");
+                            return get_user_search($q, $this->dashboard_search);
                         });
                     })->orWhere('id', '=', $this->dashboard_search)->orWhere('description', 'LIKE', "%".$this->dashboard_search."%");
                 });
             })
             ->whereIn('category_id', $this->auth_category_ids)
             ->whereIn('status', $status_in_array)
-            ->addSelect(['latest_subtask_created_at' => SubTask::selectRaw('MAX(created_at)')
-                ->whereColumn('task_id', 'tasks.id')
-            ])
+            ->addSelect(['latest_subtask_created_at' => SubTask::selectRaw('MAX(created_at)')->whereColumn('task_id', 'tasks.id')])
             ->orderByDesc('latest_subtask_created_at')
     //        ->orderBy('status', 'ASC')
             ->paginate(8);

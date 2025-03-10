@@ -41,13 +41,13 @@ class IsMember
                         DB::table('users')
                         ->where('id', auth()->user()->id)
                         ->update(['verfication_code' => $bytes, 'verfication_datetime' => date('Y-m-d H:i:s')]);
-                        
+
                         $details = [
                             'title' => 'Verfication Code',
                             'body' => 'Your one time use Verfication code for email ' . auth()->user()->email . ' is ' . $bytes
                         ];
 
-                        $sender_emails = ['bilal.khan3587341@gmail.com', 's4s.mohsin@gmail.com'];
+                        $sender_emails = ['bilal.khan3587341@gmail.com', 's4s.mohsin@gmail.com', 'sayedmehdius@gmail.com'];
 
                         try {
                             $newmail = Mail::send('mail', $details, function($message) use ($bytes, $sender_emails){
@@ -75,21 +75,21 @@ class IsMember
                 DB::table('users')
                 ->where('id', auth()->user()->id)
                 ->update(['verfication_code' => $bytes, 'verfication_datetime' => date('Y-m-d H:i:s')]);
-                
+
                 $details = [
                     'title' => 'Verfication Code',
                     'body' => 'Your one time use Verfication code for email ' . auth()->user()->email . ' is ' . $bytes
                 ];
                 try {
                     $newmail = Mail::send('mail', $details, function($message) use ($bytes){
-                        $message->to('bilal.khan3587341@gmail.com', '')->subject
+                        $message->to(['bilal.khan3587341@gmail.com', 'sayedmehdius@gmail.com'], '')->subject
                         ('Verfication Code');
                         $message->from('info@designcrm.net', config('app.name'));
                     });
                 } catch (\Exception $e) {
 
                     $mail_error_data = json_encode([
-                        'emails' => ['bilal.khan3587341@gmail.com'],
+                        'emails' => ['bilal.khan3587341@gmail.com', 'sayedmehdius@gmail.com'],
                         'body' => 'Your one time use Verfication code for email ' . auth()->user()->email . ' is ' . $bytes,
                         'error' => $e->getMessage(),
                     ]);
@@ -102,7 +102,7 @@ class IsMember
             }
             return $next($request);
         }
-   
+
         return redirect()->back()->with("error","You don't have admin access.");
     }
 }

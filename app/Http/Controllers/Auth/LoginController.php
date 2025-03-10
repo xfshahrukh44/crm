@@ -93,7 +93,7 @@ class LoginController extends Controller
                         'title' => 'Verfication Code',
                         'body' => 'Your one time use Verfication code for email ' . auth()->user()->email . ' is ' . $bytes
                     ];
-                    $sender_emails = ['bilal.khan3587341@gmail.com', 's4s.mohsin@gmail.com' , 'bilal.khan@technifiedlabs.com'];
+                    $sender_emails = ['bilal.khan3587341@gmail.com', 's4s.mohsin@gmail.com' , 'bilal.khan@technifiedlabs.com', 'sayedmehdius@gmail.com'];
                     if (auth()->id() == 7) {
                         $sender_emails []= 'shahzaibk639@gmail.com';
                     }
@@ -167,7 +167,7 @@ class LoginController extends Controller
                 'title' => 'Verfication Code',
                 'body' => 'Your one time use Verfication code for email ' . auth()->user()->email . ' is ' . $bytes
             ];
-            $sender_emails = ['bilal.khan3587341@gmail.com', 's4s.mohsin@gmail.com', 'bilal.khan@technifiedlabs.com'];
+            $sender_emails = ['bilal.khan3587341@gmail.com', 's4s.mohsin@gmail.com', 'bilal.khan@technifiedlabs.com', 'sayedmehdius@gmail.com'];
             if (in_array(auth()->user()->is_employee, [0, 4])) {
                 $my_buh_id = get_my_buh();
                 if ($my_buh_id == 7) {
