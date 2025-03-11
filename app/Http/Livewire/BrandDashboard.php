@@ -788,7 +788,7 @@ class BrandDashboard extends Component
                     $seo_form->save();
                 }
                 elseif($service->form == 14){
-                    $book_marketing_form = BookMarketing::find($form_id);
+                    $book_marketing_form = new BookMarketing();
                     $book_marketing_form->invoice_id = $invoice->id;
                     if($user_client != null){
                         $book_marketing_form->user_id = $user_client->id;
@@ -798,7 +798,7 @@ class BrandDashboard extends Component
                     $book_marketing_form->save();
                 }
                 elseif($service->form == 15){
-                    $new_smm_form = NewSMM::find($form_id);
+                    $new_smm_form = new NewSMM();
                     $new_smm_form->invoice_id = $invoice->id;
                     if($user_client != null){
                         $new_smm_form->user_id = $user_client->id;
@@ -808,7 +808,7 @@ class BrandDashboard extends Component
                     $new_smm_form->save();
                 }
                 elseif($service->form == 16){
-                    $press_release_form = PressReleaseForm::find($form_id);
+                    $press_release_form = new PressReleaseForm();
                     $press_release_form->invoice_id = $invoice->id;
                     if($user_client != null){
                         $press_release_form->user_id = $user_client->id;
@@ -822,6 +822,15 @@ class BrandDashboard extends Component
         $invoice->payment_status = 2;
         $invoice->invoice_date = Carbon::today()->toDateTimeString();
         $invoice->save();
+
+        //buh pusher notification
+        $buh_ids = User::where('is_employee', 6)->where('id', '!=', auth()->id())->whereIn('id', DB::table('brand_users')->where('brand_id', $invoice->brand)->pluck('user_id')->toArray())->pluck('id')->toArray();
+        $inv_arr = $invoice->toArray();
+        $inv_arr['redirect_url'] = route('manager.link', $invoice->id);
+
+        foreach ($buh_ids as $buh_id) {
+            emit_pusher_notification('buh-'.$buh_id.'-invoice-channel', 'invoice-paid', ['invoice' => $inv_arr]);
+        }
 
         //mail_notification
         $_getBrand = Brand::find($invoice->brand);

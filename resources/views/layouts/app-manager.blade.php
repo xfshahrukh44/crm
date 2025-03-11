@@ -149,6 +149,37 @@
     <script src="{{ asset('newglobal/js/Chart.min.js') }}"></script>
     <script src="{{ asset('newglobal/js/sweetalert2.min.js') }}"></script>
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+    <script>
+        $(document).ready(() => {
+            //global vars
+            let auth_id = parseInt('{{auth()->id()}}');
+
+            // Enable Pusher logging - don't include this in production
+            Pusher.logToConsole = true;
+
+            var pusher = new Pusher('7d1bc788fe2aaa7a2ea5', {
+                cluster: 'ap2'
+            });
+
+            var channel = pusher.subscribe('buh-'+auth_id+'-invoice-channel');
+            channel.bind('invoice-paid', function(data) {
+                swal({
+                    icon: 'info',
+                    title: 'Invoice #'+data.invoice.id+' ($'+data.invoice.amount+') has been marked as paid!',
+                    showDenyButton: false,
+                    showCancelButton: false,
+                    confirmButtonText: "View invoice",
+                }).then((result) => {
+                    if (result && data.invoice.redirect_url) {
+                        window.location.href = data.invoice.redirect_url
+                    }
+                });
+                // alert(JSON.stringify(data));
+                console.log(data);
+            });
+        });
+    </script>
 
     <script>
         $(document).ready(() => {

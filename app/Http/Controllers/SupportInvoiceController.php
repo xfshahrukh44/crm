@@ -30,6 +30,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 
 class SupportInvoiceController extends Controller
 {
@@ -505,6 +506,15 @@ class SupportInvoiceController extends Controller
         $invoice->payment_status = 2;
         $invoice->invoice_date = Carbon::today()->toDateTimeString();
         $invoice->save();
+
+        //buh pusher notification
+        $buh_ids = User::where('is_employee', 6)->whereIn('id', DB::table('brand_users')->where('brand_id', $invoice->brand)->pluck('user_id')->toArray())->pluck('id')->toArray();
+        $inv_arr = $invoice->toArray();
+        $inv_arr['redirect_url'] = route('manager.link', $invoice->id);
+
+        foreach ($buh_ids as $buh_id) {
+            emit_pusher_notification('buh-'.$buh_id.'-invoice-channel', 'invoice-paid', ['invoice' => $inv_arr]);
+        }
 
         //mail_notification
         $_getBrand = Brand::find($invoice->brand);
