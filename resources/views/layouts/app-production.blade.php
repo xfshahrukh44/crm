@@ -201,9 +201,9 @@
             });
         }, 1200000)
     </script>
-{{--        @if(\Illuminate\Support\Facades\Route::is('brands.dashboard.v3'))--}}
+        @if(auth()->id() == 3117)
         @livewireScripts
         @include('livewire.production.listeners')
-{{--        @endif--}}
+        @endif
 </body>
 </html>
