@@ -106,18 +106,33 @@
             file_uploader_init_check = true;
         });
 
-        let refresh_interval = null;
+        //auto refresh
+        let refreshInterval = null;
+        let userActive = false;
+        let inactivityTimeout = null;
+        const inactivityThreshold = 300000;
         Livewire.on('set_refresh_time', function (refresh_time) {
-            // Clear any existing interval before setting a new one
-            if (refresh_interval) {
-                clearInterval(refresh_interval);
+            if (refreshInterval) {
+                clearInterval(refreshInterval);
             }
 
-            // Set a new interval to refresh Livewire at the specified time
-            refresh_interval = setInterval(() => {
-                Livewire.emit('refresh');
+            refreshInterval = setInterval(() => {
+                if (!userActive) {
+                    Livewire.emit('refresh');
+                }
             }, refresh_time);
         });
+
+        // Detect user activity (mouse move, click, key press)
+        $(document).on("mousemove click keydown", resetUserActivity);
+
+        function resetUserActivity() {
+            userActive = true;
+            clearTimeout(inactivityTimeout);
+            inactivityTimeout = setTimeout(() => {
+                userActive = false;
+            }, inactivityThreshold);
+        }
 
         // -------------------------project detail scripts-------------------------
         $('body').on('click', '.btn_read_more', function () {
