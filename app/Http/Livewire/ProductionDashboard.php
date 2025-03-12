@@ -198,6 +198,7 @@ class ProductionDashboard extends Component
             $this->emit('focus_input', '#input_dashboard_search');
         }
 
+        $this->emit('set_refresh_time', 300000);
         return view('livewire.production.dashboard', compact('current_projects', 'notification_project_ids'))->extends($this->layout);
     }
 
@@ -236,6 +237,7 @@ class ProductionDashboard extends Component
         $this->emit('scroll_to_bottom', 'chat_bubbles_wrapper');
         $this->emit('init_file_uploader', ['selector' => '#input_upload_files', 'task_id' => $project_id, 'modal_selector' => '#upload_files_modal']);
 
+        $this->emit('set_refresh_time', 1800000);
         return view('livewire.production.project-detail', compact('project', 'sub_task_messages', 'notification_subtask_ids', 'notification_notification_ids'))->extends($this->layout);
     }
 

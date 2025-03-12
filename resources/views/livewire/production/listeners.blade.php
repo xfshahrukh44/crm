@@ -106,6 +106,19 @@
             file_uploader_init_check = true;
         });
 
+        let refresh_interval = null;
+        Livewire.on('set_refresh_time', function (refresh_time) {
+            // Clear any existing interval before setting a new one
+            if (refresh_interval) {
+                clearInterval(refresh_interval);
+            }
+
+            // Set a new interval to refresh Livewire at the specified time
+            refresh_interval = setInterval(() => {
+                Livewire.emit('refresh');
+            }, refresh_time);
+        });
+
         // -------------------------project detail scripts-------------------------
         $('body').on('click', '.btn_read_more', function () {
             $('#fancybox-content').html($(this).data('text'));
