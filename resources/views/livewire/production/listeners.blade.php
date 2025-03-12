@@ -110,7 +110,7 @@
         let refreshInterval = null;
         let userActive = false;
         let inactivityTimeout = null;
-        const inactivityThreshold = 300000;
+        const inactivityThreshold = 300000; //5 minutes inactivity
         Livewire.on('set_refresh_time', function (refresh_time) {
             if (refreshInterval) {
                 clearInterval(refreshInterval);
@@ -122,10 +122,8 @@
                 }
             }, refresh_time);
         });
-
         // Detect user activity (mouse move, click, key press)
         $(document).on("mousemove click keydown", resetUserActivity);
-
         function resetUserActivity() {
             userActive = true;
             clearTimeout(inactivityTimeout);
