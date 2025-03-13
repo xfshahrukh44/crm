@@ -102,8 +102,12 @@ class AdminUserController extends Controller
             $user->is_support_head = ($request->input('is_employee') == 8) ? true : false;
             $user->save();
 
-            $user->brands()->sync($request->input('brand'));
-            $user->category()->sync($request->input('category'));
+            if ($request->has('brand')) {
+                $user->brands()->sync($request->input('brand'));
+            }
+            if ($request->has('category')) {
+                $user->category()->sync($request->input('category'));
+            }
 
             if(($request->input('is_employee') == 0) || ($request->input('is_employee') == 4) || ($request->input('is_employee') == 6)){
                 return redirect()->route('admin.user.sales.create')->with('success','Sale Person Created Successfully.');
