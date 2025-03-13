@@ -116,6 +116,9 @@ class Task extends Model
     public function latest_subtask_time(){
         if (!$record = $this->hasMany(SubTask::class, 'task_id', 'id')
             ->where('sub_task_id', 0)
+            ->whereHas('user', function ($q) {
+                return $q->whereIn('is_employee', [0, 2, 4, 6]);
+            })
             ->orderBy('created_at', 'DESC')->first()) {
             return 'N/A';
         }
