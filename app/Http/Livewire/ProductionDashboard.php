@@ -181,7 +181,9 @@ class ProductionDashboard extends Component
             })
             ->whereIn('category_id', $this->auth_category_ids)
             ->whereIn('status', $status_in_array)
-            ->addSelect(['latest_subtask_created_at' => SubTask::selectRaw('MAX(created_at)')->whereColumn('task_id', 'tasks.id')])
+            ->addSelect(['latest_subtask_created_at' => SubTask::whereHas('user', function ($q) {
+                return $q->whereIn('is_employee', [0, 2, 4, 6]);
+            })->selectRaw('MAX(created_at)')->whereColumn('task_id', 'tasks.id')])
             ->orderByDesc('latest_subtask_created_at')
     //        ->orderBy('status', 'ASC')
             ->paginate(8);
