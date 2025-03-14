@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Lead;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Validator;
 use App\Notifications\LeadNotification;
@@ -60,19 +62,36 @@ class ApiHomeController extends Controller{
             $get_client =  DB::table('clients')->where('email', $email)->where('contact', $phone)->first();
 
             if($get_client == null){
-                $client = new Client();
+//                $client = new Client();
+//                $client->name = $f_name;
+//                $client->last_name  = $l_name;
+//                $client->email = $email;
+//                $client->contact = $phone;
+//                $client->user_id = null;
+//                $client->status = 1;
+//                $client->brand_id  =  $brand->id;
+//                $client->url = $url;
+//                $client->subject = $subject;
+//                $client->service = $services;
+//                $client->message = $message;
+//                $client->created_at = new \DateTime();
+//                $client->save();
+//                $this->sendLeadNotification($client->id, 2);
+//                return response()->json(['status' => true, 'message' => $client->id]);
+
+                $client = new Lead();
                 $client->name = $f_name;
                 $client->last_name  = $l_name;
                 $client->email = $email;
                 $client->contact = $phone;
                 $client->user_id = null;
-                $client->status = 1;
-                $client->brand_id  =  $brand->id;
+                $client->status = 'On Discussion';
+                $client->brand  =  $brand->id;
                 $client->url = $url;
                 $client->subject = $subject;
                 $client->service = $services;
                 $client->message = $message;
-                $client->created_at = new \DateTime();
+                $client->created_at = Carbon::now();
                 $client->save();
                 $this->sendLeadNotification($client->id, 2);
                 return response()->json(['status' => true, 'message' => $client->id]);
@@ -87,7 +106,8 @@ class ApiHomeController extends Controller{
     public function sendLeadNotification($client, $role) {
         //role define woh gets notification
         if($role == 2){
-            $client_data = DB::table('clients')->where('id', $client)->first();
+//            $client_data = DB::table('clients')->where('id', $client)->first();
+            $client_data = DB::table('leads')->where('id', $client)->first();
             $adminusers = User::where('is_employee', 2)->get();
             $leadData = [
                 'name' => $client_data->name,

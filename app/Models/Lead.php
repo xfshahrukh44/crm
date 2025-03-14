@@ -18,7 +18,10 @@ class Lead extends Model
         'email',
         'contact',
         'status',
-        'service'
+        'service',
+        'url',
+        'subject',
+        'message'
     ];
 
     public function _brand(){

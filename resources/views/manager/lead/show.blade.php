@@ -51,6 +51,26 @@
                                     </button>
                                 </td>
                             </tr>
+                            <tr>
+                                <th>URL</th>
+                                <td>
+                                    <a href="{{$lead->url ?? '#'}}">
+                                        {{$lead->url ?? 'N/A'}}
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Subject</th>
+                                <td>
+                                    {{$lead->subject ?? 'N/A'}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Message</th>
+                                <td>
+                                    {{$lead->message ?? 'N/A'}}
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
