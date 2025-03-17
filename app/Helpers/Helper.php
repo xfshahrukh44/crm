@@ -2371,7 +2371,7 @@ function get_my_members_by_category ($category_id) {
 }
 
 function get_authorize_merchant_ids () {
-    return [3, 5, 7, 8, 9, 10, 11];
+    return [3, 5, 7, 8, 9, 10, 11, 12];
 }
 
 function get_user_search ($q, $string) {
