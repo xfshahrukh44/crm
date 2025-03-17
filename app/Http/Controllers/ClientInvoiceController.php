@@ -6,6 +6,7 @@ use App\Models\Brand;
 use App\Models\Client;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class ClientInvoiceController extends Controller
@@ -73,6 +74,7 @@ class ClientInvoiceController extends Controller
         ]);
 
         if ($authorize_charge_res['success'] == true) {
+            Log::info('Authorize charge on invoice #123.' . json_encode($authorize_charge_res));
             $invoice->authorize_transaction_id = $authorize_charge_res['data']['transaction_id'];
             $invoice->payment_status = 2;
             $invoice->save();
