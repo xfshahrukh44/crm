@@ -29,7 +29,7 @@ class MerchantController extends Controller
             $merchant->secret_key = $request->secret_key;
             $merchant->status = $request->status;
             $merchant->login_id = $request->login_id;
-            $merchant->is_authorized = $request->is_authorized;
+            $merchant->is_authorized = $request->is_authorized ?? '0';
             $merchant->save();
             return redirect()->route('admin.merchant.index')->with('success','Merchant created Successfully.');
         } catch (\Exception $e) {
