@@ -209,12 +209,16 @@
                                     {{--end no messages info--}}
 
                                     @if(!$all_messages_fetched)
-                                        <div class="row justify-content-center pt-3">
-                                            <h6>
-                                                <a href="javascript:void(0)" class="text-info" wire:click="load_more_messages">
-                                                    See older messages
-                                                </a>
-                                            </h6>
+                                        <div class="row justify-content-center pt-3 py-2">
+                                            <span class="badge badge-gray-400 badge-sm" style="cursor: pointer;" wire:click="load_more_messages">
+                                                <i class="bi bi-clock-history"></i>
+                                                Load more
+                                            </span>
+{{--                                            <h6>--}}
+{{--                                                <a href="javascript:void(0)" class="text-info" wire:click="load_more_messages">--}}
+{{--                                                    See older messages--}}
+{{--                                                </a>--}}
+{{--                                            </h6>--}}
                                         </div>
                                     @endif
                                     @foreach($sub_task_messages as $message)
