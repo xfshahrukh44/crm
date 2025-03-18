@@ -395,10 +395,10 @@
                                                            data-lcl-author="{{$file_author}} at {{$file_timestamp}}"
                                                            data-lcl-thumb="{{$file_src}}"
                                                         >
-                                                            <img src="{{$image_src}}" alt="" height="64">
+                                                            <img src="{{$image_src}}" alt="" height="64" style="max-width: 100px; max-height: 64px; object-fit: contain;">
                                                         </a>
                                                     @else
-                                                        <img src="{{$image_src}}" alt="" height="64">
+                                                        <img src="{{$image_src}}" alt="" height="64" style="max-width: 100px; max-height: 64px; object-fit: contain;">
                                                     @endif
                                                     <br>
 {{--                                                    <a href="{{$file_src}}" download>--}}
