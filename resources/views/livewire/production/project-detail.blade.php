@@ -208,9 +208,18 @@
                                     @endif
                                     {{--end no messages info--}}
 
+                                    @if(!$all_messages_fetched)
+                                        <div class="row justify-content-center pt-3">
+                                            <h6>
+                                                <a href="javascript:void(0)" class="text-info" wire:click="load_more_messages">
+                                                    See older messages
+                                                </a>
+                                            </h6>
+                                        </div>
+                                    @endif
                                     @foreach($sub_task_messages as $message)
                                         @if(in_array($message->user->is_employee, [0, 2, 4, 6]))
-                                            <div class="row ">
+                                            <div class="row">
                                                 <div class="col-md-9 col-9">
                                                     <div class="row my-2 py-2" style="border: 2px solid lightblue; border-radius: 8px; background-color: #add8e644;">
                                                         <div class="col-md-12 text-left" style="font-weight: 800; font-size: 14px;">

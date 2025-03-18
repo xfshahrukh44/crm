@@ -38,6 +38,7 @@ class ProductionDashboard extends Component
     public $dashboard_persistent_pagination = false;
 
     public $project_detail_search_message_query = '';
+    public $project_detail_message_count = 10;
 
     protected $listeners = [
         'back' => 'back',
@@ -98,7 +99,11 @@ class ProductionDashboard extends Component
     }
 
     public function back () {
-        $this->dashboard_persistent_pagination = (bool) str_contains(end($this->history), 'project_detail');
+        $project_detail_visit_check = str_contains(end($this->history), 'project_detail');
+        //persistent pagination
+        $this->dashboard_persistent_pagination = (bool) $project_detail_visit_check;
+        //see older messages
+        $this->project_detail_message_count = $project_detail_visit_check ? 10 : $this->project_detail_message_count;
 
         //prevent back with one page in history
         if ($this->history === ['production_dashboard']) {
@@ -214,14 +219,25 @@ class ProductionDashboard extends Component
         }
 
         //subtask - messages
-        $sub_task_messages = SubTask::with('assign_members.assigned_to_user')->whereHas('user')
+        $sub_task_messages = SubTask::with('assign_members.assigned_to_user')
+            ->whereHas('user')
             ->where([
                 'task_id' => $project->id,
                 'sub_task_id' => 0,
-            ])->when($this->project_detail_search_message_query != '', function ($q) {
+            ])
+            ->when($this->project_detail_search_message_query != '', function ($q) {
                 return $q->where('description', 'LIKE', '%'.$this->project_detail_search_message_query.'%');
-            })
-            ->orderBy('id', 'ASC')->get();
+            });
+
+        //see older messages
+        $all_messages_fetched = (bool)($sub_task_messages->count() <= $this->project_detail_message_count);
+
+        $sub_task_messages = $sub_task_messages
+            ->orderBy('id', 'DESC') // Get latest messages
+            ->take($this->project_detail_message_count) // Limit to last $n messages
+            ->get()
+            ->sortBy('id') // Sort back in ascending order
+            ->values(); // Reset array indexes
 
         $notification_subtask_ids = [];
         $notification_notification_ids = [];
@@ -240,7 +256,7 @@ class ProductionDashboard extends Component
         $this->emit('init_file_uploader', ['selector' => '#input_upload_files', 'task_id' => $project_id, 'modal_selector' => '#upload_files_modal']);
 
         $this->emit('set_refresh_time', 1800000);
-        return view('livewire.production.project-detail', compact('project', 'sub_task_messages', 'notification_subtask_ids', 'notification_notification_ids'))->extends($this->layout);
+        return view('livewire.production.project-detail', compact('project', 'sub_task_messages', 'notification_subtask_ids', 'notification_notification_ids', 'all_messages_fetched'))->extends($this->layout);
     }
 
     public function set_project_status ($project_id, $status) {
@@ -385,6 +401,12 @@ class ProductionDashboard extends Component
 
         $this->emit('success', 'Notification cleared.');
         return $this->render();
+    }
+
+    public function load_more_messages()
+    {
+        $this->project_detail_message_count += 10;
+        $this->emit('scroll_to_top', '#chat_bubbles_wrapper');
     }
 
     public function test ($data) {

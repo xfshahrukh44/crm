@@ -106,6 +106,12 @@
             file_uploader_init_check = true;
         });
 
+        Livewire.on('scroll_to_top', function (selector) {
+            setTimeout(() => {
+                $(selector).scrollTop(0);
+            }, 25);
+        });
+
         //auto refresh
         let refreshInterval = null;
         let userActive = false;
@@ -274,6 +280,11 @@
             $('#upload_files_modal').modal('show');
         });
 
+        $('body').on('click', '#anchor_see_older_messages', function () {
+            $('#input_fetched_messages_count').val( parseInt($('#input_fetched_messages_count').val()) + 10 );
+            $('#input_fetched_messages_count').trigger('change');
+        });
+
         //backspace & reload
         $('body').on('keyup', function(event) {
             if ((event.key === 'Backspace' || event.keyCode === 8) && $(":focus").length == 0) {
@@ -294,15 +305,6 @@
 
             return true;
         });
-
-        //reload
-        // $('body').keydown(function(event) {
-        //     if (event.ctrlKey && (event.key === 'r' || event.key === 'R')) {
-        //         event.preventDefault(); // Prevents the default refresh action
-        //
-        //         Livewire.emit('refresh');
-        //     }
-        // });
 
         //ctrl_f
         $('body').keydown(function(event) {
