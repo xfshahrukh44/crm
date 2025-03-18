@@ -103,7 +103,7 @@ class ProductionDashboard extends Component
         //persistent pagination
         $this->dashboard_persistent_pagination = (bool) $project_detail_visit_check;
         //see older messages
-        $this->project_detail_message_count = $project_detail_visit_check ? 10 : $this->project_detail_message_count;
+        $this->project_detail_message_count = $project_detail_visit_check ? 5 : $this->project_detail_message_count;
 
         //prevent back with one page in history
         if ($this->history === ['production_dashboard']) {
