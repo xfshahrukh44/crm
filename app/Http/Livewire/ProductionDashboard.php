@@ -38,7 +38,7 @@ class ProductionDashboard extends Component
     public $dashboard_persistent_pagination = false;
 
     public $project_detail_search_message_query = '';
-    public $project_detail_message_count = 10;
+    public $project_detail_message_count = 5;
 
     protected $listeners = [
         'back' => 'back',
@@ -405,7 +405,7 @@ class ProductionDashboard extends Component
 
     public function load_more_messages()
     {
-        $this->project_detail_message_count += 10;
+        $this->project_detail_message_count += 5;
         $this->emit('scroll_to_top', '#chat_bubbles_wrapper');
     }
 
