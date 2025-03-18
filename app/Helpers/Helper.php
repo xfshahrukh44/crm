@@ -1708,7 +1708,7 @@ function get_authorize_keys ($merchant_id) {
         ],
         12 => [
             'login_id' => '4J5F3pdP',
-            'transaction_key' => '9BHp7J9Vra8h259a',
+            'transaction_key' => '5Mu7epV6R4d8k2Zv',
         ]
     ];
 
