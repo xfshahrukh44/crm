@@ -433,7 +433,7 @@
                                                                 <input class="form-control" type="text" name="zip" required>
                                                             </div>
                                                             <div class="col-md-12 form-group mt-2">
-                                                                <button type="submit" class="btn btn-primary btn-block">
+                                                                <button id="button_submit" type="submit" class="btn btn-primary btn-block">
                                                                     Pay {{$invoice->currency_show->sign}}{{ $invoice->amount }}
                                                                 </button>
                                                             </div>
@@ -566,6 +566,15 @@
                                         <input class="form-control" type="text" name="state" id="state" required>
                                     </div>`);
             }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('form').on('submit', function () {
+                $(this).find('#button_submit').text('Please wait');
+                $(this).find('#button_submit').prop('disabled', true);
+            });
         });
     </script>
 </body>
