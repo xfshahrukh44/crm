@@ -26,6 +26,7 @@ use App\Models\Proofreading;
 use App\Models\Isbnform;
 use App\Models\Bookprinting;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\Currency;
@@ -78,6 +79,18 @@ class ClientController extends Controller
             })->whereIn('brand_id', auth()->user()->brand_list());
         }
 
+        //restricted brand access
+        $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+        $data->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
+            return $q->where(function ($query) use ($restricted_brands) {
+                $query->whereNotIn('brand_id', $restricted_brands)
+                    ->orWhere(function ($subQuery) use ($restricted_brands) {
+                        $subQuery->whereIn('brand_id', $restricted_brands)
+                            ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                    });
+            });
+        });
+
         $data = $data->paginate(10);
         return view('sale.client.index', compact('data'));
     }
@@ -119,6 +132,18 @@ class ClientController extends Controller
                     });
                 })->whereIn('brand_id', auth()->user()->brand_list());
         }
+
+        //restricted brand access
+        $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+        $data->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
+            return $q->where(function ($query) use ($restricted_brands) {
+                $query->whereNotIn('brand_id', $restricted_brands)
+                    ->orWhere(function ($subQuery) use ($restricted_brands) {
+                        $subQuery->whereIn('brand_id', $restricted_brands)
+                            ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                    });
+            });
+        });
 
         $data = $data->paginate(20);
         return view('manager.client.index', compact('data'));

@@ -9,6 +9,7 @@ use App\Models\Merchant;
 use App\Models\Service;
 use App\Models\Task;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -60,6 +61,18 @@ class SupportClientController extends Controller
                     });
                 })->whereIn('brand_id', auth()->user()->brand_list());
         }
+
+        //restricted brand access
+        $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+        $data->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
+            return $q->where(function ($query) use ($restricted_brands) {
+                $query->whereNotIn('brand_id', $restricted_brands)
+                    ->orWhere(function ($subQuery) use ($restricted_brands) {
+                        $subQuery->whereIn('brand_id', $restricted_brands)
+                            ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                    });
+            });
+        });
 
         $data = $data->paginate(10);
         return view('support.client.index', compact('data'));

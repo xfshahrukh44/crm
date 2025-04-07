@@ -34,7 +34,9 @@ class User extends Authenticatable
         'is_support_head',
         'alternate_email',
         'pseudo_name',
-        'is_upsell'
+        'is_upsell',
+        'restricted_brands',
+        'restricted_brands_cutoff_date',
     ];
 
     /**

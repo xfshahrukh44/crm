@@ -6,6 +6,7 @@ use App\Models\Brand;
 use App\Models\Client;
 use App\Models\Lead;
 use App\Models\Service;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -30,6 +31,19 @@ class ManagerLeadController extends Controller
             if($request->status != ''){
                 $data = $data->where('status', $request->status);
             }
+
+            //restricted brand access
+            $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+            $data->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
+                });
+            });
+
             $data = $data->paginate(20);
             $brands = DB::table('brands')->whereIn('id', auth()->user()->brand_list())->get();
             return view('manager.lead.index', compact('data', 'brands'));

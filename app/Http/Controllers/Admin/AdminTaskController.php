@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Task;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Client;
 use App\Models\SubTask;
@@ -129,6 +130,19 @@ class AdminTaskController extends Controller
             $data->when($request->has('project_id'), function ($q) use ($request) {
                 return $q->where('project_id', $request->get('project_id'));
             });
+
+            //restricted brand access
+            $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+            $data->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand_id', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand_id', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
+                });
+            });
+
             $data = $data->paginate(10);
             // $data = $data->get();
 
@@ -168,7 +182,7 @@ class AdminTaskController extends Controller
 
                         $display .=
                             '<tr>
-                        <td>'.$rander->id.'</td> 
+                        <td>'.$rander->id.'</td>
                         <td><a href="'.route('manager.task.show', $rander->id).'">'.\Illuminate\Support\Str::limit(strip_tags($rander->description), 30, $end='...').'</a></td>
                         <td>'.$rander->projects->name.'</td>
                         <td>
@@ -229,7 +243,7 @@ class AdminTaskController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
-        
+
     }
 
     /**
@@ -270,7 +284,7 @@ class AdminTaskController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Task  $task 
+     * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
 
@@ -302,7 +316,7 @@ class AdminTaskController extends Controller
      */
     public function edit($id)
     {
-        
+
     }
 
     /**

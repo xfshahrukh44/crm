@@ -86,6 +86,27 @@
                         <!--    <input type="text" class="form-control" value="{{ $data->verfication_code}}" readonly>-->
                         <!--</div>-->
 
+                        <hr style="border: 1px solid #e6e6e6; width: 96%; color: #e6e6e6; height: 1px;">
+
+                        <div class="col-md-12">
+                            <h4>Brand access</h4>
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label for="brand">Restricted brands</label>
+                            <select name="restricted_brands[]" id="restricted_brands" class="form-control select2" required multiple="multiple">
+                                @php
+                                    $restricted_brands = json_decode($data->restricted_brands ?? '[]');
+                                @endphp
+                                @foreach($brand as $brands)
+                                    <option value="{{$brands->id}}" {!! in_array($brands->id, $restricted_brands) ? 'selected' : '' !!}>{{$brands->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label for="brand">Cutoff date</label>
+                            <input type="date" name="restricted_brands_cutoff_date" class="form-control" value="{{$data->restricted_brands_cutoff_date}}">
+                        </div>
+
 
                         <div class="col-md-12">
                             <button class="btn btn-primary" type="submit">Update Sale Agent</button>

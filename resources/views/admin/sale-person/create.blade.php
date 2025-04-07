@@ -66,6 +66,25 @@
                                 <option value="8">Support Head (PM HEAD)</option>
                             </select>
                         </div>
+
+                        <hr style="border: 1px solid #e6e6e6; width: 96%; color: #e6e6e6; height: 1px;">
+
+                        <div class="col-md-12">
+                            <h4>Brand access</h4>
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label for="brand">Restricted brands</label>
+                            <select name="restricted_brands[]" id="restricted_brands" class="form-control select2" required multiple="multiple">
+                                @foreach($brand as $brands)
+                                    <option value="{{$brands->id}}">{{$brands->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label for="brand">Cutoff date</label>
+                            <input type="date" name="restricted_brands_cutoff_date" class="form-control">
+                        </div>
+
                         <div class="col-md-12">
                             <button class="btn btn-primary" type="submit">Save Agent</button>
                         </div>

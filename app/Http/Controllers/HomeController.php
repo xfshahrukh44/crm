@@ -58,7 +58,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    
+
     public function productionHome(Request $request)
     {
         $category_id = array();
@@ -138,19 +138,19 @@ class HomeController extends Controller
                         $query->where('is_employee', '!=', 5);
                         $query->where('is_employee', '!=', 1);
                     })->limit(3)->get();
-                    
-        
+
+
         $today = date("Y-m-d");
-        // dd($today);            
-        
+        // dd($today);
+
         $today_subtasks = Subtask::orderBy('id', 'desc')->groupBy('task_id')->whereHas('task', function($q) use ($category_id){
                         $q->whereIn('category_id', $category_id);
                     })->whereHas('user', function($query) {
                         $query->where('is_employee', '!=', 5);
                         $query->where('is_employee', '!=', 1);
                     })->whereRaw('DATE_FORMAT(created_at, "%Y-%m-%d") = ?', [now()->toDateString()])->get();
-            
-                    
+
+
         $cat = Auth::user()->category_list();
         $member = User::where('is_employee', 5)->whereHas('category', function ($query) use ($cat){
             return $query->whereIn('category_id', $cat);
@@ -189,8 +189,8 @@ class HomeController extends Controller
             if($user->image != ''  && $user->image != null){
                 $file_old = $user->image;
                 unlink($file_old);
-           } 
-           $user->image = $path;   
+           }
+           $user->image = $path;
         }
         $user->name = $request->name;
         $user->last_name = $request->last_name;
@@ -200,7 +200,7 @@ class HomeController extends Controller
         }
         $user->contact = $contact;
         $user->update();
-        return redirect()->back()->with('success', 'Profile Updated Successfully.');   
+        return redirect()->back()->with('success', 'Profile Updated Successfully.');
     }
 
     public function updateProfileManager(Request $request, $id){
@@ -217,8 +217,8 @@ class HomeController extends Controller
             if($user->image != ''  && $user->image != null){
                 $file_old = $user->image;
                 unlink($file_old);
-           } 
-           $user->image = $path;   
+           }
+           $user->image = $path;
         }
         $user->name = $request->name;
         $user->last_name = $request->last_name;
@@ -228,7 +228,7 @@ class HomeController extends Controller
         }
         $user->contact = $contact;
         $user->update();
-        return redirect()->back()->with('success', 'Profile Updated Successfully.');   
+        return redirect()->back()->with('success', 'Profile Updated Successfully.');
     }
 
     public function updateProfile(Request $request, $id){
@@ -245,8 +245,8 @@ class HomeController extends Controller
             if($user->image != ''  && $user->image != null){
                 $file_old = $user->image;
                 unlink($file_old);
-           } 
-           $user->image = $path;   
+           }
+           $user->image = $path;
         }
         $user->name = $request->name;
         $user->last_name = $request->last_name;
@@ -256,7 +256,7 @@ class HomeController extends Controller
         }
         $user->contact = $contact;
         $user->update();
-        return redirect()->back()->with('success', 'Profile Updated Successfully.');   
+        return redirect()->back()->with('success', 'Profile Updated Successfully.');
     }
 
     public function changePasswordManager(){
@@ -266,14 +266,14 @@ class HomeController extends Controller
     public function changePassword(){
         return view('sale.change-password');
     }
-    
+
     public function updatePasswordManager(Request $request){
         $request->validate([
             'current_password' => ['required', new MatchOldPassword],
             'new_password' => ['required'],
             'new_confirm_password' => ['same:new_password'],
         ]);
-   
+
         User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
         return redirect()->back()->with('success', 'Password Change Successfully.');
     }
@@ -284,7 +284,7 @@ class HomeController extends Controller
             'new_password' => ['required'],
             'new_confirm_password' => ['same:new_password'],
         ]);
-   
+
         User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
         return redirect()->back()->with('success', 'Password Change Successfully.');
     }
@@ -297,7 +297,7 @@ class HomeController extends Controller
     }
 
     public function packageList($service_id, $brand_id){
-        
+
     }
 
     public function saleChat($id){
@@ -324,7 +324,21 @@ class HomeController extends Controller
 
     public function getProjectBySale(){
         $brand_list = Auth::user()->brand_list();
-        $data = Project::whereIn('brand_id', $brand_list)->where('user_id', '!=',Auth()->user()->id)->orderBy('id', 'desc')->paginate(10);
+        $data = Project::whereIn('brand_id', $brand_list)->where('user_id', '!=',Auth()->user()->id)->orderBy('id', 'desc');
+
+        //restricted brand access
+        $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+        $data->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
+            return $q->where(function ($query) use ($restricted_brands) {
+                $query->whereNotIn('brand_id', $restricted_brands)
+                    ->orWhere(function ($subQuery) use ($restricted_brands) {
+                        $subQuery->whereIn('brand_id', $restricted_brands)
+                            ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                    });
+            });
+        });
+
+        $data = $data->paginate(10);
         return view('sale.all-projects', compact('data'));
     }
 

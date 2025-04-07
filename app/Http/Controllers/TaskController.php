@@ -732,6 +732,18 @@ class TaskController extends Controller
             return $q->where('project_id', $request->get('project_id'));
         });
 
+        //restricted brand access
+        $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+        $data->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
+            return $q->where(function ($query) use ($restricted_brands) {
+                $query->whereNotIn('brand_id', $restricted_brands)
+                    ->orWhere(function ($subQuery) use ($restricted_brands) {
+                        $subQuery->whereIn('brand_id', $restricted_brands)
+                            ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                    });
+            });
+        });
+
         $data = $data->whereNotIn('id', $task_array)->orderBy('id', 'desc')->paginate(20);
 
         $notify_data = Task::whereIn('brand_id', Auth()->user()->brand_list())

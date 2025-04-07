@@ -1287,6 +1287,19 @@ class InvoiceController extends Controller
         $data->when($request->has('client_id'), function ($q) use ($request) {
             return $q->where('client_id', $request->get('client_id'));
         });
+
+        //restricted brand access
+        $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+        $data->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
+            return $q->where(function ($query) use ($restricted_brands) {
+                $query->whereNotIn('brand', $restricted_brands)
+                    ->orWhere(function ($subQuery) use ($restricted_brands) {
+                        $subQuery->whereIn('brand', $restricted_brands)
+                            ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                    });
+            });
+        });
+
         $data = $data->paginate(10);
         return view('manager.invoice.index', compact('data'));
     }
@@ -2160,7 +2173,21 @@ class InvoiceController extends Controller
 
     public function managerRefundCB (Request $request)
     {
-        $refund_cb_invoices = Invoice::whereIn('brand', auth()->user()->brand_list())->whereNotNull('refund_cb_date')->paginate(10);
+        $refund_cb_invoices = Invoice::whereIn('brand', auth()->user()->brand_list())->whereNotNull('refund_cb_date');
+
+        //restricted brand access
+        $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+        $refund_cb_invoices->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
+            return $q->where(function ($query) use ($restricted_brands) {
+                $query->whereNotIn('brand', $restricted_brands)
+                    ->orWhere(function ($subQuery) use ($restricted_brands) {
+                        $subQuery->whereIn('brand', $restricted_brands)
+                            ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                    });
+            });
+        });
+
+        $refund_cb_invoices = $refund_cb_invoices->paginate(10);
 
         return view('manager.invoice.refund', compact('refund_cb_invoices'));
     }
@@ -2212,8 +2239,21 @@ class InvoiceController extends Controller
                 return $q->where('merchant_id', '=', $request->get('merchant'));
             })
             ->whereYear('created_at', '=', Carbon::now()->year)
-            ->orderBy('created_at', 'DESC')
-            ->get();
+            ->orderBy('created_at', 'DESC');
+
+        //restricted brand access
+        $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+        $data->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
+            return $q->where(function ($query) use ($restricted_brands) {
+                $query->whereNotIn('brand', $restricted_brands)
+                    ->orWhere(function ($subQuery) use ($restricted_brands) {
+                        $subQuery->whereIn('brand', $restricted_brands)
+                            ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                    });
+            });
+        });
+
+        $data = $data->get();
 
         $amount = 0;
         $refund = 0;

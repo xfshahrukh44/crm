@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use App\Models\Brand;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Client;
 use App\Models\Category;
@@ -45,7 +46,22 @@ class AdminProjectController extends Controller
     public function indexManager()
     {
         try {
-            $data = Project::whereHas('client')->whereIn('brand_id', Auth()->user()->brand_list())->get();
+            $data = Project::whereHas('client')->whereIn('brand_id', Auth()->user()->brand_list());
+
+            //restricted brand access
+            $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+            $data->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand_id', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand_id', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
+                });
+            });
+
+            $data = $data->get();
+
             $brands = Brand::whereIn('id', Auth()->user()->brand_list())->get();
             $clients = User::where('is_employee', 3)->whereHas('client', function ($query){
                 return $query->whereIn('brand_id', Auth()->user()->brand_list());
