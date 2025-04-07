@@ -267,8 +267,23 @@ class BrandDashboard extends Component
                         ->orWhere('email', 'LIKE', '%'. $this->client_name .'%')
                         ->orWhere('contact', 'LIKE', '%'. $this->client_name .'%');
                 });
-            })
-            ->paginate(10);
+            });
+
+
+
+        //restricted brand access
+        $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+        $clients->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
+            return $q->where(function ($query) use ($restricted_brands) {
+                $query->whereNotIn('brand_id', $restricted_brands)
+                    ->orWhere(function ($subQuery) use ($restricted_brands) {
+                        $subQuery->whereIn('brand_id', $restricted_brands)
+                            ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                    });
+            });
+        });
+
+        $clients = $clients->paginate(10);
 
         $brand_user_ids = DB::table('brand_users')->where('brand_id', $brand_id)->pluck('user_id')->toArray();
 

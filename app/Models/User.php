@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -144,7 +145,17 @@ class User extends Authenticatable
 
     public function recent_projects()
     {
-        return $this->hasMany(Project::class, 'client_id', 'id')->orderBy('updated_at', 'DESC');
+        //restricted brand access
+        $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's a
+        return $this->hasMany(Project::class, 'client_id', 'id')->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
+            return $q->where(function ($query) use ($restricted_brands) {
+                $query->whereNotIn('brand_id', $restricted_brands)
+                    ->orWhere(function ($subQuery) use ($restricted_brands) {
+                        $subQuery->whereIn('brand_id', $restricted_brands)
+                            ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                    });
+            });
+        })->orderBy('updated_at', 'DESC');
     }
 
     public function projects_count()

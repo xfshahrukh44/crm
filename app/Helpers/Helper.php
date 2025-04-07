@@ -725,10 +725,25 @@ function get_brief_client_user_ids (Request $request = null, $brand_id = null) {
 function get_briefs_pending ($client_user_id) {
     $briefs_pending_array = [];
 
+    //restricted brand access
+    $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+    $restricted_brands_check = !empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date);
+
     if ((LogoForm::where('logo_name', '')
         ->when(auth()->user()->is_employee != 2, function ($q) {
             return $q->whereHas('invoice', function ($query) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
+            });
+        })
+        ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+            return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
+                });
             });
         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
@@ -742,6 +757,17 @@ function get_briefs_pending ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
+        ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+            return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
+                });
+            });
+        })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
         ->where('user_id', $client_user_id)->count()) > 0) {
         $briefs_pending_array []= 'Website brief';
@@ -751,6 +777,17 @@ function get_briefs_pending ($client_user_id) {
         ->when(auth()->user()->is_employee != 2, function ($q) {
             return $q->whereHas('invoice', function ($query) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
+            });
+        })
+        ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+            return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
+                });
             });
         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
@@ -764,6 +801,17 @@ function get_briefs_pending ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
+        ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+            return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
+                });
+            });
+        })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
         ->where('user_id', $client_user_id)->count()) > 0) {
         $briefs_pending_array []= 'Content writing brief';
@@ -773,6 +821,17 @@ function get_briefs_pending ($client_user_id) {
         ->when(auth()->user()->is_employee != 2, function ($q) {
             return $q->whereHas('invoice', function ($query) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
+            });
+        })
+        ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+            return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
+                });
             });
         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
@@ -786,6 +845,17 @@ function get_briefs_pending ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
+        ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+            return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
+                });
+            });
+        })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
         ->where('user_id', $client_user_id)->count()) > 0) {
         $briefs_pending_array []= 'Book formatting and publishing';
@@ -795,6 +865,17 @@ function get_briefs_pending ($client_user_id) {
         ->when(auth()->user()->is_employee != 2, function ($q) {
             return $q->whereHas('invoice', function ($query) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
+            });
+        })
+        ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+            return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
+                });
             });
         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
@@ -808,6 +889,17 @@ function get_briefs_pending ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
+        ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+            return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
+                });
+            });
+        })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
         ->where('user_id', $client_user_id)->count()) > 0) {
         $briefs_pending_array []= 'Book writing';
@@ -815,7 +907,19 @@ function get_briefs_pending ($client_user_id) {
 
     if ((NoForm::whereHas('invoice', function ($query) {
         return $query->whereIn('brand', Auth::user()->brand_list());
-    })->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })->where('user_id', $client_user_id)->count()) > 0) {
+    })
+        ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+            return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
+                });
+            });
+        })
+            ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })->where('user_id', $client_user_id)->count()) > 0) {
         $briefs_pending_array []= 'No Brief';
     }
 
@@ -823,6 +927,17 @@ function get_briefs_pending ($client_user_id) {
         ->when(auth()->user()->is_employee != 2, function ($q) {
             return $q->whereHas('invoice', function ($query) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
+            });
+        })
+        ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+            return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
+                });
             });
         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
@@ -836,6 +951,17 @@ function get_briefs_pending ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
+        ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+            return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
+                });
+            });
+        })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
         ->where('user_id', $client_user_id)->count()) > 0) {
         $briefs_pending_array []= 'Cover design';
@@ -845,6 +971,17 @@ function get_briefs_pending ($client_user_id) {
         ->when(auth()->user()->is_employee != 2, function ($q) {
             return $q->whereHas('invoice', function ($query) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
+            });
+        })
+        ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+            return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
+                });
             });
         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
@@ -858,6 +995,17 @@ function get_briefs_pending ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
+        ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+            return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
+                });
+            });
+        })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
         ->where('user_id', $client_user_id)->count()) > 0) {
         $briefs_pending_array []= 'Book printing';
@@ -867,6 +1015,17 @@ function get_briefs_pending ($client_user_id) {
         ->when(auth()->user()->is_employee != 2, function ($q) {
             return $q->whereHas('invoice', function ($query) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
+            });
+        })
+        ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+            return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
+                });
             });
         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
@@ -880,6 +1039,17 @@ function get_briefs_pending ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
+        ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+            return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
+                });
+            });
+        })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
         ->where('user_id', $client_user_id)->count()) > 0) {
         $briefs_pending_array []= 'Book Marketing';
@@ -891,6 +1061,17 @@ function get_briefs_pending ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
+        ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+            return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
+                });
+            });
+        })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
         ->where('user_id', $client_user_id)->count()) > 0) {
         $briefs_pending_array []= 'Social Media Marketing (NEW)';
@@ -900,6 +1081,17 @@ function get_briefs_pending ($client_user_id) {
         ->when(auth()->user()->is_employee != 2, function ($q) {
             return $q->whereHas('invoice', function ($query) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
+            });
+        })
+        ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+            return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
+                });
             });
         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
@@ -1282,12 +1474,27 @@ function get_pending_projects ($client_user_id) {
     $user = User::find($client_user_id);
     $pending_projects = [];
 
+    //restricted brand access
+    $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+    $restricted_brands_check = !empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date);
+
     foreach (LogoForm::with('project')->doesntHave('project')
         ->when(auth()->user()->is_employee != 2, function ($q) {
             return $q->whereHas('invoice', function ($query) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
+         ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+             return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                 return $q->where(function ($query) use ($restricted_brands) {
+                     $query->whereNotIn('brand', $restricted_brands)
+                         ->orWhere(function ($subQuery) use ($restricted_brands) {
+                             $subQuery->whereIn('brand', $restricted_brands)
+                                 ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                         });
+                 });
+             });
+         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
          ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
@@ -1305,6 +1512,17 @@ function get_pending_projects ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
+                 ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+                     return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                         return $q->where(function ($query) use ($restricted_brands) {
+                             $query->whereNotIn('brand', $restricted_brands)
+                                 ->orWhere(function ($subQuery) use ($restricted_brands) {
+                                     $subQuery->whereIn('brand', $restricted_brands)
+                                         ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                                 });
+                         });
+                     });
+                 })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
          ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
@@ -1322,6 +1540,17 @@ function get_pending_projects ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
+         ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+             return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                 return $q->where(function ($query) use ($restricted_brands) {
+                     $query->whereNotIn('brand', $restricted_brands)
+                         ->orWhere(function ($subQuery) use ($restricted_brands) {
+                             $subQuery->whereIn('brand', $restricted_brands)
+                                 ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                         });
+                 });
+             });
+         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
          ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
@@ -1339,6 +1568,17 @@ function get_pending_projects ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
+         ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+             return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                 return $q->where(function ($query) use ($restricted_brands) {
+                     $query->whereNotIn('brand', $restricted_brands)
+                         ->orWhere(function ($subQuery) use ($restricted_brands) {
+                             $subQuery->whereIn('brand', $restricted_brands)
+                                 ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                         });
+                 });
+             });
+         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
          ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
@@ -1356,6 +1596,17 @@ function get_pending_projects ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
+         ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+             return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                 return $q->where(function ($query) use ($restricted_brands) {
+                     $query->whereNotIn('brand', $restricted_brands)
+                         ->orWhere(function ($subQuery) use ($restricted_brands) {
+                             $subQuery->whereIn('brand', $restricted_brands)
+                                 ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                         });
+                 });
+             });
+         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
          ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
@@ -1373,6 +1624,17 @@ function get_pending_projects ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
+         ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+             return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                 return $q->where(function ($query) use ($restricted_brands) {
+                     $query->whereNotIn('brand', $restricted_brands)
+                         ->orWhere(function ($subQuery) use ($restricted_brands) {
+                             $subQuery->whereIn('brand', $restricted_brands)
+                                 ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                         });
+                 });
+             });
+         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
          ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
@@ -1390,6 +1652,17 @@ function get_pending_projects ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
+         ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+             return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                 return $q->where(function ($query) use ($restricted_brands) {
+                     $query->whereNotIn('brand', $restricted_brands)
+                         ->orWhere(function ($subQuery) use ($restricted_brands) {
+                             $subQuery->whereIn('brand', $restricted_brands)
+                                 ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                         });
+                 });
+             });
+         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
          ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
@@ -1407,6 +1680,17 @@ function get_pending_projects ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
+         ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+             return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                 return $q->where(function ($query) use ($restricted_brands) {
+                     $query->whereNotIn('brand', $restricted_brands)
+                         ->orWhere(function ($subQuery) use ($restricted_brands) {
+                             $subQuery->whereIn('brand', $restricted_brands)
+                                 ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                         });
+                 });
+             });
+         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
          ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
@@ -1424,6 +1708,17 @@ function get_pending_projects ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
+         ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+             return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                 return $q->where(function ($query) use ($restricted_brands) {
+                     $query->whereNotIn('brand', $restricted_brands)
+                         ->orWhere(function ($subQuery) use ($restricted_brands) {
+                             $subQuery->whereIn('brand', $restricted_brands)
+                                 ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                         });
+                 });
+             });
+         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
          ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
@@ -1441,6 +1736,17 @@ function get_pending_projects ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
+         ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+             return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                 return $q->where(function ($query) use ($restricted_brands) {
+                     $query->whereNotIn('brand', $restricted_brands)
+                         ->orWhere(function ($subQuery) use ($restricted_brands) {
+                             $subQuery->whereIn('brand', $restricted_brands)
+                                 ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                         });
+                 });
+             });
+         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
          ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
@@ -1458,6 +1764,17 @@ function get_pending_projects ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
+         ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+             return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                 return $q->where(function ($query) use ($restricted_brands) {
+                     $query->whereNotIn('brand', $restricted_brands)
+                         ->orWhere(function ($subQuery) use ($restricted_brands) {
+                             $subQuery->whereIn('brand', $restricted_brands)
+                                 ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                         });
+                 });
+             });
+         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
          ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
@@ -1475,6 +1792,17 @@ function get_pending_projects ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
+         ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+             return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                 return $q->where(function ($query) use ($restricted_brands) {
+                     $query->whereNotIn('brand', $restricted_brands)
+                         ->orWhere(function ($subQuery) use ($restricted_brands) {
+                             $subQuery->whereIn('brand', $restricted_brands)
+                                 ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                         });
+                 });
+             });
+         })
         ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
          ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
@@ -1492,6 +1820,17 @@ function get_pending_projects ($client_user_id) {
                 return $query->whereIn('brand', Auth::user()->brand_list());
             });
         })
+         ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+             return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                 return $q->where(function ($query) use ($restricted_brands) {
+                     $query->whereNotIn('brand', $restricted_brands)
+                         ->orWhere(function ($subQuery) use ($restricted_brands) {
+                             $subQuery->whereIn('brand', $restricted_brands)
+                                 ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                         });
+                 });
+             });
+         })
         ->whereHas('invoice', function ($q) use ($user) {
             return $q->whereHas('brands')->whereHas('client', function ($q) use ($user) {
                 return $q->where('id', $user->client->id);
@@ -1514,6 +1853,17 @@ function get_pending_projects ($client_user_id) {
                          return $query->whereIn('brand', Auth::user()->brand_list());
                      });
                  })
+         ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+             return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                 return $q->where(function ($query) use ($restricted_brands) {
+                     $query->whereNotIn('brand', $restricted_brands)
+                         ->orWhere(function ($subQuery) use ($restricted_brands) {
+                             $subQuery->whereIn('brand', $restricted_brands)
+                                 ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                         });
+                 });
+             });
+         })
                  ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
                  ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
@@ -1531,6 +1881,17 @@ function get_pending_projects ($client_user_id) {
                          return $query->whereIn('brand', Auth::user()->brand_list());
                      });
                  })
+         ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+             return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                 return $q->where(function ($query) use ($restricted_brands) {
+                     $query->whereNotIn('brand', $restricted_brands)
+                         ->orWhere(function ($subQuery) use ($restricted_brands) {
+                             $subQuery->whereIn('brand', $restricted_brands)
+                                 ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                         });
+                 });
+             });
+         })
                  ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
                  ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
@@ -1548,6 +1909,17 @@ function get_pending_projects ($client_user_id) {
                          return $query->whereIn('brand', Auth::user()->brand_list());
                      });
                  })
+         ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+             return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                 return $q->where(function ($query) use ($restricted_brands) {
+                     $query->whereNotIn('brand', $restricted_brands)
+                         ->orWhere(function ($subQuery) use ($restricted_brands) {
+                             $subQuery->whereIn('brand', $restricted_brands)
+                                 ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                         });
+                 });
+             });
+         })
                  ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
                  ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
@@ -1565,6 +1937,17 @@ function get_pending_projects ($client_user_id) {
                          return $query->whereIn('brand', Auth::user()->brand_list());
                      });
                  })
+         ->when($restricted_brands_check, function ($q) use ($restricted_brands) {
+             return $q->whereHas('invoice', function ($q) use ($restricted_brands) {
+                 return $q->where(function ($query) use ($restricted_brands) {
+                     $query->whereNotIn('brand', $restricted_brands)
+                         ->orWhere(function ($subQuery) use ($restricted_brands) {
+                             $subQuery->whereIn('brand', $restricted_brands)
+                                 ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                         });
+                 });
+             });
+         })
                  ->whereHas('invoice', function ($q) { return $q->whereHas('brands'); })
                  ->where('user_id', $client_user_id)->get() as $item) {
         $pending_projects []= [
