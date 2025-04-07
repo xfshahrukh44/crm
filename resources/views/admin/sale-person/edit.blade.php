@@ -93,7 +93,7 @@
                         </div>
                         <div class="col-md-6 form-group mb-3">
                             <label for="brand">Restricted brands</label>
-                            <select name="restricted_brands[]" id="restricted_brands" class="form-control select2" required multiple="multiple">
+                            <select name="restricted_brands[]" id="restricted_brands" class="form-control select2" multiple="multiple">
                                 @php
                                     $restricted_brands = json_decode($data->restricted_brands ?? '[]');
                                 @endphp

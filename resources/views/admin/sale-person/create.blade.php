@@ -74,7 +74,7 @@
                         </div>
                         <div class="col-md-6 form-group mb-3">
                             <label for="brand">Restricted brands</label>
-                            <select name="restricted_brands[]" id="restricted_brands" class="form-control select2" required multiple="multiple">
+                            <select name="restricted_brands[]" id="restricted_brands" class="form-control select2" multiple="multiple">
                                 @foreach($brand as $brands)
                                     <option value="{{$brands->id}}">{{$brands->name}}</option>
                                 @endforeach
