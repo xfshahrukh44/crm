@@ -190,7 +190,7 @@ class AdminUserController extends Controller
             $user->is_support_head = ($request->input('is_employee') == 8) ? true : false;
 
             //restricted brands
-            $user->restricted_brands = $request->has('restricted_brands') ? json_encode($request->get('restricted_brands')) : $user->restricted_brands;
+            $user->restricted_brands = $request->has('restricted_brands') && !is_null($request->get('restricted_brands')) ? json_encode($request->get('restricted_brands')) : null;
             $user->restricted_brands_cutoff_date = $request->get('restricted_brands_cutoff_date');
 
             $user->save();
