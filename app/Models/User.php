@@ -147,7 +147,7 @@ class User extends Authenticatable
     {
         //restricted brand access
         $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's a
-        return $this->hasMany(Project::class, 'client_id', 'id')->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
+        return $this->hasMany(Project::class, 'client_id', 'id')->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date) && auth()->user()->is_employee != 2, function ($q) use ($restricted_brands) {
             return $q->where(function ($query) use ($restricted_brands) {
                 $query->whereNotIn('brand_id', $restricted_brands)
                     ->orWhere(function ($subQuery) use ($restricted_brands) {

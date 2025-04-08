@@ -273,7 +273,7 @@ class BrandDashboard extends Component
 
         //restricted brand access
         $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
-        $clients->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
+        $clients->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date) && auth()->user()->is_employee != 2, function ($q) use ($restricted_brands) {
             return $q->where(function ($query) use ($restricted_brands) {
                 $query->whereNotIn('brand_id', $restricted_brands)
                     ->orWhere(function ($subQuery) use ($restricted_brands) {
