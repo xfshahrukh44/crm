@@ -36,6 +36,19 @@ class Client extends Model
         return $this->hasMany(Invoice::class);
     }
 
+    public function restricted_invoices(){
+        $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+        return $this->hasMany(Invoice::class)->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date) && auth()->user()->is_employee != 2, function ($q) use ($restricted_brands) {
+            return $q->where(function ($query) use ($restricted_brands) {
+                $query->whereNotIn('brand', $restricted_brands)
+                    ->orWhere(function ($subQuery) use ($restricted_brands) {
+                        $subQuery->whereIn('brand', $restricted_brands)
+                            ->whereDate('created_at', '>=', \Carbon\Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                    });
+            });
+        });
+    }
+
     public function invoice_paid(){
         return $this->hasMany(Invoice::class)->where('payment_status', 2)->sum('amount');
     }
