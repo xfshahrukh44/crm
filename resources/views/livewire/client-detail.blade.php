@@ -497,8 +497,11 @@
                                                                         <span class="ul-btn__text">Re Assign</span>
                                                                     </a>
                                                                     <br>
-                                                                    @if($project->form_checker != 0)
-                                                                        <a href="{{ route('support.form', [ 'form_id' => $project->form_id , 'check' => $project->form_checker, 'id' => $project->id]) }}" class="badge badge-info badge-icon badge-sm">
+                                                                    @php
+                                                                        $route = auth()->user()->is_employee == 4 ? route('support.form', [ 'form_id' => $project->form_id , 'check' => $project->form_checker, 'id' => $project->id]) : route('manager.form', [ 'form_id' => $project->form_id , 'check' => $project->form_checker, 'id' => $project->id]);
+                                                                    @endphp
+                                                                    @if($project->fdorm_checker != 0)
+                                                                        <a href="{{ $route }}" class="badge badge-info badge-icon badge-sm">
                                                                             <i class="i-Receipt-4 mr-1"></i>
                                                                             View Form
                                                                         </a>
