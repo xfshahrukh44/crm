@@ -497,7 +497,7 @@
                                                                         <span class="ul-btn__text">Re Assign</span>
                                                                     </a>
                                                                     <br>
-                                                                    @if($project->fdorm_checker != 0)
+                                                                    @if($project->form_checker != 0)
                                                                         @php
                                                                             $route = (auth()->user()->is_employee == 4) ?
                                                                                             route('support.form', [ 'form_id' => $project->form_id , 'check' => $project->form_checker, 'id' => $project->id]) :
