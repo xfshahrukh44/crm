@@ -1186,14 +1186,14 @@ class BrandDashboard extends Component
             $description = $seo_form->company_name;
         }elseif($form_checker == 14){
             $book_marketing_form = BookMarketing::find($form_id);
-            if($book_marketing_form->company_name != null){
-                $name = $book_marketing_form->company_name . ' - Book Marketing';
+            if($book_marketing_form->client_name != null){
+                $name = $book_marketing_form->client_name . ' - Book Marketing';
             }else{
                 $name = $book_marketing_form->user->name . ' - Book Marketing';
             }
             $client_id = $book_marketing_form->user->id;
             $brand_id = $book_marketing_form->invoice->brand;
-            $description = $book_marketing_form->company_name;
+            $description = $book_marketing_form->client_name;
         }elseif($form_checker == 15){
             $new_smm_form = NewSMM::find($form_id);
             if($new_smm_form->client_name != null){

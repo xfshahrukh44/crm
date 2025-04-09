@@ -405,7 +405,7 @@ class SupportController extends Controller
                 return view('manager.form.seoform', compact('data'));
             }
             elseif($check == 14){
-                $book_marketing_form = BookMarketing::find($id);
+                $book_marketing_form = BookMarketing::find($form_id);
                 return view('manager.brief.book-marketing', compact('book_marketing_form'));
             }
             elseif($check == 15){
