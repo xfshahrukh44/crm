@@ -363,37 +363,37 @@ class SupportController extends Controller
         // if($project->user_id == Auth()->user()->id){
             if($check == 1){
                 $logo_form = LogoForm::find($form_id);
-                return view('manager.form.logoform', compact('logo_form'));
+                return view('manager.brief.logoform', compact('logo_form'));
             }else if($check == 2){
                 $web_form = WebForm::find($form_id);
-                return view('manager.form.webform', compact('web_form'));
+                return view('manager.brief.webform', compact('web_form'));
             }elseif($check == 3){
                 $smm_form = SmmForm::find($form_id);
-                return view('manager.form.smmform', compact('smm_form'));
+                return view('manager.brief.smmform', compact('smm_form'));
             }elseif($check == 4){
                 $content_form = ContentWritingForm::find($form_id);
-                return view('manager.form.contentform', compact('content_form'));
+                return view('manager.brief.contentform', compact('content_form'));
             }elseif($check == 5){
                 $seo_form = SeoForm::find($form_id);
-                return view('manager.form.seoform', compact('seo_form'));
+                return view('manager.brief.seoform', compact('seo_form'));
             }elseif($check == 6){
                 $data = BookFormatting::find($form_id);
-                return view('manager.form.bookformattingform', compact('data'));
+                return view('manager.brief.bookformattingform', compact('data'));
             }elseif($check == 7){
                 $data = BookWriting::find($form_id);
-                return view('manager.form.bookwritingform', compact('data'));
+                return view('manager.brief.bookwritingform', compact('data'));
             }elseif($check == 8){
                 $data = AuthorWebsite::find($form_id);
-                return view('manager.form.authorwebsiteform', compact('data'));
+                return view('manager.brief.authorwebsiteform', compact('data'));
             }elseif($check == 9){
                 $data = Proofreading::find($form_id);
-                return view('manager.form.proofreadingform', compact('data'));
+                return view('manager.brief.proofreadingform', compact('data'));
             }elseif($check == 10){
                 $data = BookCover::find($form_id);
-                return view('manager.form.bookcoverform', compact('data'));
+                return view('manager.brief.bookcoverform', compact('data'));
             }elseif($check == 16){
                 $data = PressReleaseForm::find($form_id);
-                return view('manager.form.press-release-form', compact('data'));
+                return view('manager.brief.press-release-form', compact('data'));
             }
         // }else{
         //     return redirect()->back();
