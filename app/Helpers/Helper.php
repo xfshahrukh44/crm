@@ -2474,6 +2474,10 @@ function get_authorize_keys ($merchant_id) {
         12 => [
             'login_id' => '4J5F3pdP',
             'transaction_key' => '5Mu7epV6R4d8k2Zv',
+        ],
+        13 => [
+            'login_id' => '2pk49HLS',
+            'transaction_key' => '2xZJL52xp73Q98Nk',
         ]
     ];
 
@@ -2975,7 +2979,7 @@ function buh_merchant_map () {
     return [
         33 => [5, 6, 11],
         18 => [7, 6, 11],
-        1169 => [6, 11],
+        1169 => [6, 11, 13],
         7 => [3, 9, 10, 6, 12, 11],
         4191 => [11],
         4491 => [12, 11],
@@ -3135,7 +3139,7 @@ function get_my_members_by_category ($category_id) {
 }
 
 function get_authorize_merchant_ids () {
-    return [3, 5, 7, 8, 9, 10, 11, 12];
+    return [3, 5, 7, 8, 9, 10, 11, 12 ,13];
 }
 
 function get_user_search ($q, $string) {
