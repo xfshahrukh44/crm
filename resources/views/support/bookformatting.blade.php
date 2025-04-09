@@ -983,7 +983,7 @@
                         <div class="col-12">
                             <input type="file" name="attachment[]" multiple/>
                         </div>
-                        @foreach($book_formatting_form->formfiles as $formfiles)
+                        @foreach($data->formfiles as $formfiles)
                             <div class="col-md-3">
                                 <div class="file-box">
                                     <h3>{{ $formfiles->name }}</h3>
