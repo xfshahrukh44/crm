@@ -264,18 +264,18 @@ class SupportController extends Controller
                 $data = Bookprinting::find($form_id);
                 return view('support.bookprinting', compact('data'));
             }
-//            elseif($check == 13){
-//                $data = SeoBrief::find($form_id);
-//                return view('support.seoform', compact('data'));
-//            }
-//            elseif($check == 14){
-//                $data = BookMarketing::find($form_id);
-//                return view('support.bookprinting', compact('data'));
-//            }
-//            elseif($check == 15){
-//                $data = Bookprinting::find($form_id);
-//                return view('support.bookprinting', compact('data'));
-//            }
+            elseif($check == 13){
+                $data = SeoBrief::find($form_id);
+                return view('support.seoform', compact('data'));
+            }
+            elseif($check == 14){
+                $data = BookMarketing::find($form_id);
+                return view('support.bookprinting', compact('data'));
+            }
+            elseif($check == 15){
+                $data = Bookprinting::find($form_id);
+                return view('support.bookprinting', compact('data'));
+            }
             elseif($check == 16){
                 $data = PressReleaseForm::find($form_id);
                 return view('support.press-release-form', compact('data'));
@@ -391,10 +391,31 @@ class SupportController extends Controller
             }elseif($check == 10){
                 $data = BookCover::find($form_id);
                 return view('manager.brief.bookcoverform', compact('data'));
-            }elseif($check == 16){
-                $data = PressReleaseForm::find($form_id);
-                return view('manager.brief.press-release-form', compact('data'));
             }
+            elseif($check == 11){
+                $data = Isbnform::find($form_id);
+                return view('manager.brief.isbnform', compact('data'));
+            }
+            elseif($check == 12){
+                $data = Bookprinting::find($form_id);
+                return view('manager.brief.bookprintingform', compact('data'));
+            }
+            elseif($check == 13){
+                $data = SeoBrief::find($form_id);
+                return view('manager.form.seoform', compact('data'));
+            }
+            elseif($check == 14){
+                $data = BookMarketing::find($form_id);
+                return view('support.bookprinting', compact('data'));
+            }
+            elseif($check == 15){
+                $data = Bookprinting::find($form_id);
+                return view('manager.brief.bookprinting', compact('data'));
+            }
+//            elseif($check == 16){
+//                $data = PressReleaseForm::find($form_id);
+//                return view('manager.brief.press-release-form', compact('data'));
+//            }
         // }else{
         //     return redirect()->back();
         // }
