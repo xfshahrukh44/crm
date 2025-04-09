@@ -269,8 +269,8 @@ class SupportController extends Controller
                 return view('support.seoform', compact('data'));
             }
             elseif($check == 14){
-                $data = BookMarketing::find($form_id);
-                return view('support.bookprinting', compact('data'));
+                $book_marketing_form = BookMarketing::find($form_id);
+                return view('support.book-marketing', compact('book_marketing_form'));
             }
             elseif($check == 15){
                 $data = Bookprinting::find($form_id);
