@@ -225,10 +225,18 @@
                                                         <div class="row text-left mt-2" style="letter-spacing: 2px; font-weight: 100; line-height: 12px;">
                                                             {{$project->projects->name}}
                                                         </div>
-                                                        <div class="row justify-content-start">
-                                                            <span class="">
+                                                        <div class="row justify-content-start mt-1">
+                                                            <span class="mr-1">
+                                                                <i class="bi bi-headset"></i>
                                                                 <b style="font-weight: 800; font-size: 10px;">
                                                                     {{ $project->projects->added_by->name ?? '' }} {{ $project->projects->added_by->last_name ?? '' }}
+                                                                </b>
+                                                            </span>
+
+                                                            <span class="ml-1">
+                                                                <i class="bi bi-people-fill"></i>
+                                                                <b style="font-weight: 800; font-size: 10px;">
+                                                                    {{ $project->assigned_member_name() }}
                                                                 </b>
                                                             </span>
                                                         </div>

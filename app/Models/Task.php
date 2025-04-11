@@ -192,4 +192,16 @@ class Task extends Model
     {
         return $this->hasMany(QaFeedback::class)->orderBy('created_at', 'DESC');
     }
+
+    public function assigned_member_name ()
+    {
+        if(!$record = ProductionMemberAssign::where('tasK_id', $this->id)->orderBy('created_at', 'DESC')->first()) {
+            return '';
+        }
+        if(!$user = User::find($record->assigned_to)) {
+            return '';
+        }
+
+        return $user->name . ' ' . $user->last_name;
+    }
 }
