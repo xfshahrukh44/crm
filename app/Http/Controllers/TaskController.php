@@ -899,7 +899,7 @@ class TaskController extends Controller
         $request->request->add(['user_id' => auth()->user()->id]);
         $sub_task = SubTask::create($request->all());
         $cat_id = $sub_task->task->category_id;
-        Task::where('id', $request->input('task_id'))->update(['status' => 1]);
+//        Task::where('id', $request->input('task_id'))->update(['status' => 1]);
         $data = SubTask::find($sub_task->id);
         $duedate = null;
         if($data->duedate != null){
@@ -941,7 +941,7 @@ class TaskController extends Controller
         $request->request->add(['user_id' => auth()->user()->id]);
         $sub_task = SubTask::create($request->all());
         $cat_id = $sub_task->task->category_id;
-        Task::where('id', $request->input('task_id'))->update(['status' => 1]);
+//        Task::where('id', $request->input('task_id'))->update(['status' => 1]);
         $data = SubTask::find($sub_task->id);
         $duedate = null;
         if($data->duedate != null){
