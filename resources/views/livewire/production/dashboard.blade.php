@@ -198,7 +198,7 @@
                                         </div>
                                         <div class="col-md-10 offset-md-1 mt-2 mb-4">
                                             @foreach($current_projects as $project)
-                                                <div class="row my-2 hover_box_shadow" style="border: 1px solid #b7b7b7; cursor: pointer; padding: 8px; padding-bottom: 6px; padding-top: 12px;"
+                                                <div class="row my-2 hover_box_shadow p-2" style="border: 1px solid #b7b7b7; cursor: pointer; padding: 8px; padding-bottom: 6px; padding-top: 12px;"
                                                      wire:click="set_active_page('project_detail-{{$project->id}}')">
                                                     <div class="col-md-10">
                                                         <div class="row justify-content-start">
@@ -222,18 +222,17 @@
                                                                 <i class="bi bi-bell-fill text-danger"></i>
                                                             @endif
                                                         </div>
-                                                        <div class="row text-left mt-2" style="letter-spacing: 2px; font-weight: 100; line-height: 12px;">
+                                                        <div class="row text-left mt-2" style="letter-spacing: 2px; font-weight: 400; line-height: 12px;">
                                                             {{$project->projects->name}}
                                                         </div>
-                                                        <div class="row justify-content-start mt-1">
-                                                            <span class="mr-1">
+                                                        <div class="row justify-content-start mt-2">
+                                                            <span class="badge badge-sm" style="background-color: lightblue;">
                                                                 <i class="bi bi-headset"></i>
                                                                 <b style="font-weight: 800; font-size: 10px;">
                                                                     {{ $project->projects->added_by->name ?? '' }} {{ $project->projects->added_by->last_name ?? '' }}
                                                                 </b>
                                                             </span>
-
-                                                            <span class="ml-1">
+                                                            <span class="badge badge-sm ml-1" style="background-color: #FFA500;">
                                                                 <i class="bi bi-people-fill"></i>
                                                                 <b style="font-weight: 800; font-size: 10px;">
                                                                     {{ $project->assigned_member_name() }}

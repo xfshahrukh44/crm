@@ -78,8 +78,8 @@ class ProductionDashboard extends Component
             return redirect()->route('login');
         }
 
-        if (session()->has('livewire_history')) {
-            $this->history = session()->get('livewire_history');
+        if (session()->has('production_livewire_history')) {
+            $this->history = session()->get('production_livewire_history');
             $this->active_page = end($this->history);
         }
     }
@@ -90,7 +90,7 @@ class ProductionDashboard extends Component
         $this->history[] = $this->active_page;
 
         //put history in session
-        session()->put('livewire_history', $this->history);
+        session()->put('production_livewire_history', $this->history);
 
         $this->resetPage(); // Reset pagination
 
@@ -116,7 +116,7 @@ class ProductionDashboard extends Component
         $this->active_page = end($this->history);
 
         //put history in session
-        session()->put('livewire_history', $this->history);
+        session()->put('production_livewire_history', $this->history);
 
         $this->resetPage();
         $this->render();
