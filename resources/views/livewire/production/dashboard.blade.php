@@ -232,12 +232,17 @@
                                                                     {{ $project->projects->added_by->name ?? '' }} {{ $project->projects->added_by->last_name ?? '' }}
                                                                 </b>
                                                             </span>
-                                                            <span class="badge badge-sm ml-1" style="background-color: #FFA500;">
-                                                                <i class="bi bi-people-fill"></i>
-                                                                <b style="font-weight: 800; font-size: 10px;">
-                                                                    {{ $project->assigned_member_name() }}
-                                                                </b>
-                                                            </span>
+                                                            @php
+                                                                $memeber_name = $project->assigned_member_name();
+                                                            @endphp
+                                                            @if($memeber_name != '')
+                                                                <span class="badge badge-sm ml-1" style="background-color: #FFA500;">
+                                                                    <i class="bi bi-people-fill"></i>
+                                                                    <b style="font-weight: 800; font-size: 10px;">
+                                                                        {{ $project->assigned_member_name() }}
+                                                                    </b>
+                                                                </span>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                     <div class="col-md-2 d-flex align-items-center">
