@@ -53,7 +53,8 @@
                         </div>
                         <div class="col-md-6 form-group mb-3">
                             <label for="role">Role <span>*</span></label>
-                            <select name="is_employee" id="role" class="form-control">
+                            <select name="is_employee" id="role" class="form-control" required>
+                                <option value="" {{ $data->is_employee == '' ? 'selected' : '' }}>Select role</option>
                                 <option value="4" {{ ($data->is_employee == 4 && $data->is_support_head == false) ? 'selected' : '' }}>Customer Support (PROJECT MANAGER)</option>
                                 <option value="0" {{ $data->is_employee == 0 ? 'selected' : '' }}>Sale Agent (FRONT SALES)</option>
                                 <option value="6" {{ $data->is_employee == 6 ? 'selected' : '' }}>Sales Manager (BUH)</option>

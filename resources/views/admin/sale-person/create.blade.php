@@ -59,7 +59,8 @@
                         </div>
                         <div class="col-md-6 form-group mb-3">
                             <label for="role">Role <span>*</span></label>
-                            <select name="is_employee" id="role" class="form-control">
+                            <select name="is_employee" id="role" class="form-control" required>
+                                <option value="" selected>Select role</option>
                                 <option value="4">Customer Support (PROJECT MANAGER)</option>
                                 <option value="0">Sale Agent (FRONT SALES)</option>
                                 <option value="6">Sales Manager (BUH)</option>
