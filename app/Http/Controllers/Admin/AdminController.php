@@ -98,6 +98,8 @@ class AdminController extends Controller
                     return redirect()->route('admin.home');
                 }else if(Auth::user()->is_employee == 4){
                     return redirect()->route('support.home');
+                }else if(Auth::user()->is_employee == 0){
+                    return redirect()->route('sale.home');
                 }else if(Auth::user()->is_employee == 6){
                     return redirect()->route('salemanager.dashboard');
                 }else if(Auth::user()->is_employee == 1){

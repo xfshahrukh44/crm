@@ -119,6 +119,10 @@ class IsSupport
 //        return redirect()->back()->with("error","You don't have emplyee rights.");
 
 
+        if (Session::get('valid_user') == true) {
+            return $next($request);
+        }
+
         $bytes = bin2hex(random_bytes(3));
             DB::table('users')
             ->where('id', auth()->user()->id)
