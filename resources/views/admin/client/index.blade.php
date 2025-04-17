@@ -80,6 +80,7 @@
                                 <th>Status</th>
                                 <th>Login</th>
                                 <th>Priority</th>
+                                <th>Last login IP</th>
                                 <th>Active</th>
                             </tr>
                         </thead>
@@ -110,6 +111,7 @@
                                     <a class="btn btn-primary btn-sm" href="{{route('admin.login_bypass', ['email' => $datas->email])}}">Login as {{$datas->name}} {{$datas->last_name}}</a>
                                 </td>
                                 <td>{!! $datas->priority_badge() !!}</td>
+                                <td>{{$datas->last_login_ip ?? ''}}</td>
                                 <td>
                                     <a href="{{ route('admin.client.edit', $datas->id) }}" class="btn btn-primary btn-icon btn-sm">
                                         <span class="ul-btn__icon"><i class="i-Edit"></i></span>

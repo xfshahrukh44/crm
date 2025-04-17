@@ -1,5 +1,5 @@
 @extends('layouts.app-admin')
-   
+
 @section('content')
 <div class="breadcrumb row">
     <div class="col-md-8">
@@ -33,6 +33,7 @@
                                 <th>Status</th>
                                 <th>Reset Password</th>
                                 <th>Login</th>
+                                <th>Last login IP</th>
                                 <th>Active</th>
                             </tr>
                         </thead>
@@ -63,6 +64,7 @@
                                 <td>
                                     <a class="btn btn-primary btn-sm" href="{{route('admin.login_bypass', ['email' => $users->email])}}">Login as {{$users->name}} {{$users->last_name}}</a>
                                 </td>
+                                <td>{{$users->last_login_ip ?? ''}}</td>
                                 <td>
                                     <a href="{{route('admin.user.qa.edit', $users->id)}}" class="btn btn-primary btn-icon btn-sm">
                                         <span class="ul-btn__icon"><i class="i-Edit"></i></span>
@@ -71,7 +73,7 @@
                                 </td>
                             </tr>
                             @endforeach
-                            
+
                         </tbody>
                     </table>
                 </div>
@@ -147,9 +149,9 @@
             document.execCommand("copy");
             M.toast({
                 html: 'Password Copied'
-            }) 
+            })
             // alert("Copied the text: " + copyText.value);
         }
     </script>
-    
+
 @endpush

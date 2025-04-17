@@ -38,6 +38,7 @@ class User extends Authenticatable
         'is_upsell',
         'restricted_brands',
         'restricted_brands_cutoff_date',
+        'last_login_ip',
     ];
 
     /**
