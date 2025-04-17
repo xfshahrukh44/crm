@@ -1307,7 +1307,8 @@ class InvoiceController extends Controller
     public function getInvoiceByUserId (Request $request){
         $data = new Invoice;
 //        $data = $data->where('sales_agent_id', Auth()->user()->id);
-        $data = $data->orderBy('id', 'desc');
+        $data = $data->orderBy('id', 'desc')
+            ->whereIn('brand', auth()->user()->brand_list());
         $perPage = 10;
         if($request->package != ''){
             $data = $data->where('custom_package', 'LIKE', "%$request->package%");
