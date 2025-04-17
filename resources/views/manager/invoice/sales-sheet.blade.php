@@ -46,7 +46,9 @@
                             <label for="merchant">Merchants</label>
                             <select class="form-control select2" name="merchant" id="merchant">
                                 @php
-                                    $get_merchants = \App\Models\Merchant::get();
+                                    $buh_merchant_map = buh_merchant_map();
+                                    $my_merchant_ids = $buh_merchant_map[auth()->id()] ?? [];
+                                    $get_merchants = \App\Models\Merchant::whereIn('id', $my_merchant_ids)->get();
                                 @endphp
                                 <option value="">Select merchant</option>
                                 @foreach($get_merchants as $merchant)
