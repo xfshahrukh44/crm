@@ -1308,7 +1308,8 @@ class InvoiceController extends Controller
         $data = new Invoice;
 //        $data = $data->where('sales_agent_id', Auth()->user()->id);
         $data = $data->orderBy('id', 'desc')
-            ->whereIn('brand', auth()->user()->brand_list());
+            ->whereIn('brand', auth()->user()->brand_list())
+            ->where('sales_agent_id', auth()->id());
         $perPage = 10;
         if($request->package != ''){
             $data = $data->where('custom_package', 'LIKE', "%$request->package%");

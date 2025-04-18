@@ -20,15 +20,15 @@
                             <label for="invoice">Search Invoice#</label>
                             <input type="text" class="form-control" id="invoice" name="invoice" value="{{ Request::get('invoice') }}">
                         </div>
-                        <div class="col-md-3 form-group mb-3">
-                            <label for="user">Select User</label>
-                            <select class="form-control select2" name="user" id="user">
-                                <option value="0">Any</option>
-                                @foreach(Auth()->user()->getClient as $getClient)
-                                <option value="{{ $getClient->id }}" {{ Request::get('user') == $getClient->id ? 'selected' : '' }}>{{ $getClient->name }} {{ $getClient->last_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+{{--                        <div class="col-md-3 form-group mb-3">--}}
+{{--                            <label for="user">Select User</label>--}}
+{{--                            <select class="form-control select2" name="user" id="user">--}}
+{{--                                <option value="0">Any</option>--}}
+{{--                                @foreach(Auth()->user()->getClient as $getClient)--}}
+{{--                                <option value="{{ $getClient->id }}" {{ Request::get('user') == $getClient->id ? 'selected' : '' }}>{{ $getClient->name }} {{ $getClient->last_name }}</option>--}}
+{{--                                @endforeach--}}
+{{--                            </select>--}}
+{{--                        </div>--}}
                         <div class="col-md-3 form-group mb-3">
                             <label for="status">Select Status</label>
                             <select class="form-control select2" name="status" id="status">
@@ -93,7 +93,7 @@
                                     @endphp
                                     @for($i = 0; $i < count($service_list); $i++)
                                         @if($service_list[$i])
-                                            <span class="btn btn-info btn-sm mb-1">{{ $datas->services($service_list[$i])->name }}</span>
+                                            <span class="btn btn-info btn-sm mb-1">{{ $datas->services($service_list[$i])->name ?? '' }}</span>
                                         @endif
                                     @endfor
                                 </td>
