@@ -119,6 +119,39 @@
     <script src="{{ asset('newglobal/js/Chart.min.js') }}"></script>
     <script src="{{ asset('newglobal/js/sweetalert2.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.repeater/1.2.1/jquery.repeater.min.js" integrity="sha512-foIijUdV0fR0Zew7vmw98E6mOWd9gkGWQBWaoA1EOFAx+pY+N8FmmtIYAVj64R98KeD2wzZh1aHK0JSpKmRH8w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+    <script>
+        $(document).ready(() => {
+            //global vars
+            let auth_id = parseInt('{{auth()->id()}}');
+
+            // Enable Pusher logging - don't include this in production
+            Pusher.logToConsole = true;
+
+            var pusher = new Pusher('7d1bc788fe2aaa7a2ea5', {
+                cluster: 'ap2'
+            });
+
+            var channel = pusher.subscribe('message-channel');
+            channel.bind('new-message', function(data) {
+                if (data.for_ids && data.for_ids.includes(auth_id)) {
+                    swal({
+                        icon: 'info',
+                        title: data.text,
+                        showDenyButton: false,
+                        showCancelButton: false,
+                        confirmButtonText: "Open",
+                    }).then((result) => {
+                        if (result && data.redirect_url) {
+                            window.location.href = data.redirect_url
+                        }
+                    });
+                }
+                // alert(JSON.stringify(data));
+                console.log(data);
+            });
+        });
+    </script>
 
     <script>
         $(document).ready(() => {

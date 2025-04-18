@@ -916,8 +916,10 @@ class TaskController extends Controller
             'text' => 'Task Assigned by ' . Auth()->user()->name . ' ' . Auth()->user()->last_name . ' (' . $sub_task->task->category->name . ')',
             'details' => Str::limit(filter_var($request->description, FILTER_SANITIZE_STRING), 40 ),
         ];
+        $departments_leads_ids = [];
         foreach($leads as $lead){
             $lead->notify(new TaskNotification($taskData));
+            $departments_leads_ids[]= $lead->id;
         }
         $admins = User::where('is_employee', 2)->get();
         $adminTaskData = [
@@ -931,6 +933,15 @@ class TaskController extends Controller
         foreach($admins as $admin){
             $admin->notify(new TaskNotification($adminTaskData));
         }
+
+        //pusher notification
+        $pusher_notification_data = [
+            'for_ids' => $departments_leads_ids,
+            'text' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has sent you a Message',
+            'redirect_url' => route('production.task.show', ['id' => $data->task_id, 'name' => Auth()->user()->name]),
+        ];
+        emit_pusher_notification('message-channel', 'new-message', $pusher_notification_data);
+
         return response()->json(['success' => 'Sub Task created Successfully.', 'data' => $data, 'user_name' => auth()->user()->name, 'duedate' => $duedate, 'created_at' => $data->created_at->diffForHumans()]);
     }
 
@@ -1006,6 +1017,14 @@ class TaskController extends Controller
             ]),
             true
         );
+
+        //pusher notification
+        $pusher_notification_data = [
+            'for_ids' => $departments_leads_ids,
+            'text' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has sent you a Message',
+            'redirect_url' => route('production.task.show', ['id' => $data->task_id, 'name' => Auth()->user()->name]),
+        ];
+        emit_pusher_notification('message-channel', 'new-message', $pusher_notification_data);
 
         return response()->json(['success' => 'Sub Task created Successfully.', 'data' => $data, 'user_name' => auth()->user()->name, 'duedate' => $duedate, 'created_at' => $data->created_at->diffForHumans()]);
     }
