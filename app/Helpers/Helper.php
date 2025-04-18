@@ -2977,8 +2977,8 @@ function get_month_name($monthNumber) {
 
 function buh_merchant_map () {
     return [
-        33 => [5, 6, 11],
-        18 => [7, 6, 11],
+        33 => [6, 11],
+        18 => [6, 11],
         1169 => [6, 11, 13, 8],
         7 => [3, 9, 10, 6, 12, 11],
         4191 => [11],
