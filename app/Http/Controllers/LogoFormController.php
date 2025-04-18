@@ -198,6 +198,7 @@ class LogoFormController extends Controller
     }
 
     public function getBriefPendingById(Request $request){
+        return redirect()->back();
 ////        $logo_form = LogoForm::where('logo_name', '')->where('agent_id', Auth()->user()->id)
 //        $logo_form = LogoForm::where('logo_name', '')
 //            ->when($request->has('user_id'), function ($q) use ($request) {

@@ -265,13 +265,13 @@
                 </a>
                 <div class="triangle"></div>
             </li>
-            <li class="nav-item {{ (request()->routeIs('sale.brief.pending')) ? 'active' : '' }}">
-                <a class="nav-item-hold" href="{{ route('sale.brief.pending') }}">
-                    <i class="nav-icon i-Folder-Close"></i>
-                    <span class="nav-text">Brief Pending</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
+{{--            <li class="nav-item {{ (request()->routeIs('sale.brief.pending')) ? 'active' : '' }}">--}}
+{{--                <a class="nav-item-hold" href="{{ route('sale.brief.pending') }}">--}}
+{{--                    <i class="nav-icon i-Folder-Close"></i>--}}
+{{--                    <span class="nav-text">Brief Pending</span>--}}
+{{--                </a>--}}
+{{--                <div class="triangle"></div>--}}
+{{--            </li>--}}
             <li class="nav-item {{ (request()->routeIs('sale.project') || request()->routeIs('sale.form') || request()->routeIs('sale.task.show') ) ? 'active' : '' }}">
                 <a class="nav-item-hold" href="{{ route('sale.project') }}">
                     <i class="nav-icon i-Suitcase"></i>
