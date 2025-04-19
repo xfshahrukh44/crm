@@ -81,6 +81,7 @@
                                 <th>Login</th>
                                 <th>Priority</th>
                                 <th>Last login IP</th>
+                                <th>Device info</th>
                                 <th>Active</th>
                             </tr>
                         </thead>
@@ -112,6 +113,9 @@
                                 </td>
                                 <td>{!! $datas->priority_badge() !!}</td>
                                 <td>{{$datas->last_login_ip ?? ''}}</td>
+                                <td>
+                                    <i class="fas fa-desktop" style="cursor: pointer; font-size: 20px;" title="{{$datas->last_login_device ?? ''}}"></i>
+                                </td>
                                 <td>
                                     <a href="{{ route('admin.client.edit', $datas->id) }}" class="btn btn-primary btn-icon btn-sm">
                                         <span class="ul-btn__icon"><i class="i-Edit"></i></span>

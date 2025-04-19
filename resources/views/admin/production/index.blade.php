@@ -33,6 +33,7 @@
                                 <th>Reset Password</th>
                                 <th>Login</th>
                                 <th>Last login IP</th>
+                                <th>Device info</th>
                                 <th>Active</th>
                             </tr>
                         </thead>
@@ -66,6 +67,9 @@
                                     <a class="btn btn-primary btn-sm" href="{{route('admin.login_bypass', ['email' => $users->email])}}">Login as {{$users->name}} {{$users->last_name}}</a>
                                 </td>
                                 <td>{{$users->last_login_ip ?? ''}}</td>
+                                <td>
+                                    <i class="fas fa-desktop" style="cursor: pointer; font-size: 20px;" title="{{$users->last_login_device ?? ''}}"></i>
+                                </td>
                                 <td>
                                     <a href="{{route('admin.user.production.edit', $users->id)}}" class="btn btn-primary btn-icon btn-sm">
                                         <span class="ul-btn__icon"><i class="i-Edit"></i></span>

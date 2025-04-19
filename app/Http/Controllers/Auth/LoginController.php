@@ -56,9 +56,10 @@ class LoginController extends Controller
         ]);
 
         if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))){
-            //store ip
+            //store ip/device info
             $user = User::find(auth()->id());
             $user->last_login_ip = $request->ip();
+            $user->last_login_device = $_SERVER['HTTP_USER_AGENT'];
             $user->save();
 
             if(auth()->user()->status == 0){
