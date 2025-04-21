@@ -32,13 +32,13 @@
 <body>
 
 
-<header>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-12">
-                <nav class="navbar">
-                    <a class="navbar-brand"><img src="{{asset('images/crm-logo.png')}}" class="img-fluid" alt=""></a>
-                    <form class="d-flex side-profile">
+{{--<header>--}}
+{{--    <div class="container-fluid">--}}
+{{--        <div class="row">--}}
+{{--            <div class="col-lg-12 col-md-12 col-12">--}}
+{{--                <nav class="navbar">--}}
+{{--                    <a class="navbar-brand"><img src="{{asset('images/crm-logo.png')}}" class="img-fluid" alt=""></a>--}}
+{{--                    <form class="d-flex side-profile">--}}
 {{--                        <div class="profile-dropdown">--}}
 {{--                            <a href="javascript:;" class="profile_dropdown"><img src="{{asset('images/profile.png')}}" class="img-fluid" alt="">--}}
 {{--                                Jason Martin --}}
@@ -58,12 +58,12 @@
 {{--                        <div class="notification-show">--}}
 {{--                            <a href="#"><img src={{asset('images/notification.png')}}"" alt=""></a>--}}
 {{--                        </div>--}}
-                    </form>
-                </nav>
-            </div>
-        </div>
-    </div>
-</header>
+{{--                    </form>--}}
+{{--                </nav>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--</header>--}}
 
 
 <section class="checkout-pg">
@@ -395,7 +395,7 @@
 
 <script src="{{asset('js/invoice-script.js')}}"></script>
 <script src="{{ asset('newglobal/js/jquery-3.3.1.min.js') }}"></script>
-<script src="{{ asset('newglobal/js/bootstrap.bundle.min.js') }}"></script>\
+<script src="{{ asset('newglobal/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('newglobal/js/toastr.min.js') }}"></script>
 
 @if(session()->has('success'))
