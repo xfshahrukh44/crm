@@ -38,6 +38,10 @@
         iframe#launcher {
             opacity: 0 !important;
         }
+
+        .writer-logo {
+            width: 50% !important;
+        }
     </style>
 
     <title>Checkout invoice</title>
