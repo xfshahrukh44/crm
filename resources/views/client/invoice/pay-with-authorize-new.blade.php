@@ -505,6 +505,15 @@
     });
 </script>
 
+@php
+    $brand_ids = \Illuminate\Support\Facades\DB::table('brand_users')->where('user_id', 33)->pluck('brand_id')->toArray();
+@endphp
+@if(in_array($invoice->brand, $brand_ids))
+    <!--Start of Zendesk Widget script -->
+    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=d2fd00f2-a024-4856-b629-6a518c082760"></script>
+    <!--End of Zendesk Widget script -->
+@endif
+
 </body>
 
 </html>
