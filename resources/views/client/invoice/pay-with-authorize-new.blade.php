@@ -21,14 +21,18 @@
     <link href="{{ asset('newglobal/css/toastr.css') }}" rel="stylesheet" />
 
     <style>
-        script#ze-snippet {
-            opacity: 0 !important;
-        }
+        /*script#ze-snippet {*/
+        /*    opacity: 0 !important;*/
+        /*}*/
 
         .checkout-pg {
             background: #e6eaed !important;
             height: 100vh !important;
             overflow: hidden !important;
+        }
+
+        iframe#launcher {
+            opacity: 0 !important;
         }
     </style>
 
