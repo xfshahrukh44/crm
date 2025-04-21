@@ -118,7 +118,7 @@
                                                     </div>
                                                     <div class="fill-summry">
                                                         <label>Summary</label>
-                                                        <input type="text" class="form-control" placeholder="">
+                                                        <input type="text" class="form-control" placeholder="" disabled>
                                                     </div>
                                                     <div class="pakages-summry">
                                                         <ul class="custom-pakages">
