@@ -20,6 +20,12 @@
     <link rel="stylesheet" href="{{asset('css/invoice-responsive.css')}}">
     <link href="{{ asset('newglobal/css/toastr.css') }}" rel="stylesheet" />
 
+    <style>
+        script#ze-snippet {
+            opacity: 0 !important;
+        }
+    </style>
+
     <title>Checkout invoice</title>
 </head>
 
