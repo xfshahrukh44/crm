@@ -20,6 +20,10 @@
     <link rel="stylesheet" href="{{asset('css/invoice-responsive.css')}}">
     <link href="{{ asset('newglobal/css/toastr.css') }}" rel="stylesheet" />
 
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('global/img/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('global/img/favicon-96x96.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('global/img/favicon-16x16.png') }}">
+
     <style>
         /*script#ze-snippet {*/
         /*    opacity: 0 !important;*/
