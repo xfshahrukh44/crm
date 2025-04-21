@@ -122,7 +122,7 @@
                                                     </div>
                                                     <div class="fill-summry">
                                                         <label>Summary</label>
-                                                        <input type="text" class="form-control" placeholder="" disabled>
+{{--                                                        <input type="text" class="form-control" placeholder="" disabled>--}}
                                                     </div>
                                                     <div class="pakages-summry">
                                                         <ul class="custom-pakages">
