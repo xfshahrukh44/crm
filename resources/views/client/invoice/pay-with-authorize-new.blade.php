@@ -24,6 +24,12 @@
         script#ze-snippet {
             opacity: 0 !important;
         }
+
+        .checkout-pg {
+            background: #e6eaed !important;
+            height: 100vh !important;
+            overflow: hidden !important;
+        }
     </style>
 
     <title>Checkout invoice</title>
