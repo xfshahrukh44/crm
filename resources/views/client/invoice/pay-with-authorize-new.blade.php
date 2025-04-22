@@ -31,8 +31,8 @@
 
         .checkout-pg {
             background: #e6eaed !important;
-            height: 100vh !important;
-            overflow: hidden !important;
+            /*height: 100vh !important;*/
+            /*overflow: hidden !important;*/
         }
 
         iframe#launcher {
