@@ -196,7 +196,7 @@
                                                             </div>
                                                             <div class="col-lg-2 col-md-2 col-12">
                                                                 <label>CVV</label>
-                                                                <input type="number" name="cvv" class="form-control" required>
+                                                                <input type="text" name="cvv" class="form-control" required>
                                                             </div>
                                                         </div>
                                                     </div>
