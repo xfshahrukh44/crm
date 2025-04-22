@@ -352,7 +352,6 @@ class InvoiceController extends Controller
     {
         $invoiceId = $request->invoice_id;
 	    $invoiceData = Invoice::findOrFail($invoiceId);
-        $merchant_name;
         if($invoiceData->merchant == null){
             $merchant = DB::table('merchants')->where('secret_key', env('STRIPE_SECRET'))->first();
             $merchant_name = $merchant->name;
@@ -677,7 +676,7 @@ class InvoiceController extends Controller
 
                 return redirect()->route('thankYou',($get_invoice->id));
             }else{
-                return redirect()->route('failed',($get_invoice->id));
+                return redirect()->route('failed',($invoiceData->id));
             }
         }else{
             // authorized.net
@@ -1319,7 +1318,7 @@ class InvoiceController extends Controller
         }
         if($request->user != 0){
             $data = $data->where(function ($q) use ($request) {
-                return $q->where('name', 'LIKE', "%$request->user%")->orWhere('email', 'LIKE', "%$request->user%")
+                return $q->where('name', 'LIKE', "%$request->user%")->orWhere('email', 'LIKE', "%$request->user%");
             });
 //            $data = $data->where('name', 'LIKE', "%$request->user%");
 //            $data = $data->orWhere('email', 'LIKE', "%$request->user%");
