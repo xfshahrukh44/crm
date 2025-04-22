@@ -243,7 +243,9 @@ class SupportInvoiceController extends Controller
     public function getInvoiceByUserId (Request $request){
         $data = new Invoice;
 //        $data = $data->where('sales_agent_id', Auth()->user()->id);
-        $data = $data->orderBy('id', 'desc')->whereIn('brand', auth()->user()->brand_list());
+        $data = $data->orderBy('id', 'desc')->whereIn('brand', auth()->user()->brand_list())->when(auth()->user()->is_support_head == 0, function ($q) {
+            return $q->where('sales_agent_id', auth()->id());
+        });
         $perPage = 10;
         if($request->package != ''){
             $data = $data->where('custom_package', 'LIKE', "%$request->package%");

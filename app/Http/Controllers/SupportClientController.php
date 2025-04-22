@@ -20,7 +20,9 @@ class SupportClientController extends Controller
     {
         $data = new Client;
 //        $data = $data->where('user_id', Auth()->user()->id);
-        $data = $data->whereIn('brand_id', auth()->user()->brand_list());
+        $data = $data->whereIn('brand_id', auth()->user()->brand_list())->when(auth()->user()->is_support_head == 0, function ($q) {
+            return $q->where('assign_id', auth()->id());
+        });
         $data = $data->orderBy('priority', 'ASC');
         $data = $data->orderBy('id', 'desc');
         if($request->name != ''){

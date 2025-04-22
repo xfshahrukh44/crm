@@ -72,8 +72,8 @@
                                     @endphp
                                     @if(!is_null($users->last_login_device))
                                         @php
-                                            $device = explode(' (', $users->last_login_device)[1];
-                                            $device = explode(') ', $device)[0];
+                                            $device = explode(' (', $users->last_login_device)[1] ?? '';
+                                            $device = explode(') ', $device)[0] ?? '';
                                         @endphp
                                     @endif
                                     {{--                                    <i class="fas fa-desktop" style="cursor: pointer; font-size: 20px;" title="{{$device}}"></i>--}}

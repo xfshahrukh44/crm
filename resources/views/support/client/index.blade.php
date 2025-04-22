@@ -1,5 +1,5 @@
 @extends('layouts.app-support')
-   
+
 @section('content')
 
 <div class="breadcrumb row">
@@ -10,9 +10,11 @@
             <li>Clients List</li>
         </ul>
     </div>
-    <div class="col-md-6 text-right">
-        <a href="{{ route('support.client.create') }}" class="btn btn-primary">Create Client</a>
-    </div>
+    @if(auth()->user()->is_support_head)
+        <div class="col-md-6 text-right">
+            <a href="{{ route('support.client.create') }}" class="btn btn-primary">Create Client</a>
+        </div>
+    @endif
 </div>
 <div class="separator-breadcrumb border-top"></div>
 
@@ -113,5 +115,5 @@
 @endsection
 
 @push('scripts')
-    
+
 @endpush
