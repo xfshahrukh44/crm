@@ -321,7 +321,7 @@
                                         <div class="row py-4 justify-content-center">
                                             <h6>
                                                 Searched for "{{ (strlen($string) > 50) ? (substr($string, 0, 50) . '...') : $string }}"
-                                                <a href="" class="text-danger" wire:click="$emit('mutate', {name: 'project_detail_search_message_query', value: ''})">
+                                                <a href="javascript:void(0);" class="text-danger" wire:click="$emit('mutate', {name: 'project_detail_search_message_query', value: ''})">
                                                     <i class="bi bi-x-octagon mt-2 text-danger"
                                                        style="font-size: 12px; cursor: pointer;">
                                                     </i>
