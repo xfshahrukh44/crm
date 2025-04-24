@@ -42,6 +42,30 @@
         .writer-logo {
             width: 50% !important;
         }
+
+        .lago-badge {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .lago-badge .badge.bg-primary {
+            color: white !important;
+            font-size: 15px;
+            padding: 5px 10px;
+            background: #059bd4 !important;
+        }
+
+        .lago-badge .badge.bg-primary button {
+            font-size: 14px;
+            padding: 2px 6px !important;
+            color: white !important;
+        }
+
+        .writer-logo img {
+            width: 200px;
+        }
     </style>
 
     <title>Checkout invoice</title>
@@ -145,17 +169,9 @@
                                                             @php
                                                                 $service_list = explode(',', $invoice->service);
                                                             @endphp
-                                                            <li>
-                                                                <p>Service(s)</p>
-                                                                @for($i = 0; $i < count($service_list); $i++)
-                                                                    <span>
-                                                                        <button class="btn book-btn-market">
-                                                                            {{ $invoice->services($service_list[$i])->name }}
-                                                                        </button>
-                                                                    </span>
-                                                                @endfor
-                                                            </li>
+
                                                         </ul>
+
                                                         <ul class="custom-pakages">
                                                             <li>
                                                                 <p>Payment type </p>
@@ -166,6 +182,16 @@
                                                                 <span>{{$invoice->currency_show->sign}} {{ $invoice->amount }}</span>
                                                             </li>
                                                         </ul>
+                                                    </div>
+                                                    <div class="lago-badge">
+                                                        <p>Service(s)</p>
+                                                        @for($i = 0; $i < count($service_list); $i++)
+                                                            <span class="badge bg-primary">
+                                                                <button class="btn book-btn-market badge ">
+                                                                    {{ $invoice->services($service_list[$i])->name }}
+                                                                </button>
+                                                            </span>
+                                                        @endfor
                                                     </div>
                                                     <div class="card-payment">
                                                         <div class="row">
