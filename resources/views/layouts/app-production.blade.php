@@ -234,9 +234,9 @@
             });
         }, 1200000)
     </script>
-        @if(auth()->id() == 3117)
-        @livewireScripts
-        @include('livewire.production.listeners')
+        @if(auth()->id() == 3117 && \Illuminate\Support\Facades\Route::is('production.dashboard.v2'))
+            @livewireScripts
+            @include('livewire.production.listeners')
         @endif
 </body>
 </html>

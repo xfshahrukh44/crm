@@ -256,6 +256,16 @@ class BrandDashboard extends Component
 
         $brand= Brand::find($brand_id);
         $clients = Client::where('brand_id', $brand_id)
+            //front sales
+            ->when(auth()->user()->is_employee == 0, function ($q) {
+                return $q->where('user_id', auth()->id());
+            })
+            //support
+            ->when(auth()->user()->is_employee == 4  && auth()->user()->is_support_head == 0, function ($q) {
+                return $q->whereHas('projects', function ($q) {
+                    return $q->where('user_id', auth()->id());
+                });
+            })
             ->withCount('projects')->withCount('invoices')
             ->orderBy('priority', 'ASC')
             ->orderBy('created_at', 'DESC')
