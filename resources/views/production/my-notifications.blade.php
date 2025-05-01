@@ -19,6 +19,13 @@
 </div>
 <div class="separator-breadcrumb border-top"></div>
 <section class="widgets-content">
+    <form action="{{route('production.my-notifications')}}" method="GET">
+        <div class="row mx-0 my-4">
+            <input type="text" class="col-md-12 form-control" name="search" placeholder="Search" value="{{request()->get('search')}}">
+
+            {{--            <button class="d-none" type="submit"></button>--}}
+        </div>
+    </form>
     <!-- begin::users-->
     <div class="row mt-2">
 {{--        <form action="{{route('support.message.get.by.support')}}" style="width: 100%">--}}
@@ -32,7 +39,11 @@
         <div class="col-xl-12">
 
             @php
-                $notifications = auth()->user()->notifications()->latest()->paginate(20);
+                $notifications = auth()->user()->notifications()
+                ->when(request()->has('search') && request()->get('search') != '', function ($q) {
+                    return $q->where('data', 'LIKE', '%'.request()->get('search').'%');
+                })
+                ->latest()->paginate(20);
             @endphp
             @foreach($notifications as $notification)
                 @php
