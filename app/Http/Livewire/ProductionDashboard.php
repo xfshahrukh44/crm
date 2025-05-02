@@ -141,6 +141,7 @@ class ProductionDashboard extends Component
 
     public function refresh () {
         $this->render();
+        $this->emit('emit_pre_render');
     }
 
     public function production_dashboard () {
