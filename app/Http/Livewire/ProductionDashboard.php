@@ -119,6 +119,7 @@ class ProductionDashboard extends Component
         session()->put('production_livewire_history', $this->history);
 
         $this->resetPage();
+        $this->emit('emit_pre_render');
         $this->render();
     }
 
@@ -140,8 +141,8 @@ class ProductionDashboard extends Component
     }
 
     public function refresh () {
-        $this->render();
         $this->emit('emit_pre_render');
+        $this->render();
     }
 
     public function production_dashboard () {
