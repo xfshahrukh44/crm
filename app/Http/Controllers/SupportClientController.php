@@ -6,6 +6,7 @@ use App\Models\Brand;
 use App\Models\Client;
 use App\Models\Currency;
 use App\Models\Merchant;
+use App\Models\Project;
 use App\Models\Service;
 use App\Models\Task;
 use App\Models\User;
@@ -20,12 +21,12 @@ class SupportClientController extends Controller
     {
         $data = new Client;
 //        $data = $data->where('user_id', Auth()->user()->id);
-        $data = $data->whereIn('brand_id', auth()->user()->brand_list())->when(auth()->user()->is_support_head == 0, function ($q) {
-//            return $q->where('assign_id', auth()->id());
-            return $q->whereHas('projects', function ($q) {
-                return $q->where('user_id', auth()->id());
-            });
-        });
+        if (auth()->user()->is_support_head == 1) {
+            $data = $data->whereIn('brand_id', auth()->user()->brand_list());
+        } else {
+            $client_ids = array_unique(Project::where('user_id', auth()->id)->pluck('client_id')->toArray());
+            $data = $data->whereIn('id', $client_ids);
+        }
         $data = $data->orderBy('priority', 'ASC');
         $data = $data->orderBy('id', 'desc');
         if($request->name != ''){
