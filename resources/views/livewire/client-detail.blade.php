@@ -226,7 +226,7 @@
                             @endif
 
 
-                            @if ((in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]) || (auth()->user()->is_employee == 4 && auth()->user()->is_support_head)) && count($client->invoices))
+                            @if ((in_array(\Illuminate\Support\Facades\Auth::user()->is_employee, [2, 6, 0]) || (auth()->user()->is_employee == 4 && (auth()->user()->is_support_head || auth()->user()->is_upsell == 1))) && count($client->invoices))
                                 <div class="row my-4">
                                     <div class="col-md-12" style="border: 1px solid #b7b7b7; background-color: #F3F3F3;">
                                         <div class="row">
