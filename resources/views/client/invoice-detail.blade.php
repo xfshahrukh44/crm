@@ -128,7 +128,7 @@
                         <div class="main-id-user">
                             <p><span class="icon"><i class="fa-regular fa-user"></i></span> <span class="text">{{($invoice->client->name ?? '') . ' ' . ($invoice->client->last_name ?? '')}}</span></p>
                             <p><span class="icon"><i class="fa-regular fa-calendar-days"></i></span> <span class="text">{{\Carbon\Carbon::parse($invoice->created_at)->format('d F Y')}}</span></p>
-                            <p><span class="icon"><i class="fa-solid fa-dollar-sign"></i></span> <span class="text">{{$invoice->merchant->name ?? 'Wire'}}</span></p>
+{{--                            <p><span class="icon"><i class="fa-solid fa-dollar-sign"></i></span> <span class="text">{{$invoice->merchant->name ?? 'Wire'}}</span></p>--}}
                             @if(count($service_names))
                                 <p><span class="icon"><i class="fa-regular fa-folder"></i></span> <span class="text">{{implode(', ', $service_names) . '.'}}</span></p>
                             @endif
