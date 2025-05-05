@@ -262,9 +262,15 @@ class BrandDashboard extends Component
             })
             //support
             ->when(auth()->user()->is_employee == 4  && auth()->user()->is_support_head == 0, function ($q) {
-                return $q->whereHas('projects', function ($q) {
-                    return $q->where('user_id', auth()->id());
-                });
+//                return $q->whereHas('projects', function ($q) {
+//                    return $q->where('user_id', auth()->id());
+//                });
+
+                $client_ids = array_unique(User::whereIn('id',
+                    array_unique(Project::where('user_id', auth()->id())->pluck('client_id')->toArray())
+                )->pluck('client_id')->toArray());
+
+                return $q->whereIn('id', $client_ids);
             })
             ->withCount('projects')->withCount('invoices')
             ->orderBy('priority', 'ASC')
