@@ -34,8 +34,10 @@ class SupportClientController extends Controller
         $data = $data->orderBy('id', 'desc');
         if($request->name != ''){
             $data = $data->whereHas('user', function ($q) use ($request) {
-                return $q->where('name', 'LIKE', '%'.$request->name.'%')
-                    ->orWhere('last_name', 'LIKE', '%'.$request->name.'%');
+                return $q->where(function ($q) use ($request) {
+                    return $q->where('name', 'LIKE', '%'.$request->name.'%')
+                        ->orWhere('last_name', 'LIKE', '%'.$request->name.'%');
+                });
             });
         }
         if($request->email != ''){
