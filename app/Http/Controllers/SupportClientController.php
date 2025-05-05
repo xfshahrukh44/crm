@@ -25,7 +25,7 @@ class SupportClientController extends Controller
             $data = $data->whereIn('brand_id', auth()->user()->brand_list());
         } else {
             $client_ids = array_unique(Project::where('user_id', auth()->id())->pluck('client_id')->toArray());
-            dump('clients count')
+            dump('clients count');
             dd(count($client_ids));
             $data = $data->whereIn('brand_id', auth()->user()->brand_list())->whereIn('id', $client_ids);
         }
