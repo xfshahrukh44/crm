@@ -24,7 +24,7 @@ class SupportClientController extends Controller
         if (auth()->user()->is_support_head == 1) {
             $data = $data->whereIn('brand_id', auth()->user()->brand_list());
         } else {
-            $client_ids = array_unique(Project::where('user_id', auth()->id)->pluck('client_id')->toArray());
+            $client_ids = array_unique(Project::where('user_id', auth()->id())->pluck('client_id')->toArray());
             $data = $data->whereIn('id', $client_ids);
         }
         $data = $data->orderBy('priority', 'ASC');
