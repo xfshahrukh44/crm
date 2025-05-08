@@ -101,18 +101,18 @@ class HomeController extends Controller
     }
 
     public function readNotification(Request $request){
-//        $user = Auth::user();
-//        $user->unreadNotifications()->get()->map(function($n) {
-//            $n->markAsRead();
-//        });
+        $user = Auth::user();
+        $user->unreadNotifications()->get()->map(function($n) {
+            $n->markAsRead();
+        });
         return back();
     }
 
     public function markNotification(){
-//        $user = Auth::user();
-//        $user->unreadNotifications()->get()->map(function($n) {
-//            $n->markAsRead();
-//        });
+        $user = Auth::user();
+        $user->unreadNotifications()->get()->map(function($n) {
+            $n->markAsRead();
+        });
         return back();
     }
 
