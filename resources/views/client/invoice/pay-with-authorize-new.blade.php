@@ -108,7 +108,7 @@
             position: relative;
         }
 
-        @media (min-width: 767px) {
+        @media (max-width: 767px) {
             .card-icon {
                 position: absolute;
                 top: 68%;
