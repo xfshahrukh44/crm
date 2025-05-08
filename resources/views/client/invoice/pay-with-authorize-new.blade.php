@@ -84,7 +84,7 @@
         .card-icon {
             position: absolute;
             top: 62%;
-            left: 90%;
+            left: 93%;
             right: 0;
             width: 30px;
             height: 30px;
