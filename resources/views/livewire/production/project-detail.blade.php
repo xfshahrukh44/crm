@@ -104,16 +104,40 @@
                                 <span class="badge badge-dark badge-sm">
                                     {{ implode('', array_map(function($v) { return $v[0] . '.'; }, explode(' ', $project->category->name))) }}
                                 </span>
+
+                                <span class="badge badge-outline-dark badge-sm mr-1 ml-1">
+                                    {{ $project->latest_subtask_time() }}
+                                </span>
                             </div>
-                            <div class="row justify-content-center" style="letter-spacing: 2px; font-weight: 100;">
+                            <div class="row justify-content-center" style="letter-spacing: 2px; font-weight: 100; font-size: 16px;">
                                 {{$project->projects->name}}
                             </div>
-                            <div class="row justify-content-center">
-                                <span class="">
+{{--                            <div class="row justify-content-center">--}}
+{{--                                <span class="">--}}
+{{--                                    <b style="font-weight: 800; font-size: 10px;">--}}
+{{--                                        {{ $project->projects->added_by->name ?? '' }} {{ $project->projects->added_by->last_name ?? '' }}--}}
+{{--                                    </b>--}}
+{{--                                </span>--}}
+{{--                            </div>--}}
+
+                            <div class="row justify-content-center mt-1">
+                                <span class="badge badge-sm" style="background-color: lightblue;">
+                                    <i class="bi bi-headset"></i>
                                     <b style="font-weight: 800; font-size: 10px;">
                                         {{ $project->projects->added_by->name ?? '' }} {{ $project->projects->added_by->last_name ?? '' }}
                                     </b>
                                 </span>
+                                @php
+                                    $memeber_name = $project->assigned_member_name();
+                                @endphp
+                                @if($memeber_name != '')
+                                    <span class="badge badge-sm ml-1" style="background-color: #FFA500;">
+                                        <i class="bi bi-people-fill"></i>
+                                        <b style="font-weight: 800; font-size: 10px;">
+                                            {{ $project->assigned_member_name() }}
+                                        </b>
+                                    </span>
+                                @endif
                             </div>
 
                             <hr style="margin: 14px 0px 12px 0px !important;">
