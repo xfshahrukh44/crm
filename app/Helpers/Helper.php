@@ -2452,7 +2452,7 @@ function get_authorize_keys ($merchant_id) {
         ],
         7 => [
             'login_id' => '7HaWx27h',
-            'transaction_key' => '3N5DcFd49PB3um3g',
+            'transaction_key' => '29EW2tq8BQ46vd3v',
         ],
         8 => [
             'login_id' => '4uBtJ26yL',
