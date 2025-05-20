@@ -247,6 +247,49 @@
                                                             </span>
                                                         @endfor
                                                     </div>
+                                                    {{--testing--}}
+                                                    @if(in_array($invoice->id, [7424]))
+                                                        <div class="lago-badge mt-3">
+                                                            {{--                                                        <p>Description</p>--}}
+                                                            <ol>
+                                                                <li>
+                                                                    Editing and Proofreading
+                                                                </li>
+                                                                <li>
+                                                                    Formatting and Typesetting
+                                                                </li>
+                                                                <li>
+                                                                    Layout Adjustment as per publishing standards
+                                                                </li>
+                                                                <li>
+                                                                    Cover Art (Front and Back)
+                                                                </li>
+                                                                <li>
+                                                                    Author’s Introduction
+                                                                </li>
+                                                                <li>
+                                                                    Publishing on Amazon
+                                                                </li>
+                                                                <li>
+                                                                    Two Formats (Paperback, and Hardcover)
+                                                                </li>
+                                                                <li>
+                                                                    100% Ownership Rights (No royalties or commission taken)
+                                                                </li>
+                                                                <li>
+                                                                    100% Money-Back Guarantee
+                                                                </li>
+                                                                <li>
+                                                                    All final files delivered
+                                                                </li>
+                                                                <li>
+                                                                    Unlimited revisions
+                                                                </li>
+                                                            </ol>
+                                                            <p>
+                                                            </p>
+                                                        </div>
+                                                    @endif
                                                     <div class="card-payment">
                                                         <div class="row">
                                                             <div class="col-12 card_wrap">
