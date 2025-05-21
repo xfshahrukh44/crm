@@ -18,7 +18,7 @@ class AdminProjectController extends Controller
     {
         try {
             $data = new Project();
-            $data = $data->whereHas('client')->select('id', 'name', 'status', 'product_status', 'user_id', 'client_id', 'brand_id', 'created_at');
+            $data = $data->whereHas('client')->select('id', 'name', 'status', 'product_status', 'user_id', 'client_id', 'brand_id', 'created_at', 'comments', 'comments_id', 'comments_timestamp');
             $data = $data->when(!is_null(request()->get('start_date')), function ($q) {
                 return $q->whereDate('created_at', '>=', request()->get('start_date'));
             });
