@@ -15,10 +15,14 @@ class AddMultipleColumns extends Migration
     {
         Schema::table('clients', function (Blueprint $table) {
             $table->text('comments')->nullable();
+            $table->integer('comments_id')->nullable();
+            $table->timestamp('comments_timestamp')->nullable();
         });
 
         Schema::table('projects', function (Blueprint $table) {
             $table->text('comments')->nullable();
+            $table->integer('comments_id')->nullable();
+            $table->timestamp('comments_timestamp')->nullable();
         });
     }
 

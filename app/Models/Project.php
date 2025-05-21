@@ -9,7 +9,7 @@ class Project extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'status', 'product_status', 'user_id', 'cost', 'client_id', 'brand_id', 'form_id', 'form_checker', 'service_status', 'comments'];
+    protected $fillable = ['name', 'description', 'status', 'product_status', 'user_id', 'cost', 'client_id', 'brand_id', 'form_id', 'form_checker', 'service_status', 'comments', 'comments_id', 'comments_timestamp'];
 
     public function brand(){
         return $this->hasOne(Brand::class, 'id', 'brand_id');
@@ -29,6 +29,11 @@ class Project extends Model
 
     public function tasks(){
         return $this->hasMany(Task::class);
+    }
+
+    public function commenter ()
+    {
+        return $this->hasOne(User::class, 'id', 'comments_id');
     }
 
     public function service_status_badge ($small = false)

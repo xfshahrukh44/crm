@@ -9,7 +9,7 @@ class Client extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'last_name', 'email', 'contact', 'user_id', 'status', 'brand_id', 'assign_id', 'stripe_customer_id', 'priority', 'show_service_forms', 'comments'];
+    protected $fillable = ['name', 'last_name', 'email', 'contact', 'user_id', 'status', 'brand_id', 'assign_id', 'stripe_customer_id', 'priority', 'show_service_forms', 'comments', 'comments_id', 'comments_timestamp'];
 
     public function brand(){
         return $this->hasOne(Brand::class, 'id', 'brand_id');
@@ -59,6 +59,11 @@ class Client extends Model
 
     public function projects(){
         return $this->hasMany(Project::class, 'client_id');
+    }
+
+    public function commenter ()
+    {
+        return $this->hasOne(User::class, 'id', 'comments_id');
     }
 
     public function priority_badge ($small = false)

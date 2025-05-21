@@ -3,7 +3,7 @@
 @push('styles')
 <style>
     .select2-container {
-        z-index: 9999;
+        /*z-index: 9999;*/
         text-align: left;
     }
 </style>
@@ -66,7 +66,7 @@
                                 </td>
                             </tr>
                             @endforeach
-                            
+
                         </tbody>
                         <tfoot>
                             <tr>

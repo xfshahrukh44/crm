@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminLeadController;
 use App\Http\Controllers\BillingClientController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\ClientInvoiceController;
+use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\Manager\ManagerUserController;
 use App\Http\Controllers\ManagerAdminInvoiceController;
 use App\Http\Controllers\ManagerLeadController;
@@ -563,6 +564,10 @@ Route::get('redirect-to-livewire', function (Request $request) {
 })->name('redirect-to-livewire');
 
 Route::post('stripe-invoice-paid', [StripeController::class, 'stripe_invoice_paid'])->name('stripe.invoice.paid')->withoutMiddleware('verify.csrf.token');
+
+//comments
+Route::post('update-client-comments', [CommentsController::class, 'updateClientComments'])->name('update.client.comments');
+Route::post('update-project-comments', [CommentsController::class, 'updateProjectComments'])->name('update.project.comments');
 
 Route::get('temp', function () {
 //    return view('client.messages');
