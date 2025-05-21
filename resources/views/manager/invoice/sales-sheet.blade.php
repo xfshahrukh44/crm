@@ -268,7 +268,7 @@
             $(this).prop('hidden', true);
             $(this).parent().find('.content_click_to_view').prop('hidden', false);
         });
-        
+
         $('.btn_click_to_view').on('click', function () {
             $('.btn_click_to_view').each((i, item) => {
                 $(item).prop('hidden', false);
