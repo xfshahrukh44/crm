@@ -19,6 +19,12 @@ class AdminProjectController extends Controller
         try {
             $data = new Project();
             $data = $data->whereHas('client')->select('id', 'name', 'status', 'product_status', 'user_id', 'client_id', 'brand_id', 'created_at');
+            $data = $data->when(!is_null(request()->get('start_date')), function ($q) {
+                return $q->whereDate('created_at', '>=', request()->get('start_date'));
+            });
+            $data = $data->when(!is_null(request()->get('end_date')), function ($q) {
+                return $q->whereDate('created_at', '<=', request()->get('end_date'));
+            });
             if($request->brand != null){
                 $data = $data->where('brand_id', $request->brand);
             }
@@ -47,6 +53,13 @@ class AdminProjectController extends Controller
     {
         try {
             $data = Project::whereHas('client')->whereIn('brand_id', Auth()->user()->brand_list());
+
+            $data = $data->when(!is_null(request()->get('start_date')), function ($q) {
+                return $q->whereDate('created_at', '>=', request()->get('start_date'));
+            });
+            $data = $data->when(!is_null(request()->get('end_date')), function ($q) {
+                return $q->whereDate('created_at', '<=', request()->get('end_date'));
+            });
 
             //restricted brand access
             $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array

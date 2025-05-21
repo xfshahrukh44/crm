@@ -45,6 +45,12 @@ class AdminClientController extends Controller
             $data = new Client;
             $data = $data->orderBy('priority', 'ASC');
             $data = $data->orderBy('id', 'desc');
+            $data = $data->when(!is_null(request()->get('start_date')), function ($q) {
+                return $q->whereDate('created_at', '>=', request()->get('start_date'));
+            });
+            $data = $data->when(!is_null(request()->get('end_date')), function ($q) {
+                return $q->whereDate('created_at', '<=', request()->get('end_date'));
+            });
             if($request->name != ''){
                 $data = $data->where(DB::raw('concat(name," ",last_name)'), 'like', '%'.$request->name.'%')
                     ->orWhere('name', 'like', '%'.$request->name.'%')

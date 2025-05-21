@@ -9,7 +9,7 @@ class Project extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'status', 'product_status', 'user_id', 'cost', 'client_id', 'brand_id', 'form_id', 'form_checker', 'service_status'];
+    protected $fillable = ['name', 'description', 'status', 'product_status', 'user_id', 'cost', 'client_id', 'brand_id', 'form_id', 'form_checker', 'service_status', 'comments'];
 
     public function brand(){
         return $this->hasOne(Brand::class, 'id', 'brand_id');

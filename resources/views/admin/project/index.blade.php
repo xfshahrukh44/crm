@@ -1,5 +1,5 @@
 @extends('layouts.app-admin')
-   
+
 @section('content')
 <div class="breadcrumb">
     <h1 class="mr-2">Projects</h1>
@@ -47,6 +47,14 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-3 col-lg form-group mb-3">
+                                <label for="email">Start date</label>
+                                <input type="date" class="form-control" id="start_date" name="start_date" value="{{ Request::get('start_date') }}">
+                            </div>
+                            <div class="col-md-3 col-lg form-group mb-3">
+                                <label for="email">End date</label>
+                                <input type="date" class="form-control" id="end_date" name="end_date" value="{{ Request::get('end_date') }}">
+                            </div>
                             <div class="col-md-3 col-lg form-group mb-0 mt-4">
                                 <button class="btn btn-primary btn-block" type="submit">Search</button>
                             </div>
@@ -85,7 +93,28 @@
                                 <td><a href="javascript:;" title="{{$datas->name}}">{!! \Illuminate\Support\Str::limit(strip_tags($datas->name), 20, $end='...') !!}</a></td>
                                 <td>
                                     {{$datas->client->name}} {{$datas->client->last_name}}<br>
-                                    {{$datas->client->email}}                                    
+{{--                                    {{$datas->client->email}}--}}
+
+                                    <br>
+                                    <span>
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-info btn_click_to_view">
+                                            <i class="fas fa-eye mr-1"></i>
+                                            View email
+                                        </a>
+                                        <span class="content_click_to_view" hidden>
+                                            {{$datas->client->email}}
+                                        </span>
+                                    </span>
+
+                                    <span>
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-info btn_click_to_view">
+                                            <i class="fas fa-eye mr-1"></i>
+                                            View phone
+                                        </a>
+                                        <span class="content_click_to_view" hidden>
+                                            {{$datas->client->contact}}
+                                        </span>
+                                    </span>
                                 </td>
                                 <td>
                                     {{$datas->added_by->name}} {{$datas->added_by->last_name}} <br>
@@ -117,7 +146,7 @@
                                 </td>
                             </tr>
                             @endforeach
-                            
+
                         </tbody>
                         <tfoot>
                             <tr>
@@ -143,5 +172,20 @@
 @endsection
 
 @push('scripts')
-    
+    <script>
+        $(document).ready(function () {
+            $('.btn_click_to_view').on('click', function () {
+                $('.btn_click_to_view').each((i, item) => {
+                    $(item).prop('hidden', false);
+                });
+
+                $('.content_click_to_view').each((i, item) => {
+                    $(item).prop('hidden', true);
+                });
+
+                $(this).prop('hidden', true);
+                $(this).parent().find('.content_click_to_view').prop('hidden', false);
+            });
+        });
+    </script>
 @endpush

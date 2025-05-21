@@ -24,6 +24,14 @@
                             <label for="user">Search Name or Email</label>
                             <input type="text" class="form-control" id="user" name="user" value="{{ Request::get('user') }}">
                         </div>
+                        <div class="col-md-3 form-group mb-3">
+                            <label for="email">Start date</label>
+                            <input type="date" class="form-control" id="start_date" name="start_date" value="{{ Request::get('start_date') }}">
+                        </div>
+                        <div class="col-md-3 form-group mb-3">
+                            <label for="email">End date</label>
+                            <input type="date" class="form-control" id="end_date" name="end_date" value="{{ Request::get('end_date') }}">
+                        </div>
                         <div class="col-md-12">
                             <div class="text-right">
                                 <button class="btn btn-primary">Search Result</button>
@@ -65,9 +73,29 @@
                                     @endif
                                 </td>
                                 <td>
-                                    {{$datas->client->name ?? ''}} {{$datas->client->last_name ?? ''}}<br>
-                                    {{$datas->client->email ?? ''}}  <br>
-                                    {{$datas->client->contact ?? ''}}
+                                    {{$datas->client->name}} {{$datas->client->last_name}}<br>
+                                    {{--                                    {{$datas->client->email}}--}}
+
+                                    <br>
+                                    <span>
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-info btn_click_to_view">
+                                            <i class="fas fa-eye mr-1"></i>
+                                            View email
+                                        </a>
+                                        <span class="content_click_to_view" hidden>
+                                            {{$datas->client->email}}
+                                        </span>
+                                    </span>
+
+                                    <span>
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-info btn_click_to_view">
+                                            <i class="fas fa-eye mr-1"></i>
+                                            View phone
+                                        </a>
+                                        <span class="content_click_to_view" hidden>
+                                            {{$datas->client->contact}}
+                                        </span>
+                                    </span>
                                 </td>
                                 <td>
                                     <button class="btn btn-info btn-sm">{{$datas->brand->name ?? ''}}</button>
@@ -108,16 +136,6 @@
                             @endforeach
 
                         </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Client</th>
-                                <th>Brand</th>
-                                <th>Status</th>
-                                <th>Active</th>
-                            </tr>
-                        </tfoot>
                     </table>
                     {{ $data->links("pagination::bootstrap-4") }}
                 </div>
@@ -159,6 +177,21 @@
 
 @push('scripts')
     <script>
+        $(document).ready(function () {
+            $('.btn_click_to_view').on('click', function () {
+                $('.btn_click_to_view').each((i, item) => {
+                    $(item).prop('hidden', false);
+                });
+
+                $('.content_click_to_view').each((i, item) => {
+                    $(item).prop('hidden', true);
+                });
+
+                $(this).prop('hidden', true);
+                $(this).parent().find('.content_click_to_view').prop('hidden', false);
+            });
+        });
+
         function assignAgent(id, form, brand_id){
             $('#agent-name-wrapper').html('');
             var url = "{{ route('support.client.agent', ":id") }}";

@@ -1,94 +1,87 @@
-<?php include 'include/header.php' ?>
-<?php include 'include/menu.php' ?>
+<?php include "include/header.php" ?>
+</head>
 
-<section class="profile-section">
-    <div class="container bg-colored">
-        <div class="row align-items-center">
-            <div class="col-lg-4">
-                <div class="profile-left-parent doted-border">
-                    <p class="heading-3">
-                        Profile Picture
-                    </p>
-                    <figure class="large-profile">
-                        <img src="images/large-profile-pic.png" class="img-fluid" alt="">
-                    </figure>
-                    <span class="upload-profile-pic">
-                    <label for="file-upload" class="custom-file-upload">
-                        <figure>
-                            <img src="images/upload-icon.png" class="img-fluid" alt="">
-                        </figure>
-                        <p>
-                            Drag and Upload files here
-                        </p>
-                    </label>
-                    <input id="file-upload" type="file">
-                    </span>
-                    
-                    <p class="choice-profile">
-                        or
-                    </p>
-                    <span class="btn custom-btn black">
-                    <label for="file-upload" class="custom-file-upload">
-                        Browse File
-                    </label>
-                    <input id="file-upload" type="file">
-                    </span>
-                </div>
-            </div>
-            <div class="col-lg-8">
-                <div class="profile-right-parent">
-                    <p class="heading-3">
-                        Profile Details
-                    </p>
-                    <div class="parent-profile-details">
-                        <form action="" method="post">
+<body>
+    <?php include "include/menu.php" ?>
+    
+    <div class="main-side-menu">
+    <?php include "include/side-menu.php" ?>    
+<div class="for-slider-main-banner">
+
+
+    <section class="profile-pg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="profile-info">
+                        <form action="">
                             <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label for="exampleFormControlInput1" class="form-label">First Name</label>
-                                        <input type="text" class="form-control" id="exampleFormControlInput1"
-                                            placeholder="Jason">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="exampleFormControlInput1" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="exampleFormControlInput1"
-                                            placeholder="Jasonmartin@gmail.com">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="exampleFormControlInput1" class="form-label">Phone</label>
-                                        <input type="text" class="form-control" id="exampleFormControlInput1"
-                                            placeholder="987 654 321">
+                                <div class="col-lg-4">
+                                    <div class="profile-img">
+                                        <h6>Profile Picture</h6>
+                                        <img src="images/profile_img.png" class="img-fluid" alt="">
+                                        <div class="file-upload">
+                                            <input name="file1" type="file" class="dropify" data-height="100" />
+                                            <span>Or</span>
+                                            <div class="browsw-img">
+                                                <input type="file" name="file" id="file" class="inputfile"
+                                                    data-multiple-caption="{count} files selected" multiple />
+                                                <label for="file"><span>Browse File</span></label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label for="exampleFormControlInput1" class="form-label">Last Name</label>
-                                        <input type="text" class="form-control" id="exampleFormControlInput1"
-                                            placeholder="Martin">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="exampleFormControlInput1" class="form-label">Business Email</label>
-                                        <input type="email" class="form-control" id="exampleFormControlInput1"
-                                            placeholder="Jasonmartin@domain.com">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="exampleFormControlInput1" class="form-label">Business Phone</label>
-                                        <input type="text" class="form-control" id="exampleFormControlInput1"
-                                            placeholder="987 654 321">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="mb-3">
-                                        <label for="exampleFormControlInput1" class="form-label">Address</label>
-                                        <input type="text" class="form-control" id="exampleFormControlInput1"
-                                            placeholder="987 654 321">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="profile-details-save-btn">
-                                        <button class="btn custom-btn blue">
-                                            Save Changes
-                                        </button>
+                                <div class="col-lg-8">
+                                    <div class="profile-details">
+                                        <h4>Profile Details</h4>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label>First Name</label>
+                                                    <input type="text" name="" class="form-control" placeholder="Jason"
+                                                        required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Email</label>
+                                                    <input type="email" name="" class="form-control"
+                                                        placeholder="Jasonmartin@gmail.com" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Phone</label>
+                                                    <input type="number" name="" class="form-control"
+                                                        placeholder="987 654 321" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label>Last Name</label>
+                                                    <input type="text" name="" class="form-control" placeholder="Martin"
+                                                        required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Email</label>
+                                                    <input type="email" name="" class="form-control"
+                                                        placeholder="Business Email" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Business Phone</label>
+                                                    <input type="number" name="" class="form-control"
+                                                        placeholder="987 654 321" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label>Address</label>
+                                                    <input type="text" name="" class="form-control" placeholder=""
+                                                        required>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="brief-bttn">
+                                                    <button class="btn brief-btn" type="submit">Submit Form</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -97,7 +90,8 @@
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<?php include 'include/footer.php' ?>
+</div>
+</div>
+    <?php include "include/footer.php" ?>

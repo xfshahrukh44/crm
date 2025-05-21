@@ -48,6 +48,14 @@
                             <label for="contact">Search by Task ID</label>
                             <input type="text" class="form-control" id="task_id" name="task_id" value="{{request()->get('task_id')}}">
                         </div>
+                        <div class="col-md-3 form-group mb-3">
+                            <label for="email">Start date</label>
+                            <input type="date" class="form-control" id="start_date" name="start_date" value="{{ Request::get('start_date') }}">
+                        </div>
+                        <div class="col-md-3 form-group mb-3">
+                            <label for="email">End date</label>
+                            <input type="date" class="form-control" id="end_date" name="end_date" value="{{ Request::get('end_date') }}">
+                        </div>
                         <div class="col-md-12">
                             <div class="text-right">
                                 <button class="btn btn-primary">Search Result</button>
@@ -70,8 +78,8 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Full Name</th>
-{{--                                <th>Email</th>--}}
-{{--                                <th>Contact</th>--}}
+                                <th>Email</th>
+                                <th>Contact</th>
                                 <th>Brand</th>
                                 <th>Payment Link</th>
                                 <th>Status</th>
@@ -84,8 +92,24 @@
                             <tr>
                                 <td>{{$datas->id}}</td>
                                 <td>{{$datas->name}} {{$datas->last_name}}</td>
-{{--                                <td>{{$datas->email}}</td>--}}
-{{--                                <td>{{$datas->contact}}</td>--}}
+                                <td>
+                                    <a href="javascript:void(0);" class="btn btn-sm btn-info btn_click_to_view">
+                                        <i class="fas fa-eye mr-1"></i>
+                                        View
+                                    </a>
+                                    <span class="content_click_to_view" hidden>
+                                        {{$datas->email}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);" class="btn btn-sm btn-info btn_click_to_view">
+                                        <i class="fas fa-eye mr-1"></i>
+                                        View
+                                    </a>
+                                    <span class="content_click_to_view" hidden>
+                                        {{$datas->contact}}
+                                    </span>
+                                </td>
                                 <td><span class="btn btn-info btn-sm">{{$datas->brand->name}}</span></td>
                                 <td><a href="{{ route('support.client.generate.payment', $datas->id) }}" class="btn btn-primary btn-sm">Generate Payment</a></td>
                                 <td>
@@ -115,5 +139,20 @@
 @endsection
 
 @push('scripts')
+    <script>
+        $(document).ready(function () {
+            $('.btn_click_to_view').on('click', function () {
+                $('.btn_click_to_view').each((i, item) => {
+                    $(item).prop('hidden', false);
+                });
 
+                $('.content_click_to_view').each((i, item) => {
+                    $(item).prop('hidden', true);
+                });
+
+                $(this).prop('hidden', true);
+                $(this).parent().find('.content_click_to_view').prop('hidden', false);
+            });
+        });
+    </script>
 @endpush

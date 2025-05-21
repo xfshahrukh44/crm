@@ -1,5 +1,5 @@
 @extends('layouts.app-sale')
-   
+
 @section('content')
 <div class="content-header row">
     <div class="content-header-left col-md-12 col-12 mb-2 breadcrumb-new">
@@ -65,7 +65,32 @@
                                         <tr>
                                             <td>{{$datas->id}}</td>
                                             <td>{{$datas->name}}</td>
-                                            <td>{{$datas->client->name}} {{$datas->client->last_name}}</td>
+
+                                            <td>
+                                                {{$datas->client->name}} {{$datas->client->last_name}}<br>
+                                                {{--                                    {{$datas->client->email}}--}}
+
+                                                <br>
+                                                <span>
+                                                    <a href="javascript:void(0);" class="btn btn-sm btn-info btn_click_to_view">
+                                                        <i class="fas fa-eye mr-1"></i>
+                                                        View email
+                                                    </a>
+                                                    <span class="content_click_to_view" hidden>
+                                                        {{$datas->client->email}}
+                                                    </span>
+                                                </span>
+
+                                                <span>
+                                                    <a href="javascript:void(0);" class="btn btn-sm btn-info btn_click_to_view">
+                                                        <i class="fas fa-eye mr-1"></i>
+                                                        View phone
+                                                    </a>
+                                                    <span class="content_click_to_view" hidden>
+                                                        {{$datas->client->contact}}
+                                                    </span>
+                                                </span>
+                                            </td>
                                             <td>{{$datas->added_by->name}} {{$datas->added_by->last_name}}</td>
                                             <td><span class="badge badge-info badge-sm">{{$datas->brand->name}}</span></td>
                                             <td>
@@ -87,7 +112,7 @@
                                             </td>
                                         </tr>
                                         @endforeach
-                                        
+
                                     </tbody>
                                     <tfoot>
                                         <tr>
@@ -115,5 +140,20 @@
 @endsection
 
 @push('scripts')
-    
+    <script>
+        $(document).ready(function () {
+            $('.btn_click_to_view').on('click', function () {
+                $('.btn_click_to_view').each((i, item) => {
+                    $(item).prop('hidden', false);
+                });
+
+                $('.content_click_to_view').each((i, item) => {
+                    $(item).prop('hidden', true);
+                });
+
+                $(this).prop('hidden', true);
+                $(this).parent().find('.content_click_to_view').prop('hidden', false);
+            });
+        });
+    </script>
 @endpush

@@ -44,6 +44,12 @@ class ClientController extends Controller
     {
         $data = new Client;
         $data = $data->where('user_id', Auth()->user()->id);
+        $data = $data->when(!is_null(request()->get('start_date')), function ($q) {
+            return $q->whereDate('created_at', '>=', request()->get('start_date'));
+        });
+        $data = $data->when(!is_null(request()->get('end_date')), function ($q) {
+            return $q->whereDate('created_at', '<=', request()->get('end_date'));
+        });
         $data = $data->orderBy('priority', 'ASC');
         $data = $data->orderBy('id', 'desc');
         if($request->name != ''){
@@ -98,6 +104,12 @@ class ClientController extends Controller
     public function managerClient(Request $request){
         $data = new Client;
         $data = $data->whereIn('brand_id', Auth()->user()->brand_list());
+        $data = $data->when(!is_null(request()->get('start_date')), function ($q) {
+            return $q->whereDate('created_at', '>=', request()->get('start_date'));
+        });
+        $data = $data->when(!is_null(request()->get('end_date')), function ($q) {
+            return $q->whereDate('created_at', '<=', request()->get('end_date'));
+        });
         $data = $data->orderBy('priority', 'ASC');
         $data = $data->orderBy('id', 'desc');
         if($request->name != ''){

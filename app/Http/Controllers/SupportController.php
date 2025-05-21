@@ -58,6 +58,14 @@ class SupportController extends Controller
 
     public function projects(Request $request){
         $data = new Project;
+
+        $data = $data->when(!is_null(request()->get('start_date')), function ($q) {
+            return $q->whereDate('created_at', '>=', request()->get('start_date'));
+        });
+        $data = $data->when(!is_null(request()->get('end_date')), function ($q) {
+            return $q->whereDate('created_at', '<=', request()->get('end_date'));
+        });
+
         if (!Auth::user()->is_support_head) {
             $data = $data->where('user_id', Auth()->user()->id);
         } else {
