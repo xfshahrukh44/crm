@@ -32,7 +32,13 @@
                                 <td>{{$datas->name}}</td>
                                 <td>
                                     {{$datas->added_by->name}} {{$datas->added_by->last_name}}<br>
-                                    {{$datas->added_by->email}}
+                                    <a href="javascript:void(0);" class="btn btn-sm btn-info btn_click_to_view">
+                                        <i class="fas fa-eye mr-1"></i>
+                                        View
+                                    </a>
+                                    <span class="content_click_to_view" hidden>
+                                        {{$datas->added_by->email}}
+                                    </span>
                                 </td>
                                 <td>
                                     {{$datas->client->name}} {{$datas->client->last_name}}<br>
@@ -81,3 +87,28 @@
 </div>
 
 @endsection
+
+@push('scripts')
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $(document).ready(function () {
+            $('.btn_click_to_view').on('click', function () {
+                $('.btn_click_to_view').each((i, item) => {
+                    $(item).prop('hidden', false);
+                });
+
+                $('.content_click_to_view').each((i, item) => {
+                    $(item).prop('hidden', true);
+                });
+
+                $(this).prop('hidden', true);
+                $(this).parent().find('.content_click_to_view').prop('hidden', false);
+            });
+        });
+    </script>
+@endpush

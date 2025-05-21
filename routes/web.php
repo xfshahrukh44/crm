@@ -469,7 +469,7 @@ Route::group(['middleware' => 'auth'], function () {
 Route::get('/verify', [VerifyController::class, 'index'])->name('salemanager.verify');
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::group(['middleware' => 'is_sale_manager'], function(){
+    Route::group(['middleware' => 'is_sale_manager'], function() {
         Route::get('/manager/dashboard', [HomeController::class, 'managerDashboard'])->name('salemanager.dashboard');
         Route::get('/manager/clients', [ClientController::class, 'managerClient'])->name('salemanager.client.index');
         Route::get('/manager/clients/create', [ClientController::class, 'managerClientCreate'])->name('salemanager.client.create');

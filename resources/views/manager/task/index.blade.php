@@ -1,5 +1,5 @@
 @extends('layouts.app-manager')
-   
+
 @section('content')
 <div class="content-header row">
     <div class="content-header-left col-md-12 col-12 mb-2 breadcrumb-new">
@@ -183,23 +183,29 @@
                                 <td>{{$datas->projects->name}}</td>
                                 <td>
                                     {{ $datas->projects->client->name }} {{ $datas->projects->client->last_name }} <br>
-                                    {{ $datas->projects->client->email }}
+                                    <a href="javascript:void(0);" class="btn btn-sm btn-info btn_click_to_view">
+                                        <i class="fas fa-eye mr-1"></i>
+                                        View
+                                    </a>
+                                    <span class="content_click_to_view" hidden>
+                                        {{ $datas->projects->client->email }}
+                                    </span>
                                 </td>
                                 <td>
                                     <button class="btn btn-info btn-sm">{{ $datas->user->name }} {{ $datas->user->last_name }}</button>
-                                     
+
                                     <?php if(auth()->user()->id == "33"){ ?>
-                                    
+
                                     <button class="btn btn-primary btn-sm" onclick="openReassign({{$datas->id}}, '{{$datas->brand->id}}')">Reassign</button>
-                                    
+
                                     <?php } ?>
-                                    
+
                                 </td>
                                 <td>
                                     <button class="btn btn-primary btn-sm">{{ implode('', array_map(function($v) { return $v[0]; }, explode(' ', $datas->brand->name))) }}</button>
                                 </td>
                                 <td>
-                                    <button class="btn btn-secondary btn-sm">{{$datas->category->name}}</button>    
+                                    <button class="btn btn-secondary btn-sm">{{$datas->category->name}}</button>
                                 </td>
                                 <td>{!! $datas->project_status() !!}</td>
                                 <td>
@@ -209,8 +215,8 @@
                                 </td>
                             </tr>
                             @endforeach
-                            
-                        </tbody> 
+
+                        </tbody>
                         <tfoot>
                             <tr>
                                 <th>ID</th>
@@ -225,7 +231,7 @@
                             </tr>
                         </tfoot>
                     </table>
-                    <div class="ajax-loading"><img src="{{ asset('newglobal/images/loader.gif') }}" /></div> 
+                    <div class="ajax-loading"><img src="{{ asset('newglobal/images/loader.gif') }}" /></div>
                 </div>
             </div>
         </div>
@@ -242,7 +248,7 @@
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <form action="{{ route('manager.reassign.support.taskid') }}" method="post">
-                
+
             @csrf
                 <div class="modal-body">
                     <input type="hidden" name="id" id="assign_id">
@@ -269,15 +275,28 @@
 
 @push('scripts')
 <script>
-   
-   
+    $(document).ready(function(){
+        $('.btn_click_to_view').on('click', function () {
+            $('.btn_click_to_view').each((i, item) => {
+                $(item).prop('hidden', false);
+            });
+
+            $('.content_click_to_view').each((i, item) => {
+                $(item).prop('hidden', true);
+            });
+
+            $(this).prop('hidden', true);
+            $(this).parent().find('.content_click_to_view').prop('hidden', false);
+        });
+    });
+
     var SITEURL = "{{ url('/') }}";
     var page = 2;
     load_more(page);
     $(window).scroll(function() {
         if($(window).scrollTop() + $(window).height() >= $(document).height() - 1) {
             page++;
-            load_more(page); //load content   
+            load_more(page); //load content
         }
     });
     function load_more(page){
@@ -301,12 +320,12 @@
             alert('No response from server');
         });
     }
-    
-    
-    
+
+
+
     function openReassign(id, brand_id){
-        
-        
+
+
         $('#agent-name-wrapper').html('');
         var url = "{{ route('manager.client.agent', ":id") }}";
         url = url.replace(':id', brand_id);
@@ -322,9 +341,9 @@
         });
         $('#assignModel').find('#assign_id').val(id);
         $('#assignModel').modal('show');
-        
+
     }
-    
-    
+
+
 </script>
 @endpush

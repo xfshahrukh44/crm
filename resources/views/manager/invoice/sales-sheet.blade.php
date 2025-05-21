@@ -170,8 +170,24 @@
                                         </td>
                                         <td>{{$datas->client->id}}</td>
                                         <td>{{$datas->client->name}}</td>
-                                        <td>{{$datas->client->email}}</td>
-                                        <td>{{$datas->client->contact}}</td>
+                                        <td>
+                                            <a href="javascript:void(0);" class="btn btn-sm btn-info btn_click_to_view">
+                                                <i class="fas fa-eye mr-1"></i>
+                                                View
+                                            </a>
+                                            <span class="content_click_to_view" hidden>
+                                                {{$datas->client->email}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a href="javascript:void(0);" class="btn btn-sm btn-info btn_click_to_view">
+                                                <i class="fas fa-eye mr-1"></i>
+                                                View
+                                            </a>
+                                            <span class="content_click_to_view" hidden>
+                                                {{$datas->client->contact}}
+                                            </span>
+                                        </td>
                                         <td>
                                             @php
                                                 $service_list = explode(',', $datas->service);
@@ -240,6 +256,20 @@
 @push('scripts')
 <script>
     $(document).ready(function () {
+        $('.btn_click_to_view').on('click', function () {
+            $('.btn_click_to_view').each((i, item) => {
+                $(item).prop('hidden', false);
+            });
+
+            $('.content_click_to_view').each((i, item) => {
+                $(item).prop('hidden', true);
+            });
+
+            $(this).prop('hidden', true);
+            $(this).parent().find('.content_click_to_view').prop('hidden', false);
+        });
+
+
         $('form select').on('change', function () {
             $(this).parent().parent().parent().submit();
         });

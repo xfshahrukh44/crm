@@ -83,7 +83,17 @@
                                     {{ $datas->package }}
                                     @endif
                                 </td>
-                                <td>{{ $datas->name }}<br>{{ $datas->email }}</td>
+                                <td>
+                                    {{ $datas->name }}
+                                    <br>
+                                    <a href="javascript:void(0);" class="btn btn-sm btn-info btn_click_to_view">
+                                        <i class="fas fa-eye mr-1"></i>
+                                        View
+                                    </a>
+                                    <span class="content_click_to_view" hidden>
+                                        {{ $datas->email }}
+                                    </span>
+                                </td>
                                 <td>{{ $datas->sale->name ?? '' }} {{ $datas->sale->last_name ?? '' }}</td>
                                 <td><span class="btn btn-primary btn-sm">{{ $datas->brands->name }}</span></td>
                                 <td>
@@ -177,6 +187,21 @@
 
 @push('scripts')
 <script>
+    $(document).ready(function () {
+        $('.btn_click_to_view').on('click', function () {
+            $('.btn_click_to_view').each((i, item) => {
+                $(item).prop('hidden', false);
+            });
+
+            $('.content_click_to_view').each((i, item) => {
+                $(item).prop('hidden', true);
+            });
+
+            $(this).prop('hidden', true);
+            $(this).parent().find('.content_click_to_view').prop('hidden', false);
+        });
+    });
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')

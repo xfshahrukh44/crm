@@ -37,7 +37,15 @@
                                 <tr>
                                     <td>{{$user->id}}</td>
                                     <td>{{$user->name}} {{$user->last_name}}</td>
-                                    <td>{{$user->email}}</td>
+                                    <td>
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-info btn_click_to_view">
+                                            <i class="fas fa-eye mr-1"></i>
+                                            View
+                                        </a>
+                                        <span class="content_click_to_view" hidden>
+                                            {{$user->email}}
+                                        </span>
+                                    </td>
                                     <td>
                                         <span class="btn btn-info btn-sm">{{$user->client->brand->name}}</span>
                                     </td>
@@ -814,6 +822,21 @@
 
 @push('scripts')
 <script>
+    $(document).ready(function(){
+        $('.btn_click_to_view').on('click', function () {
+            $('.btn_click_to_view').each((i, item) => {
+                $(item).prop('hidden', false);
+            });
+
+            $('.content_click_to_view').each((i, item) => {
+                $(item).prop('hidden', true);
+            });
+
+            $(this).prop('hidden', true);
+            $(this).parent().find('.content_click_to_view').prop('hidden', false);
+        });
+    });
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')

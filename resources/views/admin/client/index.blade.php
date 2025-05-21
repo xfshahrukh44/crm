@@ -105,8 +105,8 @@
                                             View
                                         </a>
                                         <span class="content_click_to_view" hidden>
-                                        {{$datas->email}}
-                                    </span>
+                                            {{$datas->email}}
+                                        </span>
                                     </td>
                                     <td>
                                         <a href="javascript:void(0);" class="btn btn-sm btn-info btn_click_to_view">

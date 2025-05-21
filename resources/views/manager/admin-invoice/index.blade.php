@@ -110,8 +110,24 @@
                                     <td>{{$admin_invoice->sr_no}}</td>
                                     <td>{{$admin_invoice->client_id ?? 'N/A'}}</td>
                                     <td>{{$admin_invoice->client_name ?? 'N/A'}}</td>
-                                    <td>{{$admin_invoice->client_email ?? 'N/A'}}</td>
-                                    <td>{{$admin_invoice->client_phone ?? 'N/A'}}</td>
+                                    <td>
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-info btn_click_to_view">
+                                            <i class="fas fa-eye mr-1"></i>
+                                            View
+                                        </a>
+                                        <span class="content_click_to_view" hidden>
+                                            {{$admin_invoice->client_email ?? 'N/A'}}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-info btn_click_to_view">
+                                            <i class="fas fa-eye mr-1"></i>
+                                            View
+                                        </a>
+                                        <span class="content_click_to_view" hidden>
+                                            {{$admin_invoice->client_phone ?? 'N/A'}}
+                                        </span>
+                                    </td>
                                     <td>{{$admin_invoice->service_name ?? 'N/A'}}</td>
                                     <td>{{ $admin_invoice->currency_show->sign }}{{ $admin_invoice->amount }}</td>
                                     <td>{{ $admin_invoice->currency_show->sign }}{{ $admin_invoice->recurring }}</td>
@@ -149,6 +165,19 @@
 @push('scripts')
     <script>
         $(document).ready(function(){
+            $('.btn_click_to_view').on('click', function () {
+                $('.btn_click_to_view').each((i, item) => {
+                    $(item).prop('hidden', false);
+                });
+
+                $('.content_click_to_view').each((i, item) => {
+                    $(item).prop('hidden', true);
+                });
+
+                $(this).prop('hidden', true);
+                $(this).parent().find('.content_click_to_view').prop('hidden', false);
+            });
+
             if($('#index_table').length != 0){
                 $('#index_table').DataTable({
                     order: [[0, "desc"]]

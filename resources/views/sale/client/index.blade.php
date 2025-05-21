@@ -76,9 +76,9 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Full Name</th>
+{{--                                <th>Contact</th>--}}
                                 <th>Email</th>
                                 <th>Phone</th>
-                                <th>Contact</th>
                                 <th>Brand</th>
                                 <th>Payment Link</th>
                                 <th>Status</th>
@@ -91,7 +91,7 @@
                             <tr>
                                 <td>{{$datas->id}}</td>
                                 <td>{{$datas->name}} {{$datas->last_name}}</td>
-                                <td>{{$datas->email}}</td>
+{{--                                <td>{{$datas->email}}</td>--}}
                                 <td>
                                     <a href="javascript:void(0);" class="btn btn-sm btn-info btn_click_to_view">
                                         <i class="fas fa-eye mr-1"></i>
@@ -129,18 +129,6 @@
                             </tr>
                             @endforeach
                         </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>ID</th>
-                                <th>Full Name</th>
-                                <th>Email</th>
-                                <th>Contact</th>
-                                <th>Brand</th>
-                                <th>Payment Link</th>
-                                <th>Status</th>
-                                <th>Active</th>
-                            </tr>
-                        </tfoot>
                     </table>
                     {{ $data->links("pagination::bootstrap-4") }}
                 </div>

@@ -86,7 +86,15 @@
                             <tr>
                                 <td>{{$datas->id}}</td>
                                 <td><a href="{{ route('sale.lead.show', $datas->id) }}">{{$datas->name}} {{$datas->last_name}}</a></td>
-                                <td>{{$datas->email}}</td>
+                                <td>
+                                    <a href="javascript:void(0);" class="btn btn-sm btn-info btn_click_to_view">
+                                        <i class="fas fa-eye mr-1"></i>
+                                        View
+                                    </a>
+                                    <span class="content_click_to_view" hidden>
+                                        {{$datas->email}}
+                                    </span>
+                                </td>
                                 <td>
                                     <button class="btn btn-info btn-sm">{{$datas->_brand->name ?? ''}}</button>
                                 </td>
@@ -131,6 +139,19 @@
 
 @push('scripts')
 <script>
+    $(document).ready(function(){
+        $('.btn_click_to_view').on('click', function () {
+            $('.btn_click_to_view').each((i, item) => {
+                $(item).prop('hidden', false);
+            });
 
+            $('.content_click_to_view').each((i, item) => {
+                $(item).prop('hidden', true);
+            });
+
+            $(this).prop('hidden', true);
+            $(this).parent().find('.content_click_to_view').prop('hidden', false);
+        });
+    });
 </script>
 @endpush
