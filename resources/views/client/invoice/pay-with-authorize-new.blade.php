@@ -247,6 +247,12 @@
                                                             </span>
                                                         @endfor
                                                     </div>
+                                                    <div class="lago-badge">
+                                                        <p>Description</p>
+                                                        <p>
+                                                            {{$invoice->discription}}
+                                                        </p>
+                                                    </div>
                                                     {{--testing--}}
                                                     @if(in_array($invoice->id, [7424]))
                                                         <div class="lago-badge mt-3">
