@@ -119,7 +119,7 @@ class SaleLeadController extends Controller
 
     public function update(Request $request, Lead $lead)
     {
-        try {
+//        try {
             $request->validate([
                 'name' => 'required',
                 'last_name' => 'required',
@@ -154,9 +154,9 @@ class SaleLeadController extends Controller
             }
 
             return redirect()->route('sale.lead.index')->with('success', 'Lead Updated Successfully.');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
-        }
+//        } catch (\Exception $e) {
+//            return redirect()->back()->with('error', $e->getMessage());
+//        }
     }
 
     public function destroy(Lead $lead)
