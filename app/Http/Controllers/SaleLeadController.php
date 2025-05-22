@@ -54,7 +54,7 @@ class SaleLeadController extends Controller
 
     public function create()
     {
-        $brands = Brand::all();
+        $brands = Brand::whereIn('id', auth()->user()->brand_list())->get();
         $services = Service::all();
 
         return view('sale.lead.create', compact('brands', 'services'));
