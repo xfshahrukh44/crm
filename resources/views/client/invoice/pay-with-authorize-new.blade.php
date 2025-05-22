@@ -247,7 +247,7 @@
                                                             </span>
                                                         @endfor
                                                     </div>
-                                                    <div class="lago-badge">
+                                                    <div class="lago-badge mt-4">
                                                         <p>Description</p>
                                                         <p>
                                                             {{$invoice->discription}}
