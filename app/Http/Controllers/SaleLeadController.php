@@ -62,7 +62,7 @@ class SaleLeadController extends Controller
 
     public function store(Request $request)
     {
-        try {
+//        try {
             $request->validate([
                 'name' => 'required',
                 'last_name' => 'required',
@@ -94,9 +94,9 @@ class SaleLeadController extends Controller
 //            }
 
             return redirect()->route('sale.lead.index')->with('success', 'Lead created Successfully.');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
-        }
+//        } catch (\Exception $e) {
+//            return redirect()->back()->with('error', $e->getMessage());
+//        }
     }
 
     public function show(Lead $lead)
