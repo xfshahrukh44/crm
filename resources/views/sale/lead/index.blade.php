@@ -77,6 +77,7 @@
                                 <th>ID</th>
                                 <th>Full Name</th>
                                 <th>Email</th>
+                                <th>Phone</th>
                                 <th>Brand</th>
                                 <th>Service(s)</th>
                                 <th>Status</th>
@@ -95,6 +96,15 @@
                                     </a>
                                     <span class="content_click_to_view" hidden>
                                         {{$datas->email}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);" class="btn btn-sm btn-info btn_click_to_view">
+                                        <i class="fas fa-eye mr-1"></i>
+                                        View
+                                    </a>
+                                    <span class="content_click_to_view" hidden>
+                                        {{$datas->contact}}
                                     </span>
                                 </td>
                                 <td>
