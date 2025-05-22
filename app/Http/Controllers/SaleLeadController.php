@@ -66,6 +66,7 @@ class SaleLeadController extends Controller
             $request->validate([
                 'name' => 'required',
                 'last_name' => 'required',
+                'contact' => 'required',
 //                'user_id' => 'required',
                 'email' => 'required|email|unique:clients,email',
                 'status' => 'required',
@@ -122,6 +123,7 @@ class SaleLeadController extends Controller
             $request->validate([
                 'name' => 'required',
                 'last_name' => 'required',
+                'contact' => 'required',
                 'email' => 'required|email|unique:clients,email',
                 'status' => 'required',
                 'brand' => 'required',

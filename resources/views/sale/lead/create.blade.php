@@ -75,7 +75,7 @@
                                 <select name="status" id="status" class="form-control">
                                     <option value="Closed">Closed</option>
                                     <option value="On Discussion">On Discussion</option>
-{{--                                    <option value="Onboarded">Onboarded</option>--}}
+                                    <option value="Onboarded">Onboarded</option>
                                 </select>
                             </div>
                             <div class="col-md-12">
