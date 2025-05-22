@@ -234,23 +234,25 @@
                 </a>
                 <div class="triangle"></div>
             </li>
-            <li class="nav-item {{ (request()->routeIs('brands.dashboard.v3')) || (request()->routeIs('brands.detail')) || (request()->routeIs('clients.detail')) || (request()->routeIs('projects.detail'))? 'active' : '' }}">
-                <a class="nav-item-hold" href="{{ route('brands.dashboard.v3') }}">
-                    <i class="nav-icon i-Medal-2"></i>
-                    <span class="nav-text">Brands</span>
-                    <span class="badge badge-success">
-                        <b>NEW</b>
-                    </span>
-                </a>
-                <div class="triangle"></div>
-            </li>
-            <li class="nav-item {{ ( request()->routeIs('client.index') || request()->routeIs('client.edit') || request()->routeIs('client.generate.payment') || request()->routeIs('client.create')) ? 'active' : '' }}">
-                <a class="nav-item-hold" href="{{ route('client.index') }}">
-                    <i class="nav-icon i-Add-User"></i>
-                    <span class="nav-text">Clients</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
+            @if(auth()->id() != 5443)
+                <li class="nav-item {{ (request()->routeIs('brands.dashboard.v3')) || (request()->routeIs('brands.detail')) || (request()->routeIs('clients.detail')) || (request()->routeIs('projects.detail'))? 'active' : '' }}">
+                    <a class="nav-item-hold" href="{{ route('brands.dashboard.v3') }}">
+                        <i class="nav-icon i-Medal-2"></i>
+                        <span class="nav-text">Brands</span>
+                        <span class="badge badge-success">
+                            <b>NEW</b>
+                        </span>
+                    </a>
+                    <div class="triangle"></div>
+                </li>
+                <li class="nav-item {{ ( request()->routeIs('client.index') || request()->routeIs('client.edit') || request()->routeIs('client.generate.payment') || request()->routeIs('client.create')) ? 'active' : '' }}">
+                    <a class="nav-item-hold" href="{{ route('client.index') }}">
+                        <i class="nav-icon i-Add-User"></i>
+                        <span class="nav-text">Clients</span>
+                    </a>
+                    <div class="triangle"></div>
+                </li>
+            @endif
             <li class="nav-item {{ (request()->routeIs('sale.lead.index')) ? 'active' : '' }}">
                 <a class="nav-item-hold text-warning" href="{{ route('sale.lead.index') }}">
                     <i class="nav-icon i-Administrator"></i>
@@ -258,34 +260,36 @@
                 </a>
                 <div class="triangle"></div>
             </li>
-            <li class="nav-item {{ (request()->routeIs('sale.invoice')) || (request()->routeIs('sale.single.invoice') || request()->routeIs('sale.link')) ? 'active' : '' }}">
-                <a class="nav-item-hold" href="{{ route('sale.invoice') }}">
-                    <i class="nav-icon i-Credit-Card"></i>
-                    <span class="nav-text">Invoices</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
-{{--            <li class="nav-item {{ (request()->routeIs('sale.brief.pending')) ? 'active' : '' }}">--}}
-{{--                <a class="nav-item-hold" href="{{ route('sale.brief.pending') }}">--}}
-{{--                    <i class="nav-icon i-Folder-Close"></i>--}}
-{{--                    <span class="nav-text">Brief Pending</span>--}}
-{{--                </a>--}}
-{{--                <div class="triangle"></div>--}}
-{{--            </li>--}}
-            <li class="nav-item {{ (request()->routeIs('sale.project') || request()->routeIs('sale.form') || request()->routeIs('sale.task.show') ) ? 'active' : '' }}">
-                <a class="nav-item-hold" href="{{ route('sale.project') }}">
-                    <i class="nav-icon i-Suitcase"></i>
-                    <span class="nav-text">All Projects</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
-            <li class="nav-item {{ (request()->routeIs('tutorials')) ? 'active' : '' }}">
+            @if(auth()->id() != 5443)
+                <li class="nav-item {{ (request()->routeIs('sale.invoice')) || (request()->routeIs('sale.single.invoice') || request()->routeIs('sale.link')) ? 'active' : '' }}">
+                    <a class="nav-item-hold" href="{{ route('sale.invoice') }}">
+                        <i class="nav-icon i-Credit-Card"></i>
+                        <span class="nav-text">Invoices</span>
+                    </a>
+                    <div class="triangle"></div>
+                </li>
+    {{--            <li class="nav-item {{ (request()->routeIs('sale.brief.pending')) ? 'active' : '' }}">--}}
+    {{--                <a class="nav-item-hold" href="{{ route('sale.brief.pending') }}">--}}
+    {{--                    <i class="nav-icon i-Folder-Close"></i>--}}
+    {{--                    <span class="nav-text">Brief Pending</span>--}}
+    {{--                </a>--}}
+    {{--                <div class="triangle"></div>--}}
+    {{--            </li>--}}
+                <li class="nav-item {{ (request()->routeIs('sale.project') || request()->routeIs('sale.form') || request()->routeIs('sale.task.show') ) ? 'active' : '' }}">
+                    <a class="nav-item-hold" href="{{ route('sale.project') }}">
+                        <i class="nav-icon i-Suitcase"></i>
+                        <span class="nav-text">All Projects</span>
+                    </a>
+                    <div class="triangle"></div>
+                </li>
+                <li class="nav-item {{ (request()->routeIs('tutorials')) ? 'active' : '' }}">
                 <a class="nav-item-hold" href="{{ route('tutorials') }}">
                     <i class="nav-icon fas fa-play"></i>
                     <span class="nav-text">Tutorials</span>
                 </a>
                 <div class="triangle"></div>
             </li>
+            @endif
 
         </ul>
     </div>
