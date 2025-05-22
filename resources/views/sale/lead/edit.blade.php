@@ -24,35 +24,35 @@
                         <div class="row">
                             <div class="col-md-4 form-group mb-3">
                                 <label for="name">First Name <span>*</span></label>
-                                <input type="text" id="name" class="form-control" value="{{old('name', $data->name)}}" placeholder="First Name" name="name" required="required" readonly>
+                                <input type="text" id="name" class="form-control" value="{{old('name', $data->name)}}" placeholder="First Name" name="name" required="required">
                                 @error('name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="col-md-4 form-group mb-3">
                                 <label for="last_name">Last Name</label>
-                                <input type="text" id="last_name" class="form-control" value="{{old('last_name', $data->last_name)}}" placeholder="Last Name" name="last_name" readonly>
+                                <input type="text" id="last_name" class="form-control" value="{{old('last_name', $data->last_name)}}" placeholder="Last Name" name="last_name">
                                 @error('last_name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="col-md-4 form-group mb-3">
                                 <label for="email">Email Address <span>*</span></label>
-                                <input type="email" id="email" class="form-control" value="{{old('email', $data->email)}}" placeholder="Email Address" name="email" required="required" readonly>
+                                <input type="email" id="email" class="form-control" value="{{old('email', $data->email)}}" placeholder="Email Address" name="email" required="required">
                                 @error('email')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="col-md-4 form-group mb-3">
                                 <label for="contact">Contact Number</label>
-                                <input type="text" id="contact" class="form-control" value="{{old('contact', $data->contact)}}" placeholder="Contact Number" name="contact" readonly>
+                                <input type="text" id="contact" class="form-control" value="{{old('contact', $data->contact)}}" placeholder="Contact Number" name="contact">
                                 @error('contact')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="col-md-4 form-group mb-3">
                                 <label for="brand">Brand<span>*</span></label>
-                                <select name="brand" id="brand" class="form-control" disabled>
+                                <select name="brand" id="brand" class="form-control select2" required>
                                     <option value="">Select Brand</option>
                                     @foreach($brands as $brand)
                                     <option value="{{ $brand->id }}" {{$brand->id == $data->brand ? 'selected' : ''}}>{{ $brand->name }}</option>

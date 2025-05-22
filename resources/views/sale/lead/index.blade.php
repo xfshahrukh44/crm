@@ -13,9 +13,9 @@
     <div class="col-md-6">
         <h1 class="mr-2">Leads</h1>
     </div>
-{{--    <div class="col-md-6 text-right">--}}
-{{--        <a href="{{ route('sale.lead.create') }}" class="btn btn-primary">Create Lead</a>--}}
-{{--    </div>--}}
+    <div class="col-md-6 text-right">
+            <a href="{{ route('sale.lead.create') }}" class="btn btn-primary">Create Lead</a>
+    </div>
 </div>
 <div class="separator-breadcrumb border-top"></div>
 

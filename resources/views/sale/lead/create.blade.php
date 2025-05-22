@@ -1,4 +1,4 @@
-@extends('layouts.app-manager')
+@extends('layouts.app-sale')
 
 @section('content')
 
@@ -15,7 +15,7 @@
         <div class="card mb-4">
             <div class="card-body">
                 <div class="card-title mb-3">Lead Form</div>
-                <form class="form" action="{{route('manager.lead.store')}}" method="POST" enctype="multipart/form-data">
+                <form class="form" action="{{route('sale.lead.store')}}" method="POST" enctype="multipart/form-data">
                     @csrf
 {{--                    @if(request()->has('brand_id'))--}}
 {{--                        <input type="hidden" name="redirect_to_client_detail" value="1">--}}
@@ -76,14 +76,6 @@
                                     <option value="Closed">Closed</option>
                                     <option value="On Discussion">On Discussion</option>
 {{--                                    <option value="Onboarded">Onboarded</option>--}}
-                                </select>
-                            </div>
-                            <div class="col-md-4 form-group mb-3">
-                                <label for="user_id">Assign to <span>*</span></label>
-                                <select name="user_id" id="user_id" class="form-control select2">
-                                    @foreach($front_agents as $front_agent)
-                                        <option value="{{ $front_agent->id }}">{{ $front_agent->name . ' ' . $front_agent->last_name }}</option>
-                                    @endforeach
                                 </select>
                             </div>
                             <div class="col-md-12">

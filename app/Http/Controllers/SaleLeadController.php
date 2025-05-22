@@ -54,12 +54,48 @@ class SaleLeadController extends Controller
 
     public function create()
     {
-        return redirect()->back()->with('error', 'Permission denied.');
+        $brands = Brand::all();
+        $services = Service::all();
+
+        return view('sale.lead.create', compact('brands', 'services'));
     }
 
     public function store(Request $request)
     {
-        return redirect()->back()->with('error', 'Permission denied.');
+        try {
+            $request->validate([
+                'name' => 'required',
+                'last_name' => 'required',
+//                'user_id' => 'required',
+                'email' => 'required|email|unique:clients,email',
+                'status' => 'required',
+                'brand' => 'required',
+            ]);
+
+            if ($user_check = DB::table('users')->where('email', $request->email)->first()) {
+                return redirect()->back()->with('error', 'Email already taken');
+            }
+
+//            $request->request->add(['user_id' => auth()->user()->id]);
+            $data = $request->except('service');
+            $data['user_id'] = auth()->id();
+            $lead = Lead::create($data);
+            if ($request->has('service')) {
+                $lead->service = implode(',', $request->service);
+                $lead->save();
+            }
+
+//            //create stripe customer
+//            create_leads_merchant_accounts($lead->id);
+
+//            if ($request->has('redirect_to_lead_detail')) {
+//                return redirect()->route('leads.detail', $lead->id)->with('success', 'Client created Successfully.');
+//            }
+
+            return redirect()->route('sale.lead.index')->with('success', 'Lead created Successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function show(Lead $lead)
@@ -71,7 +107,7 @@ class SaleLeadController extends Controller
     {
         try {
             $data = Lead::find($id);
-            $brands = Brand::whereIn('id', auth()->user()->brand_list())->get();
+            $brands = Brand::all();
             $services = Service::all();
 
             return view('sale.lead.edit', compact('data', 'brands', 'services'));
@@ -84,19 +120,17 @@ class SaleLeadController extends Controller
     {
         try {
             $request->validate([
-//                'name' => 'required',
-//                'last_name' => 'required',
-//                'user_id' => 'required',
-//                'email' => 'required|email|unique:clients,email',
+                'name' => 'required',
+                'last_name' => 'required',
+                'email' => 'required|email|unique:clients,email',
                 'status' => 'required',
-//                'brand' => 'required',
+                'brand' => 'required',
             ]);
 
-            $lead->status = $request->status;
-            $lead->save();
+            $data = $request->except('service');
+            $data['user_id'] = auth()->id();
+            $lead->update($data);
 
-//            $lead->update($request->except('service'));
-//
             if ($request->has('service')) {
                 $lead->service = implode(',', $request->service);
                 $lead->save();
@@ -114,10 +148,10 @@ class SaleLeadController extends Controller
                     'show_service_forms' => $lead->service,
                 ]);
 
-                return redirect()->route('client.generate.payment', $client->id)->with('success', 'Client Onboarded Successfully.');
+                return redirect()->back()->with('success', 'Client Onboarded Successfully.');
             }
 
-            return redirect()->route('manager.lead.index')->with('success', 'Lead Updated Successfully.');
+            return redirect()->route('sale.lead.index')->with('success', 'Lead Updated Successfully.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
