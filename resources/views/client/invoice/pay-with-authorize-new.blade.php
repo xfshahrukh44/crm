@@ -589,6 +589,25 @@
 <script src="{{ asset('newglobal/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('newglobal/js/toastr.min.js') }}"></script>
 
+<style>
+    #toast-container > .toast {
+        font-size: 18px;      /* Adjust font size */
+        padding: 20px 25px;   /* Adjust padding */
+        min-width: 350px;     /* Adjust width */
+    }
+
+    .toast-message {
+        margin-left: 7%;
+    }
+</style>
+<script>
+    toastr.options = {
+        "closeButton": true,
+        "timeOut": 0,
+        "extendedTimeOut": 0
+    };
+</script>
+
 @if(session()->has('success'))
     <script>
         toastr.success("{{session()->get('success')}}");
