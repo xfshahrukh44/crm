@@ -71,7 +71,7 @@ class Revenue extends Component
                 ->where('payment_status', 2)->pluck('id')->toArray();
             $todays_invoice_totals = get_invoice_totals_in_usd($todays_invoice_ids);
             $todays_invoice_refunds = get_invoice_refunds_totals_in_usd($todays_invoice_ids);
-            $daily_target = $buh_user->finances->daily_target ?? 1000.00;
+            $daily_target = $buh_user->finances->daily_target == 0 ? 1000 : $buh_user->finances->daily_target;
             $daily_printing_costs = $buh_user->finances->daily_printing_costs ?? 0.00;
             $daily_net_achieved = $todays_invoice_totals - $daily_printing_costs - $todays_invoice_refunds;
             $daily_target_achieved_in_percentage = ($daily_net_achieved / $daily_target) * 100;
@@ -94,7 +94,7 @@ class Revenue extends Component
                 ->where('payment_status', 2)->pluck('id')->toArray();
             $this_months_invoice_totals = get_invoice_totals_in_usd($this_months_invoice_ids);
             $this_months_invoice_refunds = get_invoice_refunds_totals_in_usd($this_months_invoice_ids);
-            $monthly_target = $buh_user->finances->daily_target ?? 1000.00;
+            $monthly_target = $buh_user->finances->daily_target == 0 ? 1000 : $buh_user->finances->daily_target;
             $monthly_printing_costs = $buh_user->finances->daily_printing_costs ?? 0.00;
             $monthly_net_achieved = $this_months_invoice_totals - $monthly_printing_costs - $this_months_invoice_refunds;
             $monthly_target_achieved_in_percentage = ($monthly_net_achieved / $monthly_target) * 100;
@@ -152,7 +152,7 @@ class Revenue extends Component
                     ->where('payment_status', 2)->pluck('id')->toArray();
                 $todays_invoice_totals = get_invoice_totals_in_usd($todays_invoice_ids);
                 $todays_invoice_refunds = get_invoice_refunds_totals_in_usd($todays_invoice_ids);
-                $daily_target = $sale_agent->finances->daily_target ?? 1000.00;
+                $daily_target = $sale_agent->finances->daily_target == 0 ? 1000 : $sale_agent->finances->daily_target;
                 $daily_printing_costs = $sale_agent->finances->daily_printing_costs ?? 0.00;
                 $daily_net_achieved = $todays_invoice_totals - $daily_printing_costs - $todays_invoice_refunds;
                 $daily_target_achieved_in_percentage = ($daily_net_achieved / $daily_target) * 100;
@@ -175,7 +175,7 @@ class Revenue extends Component
                     ->where('payment_status', 2)->pluck('id')->toArray();
                 $this_months_invoice_totals = get_invoice_totals_in_usd($this_months_invoice_ids);
                 $this_months_invoice_refunds = get_invoice_refunds_totals_in_usd($this_months_invoice_ids);
-                $monthly_target = $sale_agent->finances->daily_target ?? 1000.00;
+                $monthly_target = $sale_agent->finances->daily_target == 0 ? 1000 : $sale_agent->finances->daily_target;
                 $monthly_printing_costs = $sale_agent->finances->daily_printing_costs ?? 0.00;
                 $monthly_net_achieved = $this_months_invoice_totals - $monthly_printing_costs - $this_months_invoice_refunds;
                 $monthly_target_achieved_in_percentage = ($monthly_net_achieved / $monthly_target) * 100;
