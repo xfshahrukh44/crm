@@ -146,7 +146,7 @@ class Revenue extends Component
                     }
                 }
 
-                $todays_invoice_ids = DB::table('invoices')->whereIn('brand', $sale_agent->brand_list())
+                $todays_invoice_ids = DB::table('invoices')->whereIn('brand', $buh_user->brand_list())
                     ->whereDate('created_at', '=', Carbon::today())
                     ->where('sales_agent_id', $sale_agent->id)
                     ->where('payment_status', 2)->pluck('id')->toArray();
@@ -168,7 +168,7 @@ class Revenue extends Component
                     'daily_target_achieved_in_percentage' => $daily_target_achieved_in_percentage,
                 ];
 
-                $this_months_invoice_ids = DB::table('invoices')->whereIn('brand', $sale_agent->brand_list())
+                $this_months_invoice_ids = DB::table('invoices')->whereIn('brand', $buh_user->brand_list())
                     ->whereDate('created_at', '>=', Carbon::today()->firstOfMonth())
                     ->whereDate('created_at', '<=', Carbon::today()->lastOfMonth())
                     ->where('sales_agent_id', $sale_agent->id)
