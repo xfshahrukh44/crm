@@ -74,7 +74,7 @@ class Revenue extends Component
             $daily_target = $buh_user->finances->daily_target ?? 1000.00;
             $daily_printing_costs = $buh_user->finances->daily_printing_costs ?? 0.00;
             $daily_net_achieved = $todays_invoice_totals - $daily_printing_costs - $todays_invoice_refunds;
-            $daily_target_achieved_in_percentage = $daily_net_achieved/($daily_target == 0 ? 1 : $daily_target) * 100;
+            $daily_target_achieved_in_percentage = ($daily_net_achieved / ($daily_target == 0 ? 1 : $daily_target)) * 100;
 
 
             $daily_data []= [
@@ -97,7 +97,7 @@ class Revenue extends Component
             $monthly_target = $buh_user->finances->daily_target ?? 1000.00;
             $monthly_printing_costs = $buh_user->finances->daily_printing_costs ?? 0.00;
             $monthly_net_achieved = $this_months_invoice_totals - $monthly_printing_costs - $this_months_invoice_refunds;
-            $monthly_target_achieved_in_percentage = $monthly_net_achieved/($monthly_target == 0 ? 1 : $monthly_target) * 100;
+            $monthly_target_achieved_in_percentage = ($monthly_net_achieved / ($monthly_target == 0 ? 1 : $monthly_target)) * 100;
 
 
             $monthly_data []= [
@@ -155,7 +155,7 @@ class Revenue extends Component
                 $daily_target = $sale_agent->finances->daily_target ?? 1000.00;
                 $daily_printing_costs = $sale_agent->finances->daily_printing_costs ?? 0.00;
                 $daily_net_achieved = $todays_invoice_totals - $daily_printing_costs - $todays_invoice_refunds;
-                $daily_target_achieved_in_percentage = $daily_net_achieved/($daily_target == 0 ? 1 : $daily_target) * 100;
+                $daily_target_achieved_in_percentage = ($daily_net_achieved / ($daily_target == 0 ? 1 : $daily_target)) * 100;
 
 
                 $daily_data []= [
@@ -178,7 +178,7 @@ class Revenue extends Component
                 $monthly_target = $sale_agent->finances->daily_target ?? 1000.00;
                 $monthly_printing_costs = $sale_agent->finances->daily_printing_costs ?? 0.00;
                 $monthly_net_achieved = $this_months_invoice_totals - $monthly_printing_costs - $this_months_invoice_refunds;
-                $monthly_target_achieved_in_percentage = $monthly_net_achieved/($monthly_target == 0 ? 1 : $monthly_target) * 100;
+                $monthly_target_achieved_in_percentage = ($monthly_net_achieved / ($monthly_target == 0 ? 1 : $monthly_target)) * 100;
 
 
                 $monthly_data []= [
