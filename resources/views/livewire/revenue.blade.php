@@ -109,7 +109,7 @@
                                         </tr>
                                     @endforeach
                                     @php
-                                        $total_daily_target_achieved_in_percentage = number_format($total_daily_target_achieved_in_percentage / count($daily_data), 2);
+                                        $total_daily_target_achieved_in_percentage = number_format((($total_daily_net_achieved / $total_daily_target) * 100), 2);
                                     @endphp
                                     <tr style="background-color: #add8e644;">
                                         <td>
@@ -220,7 +220,7 @@
                                         </tr>
                                     @endforeach
                                     @php
-                                        $total_monthly_target_achieved_in_percentage = number_format($total_monthly_target_achieved_in_percentage / count($monthly_data), 2);
+                                        $total_monthly_target_achieved_in_percentage = number_format((($total_monthly_net_achieved / $total_monthly_target) * 100), 2);
                                     @endphp
                                     <tr style="background-color: #add8e644;">
                                         <td>
