@@ -2105,7 +2105,7 @@ function emit_pusher_notification ($channel, $event, $data) {
     }
 }
 
-function check_if_external_client (Request $request) {
+function check_if_external_client (Request $request, $v2 = false) {
     if (!$client = Client::where([ 'brand_id' => $request->get('brand_id'), 'email' => $request->get('email') ])->first()) {
         return '';
     }
@@ -2116,6 +2116,10 @@ function check_if_external_client (Request $request) {
 
     if (is_null($client->url) || $client->added_by) {
         return '';
+    }
+
+    if ($v2) {
+        return $client->id;
     }
 
     $edit_client_map = [
@@ -2980,9 +2984,9 @@ function buh_merchant_map () {
         33 => [6, 11],
         18 => [6, 11, 7],
         1169 => [6, 11, 8],
-        7 => [3, 9, 10, 6, 11],
+        7 => [3, 9, 10, 6, 11, 13],
         4191 => [11],
-        4491 => [11],
+        4491 => [11, 13],
         //testing
         3425 => [1, 2, 3, 4],
         3452 => [7, 6, 11],
@@ -3149,4 +3153,8 @@ function get_user_search ($q, $string) {
         ->orWhere('last_name', 'LIKE', "%".$string."%")
         ->orWhere('email', 'LIKE', "%".$string."%")
         ->orWhere('contact', 'LIKE', "%".$string."%");
+}
+
+function v2_acl ($arr) {
+    return (bool) (auth()->check() && in_array(auth()->user()->is_employee, $arr));
 }
