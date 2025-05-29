@@ -434,6 +434,9 @@ class AdminClientController extends Controller
             $user->is_employee = 3;
             $user->client_id = $id;
             $user->save();
+            $client->user_id = $user->id;
+            $client->save();
+
             foreach($invoices as $invoice){
                 $service_array = explode(',', $invoice->service);
                 for($i = 0; $i < count($service_array); $i++){

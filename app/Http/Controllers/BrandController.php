@@ -407,7 +407,7 @@ class BrandController extends Controller
 
     public function check_if_external_client (Request $request)
     {
-        return check_if_external_client($request);
+        return check_if_external_client($request, (request()->has('v2') && request()->get('v2') == 'true'));
     }
 
     public function clear_notification (Request $request)

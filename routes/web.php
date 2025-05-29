@@ -439,30 +439,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/billing/create_auth/', [BillingController::class, 'createAuthBilling'])->name('billing.client.createauth');
         Route::post('/billing/update_auth/', [BillingController::class, 'updateAuthBilling'])->name('billing.client.updateauth');
         Route::post('/billing/invoice/update', [BillingController::class, 'billingUpdateManager'])->name('billing.invoice.update');
-
-
-//        Route::get('/qa/home', [TaskController::class, 'qaHome'])->name('qa.home');
-//        Route::get('/qa/task/{id}/{notify?}', [TaskController::class, 'qaShow'])->name('qa.task.show');
-//        Route::post('/qa/updatetask/{id}', [TaskController::class, 'qaUpdateTask'])->name('qa.update.task');
-//        Route::get('qa/{form_id}/projects/{check}/form/{id}', [SupportController::class, 'getFormByQA'])->name('qa.form');
-//        Route::get('qa/delete-file/{id}', [TaskController::class, 'deleteQaFile'])->name('qa.delete.file');
-//        Route::get('qa/delete-feedback/{id}', [TaskController::class, 'deleteQaFeedback'])->name('qa.delete.feedback');
-//
-//        //member create
-//        Route::get('qa/user', [QAController::class, 'getUserQA'])->name('qa.user.qa');
-//        Route::get('qa/user/create', [QAController::class, 'createUserQA'])->name('qa.user.qa.create');
-//        Route::post('qa/user', [QAController::class, 'storeUserQA'])->name('qa.user.qa.store');
-//        Route::get('qa/user/edit/{id}', [QAController::class, 'editUserQA'])->name('qa.user.qa.edit');
-//        Route::post('qa/user/update/{id}', [QAController::class, 'updateUserQA'])->name('qa.user.qa.update');
-//
-//        //assign task to member
-//        Route::post('qa/assign-task-to-member', [QAController::class, 'assignTaskToMember'])->name('qa.assign.task.to.member');
-//
-//        //completed tasks
-//        Route::get('/qa/completed-tasks', [TaskController::class, 'completedTasks'])->name('qa.completed_tasks');
-//
-//        //notifications
-//        Route::get('/qa/my-notifications', function () { return view('qa.my-notifications'); })->name('qa.my-notifications');
     });
 });
 
@@ -604,4 +580,49 @@ Route::get('temp', function () {
 //            });
 //        });
 //    });
+});
+
+Route::group(['middleware' => ['auth'], 'prefix' => 'v2'], function () {
+    Route::get('dashboard', [\App\Http\Controllers\v2\DashboardController::class, 'dashboard'])->name('v2.dashboard');
+
+    Route::get('revenue', [\App\Http\Controllers\v2\DashboardController::class, 'revenue'])->name('v2.revenue');
+
+    //merchants
+    Route::get('merchants', [\App\Http\Controllers\v2\MerchantController::class, 'index'])->name('v2.merchants');
+    Route::get('merchants/create', [\App\Http\Controllers\v2\MerchantController::class, 'create'])->name('v2.merchants.create');
+    Route::post('merchants/store', [\App\Http\Controllers\v2\MerchantController::class, 'store'])->name('v2.merchants.store');
+    Route::get('merchants/edit/{id}', [\App\Http\Controllers\v2\MerchantController::class, 'edit'])->name('v2.merchants.edit');
+    Route::post('merchants/update/{id}', [\App\Http\Controllers\v2\MerchantController::class, 'update'])->name('v2.merchants.update');
+
+    //clients
+    Route::get('clients', [\App\Http\Controllers\v2\ClientController::class, 'index'])->name('v2.clients');
+    Route::get('clients/create', [\App\Http\Controllers\v2\ClientController::class, 'create'])->name('v2.clients.create');
+    Route::post('clients/store', [\App\Http\Controllers\v2\ClientController::class, 'store'])->name('v2.clients.store');
+    Route::get('clients/edit/{id}', [\App\Http\Controllers\v2\ClientController::class, 'edit'])->name('v2.clients.edit');
+    Route::post('clients/update/{id}', [\App\Http\Controllers\v2\ClientController::class, 'update'])->name('v2.clients.update');
+    Route::get('clients/detail/{id}', [\App\Http\Controllers\v2\ClientController::class, 'show'])->name('v2.clients.show');
+
+    //invoices
+    Route::get('invoices', [\App\Http\Controllers\v2\InvoiceController::class, 'index'])->name('v2.invoices');
+    Route::get('invoices/create/{id}', [\App\Http\Controllers\v2\InvoiceController::class, 'create'])->name('v2.invoices.create');
+    Route::post('invoices/store', [\App\Http\Controllers\v2\InvoiceController::class, 'store'])->name('v2.invoices.store');
+    Route::get('invoices/edit/{id}', [\App\Http\Controllers\v2\InvoiceController::class, 'edit'])->name('v2.invoices.edit');
+    Route::post('invoices/update/{id}', [\App\Http\Controllers\v2\InvoiceController::class, 'update'])->name('v2.invoices.update');
+    Route::get('invoices/detail/{id}', [\App\Http\Controllers\v2\InvoiceController::class, 'show'])->name('v2.invoices.show');
+    Route::post('/invoices/paid/{id}', [\App\Http\Controllers\v2\InvoiceController::class, 'markPaid'])->name('v2.invoices.paid');
+    Route::get('/invoices/refund/cb', [\App\Http\Controllers\v2\InvoiceController::class, 'refundCB'])->name('v2.invoices.refund.cb');
+    Route::get('/invoices/sales/sheet', [\App\Http\Controllers\v2\InvoiceController::class, 'salesSheet'])->name('v2.invoices.sales.sheet');
+    Route::get('/invoices/admin/invoices', [\App\Http\Controllers\v2\InvoiceController::class, 'adminInvoices'])->name('v2.invoices.admin.invoices');
+
+    //leads
+    Route::get('leads', [\App\Http\Controllers\v2\LeadController::class, 'index'])->name('v2.leads');
+    Route::get('leads/create', [\App\Http\Controllers\v2\LeadController::class, 'create'])->name('v2.leads.create');
+    Route::post('leads/store', [\App\Http\Controllers\v2\LeadController::class, 'store'])->name('v2.leads.store');
+    Route::get('leads/edit/{id}', [\App\Http\Controllers\v2\LeadController::class, 'edit'])->name('v2.leads.edit');
+    Route::post('leads/update/{id}', [\App\Http\Controllers\v2\LeadController::class, 'update'])->name('v2.leads.update');
+    Route::get('leads/detail/{id}', [\App\Http\Controllers\v2\LeadController::class, 'show'])->name('v2.leads.show');
+
+    Route::get('briefs-pending', [\App\Http\Controllers\v2\DashboardController::class, 'briefsPending'])->name('v2.briefs.pending');
+
+    Route::get('pending-projects', [\App\Http\Controllers\v2\DashboardController::class, 'pendingProjects'])->name('v2.pending.projects');
 });
