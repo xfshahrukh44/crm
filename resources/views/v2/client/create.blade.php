@@ -1,6 +1,6 @@
 @extends('v2.layouts.app')
 
-@section('title', 'Create lead')
+@section('title', 'Create client')
 
 @section('css')
 
@@ -15,8 +15,11 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="brief-info">
-                                    <h2 class="mt-4">Lead Form</h2>
-                                    <form action="{{route('v2.leads.store')}}" method="POST">
+                                    <h2 class="mt-4">Client Form</h2>
+                                    @php
+                                        $brands = \Illuminate\Support\Facades\DB::table('brands')->get();
+                                    @endphp
+                                    <form action="{{route('v2.clients.store')}}" method="POST">
                                         @csrf
                                         <div class="row">
                                             <div class="col-4">
@@ -58,26 +61,13 @@
                                             <div class="col-4">
                                                 <div class="form-group">
                                                     <label>Brand *</label>
-                                                    <select class="form-control select2" name="brand" id="brand">
+                                                    <select class="form-control select2" name="brand_id" id="brand_id">
                                                         <option value="">Select brand</option>
                                                         @foreach($brands as $brand)
                                                             <option value="{{$brand->id}}" {{ request()->get('brand') ==  $brand->id ? 'selected' : ' '}}>{{$brand->name}}</option>
                                                         @endforeach
                                                     </select>
-                                                    @error('brand')
-                                                    <label class="text-danger">{{ $message }}</label>
-                                                    @enderror
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="form-group">
-                                                    <label>Service *</label>
-                                                    <select class="form-control select2" name="service[]" id="service" required multiple>
-                                                        @foreach($services as $service)
-                                                            <option value="{{ $service->id }}" {!! (in_array($service->id, (old('service') ?? []))) ? 'selected' : '' !!}>{{ $service->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    @error('service')
+                                                    @error('brand_id')
                                                     <label class="text-danger">{{ $message }}</label>
                                                     @enderror
                                                 </div>
@@ -86,9 +76,8 @@
                                                 <div class="form-group">
                                                     <label>Select status *</label>
                                                     <select name="status" class="form-control">
-                                                        <option value="Closed">Closed</option>
-                                                        <option value="On Discussion">On Discussion</option>
-                                                        {{--                                    <option value="Onboarded">Onboarded</option>--}}
+                                                        <option value="1">Active</option>
+                                                        <option value="0" selected="">Deactive</option>
                                                     </select>
                                                     @error('status')
                                                     <label class="text-danger">{{ $message }}</label>
@@ -97,13 +86,13 @@
                                             </div>
                                             <div class="col-4">
                                                 <div class="form-group">
-                                                    <label>Assign to *</label>
-                                                    <select name="user_id" class="form-control">
-                                                        @foreach($front_agents as $front_agent)
-                                                            <option value="{{ $front_agent->id }}">{{ $front_agent->name . ' ' . $front_agent->last_name }}</option>
-                                                        @endforeach
+                                                    <label>Select status *</label>
+                                                    <select name="priority" class="form-control">
+                                                        <option value="1" class="bg-danger text-white">HIGH</option>
+                                                        <option value="2" class="bg-warning text-black" selected="">MEDIUM</option>
+                                                        <option value="3" class="bg-info text-white">LOW</option>
                                                     </select>
-                                                    @error('user_id')
+                                                    @error('priority')
                                                     <label class="text-danger">{{ $message }}</label>
                                                     @enderror
                                                 </div>
@@ -258,8 +247,8 @@
     </div>
 
 
-    <!-- External Lead Modal -->
-    <div class="modal fade" id="externalLeadModal" tabindex="-1" role="dialog" aria-labelledby="externalLeadModalTitle" aria-hidden="true">
+    <!-- External Client Modal -->
+    <div class="modal fade" id="externalClientModal" tabindex="-1" role="dialog" aria-labelledby="externalClientModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -269,11 +258,11 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    Lead already exists.
+                    Client already exists.
                 </div>
                 <div class="modal-footer">
                     {{--                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>--}}
-                    <a href="#" type="button" class="btn btn-primary" id="btn_edit_external_lead">Edit Lead</a>
+                    <a href="#" type="button" class="btn btn-primary" id="btn_edit_external_client">Edit Client</a>
                 </div>
             </div>
         </div>
@@ -282,8 +271,43 @@
 
 @section('script')
     <script>
-        $(document).ready(() => {
+        function check_if_external_client () {
+            if ($('#email').val() == '' || $('#brand_id').val() == '') {
+                return false;
+            }
 
+            $.ajax({
+                url: '{{route("check-if-external-client")}}',
+                method: 'GET',
+                data: {
+                    email: $('#email').val(),
+                    brand_id: $('#brand_id').val(),
+                    v2: true,
+                },
+                success: (data) => {
+                    if (data == '') {
+                        return false;
+                    } else {
+                        let url = '{{route("v2.clients.edit", "temp")}}'
+                        url = url.replace('temp', data);
+                        $('#btn_edit_external_client').prop('href', url);
+                        $('#externalClientModal').modal('show');
+                    }
+                },
+                error: (e) => {
+                    alert(e);
+                },
+            });
+        }
+
+        $(document).ready(() => {
+            $('#email').on('change', () => {
+                check_if_external_client();
+            });
+
+            $('#brand_id').on('change', () => {
+                check_if_external_client();
+            });
         });
     </script>
 @endsection

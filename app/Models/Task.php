@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Auth;
@@ -142,7 +143,7 @@ class Task extends Model
                 $date2 = new DateTime(date('d-m-Y', strtotime($this->getSubtaskDueDate->duedate)));
                 $date_string = $this->getSubtaskDueDate->duedate;
             }else{
-                $date2 = new DateTime(date('d-m-Y', strtotime($this->duedate)));
+                $date2 = Carbon::parse($this->duedate)->format('d-m-Y');
                 $date_string = $this->duedate;
             }
 

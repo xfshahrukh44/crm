@@ -69,6 +69,7 @@
                                             <tbody>
                                                 <tr>
                                                     <th>ID.</th>
+                                                    <th>Package</th>
                                                     <th>Service </th>
                                                     <th>Amount </th>
                                                     <th>Status</th>
@@ -79,6 +80,8 @@
                                                 @foreach($invoices as $invoice)
                                                     <tr>
                                                         <td>{{$invoice->id}}</td>
+                                                        <td>{{$invoice->package}}</td>
+
                                                         <td style="vertical-align: middle;">
                                                             @php
                                                                 $service_list = explode(',', $invoice->service);
@@ -201,7 +204,7 @@
                                                                 View Form
                                                             </a>
                                                         @endif
-                                                        <a href="{{route('v2.tasks.create', $project->id)}}" class="for-assign dark-blue-assign">Create Task</a>
+                                                        <a href="javascript:;" class="for-assign dark-blue-assign">Create Task</a>
                                                     </td>
                                                 </tr>
                                             @endforeach

@@ -90,6 +90,7 @@ Route::get('/', function () {
     return redirect()->route('login');
 })->middleware('auth');
 
+//auth()->routes(['register' => false]);
 Auth::routes(['register' => false]);
 Route::get('/send-notification/{task_id}/{role}', [TaskController::class, 'sendTaskNotification']);
 
@@ -625,4 +626,34 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2'], function () {
     Route::get('briefs-pending', [\App\Http\Controllers\v2\DashboardController::class, 'briefsPending'])->name('v2.briefs.pending');
 
     Route::get('pending-projects', [\App\Http\Controllers\v2\DashboardController::class, 'pendingProjects'])->name('v2.pending.projects');
+
+    //projects
+    Route::get('projects', [\App\Http\Controllers\v2\ProjectController::class, 'index'])->name('v2.projects');
+//    Route::get('projects/create', [\App\Http\Controllers\v2\ProjectController::class, 'create'])->name('v2.projects.create');
+//    Route::post('projects/store', [\App\Http\Controllers\v2\ProjectController::class, 'store'])->name('v2.projects.store');
+//    Route::get('projects/edit/{id}', [\App\Http\Controllers\v2\ProjectController::class, 'edit'])->name('v2.projects.edit');
+//    Route::post('projects/update/{id}', [\App\Http\Controllers\v2\ProjectController::class, 'update'])->name('v2.projects.update');
+//    Route::get('projects/detail/{id}', [\App\Http\Controllers\v2\ProjectController::class, 'show'])->name('v2.projects.show');
+
+    //tasks
+    Route::get('tasks', [\App\Http\Controllers\v2\TaskController::class, 'index'])->name('v2.tasks');
+    Route::get('tasks/create/{id}', [\App\Http\Controllers\v2\TaskController::class, 'create'])->name('v2.tasks.create');
+    Route::post('tasks/store', [\App\Http\Controllers\v2\TaskController::class, 'store'])->name('v2.tasks.store');
+    Route::get('tasks/edit/{id}', [\App\Http\Controllers\v2\TaskController::class, 'edit'])->name('v2.tasks.edit');
+    Route::post('tasks/update/{id}', [\App\Http\Controllers\v2\TaskController::class, 'update'])->name('v2.tasks.update');
+    Route::get('tasks/detail/{id}', [\App\Http\Controllers\v2\TaskController::class, 'show'])->name('v2.tasks.show');
+    Route::post('tasks/update-status/{id}', [\App\Http\Controllers\v2\TaskController::class, 'updateStatus'])->name('v2.tasks.update.status');
+    Route::post('tasks/upload-files/{id}', [\App\Http\Controllers\v2\TaskController::class, 'uploadFiles'])->name('v2.tasks.upload.files');
+    Route::post('support/files/{id}', [TaskController::class, 'insertFiles'])->name('support.insert.sale.files');
+
+    //sub tasks
+    Route::post('subtasks/store', [\App\Http\Controllers\v2\SubtaskController::class, 'store'])->name('v2.subtasks.store');
+
+    //services
+    Route::get('services', [\App\Http\Controllers\v2\ServiceController::class, 'index'])->name('v2.services');
+    Route::get('services/create', [\App\Http\Controllers\v2\ServiceController::class, 'create'])->name('v2.services.create');
+    Route::post('services/store', [\App\Http\Controllers\v2\ServiceController::class, 'store'])->name('v2.services.store');
+    Route::get('services/edit/{id}', [\App\Http\Controllers\v2\ServiceController::class, 'edit'])->name('v2.services.edit');
+    Route::post('services/update/{id}', [\App\Http\Controllers\v2\ServiceController::class, 'update'])->name('v2.services.update');
+    Route::get('services/detail/{id}', [\App\Http\Controllers\v2\ServiceController::class, 'show'])->name('v2.services.show');
 });

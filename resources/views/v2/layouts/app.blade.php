@@ -226,6 +226,30 @@
                             </a>
                         </li>
                     @endif
+
+                    @if(in_array($user_role_id, [2]))
+                        <li>
+                            <a href="{{route('v2.projects')}}" class="{{ request()->routeIs('v2.projects') ? 'active' : '' }}">
+                                Projects
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(in_array($user_role_id, [2]))
+                        <li>
+                            <a href="{{route('v2.tasks')}}" class="{{ request()->routeIs('v2.tasks') || request()->routeIs('v2.tasks.create') || request()->routeIs('v2.tasks.edit') || request()->routeIs('v2.tasks.show') ? 'active' : '' }}">
+                                Tasks
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(in_array($user_role_id, [2]))
+                        <li>
+                            <a href="{{route('v2.services')}}" class="{{ request()->routeIs('v2.services') || request()->routeIs('v2.services.create') || request()->routeIs('v2.services.edit') || request()->routeIs('v2.services.show') ? 'active' : '' }}">
+                                Services
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             </div>
 

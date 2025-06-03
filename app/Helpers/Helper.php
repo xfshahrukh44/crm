@@ -37,6 +37,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\controller as AnetController;
 
@@ -1471,7 +1472,14 @@ function get_project_client_user_ids () {
 }
 
 function get_pending_projects ($client_user_id) {
-    $user = User::find($client_user_id);
+    if (!$user = User::find($client_user_id)) {
+        return [];
+    }
+
+    if (!$user->client) {
+        return [];
+    }
+
     $pending_projects = [];
 
     //restricted brand access
@@ -3158,3 +3166,26 @@ function get_user_search ($q, $string) {
 function v2_acl ($arr) {
     return (bool) (auth()->check() && in_array(auth()->user()->is_employee, $arr));
 }
+
+function send_task_notification ($task_id, $role) {
+    if($role == 1){
+        $task = Task::where('id', $task_id)->first();
+        $category_users = DB::table('category_users')->select('user_id')->where('category_id', $task->category_id)->pluck('user_id');
+        $users = User::whereIn('id', $category_users)->where('is_employee', 1)->get();
+        $taskData = [
+            'id' => auth()->user()->id,
+            'task_id' => $task_id,
+            'name' => auth()->user()->name . ' ' . auth()->user()->last_name,
+            'email' => auth()->user()->email,
+            'text' => auth()->user()->name . ' ' . auth()->user()->last_name . ' Created a Task ',
+            'message' => auth()->user()->name . ' ' . auth()->user()->last_name . ' Created a Task ',
+            'details' => Str::limit(filter_var($task->description, FILTER_SANITIZE_STRING), 40 ),
+        ];
+        foreach($users as $user){
+            $user->notify(new TaskNotification($taskData));
+        }
+    }
+    return true;
+}
+
+

@@ -3,17 +3,7 @@
 @section('title', 'Create lead')
 
 @section('css')
-    <style>
-        span.select2-selection.select2-selection--multiple {
-            border-radius: 20px !important;
-            border: 1px solid #ced4da !important;
-        }
 
-        ul.select2-selection__rendered {
-            margin-left: 1% !important;
-            margin-top: 0px !important;
-        }
-    </style>
 @endsection
 
 @section('content')
@@ -29,7 +19,7 @@
                                     <form action="{{route('v2.leads.store')}}" method="POST">
                                         @csrf
                                         <div class="row">
-                                            <div class="col-3">
+                                            <div class="col-4">
                                                 <div class="form-group">
                                                     <label>First name *</label>
                                                     <input type="text" class="form-control" name="name" value="{{old('name') ?? ''}}" required>
@@ -38,7 +28,7 @@
                                                     @enderror
                                                 </div>
                                             </div>
-                                            <div class="col-3">
+                                            <div class="col-4">
                                                 <div class="form-group">
                                                     <label>Last name *</label>
                                                     <input type="text" class="form-control" name="last_name" value="{{old('last_name') ?? ''}}" required>
@@ -47,7 +37,7 @@
                                                     @enderror
                                                 </div>
                                             </div>
-                                            <div class="col-3">
+                                            <div class="col-4">
                                                 <div class="form-group">
                                                     <label>Email *</label>
                                                     <input type="email" class="form-control" name="email" id="email" value="{{old('email') ?? ''}}" required>
@@ -56,35 +46,22 @@
                                                     @enderror
                                                 </div>
                                             </div>
-                                            <div class="col-3">
+                                            <div class="col-4">
                                                 <div class="form-group">
                                                     <label>Contact</label>
-                                                    <input type="text" class="form-control" name="contact" value="{{old('contact') ?? ''}}">
+                                                    <input type="text" class="form-control" name="contact" value="{{old('contact') ?? ''}}" required>
                                                     @error('contact')
                                                     <label class="text-danger">{{ $message }}</label>
                                                     @enderror
                                                 </div>
                                             </div>
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <label>Service *</label>
-                                                    <select class="form-control select2" name="service[]" id="service" multiple required>
-                                                        @foreach($services as $service)
-                                                            <option value="{{ $service->id }}" {!! in_array($service->id, (old('service') ?? [])) ? 'selected' : '' !!}>{{ $service->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    @error('service')
-                                                    <label class="text-danger">{{ $message }}</label>
-                                                    @enderror
-                                                </div>
-                                            </div>
-                                            <div class="col-3">
+                                            <div class="col-4">
                                                 <div class="form-group">
                                                     <label>Brand *</label>
-                                                    <select class="form-control select2" name="brand" id="brand" required>
-                                                        <option value="">Select brand *</option>
+                                                    <select class="form-control select2" name="brand" id="brand">
+                                                        <option value="">Select brand</option>
                                                         @foreach($brands as $brand)
-                                                            <option value="{{$brand->id}}" {!! old('brand') == $brand->id ? 'selected' : '' !!}>{{$brand->name}}</option>
+                                                            <option value="{{$brand->id}}" {{ request()->get('brand') ==  $brand->id ? 'selected' : ' '}}>{{$brand->name}}</option>
                                                         @endforeach
                                                     </select>
                                                     @error('brand')
@@ -92,24 +69,38 @@
                                                     @enderror
                                                 </div>
                                             </div>
-                                            <div class="col-3">
+                                            <div class="col-4">
+                                                <div class="form-group">
+                                                    <label>Service *</label>
+                                                    <select class="form-control select2" name="service[]" id="service" required multiple>
+                                                        @foreach($services as $service)
+                                                            <option value="{{ $service->id }}" {!! (in_array($service->id, (old('service') ?? []))) ? 'selected' : '' !!}>{{ $service->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @error('service')
+                                                    <label class="text-danger">{{ $message }}</label>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
                                                 <div class="form-group">
                                                     <label>Select status *</label>
-                                                    <select name="status" class="form-control" required>
-                                                        <option value="Closed" {!! old('status') == 'Closed' ? 'selected' : '' !!}>Closed</option>
-                                                        <option value="On Discussion" {!! old('status') == 'On Discussion' ? 'selected' : '' !!}>On Discussion</option>
+                                                    <select name="status" class="form-control">
+                                                        <option value="Closed">Closed</option>
+                                                        <option value="On Discussion">On Discussion</option>
+                                                        {{--                                    <option value="Onboarded">Onboarded</option>--}}
                                                     </select>
                                                     @error('status')
                                                     <label class="text-danger">{{ $message }}</label>
                                                     @enderror
                                                 </div>
                                             </div>
-                                            <div class="col-3">
+                                            <div class="col-4">
                                                 <div class="form-group">
-                                                    <label>Assign to  *</label>
-                                                    <select name="user_id" class="form-control select2" required>
+                                                    <label>Assign to *</label>
+                                                    <select name="user_id" class="form-control">
                                                         @foreach($front_agents as $front_agent)
-                                                            <option value="{{ $front_agent->id }}" {!! old('user_id') == $front_agent->id ? 'selected' : '' !!}>{{ $front_agent->name . ' ' . $front_agent->last_name }}</option>
+                                                            <option value="{{ $front_agent->id }}">{{ $front_agent->name . ' ' . $front_agent->last_name }}</option>
                                                         @endforeach
                                                     </select>
                                                     @error('user_id')
@@ -264,6 +255,28 @@
                     </div>
                 </section>
         @endswitch
+    </div>
+
+
+    <!-- External Lead Modal -->
+    <div class="modal fade" id="externalLeadModal" tabindex="-1" role="dialog" aria-labelledby="externalLeadModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Warning</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Lead already exists.
+                </div>
+                <div class="modal-footer">
+                    {{--                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>--}}
+                    <a href="#" type="button" class="btn btn-primary" id="btn_edit_external_lead">Edit Lead</a>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 

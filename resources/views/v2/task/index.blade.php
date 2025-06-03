@@ -1,6 +1,6 @@
 @extends('v2.layouts.app')
 
-@section('title', 'Leads')
+@section('title', 'Tasks')
 
 @section('css')
     <style>
@@ -17,7 +17,7 @@
     </style>
 
     <style>
-        .lead-actions-box {
+        .task-actions-box {
             position: absolute;
             top: 100%;
             right: 0;
@@ -42,33 +42,43 @@
                                 <div class="list-0f-head for-invoice-listing table-responsive">
                                     <div class="row text-left pr-3 pb-2">
                                         <div class="col-md-6 m-auto d-flex justify-content-start pt-2">
-                                            <h1 style="font-weight: 100;">Leads</h1>
+                                            <h1 style="font-weight: 100;">Tasks</h1>
                                         </div>
                                         <div class="col-md-6 m-auto d-flex justify-content-end">
-                                            <a href="{{route('v2.leads.create')}}" class="btn btn-sm btn-success">
-                                                <i class="fas fa-plus"></i>
-                                                Create
-                                            </a>
+{{--                                            <a href="{{route('v2.tasks.create')}}" class="btn btn-sm btn-success">--}}
+{{--                                                <i class="fas fa-plus"></i>--}}
+{{--                                                Create--}}
+{{--                                            </a>--}}
                                         </div>
                                     </div>
 
                                     <br>
 
 {{--                                    <div class="search-invoice">--}}
-                                    <form class="search-invoice" action="{{route('v2.leads')}}" method="GET">
-                                        <input type="text" name="name" placeholder="Search name" value="{{ request()->get('name') }}">
-                                        <input type="text" name="email" placeholder="Search email" value="{{ request()->get('email') }}">
-                                        <select name="brand" class="select2">
+                                    <form class="search-invoice" action="{{route('v2.tasks')}}" method="GET">
+                                        <input type="text" name="id" placeholder="Search by ID" value="{{ request()->get('id') }}">
+                                        <select name="brand_id" class="select2">
                                             <option value="">Select brand</option>
                                             @foreach($brands as $brand)
-                                                <option value="{{$brand->id}}" {{ request()->get('brand') ==  $brand->id ? 'selected' : ' '}}>{{$brand->name}}</option>
+                                                <option value="{{$brand->id}}" {{ request()->get('brand_id') ==  $brand->id ? 'selected' : ' '}}>{{$brand->name}}</option>
                                             @endforeach
                                         </select>
-                                        <select name="status">
-                                            <option value="">Select status</option>
-                                            <option value="Closed" {{ request()->get('status') ==  "Closed" ? 'selected' : ' '}}>Closed</option>
-                                            <option value="On Discussion" {{ request()->get('status') == "On Discussion" ? 'selected' : ' '}}>On Discussion</option>
-                                            <option value="Onboarded" {{ request()->get('status') ==  "Onboarded" ? 'selected' : ' '}}>Onboarded</option>
+                                        <input type="text" name="name" placeholder="Search From Client Name Or Email" value="{{ request()->get('name') }}">
+                                        <select name="category_id" class="select2">
+                                            <option value="">Select category</option>
+                                            @foreach($categories as $category)
+                                                <option value="{{$category->id}}" {{ request()->get('category_id') ==  $category->id ? 'selected' : ' '}}>{{$category->name}}</option>
+                                            @endforeach
+                                        </select>
+                                        <select name="status" class="select2">
+                                            <option value=""  {{ request()->get('status') ==  "" ? 'selected' : ' '}} >Any</option>
+                                            <option value="0" {{ request()->get('status') ==  "0" ? 'selected' : ' '}} >Open</option>
+                                            <option value="1" {{ request()->get('status') ==  "1" ? 'selected' : ' '}} >Re Open</option>
+                                            <option value="4" {{ request()->get('status') ==  "4" ? 'selected' : ' '}} >In Progress</option>
+                                            <option value="5" {{ request()->get('status') ==  "5" ? 'selected' : ' '}} >Sent for Approval</option>
+                                            <option value="6" {{ request()->get('status') ==  "6" ? 'selected' : ' '}} >Incomplete Brief</option>
+                                            <option value="2" {{ request()->get('status') ==  "2" ? 'selected' : ' '}} >Hold</option>
+                                            <option value="3" {{ request()->get('status') ==  "3" ? 'selected' : ' '}} >Completed</option>
                                         </select>
 
                                         <a href="javascript:;" onclick="document.getElementById('btn_filter_form').click()">Search Result</a>
@@ -80,88 +90,58 @@
                                         <thead>
 
                                             <th>ID</th>
-                                            <th>Full Name</th>
-                                            <th>Email</th>
+                                            <th>Task</th>
+                                            <th>Project</th>
+                                            <th>Client</th>
                                             <th>Brand</th>
-                                            <th>Service(s)</th>
+                                            <th>Category</th>
                                             <th>Status</th>
-                                            <th>Assigned to</th>
                                             <th>Action</th>
 
                                         </thead>
                                         <tbody>
-                                            @foreach($leads as $lead)
+                                            @foreach($tasks as $task)
                                                 <tr>
-                                                    <td>{{$lead->id}}</td>
-                                                    <td><a style="background-color: unset; font-size: unset; font-weight: 100;"
-                                                            href="{{ route('v2.leads.show', $lead->id) }}">{{$lead->name}} {{$lead->last_name}}</a></td>
-                                                    <td>{{$lead->email}}</td>
+                                                    <td>{{$task->id}}</td>
                                                     <td>
-                                                        <button class="btn btn-info btn-sm">{{$lead->_brand->name ?? ''}}</button>
+                                                        <a class="p-2 bg-white" href="{{ route('v2.tasks.show', $task->id) }}">
+                                                            {!! \Illuminate\Support\Str::limit(preg_replace("/<\/?a( [^>]*)?>/i", "", strip_tags($task->description)), 30, $end='...') !!}
+                                                        </a>
                                                     </td>
-
+                                                    <td>{{$task->projects->name}}</td>
                                                     <td>
-                                                        @php
-                                                            $service_list = explode(',', $lead->service);
-                                                        @endphp
-                                                        @for($i = 0; $i < count($service_list); $i++)
-                                                            <span class="badge badge-primary badge-pill">{{ $lead->services($service_list[$i])->name }}</span>
-                                                        @endfor
-                                                    </td>
-
-                                                    <td>
-                                                        <button class="btn btn-{{lead_status_color_class_map($lead->status)}} btn-sm">
-                                                            {{$lead->status}}
-                                                        </button>
+                                                        {{ $task->projects->client->name }} {{ $task->projects->client->last_name }}
                                                     </td>
                                                     <td>
-                                                        {{ ($lead->assigned_to->name ?? '') . ' ' . ($lead->assigned_to->last_name ?? '') }}
+                                                        <button class="badge bg-primary text-white badge-sm p-2" style="border: 0px;" title="{{ $task->brand->name }}">{{ $task->brand->name }}</button>
                                                     </td>
+                                                    <td>
+                                                        <button class="badge badge-sm bg-dark text-white p-2" style="border: 0px;" title="{{ $task->category->name }}">{{ implode('', array_map(function($v) { return $v[0]; }, explode(' ', $task->category->name))) }}</button>
+                                                        @if(count($task->member_list) != 0)
+                                                            <ul id="" class="task-list-member-box">
+                                                                @foreach($task->member_list as $key => $member)
+                                                                    <li>
+                                                                        {{ implode('', array_map(function($v) { return $v[0]; }, explode(' ', $member->user->name . ' ' . $member->user->last_name))) }}
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        @endif
+                                                    </td>
+                                                    <td>{!! $task->project_status() !!}</td>
                                                     <td style="position: relative;">
-                                                        <!-- Single Action Button -->
-                                                        <button type="button" class="badge badge-sm bg-light p-2" style="border: 0px;" onclick="toggleLeadActions({{ $lead->id }})">
-                                                            <i class="fas fa-bars"></i>
-                                                        </button>
-
-                                                        <!-- Hidden Popup Box -->
-                                                        <div id="leadActionsBox_{{ $lead->id }}" class="lead-actions-box text-center d-none">
-                                                            <a href="{{ route('v2.leads.edit', $lead->id) }}" class="badge bg-primary badge-icon badge-sm text-white p-2">
-                                                                <span class="ul-btn__icon"><i class="i-Edit"></i></span>
-                                                                <span class="ul-btn__text">
-                                                                <i class="fas fa-pencil"></i>
-                                                            </span>
-                                                            </a>
-                                                            <a href="{{ route('v2.leads.show', $lead->id) }}" class="badge bg-dark badge-icon badge-sm text-white p-2">
-                                                                <span class="ul-btn__icon"><i class="i-Eyeglasses-Smiley"></i></span>
-                                                                <span class="ul-btn__text">
+                                                        <a href="{{ route('v2.tasks.show', $task->id) }}" class="badge bg-dark badge-icon badge-sm text-white p-2">
+                                                            <span class="ul-btn__icon"><i class="i-Eyeglasses-Smiley"></i></span>
+                                                            <span class="ul-btn__text">
                                                                 <i class="fas fa-eye"></i>
                                                             </span>
-                                                            </a>
-
-                                                            <a href="#" onclick="event.preventDefault(); document.getElementById('lead_delete_form_{{$lead->id}}').submit();" class="badge bg-danger badge-icon badge-sm text-white p-2">
-                                                                <i class="fas fa-trash"></i>
-                                                            </a>
-                                                            <form hidden id="lead_delete_form_{{$lead->id}}" method="POST" action="{{route('admin.lead.destroy', $lead->id) }}">
-                                                                {{ method_field('DELETE') }}
-                                                                {{ csrf_field() }}
-                                                            </form>
-
-                                                            <a href="javascript:void(0);" class="badge bg-warning badge-icon badge-sm p-2 btn_open_notes" id="btn_open_notes_{{$lead->id}}"
-                                                               data-id="{{$lead->id}}"
-                                                               data-content="{{$lead->comments}}"
-                                                               data-modifier-check="{{($lead->comments !== '' && !is_null($lead->comments_id) && !is_null($lead->comments_timestamp)) ? '1' : '0'}}"
-                                                               data-modifier="{{($lead->commenter->name ?? '') . ' ' . ($lead->commenter->last_name ?? '') . ' ('.\Carbon\Carbon::parse($lead->comments_timestamp)->format('d M Y h:i A').')'}}">
-
-                                                                <span class="ul-btn__icon"><i class="fas fa-quote-right"></i></span>
-                                                            </a>
-                                                        </div>
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
                                     <div class="d-flex justify-content-end mt-2">
-                                        {{ $leads->appends(request()->query())->links() }}
+                                        {{ $tasks->appends(request()->query())->links() }}
                                     </div>
                                 </div>
                             </div>
@@ -263,9 +243,21 @@
 
 @section('script')
     <script>
-        function toggleLeadActions(leadId) {
-            const box = document.getElementById(`leadActionsBox_${leadId}`);
-            document.querySelectorAll('.lead-actions-box').forEach(el => {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $(document).ready(function () {
+
+        });
+    </script>
+
+    <script>
+        function toggleTaskActions(taskId) {
+            const box = document.getElementById(`taskActionsBox_${taskId}`);
+            document.querySelectorAll('.task-actions-box').forEach(el => {
                 if (el !== box) el.classList.add('d-none');
             });
             box.classList.toggle('d-none');
@@ -273,8 +265,8 @@
 
         // Optional: hide on outside click
         document.addEventListener('click', function(event) {
-            if (!event.target.closest('.lead-actions-box') && !event.target.closest('button')) {
-                document.querySelectorAll('.lead-actions-box').forEach(el => el.classList.add('d-none'));
+            if (!event.target.closest('.task-actions-box') && !event.target.closest('button')) {
+                document.querySelectorAll('.task-actions-box').forEach(el => el.classList.add('d-none'));
             }
         });
     </script>
