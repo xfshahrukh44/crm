@@ -656,4 +656,20 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2'], function () {
     Route::get('services/edit/{id}', [\App\Http\Controllers\v2\ServiceController::class, 'edit'])->name('v2.services.edit');
     Route::post('services/update/{id}', [\App\Http\Controllers\v2\ServiceController::class, 'update'])->name('v2.services.update');
     Route::get('services/detail/{id}', [\App\Http\Controllers\v2\ServiceController::class, 'show'])->name('v2.services.show');
+
+    //brands
+    Route::get('brands', [\App\Http\Controllers\v2\BrandController::class, 'index'])->name('v2.brands');
+    Route::get('brands/create', [\App\Http\Controllers\v2\BrandController::class, 'create'])->name('v2.brands.create');
+    Route::post('brands/store', [\App\Http\Controllers\v2\BrandController::class, 'store'])->name('v2.brands.store');
+    Route::get('brands/edit/{id}', [\App\Http\Controllers\v2\BrandController::class, 'edit'])->name('v2.brands.edit');
+    Route::post('brands/update/{id}', [\App\Http\Controllers\v2\BrandController::class, 'update'])->name('v2.brands.update');
+    Route::get('brands/detail/{id}', [\App\Http\Controllers\v2\BrandController::class, 'show'])->name('v2.brands.show');
+
+    //production
+    Route::get('users/production', [\App\Http\Controllers\v2\ProductionController::class, 'index'])->name('v2.users.production');
+    Route::get('users/production/create', [\App\Http\Controllers\v2\ProductionController::class, 'create'])->name('v2.users.production.create');
+    Route::post('users/production/store', [\App\Http\Controllers\v2\ProductionController::class, 'store'])->name('v2.users.production.store');
+    Route::get('users/production/edit/{id}', [\App\Http\Controllers\v2\ProductionController::class, 'edit'])->name('v2.users.production.edit');
+    Route::post('users/production/update/{id}', [\App\Http\Controllers\v2\ProductionController::class, 'update'])->name('v2.users.production.update');
+    Route::get('users/production/detail/{id}', [\App\Http\Controllers\v2\ProductionController::class, 'show'])->name('v2.users.production.show');
 });

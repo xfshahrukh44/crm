@@ -250,6 +250,22 @@
                             </a>
                         </li>
                     @endif
+
+                    @if(in_array($user_role_id, [2]))
+                        <li>
+                            <a href="{{route('v2.brands')}}" class="{{ request()->routeIs('v2.brands') || request()->routeIs('v2.brands.create') || request()->routeIs('v2.brands.edit') || request()->routeIs('v2.brands.show') ? 'active' : '' }}">
+                                Brands
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(in_array($user_role_id, [2]))
+                        <li>
+                            <a href="{{route('v2.users.production')}}" class="{{ request()->routeIs('v2.users.production') || request()->routeIs('v2.users.production.create') || request()->routeIs('v2.users.production.edit') || request()->routeIs('v2.users.production.show') ? 'active' : '' }}">
+                                Production
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             </div>
 
