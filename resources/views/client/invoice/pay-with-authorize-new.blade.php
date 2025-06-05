@@ -47,7 +47,7 @@
             display: flex;
             align-items: center;
             gap: 20px;
-            flex-wrap: wrap;
+            /*flex-wrap: wrap;*/
         }
 
         .lago-badge .badge.bg-primary {
@@ -118,6 +118,12 @@
                 height: 25px;
                 transform: translateY(-50%);
             }
+        }
+
+        .child-badge {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
         }
 
     </style>
