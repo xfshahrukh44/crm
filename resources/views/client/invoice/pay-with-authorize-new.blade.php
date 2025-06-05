@@ -239,13 +239,16 @@
                                                     </div>
                                                     <div class="lago-badge">
                                                         <p>Service(s)</p>
-                                                        @for($i = 0; $i < count($service_list); $i++)
-                                                            <span class="badge bg-primary">
-                                                                <button class="btn book-btn-market badge ">
-                                                                    {{ $invoice->services($service_list[$i])->name }}
-                                                                </button>
-                                                            </span>
-                                                        @endfor
+
+                                                        <div class="child-badge">
+                                                            @for($i = 0; $i < count($service_list); $i++)
+                                                                <span class="badge bg-primary">
+                                                                    <button class="btn book-btn-market badge ">
+                                                                        {{ $invoice->services($service_list[$i])->name }}
+                                                                    </button>
+                                                                </span>
+                                                            @endfor
+                                                        </div>
                                                     </div>
                                                     <div class="lago-badge mt-4">
                                                         <p>Description</p>
