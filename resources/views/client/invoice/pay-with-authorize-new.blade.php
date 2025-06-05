@@ -45,7 +45,7 @@
 
         .lago-badge {
             display: flex;
-            align-items: center;
+            align-items: start;
             gap: 20px;
             /*flex-wrap: wrap;*/
         }
