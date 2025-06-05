@@ -185,22 +185,27 @@ header {
 }
 
 .pakages-summry {
-    display: flex;
+    /* display: flex; */
     align-items: start;
-    gap: 50px;
+    gap: 8px;
+    /* justify-content: space-between; */
 }
 
 .custom-pakages {
-    width: 30%;
-    padding: 20px 0;
+    width: 88%;
+    padding: 13px 0;
+    display: flex;
+    gap: 10px;
 }
 
 
 .custom-pakages li {
-    padding: 10px 0;
+    padding: 0px 0;
     display: flex;
-    align-items: center;
+    align-items: start;
     width: 100%;
+    gap: 8px;
+    /* padding-bottom: 7px; */
 }
 
 .custom-pakages li p span {
@@ -208,7 +213,7 @@ header {
 }
 
 .custom-pakages li p {
-    width: 50%;
+    width: unset;
     font-size: 16px;
     color: #626263;
     font-weight: 400;
@@ -223,7 +228,7 @@ header {
 
 
 .pakages-summry ul:first-child li p {
-    width: 32%;
+    width: unset;
 }
 
 .pakages-summry ul:first-child li span {
