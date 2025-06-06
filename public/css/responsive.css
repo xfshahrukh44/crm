@@ -62,7 +62,7 @@
     }
 
     .chat-footer textarea {
-        width: 70%;
+        width: 100%;
     }
 
     .chat-header {
@@ -80,11 +80,11 @@
     .container.bg-colored {
         padding: 2rem;
     }
-    
+
     .invoice-listing .table>:not(caption)>*>* {
         font-size: 14px;
     }
-    
+
     button.btn.pay-now {
         font-size: 14px;
         width: 90px;
@@ -95,34 +95,34 @@
         width: 84%;
         top: 9px;
     }
-    
+
     .main-id-card .main-id-user p {
         font-size: 14px;
     }
-    
+
     .summary .heading-4 {
         font-size: 1rem;
     }
-    
+
     .paid-unpaid-drop-down select.form-select {
         border-radius: 6px !important;
     }
 
-.sign-up-left {
-    width: 450px;
-}
+    .sign-up-left {
+        width: 450px;
+    }
     .Need-Help {
         margin: 20px 0 0 0;
     }
     .log-in-content {
-    margin: 0;
-}
+        margin: 0;
+    }
 
     .logo-container img {
-    filter: contrast(0.6);
-    height: auto;
-    margin: 0 0 20px 0;
-}
+        filter: contrast(0.6);
+        height: auto;
+        margin: 0 0 20px 0;
+    }
 
 }
 
