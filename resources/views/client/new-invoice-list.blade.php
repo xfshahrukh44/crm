@@ -34,7 +34,7 @@
                 </div>
             </form>
             <div class="row align-items-center">
-                <div class="col-lg-12">
+                <div class="col-lg-12 table-responsive">
                     <table class="table table-hover table-bordered">
                         <thead>
                         <tr class="colored-table-row">
