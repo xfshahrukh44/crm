@@ -45,7 +45,7 @@
                 <div class="col-lg-8">
                     <div class="parent-dashboard-card">
                         <div class="row">
-                            <div class="col-md-3 dashboard-cards" style="margin: 0px 10px 0px 10px !important; min-width: 356px !important;">
+                            <div class="col-md-3 dashboard-cards" style="margin: 0px 10px 0px 10px !important;">
                                 <figure>
                                     <img src="{{asset('images/card-icon-1.png')}}" class="img-fluid" alt="">
                                 </figure>
