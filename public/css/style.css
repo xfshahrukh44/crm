@@ -734,10 +734,10 @@ span.chat-data {
     width: 100%;
     background: transparent;
     border: 0;
-    text-align: end;
+    text-align: start;
     resize: none;
     margin: 0px 0px 0px 0px;
-    padding: 14px 22px 14px 80px;
+    padding: 14px 22px 14px 20px;
     /* min-height: 50px; */
     /* max-height: max-content; */
     font-size: 16px;
@@ -899,7 +899,7 @@ table.table.mail-table.border-0 {
 
 /*login css*/
 
-    @font-face {
+@font-face {
     font-family: Myriad-Pro;
     src: url('../fonts/Myriad-Pro.ttf');
 }
@@ -1057,7 +1057,7 @@ table.table.mail-table.border-0 {
 }
 
 .cridentials-check.form-check input:checked {
-border: 1px solid rgb(5 164 224);
+    border: 1px solid rgb(5 164 224);
     border-radius: 2px;
     background-color: rgb(5 165 225);
 }
@@ -1114,10 +1114,10 @@ border: 1px solid rgb(5 164 224);
     background-color: white !important;
     color: fieldtext !important;
 }
-    .Need-Help {
-        margin: 20px 0 0 0;
-    }
-    .logo-container img {
+.Need-Help {
+    margin: 20px 0 0 0;
+}
+.logo-container img {
     filter: contrast(0.6);
     height: auto;
 }
@@ -1131,14 +1131,14 @@ border: 1px solid rgb(5 164 224);
 /*login css*/
 
 input[type="file"] {
-  display: none;
+    display: none;
 }
 
 .custom-file-upload {
-  display: inline-block;
-  padding: 0px 0px;
-  cursor: pointer;
-  height: 100%;
+    display: inline-block;
+    padding: 0px 0px;
+    cursor: pointer;
+    height: 100%;
 }
 
 
@@ -1180,13 +1180,13 @@ input[type="file"] {
 .log-in-foam .cridentials input:-moz-placeholder-shown {
     background-color: #000000 !important;  /* Change background color */
 }.upload-profile-pic .custom-file-upload {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     flex-direction: column;
+ }
 
-    .upload-profile-pic .custom-file-upload {
+.upload-profile-pic .custom-file-upload {
     display: flex;
     align-items: center;
     justify-content: center;
