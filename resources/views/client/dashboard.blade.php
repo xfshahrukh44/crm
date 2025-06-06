@@ -45,7 +45,7 @@
                 <div class="col-lg-8">
                     <div class="parent-dashboard-card">
                         <div class="row">
-                            <div class="col-md-3 dashboard-cards" style="margin: 0px 10px 0px 10px !important;">
+                            <div class="col-md-3 dashboard-cards" style="margin: 10px 10px 0px 10px !important; min-width: 356px !important;">
                                 <figure>
                                     <img src="{{asset('images/card-icon-1.png')}}" class="img-fluid" alt="">
                                 </figure>
@@ -60,7 +60,7 @@
                                 </p>
                                 <a href="{{route('client.fetch.messages')}}" class="btn custom-btn transparent">View messages</a>
                             </div>
-                            <div class="col-md-3 dashboard-cards" style="margin: 0px 10px 0px 10px !important; min-width: 356px !important;">
+                            <div class="col-md-3 dashboard-cards" style="margin: 10px 10px 0px 10px !important; min-width: 356px !important;">
                                 <figure>
                                     <img src="{{asset('images/card-icon-2.png')}}" class="img-fluid" alt="">
                                 </figure>
@@ -75,7 +75,7 @@
                                 </p>
                                 <a href="{{route('client.brief')}}" class="btn custom-btn transparent">View brief forms</a>
                             </div>
-                            <div class="col-md-3 dashboard-cards" style="margin: 0px 10px 0px 10px !important; min-width: 356px !important;">
+                            <div class="col-md-3 dashboard-cards" style="margin: 10px 10px 0px 10px !important; min-width: 356px !important;">
                                 <figure>
                                     <img src="{{asset('images/card-icon-3.png')}}" class="img-fluid" alt="">
                                 </figure>
