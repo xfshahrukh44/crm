@@ -173,4 +173,8 @@
         width: 17px;
         height: 20px;
     }
+    .profile-drop-down {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
 }
