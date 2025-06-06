@@ -135,4 +135,42 @@
     .dashboard-cards{
         max-width:290px;
     }
+    header nav.navbar.navbar-expand-lg {
+        position: relative;
+        top: 0;
+    }
+
+    div#navbarSupportedContent {
+        position: absolute;
+        top: 80px;
+        background: white;
+        width: 100%;
+        border-radius: 10px;
+        padding: 15px;
+    }
+
+    form.d-flex {
+        justify-content: center;
+    }
+
+    .parent-search-bar {
+    }
+
+    .parent-search-bar input {
+        /* width: 197px; */
+    }
+
+    .bell-icon {
+        justify-content: center;
+        text-align: center;
+        margin: 0px auto;
+        display: flex;
+        margin-top: 10px;
+        align-items: center;
+    }
+
+    .bell-icon img {
+        width: 17px;
+        height: 20px;
+    }
 }
