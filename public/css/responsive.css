@@ -131,3 +131,8 @@
 @media (max-width: 991px) {}
 
 @media (max-width: 767px) {}
+@media (max-width: 576px){
+    .dashboard-cards{
+        max-width:290px;
+    }
+}
