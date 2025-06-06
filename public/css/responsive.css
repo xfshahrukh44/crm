@@ -186,4 +186,15 @@
     section.invoice-listing select {
         margin-bottom: 10px;
     }
+    .paid {
+        margin-top: 11px;
+        width: auto;
+    }
+
+    section.invoice-listing.invoice th {
+    }
+
+    .invoice-listing .table>:not(caption)>*>* {
+        font-size: 12px;
+    }
 }
