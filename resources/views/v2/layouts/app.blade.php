@@ -287,6 +287,15 @@
                             </a>
                         </li>
                     @endif
+
+                    @if(in_array($user_role_id, [2]))
+                        <li>
+{{--                            <a href="{{route('v2.users.qa')}}" class="{{ request()->routeIs('v2.users.qa') || request()->routeIs('v2.users.qa.create') || request()->routeIs('v2.users.qa.edit') || request()->routeIs('v2.users.qa.show') ? 'active' : '' }}">--}}
+                            <a href="#" class="">
+                                Tutorials
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             </div>
 
@@ -351,17 +360,22 @@
                     $('.side-menu').toggleClass('active');
                     $('.for-slider-main-banner').toggleClass('active');
                 });
+
+                let activeItem = $('li .active').get(0);
+                if (activeItem) {
+                    activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
             });
         </script>
 
-        <script type="text/javascript">
-            const progress = document.querySelector('.progress-done');
-            if (progress) {
-            progress.style.width = progress.getAttribute('data-done') + '%';
-            progress.style.opacity = 1;
-            }
+{{--        <script type="text/javascript">--}}
+{{--            const progress = document.querySelector('.progress-done');--}}
 
-        </script>
+{{--            progress.style.width = progress.getAttribute('data-done') + '%';--}}
+{{--            progress.style.opacity = 1;--}}
+
+
+{{--        </script>--}}
 
         @yield('script')
     </body>

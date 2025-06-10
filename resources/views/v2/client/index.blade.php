@@ -48,7 +48,7 @@
                                 ->orWhere('name', 'like', '%'.request()->get('name').'%')
                                 ->orWhere('last_name', 'like', '%'.request()->get('name').'%');
                         })->when(request()->get('email') != '', function ($q) {
-                            return $q->where('email', 'LIKE', "%".request()->get('name')."%");
+                            return $q->where('email', 'LIKE', "%".request()->get('email')."%");
                         })->when(request()->get('brand') != '', function ($q) {
                             return $q->where('brand_id', request()->get('brand'));
                         })->when(request()->get('status') != '', function ($q) {

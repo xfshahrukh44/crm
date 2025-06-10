@@ -56,8 +56,8 @@
 
                                     <form class="search-invoice" action="{{route('v2.invoices.refund.cb')}}" method="GET">
                                         <input type="text" name="invoice_number" placeholder="Search invoice number" value="{{ request()->get('invoice_number') }}">
-                                        <input step=".01" type="number" id="refunded_cb" class="form-control" value="0.00" placeholder="Refunded CB" name="refunded_cb" min="1" required="" value="{{ request()->get('invoice_number') }}">
-                                        <input type="date" id="refund_cb_date" class="form-control" placeholder="Refunded CB date" name="refund_cb_date" required="">
+                                        <input step=".01" type="number" id="refunded_cb" class="form-control" placeholder="Refunded CB" name="refunded_cb" value="{{ request()->get('invoice_number') }}">
+                                        <input type="date" id="refund_cb_date" class="form-control" placeholder="Refunded CB date" name="refund_cb_date" value="{{ request()->get('refund_cb_date') ? \Carbon\Carbon::parse(request()->get('refund_cb_date'))->format('Y-m-d') : '' }}">
                                         <a href="javascript:;" onclick="document.getElementById('btn_filter_form').click()">Search Result</a>
                                         <button hidden id="btn_filter_form" type="submit"></button>
                                     </form>

@@ -21,7 +21,11 @@ class SalesController extends Controller
         $search = request()->get('search');
         $users = User::whereIn('is_employee', [0, 4, 6])
             ->when(request()->has('search') && !is_null($search) && $search != '', function ($q) use ($search) {
-                return get_user_search($q, $search);
+                return $q->where(function ($q) use ($search) {
+                    return get_user_search($q, $search);
+                })->orWhereHas('brands', function ($q) use ($search) {
+                    return $q->where('name', 'LIKE', '%'.$search.'%');
+                });
             })->orderBy('created_at', 'DESC')->paginate(20);
 
         return view('v2.sales.index', compact('users'));

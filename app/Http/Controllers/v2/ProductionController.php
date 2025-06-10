@@ -20,7 +20,11 @@ class ProductionController extends Controller
         $search = request()->get('search');
         $users = User::whereIn('is_employee', [1, 5])
             ->when(request()->has('search') && !is_null($search) && $search != '', function ($q) use ($search) {
-                return get_user_search($q, $search);
+                return $q->where(function ($q) use ($search) {
+                    return get_user_search($q, $search);
+                })->orWhereHas('category', function ($q) use ($search) {
+                    return $q->where('name', 'LIKE', '%'.$search.'%');
+                });
             })->orderBy('created_at', 'DESC')->paginate(20);
 
         return view('v2.production.index', compact('users'));

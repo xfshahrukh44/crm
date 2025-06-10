@@ -47,7 +47,8 @@ class InvoiceController extends Controller
         $invoices = Invoice::orderBy('id', 'desc')->when($request->package != '', function ($q) {
             return $q->where('custom_package', 'LIKE', "%".request()->package."%");
         })->when($request->invoice != '', function ($q) {
-            return $q->where('invoice_number', 'LIKE', "%".request()->invoice."%");
+//            return $q->where('invoice_number', 'LIKE', "%".request()->invoice."%");
+            return $q->where('id', request()->invoice);
         })->when($request->customer != '', function ($q) {
             $customer = request()->customer;
             return $q->whereHas('client', function($q) use($customer){
@@ -569,7 +570,10 @@ class InvoiceController extends Controller
 
         $invoices = Invoice::whereNotNull('refund_cb_date')
             ->when(request()->has('invoice_number') && request()->get('invoice_number') != '', function ($q) {
-                return $q->where('invoice_number', request()->get('invoice_number'));
+                return $q->where(function ($q) {
+                    return $q->where('invoice_number', request()->get('invoice_number'))
+                        ->orWhere('id', request()->get('invoice_number'));
+                });
             })->when(request()->has('refunded_cb') && request()->get('refunded_cb') != '', function ($q) {
                 return $q->where('refunded_cb', request()->get('refunded_cb'));
             })->when(request()->has('refund_cb_date') && request()->get('refund_cb_date') != '', function ($q) {
