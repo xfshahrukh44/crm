@@ -9,7 +9,7 @@ class Message extends Model
 {
     use HasFactory;
     protected $fillable = ['message', 'user_id', 'sender_id', 'task_id', 'role_id', 'client_id', 'created_at', 'is_read'];
-    
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -17,7 +17,7 @@ class Message extends Model
 
     public function user_name(){
         return $this->hasOne(Client::class, 'id', 'user_id');
-    }   
+    }
     // sender_id = 0 for support
     // sender_id = 1 for client
 
@@ -25,5 +25,5 @@ class Message extends Model
     {
         return $this->hasMany(ClientFile::class, 'message_id', 'id');
     }
-    
+
 }

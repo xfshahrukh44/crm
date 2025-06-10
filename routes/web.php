@@ -691,4 +691,5 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2'], function () {
 
     //messages
     Route::get('messages', [\App\Http\Controllers\v2\MessageController::class, 'index'])->name('v2.messages');
+    Route::get('messages/{client_id}', [\App\Http\Controllers\v2\MessageController::class, 'getMessages'])->name('v2.messages.get');
 });

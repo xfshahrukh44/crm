@@ -1379,6 +1379,7 @@ table.client-list .progress-done {
     width: 100%;
     padding: 20px 30px;
     border-top: 1px solid #dcdde0;
+    border-bottom: 1px solid #dcdde0;
 }
 
 .for-sending input {
