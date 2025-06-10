@@ -85,9 +85,15 @@
                                                         Profile
                                                     </a>
 
-                                                    <a class="dropdown-item" href="https://designcrm.net/logout">
+                                                    <a class="dropdown-item" href="https://designcrm.net/logout"
+                                                       onclick="event.preventDefault();
+                                                        document.getElementById('logout-form').submit();"
+                                                    >
                                                         Sign out
                                                     </a>
+                                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                        @csrf
+                                                    </form>
 
                                                 </div>
                                             </div>
@@ -127,7 +133,7 @@
                     <i class="fas fa-search search-icon"></i>
                 </div>
                 <ul style="max-height: 85%; overflow-y: scroll; scrollbar-width: none; -ms-overflow-style: none;">
-                    @if(in_array($user_role_id, [2]))
+                    @if(in_array($user_role_id, [2, 6]))
                         <li>
                             <a href="{{route('v2.dashboard')}}" class="{{ request()->routeIs('v2.dashboard') ? 'active' : '' }}">
                                 Dashboard
@@ -135,15 +141,15 @@
                         </li>
                     @endif
 
-                    @if(in_array($user_role_id, [2]))
-                        <li>
-                            <a href="#" class="">
-                                Brands dashboard
-                            </a>
-                        </li>
-                    @endif
+{{--                    @if(in_array($user_role_id, [2]))--}}
+{{--                        <li>--}}
+{{--                            <a href="#" class="">--}}
+{{--                                Brands dashboard--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                    @endif--}}
 
-                    @if(in_array($user_role_id, [2]))
+                    @if(in_array($user_role_id, [2, 6]))
                         <li>
                             <a href="{{route('v2.revenue')}}" class="{{ request()->routeIs('v2.revenue') ? 'active' : '' }}">
                                 Revenue
@@ -157,18 +163,26 @@
                                 Merchants
                             </a>
                         </li>
-
                     @endif
 
                     @if(in_array($user_role_id, [2]))
                         <li>
-                            <a href="{{ route('v2.messages') }}" class="">
+                            <a href="{{ route('v2.messages') }}" class="{{ request()->routeIs('v2.messages') ? 'active' : '' }}">
                                 Messages
+
+{{--                                &nbsp;--}}
+{{--                                <small>--}}
+{{--                                    <span class="badge badge-pill badge-sm bg-warning">--}}
+{{--                                        <i class="fas fa-triangle-exclamation"></i>--}}
+{{--                                        &nbsp;--}}
+{{--                                        Under Construction--}}
+{{--                                    </span>--}}
+{{--                                </small>--}}
                             </a>
                         </li>
                     @endif
 
-                    @if(in_array($user_role_id, [2]))
+                    @if(in_array($user_role_id, [2, 6]))
                         <li>
                             <a href="{{route('v2.clients')}}" class="{{ request()->routeIs('v2.clients') || request()->routeIs('v2.clients.create') || request()->routeIs('v2.clients.edit') || request()->routeIs('v2.clients.show') ? 'active' : '' }}">
                                 Clients
@@ -364,6 +378,14 @@
                 let activeItem = $('li .active').get(0);
                 if (activeItem) {
                     activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+
+            //disable submit button on form ::after
+            $('body').on('submit', 'form', function (e) {
+                let btn = $(this).find('button[type="submit"]');
+                if (btn) {
+                    btn.prop('disabled', true).text('Please wait');
                 }
             });
         </script>
