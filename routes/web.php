@@ -672,4 +672,20 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2'], function () {
     Route::get('users/production/edit/{id}', [\App\Http\Controllers\v2\ProductionController::class, 'edit'])->name('v2.users.production.edit');
     Route::post('users/production/update/{id}', [\App\Http\Controllers\v2\ProductionController::class, 'update'])->name('v2.users.production.update');
     Route::get('users/production/detail/{id}', [\App\Http\Controllers\v2\ProductionController::class, 'show'])->name('v2.users.production.show');
+
+    //sales
+    Route::get('users/sales', [\App\Http\Controllers\v2\SalesController::class, 'index'])->name('v2.users.sales');
+    Route::get('users/sales/create', [\App\Http\Controllers\v2\SalesController::class, 'create'])->name('v2.users.sales.create');
+    Route::post('users/sales/store', [\App\Http\Controllers\v2\SalesController::class, 'store'])->name('v2.users.sales.store');
+    Route::get('users/sales/edit/{id}', [\App\Http\Controllers\v2\SalesController::class, 'edit'])->name('v2.users.sales.edit');
+    Route::post('users/sales/update/{id}', [\App\Http\Controllers\v2\SalesController::class, 'update'])->name('v2.users.sales.update');
+    Route::get('users/sales/detail/{id}', [\App\Http\Controllers\v2\SalesController::class, 'show'])->name('v2.users.sales.show');
+
+    //qa
+    Route::get('users/qa', [\App\Http\Controllers\v2\QAController::class, 'index'])->name('v2.users.qa');
+    Route::get('users/qa/create', [\App\Http\Controllers\v2\QAController::class, 'create'])->name('v2.users.qa.create');
+    Route::post('users/qa/store', [\App\Http\Controllers\v2\QAController::class, 'store'])->name('v2.users.qa.store');
+    Route::get('users/qa/edit/{id}', [\App\Http\Controllers\v2\QAController::class, 'edit'])->name('v2.users.qa.edit');
+    Route::post('users/qa/update/{id}', [\App\Http\Controllers\v2\QAController::class, 'update'])->name('v2.users.qa.update');
+    Route::get('users/qa/detail/{id}', [\App\Http\Controllers\v2\QAController::class, 'show'])->name('v2.users.qa.show');
 });

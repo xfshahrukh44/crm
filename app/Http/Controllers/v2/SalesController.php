@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\v2;
 
 use App\Http\Controllers\Controller;
-use App\Models\Client;
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\User;
+use App\Models\UserFinance;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class ProductionController extends Controller
+class SalesController extends Controller
 {
     public function index (Request $request)
     {
@@ -18,12 +19,12 @@ class ProductionController extends Controller
         }
 
         $search = request()->get('search');
-        $users = User::whereIn('is_employee', [1, 5])
+        $users = User::whereIn('is_employee', [0, 4, 6])
             ->when(request()->has('search') && !is_null($search) && $search != '', function ($q) use ($search) {
                 return get_user_search($q, $search);
             })->orderBy('created_at', 'DESC')->paginate(20);
 
-        return view('v2.production.index', compact('users'));
+        return view('v2.sales.index', compact('users'));
     }
 
     public function create (Request $request)
@@ -32,7 +33,7 @@ class ProductionController extends Controller
             return redirect()->back()->with('error', 'Access denied.');
         }
 
-        return view('v2.production.create');
+        return view('v2.sales.create');
     }
 
     public function store (Request $request)
@@ -47,7 +48,7 @@ class ProductionController extends Controller
             'email' => 'required|unique:users,email',
             'status' => 'required',
             'password' => 'required',
-            'is_employee' => 'required|in:1,5',
+            'is_employee' => 'required|in:0,4,6,8',
         ]);
 
         $user = new User();
@@ -57,18 +58,27 @@ class ProductionController extends Controller
         $user->contact = $request->input('contact');
         $user->status = $request->input('status');
         $user->password = Hash::make($request->input('password'));
-        $user->is_employee = $request->input('is_employee');
-        $user->is_support_head = false;
+        $user->is_employee = ($request->input('is_employee') == 8) ? 4 : $request->input('is_employee');
+        $user->is_support_head = ($request->input('is_employee') == 8) ? true : false;
+
+        //restricted brands
+        $user->restricted_brands = json_encode($request->get('restricted_brands') ?? []);
+        $user->restricted_brands_cutoff_date = $request->get('restricted_brands_cutoff_date') ?? null;
+
         $user->save();
 
-//        if ($request->has('brand')) {
-//            $user->brands()->sync($request->input('brand'));
-//        }
-        if ($request->has('category_id')) {
-            $user->category()->sync($request->input('category_id'));
+        UserFinance::updateOrCreate([
+            'user_id' => $user->id,
+        ], [
+            'daily_target' => $request->get('daily_target') ?? 1000.00,
+            'daily_printing_costs' => $request->get('daily_printing_costs') ?? 0.00,
+        ]);
+
+        if ($request->has('brand_id')) {
+            $user->brands()->sync($request->input('brand_id'));
         }
 
-        return redirect()->route('v2.users.production')->with('success','Production created Successfully.');
+        return redirect()->route('v2.users.sales')->with('success','Sale Person Created Successfully.');
     }
 
     public function edit (Request $request, $id)
@@ -81,7 +91,7 @@ class ProductionController extends Controller
             return redirect()->back()->with('error', 'Not found.');
         }
 
-        return view('v2.production.edit', compact('user'));
+        return view('v2.sales.edit', compact('user'));
     }
 
     public function update (Request $request, $id)
@@ -95,7 +105,7 @@ class ProductionController extends Controller
             'last_name' => 'required',
             'email' => 'required|unique:users,email,'.$id,
             'status' => 'required',
-            'is_employee' => 'required|in:1,5',
+            'is_employee' => 'required|in:0,4,6,8',
         ]);
 
         if (!$user = User::find($id)) {
@@ -114,12 +124,24 @@ class ProductionController extends Controller
 
         $user->contact = $request->input('contact');
         $user->status = $request->input('status');
-        $user->is_employee = $request->input('is_employee');
-        $user->is_support_head = false;
-        $user->save();
-        $user->category()->sync($request->get('category_id'));
+        $user->is_employee = ($request->input('is_employee') == 8) ? 4 : $request->input('is_employee');
+        $user->is_support_head = ($request->input('is_employee') == 8) ? true : false;
 
-        return redirect()->route('v2.users.production')->with('success','Production Updated Successfully.');
+        //restricted brands
+        $user->restricted_brands = json_encode($request->get('restricted_brands') ?? []);
+        $user->restricted_brands_cutoff_date = $request->get('restricted_brands_cutoff_date') ?? null;
+
+        $user->brands()->sync($request->get('brand_id'));
+        $user->save();
+
+        UserFinance::updateOrCreate([
+            'user_id' => $id,
+        ], [
+            'daily_target' => $request->get('daily_target') ?? 1000.00,
+            'daily_printing_costs' => $request->get('daily_printing_costs') ?? 0.00,
+        ]);
+
+        return redirect()->route('v2.users.sales')->with('success','Sale Person Updated Successfully.');
     }
 
     public function show (Request $request, $id)

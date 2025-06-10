@@ -657,3 +657,15 @@
         @endswitch
     </div>
 @endsection
+
+@section('script')
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.progress-done').each(function (i, item) {
+                $(item).css('width', $(this).data('done') + '%');
+                $(item).css('opacity', '1');
+            });
+        });
+    </script>
+@endsection
+

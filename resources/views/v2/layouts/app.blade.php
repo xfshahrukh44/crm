@@ -33,6 +33,11 @@
                 height: 35px !important;
                 border: 1px solid #ced4da !important;
             }
+            span.select2-selection.select2-selection--multiple {
+                border-radius: 20px !important;
+                /*height: 35px !important;*/
+                border: 1px solid #ced4da !important;
+            }
 
             .select2-selection__rendered {
                 margin-top: 0.5% !important;
@@ -121,7 +126,7 @@
                            placeholder="Search...">
                     <i class="fas fa-search search-icon"></i>
                 </div>
-                <ul style="max-height: 100%; overflow-y: scroll; scrollbar-width: none; -ms-overflow-style: none;">
+                <ul style="max-height: 85%; overflow-y: scroll; scrollbar-width: none; -ms-overflow-style: none;">
                     @if(in_array($user_role_id, [2]))
                         <li>
                             <a href="{{route('v2.dashboard')}}" class="{{ request()->routeIs('v2.dashboard') ? 'active' : '' }}">
@@ -263,6 +268,22 @@
                         <li>
                             <a href="{{route('v2.users.production')}}" class="{{ request()->routeIs('v2.users.production') || request()->routeIs('v2.users.production.create') || request()->routeIs('v2.users.production.edit') || request()->routeIs('v2.users.production.show') ? 'active' : '' }}">
                                 Production
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(in_array($user_role_id, [2]))
+                        <li>
+                            <a href="{{route('v2.users.sales')}}" class="{{ request()->routeIs('v2.users.sales') || request()->routeIs('v2.users.sales.create') || request()->routeIs('v2.users.sales.edit') || request()->routeIs('v2.users.sales.show') ? 'active' : '' }}">
+                                Sale Agent
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(in_array($user_role_id, [2]))
+                        <li>
+                            <a href="{{route('v2.users.qa')}}" class="{{ request()->routeIs('v2.users.qa') || request()->routeIs('v2.users.qa.create') || request()->routeIs('v2.users.qa.edit') || request()->routeIs('v2.users.qa.show') ? 'active' : '' }}">
+                                QA
                             </a>
                         </li>
                     @endif

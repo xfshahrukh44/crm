@@ -257,3 +257,20 @@
         @endswitch
     </div>
 @endsection
+
+@section('script')
+    <script>
+        function generatePassword() {
+            var length = 16,
+                charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+                retVal = "";
+            for (var i = 0, n = charset.length; i < length; ++i) {
+                retVal += charset.charAt(Math.floor(Math.random() * n));
+            }
+            return retVal;
+        }
+        $(document).ready(() => {
+            $('#password').val(generatePassword());
+        });
+    </script>
+@endsection

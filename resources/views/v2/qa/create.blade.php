@@ -1,6 +1,6 @@
 @extends('v2.layouts.app')
 
-@section('title', 'Create production')
+@section('title', 'Create QA')
 
 @section('css')
 
@@ -15,11 +15,11 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="brief-info">
-                                    <h2 class="mt-4">Production Form</h2>
+                                    <h2 class="mt-4">QA Form</h2>
                                     @php
-                                        $categories = \Illuminate\Support\Facades\DB::table('create_categories')->get();
+                                        $brands = \Illuminate\Support\Facades\DB::table('brands')->get();
                                     @endphp
-                                    <form action="{{route('v2.users.production.store')}}" method="POST">
+                                    <form action="{{route('v2.users.qa.store')}}" method="POST">
                                         @csrf
                                         <div class="row">
                                             <div class="col-4">
@@ -51,20 +51,7 @@
                                             </div>
                                             <div class="col-4">
                                                 <div class="form-group">
-                                                    <label>Select Role *</label>
-                                                    <select class="form-control select2" name="is_employee" id="is_employee" required>
-                                                        <option value="">Select Role</option>
-                                                        <option value="1" {!! old('is_employee') == '1' ? 'selected' : '' !!}>Team Lead</option>
-                                                        <option value="5" {!! old('is_employee') == '5' ? 'selected' : '' !!}>Member</option>
-                                                    </select>
-                                                    @error('is_employee')
-                                                    <label class="text-danger">{{ $message }}</label>
-                                                    @enderror
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="form-group">
-                                                    <label>Select categories *</label>
+                                                    <label>Category Name *</label>
                                                     <select class="form-control select2" name="category_id[]" id="category_id" multiple required>
                                                         @foreach($categories as $category)
                                                             <option value="{{$category->id}}" {{ in_array($category->id, (old('category_id') ?? [])) ? 'selected' : ''}}>{{$category->name}}</option>
@@ -101,6 +88,18 @@
                                                     <label>Password *</label>
                                                     <input type="text" class="form-control" name="password" id="password" value="{{old('password') ?? ''}}" required>
                                                     @error('password')
+                                                    <label class="text-danger">{{ $message }}</label>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="form-group">
+                                                    <label>Select Role *</label>
+                                                    <select class="form-control select2" name="is_support_head" id="is_support_head" required>
+                                                        <option value="0" {!! old('is_support_head') == "0" ? 'selected' : '' !!}>QA member</option>
+                                                        <option value="1" {!! old('is_support_head') == "1" ? 'selected' : '' !!}>QA lead</option>
+                                                    </select>
+                                                    @error('is_support_head')
                                                     <label class="text-danger">{{ $message }}</label>
                                                     @enderror
                                                 </div>

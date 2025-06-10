@@ -1,6 +1,6 @@
 @extends('v2.layouts.app')
 
-@section('title', 'Production')
+@section('title', 'Sales')
 
 @section('css')
     <style>
@@ -42,10 +42,10 @@
                                 <div class="list-0f-head for-invoice-listing table-responsive">
                                     <div class="row text-left pr-3 pb-2">
                                         <div class="col-md-6 m-auto d-flex justify-content-start pt-2">
-                                            <h1 style="font-weight: 100;">Production</h1>
+                                            <h1 style="font-weight: 100;">Sales</h1>
                                         </div>
                                         <div class="col-md-6 m-auto d-flex justify-content-end">
-                                            <a href="{{route('v2.users.production.create')}}" class="btn btn-sm btn-success">
+                                            <a href="{{route('v2.users.sales.create')}}" class="btn btn-sm btn-success">
                                                 <i class="fas fa-plus"></i>
                                                 Create
                                             </a>
@@ -55,7 +55,7 @@
                                     <br>
 
 {{--                                    <div class="search-invoice">--}}
-                                    <form class="search-invoice" action="{{route('v2.users.production')}}" method="GET">
+                                    <form class="search-invoice" action="{{route('v2.users.sales')}}" method="GET">
                                         <input type="text" name="search" placeholder="Search" value="{{ request()->get('search') }}">
 
                                         <a href="javascript:;" onclick="document.getElementById('btn_filter_form').click()">Search Result</a>
@@ -69,7 +69,7 @@
                                             <th>ID</th>
                                             <th>Full Name</th>
                                             <th>Role</th>
-                                            <th>Category</th>
+                                            <th>Brand</th>
                                             <th>Email</th>
                                             <th>Status</th>
                                             <th>Reset Password</th>
@@ -88,9 +88,9 @@
                                                         <button class="badge {{ $user->is_employee == 1 ? 'bg-dark' : 'bg-light' }} {{ $user->is_employee == 1 ? 'text-white' : '' }} p-2 btn-sm" style="border: 0px;">{{$user->get_role()}}</button>
                                                     </td>
                                                     <td>
-                                                        @if($user->category != null)
-                                                            @foreach($user->category as $categorys)
-                                                                <button class="badge bg-info badge-sm text-white p-2" style="border: 0px;">{{$categorys->name}}</button>
+                                                        @if($user->brands != null)
+                                                            @foreach($user->brands as $brand)
+                                                                <button class="badge bg-info badge-sm text-white p-2" style="border: 0px;">{{$brand->name}}</button>
                                                             @endforeach
                                                         @endif
                                                     </td>
@@ -122,7 +122,7 @@
                                                         {{$device}}
                                                     </td>
                                                     <td style="position: relative;">
-                                                        <a href="{{ route('v2.users.production.edit', $user->id) }}" class="badge bg-primary badge-icon badge-sm text-white p-2">
+                                                        <a href="{{ route('v2.users.sales.edit', $user->id) }}" class="badge bg-primary badge-icon badge-sm text-white p-2">
                                                             <span class="ul-btn__icon"><i class="i-Edit"></i></span>
                                                             <span class="ul-btn__text">
                                                                 <i class="fas fa-pencil"></i>
