@@ -688,4 +688,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2'], function () {
     Route::get('users/qa/edit/{id}', [\App\Http\Controllers\v2\QAController::class, 'edit'])->name('v2.users.qa.edit');
     Route::post('users/qa/update/{id}', [\App\Http\Controllers\v2\QAController::class, 'update'])->name('v2.users.qa.update');
     Route::get('users/qa/detail/{id}', [\App\Http\Controllers\v2\QAController::class, 'show'])->name('v2.users.qa.show');
+
+    //messages
+    Route::get('messages', [\App\Http\Controllers\v2\MessageController::class, 'index'])->name('v2.messages');
 });

@@ -162,7 +162,7 @@
 
                     @if(in_array($user_role_id, [2]))
                         <li>
-                            <a href="#" class="">
+                            <a href="{{ route('v2.messages') }}" class="">
                                 Messages
                             </a>
                         </li>
@@ -356,10 +356,10 @@
 
         <script type="text/javascript">
             const progress = document.querySelector('.progress-done');
-
+            if (progress) {
             progress.style.width = progress.getAttribute('data-done') + '%';
             progress.style.opacity = 1;
-
+            }
 
         </script>
 
