@@ -602,6 +602,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2'], function () {
     Route::get('clients/edit/{id}', [\App\Http\Controllers\v2\ClientController::class, 'edit'])->name('v2.clients.edit');
     Route::post('clients/update/{id}', [\App\Http\Controllers\v2\ClientController::class, 'update'])->name('v2.clients.update');
     Route::get('clients/detail/{id}', [\App\Http\Controllers\v2\ClientController::class, 'show'])->name('v2.clients.show');
+    Route::post('clients/create_auth', [\App\Http\Controllers\v2\ClientController::class, 'createAuth'])->name('v2.clients.create.auth');
+    Route::post('clients/update_auth', [\App\Http\Controllers\v2\ClientController::class, 'updateAuth'])->name('v2.clients.update.auth');
 
     //invoices
     Route::get('invoices', [\App\Http\Controllers\v2\InvoiceController::class, 'index'])->name('v2.invoices');
