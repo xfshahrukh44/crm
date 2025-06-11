@@ -312,9 +312,9 @@
                 <section class="list-0f">
                     <div id="accordion">
                         <div class="row m-auto">
-{{--                            <div class="col-md-8 offset-md-2 text-center">--}}
-{{--                                <h4 class="mb-0 font-weight-lighter">Select Unit</h4>--}}
-{{--                            </div>--}}
+                            <div class="col-md-8 offset-md-2">
+                                <h2 class="font-weight-lighter ml-4">Revenue</h2>
+                            </div>
                             <div class="col-md-8 offset-md-2">
                                 @if(count($daily_data))
                                     <div class="container">

@@ -39,48 +39,70 @@ class InvoiceController extends Controller
 {
     public function index (Request $request)
     {
-        if (!v2_acl([2])) {
+        if (!v2_acl([2, 6])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
-        $brands = Brand::all();
-        $invoices = Invoice::orderBy('id', 'desc')->when($request->package != '', function ($q) {
-            return $q->where('custom_package', 'LIKE', "%".request()->package."%");
-        })->when($request->invoice != '', function ($q) {
-//            return $q->where('invoice_number', 'LIKE', "%".request()->invoice."%");
-            return $q->where('id', request()->invoice);
-        })->when($request->customer != '', function ($q) {
-            $customer = request()->customer;
-            return $q->whereHas('client', function($q) use($customer){
-                $q->where(DB::raw('concat(name," ",last_name)'), 'like', '%'.$customer.'%');
-            });
-        })->when($request->agent != '', function ($q) {
-            $agent = request()->agent;
-            return $q->whereHas('sale', function($q) use($agent){
-                $q->where(DB::raw('concat(name," ",last_name)'), 'like', '%'.$agent.'%');
-            });
-        })->when($request->status != 0, function ($q) {
-            return $q->where('payment_status', request()->status);
-        })->when($request->brand != 0, function ($q) {
-            $brand = request()->brand;
-            return $q->whereHas('brands', function($q) use($brand){
-                $q->where('id', $brand);
-            });
-        })->when($request->has('client_id'), function ($q) use ($request) {
-            return $q->where('client_id', $request->get('client_id'));
-        })->paginate(10);
+        $brands = \Illuminate\Support\Facades\DB::table('brands')
+            ->when(!v2_acl([2]), function ($q) {
+                return $q->whereIn('id', auth()->user()->brand_list());
+            })
+            ->get();
+
+        $invoices = Invoice::orderBy('id', 'desc')
+            ->when(!v2_acl([2]), function ($q) {
+                return $q->whereIn('brand', auth()->user()->brand_list());
+            })
+            ->when($request->package != '', function ($q) {
+                return $q->where('custom_package', 'LIKE', "%".request()->package."%");
+            })
+            ->when($request->invoice != '', function ($q) {
+    //            return $q->where('invoice_number', 'LIKE', "%".request()->invoice."%");
+                return $q->where('id', request()->invoice);
+            })
+            ->when($request->customer != '', function ($q) {
+                $customer = request()->customer;
+                return $q->whereHas('client', function($q) use($customer){
+                    $q->where(DB::raw('concat(name," ",last_name)'), 'like', '%'.$customer.'%');
+                });
+            })
+            ->when($request->agent != '', function ($q) {
+                $agent = request()->agent;
+                return $q->whereHas('sale', function($q) use($agent){
+                    $q->where(DB::raw('concat(name," ",last_name)'), 'like', '%'.$agent.'%');
+                });
+            })
+            ->when($request->status != 0, function ($q) {
+                return $q->where('payment_status', request()->status);
+            })
+            ->when($request->brand != 0, function ($q) {
+                $brand = request()->brand;
+                return $q->whereHas('brands', function($q) use($brand){
+                    $q->where('id', $brand);
+                });
+            })
+            ->when($request->has('client_id'), function ($q) use ($request) {
+                return $q->where('client_id', $request->get('client_id'));
+            })->paginate(10);
 
         return view('v2.invoice.index', compact('invoices', 'brands'));
     }
 
     public function create (Request $request, $id)
     {
-        if (!v2_acl([2])) {
+        if (!v2_acl([2, 6])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
         if(!$user = Client::find($id)) {
             return redirect()->back()->with('error', 'Not found.');
+        }
+
+        //non admin checks
+        if (!v2_acl([2])) {
+            if (!in_array($user->brand_id, auth()->user()->brand_list())) {
+                return redirect()->back()->with('error', 'Not allowed.');
+            }
         }
 
         $brands = Brand::when(auth()->user()->is_employee != 2, function ($q) {
@@ -90,6 +112,9 @@ class InvoiceController extends Controller
 
         $sale_agents = User::whereIn('is_employee', [0, 4, 6])
             ->whereIn('id', array_unique(DB::table('brand_users')->where('brand_id', $user->brand_id)->pluck('user_id')->toArray()))
+            ->when(!v2_acl([2]), function ($q) {
+                return $q->where('is_employee', '!=', 6);
+            })
             ->get();
 
         return view('v2.invoice.create', compact('brands', 'user', 'services', 'sale_agents'));
@@ -97,7 +122,7 @@ class InvoiceController extends Controller
 
     public function store (Request $request)
     {
-        if (!v2_acl([2])) {
+        if (!v2_acl([2, 6])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 

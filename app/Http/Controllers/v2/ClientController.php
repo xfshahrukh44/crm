@@ -229,6 +229,10 @@ class ClientController extends Controller
     }
 
     public function createAuth(Request $request){
+        if (!v2_acl([2, 6, 0, 4])) {
+            return response()->json(['success' => false , 'message' => 'Access denied.']);
+        }
+
         try {
             $invoices = Invoice::where('client_id', $request->id)->get();
             $pass = $request->pass;
@@ -422,6 +426,10 @@ class ClientController extends Controller
     }
 
     public function updateAuth(Request $request){
+        if (!v2_acl([2, 6, 0, 4])) {
+            return response()->json(['success' => false , 'message' => 'Access denied.']);
+        }
+
         try {
             $id = $request->id;
             $pass = $request->pass;
