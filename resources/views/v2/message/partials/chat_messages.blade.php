@@ -1,39 +1,53 @@
+@foreach ($messages as $message)
+    <div class="main-chat-message {{ $message->role_id == $is_employee ? 'for-reply' : '' }}">
+        @if ($message->role_id != $is_employee)
+            @php
+                $receiver_user = \App\Models\User::find($message->user_id);
+            @endphp
+            <div class="message-img">
+                <img src="{{ asset($receiver_user->image ?? 'assets/imgs/default-avatar.jpg') }}" class="img-fluid">
+            </div>
+        @endif
 
-    @foreach ($messages as $message)
-        <div class="main-chat-message {{ $message->role_id == $is_employee ? 'for-reply' : '' }}">
-            @if ($message->role_id != $is_employee)
-                @php
-                    $receiver_user = \App\Models\User::find($message->user_id);
-                @endphp
-                <div class="message-img">
-                    <img src="{{ asset($receiver_user->image ?? 'assets/imgs/default-avatar.jpg') }}" class="img-fluid">
-                </div>
-            @endif
+        <div class="message-content">
+            @if ($message->message)
+                <div class="message-line">
+                    <p>{!! nl2br($message->message) !!}</p>
 
-            <div class="message-content">
-                @if ($message->message)
-                    <div class="message-line">
-                        <p>{!! nl2br($message->message) !!}</p>
-                    </div>
-                @endif
+                    @if (count($message->sended_client_files) != 0)
+                        <div class="msg-img">
+                            @foreach ($message->sended_client_files as $key => $client_file)
+                                @php
+                                    $filePath = asset('files/' . $client_file->path);
+                                    $fileExtension = strtolower(pathinfo($client_file->path, PATHINFO_EXTENSION));
+                                    $isImage = in_array($fileExtension, ['jpg', 'jpeg', 'png', 'gif', 'webp']);
+                                @endphp
 
-                <div class="message-time">
-                    <span>{{ $message->created_at->format('h:i A, M d') }}</span>
-                    @if ($message->sender_id == auth()->id())
-                        @if ($message->is_read)
-                            <span class="read-status">✓ Read</span>
-                        @else
-                            <span class="read-status">✓ Delivered</span>
-                        @endif
+                                @if ($isImage)
+                                    <a href="{{ $filePath }}" target="_blank" title="{{ $client_file->name }}">
+                                        <img src="{{ $filePath }}" alt="Image"
+                                            style="max-width: 150px; max-height: 150px; border-radius: 5px;">
+                                    </a>
+                                @else
+                                    <a href="{{ $filePath }}" download title="{{ $client_file->name }}">
+                                        {{ substr($client_file->name, 0, 21) . '...' }}
+                                    </a>
+                                @endif
+                            @endforeach
+                        </div>
                     @endif
                 </div>
-            </div>
-
-            @if ($message->role_id == $is_employee)
-                <div class="message-img">
-                    <img src="{{ asset($user_image ?? 'assets/imgs/default-avatar.jpg') }}" class="img-fluid">
-                </div>
             @endif
-        </div>
-    @endforeach
 
+            <div class="message-time">
+                <span>{{ $message->created_at->format('h:i A, M d') }}</span>
+            </div>
+        </div>
+
+        @if ($message->role_id == $is_employee)
+            <div class="message-img">
+                <img src="{{ asset($user_image ?? 'assets/imgs/default-avatar.jpg') }}" class="img-fluid">
+            </div>
+        @endif
+    </div>
+@endforeach

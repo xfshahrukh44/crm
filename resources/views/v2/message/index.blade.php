@@ -232,16 +232,32 @@
                 loadClientMessages(clientId);
             });
 
-            function loadClientMessages(clientId) {
-                // Check if tab content already exists
-                if ($(`#${clientId}`).length) {
-                    $(`#${clientId}`).tab('show');
-                    return;
+            // Load the first chat automatically when page loads
+            function loadFirstChat() {
+                const tabs = $('.client-tab');
+                if (!tabs.length) return; // No tabs found
+
+                // Find active tab or default to first
+                let activeTab = tabs.filter('.active').first();
+                if (!activeTab.length) {
+                    activeTab = tabs.first();
+                    activeTab.addClass('active').tab('show'); // For Bootstrap tabs
                 }
+
+                const clientId = activeTab.attr('id').replace('-tab', '');
+                loadClientMessages(clientId);
+            }
+
+            // Call this on page load
+            loadFirstChat();
+
+            function loadClientMessages(clientId) {
+                // Hide all other tab panes
+                $('#myTabContent1 .tab-pane').remove(); // This line removes all existing tab panes
 
                 // Create new tab pane
                 const tabPane = $(`
-                    <div class="tab-pane fade" id="${clientId}" role="tabpanel" aria-labelledby="${clientId}-tab">
+                    <div class="tab-pane fade show active" id="${clientId}" role="tabpanel" aria-labelledby="${clientId}-tab">
                         <div class="single-client-full-detail">
                             <div class="client-brief" id="messages-container-${clientId}">
                                 <div class="chat-person">
@@ -273,18 +289,22 @@
                 `);
 
                 $('#myTabContent1').append(tabPane);
-                $(`#${clientId}`).tab('show');
 
-                // Load initial messages
+                // Load all messages
                 $.ajax({
-                    url: "{{ url('v2/messages') }}/"+clientId,
+                    url: "{{ url('v2/messages') }}/" + clientId,
                     type: 'GET',
                     dataType: 'json',
-                    success: function(response) {
+                    beforeSend: function () {
+                        $(`#messages-container-${clientId} .loading-spinner`).show();
+                    },
+                    success: function (response) {
                         $(`#client-name-${clientId}`).text(response.user_name);
                         $(`#messages-container-${clientId} .messages-wrapper`).html(response.html);
                         scrollToBottom(clientId);
-                        setupMessageScroll(clientId);
+                    },
+                    complete: function () {
+                        $(`#messages-container-${clientId} .loading-spinner`).hide();
                     }
                 });
             }
@@ -292,67 +312,6 @@
             function scrollToBottom(clientId) {
                 const container = $(`#messages-container-${clientId} .messages-wrapper`);
                 container.scrollTop(container[0].scrollHeight);
-            }
-
-            function setupMessageScroll(clientId) {
-                const wrapper = $(`#messages-container-${clientId} .messages-wrapper`);
-                let loading = false;
-                let nextPage = null;
-                let hasMore = true;
-
-                wrapper.on('scroll', function() {
-                    if (loading || !hasMore) return;
-
-                    // Check if we're near the top (5% from top)
-                    if (wrapper.scrollTop() <= (0.05 * wrapper[0].scrollHeight)) {
-                        loadMoreMessages(clientId);
-                    }
-                });
-
-                function loadMoreMessages(clientId) {
-                    if (!nextPage) return; // No more pages to load
-
-                    loading = true;
-                    $(`#messages-container-${clientId} .loading-spinner`).show();
-
-                    $.ajax({
-                        url: "{{ url('v2/messages') }}/"+clientId,
-                        type: 'GET',
-                        data: {page: nextPage},
-                        dataType: 'json',
-                        success: function(response) {
-                            if (response.html) {
-                                // Store current scroll position
-                                const oldScrollHeight = wrapper[0].scrollHeight;
-                                const oldScrollTop = wrapper.scrollTop();
-
-                                // Prepend older messages
-                                wrapper.prepend(response.html);
-
-                                // Maintain scroll position
-                                const newScrollHeight = wrapper[0].scrollHeight;
-                                wrapper.scrollTop(oldScrollTop + (newScrollHeight - oldScrollHeight));
-
-                                // Update pagination state
-                                nextPage = response.next_page;
-                                hasMore = response.has_more;
-                            }
-                            loading = false;
-                            $(`#messages-container-${clientId} .loading-spinner`).hide();
-                        }
-                    });
-                }
-
-                // Initialize pagination after first load
-                $.ajax({
-                    url: "{{ url('v2/messages') }}/"+clientId,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(response) {
-                        nextPage = response.next_page;
-                        hasMore = response.has_more;
-                    }
-                });
             }
 
             // Handle sending new messages

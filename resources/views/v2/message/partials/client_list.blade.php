@@ -1,4 +1,4 @@
-@foreach($clients_with_messages as $client_with_messages)
+@foreach($clients_with_messages as $index => $client_with_messages)
     @php
         $message = \App\Models\Message::where('user_id', $client_with_messages->id)
                     ->orWhere('sender_id', $client_with_messages->id)
@@ -6,11 +6,11 @@
                     ->first();
     @endphp
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="{{ $client_with_messages->id }}-tab"
+        <button class="nav-link {{ $index === 0 ? 'active' : '' }} client-tab" id="{{ $client_with_messages->id }}-tab"
             data-toggle="tab" data-target="#{{ $client_with_messages->id }}"
             type="button" role="tab"
             aria-controls="{{ $client_with_messages->id }}"
-            aria-selected="false">
+            aria-selected="{{ $index === 0 ? 'true' : 'false' }}">
             <div class="client-info-detail">
                 <div class="client-profile">
                     <img src="{{ asset($client_with_messages->image ?? 'assets/imgs/default-avatar.jpg') }}"

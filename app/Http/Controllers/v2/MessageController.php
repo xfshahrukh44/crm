@@ -84,20 +84,11 @@ class MessageController extends Controller
     {
         $user = User::find($client_id);
 
-        // First get the total count to calculate proper offset
-        $totalMessages = Message::where('client_id', $client_id)->count();
-
-        // Calculate how many pages exist (6 messages per page)
-        $perPage = 6;
-        $totalPages = ceil($totalMessages / $perPage);
-
-        // Get current page from request or default to last page
-        $currentPage = request()->input('page', $totalPages);
-
-        // Always get messages in ascending order
-        $messages = Message::where('client_id', $client_id)
+        // Get all messages in ascending order (oldest to newest)
+        $messages = Message::with('sended_client_files')
+                        ->where('client_id', $client_id)
                         ->orderBy('created_at', 'asc')
-                        ->paginate($perPage, ['*'], 'page', $currentPage);
+                        ->get();
 
         // Mark as read
         Message::where('client_id', $client_id)
@@ -111,12 +102,8 @@ class MessageController extends Controller
                     'user_name' => $user->name,
                     'is_employee' => $user->is_employee,
                     'user_image' => $user->image,
-                    'has_more' => $messages->currentPage() > 1,
-                    'is_initial' => !request()->has('page')
                 ])->render(),
-                'has_more' => $messages->currentPage() > 1, // Can load more if not on first page
-                'next_page' => $messages->currentPage() - 1, // Go to previous page
-                'is_initial' => !request()->has('page') // Flag for initial load
+                'user_name' => $user->name
             ]);
         }
 
