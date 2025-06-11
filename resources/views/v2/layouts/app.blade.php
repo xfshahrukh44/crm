@@ -214,7 +214,7 @@
                         </li>
                     @endif
 
-                    @if(in_array($user_role_id, [2]))
+                    @if(in_array($user_role_id, [2, 6]))
                         <li>
                             <a href="{{route('v2.invoices.admin.invoices')}}" class="{{ request()->routeIs('v2.invoices.admin.invoices') ? 'active' : '' }}">
                                 Admin invoices
@@ -222,7 +222,7 @@
                         </li>
                     @endif
 
-                    @if(in_array($user_role_id, [2]))
+                    @if(in_array($user_role_id, [2, 6]))
                         <li>
                             <a href="{{route('v2.leads')}}" class="{{ request()->routeIs('v2.leads') || request()->routeIs('v2.leads.create') || request()->routeIs('v2.leads.edit') || request()->routeIs('v2.leads.show') ? 'active' : '' }}">
                                 Leads
@@ -230,7 +230,7 @@
                         </li>
                     @endif
 
-                    @if(in_array($user_role_id, [2]))
+                    @if(in_array($user_role_id, [2, 6]))
                         <li>
                             <a href="{{route('v2.briefs.pending')}}" class="{{ request()->routeIs('v2.briefs.pending') ? 'active' : '' }}">
                                 Briefs pending

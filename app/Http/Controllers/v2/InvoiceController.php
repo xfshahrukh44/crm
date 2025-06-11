@@ -43,11 +43,10 @@ class InvoiceController extends Controller
             return redirect()->back()->with('error', 'Access denied.');
         }
 
-        $brands = \Illuminate\Support\Facades\DB::table('brands')
-            ->when(!v2_acl([2]), function ($q) {
-                return $q->whereIn('id', auth()->user()->brand_list());
-            })
-            ->get();
+        $brands = $this->getBrands();
+
+        //restricted brand access
+        $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
 
         $invoices = Invoice::orderBy('id', 'desc')
             ->when(!v2_acl([2]), function ($q) {
@@ -83,6 +82,14 @@ class InvoiceController extends Controller
             })
             ->when($request->has('client_id'), function ($q) use ($request) {
                 return $q->where('client_id', $request->get('client_id'));
+            })->when(!v2_acl([2]) && !empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
+                });
             })->paginate(10);
 
         return view('v2.invoice.index', compact('invoices', 'brands'));
@@ -105,17 +112,9 @@ class InvoiceController extends Controller
             }
         }
 
-        $brands = Brand::when(auth()->user()->is_employee != 2, function ($q) {
-            return $q->whereIn('id', Auth()->user()->brand_list());
-        })->get();
+        $brands = $this->getBrands();
         $services = Service::all();
-
-        $sale_agents = User::whereIn('is_employee', [0, 4, 6])
-            ->whereIn('id', array_unique(DB::table('brand_users')->where('brand_id', $user->brand_id)->pluck('user_id')->toArray()))
-            ->when(!v2_acl([2]), function ($q) {
-                return $q->where('is_employee', '!=', 6);
-            })
-            ->get();
+        $sale_agents = $this->getSaleAgents();
 
         return view('v2.invoice.create', compact('brands', 'user', 'services', 'sale_agents'));
     }
@@ -601,9 +600,7 @@ class InvoiceController extends Controller
             return redirect()->back()->with('error', 'Access denied.');
         }
 
-        $brands = Brand::when(auth()->user()->is_employee != 2, function ($q) {
-            return $q->whereIn('id', Auth()->user()->brand_list());
-        })->get();
+        $brands = $this->getBrands();
 
         //restricted brand access
         $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
@@ -685,16 +682,8 @@ class InvoiceController extends Controller
 
         $invoices = $invoices->paginate(10);
 
-        $brands = Brand::when(auth()->user()->is_employee != 2, function ($q) {
-            return $q->whereIn('id', Auth()->user()->brand_list());
-        })->get();
-        $sale_agents = User::whereIn('is_employee', [0, 4, 6])
-            ->when(!v2_acl([2]), function ($q) {
-                return $q->whereIn('id', array_unique(
-                    DB::table('brand_users')->whereIn('brand_id', auth()->user()->brand_list())->pluck('user_id')->toArray()
-                ))->where('is_employee', '!=', 6);
-            })
-            ->get();
+        $brands = $this->getBrands();
+        $sale_agents = $this->getSaleAgents();
         $merchants = get_my_merchants();
 
         return view('v2.invoice.salesheet', compact('invoices', 'amount', 'refund', 'net', 'brands', 'sale_agents', 'merchants'));
@@ -702,14 +691,14 @@ class InvoiceController extends Controller
 
     public function adminInvoices (Request $request)
     {
-        if (!v2_acl([2])) {
+        if (!v2_acl([2, 6])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
         $selected_month = $request->get('month') ?? null;
         $request->merge(['month' => $selected_month]);
 
-        $brands = Brand::all();
+        $brands = $this->getBrands();
         $admin_invoices = AdminInvoice::orderBy('date', 'DESC')
             ->when($request->has('brand_name') && $request->get('brand_name') != '', function ($q) use ($request) {
                 return $q->where('department', $request->get('brand_name'));
@@ -717,8 +706,32 @@ class InvoiceController extends Controller
             ->when($selected_month, function ($q) use($selected_month) {
                 return $q->whereMonth('date', '=', $selected_month);
             })
+            ->when(!v2_acl([2]), function ($q) {
+                $brand_names = Brand::whereIn('id', auth()->user()->brand_list())->pluck('name')->toArray();
+                return $q->whereIn('brand_name', $brand_names);
+            })
             ->paginate(10);
 
         return view('v2.invoice.admin-invoices', compact('admin_invoices', 'brands'));
+    }
+
+    public function getBrands ()
+    {
+        return \Illuminate\Support\Facades\DB::table('brands')
+            ->when(!v2_acl([2]), function ($q) {
+                return $q->whereIn('id', auth()->user()->brand_list());
+            })
+            ->get();
+    }
+
+    public function getSaleAgents ()
+    {
+        return DB::table('users')->whereIn('is_employee', [0, 4, 6])
+            ->when(!v2_acl([2]), function ($q) {
+                return $q->whereIn('id', array_unique(
+                    DB::table('brand_users')->whereIn('brand_id', auth()->user()->brand_list())->pluck('user_id')->toArray()
+                ))->where('is_employee', '!=', 6);
+            })
+            ->get();
     }
 }
