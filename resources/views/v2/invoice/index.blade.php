@@ -33,97 +33,95 @@
 
 @section('content')
     <div class="for-slider-main-banner">
-        @switch($user_role_id)
-            @case(2)
-                <section class="list-0f">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="list-0f-head for-invoice-listing table-responsive">
-                                    <div class="row text-left pr-3 pb-2">
-                                        <div class="col-md-12 m-auto d-flex justify-content-start pt-2">
-                                            <h1 style="font-weight: 100;">Invoices</h1>
-                                        </div>
-{{--                                        <div class="col-md-6 m-auto d-flex justify-content-end">--}}
-{{--                                            <a href="{{route('v2.invoices.create')}}" class="btn btn-sm btn-success">--}}
-{{--                                                <i class="fas fa-plus"></i>--}}
-{{--                                                Create--}}
-{{--                                            </a>--}}
-{{--                                        </div>--}}
-                                    </div>
+        <section class="list-0f">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="list-0f-head for-invoice-listing table-responsive">
+                            <div class="row text-left pr-3 pb-2">
+                                <div class="col-md-12 m-auto d-flex justify-content-start pt-2">
+                                    <h1 style="font-weight: 100;">Invoices</h1>
+                                </div>
+                                {{--                                        <div class="col-md-6 m-auto d-flex justify-content-end">--}}
+                                {{--                                            <a href="{{route('v2.invoices.create')}}" class="btn btn-sm btn-success">--}}
+                                {{--                                                <i class="fas fa-plus"></i>--}}
+                                {{--                                                Create--}}
+                                {{--                                            </a>--}}
+                                {{--                                        </div>--}}
+                            </div>
 
-                                    <br>
+                            <br>
 
-                                    <form class="search-invoice" action="{{route('v2.invoices')}}" method="GET">
-                                        <input type="text" name="package" placeholder="Search package" value="{{ request()->get('package') }}">
-                                        <input type="text" name="invoice" placeholder="Search Invoice Number" value="{{ request()->get('invoice') }}">
-                                        <input type="text" name="customer" placeholder="Search Customer Name" value="{{ request()->get('customer') }}">
-                                        <input type="text" name="agent" placeholder="Search Agent Name" value="{{ request()->get('agent') }}">
-                                        <select name="brand" id="brand" class="select2">
-                                            <option value="">Select Brand</option>
-                                            @foreach($brands as $brand)
-                                                <option value="{{$brand->id}}" {{ request()->get('brand') ==  $brand->id ? 'selected' : ' '}}>{{$brand->name}}</option>
-                                            @endforeach
-                                        </select>
-                                        <select name="status" id="status">
-                                            <option value="0" {{ request()->get('status') ==  "0" ? 'selected' : ''}}>Any</option>
-                                            <option value="2" {{ request()->get('status') ==  "2" ? 'selected' : ''}}>Paid</option>
-                                            <option value="1" {{ request()->get('status') ==  "1" ? 'selected' : ''}}>Unpaid</option>
-                                        </select>
-                                        <a href="javascript:;" onclick="document.getElementById('btn_filter_form').click()">Search Result</a>
-                                        <button hidden id="btn_filter_form" type="submit"></button>
-                                    </form>
+                            <form class="search-invoice" action="{{route('v2.invoices')}}" method="GET">
+                                <input type="text" name="package" placeholder="Search package" value="{{ request()->get('package') }}">
+                                <input type="text" name="invoice" placeholder="Search Invoice Number" value="{{ request()->get('invoice') }}">
+                                <input type="text" name="customer" placeholder="Search Customer Name" value="{{ request()->get('customer') }}">
+                                <input type="text" name="agent" placeholder="Search Agent Name" value="{{ request()->get('agent') }}">
+                                <select name="brand" id="brand" class="select2">
+                                    <option value="">Select Brand</option>
+                                    @foreach($brands as $brand)
+                                        <option value="{{$brand->id}}" {{ request()->get('brand') ==  $brand->id ? 'selected' : ' '}}>{{$brand->name}}</option>
+                                    @endforeach
+                                </select>
+                                <select name="status" id="status">
+                                    <option value="0" {{ request()->get('status') ==  "0" ? 'selected' : ''}}>Status</option>
+                                    <option value="2" {{ request()->get('status') ==  "2" ? 'selected' : ''}}>Paid</option>
+                                    <option value="1" {{ request()->get('status') ==  "1" ? 'selected' : ''}}>Unpaid</option>
+                                </select>
+                                <a href="javascript:;" onclick="document.getElementById('btn_filter_form').click()">Search Result</a>
+                                <button hidden id="btn_filter_form" type="submit"></button>
+                            </form>
 
-                                    <table id="zero_configuration_table" style="width: 100%;">
-                                        <thead>
+                            <table id="zero_configuration_table" style="width: 100%;">
+                                <thead>
 
-                                            <th>ID</th>
-                                            <th>Package Name</th>
-                                            <th>User Name</th>
-                                            <th>Agent Name</th>
-                                            <th>Brand</th>
-                                            <th>Amount</th>
-                                            <th>Status</th>
-                                            <th>Date</th>
-                                            <th>Action</th>
+                                <th>ID</th>
+                                <th>Package Name</th>
+                                <th>User Name</th>
+                                <th>Agent Name</th>
+                                <th>Brand</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Action</th>
 
-                                        </thead>
-                                        <tbody>
-                                            @foreach($invoices as $invoice)
-                                                <tr>
-                                                    <td>{{$invoice->id}}</td>
-                                                    <td>
-                                                        @if($invoice->package == 0)
-                                                            {{ $invoice->custom_package }}
-                                                        @else
-                                                            {{ $invoice->package }}
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        {{ $invoice->client->name }} {{ $invoice->client->last_name }}
-                                                        <br>
-                                                        <a href="javascript:void(0);" class="badge badge-sm bg-dark p-2 text-white btn_click_to_view">
-                                                            <i class="fas fa-eye"></i>
-                                                            View email
-                                                        </a>
-                                                        <span class="content_click_to_view" hidden>
+                                </thead>
+                                <tbody>
+                                @foreach($invoices as $invoice)
+                                    <tr>
+                                        <td>{{$invoice->id}}</td>
+                                        <td>
+                                            @if($invoice->package == 0)
+                                                {{ $invoice->custom_package }}
+                                            @else
+                                                {{ $invoice->package }}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            {{ $invoice->client->name }} {{ $invoice->client->last_name }}
+                                            <br>
+                                            <a href="javascript:void(0);" class="badge badge-sm bg-dark p-2 text-white btn_click_to_view">
+                                                <i class="fas fa-eye"></i>
+                                                View email
+                                            </a>
+                                            <span class="content_click_to_view" hidden>
                                                             {{ $invoice->client->email }}
                                                         </span>
-                                                    </td>
-                                                    <td>
-                                                        @if($invoice->sales_agent_id != 0)
-                                                            {{ $invoice->sale->name }} {{ $invoice->sale->last_name }}
-                                                        @else
-                                                            From Website
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        <button class="btn btn-info btn-sm">{{$invoice->brands->name ?? ''}}</button>
-                                                    </td>
-                                                    <td>
-                                                        <b>${{round($invoice->amount)}}</b>
-                                                    </td>
-                                                    <td>
+                                        </td>
+                                        <td>
+                                            @if($invoice->sales_agent_id != 0)
+                                                {{ $invoice->sale->name }} {{ $invoice->sale->last_name }}
+                                            @else
+                                                From Website
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-info btn-sm">{{$invoice->brands->name ?? ''}}</button>
+                                        </td>
+                                        <td>
+                                            <b>${{round($invoice->amount)}}</b>
+                                        </td>
+                                        <td>
                                                         <span class="">
                                                             @if($invoice->payment_status == 1)
                                                                 <span class="text-danger">Unpaid</span>
@@ -138,117 +136,56 @@
                                                                 </form>
                                                             @endif
                                                         </span>
-                                                    </td>
-                                                    <td>
-                                                        {{\Carbon\Carbon::parse($invoice->created_at)->format('d M y h:i A')}}
-                                                    </td>
+                                        </td>
+                                        <td>
+                                            {{\Carbon\Carbon::parse($invoice->created_at)->format('d M y h:i A')}}
+                                        </td>
 
-                                                    <td style="position: relative;">
-                                                        <!-- Single Action Button -->
-                                                        <button type="button" class="badge badge-sm bg-light p-2" style="border: 0px;" onclick="toggleClientActions({{ $invoice->id }})">
-                                                            <i class="fas fa-bars"></i>
-                                                        </button>
+                                        <td style="position: relative;">
+                                            <!-- Single Action Button -->
+                                            {{--                                                            <a href="{{ route('v2.invoices.edit', $invoice->id) }}" class="badge bg-primary badge-icon badge-sm text-white p-2">--}}
+                                            {{--                                                                <span class="ul-btn__icon"><i class="i-Edit"></i></span>--}}
+                                            {{--                                                                <span class="ul-btn__text">--}}
+                                            {{--                                                                    <i class="fas fa-pencil"></i>--}}
+                                            {{--                                                                </span>--}}
+                                            {{--                                                            </a>--}}
 
-                                                        <!-- Hidden Popup Box -->
-                                                        <div id="clientActionsBox_{{ $invoice->id }}" class="client-actions-box text-center d-none">
-{{--                                                            <a href="{{ route('v2.invoices.edit', $invoice->id) }}" class="badge bg-primary badge-icon badge-sm text-white p-2">--}}
-{{--                                                                <span class="ul-btn__icon"><i class="i-Edit"></i></span>--}}
-{{--                                                                <span class="ul-btn__text">--}}
-{{--                                                                    <i class="fas fa-pencil"></i>--}}
-{{--                                                                </span>--}}
-{{--                                                            </a>--}}
+                                            <a href="{{ route('v2.invoices.show', $invoice->id) }}" class="badge bg-dark badge-icon badge-sm text-white p-2">
+                                                <span class="ul-btn__icon"><i class="i-Eyeglasses-Smiley"></i></span>
+                                                <span class="ul-btn__text">
+                                                    <i class="fas fa-eye"></i>
+                                                </span>
+                                            </a>
 
-                                                            <a href="{{ route('v2.invoices.show', $invoice->id) }}" class="badge bg-dark badge-icon badge-sm text-white p-2">
-                                                                <span class="ul-btn__icon"><i class="i-Eyeglasses-Smiley"></i></span>
-                                                                <span class="ul-btn__text">
-                                                                    <i class="fas fa-eye"></i>
-                                                                </span>
-                                                            </a>
+                                            {{--                                                            <a href="#" onclick="event.preventDefault(); document.getElementById('invoice_delete_form_{{$invoice->id}}').submit();" class="badge bg-danger badge-icon badge-sm text-white p-2">--}}
+                                            {{--                                                                <i class="fas fa-trash"></i>--}}
+                                            {{--                                                            </a>--}}
+                                            {{--                                                            <form hidden id="invoice_delete_form_{{$invoice->id}}" method="POST" action="{{route('admin.client.destroy', $invoice->id) }}">--}}
+                                            {{--                                                                {{ method_field('DELETE') }}--}}
+                                            {{--                                                                {{ csrf_field() }}--}}
+                                            {{--                                                            </form>--}}
 
-{{--                                                            <a href="#" onclick="event.preventDefault(); document.getElementById('invoice_delete_form_{{$invoice->id}}').submit();" class="badge bg-danger badge-icon badge-sm text-white p-2">--}}
-{{--                                                                <i class="fas fa-trash"></i>--}}
-{{--                                                            </a>--}}
-{{--                                                            <form hidden id="invoice_delete_form_{{$invoice->id}}" method="POST" action="{{route('admin.client.destroy', $invoice->id) }}">--}}
-{{--                                                                {{ method_field('DELETE') }}--}}
-{{--                                                                {{ csrf_field() }}--}}
-{{--                                                            </form>--}}
+                                            {{--                                                            <a href="javascript:void(0);" class="badge bg-warning badge-icon badge-sm p-2 btn_open_notes" id="btn_open_notes_{{$invoice->id}}"--}}
+                                            {{--                                                               data-id="{{$invoice->id}}"--}}
+                                            {{--                                                               data-content="{{$invoice->comments}}"--}}
+                                            {{--                                                               data-modifier-check="{{($invoice->comments !== '' && !is_null($invoice->comments_id) && !is_null($invoice->comments_timestamp)) ? '1' : '0'}}"--}}
+                                            {{--                                                               data-modifier="{{($invoice->commenter->name ?? '') . ' ' . ($invoice->commenter->last_name ?? '') . ' ('.\Carbon\Carbon::parse($invoice->comments_timestamp)->format('d M Y h:i A').')'}}">--}}
 
-{{--                                                            <a href="javascript:void(0);" class="badge bg-warning badge-icon badge-sm p-2 btn_open_notes" id="btn_open_notes_{{$invoice->id}}"--}}
-{{--                                                               data-id="{{$invoice->id}}"--}}
-{{--                                                               data-content="{{$invoice->comments}}"--}}
-{{--                                                               data-modifier-check="{{($invoice->comments !== '' && !is_null($invoice->comments_id) && !is_null($invoice->comments_timestamp)) ? '1' : '0'}}"--}}
-{{--                                                               data-modifier="{{($invoice->commenter->name ?? '') . ' ' . ($invoice->commenter->last_name ?? '') . ' ('.\Carbon\Carbon::parse($invoice->comments_timestamp)->format('d M Y h:i A').')'}}">--}}
-
-{{--                                                                <span class="ul-btn__icon"><i class="fas fa-quote-right"></i></span>--}}
-{{--                                                            </a>--}}
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                    <div class="d-flex justify-content-end mt-2">
-                                        {{ $invoices->appends(request()->query())->links() }}
-                                    </div>
-                                </div>
+                                            {{--                                                                <span class="ul-btn__icon"><i class="fas fa-quote-right"></i></span>--}}
+                                            {{--                                                            </a>--}}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                            <div class="d-flex justify-content-end mt-2">
+                                {{ $invoices->appends(request()->query())->links() }}
                             </div>
                         </div>
                     </div>
-                </section>
-
-                @break
-
-            @default
-                <section class="list-0f">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="list-0f-head for-invoice-listing">
-                                    <table>
-                                        <thead>
-
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Public key</th>
-                                        <th>Secret key</th>
-                                        <th>Merchant</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-
-                                        </thead>
-                                        <tbody>
-
-                                        <tr>
-                                            <td>123</td>
-                                            <td>Merchant 1</td>
-                                            <td>
-                                                sadasdsadasdsadakjdyihd18272bd871bd82b
-                                            </td>
-                                            <td>
-                                                sadasdsadasdsadakjdyihd18272bd871bd82b
-                                            </td>
-                                            <td>
-                                                <div class="badge badge-sm bg-secondary text-white">STRIPE</div>
-                                            </td>
-                                            <td>
-                                                <div class="badge badge-sm bg-danger text-white">Deactive</div>
-                                            </td>
-                                            <td>
-                                                <a href="#" class="badge bg-primary">
-                                                    <i class="fas fa-pencil"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-        @endswitch
+                </div>
+            </div>
+        </section>
     </div>
 @endsection
 
@@ -411,7 +348,7 @@
                     }
                     $.ajax({
                         type:'POST',
-                        url: "{{ route('admin.client.createauth') }}",
+                        url: "{{ route('v2.clients.create.auth') }}",
                         data: {id: id, pass:inputValue},
                         success:function(data) {
                             if(data.success == true){
@@ -457,7 +394,7 @@
 
                     $.ajax({
                         type:'POST',
-                        url: "{{ route('admin.client.updateauth') }}",
+                        url: "{{ route('v2.clients.update.auth') }}",
                         data: {id: id, pass:inputValue},
                         success:function(data) {
                             if(data.success == true){
