@@ -198,7 +198,7 @@
                         </li>
                     @endif
 
-                    @if(in_array($user_role_id, [2]))
+                    @if(in_array($user_role_id, [2, 6]))
                         <li>
                             <a href="{{route('v2.invoices.refund.cb')}}" class="{{ request()->routeIs('v2.invoices.refund.cb') ? 'active' : '' }}">
                                 Refund/CB
@@ -206,7 +206,7 @@
                         </li>
                     @endif
 
-                    @if(in_array($user_role_id, [2]))
+                    @if(in_array($user_role_id, [2, 6]))
                         <li>
                             <a href="{{route('v2.invoices.sales.sheet')}}" class="{{ request()->routeIs('v2.invoices.sales.sheet') ? 'active' : '' }}">
                                 Sales sheet

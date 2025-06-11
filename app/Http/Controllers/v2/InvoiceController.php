@@ -313,7 +313,7 @@ class InvoiceController extends Controller
 
     public function show (Request $request, $id)
     {
-        if (!v2_acl([2])) {
+        if (!v2_acl([2, 6])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -321,19 +321,29 @@ class InvoiceController extends Controller
             return redirect()->back()->with('error', 'Not found.');
         }
 
+        //non admin checks
+        if (!v2_acl([2])) {
+            if (!in_array($invoice->brand, auth()->user()->brand_list())) {
+                return redirect()->back()->with('error', 'Not allowed.');
+            }
+        }
+
         return view('v2.invoice.show', compact('invoice'));
     }
 
     public function markPaid (Request $request, $id)
     {
-        if (!v2_acl([2])) {
+        if (!v2_acl([2, 6])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
         $invoice = Invoice::find($id);
 
-        if (!v2_acl([2]) && !in_array($invoice->brand, auth()->user()->brand_list())) {
-            return redirect()->back()->with('error', 'Not allowed.');
+        //non admin checks
+        if (!v2_acl([2])) {
+            if (!in_array($invoice->brand, auth()->user()->brand_list())) {
+                return redirect()->back()->with('error', 'Not allowed.');
+            }
         }
 
         if (!$user = Client::find($invoice->client_id)) {
@@ -587,13 +597,21 @@ class InvoiceController extends Controller
 
     public function refundCB (Request $request)
     {
-        if (!v2_acl([2])) {
+        if (!v2_acl([2, 6])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
-        $brands = Brand::all();
+        $brands = Brand::when(auth()->user()->is_employee != 2, function ($q) {
+            return $q->whereIn('id', Auth()->user()->brand_list());
+        })->get();
+
+        //restricted brand access
+        $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
 
         $invoices = Invoice::whereNotNull('refund_cb_date')
+            ->when(!v2_acl([2]), function ($q) {
+                return $q->whereIn('brand', auth()->user()->brand_list());
+            })
             ->when(request()->has('invoice_number') && request()->get('invoice_number') != '', function ($q) {
                 return $q->where(function ($q) {
                     return $q->where('invoice_number', request()->get('invoice_number'))
@@ -603,6 +621,14 @@ class InvoiceController extends Controller
                 return $q->where('refunded_cb', request()->get('refunded_cb'));
             })->when(request()->has('refund_cb_date') && request()->get('refund_cb_date') != '', function ($q) {
                 return $q->whereDate('refund_cb_date', Carbon::parse(request()->get('refund_cb_date')));
+            })->when(!v2_acl([2]) && !empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
+                });
             })->paginate(10);
 
         return view('v2.invoice.refundcb', compact('invoices', 'brands'));
@@ -610,7 +636,7 @@ class InvoiceController extends Controller
 
     public function salesSheet (Request $request)
     {
-        if (!v2_acl([2])) {
+        if (!v2_acl([2, 6])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -620,6 +646,9 @@ class InvoiceController extends Controller
         $request->merge(['year' => $selected_year]);
 
         $invoices = Invoice::orderBy('created_at', 'DESC')
+            ->when(!v2_acl([2]), function ($q) {
+                return $q->whereIn('brand', auth()->user()->brand_list());
+            })
             ->when($selected_month, function ($q) use($selected_month) {
                 return $q->whereMonth('created_at', '=', $selected_month);
             })
@@ -638,6 +667,18 @@ class InvoiceController extends Controller
 //            ->whereYear('created_at', '=', Carbon::now()->year)
             ->orderBy('created_at', 'DESC');
 
+        //restricted brand access
+        $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+        $invoices->when(!v2_acl([2]) && !empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
+            return $q->where(function ($query) use ($restricted_brands) {
+                $query->whereNotIn('brand', $restricted_brands)
+                    ->orWhere(function ($subQuery) use ($restricted_brands) {
+                        $subQuery->whereIn('brand', $restricted_brands)
+                            ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                    });
+            });
+        });
+
         $amount = $invoices->sum('amount');
         $refund = $invoices->sum('refunded_cb');
         $net = $amount - $refund;
@@ -651,7 +692,7 @@ class InvoiceController extends Controller
             ->when(!v2_acl([2]), function ($q) {
                 return $q->whereIn('id', array_unique(
                     DB::table('brand_users')->whereIn('brand_id', auth()->user()->brand_list())->pluck('user_id')->toArray()
-                ));
+                ))->where('is_employee', '!=', 6);
             })
             ->get();
         $merchants = get_my_merchants();
