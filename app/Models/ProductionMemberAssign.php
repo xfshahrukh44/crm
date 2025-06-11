@@ -43,7 +43,7 @@ class ProductionMemberAssign extends Model
         }else if($status == 4){
             return "<button class='btn btn-warning btn-sm'>In Progress</button>";
         }else if($status == 5){
-            return "<button class='btn btn-info btn-sm'>Sent for Approval</button>";
+            return "<button class='btn btn-info btn-sm'>Sent for ".auth()->user()->is_employee == 5 ? 'Review' : 'Approval'."</button>";
         }else if($status == 6){
             return "<button class='btn btn-warning btn-sm'>Incomplete Brief</button>";
         }
