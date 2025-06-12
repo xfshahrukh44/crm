@@ -34,7 +34,7 @@ class ClientController extends Controller
 {
     public function index (Request $request)
     {
-        if (!v2_acl([2, 6, 4])) {
+        if (!v2_acl([2, 6, 4, 0])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -49,11 +49,14 @@ class ClientController extends Controller
 
         $clients = \App\Models\Client::orderBy('priority', 'ASC')
             ->orderBy('id', 'desc')
-            ->when(!v2_acl([2]), function ($q) {
+            ->when(!v2_acl([2]) && !v2_acl([0]), function ($q) {
                 return $q->whereIn('brand_id', auth()->user()->brand_list());
             })
             ->when(user_is_cs(), function ($q) {
                 return $q->whereIn('id', $this->getClientIDs());
+            })
+            ->when(v2_acl([0]), function ($q) {
+                return $q->where('user_id', auth()->id());
             })
             ->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
                 return $q->where(function ($query) use ($restricted_brands) {
@@ -111,7 +114,7 @@ class ClientController extends Controller
 
     public function create (Request $request)
     {
-        if (!v2_acl([2, 6, 4]) || user_is_cs()) {
+        if (!v2_acl([2, 6, 4, 0]) || user_is_cs()) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -126,7 +129,7 @@ class ClientController extends Controller
 
     public function store (Request $request)
     {
-        if (!v2_acl([2, 6, 4]) || user_is_cs()) {
+        if (!v2_acl([2, 6, 4, 0]) || user_is_cs()) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -173,7 +176,7 @@ class ClientController extends Controller
 
     public function edit (Request $request, $id)
     {
-        if (!v2_acl([2, 6, 4])) {
+        if (!v2_acl([2, 6, 4, 0])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -181,8 +184,15 @@ class ClientController extends Controller
             return redirect()->back()->with('error', 'Not found.');
         }
 
-        if (user_is_cs() && !in_array($client->id, $this->getClientIDs())) {
-            return redirect()->back()->with('error', 'Not allowed.');
+        //non admin checks
+        if (!v2_acl([2])) {
+            if (user_is_cs() && !in_array($client->id, $this->getClientIDs())) {
+                return redirect()->back()->with('error', 'Not allowed.');
+            }
+
+            if (v2_acl([0]) && $client->user_id != auth()->id()) {
+                return redirect()->back()->with('error', 'Not allowed.');
+            }
         }
 
         $brands = \Illuminate\Support\Facades\DB::table('brands')
@@ -196,7 +206,7 @@ class ClientController extends Controller
 
     public function update (Request $request, $id)
     {
-        if (!v2_acl([2, 6, 4])) {
+        if (!v2_acl([2, 6, 4, 0])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -218,10 +228,14 @@ class ClientController extends Controller
             if (!in_array($request->get('brand_id'), auth()->user()->brand_list())) {
                 return redirect()->back()->with('error', 'Not allowed.');
             }
-        }
 
-        if (user_is_cs() && !in_array($client->id, $this->getClientIDs())) {
-            return redirect()->back()->with('error', 'Not allowed.');
+            if (user_is_cs() && !in_array($client->id, $this->getClientIDs())) {
+                return redirect()->back()->with('error', 'Not allowed.');
+            }
+
+            if (v2_acl([0]) && $client->user_id != auth()->id()) {
+                return redirect()->back()->with('error', 'Not allowed.');
+            }
         }
 
         $client->update($request->all());
@@ -231,7 +245,7 @@ class ClientController extends Controller
 
     public function show (Request $request, $id)
     {
-        if (!v2_acl([2, 6, 4])) {
+        if (!v2_acl([2, 6, 4, 0])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -241,13 +255,18 @@ class ClientController extends Controller
 
         //non admin checks
         if (!v2_acl([2])) {
-            if (!in_array($client->brand_id, auth()->user()->brand_list())) {
+//            if (!in_array($client->brand_id, auth()->user()->brand_list()) && !v2_acl([0])) {
+            if (!v2_acl([0]) && !in_array($client->brand_id, auth()->user()->brand_list())) {
                 return redirect()->back()->with('error', 'Not allowed.');
             }
-        }
 
-        if (user_is_cs() && !in_array($client->id, $this->getClientIDs())) {
-            return redirect()->back()->with('error', 'Not allowed.');
+            if (user_is_cs() && !in_array($client->id, $this->getClientIDs())) {
+                return redirect()->back()->with('error', 'Not allowed.');
+            }
+
+            if (v2_acl([0]) && $client->user_id != auth()->id()) {
+                return redirect()->back()->with('error', 'Not allowed.');
+            }
         }
 
         $invoices = \App\Models\Invoice::where('client_id', $client->id)->orderBy('created_at', 'DESC')->get();

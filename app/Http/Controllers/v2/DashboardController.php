@@ -12,7 +12,7 @@ class DashboardController extends Controller
 {
     public function dashboard (Request $request)
     {
-        if (!v2_acl([2, 6, 4])) {
+        if (!v2_acl([2, 6, 4, 0])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 

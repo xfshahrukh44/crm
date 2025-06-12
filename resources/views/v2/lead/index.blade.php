@@ -43,10 +43,12 @@
                                     <h1 style="font-weight: 100;">Leads</h1>
                                 </div>
                                 <div class="col-md-6 m-auto d-flex justify-content-end">
-                                    <a href="{{route('v2.leads.create')}}" class="btn btn-sm btn-success">
-                                        <i class="fas fa-plus"></i>
-                                        Create
-                                    </a>
+                                    @if(v2_acl([2, 6]))
+                                        <a href="{{route('v2.leads.create')}}" class="btn btn-sm btn-success">
+                                            <i class="fas fa-plus"></i>
+                                            Create
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
 
