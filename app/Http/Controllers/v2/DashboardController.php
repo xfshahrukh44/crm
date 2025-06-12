@@ -12,7 +12,7 @@ class DashboardController extends Controller
 {
     public function dashboard (Request $request)
     {
-        if (!v2_acl([2, 6])) {
+        if (!v2_acl([2, 6, 4])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -205,11 +205,10 @@ class DashboardController extends Controller
         $user_ids = get_project_client_user_ids();
 
         $client_users_with_pending_projects = User::whereIn('id', $user_ids)
-//            ->when($request->has('user_id'), function ($q) use ($request) {
-//                return $q->where('id', $request->get('user_id'));
-//            })
             ->when($request->has('client_name') && $request->get('client_name') != '', function ($q) use ($request) {
-                return get_user_search($q, $request->get('client_name'));
+                return $q->where(function ($q) {
+                    return get_user_search($q, request()->get('client_name'));
+                });
             })
             ->orderBy('created_at', 'DESC')->paginate(10);
 

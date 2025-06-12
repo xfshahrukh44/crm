@@ -33,168 +33,116 @@
 
 @section('content')
     <div class="for-slider-main-banner">
-        @switch($user_role_id)
-            @case(2)
-                <section class="list-0f">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="list-0f-head for-invoice-listing table-responsive">
-                                    <div class="row text-left pr-3 pb-2">
-                                        <div class="col-md-6 m-auto d-flex justify-content-start pt-2">
-                                            <h1 style="font-weight: 100;">Sales</h1>
-                                        </div>
-                                        <div class="col-md-6 m-auto d-flex justify-content-end">
-                                            <a href="{{route('v2.users.sales.create')}}" class="btn btn-sm btn-success">
-                                                <i class="fas fa-plus"></i>
-                                                Create
-                                            </a>
-                                        </div>
-                                    </div>
+        <section class="list-0f">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="list-0f-head for-invoice-listing table-responsive">
+                            <div class="row text-left pr-3 pb-2">
+                                <div class="col-md-6 m-auto d-flex justify-content-start pt-2">
+                                    <h1 style="font-weight: 100;">Sale Agent</h1>
+                                </div>
+                                <div class="col-md-6 m-auto d-flex justify-content-end">
+                                    <a href="{{route('v2.users.sales.create')}}" class="btn btn-sm btn-success">
+                                        <i class="fas fa-plus"></i>
+                                        Create
+                                    </a>
+                                </div>
+                            </div>
 
-                                    <br>
+                            <br>
 
-{{--                                    <div class="search-invoice">--}}
-                                    <form class="search-invoice" action="{{route('v2.users.sales')}}" method="GET">
-                                        <input type="text" name="search" placeholder="Search" value="{{ request()->get('search') }}">
+                            {{--                                    <div class="search-invoice">--}}
+                            <form class="search-invoice" action="{{route('v2.users.sales')}}" method="GET">
+                                <input type="text" name="search" placeholder="Search" value="{{ request()->get('search') }}">
 
-                                        <a href="javascript:;" onclick="document.getElementById('btn_filter_form').click()">Search Result</a>
-                                        <button hidden id="btn_filter_form" type="submit"></button>
-                                    </form>
-{{--                                    </div>--}}
+                                <a href="javascript:;" onclick="document.getElementById('btn_filter_form').click()">Search Result</a>
+                                <button hidden id="btn_filter_form" type="submit"></button>
+                            </form>
+                            {{--                                    </div>--}}
 
-                                    <table id="zero_configuration_table" style="width: 100%;">
-                                        <thead>
+                            <table id="zero_configuration_table" style="width: 100%;">
+                                <thead>
 
-                                            <th>ID</th>
-                                            <th>Full Name</th>
-                                            <th>Role</th>
-                                            <th>Brand</th>
-                                            <th>Email</th>
-                                            <th>Status</th>
-                                            <th>Reset Password</th>
-                                            <th>Login</th>
-                                            <th>Last login IP</th>
-                                            <th>Device info</th>
-                                            <th>Action</th>
+                                <th>ID</th>
+                                <th>Full Name</th>
+                                <th>Role</th>
+                                <th>Brand</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Reset Password</th>
+                                @if(v2_acl([2]))
+                                    <th>Login</th>
+                                    <th>Last login IP</th>
+                                    <th>Device info</th>
+                                @endif
+                                <th>Action</th>
 
-                                        </thead>
-                                        <tbody>
-                                            @foreach($users as $user)
-                                                <tr>
-                                                    <td>{{$user->id}}</td>
-                                                    <td>{{$user->name}} {{$user->last_name}}</td>
-                                                    <td>
-                                                        <button class="badge {{ $user->is_employee == 1 ? 'bg-dark' : 'bg-light' }} {{ $user->is_employee == 1 ? 'text-white' : '' }} p-2 btn-sm" style="border: 0px;">{{$user->get_role()}}</button>
-                                                    </td>
-                                                    <td>
-                                                        @if($user->brands != null)
-                                                            @foreach($user->brands as $brand)
-                                                                <button class="badge bg-info badge-sm text-white p-2" style="border: 0px;">{{$brand->name}}</button>
-                                                            @endforeach
-                                                        @endif
-                                                    </td>
-                                                    <td>{{$user->email}}</td>
-                                                    <td>
-                                                        @if($user->status == 1)
-                                                            <button class="badge bg-success text-white p-2 badge-sm" style="border: 0px;">Active</button>
-                                                        @else
-                                                            <button class="badge bg-danger text-white p-2 badge-sm" style="border: 0px;">Deactive</button>
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        <button class="badge bg-danger badge-sm update-password text-white p-2" style="border: 0px;" data-id="{{$user->id}}">Reset Password</button>
-                                                    </td>
-                                                    <td>
-                                                        <a class="badge bg-primary badge-sm text-white p-2" style="border: 0px;" href="{{route('admin.login_bypass', ['email' => $user->email])}}">Login as {{$user->name}} {{$user->last_name}}</a>
-                                                    </td>
-                                                    <td>{{$user->last_login_ip ?? ''}}</td>
-                                                    <td>
-                                                        @php
-                                                            $device = '';
-                                                        @endphp
-                                                        @if(!is_null($user->last_login_device))
-                                                            @php
-                                                                $device = explode(' (', $user->last_login_device)[1] ?? '';
-                                                                $device = explode(') ', $device)[0] ?? '';
-                                                            @endphp
-                                                        @endif
-                                                        {{$device}}
-                                                    </td>
-                                                    <td style="position: relative;">
-                                                        <a href="{{ route('v2.users.sales.edit', $user->id) }}" class="badge bg-primary badge-icon badge-sm text-white p-2">
-                                                            <span class="ul-btn__icon"><i class="i-Edit"></i></span>
-                                                            <span class="ul-btn__text">
+                                </thead>
+                                <tbody>
+                                @foreach($users as $user)
+                                    <tr>
+                                        <td>{{$user->id}}</td>
+                                        <td>{{$user->name}} {{$user->last_name}}</td>
+                                        <td>
+                                            <button class="badge {{ $user->is_employee == 1 ? 'bg-dark' : 'bg-light' }} {{ $user->is_employee == 1 ? 'text-white' : '' }} p-2 btn-sm" style="border: 0px;">{{$user->get_role()}}</button>
+                                        </td>
+                                        <td>
+                                            @if($user->brands != null)
+                                                @foreach($user->brands as $brand)
+                                                    <button class="badge bg-info badge-sm text-white p-2" style="border: 0px;">{{$brand->name}}</button>
+                                                @endforeach
+                                            @endif
+                                        </td>
+                                        <td>{{$user->email}}</td>
+                                        <td>
+                                            @if($user->status == 1)
+                                                <button class="badge bg-success text-white p-2 badge-sm" style="border: 0px;">Active</button>
+                                            @else
+                                                <button class="badge bg-danger text-white p-2 badge-sm" style="border: 0px;">Deactive</button>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <button class="badge bg-danger badge-sm update-password text-white p-2" style="border: 0px;" data-id="{{$user->id}}">Reset Password</button>
+                                        </td>
+                                        @if(v2_acl([2]))
+                                            <td>
+                                                <a class="badge bg-primary badge-sm text-white p-2" style="border: 0px;" href="{{route('admin.login_bypass', ['email' => $user->email])}}">Login as {{$user->name}} {{$user->last_name}}</a>
+                                            </td>
+                                            <td>{{$user->last_login_ip ?? ''}}</td>
+                                            <td>
+                                                @php
+                                                    $device = '';
+                                                @endphp
+                                                @if(!is_null($user->last_login_device))
+                                                    @php
+                                                        $device = explode(' (', $user->last_login_device)[1] ?? '';
+                                                        $device = explode(') ', $device)[0] ?? '';
+                                                    @endphp
+                                                @endif
+                                                {{$device}}
+                                            </td>
+                                        @endif
+                                        <td style="position: relative;">
+                                            <a href="{{ route('v2.users.sales.edit', $user->id) }}" class="badge bg-primary badge-icon badge-sm text-white p-2">
+                                                <span class="ul-btn__icon"><i class="i-Edit"></i></span>
+                                                <span class="ul-btn__text">
                                                                 <i class="fas fa-pencil"></i>
                                                             </span>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                    <div class="d-flex justify-content-end mt-2">
-                                        {{ $users->appends(request()->query())->links() }}
-                                    </div>
-                                </div>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                            <div class="d-flex justify-content-end mt-2">
+                                {{ $users->appends(request()->query())->links() }}
                             </div>
                         </div>
                     </div>
-                </section>
-
-                @break
-
-            @default
-                <section class="list-0f">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="list-0f-head for-invoice-listing">
-                                    <table>
-                                        <thead>
-
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Public key</th>
-                                        <th>Secret key</th>
-                                        <th>Merchant</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-
-                                        </thead>
-                                        <tbody>
-
-                                        <tr>
-                                            <td>123</td>
-                                            <td>Merchant 1</td>
-                                            <td>
-                                                sadasdsadasdsadakjdyihd18272bd871bd82b
-                                            </td>
-                                            <td>
-                                                sadasdsadasdsadakjdyihd18272bd871bd82b
-                                            </td>
-                                            <td>
-                                                <div class="badge badge-sm bg-secondary text-white">STRIPE</div>
-                                            </td>
-                                            <td>
-                                                <div class="badge badge-sm bg-danger text-white">Deactive</div>
-                                            </td>
-                                            <td>
-                                                <a href="#" class="badge bg-primary">
-                                                    <i class="fas fa-pencil"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-        @endswitch
+                </div>
+            </div>
+        </section>
     </div>
 
     <div class="modal fade text-left" id="default" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1"

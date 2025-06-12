@@ -3182,6 +3182,10 @@ function v2_acl ($arr) {
     return (bool) (auth()->check() && in_array(auth()->user()->is_employee, $arr));
 }
 
+function user_is_cs () {
+    return (bool) (v2_acl([4]) && auth()->user()->is_support_head !== 1);
+}
+
 function send_task_notification ($task_id, $role) {
     if($role == 1){
         $task = Task::where('id', $task_id)->first();

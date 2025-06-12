@@ -133,7 +133,7 @@
                     <i class="fas fa-search search-icon"></i>
                 </div>
                 <ul style="max-height: 85%; overflow-y: scroll; scrollbar-width: none; -ms-overflow-style: none;">
-                    @if(in_array($user_role_id, [2, 6]))
+                    @if(in_array($user_role_id, [2, 6, 4]))
                         <li>
                             <a href="{{route('v2.dashboard')}}" class="{{ request()->routeIs('v2.dashboard') ? 'active' : '' }}">
                                 Dashboard
@@ -182,7 +182,7 @@
                         </li>
                     @endif
 
-                    @if(in_array($user_role_id, [2, 6]))
+                    @if(in_array($user_role_id, [2, 6, 4]))
                         <li>
                             <a href="{{route('v2.clients')}}" class="{{ request()->routeIs('v2.clients') || request()->routeIs('v2.clients.create') || request()->routeIs('v2.clients.edit') || request()->routeIs('v2.clients.show') ? 'active' : '' }}">
                                 Clients
@@ -286,7 +286,7 @@
                         </li>
                     @endif
 
-                    @if(in_array($user_role_id, [2]))
+                    @if(in_array($user_role_id, [2, 6]))
                         <li>
                             <a href="{{route('v2.users.sales')}}" class="{{ request()->routeIs('v2.users.sales') || request()->routeIs('v2.users.sales.create') || request()->routeIs('v2.users.sales.edit') || request()->routeIs('v2.users.sales.show') ? 'active' : '' }}">
                                 Sale Agent
