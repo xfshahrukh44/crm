@@ -85,7 +85,7 @@
                             </form>
                             {{--                                    </div>--}}
 
-                            @if(v2_acl([6]))
+                            @if(v2_acl([6, 4]))
                                 <h2>
                                     <span class="text-danger">
                                         <i class="fas fa-bell"></i>

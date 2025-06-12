@@ -22,7 +22,7 @@ class TaskController extends Controller
 {
     public function index (Request $request)
     {
-        if (!v2_acl([2, 6])) {
+        if (!v2_acl([2, 6, 4])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -67,7 +67,7 @@ class TaskController extends Controller
                                 ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
                         });
                 });
-            })->when(v2_acl([4]) && !auth()->user()->is_support_head, function ($q) {
+            })->when(user_is_cs(), function ($q) {
                 return $q->whereHas('projects', function ($query) {
                     return $query->where('user_id', '=', auth()->user()->id);
                 });
@@ -130,7 +130,7 @@ class TaskController extends Controller
 
     public function create (Request $request, $id)
     {
-        if (!v2_acl([2, 6])) {
+        if (!v2_acl([2, 6, 4])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -143,6 +143,10 @@ class TaskController extends Controller
             if (!in_array($project->brand_id, auth()->user()->brand_list())) {
                 return redirect()->back()->with('error', 'Not allowed.');
             }
+
+            if (user_is_cs() && $project->user_id != auth()->id()) {
+                return redirect()->back()->with('error', 'Not allowed.');
+            }
         }
 
         $categories = Category::all();
@@ -152,7 +156,7 @@ class TaskController extends Controller
 
     public function store (Request $request)
     {
-        if (!v2_acl([2])) {
+        if (!v2_acl([2, 6, 4])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -171,6 +175,10 @@ class TaskController extends Controller
         //non-admin checks
         if (!v2_acl([2])) {
             if (!in_array($project->brand_id, auth()->user()->brand_list())) {
+                return redirect()->back()->with('error', 'Not allowed.');
+            }
+
+            if (user_is_cs() && $project->user_id != auth()->id()) {
                 return redirect()->back()->with('error', 'Not allowed.');
             }
         }
@@ -312,7 +320,7 @@ class TaskController extends Controller
 
     public function show (Request $request, $id)
     {
-        if (!v2_acl([2, 6])) {
+        if (!v2_acl([2, 6, 4])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -325,6 +333,10 @@ class TaskController extends Controller
             if (!in_array($task->brand_id, auth()->user()->brand_list())) {
                 return redirect()->back()->with('error', 'Not allowed.');
             }
+
+            if (user_is_cs() && $task->projects->user_id != auth()->id()) {
+                return redirect()->back()->with('error', 'Not allowed.');
+            }
         }
 
         return view('v2.task.show', compact('task'));
@@ -332,7 +344,7 @@ class TaskController extends Controller
 
     public function updateStatus (Request $request, $id)
     {
-        if (!v2_acl([2, 6])) {
+        if (!v2_acl([2, 6, 4])) {
             return response()->json(['status' => false, 'message' => 'Access denied.']);
         }
 
@@ -342,6 +354,7 @@ class TaskController extends Controller
 //            2 => [0, 1, 2, 3, 4, 5, 6, 7],
             2 => [1, 2, 3, 4, 5, 6],
             6 => [1],
+            4 => [1],
         ];
 
         if (!in_array($value, $allowed_status_map[auth()->user()->is_employee])) {
@@ -354,6 +367,10 @@ class TaskController extends Controller
         if (!v2_acl([2])) {
             if (!in_array($task->brand_id, auth()->user()->brand_list())) {
                 return response()->json(['status' => false, 'message' => 'Not allowed.']);
+            }
+
+            if (user_is_cs() && $task->projects->user_id != auth()->id()) {
+                return redirect()->back()->with('error', 'Not allowed.');
             }
         }
 
@@ -430,7 +447,7 @@ class TaskController extends Controller
 
     public function uploadFiles (Request $request, $id)
     {
-        if (!v2_acl([2, 6])) {
+        if (!v2_acl([2, 6, 4])) {
             return response()->json(['status' => false, 'message' => 'Access denied.']);
         }
 
@@ -440,6 +457,10 @@ class TaskController extends Controller
         if (!v2_acl([2])) {
             if (!in_array($task->brand_id, auth()->user()->brand_list())) {
                 return response()->json(['status' => false, 'message' => 'Not allowed.']);
+            }
+
+            if (user_is_cs() && $task->projects->user_id != auth()->id()) {
+                return redirect()->back()->with('error', 'Not allowed.');
             }
         }
 
