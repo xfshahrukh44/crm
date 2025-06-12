@@ -2113,6 +2113,21 @@ function emit_pusher_notification ($channel, $event, $data) {
     }
 }
 
+function emit_pusher_messages ($channel, $event, $data) {
+    try {
+        $pusher = new \Pusher\Pusher('0745d3887ed31c97a4b5', 'c6ef3e806bf8a8bf9587', '2006736', [
+            'cluster' => 'mt1',
+            'useTLS' => true
+        ]);
+
+        $pusher->trigger($channel, $event, $data);
+
+        return true;
+    } catch (\Exception $e) {
+        return false;
+    }
+}
+
 function check_if_external_client (Request $request, $v2 = false) {
     if (!$client = Client::where([ 'brand_id' => $request->get('brand_id'), 'email' => $request->get('email') ])->first()) {
         return '';

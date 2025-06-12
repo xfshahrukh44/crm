@@ -5,11 +5,17 @@ namespace App\Http\Controllers\v2;
 use App\Models\Project;
 use App\Models\User;
 use App\Models\Message;
+use App\Models\Task;
+use App\Models\ClientFile;
+use App\Notifications\MessageNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Auth;
+use Notification;
+use DateTimeZone;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 
@@ -87,7 +93,7 @@ class MessageController extends Controller
         // Get all messages in ascending order (oldest to newest)
         $messages = Message::with('sended_client_files')
                         ->where('client_id', $client_id)
-                        ->orderBy('created_at', 'asc')
+                        ->orderBy('id', 'asc')
                         ->get();
 
         // Mark as read
@@ -99,7 +105,7 @@ class MessageController extends Controller
             return response()->json([
                 'html' => view('v2.message.partials.chat_messages', [
                     'messages' => $messages,
-                    'user_name' => $user->name,
+                    'user_name' => $user->name.' '.$user->last_name,
                     'is_employee' => $user->is_employee,
                     'user_image' => $user->image,
                 ])->render(),
@@ -108,5 +114,166 @@ class MessageController extends Controller
         }
 
         return view('v2.message.index', compact('messages', 'user'));
+    }
+
+    public function sendMessage(Request $request)
+    {
+        $this->validate($request, [
+            'message' => 'required'
+        ]);
+        $carbon = Carbon::now(new DateTimeZone('America/Los_Angeles'))->toDateTimeString();
+        $task = Task::find($request->task_id);
+        // send Notification to customer
+        $message = new Message();
+        $message->user_id = Auth::user()->id;
+        $message->message = $request->message;
+        if($task == null){
+            $message->sender_id = $request->client_id;
+            $message->client_id = $request->client_id;
+        }else{
+            $message->sender_id = $task->projects->client->id;
+            $message->client_id = $task->projects->client->id;
+        }
+        $message->role_id = 4;
+        // $message->created_at = $carbon;
+        $message->created_at = Carbon::now();
+        $message->save();
+
+        $attachments = [];
+
+        if($request->hasfile('images')){
+            $i = 0;
+            foreach($request->file('images') as $file)
+            {
+                $file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $file_actual_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $file_name = str_replace(" ", "-", $file_name);
+                $name = $file_name . '-' . $i .time().'.'.$file->extension();
+                $file->move(public_path().'/files/', $name);
+                $i++;
+                $client_file = new ClientFile();
+                $client_file->name = $file_actual_name;
+                $client_file->path = $name;
+                $client_file->task_id = $request->task_id;
+                $client_file->user_id = Auth()->user()->id;
+                $client_file->user_check = Auth()->user()->is_employee;
+                $client_file->production_check = 2;
+                $client_file->message_id = $message->id;
+                $client_file->created_at = $carbon;
+                $client_file->save();
+
+                $attachments[] = [
+                    'name' => $file_name,
+                    'path' => asset('files/' . $name),
+                    'original_name' => $file->getClientOriginalName()
+                ];
+            }
+        }
+
+        $details = [
+            'title' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has message on your task.',
+            'body' => 'Please Login into your Dashboard to view it..'
+        ];
+        if($task != null){
+            try {
+                \Mail::to($task->projects->client->email)->send(new \App\Mail\ClientNotifyMail($details));
+            } catch (\Exception $e) {
+
+                $mail_error_data = json_encode([
+                    'emails' => [$task->projects->client->email],
+                    'body' => 'Please Login into your Dashboard to view it..',
+                    'error' => $e->getMessage(),
+                ]);
+
+                \Illuminate\Support\Facades\Log::error('MAIL FAILED: ' . $mail_error_data);
+            }
+        }else{
+            $client = User::find($request->client_id);
+            try {
+                \Mail::to($client->email)->send(new \App\Mail\ClientNotifyMail($details));
+            } catch (\Exception $e) {
+
+                $mail_error_data = json_encode([
+                    'emails' => [$client->email],
+                    'body' => 'Please Login into your Dashboard to view it..',
+                    'error' => $e->getMessage(),
+                ]);
+
+                \Illuminate\Support\Facades\Log::error('MAIL FAILED: ' . $mail_error_data);
+            }
+        }
+        $task_id = 0;
+        $project_id = 0;
+        if($task != null){
+            $task_id = $task->projects->id;
+            $project_id = $task->projects->id;
+        }
+
+        $messageData = [
+            'id' => Auth()->user()->id,
+            'task_id' => $task_id,
+            'project_id' => $project_id,
+            'name' => Auth()->user()->name . ' ' . Auth()->user()->last_name,
+            'text' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has sent you a Message',
+            'details' => Str::limit(filter_var($request->message, FILTER_SANITIZE_STRING), 40 ),
+            'url' => '',
+        ];
+        if($task != null){
+            $task->projects->client->notify(new MessageNotification($messageData));
+        }else{
+            $client = User::find($request->client_id);
+            $client->notify(new MessageNotification($messageData));
+        }
+        // Message Notification sending to Admin
+        $adminusers = User::where('is_employee', 2)->get();
+        foreach($adminusers as $adminuser){
+            Notification::send($adminuser, new MessageNotification($messageData));
+        }
+
+        //pusher notification
+        if ($client_user = User::where('id', $request->client_id)->first()) {
+            $pusher_notification_data = [
+                'text' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has sent you a Message',
+                'redirect_url' => route('client.home'),
+            ];
+            emit_pusher_notification(('message-channel-for-client-user-' . $client_user->id), 'new-message', $pusher_notification_data);
+        }
+
+        //send notification to client
+        if ($task and $task->projects && $task->projects->client) {
+            Notification::send($task->projects->client, new MessageNotification($messageData));
+
+            //mail_notification
+            $project = Project::find($task->project_id);
+            $client_user = User::find($project->client_id);
+            $client = Client::find($project->client->client->id ?? $client_user->client_id);
+            $brand_id = $project->client->client->brand_id ?? ($project->brand_id);
+            $brand = Brand::find($project->client->client->brand_id ?? $brand_id);
+
+            $html = '<p>'. 'Hello ' . $client->name . ',' .'</p>';
+            $html .= '<p>'. 'You have received a new message from your Project Manager, ('.Auth::user()->name.'), on our CRM platform. Please log in to your account to read the message and respond.' .'</p>';
+            $html .= '<p>'. 'Access your messages here: ' . route('client.fetch.messages') .'</p>';
+            $html .= '<p>'. 'Thank you for your prompt attention to this matter.' .'</p>';
+            $html .= '<p>'. 'Best Regards,' .'</p>';
+            $html .= '<p>'. $brand->name .'.</p>';
+
+            mail_notification(
+                '',
+                [$client->email],
+                'New Message from Your Project Manager on ('.$brand->name.') CRM',
+                view('mail.crm-mail-template')->with([
+                    'subject' => 'New Message from Your Project Manager on ('.$brand->name.') CRM',
+                    'brand_name' => $brand->name,
+                    'brand_logo' => asset($brand->logo),
+                    'additional_html' => $html
+                ]),
+            );
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Message sent successfully.',
+            'data' => $message
+        ]);
     }
 }

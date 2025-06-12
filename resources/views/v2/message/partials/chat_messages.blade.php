@@ -40,7 +40,7 @@
             @endif
 
             <div class="message-time">
-                <span>{{ $message->created_at->format('h:i A, M d') }}</span>
+                <span>{{ \Carbon\Carbon::parse($message->created_at)->setTimezone('Asia/Karachi')->format('h:i A, M d') }}</span>
             </div>
         </div>
 

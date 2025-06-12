@@ -64,6 +64,29 @@
             overflow-y: scroll;
             height: 64vh;
         }
+
+        .file-preview-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .for-reply .msg-img a {
+            color: #ffffff;
+        }
+
+        p.unread-p {
+            font-weight: 900;
+            font-size: 14px;
+            color: #1d88f6;
+        }
+
+        .disabled-click {
+            pointer-events: none;
+            opacity: 0.5;
+        }
     </style>
 @endsection
 
@@ -72,7 +95,7 @@
         @switch($user_role_id)
             @case(2)
                 <section class="chat-integrate">
-                    <div class="container-fluid">
+                    {{-- <div class="container-fluid">
                         <div class="row for-main-border align-items-center">
                             <div class="col-lg-3">
 
@@ -118,7 +141,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="container-fluid p-0">
                         <div class="row">
                             <div class="col-lg-12">
@@ -151,6 +174,7 @@
                                             </div>
                                             <div class="col-lg-9 p-0">
                                                 <div class="tab-content" id="myTabContent1">
+                                                    <input type="hidden" id="active-id" value="">
                                                 </div>
                                             </div>
                                         </div>
@@ -182,9 +206,11 @@
             @default
         @endswitch
     </div>
+    {{-- <textarea id="mytextarea"></textarea> --}}
 @endsection
 
 @section('script')
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     <script>
         $(document).ready(function() {
             let loading = false;
@@ -229,6 +255,7 @@
             // Handle client tab clicks to load messages
             $(document).on('click', '[data-toggle="tab"]', function(e) {
                 const clientId = $(this).attr('id').replace('-tab', '');
+                $('#active-id').val(clientId);
                 loadClientMessages(clientId);
             });
 
@@ -245,6 +272,7 @@
                 }
 
                 const clientId = activeTab.attr('id').replace('-tab', '');
+                $('#active-id').val(clientId);
                 loadClientMessages(clientId);
             }
 
@@ -269,20 +297,89 @@
                                     </div>
                                 </div>
                                 <div class="for-sending">
-                                    <a href="javascript:;" class="emoji-picker">
+                                    <!--<a href="javascript:;" class="emoji-picker" id="emoji-button-${clientId}" data-target="message-input-${clientId}">
                                         <img src="{{ asset('images/smile.png') }}" class="img-fluid">
-                                    </a>
-                                    <input type="text" placeholder="Type message here..." id="message-input-${clientId}">
-                                    <a href="javascript:;" class="file-upload">
+                                    </a>-->
+                                    <input type="text" class="message-input" placeholder="Type message here..." id="message-input-${clientId}">
+                                    <a href="javascript:;" class="file-upload" data-client-id="${clientId}">
                                         <img src="{{ asset('images/file.png') }}" class="img-fluid">
                                     </a>
+                                    <input type="file" id="file-input-${clientId}" multiple style="display:none;" />
+
                                     <button type="submit" class="send-message" data-client-id="${clientId}">
                                         <img src="{{ asset('images/btn.png') }}" class="img-fluid">
                                     </button>
+                                    <div class="file-preview-container" id="file-preview-${clientId}"></div>
                                 </div>
                             </div>
                             <div class="single-client">
-                                <!-- Client info sidebar -->
+                                <div class="for-cross">
+                                    <a href="javascript:;">
+                                        <img src="images/close-icon.png" class="img-fluid">
+                                    </a>
+                                </div>
+                                <div class="client-info-detail">
+                                    <div class="client-profile">
+                                        <img src="images/circle.png" class="img-fluid">
+                                        <a href="javascript:;">
+                                            <span></span>
+                                        </a>
+                                    </div>
+                                    <div class="client-content">
+                                        <h4>Alex Alexandrov</h4>
+                                        <p>Lorem, Lipsum</p>
+                                    </div>
+                                </div>
+                                <div class="container contact-tab new-setting-tab">
+                                    <ul class="nav nav-tabs" id="myTab2" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link active" id="Files-tab"
+                                                data-bs-toggle="tab" data-bs-target="#Files"
+                                                type="button" role="tab" aria-controls="Files"
+                                                aria-selected="true">Files
+                                            </button>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content" id="myTabContent2">
+                                        <div class="tab-pane fade show active" id="Files"
+                                            role="tabpanel" aria-labelledby="Files-tab">
+                                            <h4>Recent files</h4>
+                                            <a href="javascript:;">
+                                                <div class="for-files">
+                                                    <img src="images/music.png" class="img-fluid">
+                                                    <h5>Sound of Freedom.mp3</h5>
+                                                </div>
+                                            </a>
+                                            <a href="javascript:;">
+                                                <div class="for-files">
+                                                    <img src="images/project-file.png"
+                                                        class="img-fluid">
+                                                    <h5>Project.zip</h5>
+                                                </div>
+                                            </a>
+                                            <a href="javascript:;">
+                                                <div class="for-files">
+                                                    <img src="images/loop.png" class="img-fluid">
+                                                    <h5>Project logos.eps</h5>
+                                                </div>
+                                            </a>
+                                            <h4>Uploaded Photos</h4>
+                                            <div class="upload-photos">
+                                                <img src="images/square-icon.png" class="img-fluid">
+                                                <img src="images/square-icon.png" class="img-fluid">
+                                                <img src="images/square-icon.png" class="img-fluid">
+                                            </div>
+                                            <div class="upload-photos">
+                                                <img src="images/square-icon.png" class="img-fluid">
+                                                <img src="images/square-icon.png" class="img-fluid">
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="Setting"
+                                            role="tabpanel" aria-labelledby="Setting-tab">
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -295,15 +392,15 @@
                     url: "{{ url('v2/messages') }}/" + clientId,
                     type: 'GET',
                     dataType: 'json',
-                    beforeSend: function () {
+                    beforeSend: function() {
                         $(`#messages-container-${clientId} .loading-spinner`).show();
                     },
-                    success: function (response) {
+                    success: function(response) {
                         $(`#client-name-${clientId}`).text(response.user_name);
                         $(`#messages-container-${clientId} .messages-wrapper`).html(response.html);
                         scrollToBottom(clientId);
                     },
-                    complete: function () {
+                    complete: function() {
                         $(`#messages-container-${clientId} .loading-spinner`).hide();
                     }
                 });
@@ -314,48 +411,220 @@
                 container.scrollTop(container[0].scrollHeight);
             }
 
-            // Handle sending new messages
-            // $(document).on('click', '.send-message', function() {
-            //     const clientId = $(this).data('client-id');
-            //     const message = $(`#message-input-${clientId}`).val();
+            $(document).on('click', '.send-message', function () {
+                const $this = $(this);
+                const clientId = $this.data('client-id');
+                const messageInput = $(`#message-input-${clientId}`);
+                const fileInput = document.getElementById(`file-input-${clientId}`);
+                const files = fileInput.files;
+                const message = messageInput.val().trim();
 
-            //     if (message.trim()) {
-            //         $.ajax({
-            //             url: '/messages',
-            //             type: 'POST',
-            //             data: {
-            //                 _token: '{{ csrf_token() }}',
-            //                 client_id: clientId,
-            //                 message: message
-            //             },
-            //             success: function(response) {
-            //                 // Add new message to chat
-            //                 const messageHtml = `
-            //                     <div class="main-chat-message for-reply">
-            //                         <div class="message-content">
-            //                             <div class="message-line">
-            //                                 <p>${message}</p>
-            //                             </div>
-            //                             <div class="message-time">
-            //                                 <span>Just now</span>
-            //                                 <span class="read-status">✓ Delivered</span>
-            //                             </div>
-            //                         </div>
-            //                         <div class="message-img">
-            //                             <img src="{{ asset(auth()->user()->image ?? 'assets/imgs/default-avatar.jpg') }}"
-            //                                 class="img-fluid"
-            //                                 alt="{{ auth()->user()->name }}">
-            //                         </div>
-            //                     </div>
-            //                 `;
+                if (!message && files.length === 0) return;
 
-            //                 $(`#messages-container-${clientId} .messages-wrapper`).append(messageHtml);
-            //                 $(`#message-input-${clientId}`).val('');
-            //                 scrollToBottom(clientId);
-            //             }
-            //         });
-            //     }
-            // });
+                const formData = new FormData();
+                formData.append('message', message);
+                formData.append('client_id', clientId);
+                for (let i = 0; i < files.length; i++) {
+                    formData.append('images[]', files[i]);
+                }
+
+                // UI Feedback - Disable input + show spinner
+                messageInput.prop('disabled', true);
+                $this.prop('disabled', true);
+                $(`#emoji-button-${clientId}`).addClass('disabled-click');
+                $(`.file-upload[data-client-id="${clientId}"]`).addClass('disabled-click');
+
+                const $spinner = $(`
+                    <div class="sending-spinner" id="sending-spinner-${clientId}" style="text-align: center; margin: 5px 0;">
+                        <small>Sending...</small>
+                    </div>
+                `);
+                $(`#messages-container-${clientId} .messages-wrapper`).append($spinner);
+                var container = $(`#messages-container-${clientId} .messages-wrapper`);
+                container.animate({ scrollTop: container[0].scrollHeight }, 300);
+
+                // Clear inputs before sending
+                messageInput.val('');
+                $(`#file-preview-${clientId}`).empty();
+                fileInput.value = '';
+
+                // AJAX
+                $.ajax({
+                    url: "{{ route('v2.messages.send') }}",
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        loadClientMessages(clientId); // Your function to reload messages
+
+                        // Remove spinner
+                        $(`#sending-spinner-${clientId}`).remove();
+
+                        // Enable inputs again
+                        messageInput.prop('disabled', false);
+                        $this.prop('disabled', false);
+                        $(`#emoji-button-${clientId}`).removeClass('disabled-click');
+                        $(`.file-upload[data-client-id="${clientId}"]`).removeClass('disabled-click');
+                    },
+                    error: function (xhr) {
+                        $(`#sending-spinner-${clientId}`).remove();
+                        messageInput.prop('disabled', false);
+                        $this.prop('disabled', false);
+                        $(`#emoji-button-${clientId}`).removeClass('disabled-click');
+                        $(`.file-upload[data-client-id="${clientId}"]`).removeClass('disabled-click');
+
+                        if (xhr.status === 422) {
+                            const errors = xhr.responseJSON.errors;
+                            for (let field in errors) {
+                                if (errors.hasOwnProperty(field)) {
+                                    toastr.error(errors[field][0]);
+                                }
+                            }
+                        } else {
+                            toastr.error('An error occurred while sending the message.');
+                        }
+
+                        console.error('Message send failed:', xhr);
+                    }
+                });
+            });
+
+            $(document).on('keydown', '.message-input', function (e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    const clientId = $(this).attr('id').replace('message-input-', '');
+                    $(`.send-message[data-client-id="${clientId}"]`).click();
+                }
+            });
+
+            $(document).on('click', '.file-upload', function() {
+                const clientId = $(this).data('client-id');
+                console.log(`Opening file input for client ID: ${clientId}`);
+                $(`#file-input-${clientId}`).click();
+            });
+
+            $(document).on('change', 'input[type="file"]', function() {
+                const clientId = $(this).attr('id').replace('file-input-', '');
+                const previewContainer = $(`#file-preview-${clientId}`);
+                previewContainer.empty(); // clear previous previews
+
+                const files = this.files;
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const isImage = file.type.startsWith('image');
+                    const fileUrl = URL.createObjectURL(file);
+
+                    let fileElement;
+
+                    if (isImage) {
+                        // Preview image thumbnail
+                        fileElement = $(`
+                            <div class="file-preview" style="position: relative;">
+                                <img src="${fileUrl}" style="width: 60px; height: 60px; object-fit: cover; border: 1px solid #ccc; border-radius: 4px;" />
+                                <span class="remove-file" data-index="${i}" style="position: absolute; top: -8px; right: -8px; background: red; color: white; border-radius: 50%; cursor: pointer; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;">&times;</span>
+                            </div>
+                        `);
+                    } else {
+                        // Preview filename for non-image
+                        fileElement = $(`
+                            <div class="file-preview" style="position: relative; border: 1px solid #ccc; padding: 5px 10px; border-radius: 4px; background: #f7f7f7; display: flex; align-items: center; gap: 8px;">
+                                <img src="{{ asset('images/file-icon.png') }}" style="width: 24px; height: 24px;" />
+                                <span style="max-width: 150px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${file.name}</span>
+                                <span class="remove-file" data-index="${i}" style="margin-left: auto; background: red; color: white; border-radius: 50%; cursor: pointer; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;">&times;</span>
+                            </div>
+                        `);
+                    }
+
+                    previewContainer.append(fileElement);
+                }
+
+                previewContainer.data('files', files); // store for later use
+            });
+
+
+            // Remove previewed file
+            $(document).on('click', '.remove-file', function() {
+                const index = $(this).data('index');
+                const previewContainer = $(this).closest('.file-preview-container');
+                const clientId = previewContainer.attr('id').replace('file-preview-', '');
+
+                const fileInput = document.getElementById(`file-input-${clientId}`);
+                const fileList = Array.from(fileInput.files);
+                fileList.splice(index, 1);
+
+                // recreate FileList
+                const dataTransfer = new DataTransfer();
+                fileList.forEach(file => dataTransfer.items.add(file));
+                fileInput.files = dataTransfer.files;
+
+                $(fileInput).trigger('change'); // re-render preview
+            });
+
+            Pusher.logToConsole = true;
+
+            var pusher = new Pusher("0745d3887ed31c97a4b5", {
+                cluster: "mt1"
+            });
+
+            const activeTabId = $('#active-id').val();
+
+            var channel = pusher.subscribe('messages-' + activeTabId);
+
+            channel.bind('new-message', function(data) {
+
+                let filePreviewHTML = '';
+                if (data.attachments && data.attachments.length > 0) {
+                    filePreviewHTML += `<div class="msg-img">`;
+
+                    data.attachments.forEach(file => {
+                        const extension = file.path.split('.').pop().toLowerCase();
+                        const isImage = ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(extension);
+                        const fileUrl = `${file.path}`;
+
+                        if (isImage) {
+                            filePreviewHTML += `
+                                <a href="${fileUrl}" target="_blank" title="${file.name}">
+                                    <img src="${fileUrl}" alt="Image"
+                                        style="max-width: 150px; max-height: 150px; border-radius: 5px;">
+                                </a>`;
+                        } else {
+                            filePreviewHTML += `
+                                <a href="${fileUrl}" download title="${file.name}">
+                                    ${file.name.length > 21 ? file.name.substring(0, 21) + '...' : file.name}
+                                </a>`;
+                        }
+                    });
+
+                    filePreviewHTML += `</div>`;
+                }
+
+
+                $('#messages-container-' + data.client_id + ' .messages-wrapper').append(`
+                    <div class="main-chat-message for-reply">
+                        <div class="message-content">
+                            <div class="message-line">
+                                <p>${data.message}</p>
+                                ${filePreviewHTML}
+                            </div>
+                            <div class="message-time">
+                                <span>${data.created_at}</span>
+                            </div>
+                        </div>
+                        <div class="message-img">
+                            <img src="${data.image}" class="img-fluid">
+                        </div>
+                    </div>
+                `);
+                scrollToBottom(data.client_id);
+            });
         });
+
+
+
     </script>
+
 @endsection

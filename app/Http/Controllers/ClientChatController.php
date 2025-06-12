@@ -78,6 +78,8 @@ class ClientChatController extends Controller
             $message->client_id = Auth::user()->id;
             $message->save();
 
+            $attachments = [];
+
             if($request->hasfile('h_Item_Attachments_FileInput'))
             {
                 $files_array = array();
@@ -98,8 +100,32 @@ class ClientChatController extends Controller
                     $client_file->message_id = $message->id;
                     $client_file->created_at = $carbon;
                     $client_file->save();
+
+                    $attachments[] = [
+                        'name' => $file_name,
+                        'path' => asset('files/' . $name),
+                        'original_name' => $file->getClientOriginalName()
+                    ];
                 }
             }
+
+            // Prepare message data for Pusher
+            $pusherMessageData = [
+                'id' => $message->id,
+                'user_id' => Auth::user()->id,
+                'sender_id' => Auth::user()->id,
+                'message' => $request->message,
+                'created_at' => \Carbon\Carbon::parse($carbon)->setTimezone('Asia/Karachi')->format('h:i A, M d'),
+                'client_id' => Auth::user()->id,
+                'sender_name' => Auth::user()->name . ' ' . Auth::user()->last_name,
+                'attachments' => $attachments,
+                'image' => Auth::user()->image ? asset(Auth::user()->image) : asset('assets/imgs/default-avatar.jpg'),
+            ];
+
+            // Broadcast to the client's channel
+            $clientChannel = 'messages-' . Auth::user()->id;
+            emit_pusher_messages($clientChannel, 'new-message', $pusherMessageData);
+
             $details = [
                 'title' => Auth::user()->name . ' ' . Auth::user()->last_name . ' send you a message.',
                 'body' => 'Please Login into your Dashboard to view it..'
