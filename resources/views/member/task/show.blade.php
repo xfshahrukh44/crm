@@ -56,7 +56,7 @@
                                 <option value="1" {{($subtask->status == 1) ? 'selected' : ''}} disabled>Re Open</option>
                                 <option value="4" {{($subtask->status == 4) ? 'selected' : ''}}>In Progress</option>
                                 <option value="2" {{($subtask->status == 2) ? 'selected' : ''}}>On Hold</option>
-                                <option value="5" {{($subtask->status == 5) ? 'selected' : ''}}>Sent for Approval</option>
+                                <option value="5" {{($subtask->status == 5) ? 'selected' : ''}}>Sent for Review</option>
                                 <option value="6" {{($subtask->status == 6) ? 'selected' : ''}}>Incomplete Brief</option>
                                 <option value="3" {{($subtask->status == 3) ? 'selected' : ''}}>Completed</option>
                         </select>

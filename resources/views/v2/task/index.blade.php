@@ -33,175 +33,194 @@
 
 @section('content')
     <div class="for-slider-main-banner">
-        @switch($user_role_id)
-            @case(2)
-                <section class="list-0f">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="list-0f-head for-invoice-listing table-responsive">
-                                    <div class="row text-left pr-3 pb-2">
-                                        <div class="col-md-6 m-auto d-flex justify-content-start pt-2">
-                                            <h1 style="font-weight: 100;">Tasks</h1>
-                                        </div>
-                                        <div class="col-md-6 m-auto d-flex justify-content-end">
-{{--                                            <a href="{{route('v2.tasks.create')}}" class="btn btn-sm btn-success">--}}
-{{--                                                <i class="fas fa-plus"></i>--}}
-{{--                                                Create--}}
-{{--                                            </a>--}}
-                                        </div>
-                                    </div>
-
-                                    <br>
-
-{{--                                    <div class="search-invoice">--}}
-                                    <form class="search-invoice" action="{{route('v2.tasks')}}" method="GET">
-                                        <input type="text" name="id" placeholder="Search by ID" value="{{ request()->get('id') }}">
-                                        <select name="brand_id" class="select2">
-                                            <option value="">Select brand</option>
-                                            @foreach($brands as $brand)
-                                                <option value="{{$brand->id}}" {{ request()->get('brand_id') ==  $brand->id ? 'selected' : ' '}}>{{$brand->name}}</option>
-                                            @endforeach
-                                        </select>
-                                        <input type="text" name="name" placeholder="Search From Client Name Or Email" value="{{ request()->get('name') }}">
-                                        <select name="category_id" class="select2">
-                                            <option value="">Select category</option>
-                                            @foreach($categories as $category)
-                                                <option value="{{$category->id}}" {{ request()->get('category_id') ==  $category->id ? 'selected' : ' '}}>{{$category->name}}</option>
-                                            @endforeach
-                                        </select>
-                                        <select name="status" class="select2">
-                                            <option value=""  {{ request()->get('status') ==  "" ? 'selected' : ' '}} >Any</option>
-                                            <option value="0" {{ request()->get('status') ==  "0" ? 'selected' : ' '}} >Open</option>
-                                            <option value="1" {{ request()->get('status') ==  "1" ? 'selected' : ' '}} >Re Open</option>
-                                            <option value="4" {{ request()->get('status') ==  "4" ? 'selected' : ' '}} >In Progress</option>
-                                            <option value="5" {{ request()->get('status') ==  "5" ? 'selected' : ' '}} >Sent for Approval</option>
-                                            <option value="6" {{ request()->get('status') ==  "6" ? 'selected' : ' '}} >Incomplete Brief</option>
-                                            <option value="2" {{ request()->get('status') ==  "2" ? 'selected' : ' '}} >Hold</option>
-                                            <option value="3" {{ request()->get('status') ==  "3" ? 'selected' : ' '}} >Completed</option>
-                                        </select>
-
-                                        <a href="javascript:;" onclick="document.getElementById('btn_filter_form').click()">Search Result</a>
-                                        <button hidden id="btn_filter_form" type="submit"></button>
-                                    </form>
-{{--                                    </div>--}}
-
-                                    <table id="zero_configuration_table" style="width: 100%;">
-                                        <thead>
-
-                                            <th>ID</th>
-                                            <th>Task</th>
-                                            <th>Project</th>
-                                            <th>Client</th>
-                                            <th>Brand</th>
-                                            <th>Category</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
-
-                                        </thead>
-                                        <tbody>
-                                            @foreach($tasks as $task)
-                                                <tr>
-                                                    <td>{{$task->id}}</td>
-                                                    <td>
-                                                        <a class="p-2 bg-white" href="{{ route('v2.tasks.show', $task->id) }}">
-                                                            {!! \Illuminate\Support\Str::limit(preg_replace("/<\/?a( [^>]*)?>/i", "", strip_tags($task->description)), 30, $end='...') !!}
-                                                        </a>
-                                                    </td>
-                                                    <td>{{$task->projects->name}}</td>
-                                                    <td>
-                                                        {{ $task->projects->client->name }} {{ $task->projects->client->last_name }}
-                                                    </td>
-                                                    <td>
-                                                        <button class="badge bg-primary text-white badge-sm p-2" style="border: 0px;" title="{{ $task->brand->name }}">{{ $task->brand->name }}</button>
-                                                    </td>
-                                                    <td>
-                                                        <button class="badge badge-sm bg-dark text-white p-2" style="border: 0px;" title="{{ $task->category->name }}">{{ implode('', array_map(function($v) { return $v[0]; }, explode(' ', $task->category->name))) }}</button>
-                                                        @if(count($task->member_list) != 0)
-                                                            <ul id="" class="task-list-member-box">
-                                                                @foreach($task->member_list as $key => $member)
-                                                                    <li>
-                                                                        {{ implode('', array_map(function($v) { return $v[0]; }, explode(' ', $member->user->name . ' ' . $member->user->last_name))) }}
-                                                                    </li>
-                                                                @endforeach
-                                                            </ul>
-                                                        @endif
-                                                    </td>
-                                                    <td>{!! $task->project_status() !!}</td>
-                                                    <td style="position: relative;">
-                                                        <a href="{{ route('v2.tasks.show', $task->id) }}" class="badge bg-dark badge-icon badge-sm text-white p-2">
-                                                            <span class="ul-btn__icon"><i class="i-Eyeglasses-Smiley"></i></span>
-                                                            <span class="ul-btn__text">
-                                                                <i class="fas fa-eye"></i>
-                                                            </span>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                    <div class="d-flex justify-content-end mt-2">
-                                        {{ $tasks->appends(request()->query())->links() }}
-                                    </div>
+        <section class="list-0f">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="list-0f-head for-invoice-listing table-responsive">
+                            <div class="row text-left pr-3 pb-2">
+                                <div class="col-md-6 m-auto d-flex justify-content-start pt-2">
+                                    <h1 style="font-weight: 100;">Tasks</h1>
+                                </div>
+                                <div class="col-md-6 m-auto d-flex justify-content-end">
+                                    {{--                                            <a href="{{route('v2.tasks.create')}}" class="btn btn-sm btn-success">--}}
+                                    {{--                                                <i class="fas fa-plus"></i>--}}
+                                    {{--                                                Create--}}
+                                    {{--                                            </a>--}}
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </section>
 
-                @break
+                            <br>
 
-            @default
-                <section class="list-0f">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="list-0f-head for-invoice-listing">
-                                    <table>
-                                        <thead>
+                            {{--                                    <div class="search-invoice">--}}
+                            <form class="search-invoice" action="{{route('v2.tasks')}}" method="GET">
+                                <input type="text" name="project" placeholder="Search By Project Name" value="{{ request()->get('project') }}">
+                                <input type="text" name="id" placeholder="Search by ID" value="{{ request()->get('id') }}">
+                                <select name="brand_id" class="select2">
+                                    <option value="">Select brand</option>
+                                    @foreach($brands as $brand)
+                                        <option value="{{$brand->id}}" {{ request()->get('brand_id') ==  $brand->id ? 'selected' : ' '}}>{{$brand->name}}</option>
+                                    @endforeach
+                                </select>
+                                <input type="text" name="name" placeholder="Search From Client Name Or Email" value="{{ request()->get('name') }}">
+                                <select name="category_id" class="select2">
+                                    <option value="">Select category</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{$category->id}}" {{ request()->get('category_id') ==  $category->id ? 'selected' : ' '}}>{{$category->name}}</option>
+                                    @endforeach
+                                </select>
+                                <select name="status" class="select2">
+                                    <option value=""  {{ request()->get('status') ==  "" ? 'selected' : ' '}} >Any</option>
+                                    <option value="0" {{ request()->get('status') ==  "0" ? 'selected' : ' '}} >Open</option>
+                                    <option value="1" {{ request()->get('status') ==  "1" ? 'selected' : ' '}} >Re Open</option>
+                                    <option value="4" {{ request()->get('status') ==  "4" ? 'selected' : ' '}} >In Progress</option>
+                                    <option value="5" {{ request()->get('status') ==  "5" ? 'selected' : ' '}} >Sent for Approval</option>
+                                    <option value="6" {{ request()->get('status') ==  "6" ? 'selected' : ' '}} >Incomplete Brief</option>
+                                    <option value="2" {{ request()->get('status') ==  "2" ? 'selected' : ' '}} >Hold</option>
+                                    <option value="3" {{ request()->get('status') ==  "3" ? 'selected' : ' '}} >Completed</option>
+                                </select>
 
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Public key</th>
-                                        <th>Secret key</th>
-                                        <th>Merchant</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
+                                <a href="javascript:;" onclick="document.getElementById('btn_filter_form').click()">Search Result</a>
+                                <button hidden id="btn_filter_form" type="submit"></button>
+                            </form>
+                            {{--                                    </div>--}}
 
-                                        </thead>
-                                        <tbody>
+                            @if(v2_acl([6]))
+                                <h2>
+                                    <span class="text-danger">
+                                        <i class="fas fa-bell"></i>
+                                    </span>
+                                    Task Notifications
+                                </h2>
+                                <table id="zero_configuration_table" style="width: 100%;">
+                                    <thead>
 
+                                    <th>ID</th>
+                                    <th>Task</th>
+                                    <th>Project</th>
+                                    <th>Client</th>
+                                    <th>Assigned To</th>
+                                    <th>Brand</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+
+                                    </thead>
+                                    <tbody>
+                                    @foreach($notify_data as $task)
                                         <tr>
-                                            <td>123</td>
-                                            <td>Merchant 1</td>
+                                            <td>{{$task->id}}</td>
                                             <td>
-                                                sadasdsadasdsadakjdyihd18272bd871bd82b
+                                                <a class="p-2 bg-white" href="{{ route('v2.tasks.show', $task->id) }}">
+                                                    {!! \Illuminate\Support\Str::limit(preg_replace("/<\/?a( [^>]*)?>/i", "", strip_tags($task->description)), 30, $end='...') !!}
+                                                </a>
+                                            </td>
+                                            <td>{{$task->projects->name}}</td>
+                                            <td>
+                                                {{ $task->projects->client->name }} {{ $task->projects->client->last_name }}
                                             </td>
                                             <td>
-                                                sadasdsadasdsadakjdyihd18272bd871bd82b
+                                                {{ $task->user->name }} {{ $task->user->last_name }}
                                             </td>
                                             <td>
-                                                <div class="badge badge-sm bg-secondary text-white">STRIPE</div>
+                                                <button class="badge bg-primary text-white badge-sm p-2" style="border: 0px;" title="{{ $task->brand->name }}">{{ $task->brand->name }}</button>
                                             </td>
                                             <td>
-                                                <div class="badge badge-sm bg-danger text-white">Deactive</div>
+                                                <button class="badge badge-sm bg-dark text-white p-2" style="border: 0px;" title="{{ $task->category->name }}">{{ implode('', array_map(function($v) { return $v[0]; }, explode(' ', $task->category->name))) }}</button>
+                                                @if(count($task->member_list) != 0)
+                                                    <ul id="" class="task-list-member-box">
+                                                        @foreach($task->member_list as $key => $member)
+                                                            <li>
+                                                                {{ implode('', array_map(function($v) { return $v[0]; }, explode(' ', $member->user->name . ' ' . $member->user->last_name))) }}
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                @endif
                                             </td>
-                                            <td>
-                                                <a href="#" class="badge bg-primary">
-                                                    <i class="fas fa-pencil"></i>
+                                            <td>{!! $task->project_status_badge() !!}</td>
+                                            <td style="position: relative;">
+                                                <a href="{{ route('v2.tasks.show', $task->id) }}" class="badge bg-dark badge-icon badge-sm text-white p-2">
+                                                    <span class="ul-btn__icon"><i class="i-Eyeglasses-Smiley"></i></span>
+                                                    <span class="ul-btn__text">
+                                                                    <i class="fas fa-eye"></i>
+                                                                </span>
                                                 </a>
                                             </td>
                                         </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
 
-                                        </tbody>
-                                    </table>
+                                <br />
+                                <br />
+                            @endif
 
-                                </div>
+                            <table id="zero_configuration_table" style="width: 100%;">
+                                <thead>
+
+                                <th>ID</th>
+                                <th>Task</th>
+                                <th>Project</th>
+                                <th>Client</th>
+                                <th>Assigned To</th>
+                                <th>Brand</th>
+                                <th>Category</th>
+                                <th>Status</th>
+                                <th>Action</th>
+
+                                </thead>
+                                <tbody>
+                                @foreach($tasks as $task)
+                                    <tr>
+                                        <td>{{$task->id}}</td>
+                                        <td>
+                                            <a class="p-2 bg-white" href="{{ route('v2.tasks.show', $task->id) }}">
+                                                {!! \Illuminate\Support\Str::limit(preg_replace("/<\/?a( [^>]*)?>/i", "", strip_tags($task->description)), 30, $end='...') !!}
+                                            </a>
+                                        </td>
+                                        <td>{{$task->projects->name}}</td>
+                                        <td>
+                                            {{ $task->projects->client->name }} {{ $task->projects->client->last_name }}
+                                        </td>
+                                        <td>
+                                            {{ $task->user->name }} {{ $task->user->last_name }}
+                                        </td>
+                                        <td>
+                                            <button class="badge bg-primary text-white badge-sm p-2" style="border: 0px;" title="{{ $task->brand->name }}">{{ $task->brand->name }}</button>
+                                        </td>
+                                        <td>
+                                            <button class="badge badge-sm bg-dark text-white p-2" style="border: 0px;" title="{{ $task->category->name }}">{{ implode('', array_map(function($v) { return $v[0]; }, explode(' ', $task->category->name))) }}</button>
+                                            @if(count($task->member_list) != 0)
+                                                <ul id="" class="task-list-member-box">
+                                                    @foreach($task->member_list as $key => $member)
+                                                        <li>
+                                                            {{ implode('', array_map(function($v) { return $v[0]; }, explode(' ', $member->user->name . ' ' . $member->user->last_name))) }}
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+                                        </td>
+                                        <td>{!! $task->project_status_badge() !!}</td>
+                                        <td style="position: relative;">
+                                            <a href="{{ route('v2.tasks.show', $task->id) }}" class="badge bg-dark badge-icon badge-sm text-white p-2">
+                                                <span class="ul-btn__icon"><i class="i-Eyeglasses-Smiley"></i></span>
+                                                <span class="ul-btn__text">
+                                                                <i class="fas fa-eye"></i>
+                                                            </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                            <div class="d-flex justify-content-end mt-2">
+                                {{ $tasks->appends(request()->query())->links() }}
                             </div>
                         </div>
                     </div>
-                </section>
-        @endswitch
+                </div>
+            </div>
+        </section>
 
         <!-- Notes Modal -->
         <div class="modal fade" id="modal_show_notes" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

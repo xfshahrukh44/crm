@@ -12,11 +12,39 @@ class ProjectController extends Controller
 {
     public function index (Request $request)
     {
-        if (!v2_acl([2])) {
+        if (!v2_acl([2, 6])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
-        return view('v2.project.index');
+        $brands = $this->getBrands();
+        $categories = \App\Models\Category::all();
+        $projects = \App\Models\Project::whereHas('client')
+            ->when(!v2_acl([2]), function ($q) {
+                return $q->whereIn('brand_id', auth()->user()->brand_list());
+            })
+            ->when(!is_null(request()->get('start_date')) && request()->get('start_date') != '', function ($q) {
+                return $q->whereDate('created_at', '>=', request()->get('start_date'));
+            })->when(!is_null(request()->get('end_date')) && request()->get('end_date') != '', function ($q) {
+                return $q->whereDate('created_at', '<=', request()->get('end_date'));
+            })->when(request()->get('brand') != null && request()->get('brand') != '', function ($q) {
+                return $q->where('brand_id', request()->get('brand'));
+            })->when(request()->get('client') != null && request()->get('client') != '', function ($q) {
+                $name = request()->get('client');
+                return $q->whereHas('client', function ($query) use ($name){
+                    return $query->where('name', 'LIKE', "%{$name}%")
+                        ->orWhere('last_name', 'LIKE', "%{$name}%")
+                        ->orWhere('email', 'LIKE', "%{$name}%");
+                });
+            })->when(request()->get('user') != null && request()->get('user') != '', function ($q) {
+                $name = request()->get('user');
+                return $q->whereHas('added_by', function ($query) use ($name){
+                    return $query->where('name', 'LIKE', "%{$name}%")
+                        ->orWhere('last_name', 'LIKE', "%{$name}%")
+                        ->orWhere('email', 'LIKE', "%{$name}%");
+                });
+            })->orderBy('id', 'desc')->paginate(20);
+
+        return view('v2.project.index', compact('projects', 'brands', 'categories'));
     }
 
     public function create (Request $request)
@@ -116,5 +144,14 @@ class ProjectController extends Controller
         }
 
         return view('v2.project.show', compact('project'));
+    }
+
+    public function getBrands ()
+    {
+        return \Illuminate\Support\Facades\DB::table('brands')
+            ->when(!v2_acl([2]), function ($q) {
+                return $q->whereIn('id', auth()->user()->brand_list());
+            })
+            ->get();
     }
 }

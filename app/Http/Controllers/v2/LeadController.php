@@ -7,6 +7,7 @@ use App\Models\Brand;
 use App\Models\Client;
 use App\Models\Lead;
 use App\Models\Service;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -15,9 +16,12 @@ class LeadController extends Controller
 {
     public function index (Request $request)
     {
-        if (!v2_acl([2])) {
+        if (!v2_acl([2, 6])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
+
+        //restricted brand access
+        $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
 
         $leads = Lead::orderBy('id', 'desc')
             ->when($request->name != '', function ($q) use ($request) {
@@ -35,29 +39,37 @@ class LeadController extends Controller
             })
             ->when($request->status != '', function ($q) use ($request) {
                 return $q->where('status', $request->status);
+            })->when(!v2_acl([2]) && !empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
+                });
             })->paginate(20);
 
-        $brands = DB::table('brands')->get();
+        $brands = $this->getBrands();
 
         return view('v2.lead.index', compact('leads', 'brands'));
     }
 
     public function create (Request $request)
     {
-        if (!v2_acl([2])) {
+        if (!v2_acl([2, 6])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
-        $brands = Brand::all();
+        $brands = $this->getBrands();
         $services = Service::all();
-        $front_agents = DB::table('users')->where('is_employee', 0)->get();
+        $front_agents = $this->getFrontAgents();
 
         return view('v2.lead.create', compact('brands', 'front_agents', 'services'));
     }
 
     public function store (Request $request)
     {
-        if (!v2_acl([2])) {
+        if (!v2_acl([2, 6])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -69,6 +81,14 @@ class LeadController extends Controller
             'status' => 'required',
             'brand' => 'required',
         ]);
+
+        //non-admin checks
+        if (!v2_acl([2])) {
+            $user_ids = DB::table('brand_users')->whereIn('brand_id', auth()->user()->brand_list())->pluck('user_id')->toArray();
+            if (!in_array($request->user_id, $user_ids) || !in_array($request->brand, auth()->user()->brand_list())) {
+                return redirect()->back()->with('error', 'Not allowed.');
+            }
+        }
 
         if ($user_check = DB::table('users')->where('email', $request->email)->first()) {
             return redirect()->back()->with('error', 'Email already taken');
@@ -86,7 +106,7 @@ class LeadController extends Controller
 
     public function edit (Request $request, $id)
     {
-        if (!v2_acl([2])) {
+        if (!v2_acl([2, 6])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -94,21 +114,24 @@ class LeadController extends Controller
             return redirect()->back()->with('error', 'Not found.');
         }
 
-        $brands = Brand::all();
+        //non-admin checks
+        if (!v2_acl([2])) {
+            if (!in_array($lead->brand, auth()->user()->brand_list())) {
+                return redirect()->back()->with('error', 'Not allowed.');
+            }
+        }
+
+        $brands = $this->getBrands();
         $services = Service::all();
-        $front_agents = DB::table('users')->where('is_employee', 0)->get();
+        $front_agents = $this->getFrontAgents();
 
         return view('v2.lead.edit', compact('lead', 'brands', 'services', 'front_agents'));
     }
 
     public function update (Request $request, $id)
     {
-        if (!v2_acl([2])) {
+        if (!v2_acl([2, 6])) {
             return redirect()->back()->with('error', 'Access denied.');
-        }
-
-        if (!$lead = Lead::find($id)) {
-            return redirect()->back()->with('error', 'Not found.');
         }
 
         $request->validate([
@@ -119,6 +142,18 @@ class LeadController extends Controller
             'status' => 'required',
             'brand' => 'required',
         ]);
+
+        if (!$lead = Lead::find($id)) {
+            return redirect()->back()->with('error', 'Not found.');
+        }
+
+        //non-admin checks
+        if (!v2_acl([2])) {
+            $user_ids = DB::table('brand_users')->whereIn('brand_id', auth()->user()->brand_list())->pluck('user_id')->toArray();
+            if (!in_array($lead->brand, auth()->user()->brand_list()) || !in_array($request->user_id, $user_ids) || !in_array($request->brand, auth()->user()->brand_list())) {
+                return redirect()->back()->with('error', 'Not allowed.');
+            }
+        }
 
         $lead->update($request->except('service'));
 
@@ -147,7 +182,7 @@ class LeadController extends Controller
 
     public function show (Request $request, $id)
     {
-        if (!v2_acl([2])) {
+        if (!v2_acl([2, 6])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -155,6 +190,32 @@ class LeadController extends Controller
             return redirect()->back()->with('error', 'Not found.');
         }
 
+        //non-admin checks
+        if (!v2_acl([2])) {
+            if (!in_array($lead->brand, auth()->user()->brand_list())) {
+                return redirect()->back()->with('error', 'Not allowed.');
+            }
+        }
+
         return view('v2.lead.show', compact('lead'));
+    }
+
+    public function getBrands ()
+    {
+        return \Illuminate\Support\Facades\DB::table('brands')
+            ->when(!v2_acl([2]), function ($q) {
+                return $q->whereIn('id', auth()->user()->brand_list());
+            })
+            ->get();
+    }
+
+    public function getFrontAgents ()
+    {
+        return DB::table('users')->where('is_employee', 0)
+            ->when(!v2_acl([2]), function ($q) {
+                $user_ids = DB::table('brand_users')->whereIn('brand_id', auth()->user()->brand_list())->pluck('user_id')->toArray();
+                return $q->whereIn('id', $user_ids);
+            })
+            ->get();
     }
 }

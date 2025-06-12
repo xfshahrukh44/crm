@@ -31,7 +31,7 @@
                                     <input type="checkbox" name="status[]" value="4" @if(request()->get('status') != null) {{ in_array(4, request()->get('status')) ? ' checked' : '' }} @endif/><span>In Progress</span><span class="checkmark"></span>
                                 </label>
                                 <label class="checkbox checkbox-primary">
-                                    <input type="checkbox" name="status[]" value="5" @if(request()->get('status') != null) {{ in_array(5, request()->get('status')) ? ' checked' : '' }} @endif/><span>Sent for Approval</span><span class="checkmark"></span>
+                                    <input type="checkbox" name="status[]" value="5" @if(request()->get('status') != null) {{ in_array(5, request()->get('status')) ? ' checked' : '' }} @endif/><span>Sent for Review</span><span class="checkmark"></span>
                                 </label>
                                 <label class="checkbox checkbox-primary">
                                     <input type="checkbox" name="status[]" value="6" @if(request()->get('status') != null) {{ in_array(6, request()->get('status')) ? ' checked' : '' }} @endif/><span>Incomplete Brief</span><span class="checkmark"></span>
@@ -122,7 +122,7 @@
                                 </td>
                             </tr>
                             @endforeach
-                            
+
                         </tbody>
                         <tfoot>
                             <tr>
