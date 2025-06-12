@@ -43,7 +43,10 @@
                                        data-password="{{ $client->user ? '' : '' }}">
                                         {{ $client->user ? 'Reset Password' : 'Create Account' }}
                                     </a>
-                                    <a href="{{route('v2.invoices.create', $client->id)}}" class="password-btn blue-assign">Generate Payment</a>
+
+                                    @if(!user_is_cs())
+                                        <a href="{{route('v2.invoices.create', $client->id)}}" class="password-btn blue-assign">Generate Payment</a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -52,7 +55,7 @@
             </div>
         </section>
 
-        @if(count($invoices))
+        @if(count($invoices) && !user_is_cs())
             <section class="list-0f">
                 <div class="container">
                     <div class="row">
@@ -180,13 +183,15 @@
                                             <td>{{Carbon\Carbon::parse($project->created_at)->format('d F Y')}}</td>
 
                                             <td>
-                                                <a href="javascript:void(0);" class="for-assign btn_assign_project"
-                                                   data-id="{{$project->id}}"
-                                                   data-form="{{$project->form_checker}}"
-                                                   data-brand="{{$project->brand_id}}"
-                                                >
-                                                    Re Assign
-                                                </a>
+                                                @if(!user_is_cs())
+                                                    <a href="javascript:void(0);" class="for-assign btn_assign_project"
+                                                       data-id="{{$project->id}}"
+                                                       data-form="{{$project->form_checker}}"
+                                                       data-brand="{{$project->brand_id}}"
+                                                    >
+                                                        Re Assign
+                                                    </a>
+                                                @endif
                                                 @if($project->form_checker != 0)
                                                     <a href="javascript:;" class="for-assign blue-assign">
                                                         View Form
@@ -206,7 +211,7 @@
             </section>
         @endif
 
-        @if(count($pending_projects))
+        @if(count($pending_projects) && !user_is_cs())
             <section class="list-0f">
                 <div class="container">
                     <div class="row">
@@ -253,7 +258,7 @@
             </section>
         @endif
 
-        @if(count($briefs_pendings))
+        @if(count($briefs_pendings) && !user_is_cs())
             <section class="list-0f">
                 <div class="container">
                     <div class="row">
@@ -274,63 +279,66 @@
         @endif
     </div>
 
-    <!--  Assign Model -->
-    <div class="modal fade" id="assignModel" role="dialog" aria-labelledby="exampleModalCenterTitle-2" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle-2">Assign Agent</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                </div>
-                <form action="{{ route('support.reassign.support') }}" method="post">
-                    @csrf
-                    <div class="modal-body">
-                        <input type="hidden" name="id" id="assign_id">
-                        <input type="hidden" name="form" id="form_id">
-                        <div class="form-group">
-                            <label class="col-form-label" for="agent-name-wrapper">Name:</label>
-                            <select name="agent_id" id="agent-name-wrapper" class="form-control">
 
-                            </select>
+    @if(!user_is_cs())
+        <!--  Assign Model -->
+        <div class="modal fade" id="assignModel" role="dialog" aria-labelledby="exampleModalCenterTitle-2" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle-2">Assign Agent</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <form action="{{ route('support.reassign.support') }}" method="post">
+                        @csrf
+                        <div class="modal-body">
+                            <input type="hidden" name="id" id="assign_id">
+                            <input type="hidden" name="form" id="form_id">
+                            <div class="form-group">
+                                <label class="col-form-label" for="agent-name-wrapper">Name:</label>
+                                <select name="agent_id" id="agent-name-wrapper" class="form-control">
+
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                        <button class="btn btn-primary ml-2" type="submit">Save changes</button>
-                    </div>
-                </form>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+                            <button class="btn btn-primary ml-2" type="submit">Save changes</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!--  Assign Pending Model -->
-    <div class="modal fade" id="assignPendingModel" role="dialog" aria-labelledby="exampleModalCenterTitle-2" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle-2">Assign Agent</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                </div>
-                <form action="{{ route('assign-pending-project-to-agent') }}" method="post">
-                    @csrf
-                    <div class="modal-body">
-                        <input type="hidden" name="id" id="pending_assign_id">
-                        <input type="hidden" name="form" id="pending_form_id">
-                        <div class="form-group">
-                            <label class="col-form-label" for="agent-name-wrapper">Name:</label>
-                            <select name="agent_id" id="agent-name-wrapper-2" class="form-control">
+        <!--  Assign Pending Model -->
+        <div class="modal fade" id="assignPendingModel" role="dialog" aria-labelledby="exampleModalCenterTitle-2" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle-2">Assign Agent</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <form action="{{ route('assign-pending-project-to-agent') }}" method="post">
+                        @csrf
+                        <div class="modal-body">
+                            <input type="hidden" name="id" id="pending_assign_id">
+                            <input type="hidden" name="form" id="pending_form_id">
+                            <div class="form-group">
+                                <label class="col-form-label" for="agent-name-wrapper">Name:</label>
+                                <select name="agent_id" id="agent-name-wrapper-2" class="form-control">
 
-                            </select>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                        <button class="btn btn-primary ml-2" type="submit">Save changes</button>
-                    </div>
-                </form>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+                            <button class="btn btn-primary ml-2" type="submit">Save changes</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+    @endif
 @endsection
 
 @section('script')

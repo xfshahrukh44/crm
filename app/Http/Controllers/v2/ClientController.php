@@ -17,6 +17,7 @@ use App\Models\Isbnform;
 use App\Models\LogoForm;
 use App\Models\NewSMM;
 use App\Models\PressReleaseForm;
+use App\Models\Project;
 use App\Models\Proofreading;
 use App\Models\SeoBrief;
 use App\Models\SeoForm;
@@ -24,6 +25,7 @@ use App\Models\Service;
 use App\Models\SmmForm;
 use App\Models\User;
 use App\Models\WebForm;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -32,7 +34,7 @@ class ClientController extends Controller
 {
     public function index (Request $request)
     {
-        if (!v2_acl([2, 6])) {
+        if (!v2_acl([2, 6, 4])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -42,10 +44,25 @@ class ClientController extends Controller
             })
             ->get();
 
+        //restricted brand access
+        $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+
         $clients = \App\Models\Client::orderBy('priority', 'ASC')
             ->orderBy('id', 'desc')
             ->when(!v2_acl([2]), function ($q) {
                 return $q->whereIn('brand_id', auth()->user()->brand_list());
+            })
+            ->when(user_is_cs(), function ($q) {
+                return $q->whereIn('id', $this->getClientIDs());
+            })
+            ->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand_id', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand_id', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
+                });
             })
             ->when(!is_null(request()->get('start_date')), function ($q) {
                 return $q->whereDate('created_at', '>=', request()->get('start_date'));
@@ -94,7 +111,7 @@ class ClientController extends Controller
 
     public function create (Request $request)
     {
-        if (!v2_acl([2, 6])) {
+        if (!v2_acl([2, 6, 4]) || user_is_cs()) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -109,7 +126,7 @@ class ClientController extends Controller
 
     public function store (Request $request)
     {
-        if (!v2_acl([2, 6])) {
+        if (!v2_acl([2, 6, 4]) || user_is_cs()) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -156,12 +173,16 @@ class ClientController extends Controller
 
     public function edit (Request $request, $id)
     {
-        if (!v2_acl([2, 6])) {
+        if (!v2_acl([2, 6, 4])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
         if (!$client = Client::find($id)) {
             return redirect()->back()->with('error', 'Not found.');
+        }
+
+        if (user_is_cs() && !in_array($client->id, $this->getClientIDs())) {
+            return redirect()->back()->with('error', 'Not allowed.');
         }
 
         $brands = \Illuminate\Support\Facades\DB::table('brands')
@@ -175,7 +196,7 @@ class ClientController extends Controller
 
     public function update (Request $request, $id)
     {
-        if (!v2_acl([2, 6])) {
+        if (!v2_acl([2, 6, 4])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -199,6 +220,10 @@ class ClientController extends Controller
             }
         }
 
+        if (user_is_cs() && !in_array($client->id, $this->getClientIDs())) {
+            return redirect()->back()->with('error', 'Not allowed.');
+        }
+
         $client->update($request->all());
 
         return redirect()->route('v2.clients')->with('success','Client updated Successfully.');
@@ -206,7 +231,7 @@ class ClientController extends Controller
 
     public function show (Request $request, $id)
     {
-        if (!v2_acl([2, 6])) {
+        if (!v2_acl([2, 6, 4])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -221,6 +246,10 @@ class ClientController extends Controller
             }
         }
 
+        if (user_is_cs() && !in_array($client->id, $this->getClientIDs())) {
+            return redirect()->back()->with('error', 'Not allowed.');
+        }
+
         $invoices = \App\Models\Invoice::where('client_id', $client->id)->orderBy('created_at', 'DESC')->get();
         $client_user = \App\Models\User::where('client_id', $client->id)->first();
         $projects = $client_user ? $client_user->recent_projects : [];
@@ -231,7 +260,7 @@ class ClientController extends Controller
     }
 
     public function createAuth(Request $request){
-        if (!v2_acl([2, 6, 0, 4])) {
+        if (!v2_acl([2, 6, 0, 4]) || user_is_cs()) {
             return response()->json(['success' => false , 'message' => 'Access denied.']);
         }
 
@@ -428,7 +457,7 @@ class ClientController extends Controller
     }
 
     public function updateAuth(Request $request){
-        if (!v2_acl([2, 6, 0, 4])) {
+        if (!v2_acl([2, 6, 0, 4]) || user_is_cs()) {
             return response()->json(['success' => false , 'message' => 'Access denied.']);
         }
 
@@ -468,5 +497,12 @@ class ClientController extends Controller
         } catch (\Exception $e) {
             return response()->json(['success' => false , 'message' => $e->getMessage()]);
         }
+    }
+
+    public function getClientIDs ()
+    {
+        return array_unique(User::whereIn('id',
+            array_unique(Project::where('user_id', auth()->id())->pluck('client_id')->toArray())
+        )->pluck('client_id')->toArray());
     }
 }

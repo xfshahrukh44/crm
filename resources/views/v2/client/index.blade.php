@@ -43,10 +43,12 @@
                                     <h1 style="font-weight: 100;">Clients</h1>
                                 </div>
                                 <div class="col-md-6 m-auto d-flex justify-content-end">
-                                    <a href="{{route('v2.clients.create')}}" class="btn btn-sm btn-success">
-                                        <i class="fas fa-plus"></i>
-                                        Create
-                                    </a>
+                                    @if(v2_acl([2, 6, 4]) && !user_is_cs())
+                                        <a href="{{route('v2.clients.create')}}" class="btn btn-sm btn-success">
+                                            <i class="fas fa-plus"></i>
+                                            Create
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
 
@@ -171,12 +173,14 @@
 
                                             <!-- Hidden Popup Box -->
                                             <div id="clientActionsBox_{{ $client->id }}" class="client-actions-box text-center d-none">
-                                                <a href="{{ route('v2.clients.edit', $client->id) }}" class="badge bg-primary badge-icon badge-sm text-white p-2">
-                                                    <span class="ul-btn__icon"><i class="i-Edit"></i></span>
-                                                    <span class="ul-btn__text">
-                                                                <i class="fas fa-pencil"></i>
-                                                            </span>
-                                                </a>
+                                                @if(v2_acl([2, 6, 4]))
+                                                    <a href="{{ route('v2.clients.edit', $client->id) }}" class="badge bg-primary badge-icon badge-sm text-white p-2">
+                                                        <span class="ul-btn__icon"><i class="i-Edit"></i></span>
+                                                        <span class="ul-btn__text">
+                                                                    <i class="fas fa-pencil"></i>
+                                                                </span>
+                                                    </a>
+                                                @endif
                                                 <a href="{{ route('v2.clients.show', $client->id) }}" class="badge bg-dark badge-icon badge-sm text-white p-2">
                                                     <span class="ul-btn__icon"><i class="i-Eyeglasses-Smiley"></i></span>
                                                     <span class="ul-btn__text">
@@ -184,13 +188,15 @@
                                                             </span>
                                                 </a>
 
-                                                <a href="#" onclick="event.preventDefault(); document.getElementById('client_delete_form_{{$client->id}}').submit();" class="badge bg-danger badge-icon badge-sm text-white p-2">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
-                                                <form hidden id="client_delete_form_{{$client->id}}" method="POST" action="{{route('admin.client.destroy', $client->id) }}">
-                                                    {{ method_field('DELETE') }}
-                                                    {{ csrf_field() }}
-                                                </form>
+                                                @if(v2_acl([2]))
+                                                    <a href="#" onclick="event.preventDefault(); document.getElementById('client_delete_form_{{$client->id}}').submit();" class="badge bg-danger badge-icon badge-sm text-white p-2">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                    <form hidden id="client_delete_form_{{$client->id}}" method="POST" action="{{route('admin.client.destroy', $client->id) }}">
+                                                        {{ method_field('DELETE') }}
+                                                        {{ csrf_field() }}
+                                                    </form>
+                                                @endif
 
                                                 <a href="javascript:void(0);" class="badge bg-warning badge-icon badge-sm p-2 btn_open_notes" id="btn_open_notes_{{$client->id}}"
                                                    data-id="{{$client->id}}"

@@ -182,7 +182,7 @@
                         </li>
                     @endif
 
-                    @if(in_array($user_role_id, [2, 6]))
+                    @if(in_array($user_role_id, [2, 6, 4]))
                         <li>
                             <a href="{{route('v2.clients')}}" class="{{ request()->routeIs('v2.clients') || request()->routeIs('v2.clients.create') || request()->routeIs('v2.clients.edit') || request()->routeIs('v2.clients.show') ? 'active' : '' }}">
                                 Clients
