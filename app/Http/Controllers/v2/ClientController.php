@@ -73,9 +73,11 @@ class ClientController extends Controller
                 });
             })
             ->when(request()->get('name') != '', function ($q) {
-                return $q->where(\Illuminate\Support\Facades\DB::raw('concat(name," ",last_name)'), 'like', '%'.request()->get('name').'%')
-                    ->orWhere('name', 'like', '%'.request()->get('name').'%')
-                    ->orWhere('last_name', 'like', '%'.request()->get('name').'%');
+                return $q->where(function ($q) {
+                    return $q->where(\Illuminate\Support\Facades\DB::raw('concat(name," ",last_name)'), 'like', '%'.request()->get('name').'%')
+                        ->orWhere('name', 'like', '%'.request()->get('name').'%')
+                        ->orWhere('last_name', 'like', '%'.request()->get('name').'%');
+                });
             })
             ->when(request()->get('email') != '', function ($q) {
                 return $q->where('email', 'LIKE', "%".request()->get('email')."%");

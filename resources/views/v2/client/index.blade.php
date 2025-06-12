@@ -90,8 +90,10 @@
                                     <th>Login</th>
                                 @endif
                                 <th>Priority</th>
-                                <th>Last login IP</th>
-                                <th>Device info</th>
+                                @if(v2_acl([2]))
+                                    <th>Last login IP</th>
+                                    <th>Device info</th>
+                                @endif
                                 <th>Action</th>
 
                                 </thead>
@@ -155,10 +157,12 @@
                                             </td>
                                         @endif
                                         <td class="text-center">{!! $client->priority_badge() !!}</td>
-                                        <td>{{$client->last_login_ip ?? ''}}</td>
-                                        <td>
-                                            <i class="fas fa-desktop" style="cursor: pointer; font-size: 20px;" title="{{$client->last_login_device ?? ''}}"></i>
-                                        </td>
+                                        @if(v2_acl([2]))
+                                            <td>{{$client->last_login_ip ?? ''}}</td>
+                                            <td>
+                                                <i class="fas fa-desktop" style="cursor: pointer; font-size: 20px;" title="{{$client->last_login_device ?? ''}}"></i>
+                                            </td>
+                                        @endif
                                         <td style="position: relative;">
                                             <!-- Single Action Button -->
                                             <button type="button" class="badge badge-sm bg-light p-2" style="border: 0px;" onclick="toggleClientActions({{ $client->id }})">
