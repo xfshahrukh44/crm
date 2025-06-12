@@ -22,7 +22,7 @@ class TaskController extends Controller
 {
     public function index (Request $request)
     {
-        if (!v2_acl([2])) {
+        if (!v2_acl([2, 6])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -37,7 +37,12 @@ class TaskController extends Controller
         }
 
         $tasks = Task::whereIn('brand_id', $brand_ids)
-            ->when(request()->get('id') != '', function ($q) {
+            ->when(request()->get('project') != '', function ($q) {
+                $project = request()->get('project');
+                return $q->whereHas('projects', function($q) use($project){
+                    $q->where('name', 'LIKE', "%$project%");
+                });
+            })->when(request()->get('id') != '', function ($q) {
                 return $q->where('id', request()->get('id'));
             })->when(request()->get('brand_id') != '', function ($q) {
                 return $q->where('brand_id', request()->get('brand_id'));
@@ -120,17 +125,24 @@ class TaskController extends Controller
 
 //        return view('support.task.index', compact('data', 'notify_data', 'brands', 'categorys', 'expected_delivery_today', 'expected_delivery_duedate', 'expected_delivery_yesterday','myData'));
 
-        return view('v2.task.index', compact('tasks', 'brands', 'categories'));
+        return view('v2.task.index', compact('tasks', 'brands', 'categories', 'notify_data'));
     }
 
     public function create (Request $request, $id)
     {
-        if (!v2_acl([2])) {
+        if (!v2_acl([2, 6])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
         if (!$project = Project::find($id)) {
             return redirect()->back()->with('error', 'Not found.');
+        }
+
+        //non-admin checks
+        if (!v2_acl([2])) {
+            if (!in_array($project->brand_id, auth()->user()->brand_list())) {
+                return redirect()->back()->with('error', 'Not allowed.');
+            }
         }
 
         $categories = Category::all();
@@ -155,6 +167,13 @@ class TaskController extends Controller
 //            ->whereIn('brand_id', auth()->user()->brand_list())
             ->where('id', $request->project_id)
             ->first();
+
+        //non-admin checks
+        if (!v2_acl([2])) {
+            if (!in_array($project->brand_id, auth()->user()->brand_list())) {
+                return redirect()->back()->with('error', 'Not allowed.');
+            }
+        }
 
         foreach ($request->category_id as $category_id) {
             $task = Task::create([
@@ -293,7 +312,7 @@ class TaskController extends Controller
 
     public function show (Request $request, $id)
     {
-        if (!v2_acl([2])) {
+        if (!v2_acl([2, 6])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -301,12 +320,19 @@ class TaskController extends Controller
             return redirect()->back()->with('error', 'Not found.');
         }
 
+        //non-admin checks
+        if (!v2_acl([2])) {
+            if (!in_array($task->brand_id, auth()->user()->brand_list())) {
+                return redirect()->back()->with('error', 'Not allowed.');
+            }
+        }
+
         return view('v2.task.show', compact('task'));
     }
 
     public function updateStatus (Request $request, $id)
     {
-        if (!v2_acl([2])) {
+        if (!v2_acl([2, 6])) {
             return response()->json(['status' => false, 'message' => 'Access denied.']);
         }
 
@@ -315,11 +341,23 @@ class TaskController extends Controller
         $allowed_status_map = [
 //            2 => [0, 1, 2, 3, 4, 5, 6, 7],
             2 => [1, 2, 3, 4, 5, 6],
+            6 => [1],
         ];
 
         if (!in_array($value, $allowed_status_map[auth()->user()->is_employee])) {
             return response()->json(['status' => false, 'message' => 'Not allowed.']);
         }
+
+        $task = Task::find($id);
+
+        //non-admin checks
+        if (!v2_acl([2])) {
+            if (!in_array($task->brand_id, auth()->user()->brand_list())) {
+                return response()->json(['status' => false, 'message' => 'Not allowed.']);
+            }
+        }
+
+        $user = $task->user;
 
         $status_text_map = [
             0 => 'Open',
@@ -333,9 +371,6 @@ class TaskController extends Controller
         ];
 
         $status = $status_text_map[$value];
-
-        $task = Task::find($id);
-        $user = $task->user;
 
         //if task status changed create logs
         if ($task->status != $request->value) {
@@ -395,8 +430,17 @@ class TaskController extends Controller
 
     public function uploadFiles (Request $request, $id)
     {
-        if (!v2_acl([2])) {
+        if (!v2_acl([2, 6])) {
             return response()->json(['status' => false, 'message' => 'Access denied.']);
+        }
+
+        $task = Task::find($id);
+
+        //non-admin checks
+        if (!v2_acl([2])) {
+            if (!in_array($task->brand_id, auth()->user()->brand_list())) {
+                return response()->json(['status' => false, 'message' => 'Not allowed.']);
+            }
         }
 
         if($request->hasfile('images'))
@@ -427,7 +471,6 @@ class TaskController extends Controller
 
 
         //mail_notification
-        $task = Task::find($id);
         $project = Project::find($task->project_id);
         $departments_leads_ids = array_unique(DB::table('category_users')->where('category_id', $task->category_id)->pluck('user_id')->toArray());
         $departments_leads_emails = User::where('is_employee', 1)->whereIn('id', $departments_leads_ids)->pluck('email')->toArray();

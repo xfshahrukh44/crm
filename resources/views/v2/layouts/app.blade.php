@@ -238,7 +238,7 @@
                         </li>
                     @endif
 
-                    @if(in_array($user_role_id, [2]))
+                    @if(in_array($user_role_id, [2, 6]))
                         <li>
                             <a href="{{route('v2.pending.projects')}}" class="{{ request()->routeIs('v2.pending.projects') ? 'active' : '' }}">
                                 Pending projects
@@ -246,7 +246,7 @@
                         </li>
                     @endif
 
-                    @if(in_array($user_role_id, [2]))
+                    @if(in_array($user_role_id, [2, 6]))
                         <li>
                             <a href="{{route('v2.projects')}}" class="{{ request()->routeIs('v2.projects') ? 'active' : '' }}">
                                 Projects
@@ -254,7 +254,7 @@
                         </li>
                     @endif
 
-                    @if(in_array($user_role_id, [2]))
+                    @if(in_array($user_role_id, [2, 6]))
                         <li>
                             <a href="{{route('v2.tasks')}}" class="{{ request()->routeIs('v2.tasks') || request()->routeIs('v2.tasks.create') || request()->routeIs('v2.tasks.edit') || request()->routeIs('v2.tasks.show') ? 'active' : '' }}">
                                 Tasks

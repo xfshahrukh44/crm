@@ -33,103 +33,75 @@
 
 @section('content')
     <div class="for-slider-main-banner">
-        @switch($user_role_id)
-            @case(2)
-                @php
-                    $brands = \Illuminate\Support\Facades\DB::table('brands')->get();
-                    $categories = \App\Models\Category::all();
-                    $projects = \App\Models\Project::whereHas('client')
-                        ->when(!is_null(request()->get('start_date')) && request()->get('start_date') != '', function ($q) {
-                            return $q->whereDate('created_at', '>=', request()->get('start_date'));
-                        })->when(!is_null(request()->get('end_date')) && request()->get('end_date') != '', function ($q) {
-                            return $q->whereDate('created_at', '<=', request()->get('end_date'));
-                        })->when(request()->get('brand') != null && request()->get('brand') != '', function ($q) {
-                            return $q->where('brand_id', request()->get('brand'));
-                        })->when(request()->get('client') != null && request()->get('client') != '', function ($q) {
-                            $name = request()->get('client');
-                            return $q->whereHas('client', function ($query) use ($name){
-                                return $query->where('name', 'LIKE', "%{$name}%")
-                                    ->orWhere('last_name', 'LIKE', "%{$name}%")
-                                    ->orWhere('email', 'LIKE', "%{$name}%");
-                            });
-                        })->when(request()->get('user') != null && request()->get('user') != '', function ($q) {
-                            $name = request()->get('user');
-                            return $q->whereHas('added_by', function ($query) use ($name){
-                                return $query->where('name', 'LIKE', "%{$name}%")
-                                    ->orWhere('last_name', 'LIKE', "%{$name}%")
-                                    ->orWhere('email', 'LIKE', "%{$name}%");
-                            });
-                        })->orderBy('id', 'desc')->paginate(20);
-                @endphp
-                <section class="list-0f">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="list-0f-head for-invoice-listing table-responsive">
-                                    <div class="row text-left pr-3 pb-2">
-                                        <div class="col-md-6 m-auto d-flex justify-content-start pt-2">
-                                            <h1 style="font-weight: 100;">Projects</h1>
-                                        </div>
-                                        <div class="col-md-6 m-auto d-flex justify-content-end">
-{{--                                            <a href="#" class="btn btn-sm btn-success">--}}
-{{--                                                <i class="fas fa-plus"></i>--}}
-{{--                                                Create--}}
-{{--                                            </a>--}}
-                                        </div>
-                                    </div>
+        <section class="list-0f">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="list-0f-head for-invoice-listing table-responsive">
+                            <div class="row text-left pr-3 pb-2">
+                                <div class="col-md-6 m-auto d-flex justify-content-start pt-2">
+                                    <h1 style="font-weight: 100;">Projects</h1>
+                                </div>
+                                <div class="col-md-6 m-auto d-flex justify-content-end">
+                                    {{--                                            <a href="#" class="btn btn-sm btn-success">--}}
+                                    {{--                                                <i class="fas fa-plus"></i>--}}
+                                    {{--                                                Create--}}
+                                    {{--                                            </a>--}}
+                                </div>
+                            </div>
 
-                                    <br>
+                            <br>
 
-{{--                                    <div class="search-invoice">--}}
-                                    <form class="search-invoice" action="{{route('v2.projects')}}" method="GET">
-                                        <select name="brand">
-                                            <option value="">Select brand</option>
-                                            @foreach($brands as $brand)
-                                                <option value="{{$brand->id}}" {{ request()->get('brand') ==  $brand->id ? 'selected' : ' '}}>{{$brand->name}}</option>
-                                            @endforeach
-                                        </select>
-                                        <input type="text" name="client" placeholder="Client Name / Email" value="{{ request()->get('client') }}">
-                                        <input type="text" name="user" placeholder="Agent Name / Email" value="{{ request()->get('user') }}">
-{{--                                        <select name="category">--}}
-{{--                                            <option value="">Select category</option>--}}
-{{--                                            @foreach($categories as $category)--}}
-{{--                                                <option value="{{$category->id}}" {{ request()->get('category') ==  $category->id ? 'selected' : ' '}}>{{$category->name}}</option>--}}
-{{--                                            @endforeach--}}
-{{--                                        </select>--}}
-                                        <input type="date" name="start_date" placeholder="Start date" value="{{ request()->get('start_date') }}">
-                                        <input type="date" name="end_date" placeholder="Start date" value="{{ request()->get('end_date') }}">
+                            {{--                                    <div class="search-invoice">--}}
+                            <form class="search-invoice" action="{{route('v2.projects')}}" method="GET">
+                                <select name="brand">
+                                    <option value="">Select brand</option>
+                                    @foreach($brands as $brand)
+                                        <option value="{{$brand->id}}" {{ request()->get('brand') ==  $brand->id ? 'selected' : ' '}}>{{$brand->name}}</option>
+                                    @endforeach
+                                </select>
+                                <input type="text" name="client" placeholder="Client Name / Email" value="{{ request()->get('client') }}">
+                                <input type="text" name="user" placeholder="Agent Name / Email" value="{{ request()->get('user') }}">
+                                {{--                                        <select name="category">--}}
+                                {{--                                            <option value="">Select category</option>--}}
+                                {{--                                            @foreach($categories as $category)--}}
+                                {{--                                                <option value="{{$category->id}}" {{ request()->get('category') ==  $category->id ? 'selected' : ' '}}>{{$category->name}}</option>--}}
+                                {{--                                            @endforeach--}}
+                                {{--                                        </select>--}}
+                                <input type="date" name="start_date" placeholder="Start date" value="{{ request()->get('start_date') }}">
+                                <input type="date" name="end_date" placeholder="Start date" value="{{ request()->get('end_date') }}">
 
-                                        <a href="javascript:;" onclick="document.getElementById('btn_filter_form').click()">Search Result</a>
-                                        <button hidden id="btn_filter_form" type="submit"></button>
-                                    </form>
-{{--                                    </div>--}}
+                                <a href="javascript:;" onclick="document.getElementById('btn_filter_form').click()">Search Result</a>
+                                <button hidden id="btn_filter_form" type="submit"></button>
+                            </form>
+                            {{--                                    </div>--}}
 
-                                    <table id="zero_configuration_table" style="width: 100%;">
-                                        <thead>
+                            <table id="zero_configuration_table" style="width: 100%;">
+                                <thead>
 
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Client</th>
-                                            <th>Assigned To</th>
-                                            <th>Brand</th>
-                                            <th>Status</th>
-                                            <th>Created At</th>
-                                            <th>Active</th>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Client</th>
+                                <th>Assigned To</th>
+                                <th>Brand</th>
+                                <th>Status</th>
+                                <th>Created At</th>
+                                <th>Active</th>
 
-                                        </thead>
-                                        <tbody>
-                                            @foreach($projects as $project)
-                                                <tr>
-                                                    <td>{{$project->id}}</td>
-                                                    <td>
-                                                        {!! \Illuminate\Support\Str::limit(strip_tags($project->name), 20, $end='...') !!}
-                                                    </td>
-                                                    <td>
-                                                        {{$project->client->name}} {{$project->client->last_name}}<br>
-                                                        {{--                                    {{$project->client->email}}--}}
+                                </thead>
+                                <tbody>
+                                @foreach($projects as $project)
+                                    <tr>
+                                        <td>{{$project->id}}</td>
+                                        <td>
+                                            {!! \Illuminate\Support\Str::limit(strip_tags($project->name), 20, $end='...') !!}
+                                        </td>
+                                        <td>
+                                            {{$project->client->name}} {{$project->client->last_name}}<br>
+                                            {{--                                    {{$project->client->email}}--}}
 
-                                                        <br>
-                                                        <span>
+                                            <br>
+                                            <span>
                                                             <a href="javascript:void(0);" class="badge badge-sm bg-dark text-white p-2 btn_click_to_view">
                                                                 <i class="fas fa-eye mr-1"></i>
                                                                 View email
@@ -139,7 +111,7 @@
                                                             </span>
                                                         </span>
 
-                                                        <span>
+                                            <span>
                                                             <a href="javascript:void(0);" class="badge badge-sm bg-dark text-white p-2 btn_click_to_view">
                                                                 <i class="fas fa-eye mr-1"></i>
                                                                 View phone
@@ -148,124 +120,69 @@
                                                                 {{$project->client->contact}}
                                                             </span>
                                                         </span>
-                                                    </td>
-                                                    <td>
-                                                        {{$project->added_by->name}} {{$project->added_by->last_name}} <br>
-                                                        {{$project->added_by->email}}
-                                                        <br>
+                                        </td>
+                                        <td>
+                                            {{$project->added_by->name}} {{$project->added_by->last_name}} <br>
+                                            {{$project->added_by->email}}
+                                            <br>
 
-                                                        <a href="javascript:;" class="badge bg-success text-white badge-icon badge-sm p-2 btn_assign_project"
-                                                           data-id="{{$project->id}}"
-                                                           data-form="{{$project->form_checker}}"
-                                                           data-brand="{{$project->brand_id}}"
-                                                        >
-                                                            <span class="ul-btn__icon"><i class="i-Checked-User"></i></span>
-                                                            <span class="ul-btn__text">Re Assign</span>
-                                                        </a>
-                                                    </td>
-                                                    <td><button class="btn btn-info btn-sm">{{$project->brand->name}}</button></td>
-                                                    <td>
-                                                        @if($project->status == 1)
-                                                            <button class="btn btn-success btn-sm">Active</button>
-                                                        @else
-                                                            <button class="btn btn-danger btn-sm">Deactive</button>
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        {{\Carbon\Carbon::parse($project->created_at)->format('d M y h:i A')}}
-                                                    </td>
-                                                    <td style="position: relative;">
-                                                        <!-- Single Action Button -->
-                                                        <button type="button" class="badge badge-sm bg-light p-2" style="border: 0px;" onclick="toggleProjectActions({{ $project->id }})">
-                                                            <i class="fas fa-bars"></i>
-                                                        </button>
+                                            <a href="javascript:;" class="badge bg-success text-white badge-icon badge-sm p-2 btn_assign_project"
+                                               data-id="{{$project->id}}"
+                                               data-form="{{$project->form_checker}}"
+                                               data-brand="{{$project->brand_id}}"
+                                            >
+                                                <span class="ul-btn__icon"><i class="i-Checked-User"></i></span>
+                                                <span class="ul-btn__text">Re Assign</span>
+                                            </a>
+                                        </td>
+                                        <td><button class="btn btn-info btn-sm">{{$project->brand->name}}</button></td>
+                                        <td>
+                                            @if($project->status == 1)
+                                                <button class="btn btn-success btn-sm">Active</button>
+                                            @else
+                                                <button class="btn btn-danger btn-sm">Deactive</button>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            {{\Carbon\Carbon::parse($project->created_at)->format('d M y h:i A')}}
+                                        </td>
+                                        <td style="position: relative;">
+                                            <!-- Single Action Button -->
+                                            <button type="button" class="badge badge-sm bg-light p-2" style="border: 0px;" onclick="toggleProjectActions({{ $project->id }})">
+                                                <i class="fas fa-bars"></i>
+                                            </button>
 
-                                                        <!-- Hidden Popup Box -->
-                                                        <div id="projectActionsBox_{{ $project->id }}" class="project-actions-box text-center d-none">
-                                                            <a href="javascript:void(0);" class="badge bg-primary text-white badge-icon badge-sm p-2">
-                                                                View Form
-                                                            </a>
-                                                            <a href="{{route('v2.tasks.create', $project->id)}}" class="badge bg-dark text-white badge-icon badge-sm p-2">
-                                                                Create Task
-                                                            </a>
-                                                            <a href="javascript:void(0);" class="badge bg-warning badge-icon badge-sm p-2 btn_open_notes" id="btn_open_notes_{{$project->id}}"
-                                                               data-id="{{$project->id}}"
-                                                               data-content="{{$project->comments}}"
-                                                               data-modifier-check="{{($project->comments !== '' && !is_null($project->comments_id) && !is_null($project->comments_timestamp)) ? '1' : '0'}}"
-                                                               data-modifier="{{($project->commenter->name ?? '') . ' ' . ($project->commenter->last_name ?? '') . ' ('.\Carbon\Carbon::parse($project->comments_timestamp)->format('d M Y h:i A').')'}}">
-
-                                                                <span class="ul-btn__icon"><i class="fas fa-quote-right"></i></span>
-                                                                Notes
-                                                            </a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                    <div class="d-flex justify-content-end mt-2">
-                                        {{ $projects->appends(request()->query())->links() }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                @break
-
-            @default
-                <section class="list-0f">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="list-0f-head for-invoice-listing">
-                                    <table>
-                                        <thead>
-
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Public key</th>
-                                        <th>Secret key</th>
-                                        <th>Merchant</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-
-                                        </thead>
-                                        <tbody>
-
-                                        <tr>
-                                            <td>123</td>
-                                            <td>Merchant 1</td>
-                                            <td>
-                                                sadasdsadasdsadakjdyihd18272bd871bd82b
-                                            </td>
-                                            <td>
-                                                sadasdsadasdsadakjdyihd18272bd871bd82b
-                                            </td>
-                                            <td>
-                                                <div class="badge badge-sm bg-secondary text-white">STRIPE</div>
-                                            </td>
-                                            <td>
-                                                <div class="badge badge-sm bg-danger text-white">Deactive</div>
-                                            </td>
-                                            <td>
-                                                <a href="#" class="badge bg-primary">
-                                                    <i class="fas fa-pencil"></i>
+                                            <!-- Hidden Popup Box -->
+                                            <div id="projectActionsBox_{{ $project->id }}" class="project-actions-box text-center d-none">
+                                                <a href="javascript:void(0);" class="badge bg-primary text-white badge-icon badge-sm p-2">
+                                                    View Form
                                                 </a>
-                                            </td>
-                                        </tr>
+                                                <a href="{{route('v2.tasks.create', $project->id)}}" class="badge bg-dark text-white badge-icon badge-sm p-2">
+                                                    Create Task
+                                                </a>
+                                                <a href="javascript:void(0);" class="badge bg-warning badge-icon badge-sm p-2 btn_open_notes" id="btn_open_notes_{{$project->id}}"
+                                                   data-id="{{$project->id}}"
+                                                   data-content="{{$project->comments}}"
+                                                   data-modifier-check="{{($project->comments !== '' && !is_null($project->comments_id) && !is_null($project->comments_timestamp)) ? '1' : '0'}}"
+                                                   data-modifier="{{($project->commenter->name ?? '') . ' ' . ($project->commenter->last_name ?? '') . ' ('.\Carbon\Carbon::parse($project->comments_timestamp)->format('d M Y h:i A').')'}}">
 
-                                        </tbody>
-                                    </table>
-
-                                </div>
+                                                    <span class="ul-btn__icon"><i class="fas fa-quote-right"></i></span>
+                                                    Notes
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                            <div class="d-flex justify-content-end mt-2">
+                                {{ $projects->appends(request()->query())->links() }}
                             </div>
                         </div>
                     </div>
-                </section>
-        @endswitch
-
+                </div>
+            </div>
+        </section>
     </div>
     <!-- Notes Modal -->
     <div class="modal fade" id="modal_show_notes" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
