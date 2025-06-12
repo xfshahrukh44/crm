@@ -230,7 +230,7 @@
                         </li>
                     @endif
 
-                    @if(in_array($user_role_id, [2, 6]))
+                    @if(in_array($user_role_id, [2, 6, 4]) && !user_is_cs())
                         <li>
                             <a href="{{route('v2.briefs.pending')}}" class="{{ request()->routeIs('v2.briefs.pending') ? 'active' : '' }}">
                                 Briefs pending
@@ -238,7 +238,7 @@
                         </li>
                     @endif
 
-                    @if(in_array($user_role_id, [2, 6]))
+                    @if(in_array($user_role_id, [2, 6, 4]) && !user_is_cs())
                         <li>
                             <a href="{{route('v2.pending.projects')}}" class="{{ request()->routeIs('v2.pending.projects') ? 'active' : '' }}">
                                 Pending projects
@@ -246,7 +246,7 @@
                         </li>
                     @endif
 
-                    @if(in_array($user_role_id, [2, 6]))
+                    @if(in_array($user_role_id, [2, 6, 4]))
                         <li>
                             <a href="{{route('v2.projects')}}" class="{{ request()->routeIs('v2.projects') ? 'active' : '' }}">
                                 Projects
