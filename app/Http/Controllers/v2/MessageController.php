@@ -28,15 +28,12 @@ class MessageController extends Controller
 
         $client_user_ids = array_unique(Project::pluck('client_id')->toArray());
         $clients_with_messages = User::whereIn('users.id', $client_user_ids)
-            ->when(request()->has('client_name'), function ($q) {
-                return $q->whereHas('client', function ($q) {
-                    return $q->when(request()->has('client_name'), function ($q) {
-                        return $q->where(DB::raw('concat(name," ",last_name)'), 'like', '%'.request()->get('client_name').'%')
-                            ->orWhere('name', 'LIKE', "%".request()->get('client_name')."%")
-                            ->orWhere('last_name', 'LIKE', "%".request()->get('client_name')."%")
-                            ->orWhere('email', 'LIKE', "%".request()->get('client_name')."%")
-                            ->orWhere('contact', 'LIKE', "%".request()->get('client_name')."%");
-                    });
+            ->when(request()->filled('client_name'), function ($q) {
+                $q->where(function ($query) {
+                    $search = request()->get('client_name');
+                    $query->where(DB::raw('concat(name," ",last_name)'), 'LIKE', "%{$search}%")
+                        ->orWhere('name', 'LIKE', "%{$search}%")
+                        ->orWhere('last_name', 'LIKE', "%{$search}%");
                 });
             });
 
@@ -54,7 +51,7 @@ class MessageController extends Controller
             });
         });
 
-        // Sort by latest message
+        //Sort by latest mess age
         $latestMessages = DB::table('messages')
             ->select('client_id', DB::raw('MAX(created_at) as latest_message_date'))
             ->groupBy('client_id');
@@ -101,15 +98,42 @@ class MessageController extends Controller
             ->whereNull('is_read')
             ->update(['is_read' => Carbon::now()]);
 
+        $allClientFiles = $messages->pluck('sended_client_files')->flatten();
+
+        $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg'];
+
+       $recentFiles = $allClientFiles
+            ->filter(function ($file) use ($imageExtensions) {
+                $ext = strtolower(pathinfo($file->path, PATHINFO_EXTENSION)); // FIXED
+                return !in_array($ext, $imageExtensions);
+            })
+            ->sortByDesc('id')
+            ->take(3)
+            ->values();
+
+        $recentImages = $allClientFiles
+            ->filter(function ($file) use ($imageExtensions) {
+                $ext = strtolower(pathinfo($file->path, PATHINFO_EXTENSION)); // FIXED
+                return in_array($ext, $imageExtensions);
+            })
+            ->sortByDesc('id')
+            ->take(5)
+            ->values();
+
         if (request()->ajax()) {
             return response()->json([
                 'html' => view('v2.message.partials.chat_messages', [
                     'messages' => $messages,
                     'user_name' => $user->name.' '.$user->last_name,
                     'is_employee' => $user->is_employee,
-                    'user_image' => $user->image,
+                    'user_image' => asset($user->image ?? 'assets/imgs/default-avatar.jpg'),
+                    'client_files' => $recentFiles,
+                    'client_images' => $recentImages,
                 ])->render(),
-                'user_name' => $user->name
+                'user_name' => $user->name.' '.$user->last_name,
+                'user_image' => asset($user->image ?? 'assets/imgs/default-avatar.jpg'),
+                'client_files' => $recentFiles,
+                'client_images' => $recentImages,
             ]);
         }
 

@@ -216,6 +216,7 @@
             let loading = false;
             let page = {{ $page }};
             let hasMore = true;
+            let searchQuery = '';
 
             $('.clients-list').scroll(function() {
                 if (loading || !hasMore) return;
@@ -223,6 +224,15 @@
                 if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight - 100) {
                     loadMoreClients();
                 }
+            });
+
+            $('.search-input').on('input', function() {
+                searchQuery = $(this).val();
+                console.log('Search triggered with:', searchQuery); // Check here
+                page = 1;
+                hasMore = true;
+                $('.clients-list').empty();
+                loadMoreClients();
             });
 
             function loadMoreClients() {
@@ -233,7 +243,8 @@
                     url: '{{ route('v2.messages') }}',
                     type: 'GET',
                     data: {
-                        page: page + 1
+                        page: page + 1,
+                        client_name: searchQuery
                     },
                     dataType: 'json',
                     success: function(response) {
@@ -320,14 +331,14 @@
                                 </div>
                                 <div class="client-info-detail">
                                     <div class="client-profile">
-                                        <img src="images/circle.png" class="img-fluid">
+                                        <img src="" class="img-fluid" id="client-image-${clientId}">
                                         <a href="javascript:;">
                                             <span></span>
                                         </a>
                                     </div>
                                     <div class="client-content">
-                                        <h4>Alex Alexandrov</h4>
-                                        <p>Lorem, Lipsum</p>
+                                        <h4 id="client-content-${clientId}"></h4>
+                                        <!--<p>Lorem, Lipsum</p>-->
                                     </div>
                                 </div>
                                 <div class="container contact-tab new-setting-tab">
@@ -344,35 +355,10 @@
                                         <div class="tab-pane fade show active" id="Files"
                                             role="tabpanel" aria-labelledby="Files-tab">
                                             <h4>Recent files</h4>
-                                            <a href="javascript:;">
-                                                <div class="for-files">
-                                                    <img src="images/music.png" class="img-fluid">
-                                                    <h5>Sound of Freedom.mp3</h5>
-                                                </div>
-                                            </a>
-                                            <a href="javascript:;">
-                                                <div class="for-files">
-                                                    <img src="images/project-file.png"
-                                                        class="img-fluid">
-                                                    <h5>Project.zip</h5>
-                                                </div>
-                                            </a>
-                                            <a href="javascript:;">
-                                                <div class="for-files">
-                                                    <img src="images/loop.png" class="img-fluid">
-                                                    <h5>Project logos.eps</h5>
-                                                </div>
-                                            </a>
+                                            <div class="recent-files" id="recent-files-${clientId}"></div>
+
                                             <h4>Uploaded Photos</h4>
-                                            <div class="upload-photos">
-                                                <img src="images/square-icon.png" class="img-fluid">
-                                                <img src="images/square-icon.png" class="img-fluid">
-                                                <img src="images/square-icon.png" class="img-fluid">
-                                            </div>
-                                            <div class="upload-photos">
-                                                <img src="images/square-icon.png" class="img-fluid">
-                                                <img src="images/square-icon.png" class="img-fluid">
-                                            </div>
+                                            <div class="upload-photos" id="uploaded-photos-${clientId}"></div>
                                         </div>
                                         <div class="tab-pane fade" id="Setting"
                                             role="tabpanel" aria-labelledby="Setting-tab">
@@ -397,8 +383,41 @@
                     },
                     success: function(response) {
                         $(`#client-name-${clientId}`).text(response.user_name);
+                        $(`#client-content-${clientId}`).text(response.user_name);
+                        $(`#client-image-${clientId}`).attr('src', response.user_image);
                         $(`#messages-container-${clientId} .messages-wrapper`).html(response.html);
                         scrollToBottom(clientId);
+
+                        let consUrl = "{{ asset('files') }}";
+
+                        // Render recent non-image files
+                        const fileContainer = $(`#recent-files-${clientId}`);
+                        fileContainer.empty();
+                        response.client_files.forEach(file => {
+                            const ext = file.name.split('.').pop().toLowerCase();
+                            const icon = getFileIcon(ext); // We'll define this helper below
+
+                            fileContainer.append(`
+                                <a href="${consUrl}/${file.path}" target="_blank">
+                                    <div class="for-files">
+                                        <img src="${icon}" class="img-fluid">
+                                        <h5>${file.name}</h5>
+                                    </div>
+                                </a>
+                            `);
+                        });
+
+                        // Render recent images
+                        console.log(response.client_images);
+                        const photoContainer = $(`#uploaded-photos-${clientId}`);
+                        photoContainer.empty();
+                        response.client_images.forEach(image => {
+                            photoContainer.append(`
+                                <div class="inner-client-images">
+                                    <img src="${consUrl}/${image.path}" class="img-fluid" />
+                                </div>
+                            `);
+                        });
                     },
                     complete: function() {
                         $(`#messages-container-${clientId} .loading-spinner`).hide();
@@ -411,6 +430,25 @@
                 container.scrollTop(container[0].scrollHeight);
             }
 
+            function getFileIcon(extension) {
+                const map = {
+                    mp3: 'images/music.png',
+                    zip: 'images/project-file.png',
+                    rar: 'images/project-file.png',
+                    eps: 'images/loop.png',
+                    pdf: 'images/pdf-icon.png',
+                    doc: 'images/doc-icon.png',
+                    docx: 'images/doc-icon.png',
+                    xls: 'images/xls-icon.png',
+                    xlsx: 'images/xls-icon.png',
+                    ppt: 'images/ppt-icon.png',
+                    pptx: 'images/ppt-icon.png',
+                    default: 'images/file.png'
+                };
+
+                return map[extension] || map['default'];
+            }
+
             $(document).on('click', '.send-message', function () {
                 const $this = $(this);
                 const clientId = $this.data('client-id');
@@ -418,6 +456,20 @@
                 const fileInput = document.getElementById(`file-input-${clientId}`);
                 const files = fileInput.files;
                 const message = messageInput.val().trim();
+
+                // Check file count
+                if (files.length > 5) {
+                    toastr.error('You can only upload a maximum of 5 files.');
+                    return;
+                }
+
+                // Check file size (each file < 10MB)
+                for (let i = 0; i < files.length; i++) {
+                    if (files[i].size > 10 * 1024 * 1024) {
+                        toastr.error(`File "${files[i].name}" exceeds 10MB limit.`);
+                        return;
+                    }
+                }
 
                 if (!message && files.length === 0) return;
 

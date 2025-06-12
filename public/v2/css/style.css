@@ -1137,6 +1137,7 @@ table.client-list .progress-done {
     padding-bottom: 8px;
     color: #1d88f6;
     font-weight: 600;
+    background-color: #e7ebee;
 }
 .icon-info {
     display: flex;
@@ -1448,7 +1449,18 @@ ul#myTab2 {
     display: flex;
     gap: 10px;
     margin-bottom: 10px;
+    width: 98px;
+    flex-wrap: wrap;
 }
+
+.upload-photos img {
+    border-radius: 9px;
+}
+
+.inner-client-images {
+    width: 28%;
+}
+
 input:focus-visible {
     outline-offset: unset;
     outline:0;
