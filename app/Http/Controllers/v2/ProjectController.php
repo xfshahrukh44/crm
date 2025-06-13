@@ -4,6 +4,7 @@ namespace App\Http\Controllers\v2;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -12,35 +13,54 @@ class ProjectController extends Controller
 {
     public function index (Request $request)
     {
-        if (!v2_acl([2, 6])) {
+        if (!v2_acl([2, 6, 4])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
         $brands = $this->getBrands();
         $categories = \App\Models\Category::all();
+        //restricted brand access
+        $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+
         $projects = \App\Models\Project::whereHas('client')
             ->when(!v2_acl([2]), function ($q) {
                 return $q->whereIn('brand_id', auth()->user()->brand_list());
             })
+            ->when(user_is_cs(), function ($q) {
+                return $q->where('user_id', auth()->id());
+            })
             ->when(!is_null(request()->get('start_date')) && request()->get('start_date') != '', function ($q) {
                 return $q->whereDate('created_at', '>=', request()->get('start_date'));
-            })->when(!is_null(request()->get('end_date')) && request()->get('end_date') != '', function ($q) {
+            })
+            ->when(!is_null(request()->get('end_date')) && request()->get('end_date') != '', function ($q) {
                 return $q->whereDate('created_at', '<=', request()->get('end_date'));
-            })->when(request()->get('brand') != null && request()->get('brand') != '', function ($q) {
+            })
+            ->when(request()->get('brand') != null && request()->get('brand') != '', function ($q) {
                 return $q->where('brand_id', request()->get('brand'));
-            })->when(request()->get('client') != null && request()->get('client') != '', function ($q) {
+            })
+            ->when(request()->get('client') != null && request()->get('client') != '', function ($q) {
                 $name = request()->get('client');
                 return $q->whereHas('client', function ($query) use ($name){
                     return $query->where('name', 'LIKE', "%{$name}%")
                         ->orWhere('last_name', 'LIKE', "%{$name}%")
                         ->orWhere('email', 'LIKE', "%{$name}%");
                 });
-            })->when(request()->get('user') != null && request()->get('user') != '', function ($q) {
+            })
+            ->when(request()->get('user') != null && request()->get('user') != '', function ($q) {
                 $name = request()->get('user');
                 return $q->whereHas('added_by', function ($query) use ($name){
                     return $query->where('name', 'LIKE', "%{$name}%")
                         ->orWhere('last_name', 'LIKE', "%{$name}%")
                         ->orWhere('email', 'LIKE', "%{$name}%");
+                });
+            })
+            ->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand_id', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand_id', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
                 });
             })->orderBy('id', 'desc')->paginate(20);
 

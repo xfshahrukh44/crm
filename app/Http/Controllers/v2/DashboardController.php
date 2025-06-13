@@ -12,7 +12,7 @@ class DashboardController extends Controller
 {
     public function dashboard (Request $request)
     {
-        if (!v2_acl([2, 6, 4])) {
+        if (!v2_acl([2, 6, 4, 0])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -185,7 +185,7 @@ class DashboardController extends Controller
 
     public function briefsPending (Request $request)
     {
-        if (!v2_acl([2, 6])) {
+        if (!v2_acl([2, 6, 4]) || user_is_cs()) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -198,7 +198,7 @@ class DashboardController extends Controller
 
     public function pendingProjects (Request $request)
     {
-        if (!v2_acl([2, 6])) {
+        if (!v2_acl([2, 6, 4]) || user_is_cs()) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 

@@ -133,7 +133,7 @@
                     <i class="fas fa-search search-icon"></i>
                 </div>
                 <ul style="max-height: 85%; overflow-y: scroll; scrollbar-width: none; -ms-overflow-style: none;">
-                    @if(in_array($user_role_id, [2, 6, 4]))
+                    @if(in_array($user_role_id, [2, 6, 4, 0]))
                         <li>
                             <a href="{{route('v2.dashboard')}}" class="{{ request()->routeIs('v2.dashboard') ? 'active' : '' }}">
                                 Dashboard
@@ -178,11 +178,13 @@
 {{--                                        Under Construction--}}
 {{--                                    </span>--}}
 {{--                                </small>--}}
+{{--                                Author:--}}
+{{--                                YetiBoy--}}
                             </a>
                         </li>
                     @endif
 
-                    @if(in_array($user_role_id, [2, 6, 4]))
+                    @if(in_array($user_role_id, [2, 6, 4, 0]))
                         <li>
                             <a href="{{route('v2.clients')}}" class="{{ request()->routeIs('v2.clients') || request()->routeIs('v2.clients.create') || request()->routeIs('v2.clients.edit') || request()->routeIs('v2.clients.show') ? 'active' : '' }}">
                                 Clients
@@ -190,7 +192,7 @@
                         </li>
                     @endif
 
-                    @if(in_array($user_role_id, [2, 6]))
+                    @if(in_array($user_role_id, [2, 6, 4, 0]))
                         <li>
                             <a href="{{route('v2.invoices')}}" class="{{ request()->routeIs('v2.invoices') || request()->routeIs('v2.invoices.create') || request()->routeIs('v2.invoices.edit') || request()->routeIs('v2.invoices.show') ? 'active' : '' }}">
                                 Invoices
@@ -222,7 +224,7 @@
                         </li>
                     @endif
 
-                    @if(in_array($user_role_id, [2, 6]))
+                    @if(in_array($user_role_id, [2, 6, 0]))
                         <li>
                             <a href="{{route('v2.leads')}}" class="{{ request()->routeIs('v2.leads') || request()->routeIs('v2.leads.create') || request()->routeIs('v2.leads.edit') || request()->routeIs('v2.leads.show') ? 'active' : '' }}">
                                 Leads
@@ -230,7 +232,7 @@
                         </li>
                     @endif
 
-                    @if(in_array($user_role_id, [2, 6]))
+                    @if(in_array($user_role_id, [2, 6, 4]) && !user_is_cs())
                         <li>
                             <a href="{{route('v2.briefs.pending')}}" class="{{ request()->routeIs('v2.briefs.pending') ? 'active' : '' }}">
                                 Briefs pending
@@ -238,7 +240,7 @@
                         </li>
                     @endif
 
-                    @if(in_array($user_role_id, [2, 6]))
+                    @if(in_array($user_role_id, [2, 6, 4]) && !user_is_cs())
                         <li>
                             <a href="{{route('v2.pending.projects')}}" class="{{ request()->routeIs('v2.pending.projects') ? 'active' : '' }}">
                                 Pending projects
@@ -246,7 +248,7 @@
                         </li>
                     @endif
 
-                    @if(in_array($user_role_id, [2, 6]))
+                    @if(in_array($user_role_id, [2, 6, 4]))
                         <li>
                             <a href="{{route('v2.projects')}}" class="{{ request()->routeIs('v2.projects') ? 'active' : '' }}">
                                 Projects
@@ -254,7 +256,7 @@
                         </li>
                     @endif
 
-                    @if(in_array($user_role_id, [2, 6]))
+                    @if(in_array($user_role_id, [2, 6, 4]))
                         <li>
                             <a href="{{route('v2.tasks')}}" class="{{ request()->routeIs('v2.tasks') || request()->routeIs('v2.tasks.create') || request()->routeIs('v2.tasks.edit') || request()->routeIs('v2.tasks.show') ? 'active' : '' }}">
                                 Tasks

@@ -16,7 +16,7 @@ class LeadController extends Controller
 {
     public function index (Request $request)
     {
-        if (!v2_acl([2, 6])) {
+        if (!v2_acl([2, 6, 0])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -24,6 +24,9 @@ class LeadController extends Controller
         $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
 
         $leads = Lead::orderBy('id', 'desc')
+            ->when(v2_acl([0]), function ($q) {
+                return $q->where('user_id', auth()->id());
+            })
             ->when($request->name != '', function ($q) use ($request) {
                 return $q->where(function ($q) use ($request) {
                     return $q->where(DB::raw('concat(name," ",last_name)'), 'like', '%'.$request->name.'%')
@@ -106,7 +109,7 @@ class LeadController extends Controller
 
     public function edit (Request $request, $id)
     {
-        if (!v2_acl([2, 6])) {
+        if (!v2_acl([2, 6, 0])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -116,7 +119,11 @@ class LeadController extends Controller
 
         //non-admin checks
         if (!v2_acl([2])) {
-            if (!in_array($lead->brand, auth()->user()->brand_list())) {
+            if (!v2_acl([0]) && !in_array($lead->brand, auth()->user()->brand_list())) {
+                return redirect()->back()->with('error', 'Not allowed.');
+            }
+
+            if (v2_acl([0]) && $lead->user_id != auth()->id()) {
                 return redirect()->back()->with('error', 'Not allowed.');
             }
         }
@@ -153,6 +160,10 @@ class LeadController extends Controller
             if (!in_array($lead->brand, auth()->user()->brand_list()) || !in_array($request->user_id, $user_ids) || !in_array($request->brand, auth()->user()->brand_list())) {
                 return redirect()->back()->with('error', 'Not allowed.');
             }
+
+            if (v2_acl([0]) && $lead->user_id != auth()->id()) {
+                return redirect()->back()->with('error', 'Not allowed.');
+            }
         }
 
         $lead->update($request->except('service'));
@@ -182,7 +193,7 @@ class LeadController extends Controller
 
     public function show (Request $request, $id)
     {
-        if (!v2_acl([2, 6])) {
+        if (!v2_acl([2, 6, 0])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -192,7 +203,11 @@ class LeadController extends Controller
 
         //non-admin checks
         if (!v2_acl([2])) {
-            if (!in_array($lead->brand, auth()->user()->brand_list())) {
+            if (!v2_acl([0]) && !in_array($lead->brand, auth()->user()->brand_list())) {
+                return redirect()->back()->with('error', 'Not allowed.');
+            }
+
+            if (v2_acl([0]) && $lead->user_id != auth()->id()) {
                 return redirect()->back()->with('error', 'Not allowed.');
             }
         }

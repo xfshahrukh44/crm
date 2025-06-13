@@ -10,7 +10,7 @@
                     <div class="col-md-12">
                         <div class="brand-button">
                             <ul>
-                                @if(v2_acl([2, 6, 4]))
+                                @if(v2_acl([2, 6, 4, 0]))
                                     <li>
                                         <a href="{{route('v2.clients')}}">
                                             <img src="{{asset('v2/images/client-icon.png')}}" class="img-fluid">
@@ -28,7 +28,7 @@
                                         </a>
                                     </li>
                                 @endif
-                                @if(v2_acl([2, 6, 4]))
+                                @if(v2_acl([2, 6, 4, 0]))
                                     <li>
                                         <a href="{{route('v2.invoices')}}">
                                             <img src="{{asset('v2/images/billing-icon.png')}}" class="img-fluid">

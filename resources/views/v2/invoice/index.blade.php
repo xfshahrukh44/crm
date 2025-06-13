@@ -129,7 +129,7 @@
                                                                 <span class="text-success">Paid</span>
                                                             @endif
 
-                                                            @if($invoice->payment_status == 1)
+                                                            @if($invoice->payment_status == 1 && !user_is_cs())
                                                                 <form method="post" action="{{route('v2.invoices.paid', $invoice->id)}}">
                                                                     @csrf
                                                                     <button type="submit" class="badge badge-sm badge-danger p-2" style="border: 0px;">Mark As Paid</button>

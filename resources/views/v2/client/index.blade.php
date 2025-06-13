@@ -43,7 +43,7 @@
                                     <h1 style="font-weight: 100;">Clients</h1>
                                 </div>
                                 <div class="col-md-6 m-auto d-flex justify-content-end">
-                                    @if(v2_acl([2, 6, 4]) && !user_is_cs())
+                                    @if(v2_acl([2, 6, 4, 0]) && !user_is_cs())
                                         <a href="{{route('v2.clients.create')}}" class="btn btn-sm btn-success">
                                             <i class="fas fa-plus"></i>
                                             Create
@@ -173,7 +173,7 @@
 
                                             <!-- Hidden Popup Box -->
                                             <div id="clientActionsBox_{{ $client->id }}" class="client-actions-box text-center d-none">
-                                                @if(v2_acl([2, 6, 4]))
+                                                @if(v2_acl([2, 6, 4, 0]))
                                                     <a href="{{ route('v2.clients.edit', $client->id) }}" class="badge bg-primary badge-icon badge-sm text-white p-2">
                                                         <span class="ul-btn__icon"><i class="i-Edit"></i></span>
                                                         <span class="ul-btn__text">

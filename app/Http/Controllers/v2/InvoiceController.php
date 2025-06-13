@@ -21,6 +21,7 @@ use App\Models\Merchant;
 use App\Models\NewSMM;
 use App\Models\NoForm;
 use App\Models\PressReleaseForm;
+use App\Models\Project;
 use App\Models\Proofreading;
 use App\Models\SeoBrief;
 use App\Models\SeoForm;
@@ -39,7 +40,7 @@ class InvoiceController extends Controller
 {
     public function index (Request $request)
     {
-        if (!v2_acl([2, 6])) {
+        if (!v2_acl([2, 6, 4, 0])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -51,6 +52,9 @@ class InvoiceController extends Controller
         $invoices = Invoice::orderBy('id', 'desc')
             ->when(!v2_acl([2]), function ($q) {
                 return $q->whereIn('brand', auth()->user()->brand_list());
+            })
+            ->when(user_is_cs(), function ($q) {
+                return $q->where('sales_agent_id', auth()->id());
             })
             ->when($request->package != '', function ($q) {
                 return $q->where('custom_package', 'LIKE', "%".request()->package."%");
@@ -97,7 +101,7 @@ class InvoiceController extends Controller
 
     public function create (Request $request, $id)
     {
-        if (!v2_acl([2, 6])) {
+        if (!v2_acl([2, 6, 4, 0]) || user_is_cs()) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -121,7 +125,7 @@ class InvoiceController extends Controller
 
     public function store (Request $request)
     {
-        if (!v2_acl([2, 6])) {
+        if (!v2_acl([2, 6, 4, 0]) || user_is_cs()) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -312,7 +316,7 @@ class InvoiceController extends Controller
 
     public function show (Request $request, $id)
     {
-        if (!v2_acl([2, 6])) {
+        if (!v2_acl([2, 6, 4, 0])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -332,7 +336,7 @@ class InvoiceController extends Controller
 
     public function markPaid (Request $request, $id)
     {
-        if (!v2_acl([2, 6])) {
+        if (!v2_acl([2, 6, 4, 0]) || user_is_cs()) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -340,7 +344,11 @@ class InvoiceController extends Controller
 
         //non admin checks
         if (!v2_acl([2])) {
-            if (!in_array($invoice->brand, auth()->user()->brand_list())) {
+            if (!v2_acl([0]) && !in_array($invoice->brand, auth()->user()->brand_list())) {
+                return redirect()->back()->with('error', 'Not allowed.');
+            }
+
+            if (v2_acl([0]) && $invoice->client->user_id != auth()->id()) {
                 return redirect()->back()->with('error', 'Not allowed.');
             }
         }
