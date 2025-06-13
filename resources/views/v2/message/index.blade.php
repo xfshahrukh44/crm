@@ -96,13 +96,32 @@
         .single-client .client-content h4 {
             font-size: 20px;
         }
+
+        .edit-message {
+            position: relative;
+            padding-left: 20px;
+            color: #007bff;
+            text-decoration: none;
+            font-size: 0.9em;
+            cursor: pointer;
+        }
+
+        .edit-message::before {
+            content: '\f040';
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #007bff;
+        }
     </style>
 @endsection
 
 @section('content')
     <div class="for-slider-main-banner">
-        @switch($user_role_id)
-            @case(2)
+        {{-- @switch($user_role_id)
+            @case(2) --}}
                 <section class="chat-integrate">
                     <div class="container-fluid p-0">
                         <div class="row">
@@ -163,71 +182,11 @@
                         </div>
                     </div>
                 </section>
-            @case(6)
-                <section class="chat-integrate">
-                    <div class="container-fluid p-0">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="tab-content" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="Conversations" role="tabpanel"
-                                        aria-labelledby="Conversations-tab">
-                                        <div class="row">
-                                            <div class="col-lg-3 p-0">
-                                                <div class="main-client-details">
-                                                    <div class="search-container">
-                                                        <input type="text" class="form-control search-input"
-                                                            placeholder="Search...">
-                                                        <i class="fas fa-search search-icon"></i>
-                                                    </div>
-                                                    <h3>All Conversations</h3>
-
-                                                    <div class="container contact-tab">
-                                                        <ul class="nav nav-tabs clients-list" id="myTab1" role="tablist">
-                                                            @include('v2.message.partials.client_list', [
-                                                                'clients_with_messages' => $clients_with_messages,
-                                                            ])
-                                                        </ul>
-                                                    </div>
-
-                                                    <div id="loading-spinner"
-                                                        style="display: none; text-align: center; padding: 10px;">
-                                                        <i class="fas fa-spinner fa-spin"></i> Loading more clients...
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-9 p-0">
-                                                <div class="tab-content" id="myTabContent1">
-                                                    <input type="hidden" id="active-id" value="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="Shortcodes" role="tabpanel" aria-labelledby="Shortcodes-tab">
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                            incididunt ut labore et dolore magna aliqua. Aliquam id diam maecenas ultricies mi
-                                            eget mauris pharetra. Tincidunt lobortis feugiat vivamus at augue eget. Aliquet
-                                            porttitor lacus luctus accumsan tortor posuere ac ut consequat. Massa massa
-                                            ultricies mi quis hendrerit dolor.
-                                        </p>
-                                    </div>
-                                    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                                        <p>
-                                            I love cheese, especially stinking bishop cheese and biscuits. Stinking bishop
-                                            cheesy feet brie fromage red leicester taleggio cut the cheese who moved my cheese.
-                                            Red leicester cow hard cheese cheese slices cheese strings goat camembert de
-                                            normandie cheesy grin. Gouda.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            @break
+            {{-- @case(6) --}}
+            {{-- @break
 
             @default
-        @endswitch
+        @endswitch --}}
     </div>
     {{-- <textarea id="mytextarea"></textarea> --}}
 @endsection
@@ -330,7 +289,7 @@
                                         Loading more messages...
                                     </div>
                                 </div>
-                                <div class="for-sending">
+                                <div class="for-sending" id="dropzone-${clientId}" data-client-id="${clientId}">
                                     <!--<a href="javascript:;" class="emoji-picker" id="emoji-button-${clientId}" data-target="message-input-${clientId}">
                                         <img src="{{ asset('images/smile.png') }}" class="img-fluid">
                                     </a>-->
@@ -642,6 +601,133 @@
 
                 $(fileInput).trigger('change'); // re-render preview
             });
+
+            // Highlight dropzone when files are dragged over
+            $(document).on('dragover', '.for-sending', function (e) {
+                e.preventDefault();
+                $(this).css('border', '2px dashed #555'); // highlight
+            });
+
+            // Remove highlight when files are dragged away
+            $(document).on('dragleave', '.for-sending', function (e) {
+                e.preventDefault();
+                $(this).css('border', '');
+            });
+
+            // Handle files dropped into dropzone
+            $(document).on('drop', '.for-sending', function (e) {
+                e.preventDefault();
+
+                // Reset highlight
+                $(this).css('border', '');
+
+                const files = e.originalEvent.dataTransfer.files;
+
+                // Store files in preview just like we do with input
+                const clientId = $(this).data('client-id');
+                handleFiles(clientId, files);
+            });
+
+            function handleFiles(clientId, files) {
+                const previewContainer = $(`#file-preview-${clientId}`);
+                previewContainer.empty();
+
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const isImage = file.type.startsWith('image');
+                    const fileUrl = URL.createObjectURL(file);
+
+                    let fileElement;
+
+                    if (isImage) {
+                        // Preview image thumbnail
+                        fileElement = $(`
+                            <div class="file-preview" style="position: relative;margin-bottom: 10px">
+                                <img src="${fileUrl}" style="width: 60px; height: 60px; object-fit: cover; border: 1px solid #ccc; border-radius: 4px;" />
+                                <span class="remove-file" data-index="${i}" style="position: absolute; top: -8px; right: -8px; background: red; color: #fff; border-radius: 50%; cursor: pointer; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;">&times;</span>
+                            </div>
+                        `);
+                    } else {
+                        // File preview
+                        fileElement = $(`
+                            <div class="file-preview" style="position: relative; border: 1px solid #ccc; padding: 5px 10px; border-radius: 4px; background: #f7f7f7; display: flex; align-items: center; gap: 8px;margin-bottom: 10px">
+                                <img src="{{ asset('images/file-icon.png') }}" style="width: 24px; height: 24px;" />
+                                <span style="max-width: 150px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${file.name}</span>
+                                <span class="remove-file" data-index="${i}" style="margin-left: auto; background: red; color: #fff; border-radius: 50%; cursor: pointer; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;">&times;</span>
+                            </div>
+                        `);
+                    }
+
+                    previewContainer.append(fileElement);
+                }
+
+                previewContainer.data('files', files);
+            }
+
+            $(document).on('click', '.edit-message', function(e) {
+                e.preventDefault();
+
+                var messageId = $(this).data('message-id');
+                var messageP =$('#msg-text-' + messageId);
+                var currentText = messageP.text();
+
+                // Hide the edit button while we edit
+                $(this).hide();
+
+                // Transform into editable field
+                messageP.html(`
+                    <input type='text' id='edit-input-${messageId}'
+                        value='${currentText}'
+                        class='form-control' style='width: 100%' /><br>
+                    <button data-message-id="${messageId}" class='save-message btn btn-primary mr-1'>Save</button>
+                    <button data-message-id="${messageId}" class='cancel-edit btn btn-secondary ml-1'>Cancel</button>
+                `);
+            });
+
+            // Save
+            $(document).on('click', '.save-message', function(e) {
+                e.preventDefault();
+
+                var messageId = $(this).data('message-id');
+                var newText =$('#edit-input-' + messageId).val();
+
+                if (newText == '' || newText == null) return;
+
+                $.ajax({
+                    url: "{{ route('v2.messages.edit') }}",
+                    method: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        message_id: messageId,
+                        editmessage: newText
+                    },
+                    success: function(response){
+                        // Update the message text in the UI
+                    $('#msg-text-' + messageId).text(response.text);
+                        toastr.success("Message updated successfully.");
+                        $('.edit-message[data-message-id="' + messageId + '"]').show();
+                    },
+                    error: function(){
+                        toastr.error("Failed to update message.");
+                        $('.edit-message[data-message-id="' + messageId + '"]').show();
+                    }
+                });
+            });
+
+            // Cancel
+            $(document).on('click', '.cancel-edit', function(e) {
+                e.preventDefault();
+
+                var messageId = $(this).data('message-id');
+                var messageP =$('#msg-text-' + messageId);
+                var currentText = messageP.text();
+
+                // Reload or revert
+                messageP.text(currentText);
+
+                $('.edit-message[data-message-id="' + messageId + '"]').show();
+            });
+
 
             Pusher.logToConsole = true;
 

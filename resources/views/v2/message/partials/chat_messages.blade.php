@@ -12,7 +12,8 @@
         <div class="message-content">
             @if ($message->message)
                 <div class="message-line">
-                    <p>{!! nl2br($message->message) !!}</p>
+                    <p id="msg-text-{{ $message->id }}">{!! nl2br($message->message) !!}</p>
+                    <a href="#" class="edit-message" data-message-id="{{ $message->id }}">Edit</a>
 
                     @if (count($message->sended_client_files) != 0)
                         <div class="msg-img">
