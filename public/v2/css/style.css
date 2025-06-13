@@ -1597,7 +1597,7 @@ input:focus-visible {
 .for-slider-main-banner {
     width: 100%;
     margin-left: 327px;
-    transition: all ease 1s;
+    transition: all ease 0.5s;
 }
 .side-menu .search-container {
     position: relative;

@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\v2;
 
 use App\Http\Controllers\Controller;
-use App\Models\Brand;
 use App\Models\Client;
 use App\Models\Lead;
 use App\Models\Service;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
 class LeadController extends Controller
 {
@@ -87,8 +85,7 @@ class LeadController extends Controller
 
         //non-admin checks
         if (!v2_acl([2])) {
-            $user_ids = DB::table('brand_users')->whereIn('brand_id', auth()->user()->brand_list())->pluck('user_id')->toArray();
-            if (!in_array($request->user_id, $user_ids) || !in_array($request->brand, auth()->user()->brand_list())) {
+            if (!in_array($request->user_id, $this->getUserIDs()) || !in_array($request->brand, auth()->user()->brand_list())) {
                 return redirect()->back()->with('error', 'Not allowed.');
             }
         }
@@ -156,8 +153,7 @@ class LeadController extends Controller
 
         //non-admin checks
         if (!v2_acl([2])) {
-            $user_ids = DB::table('brand_users')->whereIn('brand_id', auth()->user()->brand_list())->pluck('user_id')->toArray();
-            if (!in_array($lead->brand, auth()->user()->brand_list()) || !in_array($request->user_id, $user_ids) || !in_array($request->brand, auth()->user()->brand_list())) {
+            if (!in_array($lead->brand, auth()->user()->brand_list()) || !in_array($request->user_id, $this->getUserIDs()) || !in_array($request->brand, auth()->user()->brand_list())) {
                 return redirect()->back()->with('error', 'Not allowed.');
             }
 
@@ -228,9 +224,13 @@ class LeadController extends Controller
     {
         return DB::table('users')->where('is_employee', 0)
             ->when(!v2_acl([2]), function ($q) {
-                $user_ids = DB::table('brand_users')->whereIn('brand_id', auth()->user()->brand_list())->pluck('user_id')->toArray();
-                return $q->whereIn('id', $user_ids);
+                return $q->whereIn('id', $this->getUserIDs());
             })
             ->get();
+    }
+
+    public function getUserIDs ()
+    {
+        return DB::table('brand_users')->whereIn('brand_id', auth()->user()->brand_list())->pluck('user_id')->toArray();
     }
 }

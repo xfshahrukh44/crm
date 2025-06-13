@@ -38,11 +38,7 @@ class ClientController extends Controller
             return redirect()->back()->with('error', 'Access denied.');
         }
 
-        $brands = \Illuminate\Support\Facades\DB::table('brands')
-            ->when(!v2_acl([2]), function ($q) {
-                return $q->whereIn('id', auth()->user()->brand_list());
-            })
-            ->get();
+        $brands = $this->getBrands();
 
         //restricted brand access
         $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
@@ -118,11 +114,7 @@ class ClientController extends Controller
             return redirect()->back()->with('error', 'Access denied.');
         }
 
-        $brands = \Illuminate\Support\Facades\DB::table('brands')
-            ->when(!v2_acl([2]), function ($q) {
-                return $q->whereIn('id', auth()->user()->brand_list());
-            })
-            ->get();
+        $brands = $this->getBrands();
 
         return view('v2.client.create', compact('brands'));
     }
@@ -195,11 +187,7 @@ class ClientController extends Controller
             }
         }
 
-        $brands = \Illuminate\Support\Facades\DB::table('brands')
-            ->when(!v2_acl([2]), function ($q) {
-                return $q->whereIn('id', auth()->user()->brand_list());
-            })
-            ->get();
+        $brands = $this->getBrands();
 
         return view('v2.client.edit', compact('client', 'brands'));
     }
@@ -523,5 +511,14 @@ class ClientController extends Controller
         return array_unique(User::whereIn('id',
             array_unique(Project::where('user_id', auth()->id())->pluck('client_id')->toArray())
         )->pluck('client_id')->toArray());
+    }
+
+    public function getBrands ()
+    {
+        return \Illuminate\Support\Facades\DB::table('brands')
+            ->when(!v2_acl([2]), function ($q) {
+                return $q->whereIn('id', auth()->user()->brand_list());
+            })
+            ->get();
     }
 }
