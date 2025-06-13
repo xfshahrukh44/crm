@@ -1449,16 +1449,18 @@ ul#myTab2 {
     display: flex;
     gap: 10px;
     margin-bottom: 10px;
-    width: 98px;
     flex-wrap: wrap;
 }
 
 .upload-photos img {
     border-radius: 9px;
+    width: 100%;
+    height: 50px;
+    object-fit: contain;
 }
 
 .inner-client-images {
-    width: 28%;
+    width: 30%;
 }
 
 input:focus-visible {

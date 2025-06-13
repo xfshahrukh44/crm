@@ -87,6 +87,15 @@
             pointer-events: none;
             opacity: 0.5;
         }
+
+        .single-client .client-profile {
+            width: 100px;
+            height: 90px;
+        }
+
+        .single-client .client-content h4 {
+            font-size: 20px;
+        }
     </style>
 @endsection
 
@@ -95,53 +104,67 @@
         @switch($user_role_id)
             @case(2)
                 <section class="chat-integrate">
-                    {{-- <div class="container-fluid">
-                        <div class="row for-main-border align-items-center">
-                            <div class="col-lg-3">
+                    <div class="container-fluid p-0">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="Conversations" role="tabpanel"
+                                        aria-labelledby="Conversations-tab">
+                                        <div class="row">
+                                            <div class="col-lg-3 p-0">
+                                                <div class="main-client-details">
+                                                    <div class="search-container">
+                                                        <input type="text" class="form-control search-input"
+                                                            placeholder="Search...">
+                                                        <i class="fas fa-search search-icon"></i>
+                                                    </div>
+                                                    <h3>All Conversations</h3>
 
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="container contact-tab">
-                                    <ul class="nav nav-tabs mt-2" id="myTab" role="tablist">
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link active" id="Conversations-tab" data-toggle="tab"
-                                                data-target="#Conversations" type="button" role="tab"
-                                                aria-controls="Conversations" aria-selected="true">Conversations
-                                            </button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="Shortcodes-tab" data-toggle="tab" data-target="#Shortcodes"
-                                                type="button" role="tab" aria-controls="Shortcodes"
-                                                aria-selected="false">Shortcodes
-                                            </button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="contact-tab" data-toggle="tab" data-target="#contact"
-                                                type="button" role="tab" aria-controls="contact" aria-selected="false">Contact
-                                            </button>
-                                        </li>
+                                                    <div class="container contact-tab">
+                                                        <ul class="nav nav-tabs clients-list" id="myTab1" role="tablist">
+                                                            @include('v2.message.partials.client_list', [
+                                                                'clients_with_messages' => $clients_with_messages,
+                                                            ])
+                                                        </ul>
+                                                    </div>
 
-                                    </ul>
-
-
-                                </div>
-                            </div>
-
-                            <div class="col-lg-3">
-                                <div class="icon-info">
-                                    <div class="bell-img">
-                                        <a href="javascript:;">
-                                            <img src="images/icon.png" class="img-fluid">
-                                            <span></span>
-                                        </a>
+                                                    <div id="loading-spinner"
+                                                        style="display: none; text-align: center; padding: 10px;">
+                                                        <i class="fas fa-spinner fa-spin"></i> Loading more clients...
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-9 p-0">
+                                                <div class="tab-content" id="myTabContent1">
+                                                    <input type="hidden" id="active-id" value="">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <a href="javascript:;">
-                                        <img src="images/circle.png" class="img-fluid">
-                                    </a>
+                                    <div class="tab-pane fade" id="Shortcodes" role="tabpanel" aria-labelledby="Shortcodes-tab">
+                                        <p>
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                            incididunt ut labore et dolore magna aliqua. Aliquam id diam maecenas ultricies mi
+                                            eget mauris pharetra. Tincidunt lobortis feugiat vivamus at augue eget. Aliquet
+                                            porttitor lacus luctus accumsan tortor posuere ac ut consequat. Massa massa
+                                            ultricies mi quis hendrerit dolor.
+                                        </p>
+                                    </div>
+                                    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                        <p>
+                                            I love cheese, especially stinking bishop cheese and biscuits. Stinking bishop
+                                            cheesy feet brie fromage red leicester taleggio cut the cheese who moved my cheese.
+                                            Red leicester cow hard cheese cheese slices cheese strings goat camembert de
+                                            normandie cheesy grin. Gouda.
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
+                </section>
+            @case(6)
+                <section class="chat-integrate">
                     <div class="container-fluid p-0">
                         <div class="row">
                             <div class="col-lg-12">
@@ -240,7 +263,7 @@
                 $('#loading-spinner').show();
 
                 $.ajax({
-                    url: '{{ route('v2.messages') }}',
+                    url: '{{ $route }}',
                     type: 'GET',
                     data: {
                         page: page + 1,
@@ -449,7 +472,7 @@
                 return map[extension] || map['default'];
             }
 
-            $(document).on('click', '.send-message', function () {
+            $(document).on('click', '.send-message', function() {
                 const $this = $(this);
                 const clientId = $this.data('client-id');
                 const messageInput = $(`#message-input-${clientId}`);
@@ -493,7 +516,9 @@
                 `);
                 $(`#messages-container-${clientId} .messages-wrapper`).append($spinner);
                 var container = $(`#messages-container-${clientId} .messages-wrapper`);
-                container.animate({ scrollTop: container[0].scrollHeight }, 300);
+                container.animate({
+                    scrollTop: container[0].scrollHeight
+                }, 300);
 
                 // Clear inputs before sending
                 messageInput.val('');
@@ -510,7 +535,7 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function (response) {
+                    success: function(response) {
                         loadClientMessages(clientId); // Your function to reload messages
 
                         // Remove spinner
@@ -520,14 +545,16 @@
                         messageInput.prop('disabled', false);
                         $this.prop('disabled', false);
                         $(`#emoji-button-${clientId}`).removeClass('disabled-click');
-                        $(`.file-upload[data-client-id="${clientId}"]`).removeClass('disabled-click');
+                        $(`.file-upload[data-client-id="${clientId}"]`).removeClass(
+                            'disabled-click');
                     },
-                    error: function (xhr) {
+                    error: function(xhr) {
                         $(`#sending-spinner-${clientId}`).remove();
                         messageInput.prop('disabled', false);
                         $this.prop('disabled', false);
                         $(`#emoji-button-${clientId}`).removeClass('disabled-click');
-                        $(`.file-upload[data-client-id="${clientId}"]`).removeClass('disabled-click');
+                        $(`.file-upload[data-client-id="${clientId}"]`).removeClass(
+                            'disabled-click');
 
                         if (xhr.status === 422) {
                             const errors = xhr.responseJSON.errors;
@@ -545,7 +572,7 @@
                 });
             });
 
-            $(document).on('keydown', '.message-input', function (e) {
+            $(document).on('keydown', '.message-input', function(e) {
                 if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
                     const clientId = $(this).attr('id').replace('message-input-', '');
@@ -674,9 +701,6 @@
                 scrollToBottom(data.client_id);
             });
         });
-
-
-
     </script>
 
 @endsection
