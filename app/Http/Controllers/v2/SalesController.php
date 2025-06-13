@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\v2;
 
 use App\Http\Controllers\Controller;
-use App\Models\Brand;
-use App\Models\Category;
 use App\Models\User;
 use App\Models\UserFinance;
 use Illuminate\Http\Request;

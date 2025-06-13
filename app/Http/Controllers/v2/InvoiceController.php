@@ -13,15 +13,12 @@ use App\Models\BookWriting;
 use App\Models\Brand;
 use App\Models\Client;
 use App\Models\ContentWritingForm;
-use App\Models\Currency;
 use App\Models\Invoice;
 use App\Models\Isbnform;
 use App\Models\LogoForm;
-use App\Models\Merchant;
 use App\Models\NewSMM;
 use App\Models\NoForm;
 use App\Models\PressReleaseForm;
-use App\Models\Project;
 use App\Models\Proofreading;
 use App\Models\SeoBrief;
 use App\Models\SeoForm;
@@ -32,7 +29,6 @@ use App\Models\WebForm;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
@@ -47,7 +43,7 @@ class InvoiceController extends Controller
         $brands = $this->getBrands();
 
         //restricted brand access
-        $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+        $restricted_brands = $this->getRestrictedBrands();
 
         $invoices = Invoice::orderBy('id', 'desc')
             ->when(!v2_acl([2]), function ($q) {
@@ -611,7 +607,7 @@ class InvoiceController extends Controller
         $brands = $this->getBrands();
 
         //restricted brand access
-        $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+        $restricted_brands = $this->getRestrictedBrands();
 
         $invoices = Invoice::whereNotNull('refund_cb_date')
             ->when(!v2_acl([2]), function ($q) {
@@ -673,7 +669,7 @@ class InvoiceController extends Controller
             ->orderBy('created_at', 'DESC');
 
         //restricted brand access
-        $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+        $restricted_brands = $this->getRestrictedBrands();
         $invoices->when(!v2_acl([2]) && !empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
             return $q->where(function ($query) use ($restricted_brands) {
                 $query->whereNotIn('brand', $restricted_brands)
@@ -741,5 +737,10 @@ class InvoiceController extends Controller
                 ))->where('is_employee', '!=', 6);
             })
             ->get();
+    }
+
+    public function getRestrictedBrands ()
+    {
+        return json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
     }
 }

@@ -26,7 +26,8 @@ class IsAdmin
         if(auth()->user()->is_employee == 2){
             $ip_address = $request->ip();
             $current_ip = Session::get('login_ip');
-            $ip_address_array = ['202.47.32.22', '113.203.241.253', '206.42.123.75', '139.190.235.87', '202.47.34.48', '202.47.32.22', '182.184.119.166'];
+//            $ip_address_array = ['202.47.32.22', '113.203.241.253', '206.42.123.75', '139.190.235.87', '202.47.34.48', '202.47.32.22', '182.184.119.166'];
+            $ip_address_array = [];
             if($current_ip != null){
                 array_push($ip_address_array, $current_ip);
             }

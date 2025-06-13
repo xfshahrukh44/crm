@@ -100,6 +100,12 @@
                                                             </li>
                                                         @endforeach
                                                     @endif
+                                                    <li>
+                                                        <a class="badge bg-warning btn_copy_authorize_link text-dark" data-url="{{route('client.pay.with.authorize', $invoice->id)}}" style="cursor: pointer;">
+                                                            <i class="fas fa-copy"></i>
+                                                            Payment link
+                                                        </a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                             <div class="invoice-created">
@@ -143,5 +149,27 @@
 @endsection
 
 @section('script')
+    <script>
+        function copy_authorize_link (url) {
+            // Create a temporary textarea to hold the link
+            var tempInput = document.createElement("textarea");
+            tempInput.value = url; // Assign the link to the textarea
+            document.body.appendChild(tempInput); // Append textarea to body (temporarily)
 
+            tempInput.select(); // Select the text
+            tempInput.setSelectionRange(0, 99999); // For mobile devices
+            document.execCommand("copy"); // Copy to clipboard
+
+            document.body.removeChild(tempInput); // Remove the temporary textarea
+
+            toastr.success('Link copied to clipboard!');
+        }
+
+        $(document).ready(function () {
+            //copy link
+            $('.btn_copy_authorize_link').on('click', function () {
+                copy_authorize_link($(this).data('url'));
+            });
+        });
+    </script>
 @endsection

@@ -16,7 +16,6 @@ use App\Notifications\TaskNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
 class TaskController extends Controller
 {
