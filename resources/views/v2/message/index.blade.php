@@ -222,7 +222,7 @@
                 $('#loading-spinner').show();
 
                 $.ajax({
-                    url: '{{ $route }}',
+                    url: '{{ route('v2.messages') }}',
                     type: 'GET',
                     data: {
                         page: page + 1,
