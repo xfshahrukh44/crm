@@ -210,7 +210,6 @@
 
             $('.search-input').on('input', function() {
                 searchQuery = $(this).val();
-                console.log('Search triggered with:', searchQuery); // Check here
                 page = 1;
                 hasMore = true;
                 $('.clients-list').empty();
@@ -390,7 +389,7 @@
                         });
 
                         // Render recent images
-                        console.log(response.client_images);
+                        // console.log(response.client_images);
                         const photoContainer = $(`#uploaded-photos-${clientId}`);
                         photoContainer.empty();
                         response.client_images.forEach(image => {
@@ -668,8 +667,8 @@
                 e.preventDefault();
 
                 var messageId = $(this).data('message-id');
-                var messageP =$('#msg-text-' + messageId);
-                var currentText = messageP.text();
+                var messageP = $('#msg-text-' + messageId);
+                var currentText = messageP.text().trim();
 
                 // Hide the edit button while we edit
                 $(this).hide();

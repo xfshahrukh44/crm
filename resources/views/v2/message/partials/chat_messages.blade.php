@@ -12,7 +12,7 @@
         <div class="message-content">
             @if ($message->message)
                 <div class="message-line">
-                    <p id="msg-text-{{ $message->id }}">{!! nl2br($message->message) !!}</p>
+                    <h6 id="msg-text-{{ $message->id }}">{!! nl2br($message->message) !!}</h6>
                     <a href="#" class="edit-message" data-message-id="{{ $message->id }}">Edit</a>
 
                     @if (count($message->sended_client_files) != 0)

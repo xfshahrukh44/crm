@@ -1340,7 +1340,7 @@ table.client-list .progress-done {
     width: 80%;
 }
 
-.message-line p {
+.message-line h6 {
     margin: 0;
     font-size: 15px;
         font-family: FontsFree-Net-Circular-Std-Book;
