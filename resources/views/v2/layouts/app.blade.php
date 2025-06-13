@@ -72,7 +72,7 @@
                                     <div class="serach-name">
                                         <div class="dropdown user-name">
                                             <div class="user col align-self-end">
-                                                <img src="{{asset('v2/images/men1.png')}}">
+                                                <img src="{{auth()->user()->image ? asset(auth()->user()->image) : asset('images/avatar.png')}}" width="50" style="border-radius: 25px;">
                                                 <a href="javascript:;" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <span class="auth-name">{{auth()->user()->name}}</span>
                                                     <i class="fa-solid fa-caret-down"></i>
@@ -81,7 +81,7 @@
                                                      x-placement="bottom-end"
                                                      style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(41px, 36px, 0px);">
 
-                                                    <a class="dropdown-item" href="https://designcrm.net/logout">
+                                                    <a class="dropdown-item" href="{{route('v2.profile')}}">
                                                         Profile
                                                     </a>
 

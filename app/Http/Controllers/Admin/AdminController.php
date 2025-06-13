@@ -93,6 +93,8 @@ class AdminController extends Controller
                 // Vericiation Expire
                 return redirect()->back()->with('error', 'Vericiation Expire.');
             }else{
+                session()->put('v2_valid_user', true);
+                
                 Session::put('valid_user', true);
                 if(Auth::user()->is_employee == 2){
                     return redirect()->route('admin.home');
