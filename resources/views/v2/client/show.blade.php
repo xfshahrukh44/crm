@@ -33,7 +33,7 @@
                                     </a>
                                 </div>
                                 <div class="for-password">
-                                    <a href="javascript:;">
+                                    <a href="{{ route('v2.messages') }}?clientId={{ $client->user->id }}" class="open-messages">
                                         <img src="{{asset('v2/images/img-msg.jpg')}}" class="img-fluid">
                                     </a>
                                     {{--                                            <a href="javascript:;" class="password-btn">Reset Password</a>--}}

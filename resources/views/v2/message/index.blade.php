@@ -199,6 +199,8 @@
             let page = {{ $page }};
             let hasMore = true;
             let searchQuery = '';
+            const urlParams = new URLSearchParams(window.location.search);
+            const getClientId = urlParams.get('clientId');
 
             $('.clients-list').scroll(function() {
                 if (loading || !hasMore) return;
@@ -268,8 +270,14 @@
                 loadClientMessages(clientId);
             }
 
+            if (getClientId) {
+                loadClientMessages(getClientId);
+            } else {
+                loadFirstChat();
+            }
+
             // Call this on page load
-            loadFirstChat();
+            // loadFirstChat();
 
             function loadClientMessages(clientId) {
                 // Hide all other tab panes
