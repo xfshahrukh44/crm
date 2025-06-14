@@ -7,6 +7,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class DashboardController extends Controller
 {
@@ -76,6 +77,7 @@ class DashboardController extends Controller
                         'daily_refunds' => $todays_invoice_refunds,
                         'daily_achieved' => $todays_invoice_totals,
                         'daily_target_achieved_in_percentage' => $daily_target_achieved_in_percentage,
+                        'pfp' => $sale_agent->image ? asset($sale_agent->image) : asset('images/avatar.png'),
                     ];
 
                     $this_months_invoice_ids = DB::table('invoices')->whereIn('brand', $buh_user->brand_list())
@@ -99,6 +101,7 @@ class DashboardController extends Controller
                         'monthly_refunds' => $this_months_invoice_refunds,
                         'monthly_achieved' => $this_months_invoice_totals,
                         'monthly_target_achieved_in_percentage' => $monthly_target_achieved_in_percentage,
+                        'pfp' => $sale_agent->image ? asset($sale_agent->image) : asset('images/avatar.png'),
                     ];
                 }
 
@@ -153,6 +156,7 @@ class DashboardController extends Controller
                     'daily_refunds' => $todays_invoice_refunds,
                     'daily_achieved' => $todays_invoice_totals,
                     'daily_target_achieved_in_percentage' => $daily_target_achieved_in_percentage,
+                    'pfp' => $buh_user->image ? asset($buh_user->image) : asset('images/avatar.png'),
                 ];
 
                 $this_months_invoice_ids = DB::table('invoices')->whereIn('brand', $buh_user->brand_list())
@@ -176,6 +180,7 @@ class DashboardController extends Controller
                     'monthly_refunds' => $this_months_invoice_refunds,
                     'monthly_achieved' => $this_months_invoice_totals,
                     'monthly_target_achieved_in_percentage' => $monthly_target_achieved_in_percentage,
+                    'pfp' => $buh_user->image ? asset($buh_user->image) : asset('images/avatar.png'),
                 ];
             }
 
@@ -213,5 +218,39 @@ class DashboardController extends Controller
             ->orderBy('created_at', 'DESC')->paginate(10);
 
         return view('v2.pending-projects', compact('client_users_with_pending_projects'));
+    }
+
+    public function profile (Request $request)
+    {
+        if (!v2_acl([2])) {
+            return redirect()->back()->with('error', 'Access denied.');
+        }
+
+        return view('v2.profile');
+    }
+
+    public function updatePFP (Request $request)
+    {
+        if (!v2_acl([2])) {
+            return redirect()->back()->with('error', 'Access denied.');
+        }
+
+        $validator = Validator::make($request->all(), [
+            'pfp' => 'required|file|mimes:jpeg,jpg,png,webp|max:4096',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->with('error', $validator->errors()->first());
+        }
+
+        $file = $request->file('pfp');
+        $file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $name = strtolower(str_replace(' ', '-', $file_name)) . '_' .time().'.'.$file->extension();
+        $file->move(public_path().'/uploads/users', $name);
+        $user = User::find(auth()->id());
+        $user->image = '/uploads/users/' . $name;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Profile picture updated!');
     }
 }

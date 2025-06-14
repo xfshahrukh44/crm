@@ -583,10 +583,13 @@ Route::get('temp', function () {
 //    });
 });
 
-Route::group(['middleware' => ['auth'], 'prefix' => 'v2'], function () {
+Route::group(['middleware' => ['auth', 'ip.mid'], 'prefix' => 'v2'], function () {
     Route::get('dashboard', [\App\Http\Controllers\v2\DashboardController::class, 'dashboard'])->name('v2.dashboard');
 
     Route::get('revenue', [\App\Http\Controllers\v2\DashboardController::class, 'revenue'])->name('v2.revenue');
+
+    Route::get('profile', [\App\Http\Controllers\v2\DashboardController::class, 'profile'])->name('v2.profile');
+    Route::post('update-pfp', [\App\Http\Controllers\v2\DashboardController::class, 'updatePFP'])->name('v2.update.pfp');
 
     //merchants
     Route::get('merchants', [\App\Http\Controllers\v2\MerchantController::class, 'index'])->name('v2.merchants');

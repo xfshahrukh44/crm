@@ -84,7 +84,7 @@
                                                                             <tr>
                                                                                 <td>
                                                                                     <div class="name-img">
-                                                                                        <img src="{{asset('images/avatar.png')}}" class="img-fluid">
+                                                                                        <img src="{{$daily_data_item['pfp']}}" class="img-fluid">
                                                                                         {{$daily_data_item['user_body']->name . ' ' . $daily_data_item['user_body']->last_name}}
                                                                                     </div>
                                                                                 </td>
@@ -212,7 +212,7 @@
                                                                             <tr>
                                                                                 <td>
                                                                                     <div class="name-img">
-                                                                                        <img src="{{asset('images/avatar.png')}}" class="img-fluid">
+                                                                                        <img src="{{$monthly_data_item['pfp']}}" class="img-fluid">
                                                                                         {{$monthly_data_item['user_body']->name . ' ' . $monthly_data_item['user_body']->last_name}}
                                                                                     </div>
                                                                                 </td>
@@ -358,7 +358,7 @@
                                                             <tr>
                                                                 <td>
                                                                     <div class="name-img">
-                                                                        <img src="{{asset('images/avatar.png')}}" class="img-fluid">
+                                                                        <img src="{{$daily_data_item['pfp']}}" class="img-fluid">
                                                                         {{$daily_data_item['user_body']->name . ' ' . $daily_data_item['user_body']->last_name}}
                                                                     </div>
                                                                 </td>
@@ -486,7 +486,7 @@
                                                             <tr>
                                                                 <td>
                                                                     <div class="name-img">
-                                                                        <img src="{{asset('images/avatar.png')}}" class="img-fluid">
+                                                                        <img src="{{$monthly_data_item['pfp']}}" class="img-fluid">
                                                                         {{$monthly_data_item['user_body']->name . ' ' . $monthly_data_item['user_body']->last_name}}
                                                                     </div>
                                                                 </td>
