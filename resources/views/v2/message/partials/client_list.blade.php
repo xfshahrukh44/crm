@@ -1,43 +1,42 @@
-@foreach($clients_with_messages as $index => $client_with_messages)
-    @php
-        $message = \App\Models\Message::where('user_id', $client_with_messages->id)
-                    ->orWhere('sender_id', $client_with_messages->id)
-                    ->orderBy('id', 'desc')
-                    ->first();
-         $isUnread = $message &&
-                $message->sender_id == $client_with_messages->id &&
-                $message->is_read == null;
-    @endphp
+{{-- If a particular client is set to show first, do it here first --}}
+@if ($client)
     <li class="nav-item" role="presentation">
-        <button class="nav-link {{ $index === 0 ? 'active' : '' }} client-tab"
-            id="{{ $client_with_messages->id }}-tab"
+        <button class="nav-link active client-tab"
+            id="{{ $client->id }}-tab"
             data-toggle="tab"
-            data-target="#{{ $client_with_messages->id }}"
+            data-target="#{{ $client->id }}"
             type="button" role="tab"
-            aria-controls="{{ $client_with_messages->id }}"
-            aria-selected="{{ $index === 0 ? 'true' : 'false' }}">
-
+            aria-controls="{{ $client->id }}"
+            aria-selected="true">
             <div class="client-info-detail">
                 <div class="client-profile position-relative">
-                    <img src="{{ asset($client_with_messages->image ?? 'assets/imgs/default-avatar.jpg') }}"
-                        class="img-fluid"
-                        alt="{{ $client_with_messages->name }}">
+                    <img src="{{ asset($client->image ?? 'assets/imgs/default-avatar.jpg') }}"
+                         class="img-fluid"
+                         alt="{{ $client->name }}">
                     <span></span>
                 </div>
 
                 <div class="client-content">
-                    <h4>{{ $client_with_messages->name }} {{ $client_with_messages->last_name ?? '' }}</h4>
+                    <h4>{{ $client->name }} {{ $client->last_name ?? '' }}</h4>
 
-                    @if($message)
-                        @php
-                            $messagePreview = \Illuminate\Support\Str::limit(strip_tags($message->message), 25, '...');
-                        @endphp
+                    {{-- Display their last message if available --}}
+                    @php
+                        $message = \App\Models\Message::where('user_id', $client->id)
+                                   ->orWhere('sender_id', $client->id)
+                                   ->orderBy('id', 'desc')
+                                   ->first();
 
-                        @if ($isUnread && $index !== 0)
-                            <p class="unread-p" title="{{ strip_tags($message->message) }}">{{ $messagePreview }}</p>
-                        @else
-                            <p title="{{ strip_tags($message->message) }}">{{ $messagePreview }}</p>
-                        @endif
+                        $isUnread = $message &&
+                                      $message->sender_id == $client->id &&
+                                      $message->is_read == null;
+
+                        $messagePreview = $message ? \Illuminate\Support\Str::limit(strip_tags($message->message), 25, '...') : '';
+                    @endphp
+
+                    @if ($isUnread)
+                        <p class="unread-p" title="{{ strip_tags($message->message) }}">{{ $messagePreview }}</p>
+                    @elseif ($message)
+                        <p title="{{ strip_tags($message->message) }}">{{ $messagePreview }}</p>
                     @else
                         <p>No messages yet</p>
                     @endif
@@ -45,6 +44,51 @@
             </div>
         </button>
     </li>
+@endif
 
+@foreach($clients_with_messages as $index => $client_with_messages)
+    <li class="nav-item" role="presentation">
+        <button class="nav-link {{ $client ? '' : ($index === 0 ? 'active' : '') }} client-tab"
+            id="{{ $client_with_messages->id }}-tab"
+            data-toggle="tab"
+            data-target="#{{ $client_with_messages->id }}"
+            type="button" role="tab"
+            aria-controls="{{ $client_with_messages->id }}"
+            aria-selected="{{ $client ? 'false' : ($index === 0 ? 'true' : 'false') }}">
 
+            <div class="client-info-detail">
+                <div class="client-profile position-relative">
+                    <img src="{{ asset($client_with_messages->image ?? 'assets/imgs/default-avatar.jpg') }}"
+                         class="img-fluid"
+                         alt="{{ $client_with_messages->name }}">
+                    <span></span>
+                </div>
+
+                <div class="client-content">
+                    <h4>{{ $client_with_messages->name }} {{ $client_with_messages->last_name ?? '' }}</h4>
+
+                    @php
+                        $message = \App\Models\Message::where('user_id', $client_with_messages->id)
+                                   ->orWhere('sender_id', $client_with_messages->id)
+                                   ->orderBy('id', 'desc')
+                                   ->first();
+
+                        $isUnread = $message &&
+                                      $message->sender_id == $client_with_messages->id &&
+                                      $message->is_read == null;
+
+                        $messagePreview = $message ? \Illuminate\Support\Str::limit(strip_tags($message->message), 25, '...') : '';
+                    @endphp
+
+                    @if ($isUnread)
+                        <p class="unread-p" title="{{ strip_tags($message->message) }}">{{ $messagePreview }}</p>
+                    @elseif ($message)
+                        <p title="{{ strip_tags($message->message) }}">{{ $messagePreview }}</p>
+                    @else
+                        <p>No messages yet</p>
+                    @endif
+                </div>
+            </div>
+        </button>
+    </li>
 @endforeach

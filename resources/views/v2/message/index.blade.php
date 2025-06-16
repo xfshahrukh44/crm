@@ -220,7 +220,7 @@
 
             function loadMoreClients() {
                 loading = true;
-                $('#loading-spinner').show();
+            $('#loading-spinner').show();
 
                 $.ajax({
                     url: '{{ route('v2.messages') }}',
@@ -233,16 +233,22 @@
                     success: function(response) {
                         if (response.html) {
                             $('.clients-list').append(response.html);
-                            $('#myTab1 .nav-item .nav-link.active').removeClass('active');
+
+                            // Remove active from all first
+                            $('.clients-list .nav-item .nav-link.active').removeClass('active');
+
+                            // Then add active to the first one
+                            $('.clients-list .nav-item:first-child .nav-link').addClass('active');
+
                             page = response.next_page;
                             hasMore = response.has_more;
                         }
                         loading = false;
-                        $('#loading-spinner').hide();
+                    $('#loading-spinner').hide();
                     },
                     error: function() {
                         loading = false;
-                        $('#loading-spinner').hide();
+                    $('#loading-spinner').hide();
                     }
                 });
             }
