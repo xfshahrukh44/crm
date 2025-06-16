@@ -72,7 +72,7 @@
                                     <div class="serach-name">
                                         <div class="dropdown user-name">
                                             <div class="user col align-self-end">
-                                                <img src="{{auth()->user()->image ? asset(auth()->user()->image) : asset('images/avatar.png')}}" width="50" style="border-radius: 25px;">
+                                                <img src="{{auth()->user()->image ? asset(auth()->user()->image) : asset('images/avatar.png')}}" width="50" style="border-radius: 25px; object-fit: cover; width: 40px; height: 40px;">
                                                 <a href="javascript:;" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <span class="auth-name">{{auth()->user()->name}}</span>
                                                     <i class="fa-solid fa-caret-down"></i>

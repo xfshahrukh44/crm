@@ -583,6 +583,7 @@ Route::get('temp', function () {
 //    });
 });
 
+//Route::group(['middleware' => ['auth'], 'prefix' => 'v2'], function () {
 Route::group(['middleware' => ['auth', 'ip.mid'], 'prefix' => 'v2'], function () {
     Route::get('dashboard', [\App\Http\Controllers\v2\DashboardController::class, 'dashboard'])->name('v2.dashboard');
 
@@ -620,7 +621,7 @@ Route::group(['middleware' => ['auth', 'ip.mid'], 'prefix' => 'v2'], function ()
     Route::get('/invoices/sales/sheet', [\App\Http\Controllers\v2\InvoiceController::class, 'salesSheet'])->name('v2.invoices.sales.sheet');
     Route::get('/invoices/admin/invoices', [\App\Http\Controllers\v2\InvoiceController::class, 'adminInvoices'])->name('v2.invoices.admin.invoices');
 
-    //leads
+    //leadsv
     Route::get('leads', [\App\Http\Controllers\v2\LeadController::class, 'index'])->name('v2.leads');
     Route::get('leads/create', [\App\Http\Controllers\v2\LeadController::class, 'create'])->name('v2.leads.create');
     Route::post('leads/store', [\App\Http\Controllers\v2\LeadController::class, 'store'])->name('v2.leads.store');

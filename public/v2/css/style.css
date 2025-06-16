@@ -634,12 +634,13 @@ td.green {
     padding: 60px;
     margin: 50px 0;
     border-radius: 20px;
-    padding-bottom: 0;
+    padding-bottom: 60px;
 }
 
 .profile-img {
     text-align: center;
     margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 .profile-img h6 {

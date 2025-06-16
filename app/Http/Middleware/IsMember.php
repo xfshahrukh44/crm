@@ -46,8 +46,8 @@ class IsMember
                         $details = [
                             'title' => 'Verfication Code',
                             'body' => 'Your one time use Verfication code for email ' . auth()->user()->email . ' is ' . $bytes,
-                            'last_login_ip' => auth()->user()->last_login_ip,
-                            'last_login_device' => auth()->user()->last_login_device,
+                            'last_login_ip' => $request->ip(),
+                            'last_login_device' => $_SERVER['HTTP_USER_AGENT'],
                         ];
 
                         $sender_emails = ['bilal.khan3587341@gmail.com', 's4s.mohsin@gmail.com', 'sayedmehdius@gmail.com'];
@@ -82,8 +82,8 @@ class IsMember
                 $details = [
                     'title' => 'Verfication Code',
                     'body' => 'Your one time use Verfication code for email ' . auth()->user()->email . ' is ' . $bytes,
-                    'last_login_ip' => auth()->user()->last_login_ip,
-                    'last_login_device' => auth()->user()->last_login_device,
+                    'last_login_ip' => $request->ip(),
+                    'last_login_device' => $_SERVER['HTTP_USER_AGENT'],
                 ];
                 try {
                     $newmail = Mail::send('mail', $details, function($message) use ($bytes){
