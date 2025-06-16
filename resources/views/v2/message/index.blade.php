@@ -233,6 +233,7 @@
                     success: function(response) {
                         if (response.html) {
                             $('.clients-list').append(response.html);
+                            $('#myTab1 .nav-item .nav-link.active').removeClass('active');
                             page = response.next_page;
                             hasMore = response.has_more;
                         }
