@@ -55,6 +55,15 @@
                                         </a>
                                     </li>
                                 @endif
+                                @if(v2_acl([1]))
+                                    <li>
+                                        <a href="{{route('v2.tasks')}}">
+                                            <img src="{{asset('v2/images/task-icon.png')}}" class="img-fluid">
+                                            Manage <strong>Tasks</strong>
+                                            <i class="fa-solid fa-angle-right"></i>
+                                        </a>
+                                    </li>
+                                @endif
                             </ul>
                         </div>
                     </div>

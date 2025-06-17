@@ -1,6 +1,6 @@
 @extends('v2.layouts.app')
 
-@section('title', 'Client Detail')
+@section('title', 'Task Detail')
 
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{ asset('global/css/fileinput.css') }}">
@@ -191,6 +191,91 @@
                                     </p>
                                 </div>
                             @endforeach
+                            @if(count($sub_tasks->assign_members))
+                                <div class="row m-auto list-0f-head msg-client">
+                                    <div class="col-md-12">
+                                        <h2>Assigned to</h2>
+                                    </div>
+                                    <div class="col-md-12">
+                                        @foreach($sub_tasks->assign_members as $assign_members)
+                                            <div class="row m-auto">
+                                                <div class="col-md-8 p-0">
+                                                    <div class="row m-auto">
+                                                        <div class="col-1 p-0 d-flex align-items-center">
+                                                            <img src="{{$assign_members->assigned_to_user->image ? asset($assign_members->assigned_to_user->image) : asset('images/avatar.png')}}" alt="" style="width: 32px; height: 32px; object-fit: cover; border-radius: 25px; border: 1px solid #929292;">
+                                                        </div>
+                                                        <div class="col-11 p-1 pl-2">
+                                                            <div class="row m-auto">
+                                                                <div class="col-md-12 p-0">
+                                                                    <small>
+                                                                        <b>{{ $assign_members->assigned_to_user->name }} {{ $assign_members->assigned_to_user->last_name }}</b>
+                                                                    </small>
+                                                                </div>
+                                                                <div class="col-md-12 p-0">
+                                                                    <form action="{{route('v2.subtasks.update.status', $assign_members->id)}}" method="POST">
+                                                                        @csrf
+{{--                                                                        <p class="m-0 text-small text-muted p_comment_editable" contenteditable="false" type="submit"> {{ $assign_members->comments }} </p>--}}
+                                                                        <small class="p_comment_editable" contenteditable="false" type="submit">{{ $assign_members->comments }}</small>
+                                                                        <input class="hidden_input_comments" type="hidden" name="comments">
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 d-flex">
+                                                    <div class="row m-auto">
+                                                        @if(v2_acl([1]))
+                                                            <a href="javascript:void(0);" class="badge bg-info text-white p-2 mx-1 col btn_edit_subtask">
+                                                                Edit
+                                                            </a>
+                                                        @endif
+                                                        <a href="{{ route('v2.subtasks.show', $assign_members->id) }}" class="badge bg-primary text-white p-2 mx-1 col">
+                                                            Detail
+                                                        </a>
+                                                        <a href="#" class="badge bg-danger text-white p-2 mx-1 col">
+                                                            {!! $assign_members->get_status_badge() !!}
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
+                            @if(!in_array($sub_tasks->user->is_employee, [1, 5]))
+                                <div class="list-0f-head msg-client">
+                                    <form class="repeater assign-sub-task-form mb-4" action="{{ route('v2.subtasks.assign') }}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="sub_task" value="{{ $sub_tasks->id }}">
+                                        <div data-repeater-list="members">
+                                            <div data-repeater-item class="mb-3">
+                                                <div class="input-group">
+                                                    <select name="assign_sub_task_user_id" id="assign-sub-task-user-id" class="form-control w-200 select2" required>
+                                                        <option value="">Select Member</option>
+                                                        @foreach($members as $member)
+                                                            <option value="{{ $member->id }}" {{ $sub_tasks->assign_id == $member->id ? 'selected' : '' }}>{{ $member->name }} {{ $member->last_name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <input type="date" class="form-control" name="duadate" required>
+                                                    <div class="input-group-append">
+                                                        <input class="btn btn-danger" data-repeater-delete type="button" value="DELETE"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mt-2">
+                                                    <label for="">Additional Comment</label>
+                                                    <textarea name="comment" id="" cols="30" rows="4" class="form-control"></textarea>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        </div>
+                                        <input data-repeater-create class="btn btn-secondary" type="button" value="Add More"/>
+                                        <div class="form-group mt-2 text-right">
+                                            <button class="btn btn-primary">Assign Sub Task</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            @endif
                         @endforeach
                     </div>
 
@@ -208,6 +293,25 @@
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $('.btn_edit_subtask').on('click', function (e) {
+                e.preventDefault();
+
+                let comment_para = $(this).parent().parent().parent().find('.p_comment_editable');
+                // comment_para.prop('contenteditable', !(comment_para.prop('contenteditable') == 'true'));
+                comment_para.prop('contenteditable', true);
+                $(this).hide();
+                comment_para.focus();
+            });
+
+            $('.p_comment_editable').on('keyup', function (e) {
+                $(this).parent().find('.hidden_input_comments').val($(this).text());
+
+                if(e.which == 13 && $(this).text() != '') {
+                    $(this).text($(this).text().replaceAll('\n', ''));
+                    $(this).parent().parent().find('form').submit();
                 }
             });
 
@@ -234,11 +338,13 @@
             });
 
 
+            let upload_url = '{{route('v2.tasks.upload.files', 'temp')}}';
+            upload_url = upload_url.replace('temp', '{{$task->id}}');
             $("#image-file").fileinput({
                 showUpload: true,
                 theme: 'fa',
                 dropZoneEnabled: true,
-                uploadUrl: "{{ url('/v2/tasks/upload-files') }}/{{$task->id}}",
+                uploadUrl: upload_url,
                 overwriteInitial: false,
                 maxFileSize: 20000000,
                 maxFilesNum: 20,
@@ -251,7 +357,7 @@
 
                 setTimeout(() => {
                     window.location.reload();
-                }, 2000);
+                }, 500);
             });
         });
     </script>

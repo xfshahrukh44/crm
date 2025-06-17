@@ -21,13 +21,19 @@ class TaskController extends Controller
 {
     public function index (Request $request)
     {
-        if (!v2_acl([2, 6, 4])) {
+        if (!v2_acl([2, 6, 4, 1])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
-        $brand_ids = v2_acl([2]) ? Brand::all()->pluck('id')->toArray() : auth()->user()->brand_list();
+        $brand_ids = v2_acl([2, 1]) ? Brand::all()->pluck('id')->toArray() : auth()->user()->brand_list();
         $brands =  Brand::whereIn('id', $brand_ids)->get();
-        $categories = Category::all();
+        $category_ids = [];
+        if (v2_acl([1])) {
+            foreach(auth()->user()->category as $category){
+                array_push($category_ids, $category->id);
+            }
+        }
+        $categories = v2_acl([1]) ? (Category::whereIn('id', $category_ids)->get()) : Category::all();
         $restricted_brands = json_decode(auth()->user()->restricted_brands, true);
         $task_array = [];
         $notification_task = auth()->user()->unreadnotifications->where('type', 'App\Notifications\TaskNotification')->all();
@@ -35,7 +41,9 @@ class TaskController extends Controller
             array_push($task_array, $notification_tasks['data']['task_id']);
         }
 
-        $tasks = Task::whereIn('brand_id', $brand_ids)
+        $tasks = Task::when(!v2_acl([1]), function ($q) use ($brand_ids, $task_array) {
+                return $q->whereIn('brand_id', $brand_ids)->whereNotIn('id', $task_array);
+            })
             ->when(request()->get('project') != '', function ($q) {
                 $project = request()->get('project');
                 return $q->whereHas('projects', function($q) use($project){
@@ -70,7 +78,11 @@ class TaskController extends Controller
                 return $q->whereHas('projects', function ($query) {
                     return $query->where('user_id', '=', auth()->user()->id);
                 });
-            })->whereNotIn('id', $task_array)->orderBy('id', 'desc')->paginate(20);
+            })
+            ->when(v2_acl([1]), function ($q) use ($category_ids) {
+                return $q->whereIn('category_id', $category_ids)
+                    ->orderByRaw("FIELD(status, 0, 1, 4, 2, 6, 5, 7, 3)");
+            })->orderBy('id', 'DESC')->paginate(20);
 
         $notify_data = Task::whereIn('brand_id', auth()->user()->brand_list())
             ->when(v2_acl([4]) && !auth()->user()->is_support_head, function ($q) {
@@ -79,50 +91,6 @@ class TaskController extends Controller
                 });
             })
             ->whereIn('id', $task_array)->orderBy('id', 'desc')->get();
-
-//        $date_now = new DateTime();
-//
-//        $expected_delivery_today = Task::whereIn('brand_id', auth()->user()->brand_list())
-//            ->whereHas('projects', function ($query) {
-//                $query->where('user_id', '=', auth()->user()->id);
-//            })->whereHas('todaySubtask')->whereIn('status', [0, 1, 4])->with('sub_tasks')->get();
-//
-//        $mainquery = SubTask::select(DB::raw('*, max(duedate)'))->whereNotNull('duedate')->orderBy('duedate','desc')
-//            ->groupBy('task_id')->whereHas('task',function($query){
-//                $query->where('user_id','=',auth()->user()->id)->whereIn('brand_id', auth()->user()->brand_list())->whereIn('status', [0, 1, 4])->whereHas('projects',  function($project_query){
-//                    $project_query->where('user_id', '=', auth()->user()->id);
-//                });
-//            })->with('task');
-//
-//        $example_today = $mainquery->whereDate('duedate',date('Y-m-d'))->get();
-//
-//        $expected_delivery_duedate = Task::whereIn('brand_id', auth()->user()->brand_list())
-//            ->whereHas('projects', function ($q) {
-//                $q->where('user_id', '=', auth()->user()->id);
-//            })->whereHas('sub_tasks', function($q) use ($date_now){
-//                $q->whereDate('duedate', '<', $date_now->format('Y-m-d'));
-//            })->whereIn('status', [0, 1, 4])->orderBy('id', 'desc')->get();
-//
-//        $example_delivery_duedate = $mainquery->whereDate('duedate','>',date('Y-m-d'))->get();
-//
-//
-//        $yesterday_date = $date_now->modify('+1 day');
-//
-//        $expected_delivery_yesterday = Task::whereIn('brand_id', auth()->user()->brand_list())->whereHas('projects', function ($query) {
-//            return $query->where('user_id', '=', auth()->user()->id);
-//        })->whereHas('sub_tasks', function($query) use ($yesterday_date){
-//            return $query->whereNotNull('duedate')->whereDate('duedate', $yesterday_date)->orderBy('id', 'desc')->whereIn('status', [0, 1, 4]);
-//        })->whereIn('status', [0, 1, 4])->orderBy('id', 'desc')->get();
-//
-//        $example_deliverly_yesterday = $mainquery->whereDate('duedate',date("Y-m-d", strtotime( '-1 days' ) ))->get();
-//
-//        $myData = [
-//            'today_date' => $example_today,
-//            'yesterday_date' => $example_deliverly_yesterday,
-//            'due_date_sub_task' => $example_delivery_duedate
-//        ];
-
-//        return view('support.task.index', compact('data', 'notify_data', 'brands', 'categorys', 'expected_delivery_today', 'expected_delivery_duedate', 'expected_delivery_yesterday','myData'));
 
         return view('v2.task.index', compact('tasks', 'brands', 'categories', 'notify_data'));
     }
@@ -319,7 +287,7 @@ class TaskController extends Controller
 
     public function show (Request $request, $id)
     {
-        if (!v2_acl([2, 6, 4])) {
+        if (!v2_acl([2, 6, 4, 1])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -328,22 +296,36 @@ class TaskController extends Controller
         }
 
         //non-admin checks
+        $members = [];
         if (!v2_acl([2])) {
-            if (!in_array($task->brand_id, auth()->user()->brand_list())) {
+            if (!v2_acl([1]) && !in_array($task->brand_id, auth()->user()->brand_list())) {
                 return redirect()->back()->with('error', 'Not allowed.');
             }
 
             if (user_is_cs() && $task->projects->user_id != auth()->id()) {
                 return redirect()->back()->with('error', 'Not allowed.');
             }
+
+            if (v2_acl([1])) {
+                //check for ownership
+                if (!in_array($task->category_id, auth()->user()->category()->pluck('id')->toArray())) {
+                    return redirect()->back()->with('error', 'Not allowed.');
+                }
+
+                $members = User::where('is_employee', 5)->where('status','1')->whereHas('category', function ($query) use ($task){
+                    return $query->when($task, function ($q) use ($task) {
+                        return $q->where('category_id', '=', $task->category_id);
+                    });
+                })->get();
+            }
         }
 
-        return view('v2.task.show', compact('task'));
+        return view('v2.task.show', compact('task', 'members'));
     }
 
     public function updateStatus (Request $request, $id)
     {
-        if (!v2_acl([2, 6, 4])) {
+        if (!v2_acl([2, 6, 4, 1])) {
             return response()->json(['status' => false, 'message' => 'Access denied.']);
         }
 
@@ -354,6 +336,7 @@ class TaskController extends Controller
             2 => [1, 2, 3, 4, 5, 6],
             6 => [1],
             4 => [1],
+            1 => [2, 3, 4, 5, 6, 7],
         ];
 
         if (!in_array($value, $allowed_status_map[auth()->user()->is_employee])) {
@@ -361,32 +344,38 @@ class TaskController extends Controller
         }
 
         $task = Task::find($id);
+        $user = $task->user;
 
         //non-admin checks
         if (!v2_acl([2])) {
-            if (!in_array($task->brand_id, auth()->user()->brand_list())) {
+            if (!v2_acl([1]) && !in_array($task->brand_id, auth()->user()->brand_list())) {
                 return response()->json(['status' => false, 'message' => 'Not allowed.']);
             }
 
             if (user_is_cs() && $task->projects->user_id != auth()->id()) {
                 return redirect()->back()->with('error', 'Not allowed.');
             }
+
+            if (v2_acl([1])) {
+                //check for ownership
+                if (!in_array($task->category_id, auth()->user()->category()->pluck('id')->toArray())) {
+                    return redirect()->back()->with('error', 'Not allowed.');
+                }
+
+                if ($value == 3) { notify_qa_of_outgoing_task($task->id); }
+
+                if ($value == 7) {
+                    notify_qa_of_incoming_task($task->id);
+
+                    emit_pusher_notification('qa-channel', 'incoming-task', [
+                        'task' => $task,
+                        'redirect_url' => route('qa.task.show', $task->id)
+                    ]);
+                }
+            }
         }
 
-        $user = $task->user;
-
-        $status_text_map = [
-            0 => 'Open',
-            1 => 'Re Open',
-            2 => 'Hold',
-            3 => 'Completed',
-            4 => 'In Progress',
-            5 => 'Sent for Approval',
-            6 => 'Incomplete Brief',
-            7 => 'Sent for QA',
-        ];
-
-        $status = $status_text_map[$value];
+        $status = get_task_status_text($value);
 
         //if task status changed create logs
         if ($task->status != $request->value) {
@@ -446,7 +435,7 @@ class TaskController extends Controller
 
     public function uploadFiles (Request $request, $id)
     {
-        if (!v2_acl([2, 6, 4])) {
+        if (!v2_acl([2, 6, 4, 1])) {
             return response()->json(['status' => false, 'message' => 'Access denied.']);
         }
 
@@ -454,12 +443,19 @@ class TaskController extends Controller
 
         //non-admin checks
         if (!v2_acl([2])) {
-            if (!in_array($task->brand_id, auth()->user()->brand_list())) {
+            if (!v2_acl([1]) && !in_array($task->brand_id, auth()->user()->brand_list())) {
                 return response()->json(['status' => false, 'message' => 'Not allowed.']);
             }
 
             if (user_is_cs() && $task->projects->user_id != auth()->id()) {
                 return redirect()->back()->with('error', 'Not allowed.');
+            }
+
+            if (v2_acl([1])) {
+                //check for ownership
+                if (!in_array($task->category_id, auth()->user()->category()->pluck('id')->toArray())) {
+                    return redirect()->back()->with('error', 'Not allowed.');
+                }
             }
         }
 

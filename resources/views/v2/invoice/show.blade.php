@@ -169,6 +169,21 @@
             //copy link
             $('.btn_copy_authorize_link').on('click', function () {
                 copy_authorize_link($(this).data('url'));
+
+                $(this).html(`<i class="fas fa-check"></i> Copied!`);
+                $(this).removeClass('bg-warning');
+                $(this).addClass('bg-success');
+                $(this).removeClass('text-dark');
+                $(this).addClass('text-white');
+
+                let el = $(this);
+                setTimeout(function () {
+                    el.html(`<i class="fas fa-copy"></i> Payment link`);
+                    el.addClass('bg-warning');
+                    el.removeClass('bg-success');
+                    el.addClass('text-dark');
+                    el.removeClass('text-white');
+                }, 3000);
             });
         });
     </script>
