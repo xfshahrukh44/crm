@@ -243,7 +243,7 @@
                                     </div>
                                 </div>
                             @endif
-                            @if(!in_array($sub_tasks->user->is_employee, [1, 5]))
+                            @if(v2_acl([1]) && !in_array($sub_tasks->user->is_employee, [1, 5]))
                                 <div class="list-0f-head msg-client">
                                     <form class="repeater assign-sub-task-form mb-4" action="{{ route('v2.subtasks.assign') }}" method="post">
                                         @csrf
@@ -269,7 +269,7 @@
                                             </div>
                                             <hr>
                                         </div>
-                                        <input data-repeater-create class="btn btn-secondary" type="button" value="Add More"/>
+{{--                                        <input data-repeater-create class="btn btn-secondary" type="button" value="Add More"/>--}}
                                         <div class="form-group mt-2 text-right">
                                             <button class="btn btn-primary">Assign Sub Task</button>
                                         </div>

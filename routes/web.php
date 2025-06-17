@@ -657,7 +657,8 @@ Route::group(['middleware' => ['auth', 'ip.mid'], 'prefix' => 'v2'], function ()
     Route::get('subtasks', [\App\Http\Controllers\v2\SubtaskController::class, 'index'])->name('v2.subtasks');
     Route::post('subtasks/store', [\App\Http\Controllers\v2\SubtaskController::class, 'store'])->name('v2.subtasks.store');
     Route::get('subtasks/detail/{id}', [\App\Http\Controllers\v2\SubtaskController::class, 'show'])->name('v2.subtasks.show');
-    Route::post('subtasks/update-status/{id}', [\App\Http\Controllers\v2\SubtaskController::class, 'updateComments'])->name('v2.subtasks.update.status');
+    Route::post('subtasks/update-status/{id}', [\App\Http\Controllers\v2\SubtaskController::class, 'updateStatus'])->name('v2.subtasks.update.status');
+    Route::post('subtasks/update-comments/{id}', [\App\Http\Controllers\v2\SubtaskController::class, 'updateComments'])->name('v2.subtasks.update.comments');
     Route::post('subtasks/assign', [\App\Http\Controllers\v2\SubtaskController::class, 'assign'])->name('v2.subtasks.assign');
     Route::post('subtasks/add-message/{id}', [\App\Http\Controllers\v2\SubtaskController::class, 'addMessage'])->name('v2.subtasks.add.message');
 

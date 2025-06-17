@@ -22,7 +22,7 @@ class SubtaskController extends Controller
 {
     public function index (Request $request)
     {
-        if (!v2_acl([1])) {
+        if (!v2_acl([1, 5])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -40,6 +40,8 @@ class SubtaskController extends Controller
             });
         })->when($request->get('status') != '', function ($q) {
             return $q->where('status', request()->get('status'));
+        })->when(v2_acl([5]), function ($q) {
+            return $q->where('assigned_to', auth()->id());
         })->orderByRaw("FIELD(status, 0, 1, 4, 2, 6, 5, 7, 3)")->orderBy('created_at', 'DESC')->paginate(20);
 
         return view('v2.subtask.index', compact('subtasks', 'categories'));
@@ -137,7 +139,7 @@ class SubtaskController extends Controller
 
     public function show (Request $request, $id)
     {
-        if (!v2_acl([1])) {
+        if (!v2_acl([1, 5])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -145,11 +147,58 @@ class SubtaskController extends Controller
             return redirect()->back()->with('error', 'Not found.');
         }
 
-        if (!in_array($subtask->task_id, auth()->user()->category_list())) {
+        if (v2_acl([1]) && !in_array($subtask->task->category_id, auth()->user()->category_list())) {
+            return redirect()->back()->with('error', 'Not allowed.');
+        }
+
+        if (v2_acl([5]) && $subtask->assigned_to != auth()->id()) {
             return redirect()->back()->with('error', 'Not allowed.');
         }
 
         return view('v2.subtask.show', compact('subtask'));
+    }
+
+    public function updateStatus (Request $request, $id)
+    {
+        if (!v2_acl([5])) {
+            return response()->json(['status' => false, 'message' => 'Access denied.']);
+        }
+
+        if (!$subtask = ProductionMemberAssign::find($id)) {
+            return response()->json(['status' => false, 'message' => 'Not found.']);
+        }
+
+        if ($subtask->assigned_to != auth()->id()) {
+            return response()->json(['status' => false, 'message' => 'Not allowed.']);
+        }
+
+        $value = $request->value;
+
+        $allowed_status_map = [
+            5 => [2, 3, 4, 5, 6],
+        ];
+
+        if (!in_array($value, $allowed_status_map[auth()->user()->is_employee])) {
+            return response()->json(['status' => false, 'message' => 'Not allowed.']);
+        }
+
+        $task = ProductionMemberAssign::find($id);
+        $task->status = $value;
+        $task->save();
+
+        $status = get_task_status_text($value);
+        $description = $task->task->projects->name . " Marked as " . $status;
+        $assignData = [
+            'id' => auth()->user()->id,
+            'task_id' => $task->id,
+            'name' => auth()->user()->name . ' ' . auth()->user()->last_name,
+            'text' => $description,
+            'details' => 'Updated by '. auth()->user()->name . ' ' . auth()->user()->last_name,
+        ];
+        $user = User::find($task->assigned_by);
+        $user->notify(new SubTaskNotification($assignData));
+
+        return response()->json(['status' => true, 'message' => 'Status Updated Successfully']);
     }
 
     public function assign (Request $request)
@@ -164,56 +213,50 @@ class SubtaskController extends Controller
 
         $subtask = SubTask::Find($request->sub_task);
 
-        if (!in_array($subtask->task_id, auth()->user()->category_list())) {
+        if (!in_array($subtask->task->category_id, auth()->user()->category_list())) {
             return redirect()->back()->with('error', 'Not allowed.');
         }
+//        dd($request->all());
+        $assignMember = new ProductionMemberAssign();
+        $assignMember->task_id = $subtask->task->id;
+        $assignMember->subtask_id = $subtask->id;
+        $assignMember->assigned_by = auth()->user()->id;
+        $assignMember->assigned_to = $request->assign_sub_task_user_id;
+        $assignMember->comments = $request->comment;
+        $assignMember->duadate = $request->duadate;
+        $assignMember->status = 0;
+        $assignMember->save();
+        $assignData = [
+            'id' => $assignMember->id,
+            'task_id' => $subtask->task->id,
+            'name' => Auth()->user()->name . ' ' . Auth()->user()->last_name,
+            'text' => $subtask->task->projects->name . '- Task Assigned',
+            'details' => \Illuminate\Support\Str::limit(preg_replace("/<\/?a( [^>]*)?>/i", "", strip_tags($subtask->description)), 50, $end='...')
+        ];
+        $user = User::find($request->assign_sub_task_user_id);
+        $user->notify(new TaskNotification($assignData));
 
-        if (count($request->members)) {
-            foreach($request->members as $key => $value){
-                if($value['assign_sub_task_user_id'] != ''){
-                    $assignMember = new ProductionMemberAssign();
-                    $assignMember->task_id = $subtask->task->id;
-                    $assignMember->subtask_id = $subtask->id;
-                    $assignMember->assigned_by = Auth::user()->id;
-                    $assignMember->assigned_to = $value['assign_sub_task_user_id'];
-                    $assignMember->comments = $value['comment'];
-                    $assignMember->duadate = $value['duadate'];
-                    $assignMember->status = 0;
-                    $assignMember->save();
-                    $assignData = [
-                        'id' => $assignMember->id,
-                        'task_id' => $subtask->task->id,
-                        'name' => Auth()->user()->name . ' ' . Auth()->user()->last_name,
-                        'text' => $subtask->task->projects->name . '- Task Assigned',
-                        'details' => \Illuminate\Support\Str::limit(preg_replace("/<\/?a( [^>]*)?>/i", "", strip_tags($subtask->description)), 50, $end='...')
-                    ];
-                    $user = User::find($value['assign_sub_task_user_id']);
-                    $user->notify(new TaskNotification($assignData));
+        //mail_notification
+        $project = Project::find($subtask->task->project_id);
+        $assigned_to_user = User::find($request->assign_sub_task_user_id);
+        $html = '<p>'. 'New task on project `'.$project->name.'`: ' . $request->comment .'</p><br />';
+        $html .= '<strong>Assigned by:</strong> <span>'.auth()->user()->name.'</span><br />';
+        $html .= '<strong>Assigned to:</strong> <span>'. $assigned_to_user->name.' ('.$assigned_to_user->email.') ' .'</span><br />';
+        $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
+        $html .= '<br /><strong>Description</strong> <span>' . $subtask->task->description;
 
-                    //mail_notification
-                    $project = Project::find($subtask->task->project_id);
-                    $assigned_to_user = User::find($value['assign_sub_task_user_id']);
-                    $html = '<p>'. 'New task on project `'.$project->name.'`: ' . $value['comment'] .'</p><br />';
-                    $html .= '<strong>Assigned by:</strong> <span>'.Auth::user()->name.'</span><br />';
-                    $html .= '<strong>Assigned to:</strong> <span>'. $assigned_to_user->name.' ('.$assigned_to_user->email.') ' .'</span><br />';
-                    $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
-                    $html .= '<br /><strong>Description</strong> <span>' . $subtask->task->description;
-
-                    mail_notification(
-                        '',
-                        [$assigned_to_user->email],
-                        'New Task',
-                        view('mail.crm-mail-template')->with([
-                            'subject' => 'New Task',
-                            'brand_name' => $project->brand->name,
-                            'brand_logo' => asset($project->brand->logo),
-                            'additional_html' => $html
-                        ]),
-                        true
-                    );
-                }
-            }
-        }
+        mail_notification(
+            '',
+            [$assigned_to_user->email],
+            'New Task',
+            view('mail.crm-mail-template')->with([
+                'subject' => 'New Task',
+                'brand_name' => $project->brand->name,
+                'brand_logo' => asset($project->brand->logo),
+                'additional_html' => $html
+            ]),
+            true
+        );
 
         return redirect()->back()->with('success', 'Sub Task Assigned');
     }
@@ -232,7 +275,7 @@ class SubtaskController extends Controller
             return redirect()->back()->with('error', 'Not found.');
         }
 
-        if (!in_array($subtask->task_id, auth()->user()->category_list())) {
+        if (!in_array($subtask->task->category_id, auth()->user()->category_list())) {
             return redirect()->back()->with('error', 'Not allowed.');
         }
 
@@ -244,7 +287,7 @@ class SubtaskController extends Controller
 
     public function addMessage (Request $request, $id)
     {
-        if (!v2_acl([1])) {
+        if (!v2_acl([1, 5])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
         $request->validate([
@@ -255,7 +298,7 @@ class SubtaskController extends Controller
             return redirect()->back()->with('error', 'Not found.');
         }
 
-        if (!in_array($subtask->task_id, auth()->user()->category_list())) {
+        if (!in_array($subtask->task->category_id, auth()->user()->category_list())) {
             return redirect()->back()->with('error', 'Not allowed.');
         }
 

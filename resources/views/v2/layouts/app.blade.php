@@ -133,7 +133,7 @@
                     <i class="fas fa-search search-icon"></i>
                 </div>
                 <ul style="max-height: 85%; overflow-y: scroll; scrollbar-width: none; -ms-overflow-style: none;">
-                    @if(in_array($user_role_id, [2, 6, 4, 0, 1]))
+                    @if(in_array($user_role_id, [2, 6, 4, 0, 1, 5]))
                         <li>
                             <a href="{{route('v2.dashboard')}}" class="{{ request()->routeIs('v2.dashboard') ? 'active' : '' }}">
                                 Dashboard
@@ -184,7 +184,7 @@
                         </li>
                     @endif
 
-                    @if(in_array($user_role_id, [6, 4, 0, 1]))
+                    @if(in_array($user_role_id, [6, 4, 0, 1, 5]))
                         <li>
                             <a href="{{route('v2.notifications')}}" class="{{ request()->routeIs('v2.notifications') ? 'active' : '' }}">
                                 Notifications
@@ -272,7 +272,7 @@
                         </li>
                     @endif
 
-                    @if(in_array($user_role_id, [1]))
+                    @if(in_array($user_role_id, [1, 5]))
                         <li>
                             <a href="{{route('v2.subtasks')}}" class="{{ request()->routeIs('v2.subtasks') || request()->routeIs('v2.subtasks.show') ? 'active' : '' }}">
                                 Sub tasks

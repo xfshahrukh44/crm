@@ -64,6 +64,15 @@
                                         </a>
                                     </li>
                                 @endif
+                                @if(v2_acl([5]))
+                                    <li>
+                                        <a href="{{route('v2.subtasks')}}">
+                                            <img src="{{asset('v2/images/task-icon.png')}}" class="img-fluid">
+                                            Manage <strong>Subtasks</strong>
+                                            <i class="fa-solid fa-angle-right"></i>
+                                        </a>
+                                    </li>
+                                @endif
                             </ul>
                         </div>
                     </div>

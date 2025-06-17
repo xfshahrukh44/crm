@@ -54,7 +54,7 @@
         ->when(v2_acl([6]) && in_array(auth()->id(), [3839, 3838, 3837]), function ($q) {
             return $q->where('type', 'App\Notifications\MessageNotification');
         })
-        ->latest()->take(10)->paginate(20);
+        ->latest()->paginate(20);
     @endphp
     <div class="for-slider-main-banner">
         <section class="list-0f">
@@ -131,17 +131,23 @@
                                             'App\Notifications\SubTaskNotification' => [
                                                 'badge' => '<span class="badge badge-success">Subtask</span>',
                                                 'route' => 'v2.subtasks.show',
-                                                'key' => 'task_id',
+                                                'key' => 'id',
                                             ],
                                         ];
                                     @endphp
                                     @foreach($notifications as $notification)
-                                        <tr class="{!! is_null($notification->read_at) ? 'unread_notification' : '' !!}">
+{{--                                        @dump($notification)--}}
+                                        <tr class="{!! is_null($notification->read_at) ? 'unread_notification' : '' !!}" data-id="{{$notification->id}}">
                                             @php
                                                 $notification_data = $notification_map[$notification->type];
+                                                if (v2_acl([5])) {
+                                                    $route = route('v2.subtasks.show', $notification->data['id']);
+                                                } else {
+                                                    $route = $notification_data['route'] !== '' ? route($notification_data['route'], $notification->data[$notification_data['key']]) : '';
+                                                }
                                             @endphp
                                             <td>
-                                                <a href="{{$notification_data['route'] !== '' ? route($notification_data['route'], $notification->data[$notification_data['key']]) : ''}}">
+                                                <a href="{{$route}}">
                                                     {{ strip_tags($notification->data['text']) }}
                                                 </a>
                                             </td>
@@ -166,7 +172,31 @@
 @section('script')
     <script>
         $(document).ready(function () {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
 
+            $('.unread_notification').on('click', function (e) {
+                // e.preventDefault();
+                $(this).removeClass('unread_notification');
+
+                $.ajax({
+                    url: "{{route('clear-notification')}}",
+                    method: "POST",
+                    data: {
+                        _token: '{{csrf_token()}}',
+                        notification_id: $(this).data('id')
+                    },
+                    success: (data) => {
+                        console.log(data);
+                        window.location.href = $(this).find('a:first').prop('href');
+                    },
+                });
+
+
+            });
         });
     </script>
 @endsection

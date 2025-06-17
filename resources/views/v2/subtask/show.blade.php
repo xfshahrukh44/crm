@@ -16,21 +16,25 @@
                         <div class="client-serach-pare">
                             <p>{{$subtask->task->projects->name}} (ID: {{$subtask->task->id}}) </p>
                             <div class="Search2 justify-content-end">
-{{--                                <select name="update-task-value" id="update-task-value" class="form-control w-200" style="border-radius: 30px;">--}}
-{{--                                    <option value="">Select task status</option>--}}
-{{--                                    <option value="0" {{($subtask->task->status == 0) ? 'selected' : ''}}>Open</option>--}}
-{{--                                    <option value="1" {{($subtask->task->status == 1) ? 'selected' : ''}}>Re Open</option>--}}
-{{--                                    <option value="2" {{($subtask->task->status == 2) ? 'selected' : ''}}>On Hold</option>--}}
-{{--                                    <option value="3" {{($subtask->task->status == 3) ? 'selected' : ''}}>Completed</option>--}}
-{{--                                    <option value="4" {{($subtask->task->status == 4) ? 'selected' : ''}}>In Progress</option>--}}
-{{--                                    <option value="5" {{($subtask->task->status == 5) ? 'selected' : ''}}>Sent for Approval</option>--}}
-{{--                                    <option value="6" {{($subtask->task->status == 6) ? 'selected' : ''}}>Incomplete Brief</option>--}}
-{{--                                    <option value="7" {{($subtask->task->status == 7) ? 'selected' : ''}}>Sent for QA</option>--}}
-{{--                                </select>--}}
+                                @if(v2_acl([5]))
+                                    <select name="update-task-value" id="update-task-value" class="form-control w-200" style="border-radius: 30px;">
+                                        <option value="">Select task status</option>
+                                        <option value="0" {{($subtask->status == 0) ? 'selected' : ''}}>Open</option>
+                                        <option value="1" {{($subtask->status == 1) ? 'selected' : ''}}>Re Open</option>
+                                        <option value="2" {{($subtask->status == 2) ? 'selected' : ''}}>On Hold</option>
+                                        <option value="3" {{($subtask->status == 3) ? 'selected' : ''}}>Completed</option>
+                                        <option value="4" {{($subtask->status == 4) ? 'selected' : ''}}>In Progress</option>
+                                        <option value="5" {{($subtask->status == 5) ? 'selected' : ''}}>Sent for Approval</option>
+                                        <option value="6" {{($subtask->status == 6) ? 'selected' : ''}}>Incomplete Brief</option>
+                                        <option value="7" {{($subtask->status == 7) ? 'selected' : ''}}>Sent for QA</option>
+                                    </select>
 
-{{--                                --}}{{--                                        <input class="form-control mr-sm-2" placeholder="Search">--}}
-{{--                                <button class="btn btn-outline-success my-2 my-sm-0 green-assign" id="update-task">Update</button>--}}
-                                {!! $subtask->get_status_badge() !!}
+{{--                                                                            <input class="form-control mr-sm-2" placeholder="Search">--}}
+                                    <button class="btn btn-outline-success my-2 my-sm-0 green-assign" id="update-task">Update</button>
+                                @endif
+                                @if(v2_acl([1]))
+                                    {!! $subtask->get_status_badge() !!}
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -40,14 +44,16 @@
 
         <section class="list-0f new-task-detail">
             <div class="container-fluid">
-                <div class="row my-2">
-                    <div class="col-md-2">
-                        <a href="{{ route('v2.tasks.show', $subtask->task->id) }}" class="badge bg-info badge-sm text-white p-2">View Main Task Details</a>
-                    </div>
-                    <div class="col-md-10">
+                @if(v2_acl([1]))
+                    <div class="row my-2">
+                        <div class="col-md-2">
+                            <a href="{{ route('v2.tasks.show', $subtask->task->id) }}" class="badge bg-info badge-sm text-white p-2">View Main Task Details</a>
+                        </div>
+                        <div class="col-md-10">
 
+                        </div>
                     </div>
-                </div>
+                @endif
                 <div class="row">
                     <div class="col-md-7">
                         <div class="list-0f-head">
@@ -206,6 +212,22 @@
                 headers: {
                     'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
                 }
+            });
+
+            $('#update-task').click(function () {
+                var value = $('#update-task-value').val();
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('v2.subtasks.update.status', $subtask->id) }}",
+                    data: {value: value},
+                    success: function (response) {
+                        if (response.status) {
+                            toastr.success(response.message, '', {timeOut: 5000})
+                        } else {
+                            toastr.error(response.message, '', {timeOut: 5000})
+                        }
+                    }
+                });
             });
 
             $('.btn_download_all_files').on('click', function () {

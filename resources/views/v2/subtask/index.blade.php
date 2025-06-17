@@ -54,7 +54,7 @@
 
                             {{--                                    <div class="search-invoice">--}}
                             <form class="search-invoice" action="{{route('v2.subtasks')}}" method="GET">
-                                @if(v2_acl([1]))
+                                @if(v2_acl([1, 5]))
                                     <select name="category_id" class="select2">
                                         <option value="">Select category</option>
                                         @foreach($categories as $category)

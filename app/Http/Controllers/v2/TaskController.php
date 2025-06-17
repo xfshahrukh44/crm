@@ -429,7 +429,6 @@ class TaskController extends Controller
             true
         );
 
-//        return redirect()->back()->with('success', 'Status Updated Successfully');
         return response()->json(['status' => true, 'message' => 'Status Updated Successfully']);
     }
 
