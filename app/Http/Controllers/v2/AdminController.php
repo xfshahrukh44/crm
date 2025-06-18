@@ -25,6 +25,7 @@ class AdminController extends Controller
         if (!v2_acl([2])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
+
         if (!session()->has('v2-coming-from-admin')) {
             auth()->logout();
 
