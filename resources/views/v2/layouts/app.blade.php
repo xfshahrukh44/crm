@@ -55,6 +55,19 @@
     <body>
         {{--header--}}
         <header>
+            @if(session()->has('coming-from-admin'))
+                <div class="container-fluid p-0">
+                    <div class="row m-0 py-1 text-center justify-content-center text-white" style="background-color: #059bd4;">
+                        Admin navigation
+                        <a href="{{route('admin.back_to_admin')}}" class="badge badge-sm bg-danger text-white px-2 ml-2 d-flex align-items-center">
+                            <small>
+{{--                                <i class="fas fa-arrow-left mr-1"></i>--}}
+                                <b>Exit</b>
+                            </small>
+                        </a>
+                    </div>
+                </div>
+            @endif
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
@@ -128,9 +141,13 @@
             <div class="side-menu">
 
                 <div class="search-container">
-                    <input type="text" class="form-control search-input"
-                           placeholder="Search...">
-                    <i class="fas fa-search search-icon"></i>
+{{--                    <input type="text" class="form-control search-input"--}}
+{{--                           placeholder="Search...">--}}
+{{--                    <i class="fas fa-search search-icon"></i>--}}
+
+                    @if(session()->has('coming-from-admin'))
+                        <br />
+                    @endif
                 </div>
                 <ul style="max-height: 85%; overflow-y: scroll; scrollbar-width: none; -ms-overflow-style: none;">
                     @if(in_array($user_role_id, [2, 6, 4, 0, 1, 5]))
