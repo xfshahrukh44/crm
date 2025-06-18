@@ -27,7 +27,6 @@
     <link href="{{ asset('newglobal/css/sweetalert2.min.css') }}" rel="stylesheet" />
 
     <link href="{{ asset('newglobal/css/select2.min.css') }}" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ asset('newglobal/css/lite-purple.min.css') }}">
     <style>
         span.select2-selection.select2-selection--single {
             border-radius: 20px !important;
