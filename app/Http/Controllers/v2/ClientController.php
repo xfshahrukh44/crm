@@ -266,6 +266,21 @@ class ClientController extends Controller
         return view('v2.client.show', compact('client', 'invoices', 'projects', 'pending_projects', 'briefs_pendings'));
     }
 
+    public function destroy (Request $request, $id)
+    {
+        if (!v2_acl([2])) {
+            return redirect()->back()->with('error', 'Access denied.');
+        }
+
+        if (!$client = Client::find($id)) {
+            return redirect()->back()->with('error', 'Not found.');
+        }
+
+        $client->delete();
+
+        return redirect()->back()->with('success', 'Client deleted!');
+    }
+
     public function createAuth(Request $request){
         if (!v2_acl([2, 6, 0, 4]) || user_is_cs()) {
             return response()->json(['success' => false , 'message' => 'Access denied.']);
@@ -504,6 +519,63 @@ class ClientController extends Controller
         } catch (\Exception $e) {
             return response()->json(['success' => false , 'message' => $e->getMessage()]);
         }
+    }
+
+    public function updateComments(Request $request){
+        if (!v2_acl([2, 6, 4, 0])) {
+            return response()->json([
+                'success' => false,
+                'data' => [],
+                'message' => 'Access denied.',
+                'errors' => [],
+            ]);
+        }
+
+        //non admin checks
+        if (!v2_acl([2])) {
+            if (user_is_cs() && !in_array($request->rec_id, $this->getClientIDs())) {
+                return response()->json([
+                    'success' => false,
+                    'data' => [],
+                    'message' => 'Not allowed.',
+                    'errors' => [],
+                ]);
+            }
+
+            if (!$client = Client::find($request->rec_id)) {
+                return redirect()->back()->with('error', 'Not found.');
+            }
+
+            if ((v2_acl([0]) && $client->user_id != auth()->id())) {
+                return response()->json([
+                    'success' => false,
+                    'data' => [],
+                    'message' => 'Not allowed.',
+                    'errors' => [],
+                ]);
+            }
+        }
+
+        DB::table('clients')->where('id', $request->rec_id)->update([
+            'comments' => $request->comments ?? '',
+            'comments_id' => auth()->id(),
+            'comments_timestamp' => Carbon::now(),
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'data' => [],
+            'message' => 'Comments added!',
+            'errors' => [],
+        ]);
+    }
+
+    public function checkExternal(Request $request){
+        if (user_is_cs() || !v2_acl([2, 6, 4, 0])) {
+            return false;
+        }
+
+        return check_if_external_client($request, true);
     }
 
     public function getClientIDs ()

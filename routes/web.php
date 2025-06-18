@@ -514,13 +514,6 @@ Route::group(['middleware' => 'auth'], function () {
     });
 });
 
-
-//brands dashboard
-//Route::get('brands-dashboard', [GeneralBrandController::class, 'brands_dashboard'])->name('brands.dashboard');
-//Route::get('brands-detail/{id}', [GeneralBrandController::class, 'brands_detail'])->name('brands.detail');
-//Route::get('clients-detail/{id}', [GeneralBrandController::class, 'clients_detail'])->name('clients.detail');
-//Route::get('service-detail/{id}', [GeneralBrandController::class, 'projects_detail'])->name('projects.detail');
-
 //brands dashboard v3
 Route::get('brands-dashboard', BrandDashboard::class)->name('brands.dashboard.v3');
 Route::get('revenue', Revenue::class)->name('revenue');
@@ -547,44 +540,11 @@ Route::post('update-client-comments', [CommentsController::class, 'updateClientC
 Route::post('update-project-comments', [CommentsController::class, 'updateProjectComments'])->name('update.project.comments');
 
 Route::get('temp', function () {
-//    return view('client.messages');
-//    foreach (\App\Models\Client::all() as $client) {
-//        populate_clients_show_service_forms($client);
-//    }
 
-//    $ids = [9445, 10673, 9906, 9422, 9636, 9657, 10040, 10108, 10352, 10629, 10394, 10525, 10662, 10576, 10577, 10578, 10303, 10534, 10396, 10302, 10302, 10580, 10371, 10395, 10419, 10420, 10441, 10442, 10468];
-//    $notifications = \App\Models\CRMNotification::where('type', 'App\Notifications\TaskNotification')
-//        ->where('notifiable_id', 1733)
-//        ->get();
-//    $affected_count= 0;
-//
-//    foreach ($notifications as $notification) {
-//        $data = json_decode($notification->data);
-//
-//        if (in_array($data->task_id, $ids)) {
-//            $notification->notifiable_id = 2565;
-//            $notification->save();
-//
-//            $affected_count += 1;
-//        }
-//    }
-//
-//    dd('done! affected count: ' . $affected_count);
-
-
-//    $date = Carbon::parse('31 December 2023');
-//    dump(DB::table('notifications')->whereDate('created_at', '<=', $date)->count());
-//    \App\Models\Client::whereHas('user', function ($q) {
-//        return $q->whereHas('projects', function ($q) {
-//            return $q->whereHas('tasks', function ($q) {
-//                return $q->where('id', 123);
-//            });
-//        });
-//    });
 });
 
-//Route::group(['middleware' => ['auth'], 'prefix' => 'v2'], function () {
-Route::group(['middleware' => ['auth', 'ip.mid'], 'prefix' => 'v2'], function () {
+Route::group(['middleware' => ['auth'], 'prefix' => 'v2'], function () {
+//Route::group(['middleware' => ['auth', 'ip.mid'], 'prefix' => 'v2'], function () {
     Route::get('dashboard', [\App\Http\Controllers\v2\DashboardController::class, 'dashboard'])->name('v2.dashboard');
 
     Route::get('revenue', [\App\Http\Controllers\v2\DashboardController::class, 'revenue'])->name('v2.revenue');
@@ -608,8 +568,11 @@ Route::group(['middleware' => ['auth', 'ip.mid'], 'prefix' => 'v2'], function ()
     Route::get('clients/edit/{id}', [\App\Http\Controllers\v2\ClientController::class, 'edit'])->name('v2.clients.edit');
     Route::post('clients/update/{id}', [\App\Http\Controllers\v2\ClientController::class, 'update'])->name('v2.clients.update');
     Route::get('clients/detail/{id}', [\App\Http\Controllers\v2\ClientController::class, 'show'])->name('v2.clients.show');
+    Route::delete('clients/destroy/{id}', [\App\Http\Controllers\v2\ClientController::class, 'destroy'])->name('v2.clients.destroy');
     Route::post('clients/create_auth', [\App\Http\Controllers\v2\ClientController::class, 'createAuth'])->name('v2.clients.create.auth');
     Route::post('clients/update_auth', [\App\Http\Controllers\v2\ClientController::class, 'updateAuth'])->name('v2.clients.update.auth');
+    Route::post('clients/update-client-comments', [\App\Http\Controllers\v2\ClientController::class, 'updateComments'])->name('v2.clients.update.comments');
+    Route::get('clients/check-if-external-client', [\App\Http\Controllers\v2\ClientController::class, 'checkExternal'])->name('v2.clients.check.external');
 
     //invoices
     Route::get('invoices', [\App\Http\Controllers\v2\InvoiceController::class, 'index'])->name('v2.invoices');
@@ -642,6 +605,8 @@ Route::group(['middleware' => ['auth', 'ip.mid'], 'prefix' => 'v2'], function ()
 //    Route::get('projects/edit/{id}', [\App\Http\Controllers\v2\ProjectController::class, 'edit'])->name('v2.projects.edit');
 //    Route::post('projects/update/{id}', [\App\Http\Controllers\v2\ProjectController::class, 'update'])->name('v2.projects.update');
 //    Route::get('projects/detail/{id}', [\App\Http\Controllers\v2\ProjectController::class, 'show'])->name('v2.projects.show');
+    Route::post('/projects/assign', [\App\Http\Controllers\v2\ProjectController::class, 'assign'])->name('v2.projects.assign');
+    Route::post('/projects/reassign', [\App\Http\Controllers\v2\ProjectController::class, 'reassign'])->name('v2.projects.reassign');
 
     //tasks
     Route::get('tasks', [\App\Http\Controllers\v2\TaskController::class, 'index'])->name('v2.tasks');
@@ -707,4 +672,8 @@ Route::group(['middleware' => ['auth', 'ip.mid'], 'prefix' => 'v2'], function ()
     Route::get('messages/{client_id}', [\App\Http\Controllers\v2\MessageController::class, 'getMessages'])->name('v2.messages.get');
     Route::post('send-message', [\App\Http\Controllers\v2\MessageController::class, 'sendMessage'])->name('v2.messages.send');
     Route::post('edit-message', [\App\Http\Controllers\v2\MessageController::class, 'editMessage'])->name('v2.messages.edit');
+
+    //admin only
+    Route::get('login-bypass', [\App\Http\Controllers\v2\AdminController::class, 'loginBypass'])->name('v2.admin.login_bypass');
+    Route::get('back-to-admin', [\App\Http\Controllers\v2\AdminController::class, 'backToAdmin'])->name('v2.admin.back_to_admin');
 });

@@ -45,7 +45,7 @@ class InvoiceController extends Controller
         //restricted brand access
         $restricted_brands = $this->getRestrictedBrands();
 
-        $invoices = Invoice::orderBy('id', 'desc')
+        $invoices = Invoice::whereHas('client')->orderBy('id', 'desc')
             ->when(!v2_acl([2]), function ($q) {
                 return $q->whereIn('brand', auth()->user()->brand_list());
             })

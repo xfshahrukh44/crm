@@ -219,7 +219,7 @@
                 //ajax
                 $.ajax({
                     type: 'POST',
-                    url: "{{route('update.client.comments')}}",
+                    url: "{{route('v2.clients.update.comments')}}",
                     data: {
                         comments: text_value,
                         rec_id: rec_id,
@@ -231,58 +231,6 @@
             });
         });
 
-        function getAgent(){
-
-        }
-
-        function assignAgent(id){
-            getAgent()
-            console.log(htmlTag);
-            swal({
-                title: 'Select Agent',
-                html: htmlTag,
-                showCancelButton: true,
-                onOpen: function () {
-                    $('.select2').select2();
-                },
-                inputValidator: function (value) {
-                    return new Promise(function (resolve, reject) {
-                        if (value !== '') {
-                            resolve();
-                        } else {
-                            resolve('You need to select a Tier');
-                        }
-                    });
-                }
-            }).then(function (result) {
-                let agent_id = $('#MySelect option:selected').val();
-                $.ajax({
-                    type:'POST',
-                    url: "{{ route('admin.client.update.agent') }}",
-                    data: {id: id, agent_id:agent_id},
-                    success:function(data) {
-                        if(data.success == true){
-                            swal("Agent Assigned", "Page will be loaded in order to reflect data", "success");
-                            setTimeout(function () {
-                                location.reload(true);
-                            }, 3000);
-                        }else{
-                            return swal({
-                                title:"Error",
-                                text: "There is an Error, Plase Contact Administrator",
-                                type:"danger"
-                            })
-                        }
-                    }
-                });
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        icon: 'success',
-                        html: 'You selected: ' + result.value
-                    });
-                }
-            });
-        }
         function generatePassword() {
             var length = 16,
                 charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
@@ -321,7 +269,7 @@
                     }
                     $.ajax({
                         type:'POST',
-                        url: "{{ route('admin.client.createauth') }}",
+                        url: "{{ route('v2.clients.create.auth') }}",
                         data: {id: id, pass:inputValue},
                         success:function(data) {
                             if(data.success == true){
@@ -367,7 +315,7 @@
 
                     $.ajax({
                         type:'POST',
-                        url: "{{ route('admin.client.updateauth') }}",
+                        url: "{{ route('v2.clients.update.auth') }}",
                         data: {id: id, pass:inputValue},
                         success:function(data) {
                             if(data.success == true){

@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en">
-
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -12,15 +11,15 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
-        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+          integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('v2/css/style.css') }}">
+          integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" type="text/css" href="{{asset('v2/css/style.css')}}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap"
-        rel="stylesheet">
+          rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://jeremyfagis.github.io/dropify/dist/css/dropify.min.css">
 
     <link href="{{ asset('newglobal/css/datatables.min.css') }}" rel="stylesheet" />
@@ -34,7 +33,6 @@
             height: 35px !important;
             border: 1px solid #ced4da !important;
         }
-
         span.select2-selection.select2-selection--multiple {
             border-radius: 20px !important;
             /*height: 35px !important;*/
@@ -107,31 +105,28 @@
 </head>
 
 <body>
-    {{-- header --}}
-    <header>
-        @if (session()->has('coming-from-admin'))
-            <div class="container-fluid p-0">
-                <div class="row m-0 py-1 text-center justify-content-center text-white"
-                    style="background-color: #059bd4;">
-                    Admin navigation
-                    <a href="{{ route('admin.back_to_admin') }}"
-                        class="badge badge-sm bg-danger text-white px-2 ml-2 d-flex align-items-center">
-                        <small>
-                            {{--                                <i class="fas fa-arrow-left mr-1"></i> --}}
-                            <b>Exit</b>
-                        </small>
-                    </a>
-                </div>
+{{--header--}}
+<header>
+    @if(session()->has('v2-coming-from-admin'))
+        <div class="container-fluid p-0">
+            <div class="row m-0 py-1 text-center justify-content-center text-white" style="background-color: #059bd4;">
+                Admin navigation
+                <a href="{{route('v2.admin.back_to_admin')}}" class="badge badge-sm bg-danger text-white px-2 ml-2 d-flex align-items-center">
+                    <small>
+                        {{--                                <i class="fas fa-arrow-left mr-1"></i>--}}
+                        <b>Exit</b>
+                    </small>
+                </a>
             </div>
-        @endif
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="custom-navbar">
-                        <nav class="navbar navbar-expand-lg navbar-light ">
-                            <a class="navbar-brand" href="#"> <img src="{{ asset('v2/images/logo.png') }}"
-                                    class="img-fluid"> </a>
-                            <button class="navbar-toggler" type="button" data-toggle="collapse"
+        </div>
+    @endif
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="custom-navbar">
+                    <nav class="navbar navbar-expand-lg navbar-light ">
+                        <a class="navbar-brand" href="#"> <img src="{{asset('v2/images/logo.png')}}" class="img-fluid"> </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse"
                                 data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                                 aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="navbar-toggler-icon"></span>
@@ -261,19 +256,18 @@
                 {{--                           placeholder="Search..."> --}}
                 {{--                    <i class="fas fa-search search-icon"></i> --}}
 
-                @if (session()->has('coming-from-admin'))
-                    <br />
-                @endif
-            </div>
-            <ul style="max-height: 85%; overflow-y: scroll; scrollbar-width: none; -ms-overflow-style: none;">
-                @if (in_array($user_role_id, [2, 6, 4, 0, 1, 5]))
-                    <li>
-                        <a href="{{ route('v2.dashboard') }}"
-                            class="{{ request()->routeIs('v2.dashboard') ? 'active' : '' }}">
-                            Dashboard
-                        </a>
-                    </li>
-                @endif
+            @if(session()->has('v2-coming-from-admin'))
+                <br />
+            @endif
+        </div>
+        <ul style="max-height: 85%; overflow-y: scroll; scrollbar-width: none; -ms-overflow-style: none;">
+            @if(in_array($user_role_id, [2, 6, 4, 0, 1, 5]))
+                <li>
+                    <a href="{{route('v2.dashboard')}}" class="{{ request()->routeIs('v2.dashboard') ? 'active' : '' }}">
+                        Dashboard
+                    </a>
+                </li>
+            @endif
 
                 {{--                    @if (in_array($user_role_id, [2])) --}}
                 {{--                        <li> --}}
@@ -357,223 +351,208 @@
                     </li>
                 @endif
 
-                @if (in_array($user_role_id, [2, 6]))
-                    <li>
-                        <a href="{{ route('v2.invoices.sales.sheet') }}"
-                            class="{{ request()->routeIs('v2.invoices.sales.sheet') ? 'active' : '' }}">
-                            Sales sheet
-                        </a>
-                    </li>
-                @endif
+            @if(in_array($user_role_id, [2, 6]))
+                <li>
+                    <a href="{{route('v2.invoices.sales.sheet')}}" class="{{ request()->routeIs('v2.invoices.sales.sheet') ? 'active' : '' }}">
+                        Sales sheet
+                    </a>
+                </li>
+            @endif
 
-                @if (in_array($user_role_id, [2, 6]))
-                    <li>
-                        <a href="{{ route('v2.invoices.admin.invoices') }}"
-                            class="{{ request()->routeIs('v2.invoices.admin.invoices') ? 'active' : '' }}">
-                            Admin invoices
-                        </a>
-                    </li>
-                @endif
+            @if(in_array($user_role_id, [2, 6]))
+                <li>
+                    <a href="{{route('v2.invoices.admin.invoices')}}" class="{{ request()->routeIs('v2.invoices.admin.invoices') ? 'active' : '' }}">
+                        Admin invoices
+                    </a>
+                </li>
+            @endif
 
-                @if (in_array($user_role_id, [2, 6, 0]))
-                    <li>
-                        <a href="{{ route('v2.leads') }}"
-                            class="{{ request()->routeIs('v2.leads') || request()->routeIs('v2.leads.create') || request()->routeIs('v2.leads.edit') || request()->routeIs('v2.leads.show') ? 'active' : '' }}">
-                            Leads
-                        </a>
-                    </li>
-                @endif
+            @if(in_array($user_role_id, [2, 6, 0]))
+                <li>
+                    <a href="{{route('v2.leads')}}" class="{{ request()->routeIs('v2.leads') || request()->routeIs('v2.leads.create') || request()->routeIs('v2.leads.edit') || request()->routeIs('v2.leads.show') ? 'active' : '' }}">
+                        Leads
+                    </a>
+                </li>
+            @endif
 
-                @if (in_array($user_role_id, [2, 6, 4]) && !user_is_cs())
-                    <li>
-                        <a href="{{ route('v2.briefs.pending') }}"
-                            class="{{ request()->routeIs('v2.briefs.pending') ? 'active' : '' }}">
-                            Briefs pending
-                        </a>
-                    </li>
-                @endif
+            @if(in_array($user_role_id, [2, 6, 4]) && !user_is_cs())
+                <li>
+                    <a href="{{route('v2.briefs.pending')}}" class="{{ request()->routeIs('v2.briefs.pending') ? 'active' : '' }}">
+                        Briefs pending
+                    </a>
+                </li>
+            @endif
 
-                @if (in_array($user_role_id, [2, 6, 4]) && !user_is_cs())
-                    <li>
-                        <a href="{{ route('v2.pending.projects') }}"
-                            class="{{ request()->routeIs('v2.pending.projects') ? 'active' : '' }}">
-                            Pending projects
-                        </a>
-                    </li>
-                @endif
+            @if(in_array($user_role_id, [2, 6, 4]) && !user_is_cs())
+                <li>
+                    <a href="{{route('v2.pending.projects')}}" class="{{ request()->routeIs('v2.pending.projects') ? 'active' : '' }}">
+                        Pending projects
+                    </a>
+                </li>
+            @endif
 
-                @if (in_array($user_role_id, [2, 6, 4]))
-                    <li>
-                        <a href="{{ route('v2.projects') }}"
-                            class="{{ request()->routeIs('v2.projects') ? 'active' : '' }}">
-                            Projects
-                        </a>
-                    </li>
-                @endif
+            @if(in_array($user_role_id, [2, 6, 4]))
+                <li>
+                    <a href="{{route('v2.projects')}}" class="{{ request()->routeIs('v2.projects') ? 'active' : '' }}">
+                        Projects
+                    </a>
+                </li>
+            @endif
 
-                @if (in_array($user_role_id, [2, 6, 4, 1]))
-                    <li>
-                        <a href="{{ route('v2.tasks') }}"
-                            class="{{ request()->routeIs('v2.tasks') || request()->routeIs('v2.tasks.create') || request()->routeIs('v2.tasks.edit') || request()->routeIs('v2.tasks.show') ? 'active' : '' }}">
-                            Tasks
-                        </a>
-                    </li>
-                @endif
+            @if(in_array($user_role_id, [2, 6, 4, 1]))
+                <li>
+                    <a href="{{route('v2.tasks')}}" class="{{ request()->routeIs('v2.tasks') || request()->routeIs('v2.tasks.create') || request()->routeIs('v2.tasks.edit') || request()->routeIs('v2.tasks.show') ? 'active' : '' }}">
+                        Tasks
+                    </a>
+                </li>
+            @endif
 
-                @if (in_array($user_role_id, [1, 5]))
-                    <li>
-                        <a href="{{ route('v2.subtasks') }}"
-                            class="{{ request()->routeIs('v2.subtasks') || request()->routeIs('v2.subtasks.show') ? 'active' : '' }}">
-                            Sub tasks
-                        </a>
-                    </li>
-                @endif
+            @if(in_array($user_role_id, [1, 5]))
+                <li>
+                    <a href="{{route('v2.subtasks')}}" class="{{ request()->routeIs('v2.subtasks') || request()->routeIs('v2.subtasks.show') ? 'active' : '' }}">
+                        Sub tasks
+                    </a>
+                </li>
+            @endif
 
-                @if (in_array($user_role_id, [2]))
-                    <li>
-                        <a href="{{ route('v2.services') }}"
-                            class="{{ request()->routeIs('v2.services') || request()->routeIs('v2.services.create') || request()->routeIs('v2.services.edit') || request()->routeIs('v2.services.show') ? 'active' : '' }}">
-                            Services
-                        </a>
-                    </li>
-                @endif
+            @if(in_array($user_role_id, [2]))
+                <li>
+                    <a href="{{route('v2.services')}}" class="{{ request()->routeIs('v2.services') || request()->routeIs('v2.services.create') || request()->routeIs('v2.services.edit') || request()->routeIs('v2.services.show') ? 'active' : '' }}">
+                        Services
+                    </a>
+                </li>
+            @endif
 
-                @if (in_array($user_role_id, [2]))
-                    <li>
-                        <a href="{{ route('v2.brands') }}"
-                            class="{{ request()->routeIs('v2.brands') || request()->routeIs('v2.brands.create') || request()->routeIs('v2.brands.edit') || request()->routeIs('v2.brands.show') ? 'active' : '' }}">
-                            Brands
-                        </a>
-                    </li>
-                @endif
+            @if(in_array($user_role_id, [2]))
+                <li>
+                    <a href="{{route('v2.brands')}}" class="{{ request()->routeIs('v2.brands') || request()->routeIs('v2.brands.create') || request()->routeIs('v2.brands.edit') || request()->routeIs('v2.brands.show') ? 'active' : '' }}">
+                        Brands
+                    </a>
+                </li>
+            @endif
 
-                @if (in_array($user_role_id, [2]))
-                    <li>
-                        <a href="{{ route('v2.users.production') }}"
-                            class="{{ request()->routeIs('v2.users.production') || request()->routeIs('v2.users.production.create') || request()->routeIs('v2.users.production.edit') || request()->routeIs('v2.users.production.show') ? 'active' : '' }}">
-                            Production
-                        </a>
-                    </li>
-                @endif
+            @if(in_array($user_role_id, [2]))
+                <li>
+                    <a href="{{route('v2.users.production')}}" class="{{ request()->routeIs('v2.users.production') || request()->routeIs('v2.users.production.create') || request()->routeIs('v2.users.production.edit') || request()->routeIs('v2.users.production.show') ? 'active' : '' }}">
+                        Production
+                    </a>
+                </li>
+            @endif
 
-                @if (in_array($user_role_id, [2, 6]))
-                    <li>
-                        <a href="{{ route('v2.users.sales') }}"
-                            class="{{ request()->routeIs('v2.users.sales') || request()->routeIs('v2.users.sales.create') || request()->routeIs('v2.users.sales.edit') || request()->routeIs('v2.users.sales.show') ? 'active' : '' }}">
-                            Sale Agent
-                        </a>
-                    </li>
-                @endif
+            @if(in_array($user_role_id, [2, 6]))
+                <li>
+                    <a href="{{route('v2.users.sales')}}" class="{{ request()->routeIs('v2.users.sales') || request()->routeIs('v2.users.sales.create') || request()->routeIs('v2.users.sales.edit') || request()->routeIs('v2.users.sales.show') ? 'active' : '' }}">
+                        Sale Agent
+                    </a>
+                </li>
+            @endif
 
-                @if (in_array($user_role_id, [2]))
-                    <li>
-                        <a href="{{ route('v2.users.qa') }}"
-                            class="{{ request()->routeIs('v2.users.qa') || request()->routeIs('v2.users.qa.create') || request()->routeIs('v2.users.qa.edit') || request()->routeIs('v2.users.qa.show') ? 'active' : '' }}">
-                            QA
-                        </a>
-                    </li>
-                @endif
+            @if(in_array($user_role_id, [2]))
+                <li>
+                    <a href="{{route('v2.users.qa')}}" class="{{ request()->routeIs('v2.users.qa') || request()->routeIs('v2.users.qa.create') || request()->routeIs('v2.users.qa.edit') || request()->routeIs('v2.users.qa.show') ? 'active' : '' }}">
+                        QA
+                    </a>
+                </li>
+            @endif
 
-                @if (in_array($user_role_id, [2]))
-                    <li>
-                        {{--                            <a href="{{route('v2.users.qa')}}" class="{{ request()->routeIs('v2.users.qa') || request()->routeIs('v2.users.qa.create') || request()->routeIs('v2.users.qa.edit') || request()->routeIs('v2.users.qa.show') ? 'active' : '' }}"> --}}
-                        <a href="#" class="">
-                            Tutorials
-                        </a>
-                    </li>
-                @endif
-            </ul>
-        </div>
+            @if(in_array($user_role_id, [2]))
+                <li>
+                    {{--                            <a href="{{route('v2.users.qa')}}" class="{{ request()->routeIs('v2.users.qa') || request()->routeIs('v2.users.qa.create') || request()->routeIs('v2.users.qa.edit') || request()->routeIs('v2.users.qa.show') ? 'active' : '' }}">--}}
+                    <a href="#" class="">
+                        Tutorials
+                    </a>
+                </li>
+            @endif
+        </ul>
+    </div>
 
         {{-- main content --}}
         @yield('content')
     </div>
 
 
-    {{-- footer --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+{{--footer--}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
-    </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+        crossorigin="anonymous"></script>
 
-    <script type="text/javascript" src="https://jeremyfagis.github.io/dropify/dist/js/dropify.min.js"></script>
+<script type="text/javascript" src="https://jeremyfagis.github.io/dropify/dist/js/dropify.min.js"></script>
+<script>
+    $('.dropify').dropify();
+</script>
+
+<script src="{{ asset('newglobal/js/datatables.min.js') }}"></script>
+<script src="{{ asset('newglobal/js/sweetalert2.min.js') }}"></script>
+<script src="{{ asset('newglobal/js/select2.min.js') }}"></script>
+{{--        <script>--}}
+{{--            if($('#zero_configuration_table').length != 0){--}}
+{{--                $('#zero_configuration_table').DataTable({--}}
+{{--                    order: [[0, "asc"]],--}}
+{{--                    responsive: true // or keep it true if you want resizing but no column hiding--}}
+{{--                });--}}
+
+{{--            }--}}
+{{--        </script>--}}
+
+<script src="{{ asset('newglobal/js/toastr.min.js') }}"></script>
+<script>
+    toastr.options = {
+        "closeButton": true,
+        "timeOut": 0,
+        "extendedTimeOut": 0
+    };
+</script>
+
+@if(session()->has('success'))
     <script>
-        $('.dropify').dropify();
+        toastr.success("{{session()->get('success')}}");
     </script>
-
-    <script src="{{ asset('newglobal/js/datatables.min.js') }}"></script>
-    <script src="{{ asset('newglobal/js/sweetalert2.min.js') }}"></script>
-    <script src="{{ asset('newglobal/js/select2.min.js') }}"></script>
-    {{--        <script> --}}
-    {{--            if($('#zero_configuration_table').length != 0){ --}}
-    {{--                $('#zero_configuration_table').DataTable({ --}}
-    {{--                    order: [[0, "asc"]], --}}
-    {{--                    responsive: true // or keep it true if you want resizing but no column hiding --}}
-    {{--                }); --}}
-
-    {{--            } --}}
-    {{--        </script> --}}
-
-    <script src="{{ asset('newglobal/js/toastr.min.js') }}"></script>
+@endif
+@if(session()->has('error'))
     <script>
-        toastr.options = {
-            "closeButton": true,
-            "timeOut": 0,
-            "extendedTimeOut": 0
-        };
+        toastr.error("{{session()->get('error')}}");
     </script>
+@endif
 
-    @if (session()->has('success'))
-        <script>
-            toastr.success("{{ session()->get('success') }}");
-        </script>
-    @endif
-    @if (session()->has('error'))
-        <script>
-            toastr.error("{{ session()->get('error') }}");
-        </script>
-    @endif
+<script>
 
-    <script>
-        $(document).ready(function() {
-            $('.select2').select2();
+    $(document).ready(function () {
+        $('.select2').select2();
 
-            $('.open-side-menu').on('click', function(e) {
-                e.preventDefault(); // Prevent default action if it's a link or button
-                $('.side-menu').toggleClass('active');
-                $('.for-slider-main-banner').toggleClass('active');
-            });
-
-            let activeItem = $('li .active').get(0);
-            if (activeItem) {
-                activeItem.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center'
-                });
-            }
+        $('.open-side-menu').on('click', function (e) {
+            e.preventDefault(); // Prevent default action if it's a link or button
+            $('.side-menu').toggleClass('active');
+            $('.for-slider-main-banner').toggleClass('active');
         });
 
-        //disable submit button on form ::after
-        $('body').on('submit', 'form', function(e) {
-            let btn = $(this).find('button[type="submit"]');
-            if (btn) {
-                btn.prop('disabled', true).text('Please wait');
-            }
-        });
-    </script>
+        let activeItem = $('li .active').get(0);
+        if (activeItem) {
+            activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    });
 
-    {{--        <script type="text/javascript"> --}}
-    {{--            const progress = document.querySelector('.progress-done'); --}}
+    //disable submit button on form ::after
+    $('body').on('submit', 'form', function (e) {
+        let btn = $(this).find('button[type="submit"]');
+        if (btn) {
+            btn.prop('disabled', true).text('Please wait');
+        }
+    });
+</script>
 
-    {{--            progress.style.width = progress.getAttribute('data-done') + '%'; --}}
-    {{--            progress.style.opacity = 1; --}}
+{{--        <script type="text/javascript">--}}
+{{--            const progress = document.querySelector('.progress-done');--}}
+
+{{--            progress.style.width = progress.getAttribute('data-done') + '%';--}}
+{{--            progress.style.opacity = 1;--}}
 
 
-    {{--        </script> --}}
+{{--        </script>--}}
 
-    @yield('script')
+@yield('script')
 </body>
 
 </html>

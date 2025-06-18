@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AuthorWebsite;
 use App\Models\BookCover;
 use App\Models\BookFormatting;
+use App\Models\BookMarketing;
 use App\Models\Bookprinting;
 use App\Models\BookWriting;
 use App\Models\Brand;
@@ -14,9 +15,12 @@ use App\Models\ContentWritingForm;
 use App\Models\Invoice;
 use App\Models\Isbnform;
 use App\Models\LogoForm;
+use App\Models\NewSMM;
 use App\Models\NoForm;
+use App\Models\PressReleaseForm;
 use App\Models\Project;
 use App\Models\Proofreading;
+use App\Models\SeoBrief;
 use App\Models\SeoForm;
 use App\Models\Service;
 use App\Models\SmmForm;
@@ -356,6 +360,49 @@ class BrandController extends Controller
             $client_id = $bookprinting_form->user->id;
             $brand_id = $bookprinting_form->invoice->brand;
             $description = $bookprinting_form->information;
+        }elseif($form_checker == 13){
+            // Search Engine Optimization Form
+            $seo_form = SeoBrief::find($form_id);
+            if($seo_form->company_name != null){
+                $name = $seo_form->company_name . ' - SEO';
+            }else{
+                $name = $seo_form->user->name . ' - SEO';
+            }
+            $client_id = $seo_form->user->id;
+            $brand_id = $seo_form->invoice->brand;
+            $description = $seo_form->company_name;
+        }elseif($form_checker == 14){
+            $book_marketing_form = BookMarketing::find($form_id);
+            if($book_marketing_form->company_name != null){
+                $name = $book_marketing_form->company_name . ' - Book Marketing';
+            }else{
+                $name = $book_marketing_form->user->name . ' - Book Marketing';
+            }
+            $client_id = $book_marketing_form->user->id;
+            $brand_id = $book_marketing_form->invoice->brand;
+            $description = $book_marketing_form->company_name;
+        }elseif($form_checker == 15){
+            $new_smm_form = NewSMM::find($form_id);
+            if($new_smm_form->client_name != null){
+                $name = $new_smm_form->client_name . ' - SMM(new)';
+            }else{
+                $name = $new_smm_form->user->name . ' - SMM(new)';
+            }
+            $client_id = $new_smm_form->user->id;
+            $brand_id = $new_smm_form->invoice->brand;
+            $description = $new_smm_form->client_name;
+
+        }elseif($form_checker == 16){
+            $press_release_form = PressReleaseForm::find($form_id);
+            if($press_release_form->book_title != null){
+                $name = $press_release_form->book_title . ' - Press Release';
+            }else{
+                $name = $press_release_form->user->name . ' - Press Release';
+            }
+            $client_id = $press_release_form->user->id;
+            $brand_id = $press_release_form->invoice->brand;
+            $description = $press_release_form->book_title;
+
         }
 
         $project = new Project();

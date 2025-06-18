@@ -137,7 +137,7 @@
             }
 
             $.ajax({
-                url: '{{route("check-if-external-client")}}',
+                url: '{{route("v2.clients.check.external")}}',
                 method: 'GET',
                 data: {
                     email: $('#email').val(),

@@ -91,7 +91,7 @@
                                                     <span class="ul-btn__icon"><i class="i-Checked-User"></i></span>
                                                     <span class="ul-btn__text">Assign</span>
                                                 </a>
-                                                <a href="{{ route('admin.pending.project.details', ['id' => $pending_project['id'], 'form' => $pending_project['form_number']]) }}" class="badge bg-info text-white p-2 badge-sm">
+                                                <a href="#" class="badge bg-info text-white p-2 badge-sm">
                                                     <span class="ul-btn__icon"><i class="i-Eye-Visible"></i></span>
                                                     <span class="ul-btn__text">View</span>
                                                 </a>
@@ -119,7 +119,7 @@
                     <h5 class="modal-title" id="exampleModalCenterTitle-2">Assign Agent</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
-                <form action="{{ route('assign-pending-project-to-agent') }}" method="post">
+                <form action="{{ route('v2.projects.assign') }}" method="post">
                     @csrf
                     <div class="modal-body">
                         <input type="hidden" name="id" id="pending_assign_id">

@@ -1998,6 +1998,22 @@ function login_bypass ($email) {
     return redirect()->route('login');
 }
 
+function v2_login_bypass ($email) {
+    auth()->logout();
+
+    if ($user = User::where('email', $email)->whereIn('is_employee', [0, 1, 2, 3, 4, 5, 6, 7])->first()) {
+        auth()->login($user);
+
+        if (auth()->check()) {
+            Session::put('v2_valid_user', true);
+
+            return redirect()->route('v2.dashboard');
+        }
+    }
+
+    return redirect()->route('login');
+}
+
 function get_invoice_totals ($invoice_ids) {
     $invoice_totals = [];
     foreach (\App\Models\Currency::all() as $currency) { $invoice_totals[str_replace('Â', '', $currency->sign)] = 0.00; }

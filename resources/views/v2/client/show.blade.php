@@ -289,7 +289,7 @@
                         <h5 class="modal-title" id="exampleModalCenterTitle-2">Assign Agent</h5>
                         <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     </div>
-                    <form action="{{ route('support.reassign.support') }}" method="post">
+                    <form action="{{ route('v2.projects.reassign') }}" method="post">
                         @csrf
                         <div class="modal-body">
                             <input type="hidden" name="id" id="assign_id">
@@ -318,7 +318,7 @@
                         <h5 class="modal-title" id="exampleModalCenterTitle-2">Assign Agent</h5>
                         <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     </div>
-                    <form action="{{ route('assign-pending-project-to-agent') }}" method="post">
+                    <form action="{{ route('v2.projects.assign') }}" method="post">
                         @csrf
                         <div class="modal-body">
                             <input type="hidden" name="id" id="pending_assign_id">

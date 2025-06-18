@@ -69,7 +69,7 @@
                                         <td>{{$user->name}} {{$user->last_name}}</td>
                                         <td>{{$user->email}}</td>
                                         <td>
-                                            <span class="btn btn-info btn-sm">{{$user->client->brand->name}}</span>
+                                            <span class="btn btn-info btn-sm">{{$user->client?->brand->name}}</span>
                                         </td>
                                         <td>
                                             @if($user->status == 1)
