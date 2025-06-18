@@ -578,6 +578,14 @@ class ClientController extends Controller
         return check_if_external_client($request, true);
     }
 
+    public function searchBar (Request $request){
+        if (user_is_cs() || !v2_acl([2, 6, 4, 0])) {
+            return [];
+        }
+
+        return v2_fetch_search_bar_content($request->get('query'));
+    }
+
     public function getClientIDs ()
     {
         return array_unique(User::whereIn('id',

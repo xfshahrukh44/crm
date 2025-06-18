@@ -2114,6 +2114,45 @@ function fetch_search_bar_content ($query = null) {
     return json_encode($final);
 }
 
+function v2_fetch_search_bar_content ($query = null) {
+    //restricted brand access
+    $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+    $final = [];
+
+    //clients
+    $clients = Client::orderBy('priority', 'ASC')
+        ->orderBy('id', 'desc')
+        ->when(!v2_acl([2]) && !v2_acl([0]), function ($q) {
+            return $q->whereIn('brand_id', auth()->user()->brand_list());
+        })
+        ->when(user_is_cs(), function ($q) {
+            return $q->whereIn('id', $this->getClientIDs());
+        })
+        ->when(v2_acl([0]), function ($q) {
+            return $q->where('user_id', auth()->id());
+        })
+        ->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
+            return $q->where(function ($query) use ($restricted_brands) {
+                $query->whereNotIn('brand_id', $restricted_brands)
+                    ->orWhere(function ($subQuery) use ($restricted_brands) {
+                        $subQuery->whereIn('brand_id', $restricted_brands)
+                            ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                    });
+            });
+        })->take(10)->get();
+
+    foreach ($clients as $client) {
+        $label = $client->name . " " . $client->last_name . (in_array(auth()->user()->is_employee, [0, 2, 6]) ? "    (".$client->email.")" : "");
+        $final []= [
+            'label' => $label,
+            'category' => 'Clients',
+            'id' => $client->id,
+        ];
+    }
+
+    return json_encode($final);
+}
+
 function emit_pusher_notification ($channel, $event, $data) {
     try {
         $pusher = new \Pusher\Pusher('7d1bc788fe2aaa7a2ea5', '5758ce8139ba816eb7d7', '1838156', [

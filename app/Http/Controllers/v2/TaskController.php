@@ -185,65 +185,75 @@ class TaskController extends Controller
             $subtask->user_id = $task->user_id;
             $subtask->duedate = $task->duedate;
             $subtask->save();
-        }
 
-        send_task_notification($task->id, 1);
+            send_task_notification($task->id, 1);
 
-        //mail_notification
-        $project = Project::find($request->project_id);
-        $departments_leads_ids = array_unique(DB::table('category_users')->whereIn('category_id', $request->category_id)->pluck('user_id')->toArray());
-        $departments_leads_emails = User::where('is_employee', 1)->whereIn('id', $departments_leads_ids)->pluck('email')->toArray();
-        $departments_leads_names = User::where('is_employee', 1)->whereIn('id', $departments_leads_ids)->pluck('name')->toArray();
-        $html = '<p>'. 'New task on project `'.$project->name.'`' .'</p><br />';
-        $html .= '<strong>Assigned by:</strong> <span>'.auth()->user()->name.'</span><br />';
-        $html .= '<strong>Assigned to:</strong> <span>'. implode(', ', $departments_leads_names) . '.' .'</span><br />';
-        $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
-        $html .= '<strong>Task status:</strong> <span>'.get_task_status_text($task->status).'</span><br />';
-        $html .= '<br /><strong>Description</strong> <span>' . $task->description;
+            //mail_notification
+            $project = Project::find($request->project_id);
+            $departments_leads_ids = array_unique(DB::table('category_users')->whereIn('category_id', $request->category_id)->pluck('user_id')->toArray());
+            $departments_leads_emails = User::where('is_employee', 1)->whereIn('id', $departments_leads_ids)->pluck('email')->toArray();
+            $departments_leads_names = User::where('is_employee', 1)->whereIn('id', $departments_leads_ids)->pluck('name')->toArray();
+            $html = '<p>'. 'New task on project `'.$project->name.'`' .'</p><br />';
+            $html .= '<strong>Assigned by:</strong> <span>'.auth()->user()->name.'</span><br />';
+            $html .= '<strong>Assigned to:</strong> <span>'. implode(', ', $departments_leads_names) . '.' .'</span><br />';
+            $html .= '<strong>Client:</strong> <span>'.$project->client->name.'</span><br />';
+            $html .= '<strong>Task status:</strong> <span>'.get_task_status_text($task->status).'</span><br />';
+            $html .= '<br /><strong>Description</strong> <span>' . $task->description;
 
-//        mail_notification('', [$user->email], 'CRM | Project assignment', $html, true);
-        mail_notification(
-            '',
-            $departments_leads_emails,
-            'New Task',
-            view('mail.crm-mail-template')->with([
-                'subject' => 'New Task',
-                'brand_name' => $project->brand->name,
-                'brand_logo' => asset($project->brand->logo),
-                'additional_html' => $html
-            ]),
-            true
-        );
+    //        mail_notification('', [$user->email], 'CRM | Project assignment', $html, true);
+            mail_notification(
+                '',
+                $departments_leads_emails,
+                'New Task',
+                view('mail.crm-mail-template')->with([
+                    'subject' => 'New Task',
+                    'brand_name' => $project->brand->name,
+                    'brand_logo' => asset($project->brand->logo),
+                    'additional_html' => $html
+                ]),
+                true
+            );
 
-        //mail_notification
-        $customer_support_user = User::find($project->user_id);
-        foreach ($departments_leads_emails as $departments_leads_email) {
-            $departments_lead = User::where('is_employee', 1)->where('email', $departments_leads_email)->first();
-            if (!is_null($project) && $client = Client::find($project->client_id)) {
-                $brand = Brand::find($client->brand_id);
+            //mail_notification
+            $customer_support_user = User::find($project->user_id);
+            foreach ($departments_leads_emails as $departments_leads_email) {
+                $departments_lead = User::where('is_employee', 1)->where('email', $departments_leads_email)->first();
+                if (!is_null($project) && $client = Client::find($project->client_id)) {
+                    $brand = Brand::find($client->brand_id);
 
-                $html = '<p>'. 'Hello ' . $departments_lead->name .'</p>';
-                $html .= '<p>'. 'A new task has been assigned to you by '.$customer_support_user->name.'. Please review the task details and begin working on it as soon as possible.' .'</p>';
-                $html .= '<p><ul>'. '<li><strong>*Task: ('.$task->notes.' / '.$task->id.')</strong></li><li><strong>*Deadline: '.Carbon::parse($task->duedate)->format('d M Y, h:i A').'</strong></li>' .'</ul></p>';
-                $html .= '<p>'. 'Access the task here: <a href="'.route('support.task.show', $task->id).'">'.route('support.task.show', $task->id).'</a>' .'</p>';
-                $html .= '<p>'. 'Thank you for your dedication and hard work.' .'</p>';
-                $html .= '<p>'. 'Best Regards,' .'</p>';
-                $html .= '<p>'. $brand->name .'.</p>';
+                    $html = '<p>'. 'Hello ' . $departments_lead->name .'</p>';
+                    $html .= '<p>'. 'A new task has been assigned to you by '.$customer_support_user->name.'. Please review the task details and begin working on it as soon as possible.' .'</p>';
+                    $html .= '<p><ul>'. '<li><strong>*Task: ('.$task->notes.' / '.$task->id.')</strong></li><li><strong>*Deadline: '.Carbon::parse($task->duedate)->format('d M Y, h:i A').'</strong></li>' .'</ul></p>';
+                    $html .= '<p>'. 'Access the task here: <a href="'.route('support.task.show', $task->id).'">'.route('support.task.show', $task->id).'</a>' .'</p>';
+                    $html .= '<p>'. 'Thank you for your dedication and hard work.' .'</p>';
+                    $html .= '<p>'. 'Best Regards,' .'</p>';
+                    $html .= '<p>'. $brand->name .'.</p>';
 
-                mail_notification(
-                    '',
-                    [$departments_leads_email],
-                    'New Task Assignment: ('.$task->notes.' / '.$task->id.')',
-                    view('mail.crm-mail-template')->with([
-                        'subject' => 'New Task Assignment: ('.$task->notes.' / '.$task->id.')',
-                        'brand_name' => $brand->name,
-                        'brand_logo' => asset($brand->logo),
-                        'additional_html' => $html
-                    ]),
-                //            true
-                );
+                    mail_notification(
+                        '',
+                        [$departments_leads_email],
+                        'New Task Assignment: ('.$task->notes.' / '.$task->id.')',
+                        view('mail.crm-mail-template')->with([
+                            'subject' => 'New Task Assignment: ('.$task->notes.' / '.$task->id.')',
+                            'brand_name' => $brand->name,
+                            'brand_logo' => asset($brand->logo),
+                            'additional_html' => $html
+                        ]),
+                    //            true
+                    );
+                }
             }
+
+            //pusher notification
+            $pusher_notification_data = [
+                'for_ids' => $departments_leads_ids,
+                'text' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has sent you a Message',
+                'redirect_url' => route('v2.tasks.show', ['id' => $task->id, 'name' => auth()->user()->name]),
+            ];
+
+            emit_pusher_notification('v2-message-channel', 'v2-new-message', $pusher_notification_data);
         }
+
 
         return redirect()->route('v2.tasks.show', $task->id)->with('success','Task assigned Successfully.');
     }

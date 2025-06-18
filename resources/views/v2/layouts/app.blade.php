@@ -169,7 +169,7 @@
 
 
                                     <div class="serach">
-                                        <input class="form-control mr-sm-2" type="search" placeholder="Search"
+                                        <input class="form-control mr-sm-2" type="search" placeholder="Search" id="search-bar"
                                             aria-label="Search">
                                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i
                                                 class="fa-solid fa-magnifying-glass"></i></button>
@@ -543,14 +543,124 @@
     });
 </script>
 
-{{--        <script type="text/javascript">--}}
-{{--            const progress = document.querySelector('.progress-done');--}}
+{{--Pusher--}}
+@if(v2_acl([1]))
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+    <script>
+        $(document).ready(() => {
+            //global vars
+            let auth_id = parseInt('{{auth()->id()}}');
 
-{{--            progress.style.width = progress.getAttribute('data-done') + '%';--}}
-{{--            progress.style.opacity = 1;--}}
+            // Enable Pusher logging - don't include this in production
+            Pusher.logToConsole = true;
 
+            var pusher = new Pusher('7d1bc788fe2aaa7a2ea5', {
+                cluster: 'ap2'
+            });
 
-{{--        </script>--}}
+            @switch($user_role_id)
+                @case(1)
+                    var channel = pusher.subscribe('v2-message-channel');
+                    channel.bind('v2-new-message', function(data) {
+                        if (data.for_ids && data.for_ids.includes(auth_id)) {
+                            swal({
+                                icon: 'info',
+                                title: data.text,
+                                showDenyButton: false,
+                                showCancelButton: false,
+                                confirmButtonText: "Open",
+                            }).then((result) => {
+                                if (result && data.redirect_url) {
+                                    window.location.href = data.redirect_url
+                                }
+                            });
+                        }
+                    });
+                    @break
+                @default
+                    console.log('asd')
+            @endswitch
+        });
+    </script>
+@endif
+
+{{--Autocomplete search with jQuery UI--}}
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+<script>
+    $( function() {
+        $.widget( "custom.catcomplete", $.ui.autocomplete, {
+            _create: function() {
+                this._super();
+                this.widget().menu( "option", "items", "> :not(.ui-autocomplete-category)" );
+            },
+            _renderMenu: function( ul, items ) {
+                var that = this,
+                    currentCategory = "";
+                $.each( items, function( index, item ) {
+                    var li;
+                    if ( item.category != currentCategory ) {
+                        ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+                        currentCategory = item.category;
+                    }
+                    li = that._renderItemData( ul, item );
+                    if ( item.category ) {
+                        li.attr( "aria-label", item.category + " : " + item.label );
+                        li.attr( "data-type", item.category );
+                        li.attr( "data-id", item.id );
+                    }
+                });
+            }
+        });
+    } );
+</script>
+<script>
+    var typingTimer;                // Timer identifier
+    var doneTypingInterval = 100;   // Time in ms, 0.5 second for example
+
+    // On keyup, start the countdown
+    $('#search-bar').on('keyup', function (e) {
+        alert(e.key);
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(doneTyping, doneTypingInterval);
+    });
+
+    // On keydown, clear the countdown
+    $('#search-bar').on('keydown', function () {
+        clearTimeout(typingTimer);
+    });
+
+    // User is "finished typing," do something
+    function doneTyping () {
+        // Do something after user has stopped typing
+        $.ajax({
+            url: '{{route("v2.clients.search.bar")}}',
+            method: 'GET',
+            data: {
+                query: $( "#search-bar" ).val(),
+            },
+            success: (data) => {
+                data = JSON.parse(data);
+
+                $( "#search-bar" ).catcomplete({
+                    delay: 0,
+                    source: data,
+                    search: (e, item) => {
+                        console.log(item);
+                    }
+                });
+
+                $( "#search-bar" ).trigger('change');
+            }
+        });
+    }
+
+    $('body').on('click', '.ui-menu-item', function () {
+        let redirect_url = "{{route('v2.clients.show', 'temp')}}";
+        redirect_url = redirect_url.replaceAll('temp', $(this).data('id'));
+        window.location.href = redirect_url;
+    });
+</script>
 
 @yield('script')
 </body>

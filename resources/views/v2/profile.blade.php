@@ -27,7 +27,7 @@
                                     <div class="col-lg-4">
                                         <div class="profile-img">
                                             <h6>Profile Picture</h6>
-                                            <img src="{{auth()->user()->image ? asset(auth()->user()->image) : asset('images/avatar.png')}}" class="img-fluid" alt="">
+                                            <img src="{{auth()->user()->image ? asset(auth()->user()->image) : asset('images/avatar.png')}}" class="img-fluid" alt="" style="border: 6px solid #059bd4; border-radius: 200px;">
                                             <div class="">
 {{--                                                <input name="file1" type="file" class="drowpify" data-height="100" hidden />--}}
 {{--                                                <span>Or</span>--}}
@@ -39,6 +39,7 @@
                                                         display: flex;
                                                         align-items: center;
                                                         justify-content: center;
+                                                        background-color: #059bd4;
                                                         margin: auto;
                                                         width: 40%;
                                                         margin-top: 20px;">

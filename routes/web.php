@@ -573,6 +573,7 @@ Route::group(['middleware' => ['auth', 'ip.mid'], 'prefix' => 'v2'], function ()
     Route::post('clients/update_auth', [\App\Http\Controllers\v2\ClientController::class, 'updateAuth'])->name('v2.clients.update.auth');
     Route::post('clients/update-comments', [\App\Http\Controllers\v2\ClientController::class, 'updateComments'])->name('v2.clients.update.comments');
     Route::get('clients/check-external', [\App\Http\Controllers\v2\ClientController::class, 'checkExternal'])->name('v2.clients.check.external');
+    Route::get('clients/search-bar', [\App\Http\Controllers\v2\ClientController::class, 'searchBar'])->name('v2.clients.search.bar');
 
     //invoices
     Route::get('invoices', [\App\Http\Controllers\v2\InvoiceController::class, 'index'])->name('v2.invoices');

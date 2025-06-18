@@ -132,7 +132,7 @@ class SubtaskController extends Controller
             'text' => auth()->user()->name . ' ' . auth()->user()->last_name . ' has sent you a Message',
             'redirect_url' => route('production.task.show', ['id' => $data->task_id, 'name' => auth()->user()->name]),
         ];
-        emit_pusher_notification('message-channel', 'new-message', $pusher_notification_data);
+        emit_pusher_notification('v2-message-channel', 'v2-new-message', $pusher_notification_data);
 
         return redirect()->back()->with('success','Task assigned Successfully.');
     }
