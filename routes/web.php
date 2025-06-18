@@ -571,8 +571,8 @@ Route::group(['middleware' => ['auth', 'ip.mid'], 'prefix' => 'v2'], function ()
     Route::delete('clients/destroy/{id}', [\App\Http\Controllers\v2\ClientController::class, 'destroy'])->name('v2.clients.destroy');
     Route::post('clients/create_auth', [\App\Http\Controllers\v2\ClientController::class, 'createAuth'])->name('v2.clients.create.auth');
     Route::post('clients/update_auth', [\App\Http\Controllers\v2\ClientController::class, 'updateAuth'])->name('v2.clients.update.auth');
-    Route::post('clients/update-client-comments', [\App\Http\Controllers\v2\ClientController::class, 'updateComments'])->name('v2.clients.update.comments');
-    Route::get('clients/check-if-external-client', [\App\Http\Controllers\v2\ClientController::class, 'checkExternal'])->name('v2.clients.check.external');
+    Route::post('clients/update-comments', [\App\Http\Controllers\v2\ClientController::class, 'updateComments'])->name('v2.clients.update.comments');
+    Route::get('clients/check-external', [\App\Http\Controllers\v2\ClientController::class, 'checkExternal'])->name('v2.clients.check.external');
 
     //invoices
     Route::get('invoices', [\App\Http\Controllers\v2\InvoiceController::class, 'index'])->name('v2.invoices');
@@ -605,8 +605,9 @@ Route::group(['middleware' => ['auth', 'ip.mid'], 'prefix' => 'v2'], function ()
 //    Route::get('projects/edit/{id}', [\App\Http\Controllers\v2\ProjectController::class, 'edit'])->name('v2.projects.edit');
 //    Route::post('projects/update/{id}', [\App\Http\Controllers\v2\ProjectController::class, 'update'])->name('v2.projects.update');
 //    Route::get('projects/detail/{id}', [\App\Http\Controllers\v2\ProjectController::class, 'show'])->name('v2.projects.show');
-    Route::post('/projects/assign', [\App\Http\Controllers\v2\ProjectController::class, 'assign'])->name('v2.projects.assign');
-    Route::post('/projects/reassign', [\App\Http\Controllers\v2\ProjectController::class, 'reassign'])->name('v2.projects.reassign');
+    Route::post('projects/assign', [\App\Http\Controllers\v2\ProjectController::class, 'assign'])->name('v2.projects.assign');
+    Route::post('projects/reassign', [\App\Http\Controllers\v2\ProjectController::class, 'reassign'])->name('v2.projects.reassign');
+    Route::post('projects/update-comments', [\App\Http\Controllers\v2\ProjectController::class, 'updateComments'])->name('v2.projects.update.comments');
 
     //tasks
     Route::get('tasks', [\App\Http\Controllers\v2\TaskController::class, 'index'])->name('v2.tasks');

@@ -29,6 +29,7 @@ use App\Notifications\AssignProjectNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
 {
@@ -459,15 +460,40 @@ class ProjectController extends Controller
 
     public function show (Request $request, $id)
     {
-        if (!v2_acl([2])) {
-            return redirect()->back()->with('error', 'Access denied.');
+//        if (!v2_acl([2])) {
+//            return redirect()->back()->with('error', 'Access denied.');
+//        }
+//
+//        if (!$project = Project::find($id)) {
+//            return redirect()->back()->with('error', 'Not found.');
+//        }
+//
+//        return view('v2.project.show', compact('project'));
+    }
+
+    public function updateComments (Request $request)
+    {
+        if (user_is_cs() || !v2_acl([2, 6, 4])) {
+            return response()->json([
+                'success' => false,
+                'data' => [],
+                'message' => 'Access denied.',
+                'errors' => [],
+            ]);
         }
 
-        if (!$project = Project::find($id)) {
-            return redirect()->back()->with('error', 'Not found.');
-        }
+        DB::table('projects')->where('id', $request->rec_id)->update([
+            'comments' => $request->comments ?? '',
+            'comments_id' => auth()->id(),
+            'comments_timestamp' => Carbon::now(),
+        ]);
 
-        return view('v2.project.show', compact('project'));
+        return response()->json([
+            'success' => true,
+            'data' => [],
+            'message' => 'Comments added!',
+            'errors' => [],
+        ]);
     }
 
     public function getBrands ()

@@ -72,7 +72,7 @@
                                             <th>Email</th>
                                             <th>Status</th>
                                             <th>Reset Password</th>
-                                            <th>Login</th>
+{{--                                            <th>Login</th>--}}
                                             <th>Last login IP</th>
                                             <th>Device info</th>
                                             <th>Action</th>
@@ -97,9 +97,9 @@
                                                     <td>
                                                         <button class="badge bg-danger badge-sm update-password text-white p-2" style="border: 0px;" data-id="{{$user->id}}">Reset Password</button>
                                                     </td>
-                                                    <td>
-                                                        <a class="badge bg-primary badge-sm text-white p-2" style="border: 0px;" href="{{route('admin.login_bypass', ['email' => $user->email])}}">Login as {{$user->name}} {{$user->last_name}}</a>
-                                                    </td>
+{{--                                                    <td>--}}
+{{--                                                        <a class="badge bg-primary badge-sm text-white p-2" style="border: 0px;" href="{{route('v2.admin.login_bypass', ['email' => $user->email])}}">Login as {{$user->name}} {{$user->last_name}}</a>--}}
+{{--                                                    </td>--}}
                                                     <td>{{$user->last_login_ip ?? ''}}</td>
                                                     <td>
                                                         @php

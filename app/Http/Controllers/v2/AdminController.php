@@ -22,7 +22,7 @@ class AdminController extends Controller
 
     public function backToAdmin (Request $request)
     {
-        if (!v2_acl([2])) {
+        if (!v2_acl([2, 0, 1, 4, 5, 6])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 

@@ -228,7 +228,7 @@
                     <h5 class="modal-title" id="exampleModalCenterTitle-2">Assign Agent</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
-                <form action="{{ route('support.reassign.support') }}" method="post">
+                <form action="{{ route('v2.projects.reassign') }}" method="post">
                     @csrf
                     <div class="modal-body">
                         <input type="hidden" name="id" id="assign_id">
@@ -328,7 +328,7 @@
                 //ajax
                 $.ajax({
                     type: 'POST',
-                    url: "{{route('update.project.comments')}}",
+                    url: "{{route('v2.projects.update.comments')}}",
                     data: {
                         comments: text_value,
                         rec_id: rec_id,

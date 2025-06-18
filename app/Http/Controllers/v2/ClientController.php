@@ -522,7 +522,7 @@ class ClientController extends Controller
     }
 
     public function updateComments(Request $request){
-        if (!v2_acl([2, 6, 4, 0])) {
+        if (user_is_cs() || !v2_acl([2, 6, 4, 0])) {
             return response()->json([
                 'success' => false,
                 'data' => [],
