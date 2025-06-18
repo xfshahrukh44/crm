@@ -1,6 +1,6 @@
 @extends('v2.layouts.app')
 
-@section('title', 'Tasks')
+@section('title', 'Sub tasks')
 
 @section('css')
     <style>
@@ -40,7 +40,7 @@
                         <div class="list-0f-head for-invoice-listing table-responsive">
                             <div class="row text-left pr-3 pb-2">
                                 <div class="col-md-6 m-auto d-flex justify-content-start pt-2">
-                                    <h1 style="font-weight: 100;">Tasks</h1>
+                                    <h1 style="font-weight: 100;">Sub tasks</h1>
                                 </div>
                                 <div class="col-md-6 m-auto d-flex justify-content-end">
                                     {{--                                            <a href="{{route('v2.tasks.create')}}" class="btn btn-sm btn-success">--}}
@@ -53,24 +53,15 @@
                             <br>
 
                             {{--                                    <div class="search-invoice">--}}
-                            <form class="search-invoice" action="{{route('v2.tasks')}}" method="GET">
-                                <input type="text" name="project" placeholder="Search By Project Name" value="{{ request()->get('project') }}">
-                                <input type="text" name="id" placeholder="Search by ID" value="{{ request()->get('id') }}">
-                                @if(v2_acl([2, 4, 6]))
-                                    <select name="brand_id" class="select2">
-                                        <option value="">Select brand</option>
-                                        @foreach($brands as $brand)
-                                            <option value="{{$brand->id}}" {{ request()->get('brand_id') ==  $brand->id ? 'selected' : ' '}}>{{$brand->name}}</option>
+                            <form class="search-invoice" action="{{route('v2.subtasks')}}" method="GET">
+                                @if(v2_acl([1, 5]))
+                                    <select name="category_id" class="select2">
+                                        <option value="">Select category</option>
+                                        @foreach($categories as $category)
+                                            <option value="{{$category->id}}" {{ request()->get('category_id') ==  $category->id ? 'selected' : ' '}}>{{$category->name}}</option>
                                         @endforeach
                                     </select>
-                                    <input type="text" name="name" placeholder="Search From Client Name Or Email" value="{{ request()->get('name') }}">
                                 @endif
-                                <select name="category_id" class="select2">
-                                    <option value="">Select category</option>
-                                    @foreach($categories as $category)
-                                        <option value="{{$category->id}}" {{ request()->get('category_id') ==  $category->id ? 'selected' : ' '}}>{{$category->name}}</option>
-                                    @endforeach
-                                </select>
                                 <select name="status" class="select2">
                                     <option value=""  {{ request()->get('status') ==  "" ? 'selected' : ' '}} >Any</option>
                                     <option value="0" {{ request()->get('status') ==  "0" ? 'selected' : ' '}} >Open</option>
@@ -87,122 +78,66 @@
                             </form>
                             {{--                                    </div>--}}
 
-                            @if(v2_acl([6, 4]))
-                                <h2>
-                                    <span class="text-danger">
-                                        <i class="fas fa-bell"></i>
-                                    </span>
-                                    Task Notifications
-                                </h2>
-                                <table id="zero_configuration_table" style="width: 100%;">
-                                    <thead>
-
-                                    <th>ID</th>
-                                    <th>Task</th>
-                                    <th>Project</th>
-                                    <th>Client</th>
-                                    <th>Assigned To</th>
-                                    <th>Brand</th>
-                                    <th>Category</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-
-                                    </thead>
-                                    <tbody>
-                                    @foreach($notify_data as $task)
-                                        <tr>
-                                            <td>{{$task->id}}</td>
-                                            <td>
-                                                <a class="p-2 bg-white" href="{{ route('v2.tasks.show', $task->id) }}">
-                                                    {!! \Illuminate\Support\Str::limit(preg_replace("/<\/?a( [^>]*)?>/i", "", strip_tags($task->description)), 30, $end='...') !!}
-                                                </a>
-                                            </td>
-                                            <td>{{$task->projects->name}}</td>
-                                            <td>
-                                                {{ $task->projects->client->name }} {{ $task->projects->client->last_name }}
-                                            </td>
-                                            <td>
-                                                {{ $task->user->name }} {{ $task->user->last_name }}
-                                            </td>
-                                            <td>
-                                                <button class="badge bg-primary text-white badge-sm p-2" style="border: 0px;" title="{{ $task->brand->name }}">{{ $task->brand->name }}</button>
-                                            </td>
-                                            <td>
-                                                <button class="badge badge-sm bg-dark text-white p-2" style="border: 0px;" title="{{ $task->category->name }}">{{ implode('', array_map(function($v) { return $v[0]; }, explode(' ', $task->category->name))) }}</button>
-                                                @if(count($task->member_list) != 0)
-                                                    <ul id="" class="task-list-member-box">
-                                                        @foreach($task->member_list as $key => $member)
-                                                            <li>
-                                                                {{ implode('', array_map(function($v) { return $v[0]; }, explode(' ', $member->user->name . ' ' . $member->user->last_name))) }}
-                                                            </li>
-                                                        @endforeach
-                                                    </ul>
-                                                @endif
-                                            </td>
-                                            <td>{!! $task->project_status_badge() !!}</td>
-                                            <td style="position: relative;">
-                                                <a href="{{ route('v2.tasks.show', $task->id) }}" class="badge bg-dark badge-icon badge-sm text-white p-2">
-                                                    <span class="ul-btn__icon"><i class="i-Eyeglasses-Smiley"></i></span>
-                                                    <span class="ul-btn__text">
-                                                                    <i class="fas fa-eye"></i>
-                                                                </span>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-
-                                <br />
-                                <br />
-                            @endif
-
                             <table id="zero_configuration_table" style="width: 100%;">
                                 <thead>
 
                                 <th>ID</th>
-                                <th>Task</th>
-                                <th>Project</th>
-                                <th>Client</th>
+                                <th>Sub Task</th>
+                                <th>Project Name</th>
+                                <th>Assigned By</th>
                                 <th>Assigned To</th>
                                 <th>Brand</th>
                                 <th>Category</th>
                                 <th>Status</th>
+                                <th>Due Date</th>
                                 <th>Action</th>
 
                                 </thead>
                                 <tbody>
-                                @foreach($tasks as $task)
+                                @foreach($subtasks as $task)
                                     <tr>
                                         <td>{{$task->id}}</td>
                                         <td>
-                                            <a class="p-2 bg-white" href="{{ route('v2.tasks.show', $task->id) }}">
-                                                {!! \Illuminate\Support\Str::limit(preg_replace("/<\/?a( [^>]*)?>/i", "", strip_tags($task->description)), 30, $end='...') !!}
+                                            <a class="p-2 bg-white" href="{{route('v2.subtasks.show', $task->id)}}">
+                                                {!! \Illuminate\Support\Str::limit(preg_replace("/<\/?a( [^>]*)?>/i", "", strip_tags($task->subtask->description)), 30, $end='...') !!}
                                             </a>
                                         </td>
-                                        <td>{{$task->projects->name}}</td>
+                                        <td>{{$task->task->projects->name}}</td>
                                         <td>
-                                            {{ $task->projects->client->name }} {{ $task->projects->client->last_name }}
+                                            {{ $task->assigned_by_user->name }} {{ $task->assigned_by_user->last_name }}
                                         </td>
                                         <td>
-                                            {{ $task->user->name }} {{ $task->user->last_name }}
+                                            {{$task->assigned_to_user->name}} {{$task->assigned_to_user->last_name}}
                                         </td>
                                         <td>
-                                            <button class="badge bg-primary text-white badge-sm p-2" style="border: 0px;" title="{{ $task->brand->name }}">{{ $task->brand->name }}</button>
+                                            <button class="badge bg-info badge-sm text-white p-2" style="border: 0px;">
+                                                {{ implode('', array_map(function($v) { return $v[0]; }, explode(' ', $task->task->brand->name))) }}
+                                            </button>
                                         </td>
                                         <td>
-                                            <button class="badge badge-sm bg-dark text-white p-2" style="border: 0px;" title="{{ $task->category->name }}">{{ implode('', array_map(function($v) { return $v[0]; }, explode(' ', $task->category->name))) }}</button>
-                                            @if(count($task->member_list) != 0)
-                                                <ul id="" class="task-list-member-box">
-                                                    @foreach($task->member_list as $key => $member)
-                                                        <li>
-                                                            {{ implode('', array_map(function($v) { return $v[0]; }, explode(' ', $member->user->name . ' ' . $member->user->last_name))) }}
-                                                        </li>
-                                                    @endforeach
-                                                </ul>
+                                            <button class="badge badge-sm bg-dark text-white p-2" style="border: 0px;">
+                                                {{ implode('', array_map(function($v) { return $v[0]; }, explode(' ', $task->task->category->name))) }}
+                                            </button>
+                                        </td>
+                                        <td>{!! $task->get_status_badge() !!}</td>
+                                        <td>
+
+                                            @php
+
+                                                //dump(date('d-m-Y'))
+
+                                                $date_now = date('d-m-Y');
+                                                $date2 = date('d-m-Y', strtotime($task->duadate));
+
+                                            @endphp
+
+                                            @if ($date_now > $date2)
+                                                <button class="badge bg-danger badge-sm text-white p-2" style="border: 0px;">{{ date('d-m-Y', strtotime($task->duadate)) }}</button>
+                                            @else
+                                                <button class="badge bg-success badge-sm text-white p-2" style="border: 0px;">{{ date('d-m-Y', strtotime($task->duadate)) }}</button>
                                             @endif
+
                                         </td>
-                                        <td>{!! $task->project_status_badge() !!}</td>
                                         <td style="position: relative;">
                                             <a href="{{ route('v2.tasks.show', $task->id) }}" class="badge bg-dark badge-icon badge-sm text-white p-2">
                                                 <span class="ul-btn__icon"><i class="i-Eyeglasses-Smiley"></i></span>
@@ -216,7 +151,7 @@
                                 </tbody>
                             </table>
                             <div class="d-flex justify-content-end mt-2">
-                                {{ $tasks->appends(request()->query())->links() }}
+                                {{ $subtasks->appends(request()->query())->links() }}
                             </div>
                         </div>
                     </div>

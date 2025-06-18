@@ -55,6 +55,24 @@
                                         </a>
                                     </li>
                                 @endif
+                                @if(v2_acl([1]))
+                                    <li>
+                                        <a href="{{route('v2.tasks')}}">
+                                            <img src="{{asset('v2/images/task-icon.png')}}" class="img-fluid">
+                                            Manage <strong>Tasks</strong>
+                                            <i class="fa-solid fa-angle-right"></i>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if(v2_acl([5]))
+                                    <li>
+                                        <a href="{{route('v2.subtasks')}}">
+                                            <img src="{{asset('v2/images/task-icon.png')}}" class="img-fluid">
+                                            Manage <strong>Subtasks</strong>
+                                            <i class="fa-solid fa-angle-right"></i>
+                                        </a>
+                                    </li>
+                                @endif
                             </ul>
                         </div>
                     </div>
@@ -308,6 +326,161 @@
 
                                         </tbody>
                                     </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                @break
+
+            @case(0)
+                @php
+                    $clients_count = \Illuminate\Support\Facades\DB::table('clients')->where('user_id', auth()->id())->count();
+                    $paid_invoice = \Illuminate\Support\Facades\DB::table('invoices')->where('payment_status', 2)->where('sales_agent_id', auth()->id())->count();
+                    $un_paid_invoice = \Illuminate\Support\Facades\DB::table('invoices')->where('payment_status', 1)->where('sales_agent_id', auth()->id())->count();
+                    $briefs_pending_count = 0;
+                    $auth_id = auth()->id();
+                    foreach ([
+                        'no_forms',
+                        'logo_forms',
+                        'web_forms',
+                        'smm_forms',
+                        'content_writing_forms',
+                        'seo_forms',
+                        'book_formattings',
+                        'book_writings',
+                        'author_websites',
+                        'proofreadings',
+                        'book_covers',
+                        'isbnforms',
+                        'bookprintings',
+                        'seo_briefs',
+                        'new_s_m_m_s',
+                        'press_release_forms',
+                    ] as $table) {
+                        $columns = Illuminate\Support\Facades\Schema::getColumnListing($table);
+
+                        if (!$columns[1]) {
+                            continue; // skip if no such column
+                        }
+
+                        // Query: where agent_id = auth()->id() and firstNonIdColumn is null
+                        $exist_count = \Illuminate\Support\Facades\DB::table($table)
+                            ->where('agent_id', $auth_id)
+                            ->whereNull($columns[1])
+                            ->count();
+
+                        $briefs_pending_count += $exist_count;
+                    }
+                @endphp
+                <section class="revenu-sec">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="revnue-main">
+                                    <div class="revnye-parent">
+                                        <div class="rev-suv">
+                                            <p>Clients</p>
+                                            <h3 style="color: #059bd4;">{{$clients_count}}</h3>
+                                            <span class="text-white">Bottom text</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="revnye-parent">
+                                        <div class="rev-suv">
+                                            <p>Paid invoices</p>
+                                            <h3 style="color: #059bd4;">{{$paid_invoice}}</h3>
+                                            <span class="text-white">Bottom text</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="revnye-parent">
+                                        <div class="rev-suv">
+                                            <p>Unpaid invoices</p>
+                                            <h3 style="color: #059bd4;">{{$un_paid_invoice}}</h3>
+                                            <span class="text-white">Bottom text</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="revnye-parent">
+                                        <div class="rev-suv">
+                                            <p>Briefs pending</p>
+                                            <h3 style="color: #059bd4;">{{$briefs_pending_count}}</h3>
+                                            <span class="text-white">Bottom text</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                @break
+
+            @case(1)
+                @php
+                    $auth_category_ids = auth()->user()->category_list();
+                    $total_task = \Illuminate\Support\Facades\DB::table('tasks')->whereIn('category_id', $auth_category_ids)->count();
+                    $open_task = \Illuminate\Support\Facades\DB::table('tasks')->whereIn('category_id', $auth_category_ids)->where('status', 0)->count();
+                    $reopen_task = \Illuminate\Support\Facades\DB::table('tasks')->whereIn('category_id', $auth_category_ids)->where('status', 1)->count();
+                    $hold_task = \Illuminate\Support\Facades\DB::table('tasks')->whereIn('category_id', $auth_category_ids)->where('status', 2)->count();
+                    $completed_task = \Illuminate\Support\Facades\DB::table('tasks')->whereIn('category_id', $auth_category_ids)->where('status', 3)->count();
+                    $in_progress_task = \Illuminate\Support\Facades\DB::table('tasks')->whereIn('category_id', $auth_category_ids)->where('status', 4)->count();
+                @endphp
+                <section class="revenu-sec">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="revnue-main">
+                                    <div class="revnye-parent">
+                                        <div class="rev-suv">
+                                            <p>Total tasks</p>
+                                            <h3 style="color: #059bd4;">{{$total_task}}</h3>
+                                            <span class="text-white">Bottom text</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="revnye-parent">
+                                        <div class="rev-suv">
+                                            <p>Open</p>
+                                            <h3 style="color: #059bd4;">{{$open_task}}</h3>
+                                            <span class="text-white">Bottom text</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="revnye-parent">
+                                        <div class="rev-suv">
+                                            <p>Revision</p>
+                                            <h3 style="color: #059bd4;">{{$reopen_task}}</h3>
+                                            <span class="text-white">Bottom text</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="revnye-parent">
+                                        <div class="rev-suv">
+                                            <p>In progress</p>
+                                            <h3 style="color: #059bd4;">{{$in_progress_task}}</h3>
+                                            <span class="text-white">Bottom text</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="revnye-parent">
+                                        <div class="rev-suv">
+                                            <p>Completed</p>
+                                            <h3 style="color: #059bd4;">{{$completed_task}}</h3>
+                                            <span class="text-white">Bottom text</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="revnye-parent">
+                                        <div class="rev-suv">
+                                            <p>On hold</p>
+                                            <h3 style="color: #059bd4;">{{$hold_task}}</h3>
+                                            <span class="text-white">Bottom text</span>
+                                        </div>
+                                    </div>
 
                                 </div>
                             </div>

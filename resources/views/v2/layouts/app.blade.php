@@ -46,10 +46,33 @@
             margin-top: 0.5% !important;
         }
 
-        span.select2-selection__arrow {
-            right: 2% !important;
-            top: 14% !important;
-        }
+    <body>
+        {{--header--}}
+        <header>
+            @if(session()->has('coming-from-admin'))
+                <div class="container-fluid p-0">
+                    <div class="row m-0 py-1 text-center justify-content-center text-white" style="background-color: #059bd4;">
+                        Admin navigation
+                        <a href="{{route('admin.back_to_admin')}}" class="badge badge-sm bg-danger text-white px-2 ml-2 d-flex align-items-center">
+                            <small>
+{{--                                <i class="fas fa-arrow-left mr-1"></i>--}}
+                                <b>Exit</b>
+                            </small>
+                        </a>
+                    </div>
+                </div>
+            @endif
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="custom-navbar">
+                            <nav class="navbar navbar-expand-lg navbar-light ">
+                                <a class="navbar-brand" href="#"> <img src="{{asset('v2/images/logo.png')}}" class="img-fluid"> </a>
+                                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                        aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
 
 
         .notification .dropdown-menu.dropdown-menu-right.notification-dropdown.rtl-ps-none {
@@ -241,9 +264,212 @@
         {{-- side menu --}}
         <div class="side-menu">
 
-            <div class="search-container">
-                <input type="text" class="form-control search-input" placeholder="Search...">
-                <i class="fas fa-search search-icon"></i>
+                <div class="search-container">
+{{--                    <input type="text" class="form-control search-input"--}}
+{{--                           placeholder="Search...">--}}
+{{--                    <i class="fas fa-search search-icon"></i>--}}
+
+                    @if(session()->has('coming-from-admin'))
+                        <br />
+                    @endif
+                </div>
+                <ul style="max-height: 85%; overflow-y: scroll; scrollbar-width: none; -ms-overflow-style: none;">
+                    @if(in_array($user_role_id, [2, 6, 4, 0, 1, 5]))
+                        <li>
+                            <a href="{{route('v2.dashboard')}}" class="{{ request()->routeIs('v2.dashboard') ? 'active' : '' }}">
+                                Dashboard
+                            </a>
+                        </li>
+                    @endif
+
+{{--                    @if(in_array($user_role_id, [2]))--}}
+{{--                        <li>--}}
+{{--                            <a href="#" class="">--}}
+{{--                                Brands dashboard--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                    @endif--}}
+
+                    @if(in_array($user_role_id, [2, 6]))
+                        <li>
+                            <a href="{{route('v2.revenue')}}" class="{{ request()->routeIs('v2.revenue') ? 'active' : '' }}">
+                                Revenue
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(in_array($user_role_id, [2]))
+                        <li>
+                            <a href="{{route('v2.merchants')}}" class="{{ request()->routeIs('v2.merchants') || request()->routeIs('v2.merchants.create') ? 'active' : '' }}">
+                                Merchants
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(in_array($user_role_id, [2, 6]))
+                        <li>
+                            <a href="{{ route('v2.messages') }}" class="{{ request()->routeIs('v2.messages') ? 'active' : '' }}">
+                                Messages
+
+{{--                                &nbsp;--}}
+{{--                                <small>--}}
+{{--                                    <span class="badge badge-pill badge-sm bg-warning">--}}
+{{--                                        <i class="fas fa-triangle-exclamation"></i>--}}
+{{--                                        &nbsp;--}}
+{{--                                        Under Construction--}}
+{{--                                    </span>--}}
+{{--                                </small>--}}
+{{--                                Author:--}}
+{{--                                YetiBoy--}}
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(in_array($user_role_id, [6, 4, 0, 1, 5]))
+                        <li>
+                            <a href="{{route('v2.notifications')}}" class="{{ request()->routeIs('v2.notifications') ? 'active' : '' }}">
+                                Notifications
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(in_array($user_role_id, [2, 6, 4, 0]))
+                        <li>
+                            <a href="{{route('v2.clients')}}" class="{{ request()->routeIs('v2.clients') || request()->routeIs('v2.clients.create') || request()->routeIs('v2.clients.edit') || request()->routeIs('v2.clients.show') ? 'active' : '' }}">
+                                Clients
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(in_array($user_role_id, [2, 6, 4, 0]))
+                        <li>
+                            <a href="{{route('v2.invoices')}}" class="{{ request()->routeIs('v2.invoices') || request()->routeIs('v2.invoices.create') || request()->routeIs('v2.invoices.edit') || request()->routeIs('v2.invoices.show') ? 'active' : '' }}">
+                                Invoices
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(in_array($user_role_id, [2, 6]))
+                        <li>
+                            <a href="{{route('v2.invoices.refund.cb')}}" class="{{ request()->routeIs('v2.invoices.refund.cb') ? 'active' : '' }}">
+                                Refund/CB
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(in_array($user_role_id, [2, 6]))
+                        <li>
+                            <a href="{{route('v2.invoices.sales.sheet')}}" class="{{ request()->routeIs('v2.invoices.sales.sheet') ? 'active' : '' }}">
+                                Sales sheet
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(in_array($user_role_id, [2, 6]))
+                        <li>
+                            <a href="{{route('v2.invoices.admin.invoices')}}" class="{{ request()->routeIs('v2.invoices.admin.invoices') ? 'active' : '' }}">
+                                Admin invoices
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(in_array($user_role_id, [2, 6, 0]))
+                        <li>
+                            <a href="{{route('v2.leads')}}" class="{{ request()->routeIs('v2.leads') || request()->routeIs('v2.leads.create') || request()->routeIs('v2.leads.edit') || request()->routeIs('v2.leads.show') ? 'active' : '' }}">
+                                Leads
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(in_array($user_role_id, [2, 6, 4]) && !user_is_cs())
+                        <li>
+                            <a href="{{route('v2.briefs.pending')}}" class="{{ request()->routeIs('v2.briefs.pending') ? 'active' : '' }}">
+                                Briefs pending
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(in_array($user_role_id, [2, 6, 4]) && !user_is_cs())
+                        <li>
+                            <a href="{{route('v2.pending.projects')}}" class="{{ request()->routeIs('v2.pending.projects') ? 'active' : '' }}">
+                                Pending projects
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(in_array($user_role_id, [2, 6, 4]))
+                        <li>
+                            <a href="{{route('v2.projects')}}" class="{{ request()->routeIs('v2.projects') ? 'active' : '' }}">
+                                Projects
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(in_array($user_role_id, [2, 6, 4, 1]))
+                        <li>
+                            <a href="{{route('v2.tasks')}}" class="{{ request()->routeIs('v2.tasks') || request()->routeIs('v2.tasks.create') || request()->routeIs('v2.tasks.edit') || request()->routeIs('v2.tasks.show') ? 'active' : '' }}">
+                                Tasks
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(in_array($user_role_id, [1, 5]))
+                        <li>
+                            <a href="{{route('v2.subtasks')}}" class="{{ request()->routeIs('v2.subtasks') || request()->routeIs('v2.subtasks.show') ? 'active' : '' }}">
+                                Sub tasks
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(in_array($user_role_id, [2]))
+                        <li>
+                            <a href="{{route('v2.services')}}" class="{{ request()->routeIs('v2.services') || request()->routeIs('v2.services.create') || request()->routeIs('v2.services.edit') || request()->routeIs('v2.services.show') ? 'active' : '' }}">
+                                Services
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(in_array($user_role_id, [2]))
+                        <li>
+                            <a href="{{route('v2.brands')}}" class="{{ request()->routeIs('v2.brands') || request()->routeIs('v2.brands.create') || request()->routeIs('v2.brands.edit') || request()->routeIs('v2.brands.show') ? 'active' : '' }}">
+                                Brands
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(in_array($user_role_id, [2]))
+                        <li>
+                            <a href="{{route('v2.users.production')}}" class="{{ request()->routeIs('v2.users.production') || request()->routeIs('v2.users.production.create') || request()->routeIs('v2.users.production.edit') || request()->routeIs('v2.users.production.show') ? 'active' : '' }}">
+                                Production
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(in_array($user_role_id, [2, 6]))
+                        <li>
+                            <a href="{{route('v2.users.sales')}}" class="{{ request()->routeIs('v2.users.sales') || request()->routeIs('v2.users.sales.create') || request()->routeIs('v2.users.sales.edit') || request()->routeIs('v2.users.sales.show') ? 'active' : '' }}">
+                                Sale Agent
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(in_array($user_role_id, [2]))
+                        <li>
+                            <a href="{{route('v2.users.qa')}}" class="{{ request()->routeIs('v2.users.qa') || request()->routeIs('v2.users.qa.create') || request()->routeIs('v2.users.qa.edit') || request()->routeIs('v2.users.qa.show') ? 'active' : '' }}">
+                                QA
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(in_array($user_role_id, [2]))
+                        <li>
+{{--                            <a href="{{route('v2.users.qa')}}" class="{{ request()->routeIs('v2.users.qa') || request()->routeIs('v2.users.qa.create') || request()->routeIs('v2.users.qa.edit') || request()->routeIs('v2.users.qa.show') ? 'active' : '' }}">--}}
+                            <a href="#" class="">
+                                Tutorials
+                            </a>
+                        </li>
+                    @endif
+                </ul>
             </div>
             <ul style="max-height: 85%; overflow-y: scroll; scrollbar-width: none; -ms-overflow-style: none;">
                 @if (in_array($user_role_id, [2, 6, 4, 0]))
