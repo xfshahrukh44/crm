@@ -142,8 +142,14 @@
                                             <a href="{{ route('v2.tasks.show', $task->id) }}" class="badge bg-dark badge-icon badge-sm text-white p-2">
                                                 <span class="ul-btn__icon"><i class="i-Eyeglasses-Smiley"></i></span>
                                                 <span class="ul-btn__text">
-                                                                <i class="fas fa-eye"></i>
-                                                            </span>
+                                                    <i class="fas fa-eye"></i>
+                                                </span>
+                                            </a>
+                                            <a href="{{route('v2.projects.view.form', [ 'form_id' => $task->task->projects->form_id , 'check' => $task->task->projects->form_checker])}}" class="badge bg-dark badge-icon badge-sm text-white p-2">
+                                                <span class="ul-btn__icon"><i class="i-Eyeglasses-Smiley"></i></span>
+                                                <span class="ul-btn__text">
+                                                    View form
+                                                </span>
                                             </a>
                                         </td>
                                     </tr>

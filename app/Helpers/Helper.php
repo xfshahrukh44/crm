@@ -3291,4 +3291,19 @@ function send_task_notification ($task_id, $role) {
     return true;
 }
 
+function get_role_badge_text () {
+    $map = [
+        0 => 'SALES',
+        1 => 'PRODUCTION',
+        2 => 'ADMIN',
+        3 => 'CLIENT',
+        4 => 'SUPPORT',
+        5 => 'PRODUCTION',
+        6 => 'SALES',
+        7 => 'QA',
+        8 => 'BILLING',
+        10 => 'USER',
+    ];
 
+    return $map[auth()->user()->is_employee ?? 10];
+}

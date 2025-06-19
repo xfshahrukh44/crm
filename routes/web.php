@@ -609,6 +609,8 @@ Route::group(['middleware' => ['auth', 'ip.mid'], 'prefix' => 'v2'], function ()
     Route::post('projects/assign', [\App\Http\Controllers\v2\ProjectController::class, 'assign'])->name('v2.projects.assign');
     Route::post('projects/reassign', [\App\Http\Controllers\v2\ProjectController::class, 'reassign'])->name('v2.projects.reassign');
     Route::post('projects/update-comments', [\App\Http\Controllers\v2\ProjectController::class, 'updateComments'])->name('v2.projects.update.comments');
+//    Route::get('projects/view-form/{form_id}/{check}/{id}', [\App\Http\Controllers\v2\ProjectController::class, 'viewForm'])->name('v2.projects.view.form');
+    Route::get('projects/view-form/{form_id}/{check}', [\App\Http\Controllers\v2\ProjectController::class, 'viewForm'])->name('v2.projects.view.form');
 
     //tasks
     Route::get('tasks', [\App\Http\Controllers\v2\TaskController::class, 'index'])->name('v2.tasks');

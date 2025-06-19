@@ -169,9 +169,9 @@
                                 <div class="assign-task">
                                     <h2>
                                         {{ $sub_tasks->user->name ?? '' }} {{ $sub_tasks->user->last_name ?? '' }}
-                                        <span>{{ $sub_tasks->created_at->diffForHumans() }}</span>
+                                        <span>{{ $sub_tasks->created_at?->diffForHumans() }}</span>
                                     </h2>
-                                    <span>{{ $sub_tasks->created_at->format('d F Y, h:i A') }}</span>
+                                    <span>{{ $sub_tasks->created_at?->format('d F Y, h:i A') }}</span>
                                 </div>
                                 <p>
                                     {!! preg_replace('/<\/?div[^>]*>/', '', nl2br($sub_tasks->description)) !!}
@@ -199,7 +199,7 @@
                                     <div class="col-md-12">
                                         @foreach($sub_tasks->assign_members as $assign_members)
                                             <div class="row m-auto">
-                                                <div class="col-md-8 p-0">
+                                                <div class="col-md-7 p-0">
                                                     <div class="row m-auto">
                                                         <div class="col-1 p-0 d-flex align-items-center">
                                                             <img src="{{$assign_members->assigned_to_user->image ? asset($assign_members->assigned_to_user->image) : asset('images/avatar.png')}}" alt="" style="width: 32px; height: 32px; object-fit: cover; border-radius: 25px; border: 1px solid #929292;">
@@ -223,19 +223,17 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 d-flex">
+                                                <div class="col-md-5 d-flex">
                                                     <div class="row m-auto">
                                                         @if(v2_acl([1]))
-                                                            <a href="javascript:void(0);" class="badge bg-info text-white p-2 mx-1 col btn_edit_subtask">
+                                                            <a href="javascript:void(0);" class="badge bg-info text-white p-2 mx-1 btn_edit_subtask">
                                                                 Edit
                                                             </a>
                                                         @endif
-                                                        <a href="{{ route('v2.subtasks.show', $assign_members->id) }}" class="badge bg-primary text-white p-2 mx-1 col">
+                                                        <a href="{{ route('v2.subtasks.show', $assign_members->id) }}" class="badge bg-primary text-white p-2 mx-1">
                                                             Detail
                                                         </a>
-                                                        <a href="#" class="badge bg-danger text-white p-2 mx-1 col">
-                                                            {!! $assign_members->get_status_badge() !!}
-                                                        </a>
+                                                        {!! $assign_members->get_status_badge_v2() !!}
                                                     </div>
                                                 </div>
                                             </div>

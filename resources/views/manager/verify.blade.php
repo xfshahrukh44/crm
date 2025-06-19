@@ -1,171 +1,127 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{asset('images/favicon-32x32.png')}}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{asset('images/favicon-96x96.png')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('images/favicon-16x16.png')}}">
 
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name') }} - @yield('title')</title> 
-    <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('global/img/apple-icon-57x57.png') }}">
-    <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('global/img/apple-icon-60x60.png') }}">
-    <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('global/img/apple-icon-72x72.png') }}">
-    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('global/img/apple-icon-76x76.png') }}">
-    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('global/img/apple-icon-114x114.png') }}">
-    <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('global/img/apple-icon-120x120.png') }}">
-    <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('global/img/apple-icon-144x144.png') }}">
-    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('global/img/apple-icon-152x152.png') }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('global/img/apple-icon-180x180.png') }}">
-    <link rel="icon" type="image/png" sizes="192x192"  href="{{ asset('global/img/android-icon-192x192.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('global/img/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('global/img/favicon-96x96.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('global/img/favicon-16x16.png') }}">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="{{ asset('global/img/ms-icon-144x144.png') }}">
-    <meta name="theme-color" content="#ffffff">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
-    <link href="{{ asset('newglobal/css/lite-purple.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('newglobal/css/perfect-scrollbar.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('newglobal/css/toastr.css') }}" rel="stylesheet" />
-    <link href="{{ asset('newglobal/css/datatables.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('newglobal/css/select2.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('newglobal/css/sweetalert2.min.css') }}" rel="stylesheet" />
-    @stack('styles')
-    <style>
-        .select2-container .select2-selection--single{
-            height: 34px;
-        }
-        .select2-container--default .select2-selection--single .select2-selection__rendered{
-            color: #444;
-            line-height: 31px;
-            background-color: #f8f9fa;
-        }
-        .select2-container--default .select2-selection--single {
-            background-color: transparent;
-            border: 1px solid #ced4da;
-            border-radius: 4px;
-        }
-        a.brands-list {
-            margin-left: 20px;
-        }
+    <title>Design crm</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <!-- fonts  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+          integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="{{asset('css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('css/responsive.css')}}">
 
-        a.brands-list {
-            font-size: 18px;
-            font-weight: bold;
-            color: #0076c2;
-        }
-
-        a.brands-list span {
-            border-right: 2px solid rgba(102, 51, 153, 0.1);
-            padding-right: 10px;
-            margin-right: 9px;
-        }
-        a.brands-list span:last-child {border: 0;}
-    </style>
 </head>
-<body class="text-left">
-<div class="auth-layout-wrap">
-        <div class="auth-content">
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <div class="card o-hidden">
-                        <div class="p-5">
-                            <div class="auth-logo text-center mb-4">
-                                <img src="{{ asset('global/img/logo.png') }}" alt="{{ config('app.name') }}">
-                            </div>
-                            <h1 class="mb-3 text-18" style="line-height: 25px;">Verification Code has been send to Email Address: s4s.m*****@gmail.com</h1>
-                            <span>Current Ip: {{ Session::get('ip_address') }}</span>
-                            <div class="alert alert-danger mt-1">
-                                <p class="mb-0">Your IP is not listed in our System</p>
-                            </div>
-                            <form class="form-horizontal form-simple"  action="{{ route('verify.code') }}" method="post">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="code">Verification code</label>
-                                    <input type="text" class="form-control form-control-rounded @error('code') is-invalid @enderror" name="code" id="code" required  value="{{ old('code') }}" autofocus>
-                                    @if (\Session::has('code'))
-                                    <span class="invalid-feedback d-block" role="alert">
-                                        <strong>{!! \Session::get('error') !!}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                                <button class="btn btn-rounded btn-primary btn-block mt-2" type="submit">Verify it's you</button>
-                                <div class="mt-3 text-center">
-                                    <a href="{{ route('logout') }}" class="text-muted" onclick="event.preventDefault();
-                                        document.getElementById('logout-form').submit();">
-                                        <u>Sign out</u>
-                                    </a>
-                                </div>
-                            </form>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                        </div>
+<body>
+
+
+<section class="sign-in-sec">
+    <div class="container-fluid p-0">
+        <div class="row align-items-center justify-content-center sign-up-row">
+            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 p-0 right-content">
+                <div class="sign-in-left sign-up-left">
+                    <div class="logo-container">
+                        <img src="{{asset('images/main-logo.png')}}" class="img-fluid" alt="">
                     </div>
+                    <div class="log-in-content">
+                        <h1>Verify account</h1>
+                        <p>Please enter verification code to continue.</p>
+                    </div>
+                    <div class="log-in-foam">
+                        <form class="form-horizontal form-simple"  action="{{ route('verify.code') }}" method="post">
+                            @csrf
+                            <div class="cridentials">
+                                <label for="exampleInputEmail1" class="form-label">Verification code</label>
+                                <input type="text" class="form-control @error('code') is-invalid @enderror" name="code" placeholder="Enter code" value="{{ old('code') }}" autofocus
+                                       id="exampleInputEmail1" aria-describedby="emailHelp">
+                                <span class="icons">
+                                    <img src="{{asset('images/icon-1.png')}}" class="img-fluid" alt="">
+                                </span>
+                                @if (\Session::has('code'))
+                                    <span class="invalid-feedback d-block" role="alert">
+                                        <strong>{!! \Session::get('code') !!}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <button type="submit" class="btn custom-btn-login">Submit</button>
+
+
+                            <div class="Need-Help">
+                                <p>
+                                    Need Help?
+                                    <span>
+                                <a href="#">Contact Us</a>
+                            </span>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 p-0 slider-main-colum" id="hide-on-mobile">
+                <div class="slider-main" style="background-image: url('{{asset("images/crm-main.jpg")}}') !important;">
                 </div>
             </div>
         </div>
     </div>
+</section>
 
-    <script src="{{ asset('newglobal/js/jquery-3.3.1.min.js') }}"></script>
-    <script src="{{ asset('newglobal/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('newglobal/js/perfect-scrollbar.min.js') }}"></script>
-    <script src="{{ asset('newglobal/js/script.min.js') }}"></script>
-    <script src="{{ asset('newglobal/js/sidebar.large.script.min.js') }}"></script>
-    <script src="{{ asset('newglobal/js/echarts.min.js') }}"></script>
-    <script src="{{ asset('newglobal/js/echart.options.min.js') }}"></script>
-    <script src="{{ asset('newglobal/js/datatables.min.js') }}"></script>
-    <script src="{{ asset('newglobal/js/toastr.min.js') }}"></script>
-    <script src="{{ asset('newglobal/js/select2.min.js') }}"></script>
-    <script src="{{ asset('newglobal/js/Chart.min.js') }}"></script>
-    <script src="{{ asset('newglobal/js/sweetalert2.min.js') }}"></script>
-    @yield('script')
 
-    @stack('scripts')
-    @if(session()->has('success'))
-    <script>
-        var timerInterval;
-        swal({
-            type: 'success',
-            title: 'Success!',
-            text: "{{ session()->get('success') }}",
-            buttonsStyling: false,
-            confirmButtonClass: 'btn btn-lg btn-success',
-            timer: 2000
-        });
-    </script>
-    @endif
-    <script>
-        @if(count($errors) > 0)
-            @foreach($errors->all() as $error)
-                toastr.error("{{ $error }}", {
-                    timeOut: "50000"
-                });
-            @endforeach
-        @endif
-    </script>
-    <script>
-        if($('#zero_configuration_table').length != 0){
-            $('#zero_configuration_table').DataTable({
-                order: [[0, "desc"]],
-                responsive: true,
-            });
-        }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+<script>
+    var selector = '.main-id-date p';
 
-        if($('.select2').length != 0){
-            $('.select2').select2();
-        }
-    </script>
-    <script>
-        $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
-        setInterval(() => {
-            $.ajax({
-                type:'POST',
-                url:"{{ url('keep-alive') }}",
-                success:function(data){
-                    console.log(data);
+    $(selector).on('click', function () {
+        $(selector).removeClass('active');
+        $(this).addClass('active');
+    });
+</script>
+
+<script>
+    // Wait for the DOM to load
+    document.addEventListener('DOMContentLoaded', function() {
+        const button = document.getElementById('redirectButton');
+
+        if (button) {
+            button.addEventListener('click', function() {
+                const currentPath = window.location.pathname;
+
+                // Check if we're on 'index.php' (or root page)
+                if (currentPath === '/index.php' || currentPath === '/' || currentPath.endsWith('/index.php')) {
+                    // Redirect to 'messages.php'
+                    window.location.href = "messages.php";
+                }
+                // Check if we're on 'messages.php'
+                else if (currentPath === '/messages.php' || currentPath.endsWith('/messages.php')) {
+                    // Redirect to 'index.php'
+                    window.location.href = "index.php";
                 }
             });
-        }, 1200000)
-    </script>
+        }
+    });
+</script>
+
+
 </body>
+
 </html>
+

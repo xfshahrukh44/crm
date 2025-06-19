@@ -160,7 +160,10 @@
                                                  style="position: absolute; will-change: transform; top: 6px; right: 79%; transform: translate3d(41px, 36px, 0px);">
 
                                                 <span class="auth-name ml-4">{{ auth()->user()->name }}</span>
-                                                <a class="dropdown-item mt-1" href="{{ route('v2.profile') }}">
+                                                <a class="dropdown-item mt-0" href="javascript:void(0);">
+                                                    <span class="badge badge-sm bg-dark text-white m-auto">{{get_role_badge_text()}}</span>
+                                                </a>
+                                                <a class="dropdown-item" href="{{ route('v2.profile') }}">
                                                     Profile
                                                 </a>
 
@@ -584,7 +587,6 @@
 
     // On keyup, start the countdown
     $('#search-bar').on('keyup', function (e) {
-        alert(e.key);
         clearTimeout(typingTimer);
         typingTimer = setTimeout(doneTyping, doneTypingInterval);
     });

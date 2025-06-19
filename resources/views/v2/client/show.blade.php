@@ -193,7 +193,7 @@
                                                     </a>
                                                 @endif
                                                 @if($project->form_checker != 0)
-                                                    <a href="javascript:;" class="for-assign blue-assign mx-2 px-3">
+                                                    <a href="{{route('v2.projects.view.form', [ 'form_id' => $project->form_id , 'check' => $project->form_checker])}}" class="for-assign blue-assign mx-2 px-3">
                                                         View Form
                                                     </a>
                                                 @endif
@@ -239,10 +239,10 @@
                                                         </span>
                                             </td>
                                             <td>
-                                                <a href="javascript:void(0);" class="for-assign" onclick="assignAgentToPending({{$pending_project['id']}}, {{$pending_project['form_number']}}, {{$pending_project['brand_id']}})">
+                                                <a href="javascript:void(0);" class="for-assign mx-2 px-3" onclick="assignAgentToPending({{$pending_project['id']}}, {{$pending_project['form_number']}}, {{$pending_project['brand_id']}})">
                                                     Assign
                                                 </a>
-                                                <a href="javascript:;" class="for-assign blue-assign">
+                                                <a href="{{route('v2.projects.view.form', [ 'form_id' => $pending_project['id'] , 'check' => $pending_project['form_number'] ])}}" class="for-assign blue-assign mx-2 px-3">
                                                     View Form
                                                 </a>
                                             </td>

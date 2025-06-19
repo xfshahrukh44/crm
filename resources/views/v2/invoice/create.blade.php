@@ -3,6 +3,7 @@
 @section('title', 'Create invoice')
 
 @section('css')
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.7.0/summernote.css" rel="stylesheet">
     <style>
         span.select2-selection.select2-selection--multiple {
             border-radius: 20px !important;
@@ -197,7 +198,7 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label>Description</label>
-                                            <textarea name="discription" id="" cols="30" rows="4" class="form-control" style="height: unset !important;">{{old('discription') ?? ''}}</textarea>
+                                            <textarea name="discription" id="description" cols="30" rows="4" class="form-control" style="height: unset !important;">{{old('discription') ?? ''}}</textarea>
                                             @error('discription')
                                             <label class="text-danger">{{ $message }}</label>
                                             @enderror
@@ -255,6 +256,10 @@
 @endsection
 
 @section('script')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.7.0/summernote.js"></script>
+    <script>
+        $('#description').summernote({ height: 200 });
+    </script>
     <script>
         $(document).ready(function () {
             let service_map = {};

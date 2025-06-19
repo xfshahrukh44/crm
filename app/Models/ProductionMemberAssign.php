@@ -76,6 +76,33 @@ class ProductionMemberAssign extends Model
 //        }
     }
 
+    public function get_status_badge_v2(){
+        // 0 for open
+        // 1 for re_open
+        // 2 for hold
+        // 3 for completed
+        // 4 for in_progress
+        $status = $this->status;
+        if($status == 0){
+            return "<span class='badge bg-danger badge-sm text-white p-2'>Open</span>";
+        }else if($status == 1){
+            return "<span class='badge bg-primary badge-sm text-white p-2'>Re Open</span>";
+        }else if($status == 2){
+            return "<span class='badge bg-info badge-sm text-white p-2'>Hold</span>";
+        }else if($status == 3){
+            return "<span class='badge bg-success badge-sm text-white p-2'>Completed</span>";
+        }else if($status == 4){
+            return "<span class='badge bg-warning badge-sm text-white p-2'>In Progress</span>";
+        }else if($status == 5){
+            return "<span class='badge bg-info badge-sm text-white p-2'>Sent for Approval</span>";
+        }else if($status == 6){
+            return "<span class='badge bg-warning badge-sm text-white p-2'>Incomplete Brief</span>";
+        }
+//        else if($status == 7){
+//            return "<span class='badge badge-info badge-sm text-white'>Sent for QA</span>";
+//        }
+    }
+
 
     // public function getDueDate(){
     //     $date_string = '';
