@@ -20,19 +20,10 @@ class AdminController extends Controller
 
     public function backToAdmin (Request $request)
     {
-        if (!v2_acl([2, 0, 1, 4, 5, 6])) {
+        if (!v2_acl([0, 1, 4, 5, 6])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
-        if (!session()->has('v2-coming-from-admin')) {
-            auth()->logout();
-
-            return redirect()->route('login');
-        }
-
-        $admin = User::where('is_employee', 2)->first();
-
-        session()->remove('v2-coming-from-admin');
-        return v2_login_bypass($admin->email);
+        return v2_back_to_admin();
     }
 }

@@ -233,6 +233,30 @@
                                                         $k++;
                                                     @endphp
                                                 @endforeach
+
+                                                @if(v2_acl([0, 1, 4, 5, 6]))
+                                                    <a href="{{ route('v2.notifications') }}" class="unread_notification_nav dropdown-item d-flex">
+                                                        <div class="notification-icon">
+                                                            <i class="fa-solid fa-list"></i>
+                                                        </div>
+                                                        <div class="notification-details flex-grow-1">
+                                                            <p class="m-0 d-flex align-items-center">
+                                                                <span class="lead-heading">View all</span>
+                                                            </p>
+                                                        </div>
+                                                    </a>
+
+                                                    <a href="{{ route('notification.all.read') }}" class="unread_notification_nav dropdown-item d-flex">
+                                                        <div class="notification-icon">
+                                                            <i class="fa-solid fa-check-double text-success"></i>
+                                                        </div>
+                                                        <div class="notification-details flex-grow-1">
+                                                            <p class="m-0 d-flex align-items-center">
+                                                                <span class="lead-heading">Mark all as read</span>
+                                                            </p>
+                                                        </div>
+                                                    </a>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>

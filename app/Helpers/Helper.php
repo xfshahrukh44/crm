@@ -1999,9 +1999,8 @@ function login_bypass ($email) {
 }
 
 function v2_login_bypass ($email) {
-    if ($user = User::where('email', $email)->whereIn('is_employee', [0, 1, 2, 3, 4, 5, 6, 7])->first()) {
+    if ($user = User::where('email', $email)->whereIn('is_employee', [0, 1, 3, 4, 5, 6, 7])->first()) {
         auth()->logout();
-
         auth()->login($user);
 
         if (auth()->check()) {
@@ -2013,6 +2012,26 @@ function v2_login_bypass ($email) {
             }
 
             session()->put('v2-coming-from-admin', true);
+            session()->put('v2_valid_user', true);
+
+            return redirect()->route('v2.dashboard');
+        }
+    }
+
+    return redirect()->back()->with('error', 'Unable to login.');
+}
+
+function v2_back_to_admin () {
+    if (!session()->has('v2-coming-from-admin')) {
+        return redirect()->back()->with('error', 'Unable to login.');
+    }
+
+    if ($user = User::where('is_employee', 2)->first()) {
+        auth()->logout();
+        auth()->login($user);
+
+        if (auth()->check()) {
+            session()->remove('v2-coming-from-admin');
             session()->put('v2_valid_user', true);
 
             return redirect()->route('v2.dashboard');

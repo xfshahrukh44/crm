@@ -184,7 +184,7 @@
 
                                             <td>
                                                 @if(!user_is_cs())
-                                                    <a href="javascript:void(0);" class="for-assign btn_assign_project"
+                                                    <a href="javascript:void(0);" class="for-assign btn_assign_project mx-2 px-3"
                                                        data-id="{{$project->id}}"
                                                        data-form="{{$project->form_checker}}"
                                                        data-brand="{{$project->brand_id}}"
@@ -193,11 +193,11 @@
                                                     </a>
                                                 @endif
                                                 @if($project->form_checker != 0)
-                                                    <a href="javascript:;" class="for-assign blue-assign">
+                                                    <a href="javascript:;" class="for-assign blue-assign mx-2 px-3">
                                                         View Form
                                                     </a>
                                                 @endif
-                                                <a href="{{route('v2.tasks.create', $project->id)}}" class="for-assign dark-blue-assign">Create Task</a>
+                                                <a href="{{route('v2.tasks.create', $project->id)}}" class="for-assign dark-blue-assign mx-2 px-3">Create Task</a>
                                             </td>
                                         </tr>
                                     @endforeach
