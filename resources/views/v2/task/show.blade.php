@@ -169,9 +169,9 @@
                                 <div class="assign-task">
                                     <h2>
                                         {{ $sub_tasks->user->name ?? '' }} {{ $sub_tasks->user->last_name ?? '' }}
-                                        <span>{{ $sub_tasks->created_at->diffForHumans() }}</span>
+                                        <span>{{ $sub_tasks->created_at?->diffForHumans() }}</span>
                                     </h2>
-                                    <span>{{ $sub_tasks->created_at->format('d F Y, h:i A') }}</span>
+                                    <span>{{ $sub_tasks->created_at?->format('d F Y, h:i A') }}</span>
                                 </div>
                                 <p>
                                     {!! preg_replace('/<\/?div[^>]*>/', '', nl2br($sub_tasks->description)) !!}

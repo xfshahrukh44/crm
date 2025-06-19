@@ -499,7 +499,7 @@ class ProjectController extends Controller
             return view('v2.brief.seoform', compact('seo_form'));
         }elseif($check == 6){
             $data = BookFormatting::find($form_id);
-            return view('v2.brief.bookprintingform', compact('data'));
+            return view('v2.brief.bookformattingform', compact('data'));
         }elseif($check == 7){
             $data = BookWriting::find($form_id);
             return view('v2.brief.bookwritingform', compact('data'));
@@ -523,7 +523,7 @@ class ProjectController extends Controller
         }
         elseif($check == 13){
             $data = SeoBrief::find($form_id);
-            return view('v2.brief.seoform', compact('data'));
+            return view('v2.brief.seobrief', compact('data'));
         }
         elseif($check == 14){
             $book_marketing_form = BookMarketing::find($form_id);

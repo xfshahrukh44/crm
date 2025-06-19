@@ -341,7 +341,7 @@
         @if($notifications->type == 'App\Notifications\SubTaskNotification')
         <a href="{{ route('v2.subtasks.show', ['id' => $notifications->data['task_id'], 'notify' => $notifications->id]) }}" class="unread_notification_nav dropdown-item d-flex" data-id="{{$notifications->id}}">
         @else
-        <a href="{{ route('v2.tasks.show', ['id' => $notifications->data['task_id'], 'notify' => $notifications->id]) }}" class="unread_notification_nav dropdown-item d-flex" data-id="{{$notifications->id}}">
+        <a href="{{ isset($notifications->data['task_id']) ? (route('v2.tasks.show', ['id' => $notifications->data['task_id'], 'notify' => $notifications->id])) : '#' }}" class="unread_notification_nav dropdown-item d-flex" data-id="{{$notifications->id}}">
         @endif
             <div class="notification-icon">
                 <i class="fa-solid fa-bell"></i>
