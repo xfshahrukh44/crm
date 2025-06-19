@@ -84,19 +84,19 @@ class ProductionMemberAssign extends Model
         // 4 for in_progress
         $status = $this->status;
         if($status == 0){
-            return "<span class='badge bg-danger badge-sm text-white'>Open</span>";
+            return "<span class='badge bg-danger badge-sm text-white p-2'>Open</span>";
         }else if($status == 1){
-            return "<span class='badge bg-primary badge-sm text-white'>Re Open</span>";
+            return "<span class='badge bg-primary badge-sm text-white p-2'>Re Open</span>";
         }else if($status == 2){
-            return "<span class='badge bg-info badge-sm text-white'>Hold</span>";
+            return "<span class='badge bg-info badge-sm text-white p-2'>Hold</span>";
         }else if($status == 3){
-            return "<span class='badge bg-success badge-sm text-white'>Completed</span>";
+            return "<span class='badge bg-success badge-sm text-white p-2'>Completed</span>";
         }else if($status == 4){
-            return "<span class='badge bg-warning badge-sm text-white'>In Progress</span>";
+            return "<span class='badge bg-warning badge-sm text-white p-2'>In Progress</span>";
         }else if($status == 5){
-            return "<span class='badge bg-info badge-sm text-white'>Sent for Approval</span>";
+            return "<span class='badge bg-info badge-sm text-white p-2'>Sent for Approval</span>";
         }else if($status == 6){
-            return "<span class='badge bg-warning badge-sm text-white'>Incomplete Brief</span>";
+            return "<span class='badge bg-warning badge-sm text-white p-2'>Incomplete Brief</span>";
         }
 //        else if($status == 7){
 //            return "<span class='badge badge-info badge-sm text-white'>Sent for QA</span>";
