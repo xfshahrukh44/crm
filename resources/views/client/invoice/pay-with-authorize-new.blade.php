@@ -259,7 +259,7 @@
                                                     <div class="lago-badge mt-4">
                                                         <p>Description</p>
                                                         <p>
-                                                            {{$invoice->discription}}
+                                                            {!! nl2br($invoice->discription) !!}
                                                         </p>
                                                     </div>
                                                     {{--testing--}}

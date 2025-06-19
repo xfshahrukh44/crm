@@ -471,6 +471,79 @@ class ProjectController extends Controller
 //        return view('v2.project.show', compact('project'));
     }
 
+//    public function viewForm($form_id, $check, $id){
+    public function viewForm($form_id, $check){
+        if (!v2_acl([2, 6, 4, 1, 5])) {
+            return redirect()->back()->with('error', 'Access denied.');
+        }
+
+//        if(!$project = Project::find($id)) {
+//            return redirect()->back();
+//        }
+
+        // if($project->user_id == Auth()->user()->id){
+        if($check == 1){
+            $logo_form = LogoForm::find($form_id);
+            return view('v2.brief.logoform', compact('logo_form'));
+        }else if($check == 2){
+            $web_form = WebForm::find($form_id);
+            return view('v2.brief.webform', compact('web_form'));
+        }elseif($check == 3){
+            $smm_form = SmmForm::find($form_id);
+            return view('v2.brief.smmform', compact('smm_form'));
+        }elseif($check == 4){
+            $content_form = ContentWritingForm::find($form_id);
+            return view('v2.brief.contentform', compact('content_form'));
+        }elseif($check == 5){
+            $seo_form = SeoForm::find($form_id);
+            return view('v2.brief.seoform', compact('seo_form'));
+        }elseif($check == 6){
+            $data = BookFormatting::find($form_id);
+            return view('v2.brief.bookprintingform', compact('data'));
+        }elseif($check == 7){
+            $data = BookWriting::find($form_id);
+            return view('v2.brief.bookwritingform', compact('data'));
+        }elseif($check == 8){
+            $data = AuthorWebsite::find($form_id);
+            return view('v2.brief.authorwesbiteform', compact('data'));
+        }elseif($check == 9){
+            $data = Proofreading::find($form_id);
+            return view('v2.brief.proofreadingform', compact('data'));
+        }elseif($check == 10){
+            $data = BookCover::find($form_id);
+            return view('v2.brief.bookcoverform', compact('data'));
+        }
+        elseif($check == 11){
+            $data = Isbnform::find($form_id);
+            return view('v2.brief.isbnform', compact('data'));
+        }
+        elseif($check == 12){
+            $data = Bookprinting::find($form_id);
+            return view('v2.brief.bookprinting', compact('data'));
+        }
+        elseif($check == 13){
+            $data = SeoBrief::find($form_id);
+            return view('v2.brief.seoform', compact('data'));
+        }
+        elseif($check == 14){
+            $book_marketing_form = BookMarketing::find($form_id);
+            return view('v2.brief.book-marketing', compact('book_marketing_form'));
+        }
+        elseif($check == 15){
+            $data = Bookprinting::find($form_id);
+            return view('v2.brief.bookprinting', compact('data'));
+        }
+        elseif($check == 16){
+            $data = PressReleaseForm::find($form_id);
+            return view('v2.brief.press-release-form', compact('data'));
+        }
+
+
+        // }else{
+        //     return redirect()->back();
+        // }
+    }
+
     public function updateComments (Request $request)
     {
         if (user_is_cs() || !v2_acl([2, 6, 4])) {

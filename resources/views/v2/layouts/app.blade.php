@@ -584,7 +584,6 @@
 
     // On keyup, start the countdown
     $('#search-bar').on('keyup', function (e) {
-        alert(e.key);
         clearTimeout(typingTimer);
         typingTimer = setTimeout(doneTyping, doneTypingInterval);
     });

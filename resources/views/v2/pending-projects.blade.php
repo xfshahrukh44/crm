@@ -91,7 +91,7 @@
                                                     <span class="ul-btn__icon"><i class="i-Checked-User"></i></span>
                                                     <span class="ul-btn__text">Assign</span>
                                                 </a>
-                                                <a href="#" class="badge bg-info text-white p-2 badge-sm">
+                                                <a href="{{route('v2.projects.view.form', [ 'form_id' => $pending_project['id'] , 'check' => $pending_project['form_number'] ])}}" class="badge bg-info text-white p-2 badge-sm">
                                                     <span class="ul-btn__icon"><i class="i-Eye-Visible"></i></span>
                                                     <span class="ul-btn__text">View</span>
                                                 </a>
