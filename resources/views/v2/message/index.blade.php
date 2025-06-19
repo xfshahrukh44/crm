@@ -100,7 +100,7 @@
         .edit-message {
             position: relative;
             padding-left: 20px;
-            color: #007bff;
+            color: #ffffff;
             text-decoration: none;
             font-size: 0.9em;
             cursor: pointer;
@@ -113,82 +113,85 @@
             position: absolute;
             left: 0;
             top: 0;
-            color: #007bff;
+            color: #ffffff;
+        }
+        .no-messages {
+            text-align: center;
+            margin-top: 187px;
         }
     </style>
 @endsection
 
 @section('content')
     <div class="for-slider-main-banner">
-        {{-- @switch($user_role_id)
-            @case(2) --}}
-                <section class="chat-integrate">
-                    <div class="container-fluid p-0">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="tab-content" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="Conversations" role="tabpanel"
-                                        aria-labelledby="Conversations-tab">
-                                        <div class="row">
-                                            <div class="col-lg-3 p-0">
-                                                <div class="main-client-details">
-                                                    <div class="search-container">
-                                                        <input type="text" class="form-control search-input"
-                                                            placeholder="Search...">
-                                                        <i class="fas fa-search search-icon"></i>
-                                                    </div>
-                                                    <h3>All Conversations</h3>
-
-                                                    <div class="container contact-tab">
-                                                        <ul class="nav nav-tabs clients-list" id="myTab1" role="tablist">
-                                                            @include('v2.message.partials.client_list', [
-                                                                'clients_with_messages' => $clients_with_messages,
-                                                            ])
-                                                        </ul>
-                                                    </div>
-
-                                                    <div id="loading-spinner"
-                                                        style="display: none; text-align: center; padding: 10px;">
-                                                        <i class="fas fa-spinner fa-spin"></i> Loading more clients...
-                                                    </div>
+        @if($clients_with_messages->isEmpty())
+            <div class="no-messages">
+                <h3>No conversations found</h3>
+                <p>Start a new conversation to get started.</p>
+            </div>
+        @else
+            <section class="chat-integrate">
+                <div class="container-fluid p-0">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="Conversations" role="tabpanel"
+                                    aria-labelledby="Conversations-tab">
+                                    <div class="row">
+                                        <div class="col-lg-3 p-0">
+                                            <div class="main-client-details">
+                                                <div class="search-container">
+                                                    <input type="text" class="form-control search-input"
+                                                        placeholder="Search...">
+                                                    <i class="fas fa-search search-icon"></i>
                                                 </div>
-                                            </div>
-                                            <div class="col-lg-9 p-0">
-                                                <div class="tab-content" id="myTabContent1">
-                                                    <input type="hidden" id="active-id" value="">
+                                                <h3>All Conversations</h3>
+
+                                                <div class="container contact-tab">
+                                                    <ul class="nav nav-tabs clients-list" id="myTab1" role="tablist">
+                                                        @include('v2.message.partials.client_list', [
+                                                            'clients_with_messages' => $clients_with_messages,
+                                                        ])
+                                                    </ul>
+                                                </div>
+
+                                                <div id="loading-spinner"
+                                                    style="display: none; text-align: center; padding: 10px;">
+                                                    <i class="fas fa-spinner fa-spin"></i> Loading more clients...
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-9 p-0">
+                                            <div class="tab-content" id="myTabContent1">
+                                                <input type="hidden" id="active-id" value="">
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="tab-pane fade" id="Shortcodes" role="tabpanel" aria-labelledby="Shortcodes-tab">
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                            incididunt ut labore et dolore magna aliqua. Aliquam id diam maecenas ultricies mi
-                                            eget mauris pharetra. Tincidunt lobortis feugiat vivamus at augue eget. Aliquet
-                                            porttitor lacus luctus accumsan tortor posuere ac ut consequat. Massa massa
-                                            ultricies mi quis hendrerit dolor.
-                                        </p>
-                                    </div>
-                                    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                                        <p>
-                                            I love cheese, especially stinking bishop cheese and biscuits. Stinking bishop
-                                            cheesy feet brie fromage red leicester taleggio cut the cheese who moved my cheese.
-                                            Red leicester cow hard cheese cheese slices cheese strings goat camembert de
-                                            normandie cheesy grin. Gouda.
-                                        </p>
-                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="Shortcodes" role="tabpanel" aria-labelledby="Shortcodes-tab">
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                        incididunt ut labore et dolore magna aliqua. Aliquam id diam maecenas ultricies mi
+                                        eget mauris pharetra. Tincidunt lobortis feugiat vivamus at augue eget. Aliquet
+                                        porttitor lacus luctus accumsan tortor posuere ac ut consequat. Massa massa
+                                        ultricies mi quis hendrerit dolor.
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                    <p>
+                                        I love cheese, especially stinking bishop cheese and biscuits. Stinking bishop
+                                        cheesy feet brie fromage red leicester taleggio cut the cheese who moved my cheese.
+                                        Red leicester cow hard cheese cheese slices cheese strings goat camembert de
+                                        normandie cheesy grin. Gouda.
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>
-            {{-- @case(6) --}}
-            {{-- @break
-
-            @default
-        @endswitch --}}
+                </div>
+            </section>
+        @endif
     </div>
-    {{-- <textarea id="mytextarea"></textarea> --}}
 @endsection
 
 @section('script')
@@ -783,7 +786,7 @@
 
 
                 $('#messages-container-' + data.client_id + ' .messages-wrapper').append(`
-                    <div class="main-chat-message for-reply">
+                    <div class="main-chat-message">
                         <div class="message-content">
                             <div class="message-line">
                                 <p>${data.message}</p>

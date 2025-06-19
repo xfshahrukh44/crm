@@ -248,7 +248,7 @@
                     </li>
                 @endif
 
-                @if (in_array($user_role_id, [2, 6]))
+                @if (in_array($user_role_id, [0, 2, 6]))
                     <li>
                         <a href="{{ route('v2.messages') }}"
                             class="{{ request()->routeIs('v2.messages') ? 'active' : '' }}">

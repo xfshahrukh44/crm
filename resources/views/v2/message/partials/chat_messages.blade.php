@@ -1,5 +1,5 @@
 @foreach ($messages as $message)
-    <div class="main-chat-message {{ $message->role_id == $is_employee ? 'for-reply' : '' }}">
+    <div class="main-chat-message {{ $message->role_id == $is_employee ? '' : 'for-reply' }}">
         @if ($message->role_id != $is_employee)
             @php
                 $receiver_user = \App\Models\User::find($message->user_id);

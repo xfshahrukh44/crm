@@ -32,6 +32,9 @@ class MessageController extends Controller
         if(Auth::user()->is_employee == 4){
             return $this->getMessageBySupport($request);
         }
+        if(Auth::user()->is_employee == 0){
+            return $this->getMessageBySale($request);
+        }
     }
 
     public function getMessageByAdmin(Request $request)
@@ -360,6 +363,7 @@ class MessageController extends Controller
     public function getMessageByManager(Request $request)
     {
         $client = null;
+        $clientId = $request->get('clientId');
         $page = request()->get('page', 1);
         $perPage = 10;
         $filter = 0;
@@ -430,19 +434,29 @@ class MessageController extends Controller
             ->orderBy('messages.created_at', 'DESC')
             ->distinct();
 
+
+        // If a particular clientId is provided, separate it first
+        if ($clientId) {
+            $client = User::find($clientId);
+            // Exclude it from main pagination
+            $clients_with_messages = $data->where('users.id', '!=', $clientId);
+        }
+
+        $paginated = $data->paginate($perPage, ['*'], 'page', $page);
+
         if (request()->ajax()) {
             return response()->json([
                 'html' => view('v2.message.partials.client_list', [
-                    'clients_with_messages' => $data->paginate($perPage, ['*'], 'page', $page),
+                    'clients_with_messages' => $paginated,
                     'client' => $client
                 ])->render(),
                 'next_page' => $page + 1,
-                'has_more' => $data->paginate($perPage, ['*'], 'page', $page)->hasMorePages()
+                'has_more' => $paginated->hasMorePages()
             ]);
         }
 
         return view('v2.message.index', [
-            'clients_with_messages' => $data->paginate($perPage),
+            'clients_with_messages' => $paginated,
             'page' => $page,
             'route' => 'v2.messages.manager',
             'brands' => $brands,
@@ -455,6 +469,7 @@ class MessageController extends Controller
     public function getMessageBySupport(Request $request)
     {
         $client = null;
+        $clientId = $request->get('clientId');
         $page = request()->get('page', 1);
         $perPage = 10;
 
@@ -504,14 +519,106 @@ class MessageController extends Controller
             ->orderBy('messages.created_at', 'DESC')
             ->distinct();
 
+        // If a particular clientId is provided, separate it first
+        if ($clientId) {
+            $client = User::find($clientId);
+            // Exclude it from main pagination
+            $clients_with_messages = $clients_with_messages->where('users.id', '!=', $clientId);
+        }
+
+        $paginated = $clients_with_messages->paginate($perPage, ['*'], 'page', $page);
+
         if (request()->ajax()) {
             return response()->json([
                 'html' => view('v2.message.partials.client_list', [
-                    'clients_with_messages' => $clients_with_messages->paginate($perPage, ['*'], 'page', $page),
+                    'clients_with_messages' => $paginated,
                     'client' => $client
                 ])->render(),
                 'next_page' => $page + 1,
-                'has_more' => $clients_with_messages->paginate($perPage, ['*'], 'page', $page)->hasMorePages()
+                'has_more' => $paginated->hasMorePages()
+            ]);
+        }
+
+        return view('v2.message.index', [
+            'clients_with_messages' => $clients_with_messages->paginate($perPage),
+            'page' => $page,
+            'route' => 'v2.messages.manager',
+            'client' => $client
+        ]);
+    }
+
+    public function getMessageBySale(Request $request)
+    {
+        $client = null;
+        $clientId = $request->get('clientId');
+        $page = request()->get('page', 1);
+        $perPage = 10;
+
+        $client_user_ids = array_unique(\App\Models\Client::where('user_id', auth()->id())->pluck('id')->toArray());
+
+        $clients_with_messages = User::whereIn('users.client_id', $client_user_ids)
+            ->when(request()->has('client_name'), function ($q) {
+                return $q->whereHas('client', function ($q) {
+                    return $q->when(request()->has('client_name'), function ($q) {
+                        return $q->where(DB::raw('concat(name," ",last_name)'), 'like', '%'.request()->get('client_name').'%')
+                            ->orWhere('name', 'LIKE', "%".request()->get('client_name')."%")
+                            ->orWhere('last_name', 'LIKE', "%".request()->get('client_name')."%")
+                            ->orWhere('email', 'LIKE', "%".request()->get('client_name')."%")
+                            ->orWhere('contact', 'LIKE', "%".request()->get('client_name')."%");
+                    });
+                });
+            });
+
+        //restricted brand access
+        $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+        $clients_with_messages->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
+            return $q->whereHas('client', function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand_id', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand_id', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
+                });
+            });
+        });
+
+        //sort by latest message
+        $latestMessages = DB::table('messages')
+            ->select('client_id', DB::raw('MAX(created_at) as latest_message_date'))
+            ->groupBy('client_id');
+
+
+        $clients_with_messages = $clients_with_messages
+            ->leftJoinSub($latestMessages, 'latest_messages', function ($join) {
+                $join->on('users.id', '=', 'latest_messages.client_id');
+            })
+            ->leftJoin('messages', function ($join) {
+                $join->on('users.id', '=', 'messages.client_id')
+                    ->on('latest_messages.latest_message_date', '=', 'messages.created_at');
+            })
+            ->select('users.*', 'messages.created_at as message_created_at')
+            ->orderByDesc(DB::raw('message_created_at IS NULL')) // Put users without messages last
+            ->orderBy('message_created_at', 'DESC')
+            ->distinct();
+
+        // If a particular clientId is provided, separate it first
+        if ($clientId) {
+            $client = User::find($clientId);
+            // Exclude it from main pagination
+            $clients_with_messages = $clients_with_messages->where('users.id', '!=', $clientId);
+        }
+
+        $paginated = $clients_with_messages->paginate($perPage, ['*'], 'page', $page);
+
+        if (request()->ajax()) {
+            return response()->json([
+                'html' => view('v2.message.partials.client_list', [
+                    'clients_with_messages' => $paginated,
+                    'client' => $client
+                ])->render(),
+                'next_page' => $page + 1,
+                'has_more' => $paginated->hasMorePages()
             ]);
         }
 
