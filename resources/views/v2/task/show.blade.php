@@ -233,9 +233,7 @@
                                                         <a href="{{ route('v2.subtasks.show', $assign_members->id) }}" class="badge bg-primary text-white p-2 mx-1 col">
                                                             Detail
                                                         </a>
-                                                        <a href="#" class="badge bg-danger text-white p-2 mx-1 col">
-                                                            {!! $assign_members->get_status_badge() !!}
-                                                        </a>
+                                                        {!! $assign_members->get_status_badge_v2() !!}
                                                     </div>
                                                 </div>
                                             </div>
