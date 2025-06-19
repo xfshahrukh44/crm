@@ -359,6 +359,7 @@ class MessageController extends Controller
 
     public function getMessageByManager(Request $request)
     {
+        $client = null;
         $page = request()->get('page', 1);
         $perPage = 10;
         $filter = 0;
@@ -432,7 +433,8 @@ class MessageController extends Controller
         if (request()->ajax()) {
             return response()->json([
                 'html' => view('v2.message.partials.client_list', [
-                    'clients_with_messages' => $data->paginate($perPage, ['*'], 'page', $page)
+                    'clients_with_messages' => $data->paginate($perPage, ['*'], 'page', $page),
+                    'client' => $client
                 ])->render(),
                 'next_page' => $page + 1,
                 'has_more' => $data->paginate($perPage, ['*'], 'page', $page)->hasMorePages()
@@ -446,11 +448,13 @@ class MessageController extends Controller
             'brands' => $brands,
             'filter' => $filter,
             'message_array' => $message_array,
+            'client' => $client
         ]);
     }
 
     public function getMessageBySupport(Request $request)
     {
+        $client = null;
         $page = request()->get('page', 1);
         $perPage = 10;
 
@@ -503,7 +507,8 @@ class MessageController extends Controller
         if (request()->ajax()) {
             return response()->json([
                 'html' => view('v2.message.partials.client_list', [
-                    'clients_with_messages' => $clients_with_messages->paginate($perPage, ['*'], 'page', $page)
+                    'clients_with_messages' => $clients_with_messages->paginate($perPage, ['*'], 'page', $page),
+                    'client' => $client
                 ])->render(),
                 'next_page' => $page + 1,
                 'has_more' => $clients_with_messages->paginate($perPage, ['*'], 'page', $page)->hasMorePages()
@@ -514,6 +519,7 @@ class MessageController extends Controller
             'clients_with_messages' => $clients_with_messages->paginate($perPage),
             'page' => $page,
             'route' => 'v2.messages.manager',
+            'client' => $client
         ]);
     }
 }

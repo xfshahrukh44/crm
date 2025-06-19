@@ -50,7 +50,8 @@
 
         .notification .dropdown-menu.dropdown-menu-right.notification-dropdown.rtl-ps-none {
             overflow-y: scroll;
-            height: 300px;
+            height: auto;
+            max-height: 300px;
             border-radius: 5px;
             box-shadow: 0 0 5px 1px #0000003b;
             top: 30px;
@@ -181,83 +182,9 @@
                                         <div class="notification" role="button" id="dropdownNotification"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <a href="javascript:;"><i class="fa-solid fa-bell"></i></a>
-                                            <div class="badge-top-container">
-                                                <span
-                                                    class="badge badge-primary">{{ count(auth()->user()->unreadNotifications) }}</span>
-                                            </div>
+
                                             <!-- Lead Notification dropdown -->
-                                            <div class="dropdown-menu dropdown-menu-right notification-dropdown rtl-ps-none"
-                                                aria-labelledby="dropdownNotification" data-perfect-scrollbar
-                                                data-suppress-scroll-x="true">
-                                                @php
-                                                    $k = 0;
-                                                @endphp
-                                                @foreach (auth()->user()->unreadnotifications()->latest()->take(10)->get() as $notifications)
-                                                    @if ($notifications->type == 'App\Notifications\LeadNotification')
-                                                        <a href="{{ route('admin.client.shownotification', ['client' => $notifications->data['id'], 'id' => $notifications->id]) }}"
-                                                            class="unread_notification_nav dropdown-item d-flex"
-                                                            data-id="{{ $notifications->id }}">
-                                                        @elseif($notifications->type == 'App\Notifications\PaymentNotification')
-                                                            <a href=""
-                                                                class="unread_notification_nav dropdown-item d-flex"
-                                                                data-id="{{ $notifications->id }}">
-                                                            @else
-                                                                <a href=""
-                                                                    class="unread_notification_nav dropdown-item d-flex"
-                                                                    data-id="{{ $notifications->id }}">
-                                                    @endif
-                                                    <div class="notification-icon">
-                                                        @if ($notifications->type == 'App\Notifications\LeadNotification')
-                                                            <i class="i-Checked-User text-primary mr-1"></i>
-                                                        @elseif($notifications->type == 'App\Notifications\PaymentNotification')
-                                                            <i class="i-Money-Bag text-success mr-1"></i>
-                                                        @else
-                                                         <i class="fa-solid fa-bell"></i>
-                                                        @endif
-                                                    </div>
-                                                    <div class="notification-details flex-grow-1">
-                                                        <p class="m-0 d-flex align-items-center">
-                                                            <span
-                                                                class="lead-heading">{{ $notifications->data['text'] }}</span>
-                                                            <span class="flex-grow-1"></span>
-                                                            <span
-                                                                class="text-small text-muted ml-3">{{ $notifications->created_at->diffForHumans() }}</span>
-                                                        </p>
-                                                        <p class="text-small text-muted m-0">
-                                                            {{ $notifications->data['name'] }}</p>
-                                                    </div>
-                                                    </a>
-                                                    @if ($loop->last)
-                                                    @endif
-                                                    @php
-                                                        $k++;
-                                                    @endphp
-                                                @endforeach
-
-                                                @if(v2_acl([0, 1, 4, 5, 6]))
-                                                    <a href="{{ route('v2.notifications') }}" class="unread_notification_nav dropdown-item d-flex">
-                                                        <div class="notification-icon">
-                                                            <i class="fa-solid fa-list"></i>
-                                                        </div>
-                                                        <div class="notification-details flex-grow-1">
-                                                            <p class="m-0 d-flex align-items-center">
-                                                                <span class="lead-heading">View all</span>
-                                                            </p>
-                                                        </div>
-                                                    </a>
-
-                                                    <a href="{{ route('notification.all.read') }}" class="unread_notification_nav dropdown-item d-flex">
-                                                        <div class="notification-icon">
-                                                            <i class="fa-solid fa-check-double text-success"></i>
-                                                        </div>
-                                                        <div class="notification-details flex-grow-1">
-                                                            <p class="m-0 d-flex align-items-center">
-                                                                <span class="lead-heading">Mark all as read</span>
-                                                            </p>
-                                                        </div>
-                                                    </a>
-                                                @endif
-                                            </div>
+                                            @include('v2.notifications_nav')
                                         </div>
                                     </div>
                                     <div class="open-side-menu">
@@ -696,6 +623,13 @@
         let redirect_url = "{{route('v2.clients.show', 'temp')}}";
         redirect_url = redirect_url.replaceAll('temp', $(this).data('id'));
         window.location.href = redirect_url;
+    });
+
+    $('.unread_notification_nav').on('click', function(e) {
+        e.preventDefault();
+        let url = $(this).attr('href');
+        let notificationId = $(this).data('id');
+        window.location.href = url;
     });
 </script>
 
