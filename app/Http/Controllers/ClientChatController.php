@@ -207,6 +207,14 @@ class ClientChatController extends Controller
                     'redirect_url' => route('support.message.show.id', ['id' => Auth()->user()->id, 'name' => Auth()->user()->name]),
                 ];
                 emit_pusher_notification('message-channel', 'new-message', $pusher_notification_data);
+
+                //pusher notification v2
+                $pusher_notification_data = [
+                    'for_ids' => $project_assigned_support_ids,
+                    'text' => Auth()->user()->name . ' ' . Auth()->user()->last_name . ' has sent you a Message',
+                    'redirect_url' => route('v2.messages') . ('?clientId=' . auth()->id()),
+                ];
+                emit_pusher_notification('v2-message-channel', 'v2-new-message', $pusher_notification_data);
             }
 
 //            $projects = Project::select('user_id')->where('client_id', Auth::user()->id)->get();

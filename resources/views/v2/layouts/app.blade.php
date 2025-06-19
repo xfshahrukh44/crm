@@ -135,37 +135,6 @@
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
                                 <div class="serach-name">
-                                    <div class="dropdown user-name">
-                                        <div class="user col align-self-end">
-                                            <img src="{{ auth()->user()->image ? asset(auth()->user()->image) : asset('images/avatar.png') }}"
-                                                width="50"
-                                                style="border-radius: 25px; object-fit: cover; width: 40px; height: 40px;">
-                                            <a href="javascript:;" alt="" data-toggle="dropdown"
-                                                aria-haspopup="true" aria-expanded="false">
-                                                <span class="auth-name">{{ auth()->user()->name }}</span>
-                                                <i class="fa-solid fa-caret-down"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right"
-                                                aria-labelledby="userDropdown" x-placement="bottom-end"
-                                                style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(41px, 36px, 0px);">
-
-                                                <a class="dropdown-item" href="{{ route('v2.profile') }}">
-                                                    Profile
-                                                </a>
-
-                                                <a class="dropdown-item" href="https://designcrm.net/logout"
-                                                    onclick="event.preventDefault();
-                                                        document.getElementById('logout-form').submit();">
-                                                    Sign out
-                                                </a>
-                                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                                    style="display: none;">
-                                                    @csrf
-                                                </form>
-
-                                            </div>
-                                        </div>
-                                    </div>
 
 
                                     <div class="serach">
@@ -173,6 +142,39 @@
                                             aria-label="Search">
                                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i
                                                 class="fa-solid fa-magnifying-glass"></i></button>
+                                    </div>
+
+                                    <div class="dropdown user-name">
+                                        <div class="user col align-self-end px-0">
+                                            <a href="javascript:;" alt="" data-toggle="dropdown"
+                                               aria-haspopup="true" aria-expanded="false">
+                                                <img src="{{ auth()->user()->image ? asset(auth()->user()->image) : asset('images/avatar.png') }}"
+                                                     width="50"
+                                                     style="border-radius: 25px; object-fit: cover; width: 40px; height: 40px;">
+                                                {{--                                                <span class="auth-name">{{ auth()->user()->name }}</span>--}}
+                                                {{--                                                <i class="fa-solid fa-caret-down"></i>--}}
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right"
+                                                 aria-labelledby="userDropdown" x-placement="bottom-end"
+                                                 style="position: absolute; will-change: transform; top: 6px; right: 79%; transform: translate3d(41px, 36px, 0px);">
+
+                                                <span class="auth-name ml-4">{{ auth()->user()->name }}</span>
+                                                <a class="dropdown-item mt-1" href="{{ route('v2.profile') }}">
+                                                    Profile
+                                                </a>
+
+                                                <a class="dropdown-item" href="https://designcrm.net/logout"
+                                                   onclick="event.preventDefault();
+                                                        document.getElementById('logout-form').submit();">
+                                                    Sign out
+                                                </a>
+                                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                      style="display: none;">
+                                                    @csrf
+                                                </form>
+
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="dropdown">
@@ -544,7 +546,7 @@
 </script>
 
 {{--Pusher--}}
-@if(v2_acl([1]))
+@if(v2_acl([1, 4, 6]))
     <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
     <script>
         $(document).ready(() => {
@@ -558,28 +560,39 @@
                 cluster: 'ap2'
             });
 
-            @switch($user_role_id)
-                @case(1)
-                    var channel = pusher.subscribe('v2-message-channel');
-                    channel.bind('v2-new-message', function(data) {
-                        if (data.for_ids && data.for_ids.includes(auth_id)) {
-                            swal({
-                                icon: 'info',
-                                title: data.text,
-                                showDenyButton: false,
-                                showCancelButton: false,
-                                confirmButtonText: "Open",
-                            }).then((result) => {
-                                if (result && data.redirect_url) {
-                                    window.location.href = data.redirect_url
-                                }
-                            });
+            var channel = pusher.subscribe('v2-message-channel');
+            channel.bind('v2-new-message', function(data) {
+                if (data.for_ids && data.for_ids.includes(auth_id)) {
+                    swal({
+                        icon: 'info',
+                        title: data.text,
+                        showDenyButton: false,
+                        showCancelButton: false,
+                        confirmButtonText: "Open",
+                    }).then((result) => {
+                        if (result && data.redirect_url) {
+                            window.location.href = data.redirect_url
                         }
                     });
-                    @break
-                @default
-                    console.log('asd')
-            @endswitch
+                }
+            });
+
+            @if(v2_acl([6]))
+                var invoice_channel = pusher.subscribe('v2-buh-'+auth_id+'-invoice-channel');
+                invoice_channel.bind('invoice-paid', function(data) {
+                    swal({
+                        icon: 'info',
+                        title: 'Invoice #'+data.invoice.id+' ($'+data.invoice.amount+') has been marked as paid!',
+                        showDenyButton: false,
+                        showCancelButton: false,
+                        confirmButtonText: "View invoice",
+                    }).then((result) => {
+                        if (result && data.invoice.redirect_url) {
+                            window.location.href = data.invoice.redirect_url
+                        }
+                    });
+                });
+            @endif
         });
     </script>
 @endif

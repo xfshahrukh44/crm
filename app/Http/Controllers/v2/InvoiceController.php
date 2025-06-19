@@ -572,7 +572,7 @@ class InvoiceController extends Controller
         $inv_arr['redirect_url'] = route('v2.invoices.show', $invoice->id);
 
         foreach ($buh_ids as $buh_id) {
-            emit_pusher_notification('buh-'.$buh_id.'-invoice-channel', 'invoice-paid', ['invoice' => $inv_arr]);
+            emit_pusher_notification('v2-buh-'.$buh_id.'-invoice-channel', 'invoice-paid', ['invoice' => $inv_arr]);
         }
 
         //mail_notification

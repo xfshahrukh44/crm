@@ -15,8 +15,6 @@ class AdminController extends Controller
             return redirect()->back()->with('error', 'Access denied.');
         }
 
-        session()->put('v2-coming-from-admin', true);
-
         return v2_login_bypass($_GET['email']);
     }
 

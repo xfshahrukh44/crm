@@ -1999,19 +1999,27 @@ function login_bypass ($email) {
 }
 
 function v2_login_bypass ($email) {
-    auth()->logout();
-
     if ($user = User::where('email', $email)->whereIn('is_employee', [0, 1, 2, 3, 4, 5, 6, 7])->first()) {
+        auth()->logout();
+
         auth()->login($user);
 
         if (auth()->check()) {
-            Session::put('v2_valid_user', true);
+            if(auth()->user()->is_employee == 3) {
+                session()->put('valid_user', true);
+                session()->put('coming-from-admin', true);
+
+                return redirect()->route('client.home');
+            }
+
+            session()->put('v2-coming-from-admin', true);
+            session()->put('v2_valid_user', true);
 
             return redirect()->route('v2.dashboard');
         }
     }
 
-    return redirect()->route('login');
+    return redirect()->back()->with('error', 'Unable to login.');
 }
 
 function get_invoice_totals ($invoice_ids) {
