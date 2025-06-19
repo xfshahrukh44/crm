@@ -226,11 +226,11 @@
                                                 <div class="col-md-4 d-flex">
                                                     <div class="row m-auto">
                                                         @if(v2_acl([1]))
-                                                            <a href="javascript:void(0);" class="badge bg-info text-white p-2 mx-1 col btn_edit_subtask">
+                                                            <a href="javascript:void(0);" class="badge bg-info text-white p-2 mx-1 btn_edit_subtask">
                                                                 Edit
                                                             </a>
                                                         @endif
-                                                        <a href="{{ route('v2.subtasks.show', $assign_members->id) }}" class="badge bg-primary text-white p-2 mx-1 col">
+                                                        <a href="{{ route('v2.subtasks.show', $assign_members->id) }}" class="badge bg-primary text-white p-2 mx-1">
                                                             Detail
                                                         </a>
                                                         {!! $assign_members->get_status_badge_v2() !!}
