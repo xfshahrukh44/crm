@@ -491,7 +491,7 @@ class SupportController extends Controller
         $this->validate($request, [
             'message' => 'required'
         ]);
-        $carbon = Carbon::now(new DateTimeZone('America/Los_Angeles'))->toDateTimeString();
+        $carbon = Carbon::now(new DateTimeZone('America/New_York'))->toDateTimeString();
         $task = Task::find($request->task_id);
         $message = new Message();
         $message->user_id = Auth::user()->id;
@@ -628,7 +628,7 @@ class SupportController extends Controller
         $this->validate($request, [
             'message' => 'required'
         ]);
-        $carbon = Carbon::now(new DateTimeZone('America/Los_Angeles'))->toDateTimeString();
+        $carbon = Carbon::now(new DateTimeZone('America/New_York'))->toDateTimeString();
         $task = Task::find($request->task_id);
         // send Notification to customer
         $message = new Message();
