@@ -114,7 +114,7 @@
                                             @endif
 
                                             <span class="{{$timestamp_class}}" style="font-size: 10px; color: grey;">
-                                                {{ \Carbon\Carbon::parse($message->created_at)->format('d M Y h:i A') }} (EST)
+                                                {{ \Carbon\Carbon::parse($message->created_at)->setTimezone('America/New_York')->format('d M Y h:i A') }} (EST)
                                             </span>
                                         </div>
                                     </div>
