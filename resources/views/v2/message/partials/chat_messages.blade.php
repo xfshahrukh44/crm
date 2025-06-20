@@ -1,4 +1,8 @@
 @foreach ($messages as $message)
+    @php
+        $created_at = \Carbon\Carbon::parse($message->created_at);
+        $now = \Carbon\Carbon::now();
+    @endphp
     <div class="main-chat-message {{ $message->role_id == $is_employee ? '' : 'for-reply' }}">
         @if ($message->role_id != $is_employee)
             @php
@@ -13,7 +17,9 @@
             @if ($message->message)
                 <div class="message-line">
                     <h6 id="msg-text-{{ $message->id }}">{!! nl2br($message->message) !!}</h6>
-                    <a href="#" class="edit-message" data-message-id="{{ $message->id }}">Edit</a>
+                    @if ($now->diffInMinutes($created_at) <= 10)
+                        <a href="#" class="edit-message" data-message-id="{{ $message->id }}">Edit</a>
+                    @endif
 
                     @if (count($message->sended_client_files) != 0)
                         <div class="msg-img">

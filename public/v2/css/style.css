@@ -1024,7 +1024,7 @@ table.client-list .progress-done {
 }
 
 .for-invoice-listing {
-    padding: 40px 60px;
+    padding: 40px 42px;
 }
 
 .for-invoice-listing table td a {
@@ -1597,7 +1597,7 @@ input:focus-visible {
 /*side-menu-css start*/
 .for-slider-main-banner {
     width: 100%;
-    margin-left: 327px;
+    margin-left: 278px;
     transition: all ease 0.5s;
 }
 .side-menu .search-container {
@@ -1632,7 +1632,7 @@ input:focus-visible {
 }
 
 .side-menu {
-    width: 17%;
+    width: 13%;
     background-color: white;
     border-top: 1px solid #dcdde0;
     height: 100vh;
@@ -1646,14 +1646,19 @@ input:focus-visible {
     padding: 20px;
 }
 
-.side-menu ul li a {padding: 12px 15px;width: 100%;display: flex;align-items: center;color: black;font-family: 'Funnel Sans';font-size: 17px;font-weight: 500; text-decoration: none !important;}
+.side-menu ul li a {padding: 12px 15px;width: 100%;display: flex;align-items: center;color: black;font-family: 'Funnel Sans';font-size: 17px;font-weight: 500; text-decoration: none !important; gap: 8px;
+    white-space: nowrap; border-bottom: 1px solid #e0e0e0;}
 .side-menu ul li a.active {
     background-color: #e7ebee;
     border-radius: 5px;
+
 }
 .side-menu ul li a:hover {
     background-color: #e7ebee;
     border-radius: 5px;
+}
+.side-menu ul li a i.fas {
+    font-size: 1rem;
 }
 .open-side-menu i {
     font-size: 25px;
