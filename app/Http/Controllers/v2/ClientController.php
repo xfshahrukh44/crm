@@ -41,7 +41,7 @@ class ClientController extends Controller
         $brands = $this->getBrands();
 
         //restricted brand access
-        $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+        $restricted_brands = get_restricted_brands();
 
         $clients = \App\Models\Client::orderBy('priority', 'ASC')
             ->orderBy('id', 'desc')

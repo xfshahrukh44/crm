@@ -28,7 +28,6 @@ use App\Models\WebForm;
 use App\Notifications\AssignProjectNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
@@ -42,7 +41,7 @@ class ProjectController extends Controller
         $brands = $this->getBrands();
         $categories = \App\Models\Category::all();
         //restricted brand access
-        $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+        $restricted_brands = get_restricted_brands();
 
         $projects = \App\Models\Project::whereHas('client')
             ->when(!v2_acl([2]), function ($q) {

@@ -34,7 +34,7 @@ class TaskController extends Controller
             }
         }
         $categories = v2_acl([1]) ? (Category::whereIn('id', $category_ids)->get()) : Category::all();
-        $restricted_brands = json_decode(auth()->user()->restricted_brands, true);
+        $restricted_brands = get_restricted_brands();
         $task_array = [];
         $notification_task = auth()->user()->unreadnotifications->where('type', 'App\Notifications\TaskNotification')->all();
         foreach($notification_task as $notification_tasks){
