@@ -19,7 +19,7 @@ class LeadController extends Controller
         }
 
         //restricted brand access
-        $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+        $restricted_brands = get_restricted_brands();
 
         $leads = Lead::orderBy('id', 'desc')
             ->when(v2_acl([0]), function ($q) {

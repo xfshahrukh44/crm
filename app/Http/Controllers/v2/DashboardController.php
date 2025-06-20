@@ -252,6 +252,14 @@ class DashboardController extends Controller
             return redirect()->back()->with('error', $validator->errors()->first());
         }
 
+        $user = User::find(auth()->id());
+
+        // Delete old image if it exists and is not a default placeholder
+        $user_image = auth()->user()->image;
+        if (!is_null($user_image) && file_exists(public_path($user_image))) {
+            try { unlink(public_path($user_image)); } catch (\Exception $e) {}
+        }
+
         $file = $request->file('pfp');
         $file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $name = strtolower(str_replace(' ', '-', $file_name)) . '_' .time().'.'.$file->extension();

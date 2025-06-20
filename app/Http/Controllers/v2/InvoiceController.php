@@ -43,7 +43,7 @@ class InvoiceController extends Controller
         $brands = $this->getBrands();
 
         //restricted brand access
-        $restricted_brands = $this->getRestrictedBrands();
+        $restricted_brands = get_restricted_brands();
 
         $invoices = Invoice::whereHas('client')->orderBy('id', 'desc')
             ->when(!v2_acl([2]), function ($q) {
@@ -607,7 +607,7 @@ class InvoiceController extends Controller
         $brands = $this->getBrands();
 
         //restricted brand access
-        $restricted_brands = $this->getRestrictedBrands();
+        $restricted_brands = get_restricted_brands();
 
         $invoices = Invoice::whereNotNull('refund_cb_date')
             ->when(!v2_acl([2]), function ($q) {
@@ -669,7 +669,7 @@ class InvoiceController extends Controller
             ->orderBy('created_at', 'DESC');
 
         //restricted brand access
-        $restricted_brands = $this->getRestrictedBrands();
+        $restricted_brands = get_restricted_brands();
         $invoices->when(!v2_acl([2]) && !empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
             return $q->where(function ($query) use ($restricted_brands) {
                 $query->whereNotIn('brand', $restricted_brands)
@@ -737,10 +737,5 @@ class InvoiceController extends Controller
                 ))->where('is_employee', '!=', 6);
             })
             ->get();
-    }
-
-    public function getRestrictedBrands ()
-    {
-        return json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
     }
 }

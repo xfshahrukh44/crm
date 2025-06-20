@@ -11,8 +11,6 @@ use App\Notifications\MessageNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Auth;
 use Notification;
 use DateTimeZone;
@@ -180,7 +178,7 @@ class MessageController extends Controller
         $this->validate($request, [
             'message' => 'required'
         ]);
-        $carbon = Carbon::now(new DateTimeZone('America/Los_Angeles'))->toDateTimeString();
+        $carbon = Carbon::now(new DateTimeZone('America/New_York'))->toDateTimeString();
         $task = Task::find($request->task_id);
         // send Notification to customer
         $message = new Message();

@@ -3307,3 +3307,7 @@ function get_role_badge_text () {
 
     return $map[auth()->user()->is_employee ?? 10];
 }
+
+function get_restricted_brands () {
+    return json_decode(auth()->user()->restricted_brands, true);
+}

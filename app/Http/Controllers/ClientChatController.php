@@ -67,7 +67,7 @@ class ClientChatController extends Controller
             $this->validate($request, [
                 'message' => 'required',
             ]);
-            $carbon = Carbon::now(new DateTimeZone('America/Los_Angeles'))->toDateTimeString();
+            $carbon = Carbon::now()->toDateTimeString();
             // send Notification to customer
             $message = new Message();
             $message->user_id = Auth::user()->id;
