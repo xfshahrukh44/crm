@@ -677,6 +677,9 @@ Route::group(['middleware' => ['auth', 'ip.mid'], 'prefix' => 'v2'], function ()
     Route::post('send-message', [\App\Http\Controllers\v2\MessageController::class, 'sendMessage'])->name('v2.messages.send');
     Route::post('edit-message', [\App\Http\Controllers\v2\MessageController::class, 'editMessage'])->name('v2.messages.edit');
 
+    //messages
+    Route::post('reminders', [\App\Http\Controllers\v2\ReminderController::class, 'setReminder'])->name('v2.reminders.set');
+
     //admin only
     Route::get('login-bypass', [\App\Http\Controllers\v2\AdminController::class, 'loginBypass'])->name('v2.admin.login_bypass');
     Route::get('back-to-admin', [\App\Http\Controllers\v2\AdminController::class, 'backToAdmin'])->name('v2.admin.back_to_admin');
