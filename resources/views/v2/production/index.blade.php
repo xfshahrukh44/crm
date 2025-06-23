@@ -29,6 +29,16 @@
             width: 200px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
+
+        .for-invoice-listing {
+            padding: 40px 15px;
+        }
+
+        .for-slider-main-banner {
+            width: 100%;
+            margin-left: 250px;
+            transition: all ease 0.5s;
+        }
     </style>
 @endsection
 
