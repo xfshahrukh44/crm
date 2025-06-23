@@ -162,6 +162,7 @@
                                                 </a>
                                                 <a href="javascript:void(0);" class="badge bg-warning badge-icon badge-sm p-2 btn_open_notes" id="btn_open_notes_{{$project->id}}"
                                                    data-id="{{$project->id}}"
+                                                   data-heading="Project (ID: {{$project->id}}): {{$project->name}}"
                                                    data-content="{{$project->comments}}"
                                                    data-modifier-check="{{($project->comments !== '' && !is_null($project->comments_id) && !is_null($project->comments_timestamp)) ? '1' : '0'}}"
                                                    data-modifier="{{($project->commenter->name ?? '') . ' ' . ($project->commenter->last_name ?? '') . ' ('.\Carbon\Carbon::parse($project->comments_timestamp)->format('d M Y h:i A').')'}}">
@@ -184,6 +185,7 @@
             </div>
         </section>
     </div>
+
     <!-- Notes Modal -->
     <div class="modal fade" id="modal_show_notes" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -199,6 +201,13 @@
                         <div class="col-md-12 form-group">
                             <textarea class="form-control" name="" id="textarea_notes" cols="30" rows="10"></textarea>
                         </div>
+
+                        @if(v2_acl([2, 0, 4, 6]))
+                            <span id="btn_set_reminder" class="badge bg-danger text-white p-2" style="position:absolute; top: 7%; right: 5%; cursor: pointer" hidden>
+                                    <i class="far fa-clock mr-1"></i>
+                                    Set reminder
+                            </span>
+                        @endif
                     </div>
                     <div class="row" id="div_modifier_info" hidden>
                         <div class="col-md-12">
@@ -212,6 +221,55 @@
                             </label>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Set Reminder Modal -->
+    <div class="modal fade" id="modal_set_reminder" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Set reminder</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route('v2.reminders.store')}}" method="POST">
+                        @csrf
+                        <input type="hidden" name="heading" id="reminder_heading">
+                        <input type="hidden" name="text" id="reminder_text">
+
+                        <div class="row">
+                            <div class="col-md-12 form-group" id="reminder_label">
+                                {{--                                    Reminder: <span><strong>"poopy ahh beyutch"</strong></span>--}}
+                            </div>
+                            <div class="col-md-12 form-group mb-0">
+                                <label for="">
+                                    <strong>Date & time</strong>
+                                </label>
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <input type="datetime-local" class="form-control" name="ping_time" id="">
+                            </div>
+                            <div class="col-md-12 form-group text-center mb-0">
+                                <small><strong>OR</strong></small>
+                            </div>
+                            <div class="col-md-12 form-group mb-0">
+                                <label for="">
+                                    <strong>Hours</strong>
+                                </label>
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <input type="number" step="1" class="form-control" name="hours" id="" min="0" max="24" value="0" required>
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <button class="btn btn-primary btn-block" type="submit">Set</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 {{--            <div class="modal-footer">--}}
                 {{--                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>--}}
@@ -295,9 +353,12 @@
 
             let current_rec_id;
             let current_comment = '';
+            let heading = '';
+            let focus_false_positive = false;
             $('.btn_open_notes').on('click', function () {
                 current_rec_id = $(this).data('id');
                 current_comment = $(this).data('content');
+                heading = $(this).data('heading');
                 $('#textarea_notes').val($(this).data('content'));
 
                 $('#label_modifier_info').html($(this).data('modifier'));
@@ -315,6 +376,11 @@
             });
 
             $('#textarea_notes').on('focusout', function () {
+                if (focus_false_positive) {
+                    focus_false_positive = false;
+                    return false;
+                }
+
                 let text_value = $(this).val();
                 if (text_value == current_comment) {
                     return false;
@@ -341,6 +407,40 @@
 
             $('.btn_assign_project').on('click', function () {
                 assignAgent($(this).data('id'), $(this).data('form'), $(this).data('brand'));
+            });
+
+            //#textarea_notes
+            $('#textarea_notes').on('mouseup keyup', function () {
+                const textarea = $(this)[0];
+
+                let text_selected = (textarea.selectionStart !== textarea.selectionEnd);
+
+                if (text_selected) {
+                    $('#btn_set_reminder').fadeIn('slow').prop('hidden', false);
+                } else {
+                    $('#btn_set_reminder').fadeOut('slow').prop('hidden', true);
+                }
+            });
+
+            $('body').on('click', '#btn_set_reminder', function () {
+                const textarea = $('#textarea_notes')[0];
+
+                let start = textarea.selectionStart;
+                let end = textarea.selectionEnd;
+                if (start === end) {
+                    return false;
+                }
+
+                let text = textarea.value.substring(start, end);
+
+                focus_false_positive = true;
+                $('#modal_show_notes').modal('hide');
+                $(this).fadeOut('slow').prop('hidden', true);
+
+                $('#reminder_label').html(`Reminder: <span><strong>"`+text+`"</strong></span>`);
+                $('#reminder_heading').val(heading);
+                $('#reminder_text').val(text);
+                $('#modal_set_reminder').modal('show');
             });
         });
     </script>

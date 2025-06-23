@@ -221,7 +221,7 @@
                 <br />
             @endif
         </div>
-        <ul style="max-height: 85%; overflow-y: scroll; scrollbar-width: none; -ms-overflow-style: none;">
+        <ul style="max-height: 87%; overflow-y: scroll; scrollbar-width: none; -ms-overflow-style: none;">
             @if(in_array($user_role_id, [2, 6, 4, 0, 1, 5]))
                 <li>
                     <a href="{{route('v2.dashboard')}}" class="{{ request()->routeIs('v2.dashboard') ? 'active' : '' }}">
@@ -537,6 +537,43 @@
             @endif
         });
     </script>
+@endif
+
+@if(v2_acl([2, 0, 4, 6]))
+    @php
+        $reminders = \Illuminate\Support\Facades\DB::table('reminders')
+            ->where('user_id', auth()->id())
+            ->where('ping_time', '<=', \Carbon\Carbon::now()->addHours(10))
+            ->where('ping_time', '>=', \Carbon\Carbon::now())
+            ->get();
+    @endphp
+    @if(count($reminders))
+        <script>
+            toastr.options = {
+                "closeButton": true,
+                "timeOut": 0,
+                "extendedTimeOut": 0,
+                "escapeHtml": false,
+            };
+
+            let user_reminders = @json($reminders);
+            console.log('user_reminders', user_reminders);
+            for (const reminder of user_reminders) {
+                let targetTime = new Date(reminder.ping_time);
+                let now = new Date();
+                let delay = targetTime.getTime() - now.getTime();
+
+                if (delay > 0) {
+                    setTimeout(() => {
+                        toastr.info(`<div>
+                                            <h6>`+reminder.heading+`</h6><br>
+                                            <p>`+reminder.text+`</p>
+                                        </div>`, "Reminder");
+                    }, delay);
+                }
+            }
+        </script>
+    @endif
 @endif
 
 {{--Autocomplete search with jQuery UI--}}

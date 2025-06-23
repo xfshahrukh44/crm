@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Client;
 use App\Models\Invoice;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class ClientInvoiceController extends Controller
 {
@@ -95,6 +98,30 @@ class ClientInvoiceController extends Controller
                 return redirect()->back()->with('success', 'Invoice paid successfully!');
             }
         } else {
+            $user_ids = array_unique(DB::table('brand_users')->where('brand_id', $invoice->brand)->pluck('user_id')->toArray());
+            foreach (User::whereIn('is_employee', [0, 4, 6])->whereIn('id', $user_ids)->get() as $user) {
+                DB::table('notifications')->insert([
+                    'id' => Str::uuid(), //
+                    'type' => 'App\CustomInvoiceNotification',
+                    'notifiable_type' => get_class($user),
+                    'notifiable_id' => $user->id,
+                    'data' => json_encode([
+                        'id' => auth()->id(),
+                        'invoice_id' => $invoice->id,
+                        'name' => $authorize_charge_res['message'],
+                        'text' => (auth()->user()->name . ' ' . auth()->user()->last_name) . (" INV#".$invoice->id." payment failed"),
+                        'details' => $authorize_charge_res['message'],
+                    ]),
+                    'read_at' => null,
+                    'created_at' => \Carbon\Carbon::now(),
+                ]);
+
+                DB::table('failed_invoice_attempts')->insert([
+                    'invoice_id' => $invoice->id,
+                    'text' => $authorize_charge_res['message'],
+                ]);
+            }
+
             return redirect()->back()->with('error', $authorize_charge_res['message']);
         }
     }

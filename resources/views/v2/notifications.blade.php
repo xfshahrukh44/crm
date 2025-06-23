@@ -133,6 +133,11 @@
                                                 'route' => 'v2.subtasks.show',
                                                 'key' => 'id',
                                             ],
+                                            'App\CustomInvoiceNotification' => [
+                                                'badge' => '<span class="badge badge-info">Invoice</span>',
+                                                'route' => 'v2.invoices.show',
+                                                'key' => 'invoice_id',
+                                            ],
                                         ];
                                     @endphp
                                     @foreach($notifications as $notification)

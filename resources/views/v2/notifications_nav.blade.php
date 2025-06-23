@@ -13,6 +13,9 @@
             @if ($notifications->type == 'App\Notifications\LeadNotification')
                 <a href="{{ route('admin.client.shownotification', ['client' => $notifications->data['id'], 'id' => $notifications->id]) }}"
                     class="unread_notification_nav dropdown-item d-flex" data-id="{{ $notifications->id }}">
+            @elseif ($notifications->type == 'App\CustomInvoiceNotification')
+                <a href="{{ route('v2.invoices.show', ['invoice_id' => $notifications->data['invoice_id']]) }}"
+                    class="unread_notification_nav dropdown-item d-flex" data-id="{{ $notifications->id }}">
                 @elseif($notifications->type == 'App\Notifications\PaymentNotification')
                     <a href="" class="unread_notification_nav dropdown-item d-flex"
                         data-id="{{ $notifications->id }}">
@@ -25,6 +28,8 @@
                     <i class="i-Checked-User text-primary mr-1"></i>
                 @elseif($notifications->type == 'App\Notifications\PaymentNotification')
                     <i class="i-Money-Bag text-success mr-1"></i>
+                @elseif($notifications->type == 'App\CustomInvoiceNotification')
+                    <i class="fas fa-dollar-sign text-success mr-1"></i>
                 @else
                     <i class="fa-solid fa-bell"></i>
                 @endif
@@ -94,6 +99,9 @@
             @if ($notifications->type == 'App\Notifications\LeadNotification')
                 <a href="{{ route('admin.client.shownotification', ['client' => $notifications->data['id'], 'id' => $notifications->id]) }}"
                     class="unread_notification_nav dropdown-item d-flex" data-id="{{ $notifications->id }}">
+                @elseif ($notifications->type == 'App\CustomInvoiceNotification')
+                    <a href="{{ route('v2.invoices.show', ['invoice_id' => $notifications->data['invoice_id']]) }}"
+                       class="unread_notification_nav dropdown-item d-flex" data-id="{{ $notifications->id }}">
                 @elseif($notifications->type == 'App\Notifications\PaymentNotification')
                     <a href="" class="unread_notification_nav dropdown-item d-flex"
                         data-id="{{ $notifications->id }}">
@@ -109,6 +117,8 @@
                     <i class="i-Checked-User text-primary mr-1"></i>
                 @elseif($notifications->type == 'App\Notifications\PaymentNotification')
                     <i class="i-Money-Bag text-success mr-1"></i>
+                @elseif($notifications->type == 'App\CustomInvoiceNotification')
+                    <i class="fas fa-dollar-sign text-success mr-1"></i>
                 @else
                     <i class="fa-solid fa-bell"></i>
                 @endif
@@ -168,6 +178,9 @@
             @if ($notifications->type == 'App\Notifications\AssignProjectNotification')
                 <a href="{{ route('create.task.by.project.id', ['id' => $notifications->data['project_id'], 'name' => $notifications->data['text'], 'notify' => $notifications->id]) }}"
                     class="unread_notification_nav dropdown-item d-flex" data-id="{{ $notifications->id }}">
+                @elseif ($notifications->type == 'App\CustomInvoiceNotification')
+                    <a href="{{ route('v2.invoices.show', ['invoice_id' => $notifications->data['invoice_id']]) }}"
+                       class="unread_notification_nav dropdown-item d-flex" data-id="{{ $notifications->id }}">
                 @elseif($notifications->type == 'App\Notifications\TaskNotification')
                     <a href="{{ route('v2.tasks.show', ['id' => $notifications->data['task_id'], 'notify' => $notifications->id]) }}"
                         class="unread_notification_nav dropdown-item d-flex" data-id="{{ $notifications->id }}">
@@ -196,6 +209,8 @@
                     <i class="i-Checked-User text-primary mr-1"></i>
                 @elseif($notifications->type == 'App\Notifications\PaymentNotification')
                     <i class="i-Money-Bag text-success mr-1"></i>
+                @elseif($notifications->type == 'App\CustomInvoiceNotification')
+                    <i class="fas fa-dollar-sign text-success mr-1"></i>
                 @else
                     <i class="fa-solid fa-bell"></i>
                 @endif
@@ -255,6 +270,9 @@
             @if ($notifications->type == 'App\Notifications\AssignProjectNotification')
                 <a href="{{ route('create.task.by.project.id', ['id' => $notifications->data['project_id'], 'name' => $notifications->data['text'], 'notify' => $notifications->id]) }}"
                     class="unread_notification_nav dropdown-item d-flex" data-id="{{ $notifications->id }}">
+                @elseif ($notifications->type == 'App\CustomInvoiceNotification')
+                    <a href="{{ route('v2.invoices.show', ['invoice_id' => $notifications->data['invoice_id']]) }}"
+                       class="unread_notification_nav dropdown-item d-flex" data-id="{{ $notifications->id }}">
                 @elseif($notifications->type == 'App\Notifications\TaskNotification')
                     <a href="{{ route('v2.tasks.show', ['id' => $notifications->data['task_id'], 'notify' => $notifications->id]) }}"
                         class="unread_notification_nav dropdown-item d-flex" data-id="{{ $notifications->id }}">
@@ -283,6 +301,8 @@
                     <i class="i-Checked-User text-primary mr-1"></i>
                 @elseif($notifications->type == 'App\Notifications\PaymentNotification')
                     <i class="i-Money-Bag text-success mr-1"></i>
+                @elseif($notifications->type == 'App\CustomInvoiceNotification')
+                    <i class="fas fa-dollar-sign text-success mr-1"></i>
                 @else
                     <i class="i-Blinklist text-info mr-1"></i>
                 @endif

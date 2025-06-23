@@ -116,6 +116,32 @@
                                                     <li>
                                                         <p>Invoice Sent</p><span>{{\Carbon\Carbon::parse($invoice->created_at)->format('d F Y')}}</span>
                                                     </li>
+
+
+                                                    @php
+                                                        $failed_invoice_attempts = \Illuminate\Support\Facades\DB::table('failed_invoice_attempts')->where('invoice_id', $invoice->id)->orderBy('created_at', 'ASC')->get();
+                                                    @endphp
+                                                    @if(count($failed_invoice_attempts))
+{{--                                                        <div class="lago-badge mt-3 text-danger">--}}
+{{--                                                            Failed attempts--}}
+{{--                                                        </div>--}}
+                                                        @foreach($failed_invoice_attempts as $key => $failed_invoice_attempt)
+{{--                                                            <div class="lago-badge mt-3">--}}
+{{--                                                                {{$key + 1}}. {{$failed_invoice_attempt->text}}--}}
+{{--                                                                <b>{{Carbon\Carbon::parse($failed_invoice_attempt->created_at)->format('d F Y, h:i A')}}</b>--}}
+{{--                                                            </div>--}}
+
+                                                            <li>
+                                                                <p class="text-danger">
+                                                                    Payment failed
+                                                                    <i class="fa fa-circle-question text-dark" style="cursor: pointer;" title="{{$failed_invoice_attempt->text}}"></i>
+                                                                </p>
+                                                                <span>{{\Carbon\Carbon::parse($failed_invoice_attempt->created_at)->format('d F Y')}}</span>
+                                                            </li>
+                                                        @endforeach
+                                                    @endif
+
+
                                                     @if($invoice->payment_status == '2')
                                                         <li>
                                                             <p>Invoice Paid</p> <span>{{\Carbon\Carbon::parse($invoice->updated_at)->format('d F Y')}}</span>

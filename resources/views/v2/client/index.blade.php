@@ -200,7 +200,7 @@
 
                                                 <a href="javascript:void(0);" class="badge bg-warning badge-icon badge-sm p-2 btn_open_notes" id="btn_open_notes_{{$client->id}}"
                                                    data-id="{{$client->id}}"
-                                                   data-heading="Client: {{$client->name}} {{$client->last_name}}"
+                                                   data-heading="Client (ID: {{$client->id}}): {{$client->name}} {{$client->last_name}}"
                                                    data-content="{{$client->comments}}"
                                                    data-modifier-check="{{($client->comments !== '' && !is_null($client->comments_id) && !is_null($client->comments_timestamp)) ? '1' : '0'}}"
                                                    data-modifier="{{($client->commenter->name ?? '') . ' ' . ($client->commenter->last_name ?? '') . ' ('.\Carbon\Carbon::parse($client->comments_timestamp)->format('d M Y h:i A').')'}}">
@@ -238,12 +238,12 @@
                                 <textarea class="form-control" name="" id="textarea_notes" cols="30" rows="10"></textarea>
                             </div>
 
-                            <span id="btn_set_reminder" class="badge bg-danger text-white p-2" style="position:absolute; top: 7%; right: 5%; cursor: pointer" hidden>
-{{--                                <small>--}}
-                                    <i class="far fa-clock mr-1"></i>
-                                    Set reminder
-{{--                                </small>--}}
-                            </span>
+                            @if(v2_acl([2, 0, 4, 6]))
+                                <span id="btn_set_reminder" class="badge bg-danger text-white p-2" style="position:absolute; top: 7%; right: 5%; cursor: pointer" hidden>
+                                        <i class="far fa-clock mr-1"></i>
+                                        Set reminder
+                                </span>
+                            @endif
                         </div>
                         <div class="row" id="div_modifier_info" hidden>
                             <div class="col-md-12">
@@ -254,7 +254,7 @@
                             <div class="col-md-12">
                                 <label for="" id="label_modifier_info">
                                     asd asd (12-12-12 12:12 AM)
-                                </label>Last updated by:
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -276,33 +276,39 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-12 form-group">
-                                Reminder: <span><strong>"poopy ahh beyutch"</strong></span>
+                        <form action="{{route('v2.reminders.store')}}" method="POST">
+                            @csrf
+                            <input type="hidden" name="heading" id="reminder_heading">
+                            <input type="hidden" name="text" id="reminder_text">
+
+                            <div class="row">
+                                <div class="col-md-12 form-group" id="reminder_label">
+{{--                                    Reminder: <span><strong>"poopy ahh beyutch"</strong></span>--}}
+                                </div>
+                                <div class="col-md-12 form-group mb-0">
+                                    <label for="">
+                                        <strong>Date & time</strong>
+                                    </label>
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <input type="datetime-local" class="form-control" name="ping_time" id="">
+                                </div>
+                                <div class="col-md-12 form-group text-center mb-0">
+                                    <small><strong>OR</strong></small>
+                                </div>
+                                <div class="col-md-12 form-group mb-0">
+                                    <label for="">
+                                        <strong>Hours</strong>
+                                    </label>
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <input type="number" step="1" class="form-control" name="hours" id="" min="0" max="24" value="0" required>
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <button class="btn btn-primary btn-block" type="submit">Set</button>
+                                </div>
                             </div>
-                            <div class="col-md-12 form-group mb-0">
-                                <label for="">
-                                    <strong>Date & time</strong>
-                                </label>
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <input type="date" class="form-control" name="" id="">
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <input type="time" class="form-control" name="" id="">
-                            </div>
-                            <div class="col-md-12 form-group text-center mb-0">
-                                <small><strong>OR</strong></small>
-                            </div>
-                            <div class="col-md-12 form-group mb-0">
-                                <label for="">
-                                    <strong>Hours</strong>
-                                </label>
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <input type="number" step="1" class="form-control" name="" id="" min="1" max="24">
-                            </div>
-                        </div>
+                        </form>
                     </div>
                     {{--            <div class="modal-footer">--}}
                     {{--                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>--}}
@@ -360,7 +366,6 @@
             });
 
             $('#textarea_notes').on('focusout', function () {
-                // $('#btn_set_reminder').prop('hidden', true);
                 if (focus_false_positive) {
                     focus_false_positive = false;
                     return false;
@@ -405,34 +410,23 @@
 
             $('body').on('click', '#btn_set_reminder', function () {
                 const textarea = $('#textarea_notes')[0];
-                $('this').fadeIn('slow').prop('hidden', false);
 
-                if (textarea.selectionStart === textarea.selectionEnd) {
+                let start = textarea.selectionStart;
+                let end = textarea.selectionEnd;
+                if (start === end) {
                     return false;
                 }
 
+                let text = textarea.value.substring(start, end);
+
                 focus_false_positive = true;
                 $('#modal_show_notes').modal('hide');
+                $(this).fadeOut('slow').prop('hidden', true);
 
+                $('#reminder_label').html(`Reminder: <span><strong>"`+text+`"</strong></span>`);
+                $('#reminder_heading').val(heading);
+                $('#reminder_text').val(text);
                 $('#modal_set_reminder').modal('show');
-
-                {{--$.ajax({--}}
-                {{--    url: "{{route('v2.reminders.set')}}",--}}
-                {{--    type: 'POST',--}}
-                {{--    data: {--}}
-                {{--        '_token': '{{csrf_token()}}',--}}
-                {{--        'heading': heading,--}}
-                {{--        'text': textarea.value.substring(start, end),--}}
-                {{--    },--}}
-                {{--    success: function () {--}}
-                {{--        toastr.success('Reminder set!');--}}
-
-                {{--        window.location.reload();--}}
-                {{--    },--}}
-                {{--    error: function () {--}}
-                {{--        toastr.error('Unable to set reminder');--}}
-                {{--    },--}}
-                {{--});--}}
             });
         });
 

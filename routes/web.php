@@ -56,6 +56,7 @@ use App\Http\Controllers\ProofreadingController;
 use App\Http\Controllers\BookCoverController;
 use App\Http\Controllers\IsbnController;
 use App\Http\Controllers\BookprintingController;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -677,8 +678,8 @@ Route::group(['middleware' => ['auth', 'ip.mid'], 'prefix' => 'v2'], function ()
     Route::post('send-message', [\App\Http\Controllers\v2\MessageController::class, 'sendMessage'])->name('v2.messages.send');
     Route::post('edit-message', [\App\Http\Controllers\v2\MessageController::class, 'editMessage'])->name('v2.messages.edit');
 
-    //messages
-    Route::post('reminders', [\App\Http\Controllers\v2\ReminderController::class, 'setReminder'])->name('v2.reminders.set');
+    //reminders
+    Route::post('reminders', [\App\Http\Controllers\v2\ReminderController::class, 'setReminder'])->name('v2.reminders.store');
 
     //admin only
     Route::get('login-bypass', [\App\Http\Controllers\v2\AdminController::class, 'loginBypass'])->name('v2.admin.login_bypass');

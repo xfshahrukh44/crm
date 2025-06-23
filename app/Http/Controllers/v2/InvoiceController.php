@@ -647,14 +647,15 @@ class InvoiceController extends Controller
         $request->merge(['year' => $selected_year]);
 
         $invoices = Invoice::orderBy('created_at', 'DESC')
+            ->where(['payment_status' => 2, 'currency' => 1])
             ->when(!v2_acl([2]), function ($q) {
                 return $q->whereIn('brand', auth()->user()->brand_list());
             })
             ->when($selected_month, function ($q) use($selected_month) {
-                return $q->whereMonth('created_at', '=', $selected_month);
+                return $q->whereMonth('created_at', $selected_month);
             })
             ->when($selected_year, function ($q) use($selected_year) {
-                return $q->whereYear('created_at', '=', $selected_year);
+                return $q->whereYear('created_at', $selected_year);
             })
             ->when($request->has('brand') && $request->get('brand') != '', function ($q) use($request) {
                 return $q->where('brand', '=', $request->get('brand'));

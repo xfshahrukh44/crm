@@ -90,8 +90,7 @@
                         ->count();
 
                     $revenue = \Illuminate\Support\Facades\DB::table('invoices')
-                        ->select(\Illuminate\Support\Facades\DB::raw('SUM(amount) as amount'),  'invoice_date')
-                        ->whereDate('updated_at', '>=', Carbon\Carbon::now()->startOfMonth())
+                        ->whereDate('created_at', '>=', Carbon\Carbon::now()->startOfMonth())
                         ->where(['payment_status' => 2, 'currency' => 1])
                         ->orderBy('invoice_date', 'ASC')
                         ->sum('amount');
@@ -99,7 +98,7 @@
                     $refunds = \Illuminate\Support\Facades\DB::table('invoices')
                         ->whereNotNull('refund_cb_date')
                         ->select(\Illuminate\Support\Facades\DB::raw('SUM(refunded_cb) as refunded_cb'),  'invoice_date')
-                        ->whereDate('updated_at', '>=', Carbon\Carbon::now()->startOfMonth())
+                        ->whereDate('created_at', '>=', Carbon\Carbon::now()->startOfMonth())
                         ->where(['payment_status' => 2, 'currency' => 1])
                         ->orderBy('invoice_date', 'ASC')
                         ->sum('refunded_cb');
@@ -107,6 +106,36 @@
                     $leads_count = \Illuminate\Support\Facades\DB::table('leads')
                         ->whereDate('created_at', '>=', Carbon\Carbon::now()->startOfMonth())
                         ->count();
+
+                    $revenue_array = [];
+                    for ($month_number = 1; $month_number <= \Carbon\Carbon::now()->month; $month_number++) {
+                        $revenue_array []= \Illuminate\Support\Facades\DB::table('invoices')
+                            ->whereMonth('created_at', $month_number)
+                            ->whereYear('created_at', \Carbon\Carbon::now()->year)
+                            ->where(['payment_status' => 2, 'currency' => 1])
+                            ->sum('amount');
+                    }
+
+                    $cb_array = [];
+                    for ($month_number = 1; $month_number <= \Carbon\Carbon::now()->month; $month_number++) {
+                        $cb_array []= \Illuminate\Support\Facades\DB::table('invoices')
+                            ->whereNotNull('refund_cb_date')
+                            ->whereMonth('created_at', $month_number)
+                            ->whereYear('created_at', \Carbon\Carbon::now()->year)
+                            ->where(['payment_status' => 2, 'currency' => 1])
+                            ->sum('refunded_cb');
+                    }
+
+                    $net_array = [];
+                    $month_map = [
+                        "Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"
+                    ];
+                    $month_labels_array = [];
+
+                    foreach ($revenue_array as $key => $item) {
+                        $net_array []= ($item - $cb_array[$key]);
+                        $month_labels_array []= $month_map[$key];
+                    }
                 @endphp
                 <section class="revenu-sec">
                     <div class="container">
@@ -151,7 +180,7 @@
                                         <div class="rev-suv">
                                             <p>Total Members</p>
                                             <h3>{{$total_user_count}}</h3>
-                                            <span class="text-white">Data per {{$current_month_label}} 2025</span>
+                                            <span class="text-white">Data per {{$current_month_label}} {{\Carbon\Carbon::now()->year}}</span>
                                         </div>
 
 
@@ -164,6 +193,19 @@
                                             <span>From 1st {{$current_month_label}} to till date</span>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <section class="revenu-sec">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12 pt-4">
+                                <div style="width: 80%; margin: auto;">
+                                    <canvas id="myChart"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -495,3 +537,87 @@
         @endswitch
     </div>
 @endsection
+
+@if(v2_acl([2]))
+    @section('script')
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            const Utils = {
+                CHART_COLORS: {
+                    blue: 'rgb(54, 162, 235)',
+                    red: 'rgb(255, 99, 132)',
+                    green: 'rgb(75, 192, 192)'
+                }
+            };
+
+            const DATA_COUNT = 12;
+            const labels = @json($month_labels_array);
+            const data = {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Revenue',
+                        data: @json($revenue_array),
+                        borderColor: Utils.CHART_COLORS.blue,
+                        fill: false,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'CB',
+                        data: @json($cb_array),
+                        borderColor: Utils.CHART_COLORS.red,
+                        fill: false,
+                        cubicInterpolationMode: 'monotone',
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Net',
+                        data: @json($net_array),
+                        borderColor: Utils.CHART_COLORS.green,
+                        fill: false,
+                    }
+                ]
+            };
+
+            const config = {
+                type: 'line',
+                data: data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Sales Chart'
+                        }
+                    },
+                    interaction: {
+                        intersect: false
+                    },
+                    scales: {
+                        x: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Year {{\Carbon\Carbon::now()->year}}',
+                            }
+                        },
+                        y: {
+                            display: true,
+                            title: {
+                                display: true,
+                                // text: 'Value'
+                            },
+                            suggestedMin: -10,
+                            suggestedMax: 200
+                        }
+                    }
+                }
+            };
+
+            const myChart = new Chart(
+                document.getElementById('myChart'),
+                config
+            );
+        </script>
+    @endsection
+@endif
