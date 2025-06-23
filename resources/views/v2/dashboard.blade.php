@@ -145,7 +145,7 @@
                                     <div class="revnye-parent">
                                         <div class="rev-suv">
                                             <p>Revenue</p>
-                                            <h3>${{round($revenue, 0)}}</h3>
+                                            <h3>${{number_format($revenue)}}</h3>
                                             <span>
                                                 From 1st {{$current_month_label}} to till date
                                             </span>
@@ -161,7 +161,7 @@
                                     <div class="revnye-parent">
                                         <div class="rev-suv">
                                             <p>Refunds/Chargebacks</p>
-                                            <h3>${{round($refunds, 0)}}</h3>
+                                            <h3>${{number_format($refunds)}}</h3>
                                             <span>From 1st {{$current_month_label}} to till date</span>
                                         </div>
                                     </div>
@@ -169,7 +169,7 @@
                                     <div class="revnye-parent">
                                         <div class="rev-suv">
                                             <p>Net Sales</p>
-                                            <h3>${{round(($revenue - $refunds), 0)}}</h3>
+                                            <h3>${{number_format(($revenue - $refunds))}}</h3>
                                             <span>rom 1st {{$current_month_label}} to till date</span>
                                         </div>
 
