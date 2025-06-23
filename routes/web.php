@@ -544,8 +544,8 @@ Route::get('temp', function () {
 
 });
 
-//Route::group(['middleware' => ['auth'], 'prefix' => 'v2'], function () {
-Route::group(['middleware' => ['auth', 'ip.mid'], 'prefix' => 'v2'], function () {
+Route::group(['middleware' => ['auth'], 'prefix' => 'v2'], function () {
+//Route::group(['middleware' => ['auth', 'ip.mid'], 'prefix' => 'v2'], function () {
     Route::get('dashboard', [\App\Http\Controllers\v2\DashboardController::class, 'dashboard'])->name('v2.dashboard');
 
     Route::get('revenue', [\App\Http\Controllers\v2\DashboardController::class, 'revenue'])->name('v2.revenue');

@@ -225,7 +225,7 @@
             @if(in_array($user_role_id, [2, 6, 4, 0, 1, 5]))
                 <li>
                     <a href="{{route('v2.dashboard')}}" class="{{ request()->routeIs('v2.dashboard') ? 'active' : '' }}">
-                        <i class="fas fa-home"></i>Dashboard
+                        <i class="mr-2 fas fa-home"></i>Dashboard
                     </a>
                 </li>
             @endif
@@ -242,7 +242,7 @@
                     <li>
                         <a href="{{ route('v2.revenue') }}"
                             class="{{ request()->routeIs('v2.revenue') ? 'active' : '' }}">
-                            <i class="fas fa-chart-line"></i>Revenue
+                            <i class="mr-2 fas fa-chart-line"></i>Revenue
                         </a>
                     </li>
                 @endif
@@ -251,7 +251,7 @@
                     <li>
                         <a href="{{ route('v2.merchants') }}"
                             class="{{ request()->routeIs('v2.merchants') || request()->routeIs('v2.merchants.create') ? 'active' : '' }}">
-                            <i class="fas fa-store"></i>Merchants
+                            <i class="mr-2 fas fa-store"></i>Merchants
                         </a>
                     </li>
                 @endif
@@ -259,7 +259,7 @@
                 @if (in_array($user_role_id, [0, 2, 6]))
                     <li>
                         <a href="{{ route('v2.messages') }}" class="{{ request()->routeIs('v2.messages') ? 'active' : '' }}">
-                            <i class="fas fa-envelope"></i> Messages
+                            <i class="mr-2 fas fa-envelope"></i> Messages
                         </a>
                     </li>
                 @endif
@@ -267,7 +267,7 @@
                 @if (in_array($user_role_id, [6, 4, 0, 1, 5]))
                     <li>
                         <a href="{{ route('v2.notifications') }}" class="{{ request()->routeIs('v2.notifications') ? 'active' : '' }}">
-                            <i class="fas fa-bell"></i> Notifications
+                            <i class="mr-2 fas fa-bell"></i> Notifications
                         </a>
                     </li>
                 @endif
@@ -275,7 +275,7 @@
                 @if (in_array($user_role_id, [2, 6, 4, 0]))
                     <li>
                         <a href="{{ route('v2.clients') }}" class="{{ request()->routeIs('v2.clients*') ? 'active' : '' }}">
-                            <i class="fas fa-user-friends"></i> Clients
+                            <i class="mr-2 fas fa-user-friends"></i> Clients
                         </a>
                     </li>
                 @endif
@@ -283,7 +283,7 @@
                 @if (in_array($user_role_id, [2, 6, 4, 0]))
                     <li>
                         <a href="{{ route('v2.invoices') }}" class="{{ request()->routeIs('v2.invoices*') ? 'active' : '' }}">
-                            <i class="fas fa-file-invoice-dollar"></i> Invoices
+                            <i class="mr-2 fas fa-file-invoice-dollar"></i> Invoices
                         </a>
                     </li>
                 @endif
@@ -291,7 +291,7 @@
                 @if (in_array($user_role_id, [2, 6]))
                     <li>
                         <a href="{{ route('v2.invoices.refund.cb') }}" class="{{ request()->routeIs('v2.invoices.refund.cb') ? 'active' : '' }}">
-                            <i class="fas fa-undo-alt"></i> Refund/CB
+                            <i class="mr-2 fas fa-undo-alt"></i> Refund/CB
                         </a>
                     </li>
                 @endif
@@ -299,7 +299,7 @@
                 @if (in_array($user_role_id, [2, 6]))
                     <li>
                         <a href="{{ route('v2.invoices.sales.sheet') }}" class="{{ request()->routeIs('v2.invoices.sales.sheet') ? 'active' : '' }}">
-                            <i class="fas fa-chart-bar"></i> Sales sheet
+                            <i class="mr-2 fas fa-chart-bar"></i> Sales sheet
                         </a>
                     </li>
                 @endif
@@ -307,7 +307,7 @@
                 @if (in_array($user_role_id, [2, 6]))
                     <li>
                         <a href="{{ route('v2.invoices.admin.invoices') }}" class="{{ request()->routeIs('v2.invoices.admin.invoices') ? 'active' : '' }}">
-                            <i class="fas fa-briefcase"></i> Admin invoices
+                            <i class="mr-2 fas fa-briefcase"></i> Admin invoices
                         </a>
                     </li>
                 @endif
@@ -315,7 +315,7 @@
                 @if (in_array($user_role_id, [2, 6, 0]))
                     <li>
                         <a href="{{ route('v2.leads') }}" class="{{ request()->routeIs('v2.leads*') ? 'active' : '' }}">
-                            <i class="fas fa-lightbulb"></i> Leads
+                            <i class="mr-2 fas fa-lightbulb"></i> Leads
                         </a>
                     </li>
                 @endif
@@ -323,7 +323,7 @@
                 @if (in_array($user_role_id, [2, 6, 4]) && !user_is_cs())
                     <li>
                         <a href="{{ route('v2.briefs.pending') }}" class="{{ request()->routeIs('v2.briefs.pending') ? 'active' : '' }}">
-                            <i class="fas fa-file-alt"></i> Briefs pending
+                            <i class="mr-2 fas fa-file-alt"></i> Briefs pending
                         </a>
                     </li>
                 @endif
@@ -331,7 +331,7 @@
                 @if (in_array($user_role_id, [2, 6, 4]) && !user_is_cs())
                     <li>
                         <a href="{{ route('v2.pending.projects') }}" class="{{ request()->routeIs('v2.pending.projects') ? 'active' : '' }}">
-                            <i class="fas fa-spinner"></i> Pending projects
+                            <i class="mr-2 fas fa-spinner"></i> Pending projects
                         </a>
                     </li>
                 @endif
@@ -339,7 +339,7 @@
                 @if (in_array($user_role_id, [2, 6, 4]))
                     <li>
                         <a href="{{ route('v2.projects') }}" class="{{ request()->routeIs('v2.projects') ? 'active' : '' }}">
-                            <i class="fas fa-project-diagram"></i> Projects
+                            <i class="mr-2 fas fa-project-diagram"></i> Projects
                         </a>
                     </li>
                 @endif
@@ -347,7 +347,7 @@
                 @if (in_array($user_role_id, [2, 6, 4, 1]))
                     <li>
                         <a href="{{ route('v2.tasks') }}" class="{{ request()->routeIs('v2.tasks*') ? 'active' : '' }}">
-                            <i class="fas fa-tasks"></i> Tasks
+                            <i class="mr-2 fas fa-tasks"></i> Tasks
                         </a>
                     </li>
                 @endif
@@ -355,7 +355,7 @@
                 @if (in_array($user_role_id, [1, 5]))
                     <li>
                         <a href="{{ route('v2.subtasks') }}" class="{{ request()->routeIs('v2.subtasks*') ? 'active' : '' }}">
-                            <i class="fas fa-list-ul"></i> Sub tasks
+                            <i class="mr-2 fas fa-list-ul"></i> Sub tasks
                         </a>
                     </li>
                 @endif
@@ -363,7 +363,7 @@
                 @if (in_array($user_role_id, [2]))
                     <li>
                         <a href="{{ route('v2.services') }}" class="{{ request()->routeIs('v2.services*') ? 'active' : '' }}">
-                            <i class="fas fa-concierge-bell"></i> Services
+                            <i class="mr-2 fas fa-concierge-bell"></i> Services
                         </a>
                     </li>
                 @endif
@@ -371,7 +371,7 @@
                 @if (in_array($user_role_id, [2]))
                     <li>
                         <a href="{{ route('v2.brands') }}" class="{{ request()->routeIs('v2.brands*') ? 'active' : '' }}">
-                            <i class="fas fa-tags"></i> Brands
+                            <i class="mr-2 fas fa-tags"></i> Brands
                         </a>
                     </li>
                 @endif
@@ -379,7 +379,7 @@
                 @if (in_array($user_role_id, [2]))
                     <li>
                         <a href="{{ route('v2.users.production') }}" class="{{ request()->routeIs('v2.users.production*') ? 'active' : '' }}">
-                            <i class="fas fa-industry"></i> Production
+                            <i class="mr-2 fas fa-industry"></i> Production
                         </a>
                     </li>
                 @endif
@@ -387,7 +387,7 @@
                 @if (in_array($user_role_id, [2, 6]))
                     <li>
                         <a href="{{ route('v2.users.sales') }}" class="{{ request()->routeIs('v2.users.sales*') ? 'active' : '' }}">
-                            <i class="fas fa-user-tie"></i> Sale Agent
+                            <i class="mr-2 fas fa-user-tie"></i> Sale Agent
                         </a>
                     </li>
                 @endif
@@ -395,7 +395,7 @@
                 @if (in_array($user_role_id, [2]))
                     <li>
                         <a href="{{ route('v2.users.qa') }}" class="{{ request()->routeIs('v2.users.qa*') ? 'active' : '' }}">
-                            <i class="fas fa-search"></i> QA
+                            <i class="mr-2 fas fa-search"></i> QA
                         </a>
                     </li>
                 @endif
@@ -403,7 +403,7 @@
                 @if (in_array($user_role_id, [2]))
                     <li>
                         <a href="#" class="">
-                            <i class="fas fa-graduation-cap"></i> Tutorials
+                            <i class="mr-2 fas fa-graduation-cap"></i> Tutorials
                         </a>
                     </li>
                 @endif
