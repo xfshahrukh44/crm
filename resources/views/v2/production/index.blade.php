@@ -6,7 +6,8 @@
     <style>
         #zero_configuration_table td {
             word-break: break-all;
-            max-width: 300px; /* adjust as needed */
+            max-width: 270px;
+            /* adjust as needed */
             white-space: normal;
         }
 
@@ -26,7 +27,17 @@
             border: 1px solid #ccc;
             padding: 10px;
             width: 200px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .for-invoice-listing {
+            padding: 40px 15px;
+        }
+
+        .for-slider-main-banner {
+            width: 100%;
+            margin-left: 250px;
+            transition: all ease 0.5s;
         }
     </style>
 @endsection
@@ -45,7 +56,7 @@
                                             <h1 style="font-weight: 100;">Production</h1>
                                         </div>
                                         <div class="col-md-6 m-auto d-flex justify-content-end">
-                                            <a href="{{route('v2.users.production.create')}}" class="btn btn-sm btn-success">
+                                            <a href="{{ route('v2.users.production.create') }}" class="btn btn-sm btn-success">
                                                 <i class="fas fa-plus"></i>
                                                 Create
                                             </a>
@@ -54,14 +65,18 @@
 
                                     <br>
 
-{{--                                    <div class="search-invoice">--}}
-                                    <form class="search-invoice" action="{{route('v2.users.production')}}" method="GET">
-                                        <input type="text" name="search" placeholder="Search" value="{{ request()->get('search') }}">
+                                    {{--                                    <div class="search-invoice"> --}}
+                                    <form class="search-invoice" action="{{ route('v2.users.production') }}" method="GET">
+                                        <input type="text" name="search" placeholder="Search"
+                                            value="{{ request()->get('search') }}">
 
-                                        <a href="javascript:;" onclick="document.getElementById('btn_filter_form').click()">Search Result</a>
+                                        <a href="javascript:;" onclick="document.getElementById('btn_filter_form').click()">Search
+                                            Result</a>
                                         <button hidden id="btn_filter_form" type="submit"></button>
                                     </form>
-{{--                                    </div>--}}
+                                    {{--                                    </div> --}}
+                                    <div class="responsive-table-lap">
+
 
                                     <table id="zero_configuration_table" style="width: 100%;">
                                         <thead>
@@ -80,49 +95,60 @@
 
                                         </thead>
                                         <tbody>
-                                            @foreach($users as $user)
+                                            @foreach ($users as $user)
                                                 <tr>
-                                                    <td>{{$user->id}}</td>
-                                                    <td>{{$user->name}} {{$user->last_name}}</td>
+                                                    <td>{{ $user->id }}</td>
+                                                    <td>{{ $user->name }} {{ $user->last_name }}</td>
                                                     <td>
-                                                        <button class="badge {{ $user->is_employee == 1 ? 'bg-dark' : 'bg-light' }} {{ $user->is_employee == 1 ? 'text-white' : '' }} p-2 btn-sm" style="border: 0px;">{{$user->get_role()}}</button>
+                                                        <button
+                                                            class="badge {{ $user->is_employee == 1 ? 'bg-dark' : 'bg-light' }} {{ $user->is_employee == 1 ? 'text-white' : '' }} p-2 btn-sm"
+                                                            style="border: 0px;">{{ $user->get_role() }}</button>
                                                     </td>
                                                     <td>
-                                                        @if($user->category != null)
-                                                            @foreach($user->category as $categorys)
-                                                                <button class="badge bg-info badge-sm text-white p-2" style="border: 0px;">{{$categorys->name}}</button>
+                                                        @if ($user->category != null)
+                                                            @foreach ($user->category as $categorys)
+                                                                <button class="badge bg-info badge-sm text-white p-2"
+                                                                    style="border: 0px;">{{ $categorys->name }}</button>
                                                             @endforeach
                                                         @endif
                                                     </td>
-                                                    <td>{{$user->email}}</td>
+                                                    <td>{{ $user->email }}</td>
                                                     <td>
-                                                        @if($user->status == 1)
-                                                            <button class="badge bg-success text-white p-2 badge-sm" style="border: 0px;">Active</button>
+                                                        @if ($user->status == 1)
+                                                            <button class="badge bg-success text-white p-2 badge-sm"
+                                                                style="border: 0px;">Active</button>
                                                         @else
-                                                            <button class="badge bg-danger text-white p-2 badge-sm" style="border: 0px;">Deactive</button>
+                                                            <button class="badge bg-danger text-white p-2 badge-sm"
+                                                                style="border: 0px;">Deactive</button>
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        <button class="badge bg-danger badge-sm update-password text-white p-2" style="border: 0px;" data-id="{{$user->id}}">Reset Password</button>
+                                                        <button class="badge bg-danger badge-sm update-password text-white p-2"
+                                                            style="border: 0px;" data-id="{{ $user->id }}">Reset
+                                                            Password</button>
                                                     </td>
                                                     <td>
-                                                        <a class="badge bg-primary badge-sm text-white p-2" style="border: 0px;" href="{{route('v2.admin.login_bypass', ['email' => $user->email])}}">Login as {{$user->name}} {{$user->last_name}}</a>
+                                                        <a class="badge bg-primary badge-sm text-white p-2" style="border: 0px;"
+                                                            href="{{ route('v2.admin.login_bypass', ['email' => $user->email]) }}">Login
+                                                            as {{ $user->name }} {{ $user->last_name }}</a>
                                                     </td>
-                                                    <td>{{$user->last_login_ip ?? ''}}</td>
+                                                    <td>{{ $user->last_login_ip ?? '' }}</td>
                                                     <td>
                                                         @php
                                                             $device = '';
                                                         @endphp
-                                                        @if(!is_null($user->last_login_device))
+                                                        @if (!is_null($user->last_login_device))
                                                             @php
-                                                                $device = explode(' (', $user->last_login_device)[1] ?? '';
+                                                                $device =
+                                                                    explode(' (', $user->last_login_device)[1] ?? '';
                                                                 $device = explode(') ', $device)[0] ?? '';
                                                             @endphp
                                                         @endif
-                                                        {{$device}}
+                                                        {{ $device }}
                                                     </td>
                                                     <td style="position: relative;">
-                                                        <a href="{{ route('v2.users.production.edit', $user->id) }}" class="badge bg-primary badge-icon badge-sm text-white p-2">
+                                                        <a href="{{ route('v2.users.production.edit', $user->id) }}"
+                                                            class="badge bg-primary badge-icon badge-sm text-white p-2">
                                                             <span class="ul-btn__icon"><i class="i-Edit"></i></span>
                                                             <span class="ul-btn__text">
                                                                 <i class="fas fa-pencil"></i>
@@ -133,6 +159,7 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                     </div>
                                     <div class="d-flex justify-content-end mt-2">
                                         {{ $users->appends(request()->query())->links() }}
                                     </div>
@@ -141,8 +168,7 @@
                         </div>
                     </div>
                 </section>
-
-                @break
+            @break
 
             @default
                 <section class="list-0f">
@@ -153,38 +179,38 @@
                                     <table>
                                         <thead>
 
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Public key</th>
-                                        <th>Secret key</th>
-                                        <th>Merchant</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Public key</th>
+                                            <th>Secret key</th>
+                                            <th>Merchant</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
 
                                         </thead>
                                         <tbody>
 
-                                        <tr>
-                                            <td>123</td>
-                                            <td>Merchant 1</td>
-                                            <td>
-                                                sadasdsadasdsadakjdyihd18272bd871bd82b
-                                            </td>
-                                            <td>
-                                                sadasdsadasdsadakjdyihd18272bd871bd82b
-                                            </td>
-                                            <td>
-                                                <div class="badge badge-sm bg-secondary text-white">STRIPE</div>
-                                            </td>
-                                            <td>
-                                                <div class="badge badge-sm bg-danger text-white">Deactive</div>
-                                            </td>
-                                            <td>
-                                                <a href="#" class="badge bg-primary">
-                                                    <i class="fas fa-pencil"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                            <tr>
+                                                <td>123</td>
+                                                <td>Merchant 1</td>
+                                                <td>
+                                                    sadasdsadasdsadakjdyihd18272bd871bd82b
+                                                </td>
+                                                <td>
+                                                    sadasdsadasdsadakjdyihd18272bd871bd82b
+                                                </td>
+                                                <td>
+                                                    <div class="badge badge-sm bg-secondary text-white">STRIPE</div>
+                                                </td>
+                                                <td>
+                                                    <div class="badge badge-sm bg-danger text-white">Deactive</div>
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="badge bg-primary">
+                                                        <i class="fas fa-pencil"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
 
                                         </tbody>
                                     </table>
@@ -198,7 +224,7 @@
     </div>
 
     <div class="modal fade text-left" id="default" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1"
-         aria-hidden="true">
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <form action="{{ route('update.user.update.password') }}" method="post">
@@ -215,9 +241,11 @@
                             <div class="col-12">
                                 <label for="password">Password <span>*</span></label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Button on right" id="password" name="password" required>
+                                    <input type="text" class="form-control" placeholder="Button on right" id="password"
+                                        name="password" required>
                                     <div class="input-group-append">
-                                        <button class="btn btn-primary" type="button" onclick="copyToClipboard()">Copy</button>
+                                        <button class="btn btn-primary" type="button"
+                                            onclick="copyToClipboard()">Copy</button>
                                     </div>
                                 </div>
                             </div>
@@ -244,6 +272,7 @@
             }
             return retVal;
         }
+
         function copyToClipboard() {
             var copyText = document.getElementById("password");
             copyText.select();
@@ -254,8 +283,8 @@
             })
             // alert("Copied the text: " + copyText.value);
         }
-        $(document).ready(function () {
-            $('body').on('click', '.update-password', function(){
+        $(document).ready(function() {
+            $('body').on('click', '.update-password', function() {
                 var id = $(this).data('id');
                 $('#user_id').val(id);
                 // $('#default').modal('toggle');

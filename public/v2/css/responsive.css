@@ -1,0 +1,24 @@
+@media (max-width: 1440px) {
+    .side-menu ul {
+        list-style: none;
+        padding: 5px;
+    }
+    .side-menu ul li a {
+        font-size: 14px;
+    }
+    .for-slider-main-banner {
+        margin-left: 170px !important;
+    }
+    .for-slider-main-banner.active {
+        margin-left: 0 !important;
+    }
+
+    .for-invoice-listing table th {
+        width: 100%;
+    }
+    #zero_configuration_table td {
+        word-break: unset !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
