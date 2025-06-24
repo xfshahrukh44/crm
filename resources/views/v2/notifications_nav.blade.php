@@ -13,7 +13,7 @@
             @if ($notifications->type == 'App\Notifications\LeadNotification')
                 <a href="{{ route('admin.client.shownotification', ['client' => $notifications->data['id'], 'id' => $notifications->id]) }}"
                     class="unread_notification_nav dropdown-item d-flex" data-id="{{ $notifications->id }}">
-            @elseif ($notifications->type == 'App\CustomInvoiceNotification')
+            @elseif ($notifications->type == 'App\CustomInvoiceNotification' && isset($notifications->data['invoice_id']))
                 <a href="{{ route('v2.invoices.show', ['invoice_id' => $notifications->data['invoice_id']]) }}"
                     class="unread_notification_nav dropdown-item d-flex" data-id="{{ $notifications->id }}">
                 @elseif($notifications->type == 'App\Notifications\PaymentNotification')
@@ -189,7 +189,7 @@
             @if ($notifications->type == 'App\Notifications\AssignProjectNotification')
                 <a href="{{ route('create.task.by.project.id', ['id' => $notifications->data['project_id'], 'name' => $notifications->data['text'], 'notify' => $notifications->id]) }}"
                     class="unread_notification_nav dropdown-item d-flex" data-id="{{ $notifications->id }}">
-                @elseif ($notifications->type == 'App\CustomInvoiceNotification')
+                @elseif ($notifications->type == 'App\CustomInvoiceNotification' && isset($notifications->data['invoice_id']))
                     <a href="{{ route('v2.invoices.show', ['invoice_id' => $notifications->data['invoice_id']]) }}"
                        class="unread_notification_nav dropdown-item d-flex" data-id="{{ $notifications->id }}">
                 @elseif($notifications->type == 'App\Notifications\TaskNotification')
@@ -281,7 +281,7 @@
             @if ($notifications->type == 'App\Notifications\AssignProjectNotification')
                 <a href="{{ route('create.task.by.project.id', ['id' => $notifications->data['project_id'], 'name' => $notifications->data['text'], 'notify' => $notifications->id]) }}"
                     class="unread_notification_nav dropdown-item d-flex" data-id="{{ $notifications->id }}">
-                @elseif ($notifications->type == 'App\CustomInvoiceNotification')
+                @elseif ($notifications->type == 'App\CustomInvoiceNotification' && isset($notifications->data['invoice_id']))
                     <a href="{{ route('v2.invoices.show', ['invoice_id' => $notifications->data['invoice_id']]) }}"
                        class="unread_notification_nav dropdown-item d-flex" data-id="{{ $notifications->id }}">
                 @elseif($notifications->type == 'App\Notifications\TaskNotification')

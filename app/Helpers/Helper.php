@@ -2158,6 +2158,9 @@ function v2_fetch_search_bar_content ($query = null) {
         ->when(v2_acl([0]), function ($q) {
             return $q->where('user_id', auth()->id());
         })
+        ->when($query && $query != "", function ($q) use ($query) {
+            return get_user_search($q, $query);
+        })
         ->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
             return $q->where(function ($query) use ($restricted_brands) {
                 $query->whereNotIn('brand_id', $restricted_brands)
