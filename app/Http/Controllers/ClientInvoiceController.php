@@ -100,6 +100,7 @@ class ClientInvoiceController extends Controller
         } else {
             $user_ids = array_unique(DB::table('brand_users')->where('brand_id', $invoice->brand)->pluck('user_id')->toArray());
             foreach (User::whereIn('is_employee', [0, 4, 6])->whereIn('id', $user_ids)->get() as $user) {
+                $client = DB::table('clients')->where('id', $invoice->client_id)->first();
                 DB::table('notifications')->insert([
                     'id' => Str::uuid(), //
                     'type' => 'App\CustomInvoiceNotification',
@@ -109,7 +110,7 @@ class ClientInvoiceController extends Controller
                         'id' => auth()->id(),
                         'invoice_id' => $invoice->id,
                         'name' => $authorize_charge_res['message'],
-                        'text' => (auth()->user()->name . ' ' . auth()->user()->last_name) . (" INV#".$invoice->id." payment failed"),
+                        'text' => (($client->name ?? '') . ' ' . ($client->last_name ?? '')) . (" INV#".$invoice->id." payment failed"),
                         'details' => $authorize_charge_res['message'],
                     ]),
                     'read_at' => null,
