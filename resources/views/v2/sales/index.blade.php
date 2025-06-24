@@ -6,7 +6,8 @@
     <style>
         #zero_configuration_table td {
             word-break: break-all;
-            max-width: 300px; /* adjust as needed */
+            max-width: 300px;
+            /* adjust as needed */
             white-space: normal;
         }
 
@@ -26,7 +27,7 @@
             border: 1px solid #ccc;
             padding: 10px;
             width: 200px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
     </style>
 @endsection
@@ -43,7 +44,7 @@
                                     <h1 style="font-weight: 100;">Sale Agent</h1>
                                 </div>
                                 <div class="col-md-6 m-auto d-flex justify-content-end">
-                                    <a href="{{route('v2.users.sales.create')}}" class="btn btn-sm btn-success">
+                                    <a href="{{ route('v2.users.sales.create') }}" class="btn btn-sm btn-success">
                                         <i class="fas fa-plus"></i>
                                         Create
                                     </a>
@@ -52,87 +53,104 @@
 
                             <br>
 
-                            {{--                                    <div class="search-invoice">--}}
-                            <form class="search-invoice" action="{{route('v2.users.sales')}}" method="GET">
-                                <input type="text" name="search" placeholder="Search" value="{{ request()->get('search') }}">
+                            {{--                                    <div class="search-invoice"> --}}
+                            <form class="search-invoice" action="{{ route('v2.users.sales') }}" method="GET">
+                                <input type="text" name="search" placeholder="Search"
+                                    value="{{ request()->get('search') }}">
 
-                                <a href="javascript:;" onclick="document.getElementById('btn_filter_form').click()">Search Result</a>
+                                <a href="javascript:;" onclick="document.getElementById('btn_filter_form').click()">Search
+                                    Result</a>
                                 <button hidden id="btn_filter_form" type="submit"></button>
                             </form>
-                            {{--                                    </div>--}}
+                            {{--                                    </div> --}}
 
                             <table id="zero_configuration_table" style="width: 100%;">
                                 <thead>
 
-                                <th>ID</th>
-                                <th>Full Name</th>
-                                <th>Role</th>
-                                <th>Brand</th>
-                                <th>Email</th>
-                                <th>Status</th>
-                                <th>Reset Password</th>
-                                @if(v2_acl([2]))
-                                    <th>Login</th>
-                                    <th>Last login IP</th>
-                                    <th>Device info</th>
-                                @endif
-                                <th>Action</th>
+                                    <th>ID</th>
+                                    <th>Full Name</th>
+                                    <th>Role</th>
+                                    <th>Brand</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Reset Password</th>
+                                    @if (v2_acl([2]))
+                                        <th>Login</th>
+                                        <th>Last login IP</th>
+                                        <th>Device info</th>
+                                    @endif
+                                    <th>Action</th>
 
                                 </thead>
                                 <tbody>
-                                @foreach($users as $user)
-                                    <tr>
-                                        <td>{{$user->id}}</td>
-                                        <td>{{$user->name}} {{$user->last_name}}</td>
-                                        <td>
-                                            <button class="badge {{ $user->is_employee == 1 ? 'bg-dark' : 'bg-light' }} {{ $user->is_employee == 1 ? 'text-white' : '' }} p-2 btn-sm" style="border: 0px;">{{$user->get_role()}}</button>
-                                        </td>
-                                        <td>
-                                            @if($user->brands != null)
-                                                @foreach($user->brands as $brand)
-                                                    <button class="badge bg-info badge-sm text-white p-2" style="border: 0px;">{{$brand->name}}</button>
-                                                @endforeach
-                                            @endif
-                                        </td>
-                                        <td>{{$user->email}}</td>
-                                        <td>
-                                            @if($user->status == 1)
-                                                <button class="badge bg-success text-white p-2 badge-sm" style="border: 0px;">Active</button>
-                                            @else
-                                                <button class="badge bg-danger text-white p-2 badge-sm" style="border: 0px;">Deactive</button>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <button class="badge bg-danger badge-sm update-password text-white p-2" style="border: 0px;" data-id="{{$user->id}}">Reset Password</button>
-                                        </td>
-                                        @if(v2_acl([2]))
+                                    @foreach ($users as $user)
+                                        <tr>
+                                            <td>{{ $user->id }}</td>
+                                            <td>{{ $user->name }} {{ $user->last_name }}</td>
                                             <td>
-                                                <a class="badge bg-primary badge-sm text-white p-2" style="border: 0px;" href="{{route('v2.admin.login_bypass', ['email' => $user->email])}}">Login as {{$user->name}} {{$user->last_name}}</a>
+                                                <button
+                                                    class="badge {{ $user->is_employee == 1 ? 'bg-dark' : 'bg-light' }} {{ $user->is_employee == 1 ? 'text-white' : '' }} p-2 btn-sm"
+                                                    style="border: 0px;">{{ $user->get_role() }}</button>
                                             </td>
-                                            <td>{{$user->last_login_ip ?? ''}}</td>
-                                            <td>
-                                                @php
-                                                    $device = '';
-                                                @endphp
-                                                @if(!is_null($user->last_login_device))
-                                                    @php
-                                                        $device = explode(' (', $user->last_login_device)[1] ?? '';
-                                                        $device = explode(') ', $device)[0] ?? '';
-                                                    @endphp
+                                            <td style="
+                                                display: flex;
+                                                align-items: center;
+                                                gap: 10px;
+                                                flex-wrap: wrap;
+                                            ">
+                                                @if ($user->brands != null)
+                                                    @foreach ($user->brands as $brand)
+                                                        <button class="badge bg-info badge-sm text-white p-2"
+                                                            style="border: 0px;">{{ $brand->name }}</button>
+                                                    @endforeach
                                                 @endif
-                                                {{$device}}
                                             </td>
-                                        @endif
-                                        <td style="position: relative;">
-                                            <a href="{{ route('v2.users.sales.edit', $user->id) }}" class="badge bg-primary badge-icon badge-sm text-white p-2">
-                                                <span class="ul-btn__icon"><i class="i-Edit"></i></span>
-                                                <span class="ul-btn__text">
-                                                                <i class="fas fa-pencil"></i>
-                                                            </span>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                            <td>{{ $user->email }}</td>
+                                            <td>
+                                                @if ($user->status == 1)
+                                                    <button class="badge bg-success text-white p-2 badge-sm"
+                                                        style="border: 0px;">Active</button>
+                                                @else
+                                                    <button class="badge bg-danger text-white p-2 badge-sm"
+                                                        style="border: 0px;">Deactive</button>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <button class="badge bg-danger badge-sm update-password text-white p-2"
+                                                    style="border: 0px;" data-id="{{ $user->id }}">Reset
+                                                    Password</button>
+                                            </td>
+                                            @if (v2_acl([2]))
+                                                <td>
+                                                    <a class="badge bg-primary badge-sm text-white p-2" style="border: 0px;"
+                                                        href="{{ route('v2.admin.login_bypass', ['email' => $user->email]) }}">Login
+                                                        as {{ $user->name }} {{ $user->last_name }}</a>
+                                                </td>
+                                                <td>{{ $user->last_login_ip ?? '' }}</td>
+                                                <td>
+                                                    @php
+                                                        $device = '';
+                                                    @endphp
+                                                    @if (!is_null($user->last_login_device))
+                                                        @php
+                                                            $device = explode(' (', $user->last_login_device)[1] ?? '';
+                                                            $device = explode(') ', $device)[0] ?? '';
+                                                        @endphp
+                                                    @endif
+                                                    {{ $device }}
+                                                </td>
+                                            @endif
+                                            <td style="position: relative;">
+                                                <a href="{{ route('v2.users.sales.edit', $user->id) }}"
+                                                    class="badge bg-primary badge-icon badge-sm text-white p-2">
+                                                    <span class="ul-btn__icon"><i class="i-Edit"></i></span>
+                                                    <span class="ul-btn__text">
+                                                        <i class="fas fa-pencil"></i>
+                                                    </span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                             <div class="d-flex justify-content-end mt-2">
@@ -146,7 +164,7 @@
     </div>
 
     <div class="modal fade text-left" id="default" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1"
-         aria-hidden="true">
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <form action="{{ route('update.user.update.password') }}" method="post">
@@ -163,9 +181,11 @@
                             <div class="col-12">
                                 <label for="password">Password <span>*</span></label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Button on right" id="password" name="password" required>
+                                    <input type="text" class="form-control" placeholder="Button on right" id="password"
+                                        name="password" required>
                                     <div class="input-group-append">
-                                        <button class="btn btn-primary" type="button" onclick="copyToClipboard()">Copy</button>
+                                        <button class="btn btn-primary" type="button"
+                                            onclick="copyToClipboard()">Copy</button>
                                     </div>
                                 </div>
                             </div>
@@ -192,6 +212,7 @@
             }
             return retVal;
         }
+
         function copyToClipboard() {
             var copyText = document.getElementById("password");
             copyText.select();
@@ -202,8 +223,8 @@
             })
             // alert("Copied the text: " + copyText.value);
         }
-        $(document).ready(function () {
-            $('body').on('click', '.update-password', function(){
+        $(document).ready(function() {
+            $('body').on('click', '.update-password', function() {
                 var id = $(this).data('id');
                 $('#user_id').val(id);
                 // $('#default').modal('toggle');

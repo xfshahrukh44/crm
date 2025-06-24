@@ -100,7 +100,12 @@
                                             <button class="btn btn-info btn-sm">{{$lead->_brand->name ?? ''}}</button>
                                         </td>
 
-                                        <td>
+                                        <td style="
+                                            display: flex;
+                                            align-items: center;
+                                            gap: 10px;
+                                            flex-wrap: wrap;
+                                        ">
                                             @php
                                                 $service_list = explode(',', $lead->service);
                                             @endphp

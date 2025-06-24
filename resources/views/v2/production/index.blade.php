@@ -78,88 +78,96 @@
                                     <div class="responsive-table-lap table-responsive">
 
 
-                                    <table id="zero_configuration_table" class="table" style="width: 100%;">
-                                        <thead>
+                                        <table id="zero_configuration_table" class="table" style="width: 100%;">
+                                            <thead>
 
-                                            <th>ID</th>
-                                            <th>Full Name</th>
-                                            <th>Role</th>
-                                            <th>Category</th>
-                                            <th>Email</th>
-                                            <th>Status</th>
-                                            <th>Reset Password</th>
-                                            <th>Login</th>
-                                            <th>Last login IP</th>
-                                            <th>Device info</th>
-                                            <th>Action</th>
+                                                <th>ID</th>
+                                                <th>Full Name</th>
+                                                <th>Role</th>
+                                                <th>Category</th>
+                                                <th>Email</th>
+                                                <th>Status</th>
+                                                <th>Reset Password</th>
+                                                <th>Login</th>
+                                                <th>Last login IP</th>
+                                                <th>Device info</th>
+                                                <th>Action</th>
 
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($users as $user)
-                                                <tr>
-                                                    <td>{{ $user->id }}</td>
-                                                    <td>{{ $user->name }} {{ $user->last_name }}</td>
-                                                    <td>
-                                                        <button
-                                                            class="badge {{ $user->is_employee == 1 ? 'bg-dark' : 'bg-light' }} {{ $user->is_employee == 1 ? 'text-white' : '' }} p-2 btn-sm"
-                                                            style="border: 0px;">{{ $user->get_role() }}</button>
-                                                    </td>
-                                                    <td>
-                                                        @if ($user->category != null)
-                                                            @foreach ($user->category as $categorys)
-                                                                <button class="badge bg-info badge-sm text-white p-2"
-                                                                    style="border: 0px;">{{ $categorys->name }}</button>
-                                                            @endforeach
-                                                        @endif
-                                                    </td>
-                                                    <td>{{ $user->email }}</td>
-                                                    <td>
-                                                        @if ($user->status == 1)
-                                                            <button class="badge bg-success text-white p-2 badge-sm"
-                                                                style="border: 0px;">Active</button>
-                                                        @else
-                                                            <button class="badge bg-danger text-white p-2 badge-sm"
-                                                                style="border: 0px;">Deactive</button>
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        <button class="badge bg-danger badge-sm update-password text-white p-2"
-                                                            style="border: 0px;" data-id="{{ $user->id }}">Reset
-                                                            Password</button>
-                                                    </td>
-                                                    <td>
-                                                        <a class="badge bg-primary badge-sm text-white p-2" style="border: 0px;"
-                                                            href="{{ route('v2.admin.login_bypass', ['email' => $user->email]) }}">Login
-                                                            as {{ $user->name }} {{ $user->last_name }}</a>
-                                                    </td>
-                                                    <td>{{ $user->last_login_ip ?? '' }}</td>
-                                                    <td>
-                                                        @php
-                                                            $device = '';
-                                                        @endphp
-                                                        @if (!is_null($user->last_login_device))
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($users as $user)
+                                                    <tr>
+                                                        <td>{{ $user->id }}</td>
+                                                        <td>{{ $user->name }} {{ $user->last_name }}</td>
+                                                        <td>
+                                                            <button
+                                                                class="badge {{ $user->is_employee == 1 ? 'bg-dark' : 'bg-light' }} {{ $user->is_employee == 1 ? 'text-white' : '' }} p-2 btn-sm"
+                                                                style="border: 0px;">{{ $user->get_role() }}</button>
+                                                        </td>
+                                                        <td
+                                                            style="
+                                                                display: flex;
+                                                                align-items: center;
+                                                                flex-wrap: wrap;
+                                                                gap: 10px;
+                                                            ">
+
+                                                            @if ($user->category != null)
+                                                                @foreach ($user->category as $categorys)
+                                                                    <button class="badge bg-info badge-sm text-white p-2"
+                                                                        style="border: 0px;">{{ $categorys->name }}</button>
+                                                                @endforeach
+                                                            @endif
+                                                        </td>
+                                                        <td>{{ $user->email }}</td>
+                                                        <td>
+                                                            @if ($user->status == 1)
+                                                                <button class="badge bg-success text-white p-2 badge-sm"
+                                                                    style="border: 0px;">Active</button>
+                                                            @else
+                                                                <button class="badge bg-danger text-white p-2 badge-sm"
+                                                                    style="border: 0px;">Deactive</button>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            <button class="badge bg-danger badge-sm update-password text-white p-2"
+                                                                style="border: 0px;" data-id="{{ $user->id }}">Reset
+                                                                Password</button>
+                                                        </td>
+                                                        <td>
+                                                            <a class="badge bg-primary badge-sm text-white p-2" style="border: 0px;"
+                                                                href="{{ route('v2.admin.login_bypass', ['email' => $user->email]) }}">Login
+                                                                as {{ $user->name }} {{ $user->last_name }}</a>
+                                                        </td>
+                                                        <td>{{ $user->last_login_ip ?? '' }}</td>
+                                                        <td>
                                                             @php
-                                                                $device =
-                                                                    explode(' (', $user->last_login_device)[1] ?? '';
-                                                                $device = explode(') ', $device)[0] ?? '';
+                                                                $device = '';
                                                             @endphp
-                                                        @endif
-                                                        {{ $device }}
-                                                    </td>
-                                                    <td style="position: relative;">
-                                                        <a href="{{ route('v2.users.production.edit', $user->id) }}"
-                                                            class="badge bg-primary badge-icon badge-sm text-white p-2">
-                                                            <span class="ul-btn__icon"><i class="i-Edit"></i></span>
-                                                            <span class="ul-btn__text">
-                                                                <i class="fas fa-pencil"></i>
-                                                            </span>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                     </div>
+                                                            @if (!is_null($user->last_login_device))
+                                                                @php
+                                                                    $device =
+                                                                        explode(' (', $user->last_login_device)[1] ??
+                                                                        '';
+                                                                    $device = explode(') ', $device)[0] ?? '';
+                                                                @endphp
+                                                            @endif
+                                                            {{ $device }}
+                                                        </td>
+                                                        <td style="position: relative;">
+                                                            <a href="{{ route('v2.users.production.edit', $user->id) }}"
+                                                                class="badge bg-primary badge-icon badge-sm text-white p-2">
+                                                                <span class="ul-btn__icon"><i class="i-Edit"></i></span>
+                                                                <span class="ul-btn__text">
+                                                                    <i class="fas fa-pencil"></i>
+                                                                </span>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                     <div class="d-flex justify-content-end mt-2">
                                         {{ $users->appends(request()->query())->links() }}
                                     </div>

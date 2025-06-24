@@ -78,7 +78,12 @@
                                                 <span class="btn btn-danger btn-sm">Deactive</span><br>
                                             @endif
                                         </td>
-                                        <td>
+                                        <td style="
+                                            display: flex;
+                                            align-items: center;
+                                            gap: 10px;
+                                            flex-wrap: wrap;
+                                        ">
                                             @foreach(get_briefs_pending($user->id) as $brief_pending)
                                                 <span class="badge badge-primary badge-sm badge-pill">{{$brief_pending}}</span>
                                             @endforeach

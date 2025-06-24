@@ -115,16 +115,28 @@
             top: 0;
             color: #ffffff;
         }
+
         .no-messages {
             text-align: center;
             margin-top: 187px;
+        }
+
+        .emoji-container {
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px;
+            width: 198px;
+            max-height: 200px;
+            overflow-y: auto;
         }
     </style>
 @endsection
 
 @section('content')
     <div class="for-slider-main-banner">
-        @if($clients_with_messages->isEmpty())
+        @if ($clients_with_messages->isEmpty())
             <div class="no-messages">
                 <h3>No conversations found</h3>
                 <p>Start a new conversation to get started.</p>
@@ -223,7 +235,7 @@
 
             function loadMoreClients() {
                 loading = true;
-            $('#loading-spinner').show();
+                $('#loading-spinner').show();
 
                 $.ajax({
                     url: '{{ route('v2.messages') }}',
@@ -247,11 +259,11 @@
                             hasMore = response.has_more;
                         }
                         loading = false;
-                    $('#loading-spinner').hide();
+                        $('#loading-spinner').hide();
                     },
                     error: function() {
                         loading = false;
-                    $('#loading-spinner').hide();
+                        $('#loading-spinner').hide();
                     }
                 });
             }
@@ -307,9 +319,9 @@
                                     </div>
                                 </div>
                                 <div class="for-sending" id="dropzone-${clientId}" data-client-id="${clientId}">
-                                    <!--<a href="javascript:;" class="emoji-picker" id="emoji-button-${clientId}" data-target="message-input-${clientId}">
+                                    <a href="javascript:;" class="emoji-picker" id="emoji-button-${clientId}" data-target="message-input-${clientId}">
                                         <img src="{{ asset('images/smile.png') }}" class="img-fluid">
-                                    </a>-->
+                                    </a>
                                     <input type="text" class="message-input" placeholder="Type message here..." id="message-input-${clientId}">
                                     <a href="javascript:;" class="file-upload" data-client-id="${clientId}">
                                         <img src="{{ asset('images/file.png') }}" class="img-fluid">
@@ -448,7 +460,7 @@
                 return map[extension] || map['default'];
             }
 
-            $(document).on('click', '.send-message', function() {
+            $(document).on('click', '.send-message', function () {
                 const $this = $(this);
                 const clientId = $this.data('client-id');
                 const messageInput = $(`#message-input-${clientId}`);
@@ -511,26 +523,24 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function(response) {
-                        loadClientMessages(clientId); // Your function to reload messages
+                    success: function (response) {
+                        loadClientMessages(clientId); // Reload messages
 
-                        // Remove spinner
+                        // Re-initialize emoji pickers in case DOM is refreshed
+                        initializeEmojiPickers();
+
                         $(`#sending-spinner-${clientId}`).remove();
-
-                        // Enable inputs again
                         messageInput.prop('disabled', false);
                         $this.prop('disabled', false);
                         $(`#emoji-button-${clientId}`).removeClass('disabled-click');
-                        $(`.file-upload[data-client-id="${clientId}"]`).removeClass(
-                            'disabled-click');
+                        $(`.file-upload[data-client-id="${clientId}"]`).removeClass('disabled-click');
                     },
-                    error: function(xhr) {
+                    error: function (xhr) {
                         $(`#sending-spinner-${clientId}`).remove();
                         messageInput.prop('disabled', false);
                         $this.prop('disabled', false);
                         $(`#emoji-button-${clientId}`).removeClass('disabled-click');
-                        $(`.file-upload[data-client-id="${clientId}"]`).removeClass(
-                            'disabled-click');
+                        $(`.file-upload[data-client-id="${clientId}"]`).removeClass('disabled-click');
 
                         if (xhr.status === 422) {
                             const errors = xhr.responseJSON.errors;
@@ -620,19 +630,19 @@
             });
 
             // Highlight dropzone when files are dragged over
-            $(document).on('dragover', '.for-sending', function (e) {
+            $(document).on('dragover', '.for-sending', function(e) {
                 e.preventDefault();
                 $(this).css('border', '2px dashed #555'); // highlight
             });
 
             // Remove highlight when files are dragged away
-            $(document).on('dragleave', '.for-sending', function (e) {
+            $(document).on('dragleave', '.for-sending', function(e) {
                 e.preventDefault();
                 $(this).css('border', '');
             });
 
             // Handle files dropped into dropzone
-            $(document).on('drop', '.for-sending', function (e) {
+            $(document).on('drop', '.for-sending', function(e) {
                 e.preventDefault();
 
                 // Reset highlight
@@ -706,7 +716,7 @@
                 e.preventDefault();
 
                 var messageId = $(this).data('message-id');
-                var newText =$('#edit-input-' + messageId).val();
+                var newText = $('#edit-input-' + messageId).val();
 
                 if (newText == '' || newText == null) return;
 
@@ -718,13 +728,13 @@
                         message_id: messageId,
                         editmessage: newText
                     },
-                    success: function(response){
+                    success: function(response) {
                         // Update the message text in the UI
-                    $('#msg-text-' + messageId).text(response.text);
+                        $('#msg-text-' + messageId).text(response.text);
                         toastr.success("Message updated successfully.");
                         $('.edit-message[data-message-id="' + messageId + '"]').show();
                     },
-                    error: function(){
+                    error: function() {
                         toastr.error("Failed to update message.");
                         $('.edit-message[data-message-id="' + messageId + '"]').show();
                     }
@@ -736,7 +746,7 @@
                 e.preventDefault();
 
                 var messageId = $(this).data('message-id');
-                var messageP =$('#msg-text-' + messageId);
+                var messageP = $('#msg-text-' + messageId);
                 var currentText = messageP.text();
 
                 // Reload or revert
@@ -803,6 +813,63 @@
                 `);
                 scrollToBottom(data.client_id);
             });
+
+            function initializeEmojiPickers() {
+                // Load emojis from JSON file
+                $.getJSON("{{ url('assets/emoji.json') }}", function (emojis) {
+                    $(".emoji-picker").each(function () {
+                        var smileIcon = $(this);
+                        var clientId = smileIcon.data("target").replace("message-input-", "");
+
+                        // Check if emoji container already exists
+                        if ($('#emoji-container-' + clientId).length === 0) {
+                            var emojiContainer = $('<div>', {
+                                class: 'emoji-container d-none',
+                                id: 'emoji-container-' + clientId
+                            });
+
+                            $.each(emojis, function (index, emoji) {
+                                var button = $('<button>', {
+                                    type: 'button',
+                                    class: 'emoji',
+                                    text: emoji
+                                });
+                                emojiContainer.append(button);
+                            });
+
+                            var inputField = $('#message-input-' + clientId);
+                            emojiContainer.insertBefore(inputField);
+                        }
+                    });
+
+                    // Bind emoji picker toggle
+                    $(".emoji-picker").off('click').on('click', function (e) {
+                        e.stopPropagation();
+                        var smileIcon = $(this);
+                        var clientId = smileIcon.data("target").replace("message-input-", "");
+                        var emojiContainer = $("#emoji-container-" + clientId);
+                        emojiContainer.toggleClass('d-none');
+                    });
+
+                    // Bind emoji insert
+                    $(".emoji-container").off('click').on('click', '.emoji', function () {
+                        var emoji = $(this).text();
+                        var clientId = $(this).closest('.emoji-container').attr('id').replace('emoji-container-', '');
+                        var inputField = $("#message-input-" + clientId);
+                        inputField.val(inputField.val() + emoji);
+                    });
+                }).fail(function (jqxhr, textStatus, error) {
+                    console.error('Error fetching emojis:', error);
+                });
+
+                // Close all emoji containers when clicked outside
+                $(document).off('click.closeEmoji').on('click.closeEmoji', function () {
+                    $('.emoji-container').addClass('d-none');
+                });
+            }
+
+            initializeEmojiPickers();
+
         });
     </script>
 
