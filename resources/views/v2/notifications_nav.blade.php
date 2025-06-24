@@ -95,49 +95,60 @@
     </div>
     <div class="dropdown-menu dropdown-menu-right notification-dropdown rtl-ps-none"
         aria-labelledby="dropdownNotification" data-perfect-scrollbar data-suppress-scroll-x="true">
-        @foreach (auth()->user()->unreadnotifications()->latest()->take(10)->get() as $notifications)
-            @if ($notifications->type == 'App\Notifications\LeadNotification')
-                <a href="{{ route('admin.client.shownotification', ['client' => $notifications->data['id'], 'id' => $notifications->id]) }}"
-                    class="unread_notification_nav dropdown-item d-flex" data-id="{{ $notifications->id }}">
-                @elseif ($notifications->type == 'App\CustomInvoiceNotification')
-                    <a href="{{ route('v2.invoices.show', ['invoice_id' => $notifications->data['invoice_id']]) }}"
-                       class="unread_notification_nav dropdown-item d-flex" data-id="{{ $notifications->id }}">
-                @elseif($notifications->type == 'App\Notifications\PaymentNotification')
-                    <a href="" class="unread_notification_nav dropdown-item d-flex"
-                        data-id="{{ $notifications->id }}">
-                    @elseif($notifications->type == 'App\Notifications\MessageNotification')
-                        <a href="{{ route('manager.message.show', ['id' => $notifications->data['id'], 'name' => $notifications->data['name']]) }}"
-                            class="unread_notification_nav dropdown-item d-flex" data-id="{{ $notifications->id }}">
-                        @else
-                            <a href="" class="unread_notification_nav dropdown-item d-flex"
-                                data-id="{{ $notifications->id }}">
-            @endif
-            <div class="notification-icon">
-                @if ($notifications->type == 'App\Notifications\LeadNotification')
-                    <i class="i-Checked-User text-primary mr-1"></i>
-                @elseif($notifications->type == 'App\Notifications\PaymentNotification')
-                    <i class="i-Money-Bag text-success mr-1"></i>
-                @elseif($notifications->type == 'App\CustomInvoiceNotification')
-                    <i class="fas fa-dollar-sign text-success mr-1"></i>
-                @else
-                    <i class="fa-solid fa-bell"></i>
-                @endif
-            </div>
-            <div class="notification-details flex-grow-1">
-                <p class="m-0 d-flex align-items-center">
-                    <span class="lead-heading">{{ $notifications->data['text'] }}</span>
-                    <span class="flex-grow-1"></span>
-                    <span class="text-small text-muted ml-3">{{ $notifications->created_at->diffForHumans() }}</span>
-                </p>
-                <p class="text-small text-muted m-0">
-                    {{ $notifications->data['name'] }}</p>
-            </div>
+        @foreach (auth()->user()->unreadNotifications()->latest()->take(10)->get() as $notifications)
+            <?php
+                try {
+                    $type = $notifications->type ?? null;
+                    $data = $notifications->data ?? [];
+                    $id = $notifications->id ?? null;
+
+                    // Initialize the URL to prevent undefined variable issues
+                    $url = '';
+
+                    if ($type == 'App\Notifications\LeadNotification') {
+                        $url = route('admin.client.shownotification', ['client' => $data['id'] ?? 0, 'id' => $id]);
+                    } elseif ($type == 'App\CustomInvoiceNotification') {
+                        $url = route('v2.invoices.show', ['invoice_id' => $data['invoice_id'] ?? 0]);
+                    } elseif ($type == 'App\Notifications\PaymentNotification') {
+                        $url = '#';
+                    } elseif ($type == 'App\Notifications\MessageNotification') {
+                        $url = route('manager.message.show', ['id' => $data['id'] ?? 0, 'name' => $data['name'] ?? '']);
+                    } else {
+                        $url = '#';
+                    }
+            ?>
+
+            <a href="{{ $url }}" class="unread_notification_nav dropdown-item d-flex" data-id="{{ $id }}">
+                <div class="notification-icon">
+                    @if ($type == 'App\Notifications\LeadNotification')
+                        <i class="i-Checked-User text-primary mr-1"></i>
+                    @elseif($type == 'App\Notifications\PaymentNotification')
+                        <i class="i-Money-Bag text-success mr-1"></i>
+                    @elseif($type == 'App\CustomInvoiceNotification')
+                        <i class="fas fa-dollar-sign text-success mr-1"></i>
+                    @else
+                        <i class="fa-solid fa-bell"></i>
+                    @endif
+                </div>
+                <div class="notification-details flex-grow-1">
+                    <p class="m-0 d-flex align-items-center">
+                        <span class="lead-heading">{{ $data['text'] ?? 'No Text' }}</span>
+                        <span class="flex-grow-1"></span>
+                        <span class="text-small text-muted ml-3">{{ optional($notifications->created_at)->diffForHumans() ?? '' }}</span>
+                    </p>
+                    <p class="text-small text-muted m-0">
+                        {{ $data['name'] ?? 'No Name' }}
+                    </p>
+                </div>
             </a>
-            @if ($loop->last)
-            @endif
-            @php
-                $k++;
-            @endphp
+
+            <?php
+                } catch (\Exception $e) {
+                    // You can log the error if needed
+                    // \Log::error('Notification Render Error: ' . $e->getMessage());
+                    continue; // Skip this iteration safely
+                }
+            ?>
         @endforeach
 
         @if (v2_acl([0, 1, 4, 5, 6]))
