@@ -43,8 +43,9 @@ class ClientController extends Controller
         //restricted brand access
         $restricted_brands = get_restricted_brands();
 
-        $clients = \App\Models\Client::orderBy('priority', 'ASC')
-            ->orderBy('id', 'desc')
+        $clients = \App\Models\Client::
+//            orderBy('priority', 'ASC')
+            orderBy('id', 'desc')
             ->when(!v2_acl([2]) && !v2_acl([0]), function ($q) {
                 return $q->whereIn('brand_id', auth()->user()->brand_list());
             })
