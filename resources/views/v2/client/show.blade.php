@@ -24,25 +24,31 @@
                             <div class="brand-email">
                                 <div class="email">
                                     <a href="tel:{{$client->contact}}">
-                                        <i class="fa-solid fa-phone"></i> {{$client->contact}}
+                                        <i class="fa-solid fa-phone"></i>
+                                        Contact
+{{--                                        {{$client->contact}}--}}
                                     </a>
                                 </div>
                                 <div class="email">
                                     <a href="mailto:{{$client->email}}">
-                                        <i class="fa-solid fa-envelope"></i>  {{$client->email}}
+                                        <i class="fa-solid fa-envelope"></i>
+                                        Send E-mail
+{{--                                        {{$client->email}}--}}
                                     </a>
                                 </div>
                                 <div class="for-password">
-                                    <a href="{{ route('v2.messages') }}?clientId={{ $client->user->id }}" class="open-messages">
-                                        <img src="{{asset('v2/images/img-msg.jpg')}}" class="img-fluid">
-                                    </a>
-                                    {{--                                            <a href="javascript:;" class="password-btn">Reset Password</a>--}}
-                                    <a href="javascript:;" class="password-btn badge bg-{{ $client->user ? 'success' : 'danger' }} badge-sm auth-create"
-                                       data-id="{{ $client->id }}"
-                                       data-auth="{{ $client->user ? 1 : 0 }}"
-                                       data-password="{{ $client->user ? '' : '' }}">
-                                        {{ $client->user ? 'Reset Password' : 'Create Account' }}
-                                    </a>
+                                    @if($client->user)
+                                        <a href="{{ route('v2.messages') }}?clientId={{ $client->user->id }}" class="open-messages">
+                                            <img src="{{asset('v2/images/img-msg.jpg')}}" class="img-fluid">
+                                        </a>
+                                        {{--                                            <a href="javascript:;" class="password-btn">Reset Password</a>--}}
+                                        <a href="javascript:;" class="password-btn badge bg-{{ $client->user ? 'success' : 'danger' }} badge-sm auth-create"
+                                           data-id="{{ $client->id }}"
+                                           data-auth="{{ $client->user ? 1 : 0 }}"
+                                           data-password="{{ $client->user ? '' : '' }}">
+                                            {{ $client->user ? 'Reset Password' : 'Create Account' }}
+                                        </a>
+                                    @endif
 
                                     @if(!user_is_cs())
                                         <a href="{{route('v2.invoices.create', $client->id)}}" class="password-btn blue-assign">Generate Payment</a>
@@ -69,6 +75,7 @@
                                         <th>ID.</th>
                                         <th>Service </th>
                                         <th>Amount </th>
+                                        <th>Agent </th>
                                         <th>Status</th>
                                         <th>Link</th>
                                         <th>Created at</th>
@@ -93,6 +100,13 @@
                                             <td>
                                                 <b>{{$invoice->currency_show->sign}}</b>
                                                 {{$invoice->amount}}
+                                            </td>
+                                            <td>
+                                                @if ($invoice->sales_agent_id != 0)
+                                                    {{ $invoice->sale->name }} {{ $invoice->sale->last_name }}
+                                                @else
+                                                    From Website
+                                                @endif
                                             </td>
                                             @if($invoice->payment_status == 2)
                                                 <td class="green">
