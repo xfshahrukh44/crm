@@ -75,10 +75,10 @@
                                         <button hidden id="btn_filter_form" type="submit"></button>
                                     </form>
                                     {{--                                    </div> --}}
-                                    <div class="responsive-table-lap">
+                                    <div class="responsive-table-lap table-responsive">
 
 
-                                    <table id="zero_configuration_table" style="width: 100%;">
+                                    <table id="zero_configuration_table" class="table" style="width: 100%;">
                                         <thead>
 
                                             <th>ID</th>

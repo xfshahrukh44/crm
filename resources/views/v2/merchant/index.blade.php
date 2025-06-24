@@ -147,7 +147,7 @@
 @endsection
 
 @section('script')
-    <script>
+    {{-- <script>
         if($('#zero_configuration_table').length != 0){
             $('#zero_configuration_table').DataTable({
                 order: [[0, "asc"]],
@@ -155,5 +155,5 @@
             });
 
         }
-    </script>
+    </script> --}}
 @endsection

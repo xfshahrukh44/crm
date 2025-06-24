@@ -57,6 +57,8 @@
                                 <button hidden id="btn_filter_form" type="submit"></button>
                             </form>
 
+                                   <div class="responsive-table-lap table-responsive">
+
                             <table id="zero_configuration_table" style="width: 100%;">
                                 <thead>
 
@@ -101,6 +103,7 @@
                                 @endforeach
                                 </tbody>
                             </table>
+                                   </div>
                             <div class="d-flex justify-content-end mt-2">
                                 {{ $client_users_with_pending_projects->appends(request()->query())->links() }}
                             </div>

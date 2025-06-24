@@ -15,10 +15,15 @@
 
     .for-invoice-listing table th {
         width: 100%;
+        white-space: pre;
     }
     #zero_configuration_table td {
         word-break: unset !important;
         width: 100% !important;
         max-width: 100% !important;
+        white-space: nowrap !important;
+    }
+    .side-menu {
+        width: 14%;
     }
 }

@@ -394,7 +394,7 @@ section.bu-head-sec {
 }
 
 section.list-0f {
-    margin-top: 2rem;
+    margin-top: 5px;
     margin-bottom: 2rem;
 }
 
@@ -1597,7 +1597,7 @@ input:focus-visible {
 /*side-menu-css start*/
 .for-slider-main-banner {
     width: 100%;
-    margin-left: 278px;
+    margin-left: 235px;
     transition: all ease 0.5s;
 }
 .side-menu .search-container {
