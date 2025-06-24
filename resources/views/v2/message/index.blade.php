@@ -130,6 +130,22 @@
             width: 198px;
             max-height: 200px;
             overflow-y: auto;
+            bottom: 230px;
+        }
+
+        .for-slider-main-banner {
+
+            margin-left: 248px;
+        }
+
+        .main-chat-message.for-reply h6 {
+            color: white;
+        }
+
+        @media(max-width:1440px) {
+            .for-slider-main-banner {
+                margin-left: 181px !important;
+            }
         }
     </style>
 @endsection
@@ -460,7 +476,7 @@
                 return map[extension] || map['default'];
             }
 
-            $(document).on('click', '.send-message', function () {
+            $(document).on('click', '.send-message', function() {
                 const $this = $(this);
                 const clientId = $this.data('client-id');
                 const messageInput = $(`#message-input-${clientId}`);
@@ -523,7 +539,7 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function (response) {
+                    success: function(response) {
                         loadClientMessages(clientId); // Reload messages
 
                         // Re-initialize emoji pickers in case DOM is refreshed
@@ -533,14 +549,16 @@
                         messageInput.prop('disabled', false);
                         $this.prop('disabled', false);
                         $(`#emoji-button-${clientId}`).removeClass('disabled-click');
-                        $(`.file-upload[data-client-id="${clientId}"]`).removeClass('disabled-click');
+                        $(`.file-upload[data-client-id="${clientId}"]`).removeClass(
+                            'disabled-click');
                     },
-                    error: function (xhr) {
+                    error: function(xhr) {
                         $(`#sending-spinner-${clientId}`).remove();
                         messageInput.prop('disabled', false);
                         $this.prop('disabled', false);
                         $(`#emoji-button-${clientId}`).removeClass('disabled-click');
-                        $(`.file-upload[data-client-id="${clientId}"]`).removeClass('disabled-click');
+                        $(`.file-upload[data-client-id="${clientId}"]`).removeClass(
+                            'disabled-click');
 
                         if (xhr.status === 422) {
                             const errors = xhr.responseJSON.errors;
@@ -746,8 +764,9 @@
                 e.preventDefault();
 
                 var messageId = $(this).data('message-id');
+                var messagePC = $('#edit-input-' + messageId);
                 var messageP = $('#msg-text-' + messageId);
-                var currentText = messageP.text();
+                var currentText = messagePC.val();
 
                 // Reload or revert
                 messageP.text(currentText);
@@ -816,8 +835,8 @@
 
             function initializeEmojiPickers() {
                 // Load emojis from JSON file
-                $.getJSON("{{ url('assets/emoji.json') }}", function (emojis) {
-                    $(".emoji-picker").each(function () {
+                $.getJSON("{{ url('assets/emoji.json') }}", function(emojis) {
+                    $(".emoji-picker").each(function() {
                         var smileIcon = $(this);
                         var clientId = smileIcon.data("target").replace("message-input-", "");
 
@@ -828,7 +847,7 @@
                                 id: 'emoji-container-' + clientId
                             });
 
-                            $.each(emojis, function (index, emoji) {
+                            $.each(emojis, function(index, emoji) {
                                 var button = $('<button>', {
                                     type: 'button',
                                     class: 'emoji',
@@ -843,7 +862,7 @@
                     });
 
                     // Bind emoji picker toggle
-                    $(".emoji-picker").off('click').on('click', function (e) {
+                    $(".emoji-picker").off('click').on('click', function(e) {
                         e.stopPropagation();
                         var smileIcon = $(this);
                         var clientId = smileIcon.data("target").replace("message-input-", "");
@@ -852,18 +871,19 @@
                     });
 
                     // Bind emoji insert
-                    $(".emoji-container").off('click').on('click', '.emoji', function () {
+                    $(".emoji-container").off('click').on('click', '.emoji', function() {
                         var emoji = $(this).text();
-                        var clientId = $(this).closest('.emoji-container').attr('id').replace('emoji-container-', '');
+                        var clientId = $(this).closest('.emoji-container').attr('id').replace(
+                            'emoji-container-', '');
                         var inputField = $("#message-input-" + clientId);
                         inputField.val(inputField.val() + emoji);
                     });
-                }).fail(function (jqxhr, textStatus, error) {
+                }).fail(function(jqxhr, textStatus, error) {
                     console.error('Error fetching emojis:', error);
                 });
 
                 // Close all emoji containers when clicked outside
-                $(document).off('click.closeEmoji').on('click.closeEmoji', function () {
+                $(document).off('click.closeEmoji').on('click.closeEmoji', function() {
                     $('.emoji-container').addClass('d-none');
                 });
             }
