@@ -560,7 +560,6 @@
                         data: @json($revenue_array),
                         borderColor: Utils.CHART_COLORS.blue,
                         fill: false,
-                        tension: 0.4
                     },
                     {
                         label: 'CB',
@@ -575,6 +574,7 @@
                         data: @json($net_array),
                         borderColor: Utils.CHART_COLORS.green,
                         fill: false,
+                        tension: 0.4
                     }
                 ]
             };
