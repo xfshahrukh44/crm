@@ -27,10 +27,13 @@ class MessageController extends Controller
         if(Auth::user()->is_employee == 6){
             return $this->getMessageByManager($request);
         }
+        if(Auth::user()->is_employee = 4 && Auth::user()->is_support_head == 1){
+            return $this->getMessageBySupportHead($request);
+        }
         if(Auth::user()->is_employee == 4){
             return $this->getMessageBySupport($request);
         }
-        if(Auth::user()->is_employee == 0){
+        if(Auth::user()->is_employee = 0){
             return $this->getMessageBySale($request);
         }
     }
@@ -462,6 +465,112 @@ class MessageController extends Controller
         ]);
     }
 
+    public function getMessageBySupportHead(Request $request)
+    {
+        $client = null;
+        $clientId = $request->get('clientId');
+        $page = request()->get('page', 1);
+        $perPage = 10;
+        $filter = 0;
+        $brands = DB::table('brands')->whereIn('id', auth()->user()->brand_list())->select('id', 'name')->get();
+        $message_array = [];
+        $data = User::where('is_employee', 3)->where('users.client_id', '!=', 0)
+            ->whereHas('client', function ($q) {
+                return $q->whereIn('brand_id', auth()->user()->brand_list());
+            })
+            ->when(request()->has('client_name'), function ($q) {
+                return $q->whereHas('client', function ($q) {
+                    return $q->when(request()->has('client_name'), function ($q) {
+                        return $q->where(DB::raw('concat(name," ",last_name)'), 'like', '%'.request()->get('client_name').'%')
+                            ->orWhere('name', 'LIKE', "%".request()->get('client_name')."%")
+                            ->orWhere('last_name', 'LIKE', "%".request()->get('client_name')."%")
+                            ->orWhere('email', 'LIKE', "%".request()->get('client_name')."%")
+                            ->orWhere('contact', 'LIKE', "%".request()->get('client_name')."%");
+                    });
+                });
+            });
+
+        //restricted brand access
+        $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+        $data->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
+            return $q->whereHas('client', function ($q) use ($restricted_brands) {
+                return $q->where(function ($query) use ($restricted_brands) {
+                    $query->whereNotIn('brand_id', $restricted_brands)
+                        ->orWhere(function ($subQuery) use ($restricted_brands) {
+                            $subQuery->whereIn('brand_id', $restricted_brands)
+                                ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                        });
+                });
+            });
+        });
+
+        if($request->brand != null){
+            $data = $data->whereHas('client', function ($query) use ($request) {
+                return $query->where('brand_id', $request->brand);
+            });
+        }else{
+            $data = $data->whereHas('client', function ($query) {
+                return $query->whereIn('brand_id', auth()->user()->brand_list());
+            });
+        }
+        if($request->message != null){
+            $message = $request->message;
+            $data = $data->whereHas('messages', function ($query) use ($message) {
+                return $query->where('message', 'like', '%' . $message . '%');
+            });
+        }
+
+
+
+        //sort by latest message
+        $latestMessages = DB::table('messages')
+            ->select('client_id', DB::raw('MAX(created_at) as latest_message_date'))
+            ->groupBy('client_id');
+
+
+        $data = $data->joinSub($latestMessages, 'latest_messages', function ($join) {
+            $join->on('users.id', '=', 'latest_messages.client_id');
+        })
+            ->join('messages', function ($join) {
+                $join->on('users.id', '=', 'messages.client_id')
+                    ->on('latest_messages.latest_message_date', '=', 'messages.created_at');
+            })
+            ->select('users.*', 'messages.is_read') // Ensure only User attributes are selected
+            ->orderBy('messages.created_at', 'DESC')
+            ->distinct();
+
+
+        // If a particular clientId is provided, separate it first
+        if ($clientId) {
+            $client = User::find($clientId);
+            // Exclude it from main pagination
+            $clients_with_messages = $data->where('users.id', '!=', $clientId);
+        }
+
+        $paginated = $data->paginate($perPage, ['*'], 'page', $page);
+
+        if (request()->ajax()) {
+            return response()->json([
+                'html' => view('v2.message.partials.client_list', [
+                    'clients_with_messages' => $paginated,
+                    'client' => $client
+                ])->render(),
+                'next_page' => $page + 1,
+                'has_more' => $paginated->hasMorePages()
+            ]);
+        }
+
+        return view('v2.message.index', [
+            'clients_with_messages' => $paginated,
+            'page' => $page,
+            'route' => 'v2.messages.manager',
+            'brands' => $brands,
+            'filter' => $filter,
+            'message_array' => $message_array,
+            'client' => $client
+        ]);
+    }
+
     public function getMessageBySupport(Request $request)
     {
         $client = null;
@@ -543,6 +652,7 @@ class MessageController extends Controller
 
     public function getMessageBySale(Request $request)
     {
+        return back()->with('error', 'You do not have permission to access this page.');
         $client = null;
         $clientId = $request->get('clientId');
         $page = request()->get('page', 1);
