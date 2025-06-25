@@ -117,38 +117,41 @@ class DashboardController extends Controller
             return view('v2.revenue', compact('buh_data'));
         } else {
             $my_user_ids = DB::table('brand_users')->whereIn('brand_id', auth()->user()->brand_list())->pluck('user_id')->toArray();
+            $my_user_ids []= auth()->id();
+            $my_user_ids = array_unique($my_user_ids);
+
             $buh_users = User::whereIn('is_employee', [0, 4, 6])->whereIn('id', $my_user_ids)->orderBy('name', 'ASC')
                 ->get();
 
-            //restricted brand access
-            $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+//            //restricted brand access
+//            $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
 
             $daily_data = [];
             $monthly_data = [];
             foreach ($buh_users as $buh_user) {
-                //front, support head, upsell
-                if ($buh_user->is_employee == 4) {
-                    if ($buh_user->is_support_head != 1 && $buh_user->is_upsell != 1) {
-                        continue;
-                    }
-                }
-
-                if ($buh_user->is_employee == 6) {
-                    if (!in_array($buh_user->id, [7, 1169, 33, 18, 4191, 4491])) {
-                        continue;
-                    }
-                }
+//                //front, support head, upsell
+//                if ($buh_user->is_employee == 4) {
+//                    if ($buh_user->is_support_head != 1 && $buh_user->is_upsell != 1) {
+//                        continue;
+//                    }
+//                }
+//
+//                if ($buh_user->is_employee == 6) {
+//                    if (!in_array($buh_user->id, [7, 1169, 33, 18, 4191, 4491])) {
+//                        continue;
+//                    }
+//                }
 
                 $todays_invoice_ids = DB::table('invoices')->whereIn('brand', $buh_user->brand_list())
-                    ->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
-                        return $q->where(function ($query) use ($restricted_brands) {
-                            $query->whereNotIn('brand', $restricted_brands)
-                                ->orWhere(function ($subQuery) use ($restricted_brands) {
-                                    $subQuery->whereIn('brand', $restricted_brands)
-                                        ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
-                                });
-                        });
-                    })
+//                    ->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
+//                        return $q->where(function ($query) use ($restricted_brands) {
+//                            $query->whereNotIn('brand', $restricted_brands)
+//                                ->orWhere(function ($subQuery) use ($restricted_brands) {
+//                                    $subQuery->whereIn('brand', $restricted_brands)
+//                                        ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+//                                });
+//                        });
+//                    })
                     ->whereDate('created_at', '=', Carbon::today())
                     ->where('sales_agent_id', $buh_user->id)
                     ->where('payment_status', 2)->where('currency', 1)->pluck('id')->toArray();
