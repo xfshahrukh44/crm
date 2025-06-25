@@ -129,18 +129,18 @@ class DashboardController extends Controller
             $daily_data = [];
             $monthly_data = [];
             foreach ($buh_users as $buh_user) {
-//                //front, support head, upsell
-//                if ($buh_user->is_employee == 4) {
-//                    if ($buh_user->is_support_head != 1 && $buh_user->is_upsell != 1) {
-//                        continue;
-//                    }
-//                }
-//
-//                if ($buh_user->is_employee == 6) {
-//                    if (!in_array($buh_user->id, [7, 1169, 33, 18, 4191, 4491])) {
-//                        continue;
-//                    }
-//                }
+                //front, support head, upsell
+                if ($buh_user->is_employee == 4) {
+                    if ($buh_user->is_support_head != 1 && $buh_user->is_upsell != 1) {
+                        continue;
+                    }
+                }
+
+                if ($buh_user->is_employee == 6) {
+                    if (!in_array($buh_user->id, [7, 1169, 33, 18, 4191, 4491])) {
+                        continue;
+                    }
+                }
 
                 $todays_invoice_ids = DB::table('invoices')->whereIn('brand', $buh_user->brand_list())
 //                    ->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {

@@ -223,7 +223,6 @@
                         ->count();
 
                     $revenue = \Illuminate\Support\Facades\DB::table('invoices')
-                        ->select(\Illuminate\Support\Facades\DB::raw('SUM(amount) as amount'),  'invoice_date')
                         ->whereDate('created_at', '>=', Carbon\Carbon::now()->startOfMonth())
                         ->where(['payment_status' => 2, 'currency' => 1])
                         ->whereIn('brand', auth()->user()->brand_list())
@@ -232,7 +231,6 @@
 
                     $refunds = \Illuminate\Support\Facades\DB::table('invoices')
                         ->whereNotNull('refund_cb_date')
-                        ->select(\Illuminate\Support\Facades\DB::raw('SUM(refunded_cb) as refunded_cb'),  'invoice_date')
                         ->whereDate('created_at', '>=', Carbon\Carbon::now()->startOfMonth())
                         ->where(['payment_status' => 2, 'currency' => 1])
                         ->whereIn('brand', auth()->user()->brand_list())
