@@ -120,6 +120,9 @@ class DashboardController extends Controller
             $buh_users = User::whereIn('is_employee', [0, 4, 6])->whereIn('id', $my_user_ids)->orderBy('name', 'ASC')
                 ->get();
 
+            //restricted brand access
+            $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
+
             $daily_data = [];
             $monthly_data = [];
             foreach ($buh_users as $buh_user) {
@@ -137,6 +140,15 @@ class DashboardController extends Controller
                 }
 
                 $todays_invoice_ids = DB::table('invoices')->whereIn('brand', $buh_user->brand_list())
+                    ->when(!empty($restricted_brands) && !is_null(auth()->user()->restricted_brands_cutoff_date), function ($q) use ($restricted_brands) {
+                        return $q->where(function ($query) use ($restricted_brands) {
+                            $query->whereNotIn('brand', $restricted_brands)
+                                ->orWhere(function ($subQuery) use ($restricted_brands) {
+                                    $subQuery->whereIn('brand', $restricted_brands)
+                                        ->whereDate('created_at', '>=', Carbon::parse(auth()->user()->restricted_brands_cutoff_date)); // Replace with your date
+                                });
+                        });
+                    })
                     ->whereDate('created_at', '=', Carbon::today())
                     ->where('sales_agent_id', $buh_user->id)
                     ->where('payment_status', 2)->where('currency', 1)->pluck('id')->toArray();
