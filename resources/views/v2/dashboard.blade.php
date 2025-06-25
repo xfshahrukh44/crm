@@ -223,7 +223,6 @@
                         ->count();
 
                     $revenue = \Illuminate\Support\Facades\DB::table('invoices')
-                        ->select(\Illuminate\Support\Facades\DB::raw('SUM(amount) as amount'),  'invoice_date')
                         ->whereDate('created_at', '>=', Carbon\Carbon::now()->startOfMonth())
                         ->where(['payment_status' => 2, 'currency' => 1])
                         ->whereIn('brand', auth()->user()->brand_list())
@@ -232,7 +231,6 @@
 
                     $refunds = \Illuminate\Support\Facades\DB::table('invoices')
                         ->whereNotNull('refund_cb_date')
-                        ->select(\Illuminate\Support\Facades\DB::raw('SUM(refunded_cb) as refunded_cb'),  'invoice_date')
                         ->whereDate('created_at', '>=', Carbon\Carbon::now()->startOfMonth())
                         ->where(['payment_status' => 2, 'currency' => 1])
                         ->whereIn('brand', auth()->user()->brand_list())
@@ -256,7 +254,7 @@
                                     <div class="revnye-parent">
                                         <div class="rev-suv">
                                             <p>Revenue</p>
-                                            <h3>${{round($revenue, 0)}}</h3>
+                                            <h3>${{number_format($revenue, 0)}}</h3>
                                             <span>
                                                 From 1st {{$current_month_label}} to till date
                                             </span>
@@ -273,7 +271,7 @@
                                     <div class="revnye-parent">
                                         <div class="rev-suv">
                                             <p>Refunds/Chargebacks</p>
-                                            <h3>${{round($refunds, 0)}}</h3>
+                                            <h3>${{number_format($refunds, 0)}}</h3>
                                             <span>From 1st {{$current_month_label}} to till date</span>
                                         </div>
                                     </div>
@@ -282,7 +280,7 @@
                                     <div class="revnye-parent">
                                         <div class="rev-suv">
                                             <p>Net Sales</p>
-                                            <h3>${{round(($revenue - $refunds), 0)}}</h3>
+                                            <h3>${{number_format(($revenue - $refunds), 0)}}</h3>
                                             <span>From 1st {{$current_month_label}} to till date</span>
                                         </div>
 
