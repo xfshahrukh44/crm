@@ -60,7 +60,7 @@ class DashboardController extends Controller
                     $todays_invoice_ids = DB::table('invoices')->whereIn('brand', $buh_user->brand_list())
                         ->whereDate('created_at', '=', Carbon::today())
                         ->where('sales_agent_id', $sale_agent->id)
-                        ->where('payment_status', 2)->pluck('id')->toArray();
+                        ->where('payment_status', 2)->where('currency', 1)->pluck('id')->toArray();
                     $todays_invoice_totals = get_invoice_totals_in_usd($todays_invoice_ids);
                     $todays_invoice_refunds = get_invoice_refunds_totals_in_usd($todays_invoice_ids);
                     $daily_target = $sale_agent->finances->daily_target ?? 1000.00;
@@ -84,7 +84,7 @@ class DashboardController extends Controller
                         ->whereDate('created_at', '>=', Carbon::today()->firstOfMonth())
                         ->whereDate('created_at', '<=', Carbon::today()->lastOfMonth())
                         ->where('sales_agent_id', $sale_agent->id)
-                        ->where('payment_status', 2)->pluck('id')->toArray();
+                        ->where('payment_status', 2)->where('currency', 1)->pluck('id')->toArray();
                     $this_months_invoice_totals = get_invoice_totals_in_usd($this_months_invoice_ids);
                     $this_months_invoice_refunds = get_invoice_refunds_totals_in_usd($this_months_invoice_ids);
                     $monthly_target = $sale_agent->finances->daily_target ?? 1000.00;
@@ -139,7 +139,7 @@ class DashboardController extends Controller
                 $todays_invoice_ids = DB::table('invoices')->whereIn('brand', $buh_user->brand_list())
                     ->whereDate('created_at', '=', Carbon::today())
                     ->where('sales_agent_id', $buh_user->id)
-                    ->where('payment_status', 2)->pluck('id')->toArray();
+                    ->where('payment_status', 2)->where('currency', 1)->pluck('id')->toArray();
                 $todays_invoice_totals = get_invoice_totals_in_usd($todays_invoice_ids);
                 $todays_invoice_refunds = get_invoice_refunds_totals_in_usd($todays_invoice_ids);
                 $daily_target = $buh_user->finances->daily_target ?? 1000.00;
@@ -163,7 +163,7 @@ class DashboardController extends Controller
                     ->whereDate('created_at', '>=', Carbon::today()->firstOfMonth())
                     ->whereDate('created_at', '<=', Carbon::today()->lastOfMonth())
                     ->where('sales_agent_id', $buh_user->id)
-                    ->where('payment_status', 2)->pluck('id')->toArray();
+                    ->where('payment_status', 2)->where('currency', 1)->pluck('id')->toArray();
                 $this_months_invoice_totals = get_invoice_totals_in_usd($this_months_invoice_ids);
                 $this_months_invoice_refunds = get_invoice_refunds_totals_in_usd($this_months_invoice_ids);
                 $monthly_target = $buh_user->finances->daily_target ?? 1000.00;
