@@ -63,6 +63,11 @@
                                                             <h5>{{$service_name}}</h5>
                                                         </li>
                                                     @endforeach
+                                                    @if(!is_null($invoice->recurring))
+                                                        <li>
+                                                            <h5>Recurring payment <span>${{number_format($invoice->recurring)}}</span></h5>
+                                                        </li>
+                                                    @endif
                                                     <li>
                                                         <h5>Total Services <span>${{number_format($invoice->amount)}}</span></h5>
                                                     </li>
@@ -101,7 +106,17 @@
                                                         @endforeach
                                                     @endif
                                                     <li>
-                                                        <a class="badge bg-warning btn_copy_authorize_link text-dark" data-url="{{route('client.pay.with.authorize', $invoice->id)}}" style="cursor: pointer;">
+                                                        <i class="fas fa-store"></i>
+                                                        <h6 class="m-0">{{$invoice->merchant?->name}}</h6>
+                                                    </li>
+{{--                                                    <li>--}}
+{{--                                                        <span class="badge bg-dark text-white p-2">--}}
+{{--                                                            <i class="mr-2 fas fa-store"></i>--}}
+{{--                                                            {{$invoice->merchant?->name}}--}}
+{{--                                                        </span>--}}
+{{--                                                    </li>--}}
+                                                    <li>
+                                                        <a class="badge bg-warning btn_copy_authorize_link text-dark p-2" data-url="{{route('client.pay.with.authorize', $invoice->id)}}" style="cursor: pointer;">
                                                             <i class="fas fa-copy"></i>
                                                             Payment link
                                                         </a>
@@ -188,7 +203,7 @@
 
             document.body.removeChild(tempInput); // Remove the temporary textarea
 
-            toastr.success('Link copied to clipboard!');
+            // toastr.success('Link copied to clipboard!');
         }
 
         $(document).ready(function () {

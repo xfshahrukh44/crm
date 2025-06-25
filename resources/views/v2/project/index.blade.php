@@ -94,7 +94,8 @@
                                     <tr>
                                         <td>{{$project->id}}</td>
                                         <td>
-                                            {!! \Illuminate\Support\Str::limit(strip_tags($project->name), 20, $end='...') !!}
+                                            <span class="span_project_title">{{ $project->name }}</span>
+                                            <i class="fas fa-pencil text-primary ml-2 btn_edit_project p-1" style="cursor: pointer;" hidden></i>
                                         </td>
                                         <td>
                                             {{$project->client->name}} {{$project->client->last_name}}<br>
@@ -102,24 +103,24 @@
 
                                             <br>
                                             <span>
-                                                            <a href="javascript:void(0);" class="badge badge-sm bg-dark text-white p-2 btn_click_to_view">
-                                                                <i class="fas fa-eye mr-1"></i>
-                                                                View email
-                                                            </a>
-                                                            <span class="content_click_to_view" hidden>
-                                                                {{$project->client->email}}
-                                                            </span>
-                                                        </span>
+                                                <a href="javascript:void(0);" class="badge badge-sm bg-dark text-white p-2 btn_click_to_view">
+                                                    <i class="fas fa-eye mr-1"></i>
+                                                    View email
+                                                </a>
+                                                <span class="content_click_to_view" hidden>
+                                                    {{$project->client->email}}
+                                                </span>
+                                            </span>
 
                                             <span>
-                                                            <a href="javascript:void(0);" class="badge badge-sm bg-dark text-white p-2 btn_click_to_view">
-                                                                <i class="fas fa-eye mr-1"></i>
-                                                                View phone
-                                                            </a>
-                                                            <span class="content_click_to_view" hidden>
-                                                                {{$project->client->contact}}
-                                                            </span>
-                                                        </span>
+                                                <a href="javascript:void(0);" class="badge badge-sm bg-dark text-white p-2 btn_click_to_view">
+                                                    <i class="fas fa-eye mr-1"></i>
+                                                    View phone
+                                                </a>
+                                                <span class="content_click_to_view" hidden>
+                                                    {{$project->client->contact}}
+                                                </span>
+                                            </span>
                                         </td>
                                         <td>
                                             {{$project->added_by->name}} {{$project->added_by->last_name}} <br>
@@ -441,6 +442,49 @@
                 $('#reminder_heading').val(heading);
                 $('#reminder_text').val(text);
                 $('#modal_set_reminder').modal('show');
+            });
+
+            //edit project title
+            let btn_edit_focus = true;
+            function hide_native_button (native_item) {
+                $('.btn_edit_project').not(native_item).each(function (i, item) {
+                    $(item).prop('hidden', true);
+                });
+
+                if (!btn_edit_focus) {
+                    let el = native_item;
+                    setTimeout(() => {
+                        el.prop('hidden', true);
+                    }, 3000);
+                }
+            }
+
+            $('.span_project_title').hover(
+                function () {
+                    $(this).parent().find('.btn_edit_project').prop('hidden', false);
+                },
+                function () {
+                    let native_item = $(this).parent().find('.btn_edit_project');
+                    hide_native_button(native_item);
+                }
+            );
+
+            $('.btn_edit_project').hover(
+                function () { btn_edit_focus = true; },
+                function () {
+                    btn_edit_focus = false;
+                    hide_native_button($(this));
+                }
+            );
+
+            $('.btn_edit_projecte').on('click', function (e) {
+                e.preventDefault();
+
+                let comment_para = $(this).parent().parent().parent().find('.p_comment_editable');
+                // comment_para.prop('contenteditable', !(comment_para.prop('contenteditable') == 'true'));
+                comment_para.prop('contenteditable', true);
+                $(this).hide();
+                comment_para.focus();
             });
         });
     </script>
