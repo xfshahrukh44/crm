@@ -142,7 +142,7 @@ class DashboardController extends Controller
                     }
                 }
 
-                $todays_invoice_ids = DB::table('invoices')->whereIn('brand', $buh_user->brand_list())
+                $todays_invoice_ids = DB::table('invoices')->whereIn('brand', auth()->user()->brand_list())
                     ->whereDate('created_at', '=', Carbon::today())
                     ->where('sales_agent_id', $sale_agent->id)
                     ->where('payment_status', 2)->where('currency', 1)->pluck('id')->toArray();
@@ -165,7 +165,7 @@ class DashboardController extends Controller
                     'pfp' => $sale_agent->image ? asset($sale_agent->image) : asset('images/avatar.png'),
                 ];
 
-                $this_months_invoice_ids = DB::table('invoices')->whereIn('brand', $buh_user->brand_list())
+                $this_months_invoice_ids = DB::table('invoices')->whereIn('brand', auth()->user()->brand_list())
                     ->whereDate('created_at', '>=', Carbon::today()->firstOfMonth())
                     ->whereDate('created_at', '<=', Carbon::today()->lastOfMonth())
                     ->where('sales_agent_id', $sale_agent->id)
