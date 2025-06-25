@@ -54,6 +54,9 @@
         ->when(v2_acl([6]) && in_array(auth()->id(), [3839, 3838, 3837]), function ($q) {
             return $q->where('type', 'App\Notifications\MessageNotification');
         })
+        ->when(v2_acl([2]), function ($q) {
+            return $q->whereIn('type', ['App\CustomInvoicePaidNotification', 'App\CustomInvoiceNotification']);
+        })
         ->latest()->paginate(20);
     @endphp
     <div class="for-slider-main-banner">
@@ -134,7 +137,12 @@
                                                 'key' => 'id',
                                             ],
                                             'App\CustomInvoiceNotification' => [
-                                                'badge' => '<span class="badge badge-info">Invoice</span>',
+                                                'badge' => '<span class="badge badge-danger">Invoice</span>',
+                                                'route' => 'v2.invoices.show',
+                                                'key' => 'invoice_id',
+                                            ],
+                                            'App\CustomInvoicePaidNotification' => [
+                                                'badge' => '<span class="badge badge-success">Invoice</span>',
                                                 'route' => 'v2.invoices.show',
                                                 'key' => 'invoice_id',
                                             ],

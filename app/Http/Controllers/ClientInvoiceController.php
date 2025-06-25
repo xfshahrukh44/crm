@@ -86,44 +86,51 @@ class ClientInvoiceController extends Controller
             'end_user_ip' => request()->ip(),
         ]);
 
-        if ($authorize_charge_res['success'] == true) {
-            Log::info('Authorize charge on invoice #123.' . json_encode($authorize_charge_res));
+        $res = $authorize_charge_res['success'];
+        $res_message = $authorize_charge_res['message'];
+
+        //notification for charge
+        $user_ids = array_unique(DB::table('brand_users')->where('brand_id', $invoice->brand)->pluck('user_id')->toArray());
+        $user_ids []= 1;
+        $client = DB::table('clients')->where('id', $invoice->client_id)->first();
+        $notification_data = [
+            'id' => auth()->id(),
+            'invoice_id' => $invoice->id,
+            'name' => $res_message,
+            'text' => (($client->name ?? '') . ' ' . ($client->last_name ?? '')) . (" INV#".$invoice->id." payment " . ($res ? 'successful.' : 'failed.')),
+            'details' => $res_message,
+        ];
+        $notification_type = $res ? 'App\CustomInvoicePaidNotification' : 'App\CustomInvoiceNotification';
+        foreach (DB::table('users')->whereIn('is_employee', [2, 0, 4, 6])->whereIn('id', $user_ids)->get() as $user) {
+            DB::table('notifications')->insert([
+                'id' => Str::uuid(), //
+                'type' => $notification_type,
+                'notifiable_type' => 'App\Models\User',
+                'notifiable_id' => $user->id,
+                'data' => json_encode($notification_data),
+                'read_at' => null,
+                'created_at' => \Carbon\Carbon::now(),
+            ]);
+        }
+
+        if ($res) {
             $invoice->authorize_transaction_id = $authorize_charge_res['data']['transaction_id'];
             $invoice->payment_status = 2;
             $invoice->save();
 
-            if (auth()->check() && auth()->user()->is_employee == 3) {
+            if (v2_acl([3])) {
                 return redirect()->route('client.invoice')->with('success', 'Invoice paid successfully!');
             } else {
                 return redirect()->back()->with('success', 'Invoice paid successfully!');
             }
         } else {
-            $user_ids = array_unique(DB::table('brand_users')->where('brand_id', $invoice->brand)->pluck('user_id')->toArray());
-            foreach (User::whereIn('is_employee', [0, 4, 6])->whereIn('id', $user_ids)->get() as $user) {
-                $client = DB::table('clients')->where('id', $invoice->client_id)->first();
-                DB::table('notifications')->insert([
-                    'id' => Str::uuid(), //
-                    'type' => 'App\CustomInvoiceNotification',
-                    'notifiable_type' => get_class($user),
-                    'notifiable_id' => $user->id,
-                    'data' => json_encode([
-                        'id' => auth()->id(),
-                        'invoice_id' => $invoice->id,
-                        'name' => $authorize_charge_res['message'],
-                        'text' => (($client->name ?? '') . ' ' . ($client->last_name ?? '')) . (" INV#".$invoice->id." payment failed"),
-                        'details' => $authorize_charge_res['message'],
-                    ]),
-                    'read_at' => null,
-                    'created_at' => \Carbon\Carbon::now(),
-                ]);
+            //for storing failed charge message
+            DB::table('failed_invoice_attempts')->insert([
+                'invoice_id' => $invoice->id,
+                'text' => $res_message,
+            ]);
 
-                DB::table('failed_invoice_attempts')->insert([
-                    'invoice_id' => $invoice->id,
-                    'text' => $authorize_charge_res['message'],
-                ]);
-            }
-
-            return redirect()->back()->with('error', $authorize_charge_res['message']);
+            return redirect()->back()->with('error', $res_message);
         }
     }
 
