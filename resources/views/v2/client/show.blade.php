@@ -62,7 +62,7 @@
         </section>
 
         @if(count($invoices) && !user_is_cs())
-            <section class="list-0f">
+            <section class="list-0f mt-4">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">

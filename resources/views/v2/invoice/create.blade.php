@@ -183,18 +183,18 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-4">
-                                        <div class="form-group">
-                                            <label>Send Email to Customer *</label>
-                                            <select class="form-control" name="sendemail" id="sendemail" required>
-                                                <option value="0" {{ (old('sendemail') == "0") ? 'selected' : ''}}>No</option>
-                                                <option value="1" {{ (old('sendemail') == "1") ? 'selected' : ''}}>Yes</option>
-                                            </select>
-                                            @error('sendemail')
-                                            <label class="text-danger">{{ $message }}</label>
-                                            @enderror
-                                        </div>
-                                    </div>
+{{--                                    <div class="col-4">--}}
+{{--                                        <div class="form-group">--}}
+{{--                                            <label>Send Email to Customer *</label>--}}
+{{--                                            <select class="form-control" name="sendemail" id="sendemail" required>--}}
+{{--                                                <option value="0" {{ (old('sendemail') == "0") ? 'selected' : ''}}>No</option>--}}
+{{--                                                <option value="1" {{ (old('sendemail') == "1") ? 'selected' : ''}}>Yes</option>--}}
+{{--                                            </select>--}}
+{{--                                            @error('sendemail')--}}
+{{--                                            <label class="text-danger">{{ $message }}</label>--}}
+{{--                                            @enderror--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label>Description</label>

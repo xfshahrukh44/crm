@@ -81,7 +81,7 @@
                                     </div>
                                     <div class="col-4">
                                         <div class="form-group">
-                                            <label>Select status *</label>
+                                            <label>Select priority *</label>
                                             <select name="priority" class="form-control">
                                                 <option value="1" class="bg-danger text-white">HIGH</option>
                                                 <option value="2" class="bg-warning text-black" selected="">MEDIUM</option>

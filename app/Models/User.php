@@ -101,7 +101,7 @@ class User extends Authenticatable
 
     public function get_role(){
         if($this->is_employee == 0){
-            echo "Sale Agent";
+            echo "Front Agent";
         }else if($this->is_employee == 1){
             echo "Team Lead";
         }else if($this->is_employee == 2){

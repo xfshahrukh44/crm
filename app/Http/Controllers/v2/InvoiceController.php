@@ -220,7 +220,8 @@ class InvoiceController extends Controller
         if($invoice->package == '0'){
             $package_name = strip_tags($invoice->custom_package);
         }
-        $sendemail = $request->sendemail;
+//        $sendemail = $request->sendemail;
+        $sendemail = 0;
         if($sendemail == 1){
             // Send Invoice Link To Email
             $details = [
