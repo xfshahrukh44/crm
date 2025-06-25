@@ -123,9 +123,6 @@ class DashboardController extends Controller
             $sale_agents = User::whereIn('is_employee', [0, 4, 6])->whereIn('id', $my_user_ids)->orderBy('name', 'ASC')
                 ->get();
 
-//            //restricted brand access
-//            $restricted_brands = json_decode(auth()->user()->restricted_brands, true); // Ensure it's an array
-
             $daily_data = [];
             $monthly_data = [];
             foreach ($sale_agents as $sale_agent) {
@@ -228,7 +225,7 @@ class DashboardController extends Controller
 
     public function notifications (Request $request)
     {
-        if (!v2_acl([6, 4, 0, 1, 5])) {
+        if (!v2_acl([2, 6, 4, 0, 1, 5])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 

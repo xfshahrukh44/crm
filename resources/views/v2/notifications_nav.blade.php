@@ -21,6 +21,8 @@
                         $url = route('admin.client.shownotification', ['client' => $data['id'], 'id' => $id]);
                     } elseif ($type == 'App\CustomInvoiceNotification' && isset($data['invoice_id'])) {
                         $url = route('v2.invoices.show', ['invoice_id' => $data['invoice_id']]);
+                    } elseif ($type == 'App\CustomInvoicePaidNotification' && isset($data['invoice_id'])) {
+                        $url = route('v2.invoices.show', ['invoice_id' => $data['invoice_id']]);
                     } elseif ($type == 'App\Notifications\PaymentNotification') {
                         $url = '#';
                     } else {
@@ -35,6 +37,8 @@
                     @elseif ($type == 'App\Notifications\PaymentNotification')
                         <i class="i-Money-Bag text-success mr-1"></i>
                     @elseif ($type == 'App\CustomInvoiceNotification')
+                        <i class="fas fa-dollar-sign text-danger mr-1"></i>
+                    @elseif ($type == 'App\CustomInvoicePaidNotification')
                         <i class="fas fa-dollar-sign text-success mr-1"></i>
                     @else
                         <i class="fa-solid fa-bell"></i>

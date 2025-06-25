@@ -264,7 +264,7 @@
                     </li>
                 @endif
 
-                @if (in_array($user_role_id, [6, 4, 0, 1, 5]))
+                @if (in_array($user_role_id, [2, 6, 4, 0, 1, 5]))
                     <li>
                         <a href="{{ route('v2.notifications') }}" class="{{ request()->routeIs('v2.notifications') ? 'active' : '' }}">
                             <i class="mr-2 fas fa-bell"></i> Notifications
