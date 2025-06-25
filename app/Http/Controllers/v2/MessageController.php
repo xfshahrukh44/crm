@@ -111,8 +111,6 @@ class MessageController extends Controller
         return view('v2.message.index', [
             'clients_with_messages' => $paginated,
             'client' => $client,
-            'page' => $page,
-            'route' => 'v2.messages.admin',
         ]);
     }
 
@@ -539,8 +537,6 @@ class MessageController extends Controller
 
         return view('v2.message.index', [
             'clients_with_messages' => $clients_with_messages->paginate($perPage),
-            'page' => $page,
-            'route' => 'v2.messages.manager',
             'client' => $client
         ]);
     }
@@ -622,8 +618,6 @@ class MessageController extends Controller
 
         return view('v2.message.index', [
             'clients_with_messages' => $clients_with_messages->paginate($perPage),
-            'page' => $page,
-            'route' => 'v2.messages.manager',
             'client' => $client
         ]);
     }

@@ -227,7 +227,7 @@
     <script>
         $(document).ready(function() {
             let loading = false;
-            let page = {{ $page }};
+            let page =  2;
             let hasMore = true;
             let searchQuery = '';
             const urlParams = new URLSearchParams(window.location.search);
@@ -257,13 +257,26 @@
                     url: '{{ route('v2.messages') }}',
                     type: 'GET',
                     data: {
-                        page: page + 1,
+                        page: page,
                         client_name: searchQuery
                     },
                     dataType: 'json',
                     success: function(response) {
                         if (response.html) {
-                            $('.clients-list').append(response.html);
+                             // Check for duplicates before appending
+                            let tempElement = $('<div>').html(response.html);
+                            let newClientIds = [];
+
+                            tempElement.find('.nav-item button').each(function() {
+                                newClientIds.push($(this).attr('id'));
+                            });
+
+                            newClientIds.forEach(function(id) {
+                                if ($('.clients-list').find('#' + id).length === 0) {
+                                    // Only append if this client does not already exist
+                                    $('.clients-list').append(tempElement.find('#' + id).closest('.nav-item'));
+                                }
+                            });
 
                             // Remove active from all first
                             $('.clients-list .nav-item .nav-link.active').removeClass('active');
