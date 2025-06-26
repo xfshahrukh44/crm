@@ -3302,19 +3302,23 @@ function send_task_notification ($task_id, $role) {
 
 function get_role_badge_text () {
     $map = [
-        0 => 'SALES',
-        1 => 'PRODUCTION',
-        2 => 'ADMIN',
-        3 => 'CLIENT',
-        4 => 'SUPPORT',
-        5 => 'PRODUCTION',
-        6 => 'SALES',
-        7 => 'QA',
-        8 => 'BILLING',
-        10 => 'USER',
+        0 => ['SALES', 'primary'],
+        1 => ['PRODUCTION', 'warning'],
+        2 => ['ADMIN', 'dark'],
+        3 => ['CLIENT', 'primary'],
+        4 => ['SUPPORT', 'primary'],
+        5 => ['PRODUCTION', 'warning'],
+        6 => ['SALES', 'primary'],
+        7 => ['QA', 'dark'],
+        8 => ['BILLING', 'dark'],
+        10 => ['USER', 'dark'],
     ];
 
-    return $map[auth()->user()->is_employee ?? 10];
+    $role = auth()->user()->is_employee ?? 10;
+
+    return '<span class="badge badge-sm bg-'.$map[$role][1].' text-white p-1 pl-2">
+                <small style="letter-spacing: 4px;"><b>'.$map[$role][0].'</b></small>
+            </span>';
 }
 
 function get_restricted_brands () {

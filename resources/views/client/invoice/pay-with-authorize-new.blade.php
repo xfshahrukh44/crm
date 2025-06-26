@@ -788,6 +788,34 @@
     <!--End of Zendesk Widget script -->
 @endif
 
+<script>
+    // const cardInput = document.getElementById('card-number');
+    //
+    // cardInput.addEventListener('input', function () {
+    //     // Remove non-digit characters
+    //     let value = this.value.replace(/\D/g, '');
+    //
+    //     // Optional: Add spaces after every 4 digits for formatting
+    //     value = value.substring(0, 16); // Max 16 digits for most cards
+    //     value = value.replace(/(.{4})/g, '$1 ').trim(); // Add spaces every 4 digits
+    //
+    //     this.value = value.substring(0, 19); // Max 19 characters (16 digits + 3 spaces)
+    // });
+
+    $(document).ready(function () {
+        $('#card-number').on('keyup', function () {
+            let val = $(this).val();
+
+            // Remove all non-digit characters
+            val = val.replace(/\D/g, '');
+
+            // Limit to 19 characters
+            val = val.slice(0, 19);
+
+            $(this).val(val);
+        });
+    });
+</script>
 </body>
 
 </html>

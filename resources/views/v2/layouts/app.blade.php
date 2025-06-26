@@ -166,7 +166,7 @@
 
                                                 <span class="auth-name ml-4">{{ auth()->user()->name }}</span>
                                                 <a class="dropdown-item mt-0" href="javascript:void(0);">
-                                                    <span class="badge badge-sm bg-dark text-white m-auto">{{get_role_badge_text()}}</span>
+                                                    {!! get_role_badge_text() !!}
                                                 </a>
                                                 <a class="dropdown-item" href="{{ route('v2.profile') }}">
                                                     Profile
