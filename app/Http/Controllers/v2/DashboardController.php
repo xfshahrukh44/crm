@@ -59,7 +59,7 @@ class DashboardController extends Controller
 
                     $todays_invoice_ids = DB::table('invoices')->whereIn('brand', $buh_user->brand_list())
                         ->whereDate('created_at', '=', Carbon::today())
-//                        ->where('sales_agent_id', $sale_agent->id)
+                        ->where('sales_agent_id', $sale_agent->id)
                         ->where('payment_status', 2)->where('currency', 1)->pluck('id')->toArray();
                     $todays_invoice_totals = get_invoice_totals_in_usd($todays_invoice_ids);
                     $todays_invoice_refunds = get_invoice_refunds_totals_in_usd($todays_invoice_ids);
@@ -76,14 +76,14 @@ class DashboardController extends Controller
                         'daily_printing_costs' => $daily_printing_costs,
                         'daily_refunds' => $todays_invoice_refunds,
                         'daily_achieved' => $todays_invoice_totals,
-                        'daily_target_achieved_in_percentage' => $daily_target_achieved_in_percentage,
+                        'daily_target_achieved_in_percentage' => intval($daily_target_achieved_in_percentage) ?? 0,
                         'pfp' => $sale_agent->image ? asset($sale_agent->image) : asset('images/avatar.png'),
                     ];
 
                     $this_months_invoice_ids = DB::table('invoices')->whereIn('brand', $buh_user->brand_list())
                         ->whereDate('created_at', '>=', Carbon::today()->firstOfMonth())
                         ->whereDate('created_at', '<=', Carbon::today()->lastOfMonth())
-//                        ->where('sales_agent_id', $sale_agent->id)
+                        ->where('sales_agent_id', $sale_agent->id)
                         ->where('payment_status', 2)->where('currency', 1)->pluck('id')->toArray();
                     $this_months_invoice_totals = get_invoice_totals_in_usd($this_months_invoice_ids);
                     $this_months_invoice_refunds = get_invoice_refunds_totals_in_usd($this_months_invoice_ids);
@@ -100,7 +100,7 @@ class DashboardController extends Controller
                         'monthly_printing_costs' => $monthly_printing_costs,
                         'monthly_refunds' => $this_months_invoice_refunds,
                         'monthly_achieved' => $this_months_invoice_totals,
-                        'monthly_target_achieved_in_percentage' => $monthly_target_achieved_in_percentage,
+                        'monthly_target_achieved_in_percentage' => intval($monthly_target_achieved_in_percentage) ?? 0,
                         'pfp' => $sale_agent->image ? asset($sale_agent->image) : asset('images/avatar.png'),
                     ];
                 }
@@ -141,7 +141,7 @@ class DashboardController extends Controller
 
                 $todays_invoice_ids = DB::table('invoices')->whereIn('brand', auth()->user()->brand_list())
                     ->whereDate('created_at', '=', Carbon::today())
-//                    ->where('sales_agent_id', $sale_agent->id)
+                    ->where('sales_agent_id', $sale_agent->id)
                     ->where('payment_status', 2)->where('currency', 1)->pluck('id')->toArray();
                 $todays_invoice_totals = get_invoice_totals_in_usd($todays_invoice_ids);
                 $todays_invoice_refunds = get_invoice_refunds_totals_in_usd($todays_invoice_ids);
@@ -158,14 +158,14 @@ class DashboardController extends Controller
                     'daily_printing_costs' => $daily_printing_costs,
                     'daily_refunds' => $todays_invoice_refunds,
                     'daily_achieved' => $todays_invoice_totals,
-                    'daily_target_achieved_in_percentage' => $daily_target_achieved_in_percentage,
+                    'daily_target_achieved_in_percentage' => intval($daily_target_achieved_in_percentage) ?? 0,
                     'pfp' => $sale_agent->image ? asset($sale_agent->image) : asset('images/avatar.png'),
                 ];
 
                 $this_months_invoice_ids = DB::table('invoices')->whereIn('brand', auth()->user()->brand_list())
                     ->whereDate('created_at', '>=', Carbon::today()->firstOfMonth())
                     ->whereDate('created_at', '<=', Carbon::today()->lastOfMonth())
-//                    ->where('sales_agent_id', $sale_agent->id)
+                    ->where('sales_agent_id', $sale_agent->id)
                     ->where('payment_status', 2)->where('currency', 1)->pluck('id')->toArray();
                 $this_months_invoice_totals = get_invoice_totals_in_usd($this_months_invoice_ids);
                 $this_months_invoice_refunds = get_invoice_refunds_totals_in_usd($this_months_invoice_ids);
@@ -182,7 +182,7 @@ class DashboardController extends Controller
                     'monthly_printing_costs' => $monthly_printing_costs,
                     'monthly_refunds' => $this_months_invoice_refunds,
                     'monthly_achieved' => $this_months_invoice_totals,
-                    'monthly_target_achieved_in_percentage' => $monthly_target_achieved_in_percentage,
+                    'monthly_target_achieved_in_percentage' => intval($monthly_target_achieved_in_percentage) ?? 0,
                     'pfp' => $sale_agent->image ? asset($sale_agent->image) : asset('images/avatar.png'),
                 ];
             }
