@@ -25,7 +25,7 @@ class LeadController extends Controller
             ->when(v2_acl([0]), function ($q) {
                 return $q->where('user_id', auth()->id());
             })
-            ->when(!v2_acl([1]), function ($q) {
+            ->when(!v2_acl([2]), function ($q) {
                 return $q->whereIn('brand', auth()->user()->brand_list());
             })
             ->when($request->name != '', function ($q) use ($request) {
