@@ -21,19 +21,23 @@ class MessageController extends Controller
 {
     public function index(Request $request)
     {
-        if(Auth::user()->is_employee == 2){
+        if (Auth::user()->is_employee == 2) {
             return $this->getMessageByAdmin($request);
         }
-        if(Auth::user()->is_employee == 6){
+
+        if (Auth::user()->is_employee == 6) {
             return $this->getMessageByManager($request);
         }
-        if(Auth::user()->is_employee = 4 && Auth::user()->is_support_head == 1){
+
+        if (Auth::user()->is_employee == 4 && Auth::user()->is_support_head == 1) {
             return $this->getMessageBySupportHead($request);
         }
-        if(Auth::user()->is_employee == 4){
+
+        if (Auth::user()->is_employee == 4) {
             return $this->getMessageBySupport($request);
         }
-        if(Auth::user()->is_employee = 0){
+
+        if (Auth::user()->is_employee == 0) {
             return $this->getMessageBySale($request);
         }
     }
