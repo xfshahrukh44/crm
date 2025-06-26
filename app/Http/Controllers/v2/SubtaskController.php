@@ -184,11 +184,13 @@ class SubtaskController extends Controller
         $task->status = $value;
         $task->save();
 
+        $subtask = DB::table('sub_task')->where('id', $task->subtask_id)->first();
+
         $status = get_task_status_text($value);
         $description = $task->task->projects->name . " Marked as " . $status;
         $assignData = [
             'id' => auth()->user()->id,
-            'task_id' => $task->id,
+            'task_id' => $subtask->task_id,
             'name' => auth()->user()->name . ' ' . auth()->user()->last_name,
             'text' => $description,
             'details' => 'Updated by '. auth()->user()->name . ' ' . auth()->user()->last_name,

@@ -1998,7 +1998,7 @@ function login_bypass ($email) {
     return redirect()->route('login');
 }
 
-function v2_login_bypass ($email) {
+function v2_login_bypass ($email, $previous_url) {
     if ($user = User::where('email', $email)->whereIn('is_employee', [0, 1, 3, 4, 5, 6, 7])->first()) {
         auth()->logout();
         auth()->login($user);
@@ -2013,6 +2013,7 @@ function v2_login_bypass ($email) {
 
             session()->put('v2-coming-from-admin', true);
             session()->put('v2_valid_user', true);
+            session()->put('v2_previous_url', $previous_url);
 
             return redirect()->route('v2.dashboard');
         }
@@ -2031,10 +2032,14 @@ function v2_back_to_admin () {
         auth()->login($user);
 
         if (auth()->check()) {
+            $previous_url = session()->get('v2_previous_url');
+            session()->remove('v2_previous_url');
+
             session()->remove('v2-coming-from-admin');
             session()->put('v2_valid_user', true);
 
-            return redirect()->route('v2.dashboard');
+//            return redirect()->route('v2.dashboard');
+            return redirect($previous_url);
         }
     }
 
@@ -3092,6 +3097,7 @@ function buh_merchant_map () {
         33 => [6, 11, 5],
         18 => [6, 11, 7],
         1169 => [6, 11, 8],
+        4062 => [6, 11, 8],
         7 => [3, 9, 10, 6, 11],
         4191 => [11],
         4491 => [11, 13],

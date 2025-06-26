@@ -13,7 +13,7 @@ class AdminController extends Controller
             return redirect()->back()->with('error', 'Access denied.');
         }
 
-        return v2_login_bypass($_GET['email']);
+        return v2_login_bypass($_GET['email'], url()->previous());
     }
 
     public function backToAdmin (Request $request)

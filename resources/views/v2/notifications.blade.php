@@ -104,7 +104,7 @@
                             <table id="zero_configuration_table" style="width: 100%;">
                                 <thead>
                                     <th>Notification</th>
-                                    <th>User</th>
+                                    <th>Detail</th>
                                     <th>Type</th>
                                     <th>Date</th>
                                 </thead>
@@ -133,8 +133,8 @@
                                             ],
                                             'App\Notifications\SubTaskNotification' => [
                                                 'badge' => '<span class="badge badge-success">Subtask</span>',
-                                                'route' => 'v2.subtasks.show',
-                                                'key' => 'id',
+                                                'route' => v2_acl([1]) ? 'v2.tasks.show' : 'v2.subtasks.show',
+                                                'key' => v2_acl([1]) ? 'task_id' : 'id',
                                             ],
                                             'App\CustomInvoiceNotification' => [
                                                 'badge' => '<span class="badge badge-danger">Invoice</span>',
