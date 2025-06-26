@@ -104,7 +104,7 @@
                             <table id="zero_configuration_table" style="width: 100%;">
                                 <thead>
                                     <th>Notification</th>
-                                    <th>User</th>
+                                    <th>Detail</th>
                                     <th>Type</th>
                                     <th>Date</th>
                                 </thead>
