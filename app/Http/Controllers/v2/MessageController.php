@@ -532,15 +532,27 @@ class MessageController extends Controller
             ->groupBy('client_id');
 
 
-        $data = $data->joinSub($latestMessages, 'latest_messages', function ($join) {
+        // $data = $data->joinSub($latestMessages, 'latest_messages', function ($join) {
+        //     $join->on('users.id', '=', 'latest_messages.client_id');
+        // })
+        //     ->join('messages', function ($join) {
+        //         $join->on('users.id', '=', 'messages.client_id')
+        //             ->on('latest_messages.latest_message_date', '=', 'messages.created_at');
+        //     })
+        //     ->select('users.*', 'messages.is_read') // Ensure only User attributes are selected
+        //     ->orderBy('messages.created_at', 'DESC')
+        //     ->distinct();
+
+
+        $data = $data->leftJoinSub($latestMessages, 'latest_messages', function ($join) {
             $join->on('users.id', '=', 'latest_messages.client_id');
         })
-            ->join('messages', function ($join) {
+            ->leftJoin('messages', function ($join) {
                 $join->on('users.id', '=', 'messages.client_id')
                     ->on('latest_messages.latest_message_date', '=', 'messages.created_at');
             })
-            ->select('users.*', 'messages.is_read') // Ensure only User attributes are selected
-            ->orderBy('messages.created_at', 'DESC')
+            ->select('users.*', 'messages.created_at as message_created_at') // Optionally select message fields
+            ->orderByDesc(DB::raw('IFNULL(messages.created_at, "1970-01-01 00:00:00")')) // Sort by message if exists, otherwise keep clients
             ->distinct();
 
 
@@ -617,16 +629,29 @@ class MessageController extends Controller
             ->groupBy('client_id');
 
 
-        $clients_with_messages = $clients_with_messages->joinSub($latestMessages, 'latest_messages', function ($join) {
+        // $clients_with_messages = $clients_with_messages->joinSub($latestMessages, 'latest_messages', function ($join) {
+        //     $join->on('users.id', '=', 'latest_messages.client_id');
+        // })
+        //     ->join('messages', function ($join) {
+        //         $join->on('users.id', '=', 'messages.client_id')
+        //             ->on('latest_messages.latest_message_date', '=', 'messages.created_at');
+        //     })
+        //     ->select('users.*') // Ensure only User attributes are selected
+        //     ->orderBy('messages.created_at', 'DESC')
+        //     ->distinct();
+
+        $clients_with_messages = $clients_with_messages->leftJoinSub($latestMessages, 'latest_messages', function ($join) {
             $join->on('users.id', '=', 'latest_messages.client_id');
         })
-            ->join('messages', function ($join) {
+            ->leftJoin('messages', function ($join) {
                 $join->on('users.id', '=', 'messages.client_id')
                     ->on('latest_messages.latest_message_date', '=', 'messages.created_at');
             })
-            ->select('users.*') // Ensure only User attributes are selected
-            ->orderBy('messages.created_at', 'DESC')
+            ->select('users.*', 'messages.created_at as message_created_at') // Optionally select message fields
+            ->orderByDesc(DB::raw('IFNULL(messages.created_at, "1970-01-01 00:00:00")')) // Sort by message if exists, otherwise keep clients
             ->distinct();
+
+
 
         // If a particular clientId is provided, separate it first
         if ($clientId) {
