@@ -1364,7 +1364,7 @@ table.client-list .progress-done {
     gap: 20px;
     padding: 20px 30px;
     width: 80%;
-    flex-direction: row-reverse;
+    /* flex-direction: row-reverse; */
 }
 
 .message-line h6 {

@@ -4,12 +4,9 @@
         $now = \Carbon\Carbon::now();
     @endphp
     <div class="main-chat-message {{ $message->role_id == $is_employee ? '' : 'for-reply' }}">
-        @if ($message->role_id != $is_employee)
-            @php
-                $receiver_user = \App\Models\User::find($message->user_id);
-            @endphp
-            <div class="message-img">
-                <img src="{{ asset($receiver_user->image ?? 'assets/imgs/default-avatar.jpg') }}" class="img-fluid">
+        @if ($message->role_id == $is_employee)
+            <div class="message-img client-img">
+                <img src="{{ asset($user_image ?? 'assets/imgs/default-avatar.jpg') }}" class="img-fluid">
             </div>
         @endif
 
@@ -50,11 +47,14 @@
                 <span>{{ \Carbon\Carbon::parse($message->created_at)->setTimezone('Asia/Karachi')->format('h:i A, M d') }}</span>
             </div>
         </div>
-
-        @if ($message->role_id == $is_employee)
-            <div class="message-img">
-                <img src="{{ asset($user_image ?? 'assets/imgs/default-avatar.jpg') }}" class="img-fluid">
+        @if ($message->role_id != $is_employee)
+            @php
+                $receiver_user = \App\Models\User::find($message->user_id);
+            @endphp
+            <div class="message-img you-img">
+                <img src="{{ asset($receiver_user->image ?? 'assets/imgs/default-avatar.jpg') }}" class="img-fluid">
             </div>
         @endif
+
     </div>
 @endforeach
