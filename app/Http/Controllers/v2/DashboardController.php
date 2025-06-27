@@ -29,7 +29,7 @@ class DashboardController extends Controller
         if(v2_acl([2])) {
             $buh_users = User::where('is_employee', 6)->orderBy('name', 'ASC')
                 //restricted buhs
-                ->whereIn('id', [7, 1169, 33, 18, 4191, 4491, 4062])
+                ->whereIn('id', [7, 1169, 33, 18, 4191, 4491])
                 ->get();
 
             $buh_data = [];
@@ -52,7 +52,7 @@ class DashboardController extends Controller
                     }
 
                     if ($sale_agent->is_employee == 6) {
-                        if (!in_array($sale_agent->id, [7, 1169, 33, 18, 4191, 4491, 4062])) {
+                        if (!in_array($sale_agent->id, [7, 1169, 33, 18, 4191, 4491])) {
                             continue;
                         }
                     }
@@ -134,7 +134,7 @@ class DashboardController extends Controller
                 }
 
                 if ($sale_agent->is_employee == 6) {
-                    if (!in_array($sale_agent->id, [7, 1169, 33, 18, 4191, 4491, 4062])) {
+                    if (!in_array($sale_agent->id, [7, 1169, 33, 18, 4191, 4491])) {
                         continue;
                     }
                 }
