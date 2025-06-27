@@ -41,7 +41,7 @@
                                         </div>
                                     </div>
 
-                                    <table id="zero_configuration_table" style="width: 100%;">
+                                    <table id="zero_configuration_table" class="table-striped" style="width: 100%;">
                                         <thead>
 
                                             <th>ID</th>
