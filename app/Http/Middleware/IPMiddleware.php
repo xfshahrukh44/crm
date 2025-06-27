@@ -18,6 +18,11 @@ class IPMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
+//        if ((mt_rand(1, 100) % 4) == 0) {
+//            auth()->logout();
+//            return redirect()->route('login')->with("error","Access denied.");
+//        }
+
         if (v2_acl([2, 6, 4, 0, 1, 5])) {
             if (!session()->has('v2_valid_user')) {
                 $bytes = bin2hex(random_bytes(3));

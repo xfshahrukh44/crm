@@ -93,13 +93,13 @@ class ClientInvoiceController extends Controller
         $user_ids = array_unique(DB::table('brand_users')->where('brand_id', $invoice->brand)->pluck('user_id')->toArray());
         $user_ids []= 1;
         $client = DB::table('clients')->where('id', $invoice->client_id)->first();
-        $notification_data = [
+        $notification_data = json_encode([
             'id' => auth()->id(),
             'invoice_id' => $invoice->id,
             'name' => $res_message,
             'text' => (($client->name ?? '') . ' ' . ($client->last_name ?? '')) . (" INV#".$invoice->id." payment " . ($res ? 'successful.' : 'failed.')),
             'details' => $res_message,
-        ];
+        ]);
         $notification_type = $res ? 'App\CustomInvoicePaidNotification' : 'App\CustomInvoiceNotification';
         foreach (DB::table('users')->whereIn('is_employee', [2, 0, 4, 6])->whereIn('id', $user_ids)->get() as $user) {
             DB::table('notifications')->insert([
@@ -107,7 +107,7 @@ class ClientInvoiceController extends Controller
                 'type' => $notification_type,
                 'notifiable_type' => 'App\Models\User',
                 'notifiable_id' => $user->id,
-                'data' => json_encode($notification_data),
+                'data' => $notification_data,
                 'read_at' => null,
                 'created_at' => \Carbon\Carbon::now(),
             ]);
