@@ -32,7 +32,7 @@ class SalesController extends Controller
                 $user_ids = $this->getUserIDs();
                 return $q->whereIn('id', $user_ids)->where('id', '!=', auth()->id())->where('is_employee', '!=', 6);
             })
-            ->orderBy('created_at', 'DESC')->paginate(20);
+            ->orderBy('created_at', 'DESC')->paginate(10);
 
         return view('v2.sales.index', compact('users'));
     }

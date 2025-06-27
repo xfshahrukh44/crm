@@ -81,7 +81,13 @@
                                         <tbody>
                                             @foreach($users as $user)
                                                 <tr>
-                                                    <td>{{$user->id}}</td>
+                                                    <td class="text-center">
+                                                        <img src="{{$user->image ? asset($user->image) : asset('images/avatar.png')}}" style="border-radius: 25px; object-fit: cover;" width="40">
+                                                        <br />
+                                                        <span class="badge badge-dark p1">
+                                                                <small>{{ $user->id }}</small>
+                                                            </span>
+                                                    </td>
                                                     <td>{{$user->name}} {{$user->last_name}}</td>
                                                     <td>
                                                         <button class="badge {{ $user->is_employee == 1 ? 'bg-dark' : 'bg-light' }} {{ $user->is_employee == 1 ? 'text-white' : '' }} p-2 btn-sm" style="border: 0px;">{{$user->get_role()}}</button>

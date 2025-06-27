@@ -41,7 +41,7 @@ class TaskController extends Controller
             array_push($task_array, $notification_tasks['data']['task_id']);
         }
 
-        $tasks = Task::when(!v2_acl([1]), function ($q) use ($brand_ids, $task_array) {
+        $tasks = Task::when(!v2_acl([1, 2]), function ($q) use ($brand_ids, $task_array) {
                 return $q->whereIn('brand_id', $brand_ids)->whereNotIn('id', $task_array);
             })
             ->when(request()->get('project') != '', function ($q) {

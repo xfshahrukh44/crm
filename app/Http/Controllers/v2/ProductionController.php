@@ -23,7 +23,7 @@ class ProductionController extends Controller
                 })->orWhereHas('category', function ($q) use ($search) {
                     return $q->where('name', 'LIKE', '%'.$search.'%');
                 });
-            })->orderBy('created_at', 'DESC')->paginate(20);
+            })->orderBy('created_at', 'DESC')->paginate(10);
 
         return view('v2.production.index', compact('users'));
     }
