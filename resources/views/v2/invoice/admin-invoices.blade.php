@@ -86,7 +86,7 @@
                                 <input name="file" type="file" id="input_file" accept=".xlsx, .xls">
                             </form>
 
-                            <table id="zero_configuration_table" style="width: 100%;">
+                            <table class="table-striped" id="zero_configuration_table" style="width: 100%;">
                                 <thead>
 
                                 <th>ID</th>

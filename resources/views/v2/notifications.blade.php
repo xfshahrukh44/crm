@@ -160,7 +160,7 @@
                                                 }
                                             @endphp
                                             <td>
-                                                <a href="{{$route}}">
+                                                <a href="{{$route}}" class="bg-transparent">
                                                     {{ strip_tags($notification->data['text']) }}
                                                 </a>
                                             </td>

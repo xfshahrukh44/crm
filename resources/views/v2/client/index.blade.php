@@ -104,7 +104,7 @@
                                     <tr>
                                         <td>{{$client->id}}</td>
                                         <td>
-                                            <a class="p-2 bg-white" href="{{ route('v2.clients.show', $client->id) }}">
+                                            <a class="p-2 bg-white bg-transparent" href="{{ route('v2.clients.show', $client->id) }}">
                                                 {{$client->name}} {{$client->last_name}}
                                             </a>
                                         </td>

@@ -94,7 +94,7 @@
                                     </span>
                                     Task Notifications
                                 </h2>
-                                <table id="zero_configuration_table" class="table-striped" style="width: 100%;">
+                                <table id="zero_configuration_table" class="table table-striped" style="width: 100%;">
                                     <thead>
 
                                     <th>ID</th>
@@ -157,7 +157,7 @@
                                 <br />
                             @endif
 
-                            <table id="zero_configuration_table" style="width: 100%;">
+                            <table id="zero_configuration_table" class="table-striped" style="width: 100%;">
                                 <thead>
 
                                 <th>ID</th>
@@ -176,7 +176,7 @@
                                     <tr>
                                         <td>{{$task->id}}</td>
                                         <td>
-                                            <a class="p-2 bg-white" href="{{ route('v2.tasks.show', $task->id) }}">
+                                            <a class="p-2 bg-transparent" href="{{ route('v2.tasks.show', $task->id) }}">
                                                 {!! \Illuminate\Support\Str::limit(preg_replace("/<\/?a( [^>]*)?>/i", "", strip_tags($task->description)), 30, $end='...') !!}
                                             </a>
                                         </td>

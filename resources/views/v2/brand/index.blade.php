@@ -106,7 +106,7 @@
                                                 <tr>
                                                     <td>{{$brand->id}}</td>
                                                     <td><img src="{{ asset($brand->logo)}}" width="100"></td>
-                                                    <td><a href="{{ route('v2.brands.show', $brand->id) }}">{{$brand->name}}</a></td>
+                                                    <td><a class="bg-transparent" href="{{ route('v2.brands.show', $brand->id) }}">{{$brand->name}}</a></td>
                                                     <td>{{$brand->phone}}</td>
                                                     <td>{{$brand->email}}</td>
                                                     <td>{{$brand->url}}</td>

@@ -104,11 +104,13 @@
                                         <tr>
                                             <td>{{ $invoice->id }}</td>
                                             <td>
-                                                @if ($invoice->package == 0)
-                                                    {{ $invoice->custom_package }}
-                                                @else
-                                                    {{ $invoice->package }}
-                                                @endif
+                                                <a class="p-2 bg-white bg-transparent" href="{{ route('v2.invoices.show', $invoice->id) }}">
+                                                    @if ($invoice->package == 0)
+                                                        {{ $invoice->custom_package }}
+                                                    @else
+                                                        {{ $invoice->package }}
+                                                    @endif
+                                                </a>
                                             </td>
                                             <td>
                                                 {{ $invoice->client->name }} {{ $invoice->client->last_name }}
@@ -160,12 +162,14 @@
 
                                             <td style="position: relative;">
                                                 <!-- Single Action Button -->
-                                                {{--                                                            <a href="{{ route('v2.invoices.edit', $invoice->id) }}" class="badge bg-primary badge-icon badge-sm text-white p-2"> --}}
-                                                {{--                                                                <span class="ul-btn__icon"><i class="i-Edit"></i></span> --}}
-                                                {{--                                                                <span class="ul-btn__text"> --}}
-                                                {{--                                                                    <i class="fas fa-pencil"></i> --}}
-                                                {{--                                                                </span> --}}
-                                                {{--                                                            </a> --}}
+                                                @if($invoice->payment_status == 1 && !(user_is_cs() || !v2_acl([2, 6, 4, 0])))
+                                                    <a href="{{ route('v2.invoices.edit', $invoice->id) }}" class="badge bg-primary badge-icon badge-sm text-white p-2">
+                                                        <span class="ul-btn__icon"><i class="i-Edit"></i></span>
+                                                        <span class="ul-btn__text">
+                                                            <i class="fas fa-pencil"></i>
+                                                        </span>
+                                                    </a>
+                                                @endif
 
                                                 <a href="{{ route('v2.invoices.show', $invoice->id) }}"
                                                     class="badge bg-dark badge-icon badge-sm text-white p-2">

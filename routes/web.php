@@ -544,8 +544,8 @@ Route::get('temp', function () {
 
 });
 
-//Route::group(['middleware' => ['auth'], 'prefix' => 'v2'], function () {
-Route::group(['middleware' => ['auth', 'ip.mid'], 'prefix' => 'v2'], function () {
+Route::group(['middleware' => ['auth'], 'prefix' => 'v2'], function () {
+//Route::group(['middleware' => ['auth', 'ip.mid'], 'prefix' => 'v2'], function () {
     Route::get('dashboard', [\App\Http\Controllers\v2\DashboardController::class, 'dashboard'])->name('v2.dashboard');
 
     Route::get('revenue', [\App\Http\Controllers\v2\DashboardController::class, 'revenue'])->name('v2.revenue');
@@ -580,8 +580,8 @@ Route::group(['middleware' => ['auth', 'ip.mid'], 'prefix' => 'v2'], function ()
     Route::get('invoices', [\App\Http\Controllers\v2\InvoiceController::class, 'index'])->name('v2.invoices');
     Route::get('invoices/create/{id}', [\App\Http\Controllers\v2\InvoiceController::class, 'create'])->name('v2.invoices.create');
     Route::post('invoices/store', [\App\Http\Controllers\v2\InvoiceController::class, 'store'])->name('v2.invoices.store');
-//    Route::get('invoices/edit/{id}', [\App\Http\Controllers\v2\InvoiceController::class, 'edit'])->name('v2.invoices.edit');
-//    Route::post('invoices/update/{id}', [\App\Http\Controllers\v2\InvoiceController::class, 'update'])->name('v2.invoices.update');
+    Route::get('invoices/edit/{id}', [\App\Http\Controllers\v2\InvoiceController::class, 'edit'])->name('v2.invoices.edit');
+    Route::post('invoices/update/{id}', [\App\Http\Controllers\v2\InvoiceController::class, 'update'])->name('v2.invoices.update');
     Route::get('invoices/detail/{id}', [\App\Http\Controllers\v2\InvoiceController::class, 'show'])->name('v2.invoices.show');
     Route::post('/invoices/paid/{id}', [\App\Http\Controllers\v2\InvoiceController::class, 'markPaid'])->name('v2.invoices.paid');
     Route::get('/invoices/refund/cb', [\App\Http\Controllers\v2\InvoiceController::class, 'refundCB'])->name('v2.invoices.refund.cb');

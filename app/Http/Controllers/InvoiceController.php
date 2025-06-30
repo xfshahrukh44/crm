@@ -108,7 +108,7 @@ class InvoiceController extends Controller
             $data->when($request->has('client_id'), function ($q) use ($request) {
                 return $q->where('client_id', $request->get('client_id'));
             });
-            $data = $data->paginate(10);
+            $data = $data->whereHas('client')->paginate(10);
             $display = '';
             if ($request->ajax()) {
                 foreach ($data as $rander) {

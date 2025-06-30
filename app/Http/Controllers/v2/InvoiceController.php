@@ -276,39 +276,78 @@ class InvoiceController extends Controller
 
     public function edit (Request $request, $id)
     {
-//        if (!v2_acl([2])) {
-//            return redirect()->back()->with('error', 'Access denied.');
-//        }
-//
-//        if (!$client = Client::find($id)) {
-//            return redirect()->back()->with('error', 'Not found.');
-//        }
-//
-//        return view('v2.client.edit', compact('client'));
+        if (user_is_cs() || !v2_acl([2, 6, 4, 0])) {
+            return redirect()->back()->with('error', 'Access denied.');
+        }
+
+        if (!$invoice = Invoice::find($id)) {
+            return redirect()->back()->with('error', 'Not found.');
+        }
+
+        //non admin checks
+        if (!v2_acl([2])) {
+            if (!in_array($invoice->brand, auth()->user()->brand_list())) {
+                return redirect()->back()->with('error', 'Not allowed.');
+            }
+        }
+
+        if(!$user = Client::find($invoice->client_id)) {
+            return redirect()->back()->with('error', 'Not found.');
+        }
+
+        $brands = $this->getBrands();
+        $services = Service::all();
+        $sale_agents = $this->getSaleAgents();
+
+        return view('v2.invoice.edit', compact('invoice', 'brands', 'user', 'services', 'sale_agents'));
     }
 
     public function update (Request $request, $id)
     {
-//        if (!v2_acl([2])) {
-//            return redirect()->back()->with('error', 'Access denied.');
-//        }
-//
-//        if (!$client = Client::find($id)) {
-//            return redirect()->back()->with('error', 'Not found.');
-//        }
-//
-//        $request->validate([
+        if (user_is_cs() || !v2_acl([2, 6, 4, 0])) {
+            return redirect()->back()->with('error', 'Access denied.');
+        }
+
+        $request->validate([
 //            'name' => 'required',
-//            'brand_id' => 'required',
-//            'last_name' => 'required',
-//            'email' => 'required|unique:clients,email,'.$client->id,
-////            'email' => 'required' . !is_null($client->user) ? ('|unique:users,email,'.$client->user->id) : '',
-//            'status' => 'required',
-//        ]);
-//
-//        $client->update($request->all());
-//
-//        return redirect()->route('v2.clients')->with('success','Client updated Successfully.');
+//            'email' => 'required',
+            'brand_id' => 'required',
+            'service' => 'required',
+//            'package' => 'required',
+//            'currency' => 'required',
+            'amount' => 'required',
+//            'payment_type' => 'required',
+            'merchant' => 'required',
+        ]);
+
+        if (!$invoice = Invoice::find($id)) {
+            return redirect()->back()->with('error', 'Not found.');
+        }
+
+        //non admin checks
+        if (!v2_acl([2])) {
+            if (!in_array($invoice->brand, auth()->user()->brand_list())) {
+                return redirect()->back()->with('error', 'Not allowed.');
+            }
+        }
+
+        if(!$user = Client::find($invoice->client_id)) {
+            return redirect()->back()->with('error', 'Not found.');
+        }
+
+        $invoice->brand = $request->brand_id;
+        $invoice->client_id = $user->id;
+        $invoice->sales_agent_id = Auth()->user()->id;
+        $invoice->discription = $request->discription;
+        $invoice->amount = $request->amount;
+        $invoice->custom_package = $request->custom_package;
+//        $invoice->payment_type = $request->payment_type;
+        $service = implode(",",$request->service);
+        $invoice->service = $service;
+        $invoice->merchant_id = $request->merchant;
+        $invoice->save();
+
+        return redirect()->route('v2.invoices')->with('success','Invoice updated Successfully.');
     }
 
     public function show (Request $request, $id)
