@@ -36,7 +36,7 @@ class InvoiceController extends Controller
 {
     public function index (Request $request)
     {
-        if (!v2_acl([2, 6, 4, 0])) {
+        if (!v2_acl([2, 6, 4, 0]) && !support_exclude()) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -352,7 +352,7 @@ class InvoiceController extends Controller
 
     public function show (Request $request, $id)
     {
-        if (!v2_acl([2, 6, 4, 0])) {
+        if (!v2_acl([2, 6, 4, 0]) && !support_exclude()) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 

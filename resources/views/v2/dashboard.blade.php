@@ -108,33 +108,34 @@
                         ->count();
 
                     $revenue_array = [];
-                    for ($month_number = 1; $month_number <= \Carbon\Carbon::now()->month; $month_number++) {
+                    $cb_array = [];
+                    $day_array = [];
+                    $current_date = \Carbon\Carbon::today()->firstOfMonth();
+                    while ($current_date != Carbon\Carbon::today()) {
                         $revenue_array []= \Illuminate\Support\Facades\DB::table('invoices')
-                            ->whereMonth('created_at', $month_number)
+                            ->whereDate('created_at', $current_date)
                             ->whereYear('created_at', \Carbon\Carbon::now()->year)
                             ->where(['payment_status' => 2, 'currency' => 1])
                             ->sum('amount');
-                    }
 
-                    $cb_array = [];
-                    for ($month_number = 1; $month_number <= \Carbon\Carbon::now()->month; $month_number++) {
                         $cb_array []= \Illuminate\Support\Facades\DB::table('invoices')
                             ->whereNotNull('refund_cb_date')
-                            ->whereMonth('created_at', $month_number)
+                            ->whereDate('created_at', $current_date)
                             ->whereYear('created_at', \Carbon\Carbon::now()->year)
                             ->where(['payment_status' => 2, 'currency' => 1])
                             ->sum('refunded_cb');
+
+                        $day_array []= $current_date->day;
+                        $current_date->addDay();
                     }
 
                     $net_array = [];
-                    $month_map = [
-                        "Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"
-                    ];
-                    $month_labels_array = [];
+                    $labels_array = [];
+                    $short_current_month = \Carbon\Carbon::today()->shortMonthName;
 
                     foreach ($revenue_array as $key => $item) {
                         $net_array []= ($item - $cb_array[$key]);
-                        $month_labels_array []= $month_map[$key];
+                        $labels_array []=  ($day_array[$key]) . " " . $short_current_month;
                     }
                 @endphp
                 <section class="revenu-sec">
@@ -549,7 +550,7 @@
             };
 
             const DATA_COUNT = 12;
-            const labels = @json($month_labels_array);
+            const labels = @json($labels_array);
             const data = {
                 labels: labels,
                 datasets: [
@@ -596,7 +597,7 @@
                             display: true,
                             title: {
                                 display: true,
-                                text: 'Year {{\Carbon\Carbon::now()->year}}',
+                                text: '{{\Carbon\Carbon::now()->monthName}} {{\Carbon\Carbon::now()->year}}',
                             }
                         },
                         y: {

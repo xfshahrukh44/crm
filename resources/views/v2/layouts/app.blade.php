@@ -280,7 +280,7 @@
                     </li>
                 @endif
 
-                @if (in_array($user_role_id, [2, 6, 4, 0]))
+                @if (in_array($user_role_id, [2, 6, 4, 0]) && !support_exclude())
                     <li>
                         <a href="{{ route('v2.invoices') }}" class="{{ request()->routeIs('v2.invoices') || request()->routeIs('v2.invoices.create')|| request()->routeIs('v2.invoices.show') ? 'active' : '' }}">
                             <i class="mr-2 fas fa-file-invoice-dollar"></i> Invoices

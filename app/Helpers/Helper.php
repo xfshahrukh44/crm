@@ -3100,7 +3100,7 @@ function buh_merchant_map () {
         18 => [6, 11, 7],
         1169 => [6, 11, 8],
         4062 => [6, 11, 8],
-        7 => [3, 9, 10, 6, 11],
+        7 => [3, 9, 6, 11],
         4191 => [11],
         4491 => [11, 13],
         //testing
@@ -3279,6 +3279,10 @@ function v2_acl ($arr) {
 
 function user_is_cs () {
     return (bool) (v2_acl([4]) && auth()->user()->is_support_head !== 1);
+}
+
+function support_exclude () {
+    return (bool) (user_is_cs() && auth()->user()->is_upsell == 0);
 }
 
 function send_task_notification ($task_id, $role) {

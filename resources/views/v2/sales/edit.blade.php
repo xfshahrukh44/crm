@@ -105,6 +105,18 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    <div class="col-4">
+                                        <div class="form-group">
+                                            <label>Is Upsell ?*</label>
+                                            <select class="form-control select2" name="is_upsell" id="is_upsell" required>
+                                                <option value="0" {!! old('is_upsell') == 0 || $user->is_upsell == 0 ? 'selected' : '' !!}>No</option>
+                                                <option value="1" {!! old('is_upsell') == 1 || $user->is_upsell == 1 ? 'selected' : '' !!}>Yes</option>
+                                            </select>
+                                            @error('is_upsell')
+                                            <label class="text-danger">{{ $message }}</label>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row m-auto">
                                     <div class="brief-bttn">

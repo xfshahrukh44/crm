@@ -101,7 +101,16 @@ class ClientInvoiceController extends Controller
             'details' => $res_message,
         ]);
         $notification_type = $res ? 'App\CustomInvoicePaidNotification' : 'App\CustomInvoiceNotification';
-        foreach (DB::table('users')->whereIn('is_employee', [2, 0, 4, 6])->whereIn('id', $user_ids)->get() as $user) {
+        $users = DB::table('users')->whereIn('id', $user_ids)
+            ->where(function ($q) use ($invoice) {
+                return $q->whereIn('is_employee', [2, 6, 4])
+                    ->orWhere('id', $invoice->sales_agent_id);
+            })->get();
+        foreach ($users as $user) {
+            if ($user->is_employee == 4 && $user->is_support_head == 0 && $user->id != $invoice->sales_agent_id) {
+                continue;
+            }
+
             DB::table('notifications')->insert([
                 'id' => Str::uuid(), //
                 'type' => $notification_type,
