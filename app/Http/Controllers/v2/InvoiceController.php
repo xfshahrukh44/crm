@@ -276,7 +276,7 @@ class InvoiceController extends Controller
 
     public function edit (Request $request, $id)
     {
-        if (user_is_cs() || !v2_acl([2, 6, 4, 0])) {
+        if (user_is_cs() || !v2_acl([2, 6, 4])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -304,7 +304,7 @@ class InvoiceController extends Controller
 
     public function update (Request $request, $id)
     {
-        if (user_is_cs() || !v2_acl([2, 6, 4, 0])) {
+        if (user_is_cs() || !v2_acl([2, 6, 4])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 

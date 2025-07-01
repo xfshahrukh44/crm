@@ -162,7 +162,7 @@
 
                                             <td style="position: relative;">
                                                 <!-- Single Action Button -->
-                                                @if($invoice->payment_status == 1 && !(user_is_cs() || !v2_acl([2, 6, 4, 0])))
+                                                @if($invoice->payment_status == 1 && !(user_is_cs() || !v2_acl([2, 6, 4])))
                                                     <a href="{{ route('v2.invoices.edit', $invoice->id) }}" class="badge bg-primary badge-icon badge-sm text-white p-2">
                                                         <span class="ul-btn__icon"><i class="i-Edit"></i></span>
                                                         <span class="ul-btn__text">

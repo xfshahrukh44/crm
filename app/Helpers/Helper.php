@@ -2158,7 +2158,9 @@ function v2_fetch_search_bar_content ($query = null) {
             return $q->whereIn('brand_id', auth()->user()->brand_list());
         })
         ->when(user_is_cs(), function ($q) {
-            return $q->whereIn('id', $this->getClientIDs());
+            return $q->whereIn('id', array_unique(User::whereIn('id',
+                array_unique(Project::where('user_id', auth()->id())->pluck('client_id')->toArray())
+            )->pluck('client_id')->toArray()));
         })
         ->when(v2_acl([0]), function ($q) {
             return $q->where('user_id', auth()->id());
