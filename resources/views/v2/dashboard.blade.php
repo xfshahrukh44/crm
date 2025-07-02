@@ -111,7 +111,7 @@
                     $cb_array = [];
                     $day_array = [];
                     $current_date = \Carbon\Carbon::today()->firstOfMonth();
-                    while ($current_date != Carbon\Carbon::today()) {
+                    while ($current_date != Carbon\Carbon::today()->addDay()) {
                         $revenue_array []= \Illuminate\Support\Facades\DB::table('invoices')
                             ->whereDate('created_at', $current_date)
                             ->whereYear('created_at', \Carbon\Carbon::now()->year)
