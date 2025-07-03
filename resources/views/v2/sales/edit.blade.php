@@ -117,6 +117,25 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    @if(v2_acl([2]))
+                                        @php
+                                            $merchants = get_my_merchants();
+                                            $selected_merchants = explode(',', $user->merchant);
+                                        @endphp
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label>Merchants</label>
+                                                <select class="form-control select2" name="merchant[]" id="merchant" multiple>
+                                                    @foreach($merchants as $merchant)
+                                                        <option value="{{$merchant->id}}" {{ in_array($merchant->id, (old('merchant') ?? [])) || in_array($merchant->id, ($selected_merchants ?? [])) ? 'selected' : ''}}>{{$merchant->id}}. {{$merchant->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('merchant')
+                                                <label class="text-danger">{{ $message }}</label>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="row m-auto">
                                     <div class="brief-bttn">

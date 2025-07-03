@@ -85,6 +85,11 @@ class SalesController extends Controller
         $user->restricted_brands = json_encode($request->get('restricted_brands') ?? []);
         $user->restricted_brands_cutoff_date = $request->get('restricted_brands_cutoff_date') ?? null;
 
+        //merchant
+        if (v2_acl([2]) && $request->has('merchant') && $request->get('merchant') !== []) {
+            $user->merchant = implode(',', $request->merchant);
+        }
+
         $user->save();
 
         UserFinance::updateOrCreate([
@@ -172,6 +177,11 @@ class SalesController extends Controller
         //restricted brands
         $user->restricted_brands = json_encode($request->get('restricted_brands') ?? []);
         $user->restricted_brands_cutoff_date = $request->get('restricted_brands_cutoff_date') ?? null;
+
+        //merchant
+        if (v2_acl([2]) && $request->has('merchant') && $request->get('merchant') !== []) {
+            $user->merchant = implode(',', $request->merchant);
+        }
 
         $user->brands()->sync($store_brand_ids);
         $user->save();

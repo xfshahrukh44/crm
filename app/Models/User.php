@@ -40,6 +40,7 @@ class User extends Authenticatable
         'restricted_brands_cutoff_date',
         'last_login_ip',
         'last_login_device',
+        'merchant',
     ];
 
     /**

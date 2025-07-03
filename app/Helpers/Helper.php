@@ -3104,8 +3104,8 @@ function buh_merchant_map () {
         4191 => [11],
         4491 => [11, 13],
         //testing
-        3425 => [1, 2, 3, 4],
-        3452 => [7, 6, 11],
+//        3425 => [3],
+//        3452 => [7, 6, 11],
     ];
 }
 
@@ -3153,11 +3153,10 @@ function get_my_merchants () {
     }
 
     $map = buh_merchant_map();
-    if (!isset($map[$my_buh_id])) {
-        return Merchant::where('id', 6)->get();
-    }
+    $buh_user = DB::table('users')->where('id', $my_buh_id)->first();
+    $merchant_ids = array_unique(array_merge(($map[$my_buh_id] ?? []), (explode(',', $buh_user->merchant) ?? [])));
 
-    return Merchant::whereIn('id', $map[$my_buh_id])
+    return Merchant::whereIn('id', $merchant_ids)
         //Wire
         ->orWhere('id', 6)
         ->get();

@@ -171,7 +171,7 @@
                                         <div class="rev-suv">
                                             <p>Net Sales</p>
                                             <h3>${{number_format(($revenue - $refunds))}}</h3>
-                                            <span>rom 1st {{$current_month_label}} to till date</span>
+                                            <span>From 1st {{$current_month_label}} to till date</span>
                                         </div>
 
 
@@ -425,7 +425,7 @@
                                         <div class="rev-suv">
                                             <p>Clients</p>
                                             <h3 style="color: #059bd4;">{{$clients_count}}</h3>
-                                            <span class="text-white">Bottom text</span>
+{{--                                            <span class="text-white">Bottom text</span>--}}
                                         </div>
                                     </div>
 
@@ -433,7 +433,7 @@
                                         <div class="rev-suv">
                                             <p>Paid invoices</p>
                                             <h3 style="color: #059bd4;">{{$paid_invoice}}</h3>
-                                            <span class="text-white">Bottom text</span>
+{{--                                            <span class="text-white">Bottom text</span>--}}
                                         </div>
                                     </div>
 
@@ -441,7 +441,7 @@
                                         <div class="rev-suv">
                                             <p>Unpaid invoices</p>
                                             <h3 style="color: #059bd4;">{{$un_paid_invoice}}</h3>
-                                            <span class="text-white">Bottom text</span>
+{{--                                            <span class="text-white">Bottom text</span>--}}
                                         </div>
                                     </div>
 
@@ -449,7 +449,7 @@
                                         <div class="rev-suv">
                                             <p>Briefs pending</p>
                                             <h3 style="color: #059bd4;">{{$briefs_pending_count}}</h3>
-                                            <span class="text-white">Bottom text</span>
+{{--                                            <span class="text-white">Bottom text</span>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -479,7 +479,7 @@
                                         <div class="rev-suv">
                                             <p>Total tasks</p>
                                             <h3 style="color: #059bd4;">{{$total_task}}</h3>
-                                            <span class="text-white">Bottom text</span>
+{{--                                            <span class="text-white">Bottom text</span>--}}
                                         </div>
                                     </div>
 
@@ -487,7 +487,7 @@
                                         <div class="rev-suv">
                                             <p>Open</p>
                                             <h3 style="color: #059bd4;">{{$open_task}}</h3>
-                                            <span class="text-white">Bottom text</span>
+{{--                                            <span class="text-white">Bottom text</span>--}}
                                         </div>
                                     </div>
 
@@ -495,7 +495,7 @@
                                         <div class="rev-suv">
                                             <p>Revision</p>
                                             <h3 style="color: #059bd4;">{{$reopen_task}}</h3>
-                                            <span class="text-white">Bottom text</span>
+{{--                                            <span class="text-white">Bottom text</span>--}}
                                         </div>
                                     </div>
 
@@ -503,7 +503,7 @@
                                         <div class="rev-suv">
                                             <p>In progress</p>
                                             <h3 style="color: #059bd4;">{{$in_progress_task}}</h3>
-                                            <span class="text-white">Bottom text</span>
+{{--                                            <span class="text-white">Bottom text</span>--}}
                                         </div>
                                     </div>
 
@@ -511,7 +511,7 @@
                                         <div class="rev-suv">
                                             <p>Completed</p>
                                             <h3 style="color: #059bd4;">{{$completed_task}}</h3>
-                                            <span class="text-white">Bottom text</span>
+{{--                                            <span class="text-white">Bottom text</span>--}}
                                         </div>
                                     </div>
 
@@ -519,7 +519,7 @@
                                         <div class="rev-suv">
                                             <p>On hold</p>
                                             <h3 style="color: #059bd4;">{{$hold_task}}</h3>
-                                            <span class="text-white">Bottom text</span>
+{{--                                            <span class="text-white">Bottom text</span>--}}
                                         </div>
                                     </div>
 

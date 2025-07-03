@@ -166,7 +166,15 @@
                                             </td>
                                             <td>{{$notification->data['name']}}</td>
                                             <td>{!! $notification_data['badge'] ?? '' !!}</td>
-                                            <td>{{Carbon\Carbon::parse($notification->created_at)->format('d F Y, h:i A')}}</td>
+                                            @if(v2_acl([2]))
+                                                <td style="line-height: 100%;">
+                                                    {{Carbon\Carbon::parse($notification->created_at)->setTimezone('America/New_York')->format('d F Y, h:i A')}}
+                                                    <br>
+                                                    <small class="text-center m-0" style="font-size: 12px;">Eastern Standard Time</small>
+                                                </td>
+                                            @else
+                                                <td>{{Carbon\Carbon::parse($notification->created_at)->format('d F Y, h:i A')}}</td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                 </tbody>
