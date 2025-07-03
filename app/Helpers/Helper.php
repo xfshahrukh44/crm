@@ -3154,7 +3154,8 @@ function get_my_merchants () {
 
     $map = buh_merchant_map();
     $buh_user = DB::table('users')->where('id', $my_buh_id)->first();
-    $merchant_ids = array_unique(array_merge(($map[$my_buh_id] ?? []), (explode(',', $buh_user->merchant) ?? [])));
+//    $merchant_ids = array_unique(array_merge(($map[$my_buh_id] ?? []), (explode(',', $buh_user->merchant) ?? [])));
+    $merchant_ids = array_unique((explode(',', $buh_user->merchant) ?? []));
 
     return Merchant::whereIn('id', $merchant_ids)
         //Wire
