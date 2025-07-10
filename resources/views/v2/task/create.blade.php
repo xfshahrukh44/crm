@@ -4,6 +4,12 @@
 
 @section('css')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.7.0/summernote.css" rel="stylesheet">
+
+    <style>
+        .note-popover {
+            display: none;
+        }
+    </style>
 @endsection
 
 @section('content')

@@ -14,6 +14,10 @@
             margin-left: 1% !important;
             margin-top: 0px !important;
         }
+
+        .note-popover {
+            display: none;
+        }
     </style>
 @endsection
 
