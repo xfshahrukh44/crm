@@ -400,9 +400,9 @@
                     </li>
                 @endif
 
-                @if (in_array($user_role_id, [2]))
+                @if (in_array($user_role_id, [2, 4, 6, 0]))
                     <li>
-                        <a href="#" class="">
+                        <a href="{{ route('v2.tutorials') }}" class="{{ request()->routeIs('v2.tutorials*') ? 'active' : '' }}">
                             <i class="mr-2 fas fa-graduation-cap"></i> Tutorials
                         </a>
                     </li>

@@ -678,6 +678,9 @@ Route::group(['middleware' => ['auth', 'ip.mid'], 'prefix' => 'v2'], function ()
     Route::post('send-message', [\App\Http\Controllers\v2\MessageController::class, 'sendMessage'])->name('v2.messages.send');
     Route::post('edit-message', [\App\Http\Controllers\v2\MessageController::class, 'editMessage'])->name('v2.messages.edit');
 
+    //clients
+    Route::get('tutorials', [\App\Http\Controllers\v2\TutorialController::class, 'index'])->name('v2.tutorials');
+
     //reminders
     Route::post('reminders', [\App\Http\Controllers\v2\ReminderController::class, 'setReminder'])->name('v2.reminders.store');
 
