@@ -250,6 +250,10 @@
                                             <div class="row">
                                                 <div class="col-md-9 col-9">
                                                     <div class="row my-2 py-2" style="border: 2px solid lightblue; border-radius: 8px; background-color: #add8e644;">
+
+{{--                                                        <div class="col-md-12 text-left">--}}
+{{--                                                            <img src="{{$message->user->image ? asset($message->user->image) : asset('images/avatar.png')}}" alt="" width="18" class="mb-1">--}}
+{{--                                                        </div>--}}
                                                         <div class="col-md-12 text-left" style="font-weight: 800; font-size: 14px;">
                                                             {{($message->user->name ?? '') . ' ' . ($message->user->last_name ?? '')}}
                                                             @if(in_array($message->id, $notification_subtask_ids))
@@ -308,6 +312,10 @@
                                                 <div class="col-md-3 col-3"></div>
                                                 <div class="col-md-9 col-9">
                                                     <div class="row my-2 py-2" style="border: 2px solid orange; border-radius: 8px; background-color: #ffa50044;">
+
+{{--                                                        <div class="col-md-12 text-left">--}}
+{{--                                                            <img src="{{$message->user->image ? asset($message->user->image) : asset('images/avatar.png')}}" alt="" width="18" class="mb-1">--}}
+{{--                                                        </div>--}}
                                                         <div class="col-md-12 text-left" style="font-weight: 800; font-size: 14px;">
                                                             {{($message->user->name ?? '') . ' ' . ($message->user->last_name ?? '')}}
                                                             <span class="float-right" style="font-weight: 400; font-size: 10px; margin-top: 1px;">

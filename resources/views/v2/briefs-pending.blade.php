@@ -67,7 +67,15 @@
                                     <tr>
                                         <td>{{$user->id}}</td>
                                         <td>{{$user->name}} {{$user->last_name}}</td>
-                                        <td>{{$user->email}}</td>
+                                        <td>
+                                            <a href="javascript:void(0);" class="badge badge-sm bg-dark p-2 text-white btn_click_to_view">
+                                                <i class="fas fa-eye mr-1"></i>
+                                                View email
+                                            </a>
+                                            <span class="content_click_to_view" hidden>
+                                                {{$user->email}}
+                                            </span>
+                                        </td>
                                         <td>
                                             <span class="btn btn-info btn-sm">{{$user->client?->brand->name}}</span>
                                         </td>
@@ -85,7 +93,7 @@
                                             flex-wrap: wrap;
                                         ">
                                             @foreach(get_briefs_pending($user->id) as $brief_pending)
-                                                <span class="badge badge-primary badge-sm badge-pill">{{$brief_pending}}</span>
+                                                <span class="badge badge-primary badge-sm p-1">{{$brief_pending}}</span>
                                             @endforeach
                                         </td>
                                     </tr>
@@ -104,5 +112,20 @@
 @endsection
 
 @section('script')
+    <script>
+        $(document).ready(function () {
+            $('.btn_click_to_view').on('click', function () {
+                $('.btn_click_to_view').each((i, item) => {
+                    $(item).prop('hidden', false);
+                });
 
+                $('.content_click_to_view').each((i, item) => {
+                    $(item).prop('hidden', true);
+                });
+
+                $(this).prop('hidden', true);
+                $(this).parent().find('.content_click_to_view').prop('hidden', false);
+            });
+        });
+    </script>
 @endsection

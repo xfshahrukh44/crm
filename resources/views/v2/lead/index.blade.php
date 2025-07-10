@@ -95,7 +95,15 @@
                                         <td>{{$lead->id}}</td>
                                         <td><a style="background-color: unset; font-size: unset; font-weight: 100;"
                                                href="{{ route('v2.leads.show', $lead->id) }}">{{$lead->name}} {{$lead->last_name}}</a></td>
-                                        <td>{{$lead->email}}</td>
+                                        <td>
+                                            <a href="javascript:void(0);" class="badge badge-sm bg-dark p-2 text-white btn_click_to_view">
+                                                <i class="fas fa-eye mr-1"></i>
+                                                View email
+                                            </a>
+                                            <span class="content_click_to_view" hidden>
+                                                {{$lead->email}}
+                                            </span>
+                                        </td>
                                         <td>
                                             <button class="btn btn-info btn-sm">{{$lead->_brand->name ?? ''}}</button>
                                         </td>
@@ -214,6 +222,20 @@
 
 @section('script')
     <script>
+        $(document).ready(function () {
+            $('.btn_click_to_view').on('click', function () {
+                $('.btn_click_to_view').each((i, item) => {
+                    $(item).prop('hidden', false);
+                });
+
+                $('.content_click_to_view').each((i, item) => {
+                    $(item).prop('hidden', true);
+                });
+
+                $(this).prop('hidden', true);
+                $(this).parent().find('.content_click_to_view').prop('hidden', false);
+            });
+        });
         function toggleLeadActions(leadId) {
             const box = document.getElementById(`leadActionsBox_${leadId}`);
             document.querySelectorAll('.lead-actions-box').forEach(el => {
