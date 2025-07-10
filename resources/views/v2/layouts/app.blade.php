@@ -480,10 +480,12 @@
 
     //disable submit button on form ::after
     $('body').on('submit', 'form', function (e) {
-        let btn = $(this).find('button[type="submit"]');
-        if (btn) {
-            btn.prop('disabled', true).text('Please wait');
-        }
+        $('form').each((i, item) => {
+            let btn = $(item).find('button[type="submit"]');
+            if (btn) {
+                btn.prop('disabled', true).text('Please wait');
+            }
+        });
     });
 </script>
 

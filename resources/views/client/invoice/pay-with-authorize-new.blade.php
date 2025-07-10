@@ -126,6 +126,12 @@
             gap: 7px;
         }
 
+        p#inv_desc {
+            overflow-y: scroll;
+            min-height: 100px;
+            width: 100%;
+        }
+
     </style>
 
     <title>Checkout invoice</title>
@@ -258,7 +264,7 @@
                                                     </div>
                                                     <div class="lago-badge mt-4">
                                                         <p>Description</p>
-                                                        <p>
+                                                        <p id="inv_desc">
                                                             {!! nl2br($invoice->discription) !!}
                                                         </p>
                                                     </div>
