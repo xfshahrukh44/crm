@@ -128,7 +128,7 @@
 
         p#inv_desc {
             overflow-y: scroll;
-            min-height: 100px;
+            max-height: 100px;
             width: 100%;
         }
 
