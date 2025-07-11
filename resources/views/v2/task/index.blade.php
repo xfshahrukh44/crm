@@ -56,6 +56,7 @@
                             <form class="search-invoice" action="{{route('v2.tasks')}}" method="GET">
                                 <input type="text" name="project" placeholder="Search By Project Name" value="{{ request()->get('project') }}">
                                 <input type="text" name="id" placeholder="Search by ID" value="{{ request()->get('id') }}">
+                                <input type="text" name="id" placeholder="Search by Project ID" value="{{ request()->get('project_id') }}">
                                 @if(v2_acl([2, 4, 6]))
                                     <select name="brand_id" class="select2">
                                         <option value="">Select brand</option>

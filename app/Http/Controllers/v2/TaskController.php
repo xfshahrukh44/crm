@@ -44,7 +44,9 @@ class TaskController extends Controller
         $tasks = Task::when(!v2_acl([1, 2]), function ($q) use ($brand_ids, $task_array) {
                 return $q->whereIn('brand_id', $brand_ids)->whereNotIn('id', $task_array);
             })
-            ->when(request()->get('project') != '', function ($q) {
+            ->when(request()->get('project_id') != '', function ($q) {
+                return $q->where('project_id', request()->get('project_id'));
+            })->when(request()->get('project') != '', function ($q) {
                 $project = request()->get('project');
                 return $q->whereHas('projects', function($q) use($project){
                     $q->where('name', 'LIKE', "%$project%");

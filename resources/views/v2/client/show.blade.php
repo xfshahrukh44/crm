@@ -179,6 +179,7 @@
                                                         })
                                                         ->get()->pluck('category_id')->toArray()
                                                 )) ?? 0;
+                                            $no_pending_tasks_left = no_pending_tasks_left($project->id);
                                         @endphp
                                         <tr>
                                             <td>{{$project->id}}</td>
@@ -186,7 +187,7 @@
                                             <td>{{str_replace($client->name, '', str_replace(' - ', ' ', $project->name))}}</td>
                                             <td>{{$project->added_by->name . ' ' . $project->added_by->last_name}}</td>
                                             <td>
-                                                @if(no_pending_tasks_left($project->id))
+                                                @if($no_pending_tasks_left)
                                                     <span class="badge badge-success">No pending tasks</span>
                                                 @endif
 
@@ -212,6 +213,9 @@
                                                     </a>
                                                 @endif
                                                 <a href="{{route('v2.tasks.create', $project->id)}}" class="for-assign dark-blue-assign mx-2 px-3">Create Task</a>
+                                                @if(!$no_pending_tasks_left)
+                                                    <a href="{{route('v2.tasks') . '?project_id=' . $project->id}}" class="for-assign bg-warning mx-2 px-3">View tasks</a>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
