@@ -198,24 +198,26 @@
                                             <td>{{Carbon\Carbon::parse($project->created_at)->format('d F Y')}}</td>
 
                                             <td>
-                                                @if(!user_is_cs())
-                                                    <a href="javascript:void(0);" class="for-assign btn_assign_project mx-2 px-3"
-                                                       data-id="{{$project->id}}"
-                                                       data-form="{{$project->form_checker}}"
-                                                       data-brand="{{$project->brand_id}}"
-                                                    >
-                                                        Re Assign
-                                                    </a>
-                                                @endif
-                                                @if($project->form_checker != 0)
-                                                    <a href="{{route('v2.projects.view.form', [ 'form_id' => $project->form_id , 'check' => $project->form_checker])}}" class="for-assign blue-assign mx-2 px-3">
-                                                        View Form
-                                                    </a>
-                                                @endif
-                                                <a href="{{route('v2.tasks.create', $project->id)}}" class="for-assign dark-blue-assign mx-2 px-3">Create Task</a>
-                                                @if(!$no_pending_tasks_left)
-                                                    <a href="{{route('v2.tasks') . '?project_id=' . $project->id}}" class="for-assign bg-warning mx-2 px-3">View tasks</a>
-                                                @endif
+                                                <div style="flex-wrap: wrap;">
+                                                    @if(!user_is_cs())
+                                                        <a href="javascript:void(0);" class="for-assign btn_assign_project mx-2 px-3"
+                                                           data-id="{{$project->id}}"
+                                                           data-form="{{$project->form_checker}}"
+                                                           data-brand="{{$project->brand_id}}"
+                                                        >
+                                                            Re Assign
+                                                        </a>
+                                                    @endif
+                                                    @if($project->form_checker != 0)
+                                                        <a href="{{route('v2.projects.view.form', [ 'form_id' => $project->form_id , 'check' => $project->form_checker])}}" class="for-assign blue-assign mx-2 px-3">
+                                                            View Form
+                                                        </a>
+                                                    @endif
+                                                    <a href="{{route('v2.tasks.create', $project->id)}}" class="for-assign dark-blue-assign mx-2 px-3">Create Task</a>
+                                                    @if(!$no_pending_tasks_left)
+                                                        <a href="{{route('v2.tasks') . '?project_id=' . $project->id}}" class="for-assign bg-warning mx-2 px-3">View tasks</a>
+                                                    @endif
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach
