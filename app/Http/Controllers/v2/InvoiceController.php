@@ -16,6 +16,7 @@ use App\Models\ContentWritingForm;
 use App\Models\Invoice;
 use App\Models\Isbnform;
 use App\Models\LogoForm;
+use App\Models\Merchant;
 use App\Models\NewSMM;
 use App\Models\NoForm;
 use App\Models\PressReleaseForm;
@@ -198,22 +199,25 @@ class InvoiceController extends Controller
 
         $invoice->save();
 
-        //create stripe invoice
-        if ($request->get('merchant') == 4) {
-            $currency_map = [
-                1 => 'usd',
-                2 => 'cad',
-                3 => 'gbp',
-            ];
+        if ($merchant = Merchant::find($request->merchant)) {
+            switch ($merchant->is_authorized) {
+                //create stripe invoice
+                case 1:
+                    $currency_map = [ 1 => 'usd', 2 => 'cad', 3 => 'gbp' ];
+                    $stripe_invoice_res = create_stripe_invoice($invoice->id, $currency_map[$request->currency ?? 1]);
+                    break;
 
-            $stripe_invoice_res = create_stripe_invoice($invoice->id, $currency_map[$request->get('currency') ?? 1]);
+                //authorize net
+                case 2:
+                    $invoice->is_authorize = true;
+                    $invoice->save();
+                    break;
+
+                default:
+                    break;
+            }
         }
 
-        //authorize net
-        if (in_array($request->get('merchant'), get_authorize_merchant_ids())) {
-            $invoice->is_authorize = true;
-            $invoice->save();
-        }
 
         $brand = Brand::where('id',$invoice->brand)->first();
         $package_name = '';
