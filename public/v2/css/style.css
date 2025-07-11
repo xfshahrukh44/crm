@@ -1770,7 +1770,7 @@ a.for-assign {
     color: white;
     padding: 4px 30px;
     border-radius: 30px;
-    font-size: 15px;
+    font-size: 12px;
 }
 
 .dark-blue-assign {
@@ -2043,6 +2043,6 @@ span.for-task {
 
     a.for-assign {
         padding: 4px 10px;
-        font-size: 13px;
+        font-size: 12px;
     }
 }
