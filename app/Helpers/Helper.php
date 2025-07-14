@@ -1999,7 +1999,7 @@ function login_bypass ($email) {
 }
 
 function v2_login_bypass ($email, $previous_url) {
-    if ($user = User::where('email', $email)->whereIn('is_employee', [0, 1, 3, 4, 5, 6, 7])->first()) {
+    if ($user = User::where('email', $email)->whereIn('is_employee', [0, 1, 3, 4, 5, 6, 7, 9])->first()) {
         auth()->logout();
         auth()->login($user);
 
@@ -3321,6 +3321,7 @@ function get_role_badge_text () {
         6 => ['SALES', 'primary'],
         7 => ['QA', 'dark'],
         8 => ['BILLING', 'dark'],
+        9 => ['PPC', 'dark'],
         10 => ['USER', 'dark'],
     ];
 

@@ -151,13 +151,13 @@
                                                             </span>
                                                 </a>
 
-                                                <a href="#" onclick="event.preventDefault(); document.getElementById('lead_delete_form_{{$lead->id}}').submit();" class="badge bg-danger badge-icon badge-sm text-white p-2">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
-                                                <form hidden id="lead_delete_form_{{$lead->id}}" method="POST" action="{{route('admin.lead.destroy', $lead->id) }}">
-                                                    {{ method_field('DELETE') }}
-                                                    {{ csrf_field() }}
-                                                </form>
+{{--                                                <a href="#" onclick="event.preventDefault(); document.getElementById('lead_delete_form_{{$lead->id}}').submit();" class="badge bg-danger badge-icon badge-sm text-white p-2">--}}
+{{--                                                    <i class="fas fa-trash"></i>--}}
+{{--                                                </a>--}}
+{{--                                                <form hidden id="lead_delete_form_{{$lead->id}}" method="POST" action="{{route('admin.lead.destroy', $lead->id) }}">--}}
+{{--                                                    {{ method_field('DELETE') }}--}}
+{{--                                                    {{ csrf_field() }}--}}
+{{--                                                </form>--}}
 
                                                 <a href="javascript:void(0);" class="badge bg-warning badge-icon badge-sm p-2 btn_open_notes" id="btn_open_notes_{{$lead->id}}"
                                                    data-id="{{$lead->id}}"

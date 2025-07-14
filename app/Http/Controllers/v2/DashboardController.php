@@ -13,7 +13,7 @@ class DashboardController extends Controller
 {
     public function dashboard (Request $request)
     {
-        if (!v2_acl([2, 6, 4, 0, 1, 5])) {
+        if (!v2_acl([2, 6, 4, 0, 1, 5, 9])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -234,7 +234,7 @@ class DashboardController extends Controller
 
     public function profile (Request $request)
     {
-        if (!v2_acl([2, 6, 4, 0, 1, 5])) {
+        if (!v2_acl([2, 6, 4, 0, 1, 5, 9])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -243,7 +243,7 @@ class DashboardController extends Controller
 
     public function updatePFP (Request $request)
     {
-        if (!v2_acl([2, 6, 4, 0, 1, 5])) {
+        if (!v2_acl([2, 6, 4, 0, 1, 5, 9])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 

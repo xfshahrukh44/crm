@@ -18,7 +18,7 @@ class SalesController extends Controller
         }
 
         $search = request()->get('search');
-        $users = User::whereIn('is_employee', [0, 4, 6])
+        $users = User::whereIn('is_employee', [0, 4, 6, 9])
             ->when(request()->has('search') && !is_null($search) && $search != '', function ($q) use ($search) {
                 return $q->where(function ($q) use ($search) {
                     return $q->where(function ($q) use ($search) {
@@ -60,7 +60,7 @@ class SalesController extends Controller
             'email' => 'required|unique:users,email',
             'status' => 'required',
             'password' => 'required',
-            'is_employee' => 'required|in:0,4,6,8',
+            'is_employee' => 'required|in:0,4,6,8,9',
             'brand_id' => 'required',
         ]);
 
@@ -139,7 +139,7 @@ class SalesController extends Controller
             'last_name' => 'required',
             'email' => 'required|unique:users,email,'.$id,
             'status' => 'required',
-            'is_employee' => 'required|in:0,4,6,8',
+            'is_employee' => 'required|in:0,4,6,8,9',
             'brand_id' => 'required',
         ]);
 

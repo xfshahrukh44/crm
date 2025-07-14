@@ -73,6 +73,15 @@
                                         </a>
                                     </li>
                                 @endif
+                                @if(v2_acl([9]))
+                                    <li>
+                                        <a href="{{route('v2.leads')}}">
+                                            <img src="{{asset('v2/images/task-icon.png')}}" class="img-fluid">
+                                            Manage <strong>Leads</strong>
+                                            <i class="fa-solid fa-angle-right"></i>
+                                        </a>
+                                    </li>
+                                @endif
                             </ul>
                         </div>
                     </div>

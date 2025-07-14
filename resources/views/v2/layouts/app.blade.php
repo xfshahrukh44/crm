@@ -222,7 +222,7 @@
             @endif
         </div>
         <ul style="max-height: 87%; overflow-y: scroll; scrollbar-width: none; -ms-overflow-style: none;">
-            @if(in_array($user_role_id, [2, 6, 4, 0, 1, 5]))
+            @if(in_array($user_role_id, [2, 6, 4, 0, 1, 5, 9]))
                 <li>
                     <a href="{{route('v2.dashboard')}}" class="{{ request()->routeIs('v2.dashboard') ? 'active' : '' }}">
                         <i class="mr-2 fas fa-home"></i>Dashboard
@@ -312,7 +312,7 @@
                     </li>
                 @endif
 
-                @if (in_array($user_role_id, [2, 6, 0]))
+                @if (in_array($user_role_id, [2, 6, 0, 9]))
                     <li>
                         <a href="{{ route('v2.leads') }}" class="{{ request()->routeIs('v2.leads*') ? 'active' : '' }}">
                             <i class="mr-2 fas fa-lightbulb"></i> Leads

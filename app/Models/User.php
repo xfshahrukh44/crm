@@ -120,6 +120,9 @@ class User extends Authenticatable
         }else if($this->is_employee == 6){
             echo "Sales Manager";
 //            echo "Member";
+        }else if($this->is_employee == 9){
+            echo "PPC";
+//            echo "Member";
         }else if ($this->is_employee == 7){
             if ($this->is_support_head) {
                 echo "QA Lead";

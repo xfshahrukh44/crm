@@ -99,6 +99,7 @@
                                                 <option value="0" {!! old('is_employee') == "0" || $user->is_employee == "0" ? 'selected' : '' !!}>Sale Agent (FRONT SALES)</option>
                                                 <option value="6" {!! old('is_employee') == "6" || $user->is_employee == "6" ? 'selected' : '' !!}>Sales Manager (BUH)</option>
                                                 <option value="8" {!! old('is_employee') == "8" || $user->is_employee == "8" ? 'selected' : '' !!}>Support Head (PM HEAD)</option>
+                                                <option value="9" {!! old('is_employee') == "9" || $user->is_employee == "9" ? 'selected' : '' !!}>PPC</option>
                                             </select>
                                             @error('is_employee')
                                             <label class="text-danger">{{ $message }}</label>

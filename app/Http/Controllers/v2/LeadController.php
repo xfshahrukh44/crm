@@ -14,7 +14,7 @@ class LeadController extends Controller
 {
     public function index (Request $request)
     {
-        if (!v2_acl([2, 6, 0])) {
+        if (!v2_acl([2, 6, 0, 9])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -60,7 +60,7 @@ class LeadController extends Controller
 
     public function create (Request $request)
     {
-        if (!v2_acl([2, 6])) {
+        if (!v2_acl([2, 6, 9])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -73,7 +73,7 @@ class LeadController extends Controller
 
     public function store (Request $request)
     {
-        if (!v2_acl([2, 6])) {
+        if (!v2_acl([2, 6, 9])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -109,7 +109,7 @@ class LeadController extends Controller
 
     public function edit (Request $request, $id)
     {
-        if (!v2_acl([2, 6, 0])) {
+        if (!v2_acl([2, 6, 0, 9])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -137,7 +137,7 @@ class LeadController extends Controller
 
     public function update (Request $request, $id)
     {
-        if (!v2_acl([2, 6])) {
+        if (!v2_acl([2, 6, 0, 9])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 
@@ -192,7 +192,7 @@ class LeadController extends Controller
 
     public function show (Request $request, $id)
     {
-        if (!v2_acl([2, 6, 0])) {
+        if (!v2_acl([2, 6, 0, 9])) {
             return redirect()->back()->with('error', 'Access denied.');
         }
 

@@ -23,7 +23,7 @@ class IPMiddleware
 //            return redirect()->route('login')->with("error","Access denied.");
 //        }
 
-        if (v2_acl([2, 6, 4, 0, 1, 5])) {
+        if (v2_acl([2, 6, 4, 0, 1, 5, 9])) {
             if (!session()->has('v2_valid_user')) {
                 $bytes = bin2hex(random_bytes(3));
                 DB::table('users')

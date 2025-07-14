@@ -83,7 +83,11 @@
 
                                     @foreach($invoices as $invoice)
                                         <tr>
-                                            <td>{{$invoice->id}}</td>
+                                            <td>
+                                                <a class="p-2 bg-white text-dark" href="{{ route('v2.invoices.show', $invoice->id) }}">
+                                                    <strong>{{$invoice->id}}</strong>
+                                                </a>
+                                            </td>
                                             <td style="vertical-align: middle;">
                                                 @php
                                                     $service_list = explode(',', $invoice->service);
@@ -182,7 +186,11 @@
                                             $no_pending_tasks_left = no_pending_tasks_left($project->id);
                                         @endphp
                                         <tr>
-                                            <td>{{$project->id}}</td>
+                                            <td>
+                                                <a class="p-2 bg-white text-dark" href="{{$no_pending_tasks_left ? 'javascript:void(0);' : (route('v2.tasks') . '?project_id=' . $project->id)}}">
+                                                    <strong>{{$project->id}}</strong>
+                                                </a>
+                                            </td>
 
                                             <td>{{str_replace($client->name, '', str_replace(' - ', ' ', $project->name))}}</td>
                                             <td>{{$project->added_by->name . ' ' . $project->added_by->last_name}}</td>
@@ -545,6 +553,21 @@
             //copy link
             $('.btn_copy_authorize_link').on('click', function () {
                 copy_authorize_link($(this).data('url'));
+
+                $(this).html(`<i class="fas fa-check"></i> Copied!`);
+                $(this).removeClass('bg-warning');
+                $(this).addClass('bg-success');
+                $(this).removeClass('text-dark');
+                $(this).addClass('text-white');
+
+                let el = $(this);
+                setTimeout(function () {
+                    el.html(`<i class="fas fa-copy"></i> Payment link`);
+                    el.addClass('bg-warning');
+                    el.removeClass('bg-success');
+                    el.addClass('text-dark');
+                    el.removeClass('text-white');
+                }, 3000);
             });
         });
     </script>
