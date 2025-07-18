@@ -105,6 +105,9 @@ class ProductionDashboard extends Component
         //see older messages
         $this->project_detail_message_count = $project_detail_visit_check ? 5 : $this->project_detail_message_count;
 
+        //clear message search
+        $this->project_detail_search_message_query = $project_detail_visit_check ? '' : $this->project_detail_search_message_query;
+
         //prevent back with one page in history
         if ($this->history === ['production_dashboard']) {
             $this->active_page = 'production_dashboard';

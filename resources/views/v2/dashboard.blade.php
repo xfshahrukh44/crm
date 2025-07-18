@@ -119,6 +119,7 @@
                     $revenue_array = [];
                     $cb_array = [];
                     $day_array = [];
+                    $day_names_array = [];
                     $current_date = \Carbon\Carbon::today()->firstOfMonth();
                     while ($current_date != Carbon\Carbon::today()->addDay()) {
                         $revenue_array []= \Illuminate\Support\Facades\DB::table('invoices')
@@ -134,17 +135,17 @@
                             ->where(['payment_status' => 2, 'currency' => 1])
                             ->sum('refunded_cb');
 
-                        $day_array []= $current_date->day;
+                        $day_array []= $current_date->format('jS');
+                        $day_names_array []= $current_date->shortDayName;
                         $current_date->addDay();
                     }
 
                     $net_array = [];
                     $labels_array = [];
-                    $short_current_month = \Carbon\Carbon::today()->shortMonthName;
 
                     foreach ($revenue_array as $key => $item) {
                         $net_array []= ($item - $cb_array[$key]);
-                        $labels_array []=  ($day_array[$key]) . " " . $short_current_month;
+                        $labels_array []=  $day_array[$key] . ' - '.$day_names_array[$key];
                     }
                 @endphp
                 <section class="revenu-sec">
@@ -587,6 +588,7 @@
                 ]
             };
 
+            let delayed = false;
             const config = {
                 type: 'line',
                 data: data,
@@ -618,6 +620,18 @@
                             suggestedMin: -10,
                             suggestedMax: 200
                         }
+                    },
+                    animation: {
+                        onComplete: () => {
+                            delayed = true;
+                        },
+                        delay: (context) => {
+                            let delay = 0;
+                            if (context.type === 'data' && context.mode === 'default' && !delayed) {
+                                delay = context.dataIndex * 300 + context.datasetIndex * 100;
+                            }
+                            return delay;
+                        },
                     }
                 }
             };
